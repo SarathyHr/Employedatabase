@@ -24,7 +24,6 @@
         input, select, textarea, button {
             font-family: 'Verdana', Geneva, sans-serif;
             text-transform: uppercase;
-            /* Prevent iOS zoom while maintaining style */
             font-size: 16px !important; 
         }
 
@@ -40,7 +39,7 @@
             background: #ffffff;
             border-radius: 1.25rem;
             box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.05);
-            border: 1px solid rgba(6, 52, 94, 0.89);
+            border: 1px solid rgb(6, 42, 73);
         }
 
         .status-stamp {
@@ -157,6 +156,16 @@
             font-weight: 900;
             letter-spacing: 0.05em;
         }
+
+        /* NEW HIGHLIGHT FOR DEPARTMENT */
+        .dept-highlight {
+            background-color: #facc15; /* Yellow-400 */
+            color: #1e293b;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-weight: 900;
+            letter-spacing: 0.05em;
+        }
         
         .bio-btn {
             display: flex;
@@ -191,7 +200,7 @@
 
     <!-- LOGIN PAGE -->
     <div id="loginPage" class="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-slate-900">
-        <div class="w-full max-sm animate-up">
+        <div class="w-full max-w-sm animate-up">
             <div class="modern-card p-8 bg-white text-center shadow-2xl">
                 <div class="mb-8">
                     <img src="Sarathy2.png.png" alt="SARATHY" class="w-48 mx-auto mb-4" onerror="this.src='https://via.placeholder.com/200x80?text=SARATHY+GROUP'">
@@ -336,12 +345,11 @@
                 </div>
             </div>
 
-            <!-- SEARCH & FILTERS SECTION (MOBILE FRIENDLY) -->
             <div class="space-y-4">
                 <div class="relative">
                     <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
                     <input type="text" id="searchInput" onkeyup="renderTable()" placeholder="SEARCH PERSONNEL..." 
-                           class="w-full pl-12 pr-4 py-4 md:py-4 bg-white border border-slate-200 rounded-2xl font-bold text-sm focus:ring-4 ring-blue-50 outline-none transition-all shadow-sm uppercase placeholder:text-slate-300">
+                           class="w-full pl-12 pr-4 py-4 bg-white border border-slate-200 rounded-2xl font-bold text-sm focus:ring-4 ring-blue-50 outline-none transition-all shadow-sm uppercase placeholder:text-slate-300">
                 </div>
                 <div class="flex flex-col gap-3">
                     <select id="compFilter" onchange="renderTable()" class="w-full px-4 py-4 bg-white border border-sarathy-blue rounded-2xl font-black text-[10px] shadow-sm text-sarathy-blue uppercase appearance-none">
@@ -475,8 +483,8 @@
                                 <option value="KOLLAM">KOLLAM</option>
                                 <option value="TRIVANDRUM">TRIVANDRUM</option>
                                 <option value="KOTTAYAM">KOTTARAKKARA</option>
-                                <option value="ALAPPUZHA">KARUNAGAPPALLY</option>
-                                <option value="PATHANAMTHITTA">ATTINGAL</option>
+                                <option value="ALAPPUZHA">ATTINGAL</option>
+                                <option value="PATHANAMTHITTA">KARUNAGAPPALLY</option>
                                 <option value="ERNAKULAM">CHENGANNUR</option>
                             </select>
                         </div>
@@ -554,7 +562,7 @@
 
         let currentUser = null;
         let joinees = JSON.parse(localStorage.getItem('sarathy_db_v4')) || [];
-        let manpowerReqList = JSON.parse(localStorage.getItem('sarathy_req_detailed_v4')) || [];
+        let manpowerReqList = JSON.parse(localStorage.getItem('sarathy_req_detailed_v5')) || [];
         let currentFilteredData = [];
 
         window.onload = () => {
@@ -852,11 +860,11 @@
                                 ${skillsArray.map(s => `<span class="skill-tag">${s.trim()}</span>`).join('')}
                             </div>
 
-                            <!-- HIGHLIGHTED COMPANY SECTION -->
+                            <!-- HIGHLIGHTED COMPANY & DEPARTMENT SECTION -->
                             <div class="mb-3 flex flex-wrap items-center gap-2">
                                 <span class="company-highlight text-[9px] uppercase">${x.company}</span>
                                 <span class="text-[9px] font-black text-slate-500">•</span>
-                                <span class="text-[9px] font-black text-slate-600 uppercase">${x.dept}</span>
+                                <span class="dept-highlight text-[9px] uppercase">${x.dept}</span>
                                 <div class="ml-auto">
                                     <span class="text-[8px] font-black text-sarathy-blue bg-blue-50 px-2 py-1 rounded-lg whitespace-nowrap">
                                         <i class="fas fa-map-marker-alt"></i> ${x.location || 'HEAD OFFICE'}
@@ -919,14 +927,44 @@
             const container = document.getElementById('reqEntriesContainer');
             container.innerHTML = '';
             manpowerReqList.forEach((req, idx) => {
-                container.innerHTML += `<div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 relative"><button onclick="removeReqRow(${idx})" class="absolute top-2 right-2 text-red-400 p-2"><i class="fas fa-times-circle"></i></button><div class="space-y-3"><select onchange="updateReqField(${idx}, 'company', this.value)" class="w-full p-3 border rounded-xl font-bold text-xs uppercase"><option value="SARATHY MOTORS" ${req.company === 'SARATHY MOTORS' ? 'selected' : ''}>SARATHY MOTORS</option><option value="SARATHY BIKES PVT LTD" ${req.company === 'SARATHY BIKES PVT LTD' ? 'selected' : ''}>SARATHY BIKES PVT LTD</option><option value="SARATHY AUTOCARS" ${req.company === 'SARATHY AUTOCARS' ? 'selected' : ''}>SARATHY AUTOCARS</option><option value="SARATHY ELECTRIC PVT LTD" ${req.company === 'SARATHY ELECTRIC PVT LTD' ? 'selected' : ''}>SARATHY ELECTRIC PVT LTD</option><option value="SARATHY CARS PVT LTD" ${req.company === 'SARATHY CARS PVT LTD' ? 'selected' : ''}>SARATHY CARS PVT LTD</option></select><div class="grid grid-cols-2 gap-2"><select onchange="updateReqField(${idx}, 'dept', this.value)" class="p-3 border rounded-xl font-bold text-xs uppercase"><option value="SALES" ${req.dept === 'SALES' ? 'selected' : ''}>SALES</option><option value="SERVICE" ${req.dept === 'SERVICE' ? 'selected' : ''}>SERVICE</option><option value="SPARE" ${req.dept === 'SPARE' ? 'selected' : ''}>SPARE</option><option value="ACCOUNTS" ${req.dept === 'ACCOUNTS' ? 'selected' : ''}>ACCOUNTS</option></select><input type="number" value="${req.target}" onchange="updateReqField(${idx}, 'target', this.value)" class="p-3 border rounded-xl font-black text-center text-xs uppercase" placeholder="TARGET"></div></div></div>`;
+                container.innerHTML += `
+                <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 relative">
+                    <button onclick="removeReqRow(${idx})" class="absolute top-2 right-2 text-red-400 p-2"><i class="fas fa-times-circle"></i></button>
+                    <div class="space-y-3">
+                        <select onchange="updateReqField(${idx}, 'company', this.value)" class="w-full p-3 border rounded-xl font-bold text-xs uppercase">
+                            <option value="SARATHY MOTORS" ${req.company === 'SARATHY MOTORS' ? 'selected' : ''}>SARATHY MOTORS</option>
+                            <option value="SARATHY BIKES PVT LTD" ${req.company === 'SARATHY BIKES PVT LTD' ? 'selected' : ''}>SARATHY BIKES PVT LTD</option>
+                            <option value="SARATHY AUTOCARS" ${req.company === 'SARATHY AUTOCARS' ? 'selected' : ''}>SARATHY AUTOCARS</option>
+                            <option value="SARATHY ELECTRIC PVT LTD" ${req.company === 'SARATHY ELECTRIC PVT LTD' ? 'selected' : ''}>SARATHY ELECTRIC PVT LTD</option>
+                            <option value="SARATHY CARS PVT LTD" ${req.company === 'SARATHY CARS PVT LTD' ? 'selected' : ''}>SARATHY CARS PVT LTD</option>
+                        </select>
+                        <select onchange="updateReqField(${idx}, 'location', this.value)" class="w-full p-3 border rounded-xl font-bold text-xs uppercase">
+                            <option value="HEAD OFFICE" ${req.location === 'HEAD OFFICE' ? 'selected' : ''}>HEAD OFFICE</option>
+                            <option value="KOLLAM" ${req.location === 'KOLLAM' ? 'selected' : ''}>KOLLAM</option>
+                            <option value="TRIVANDRUM" ${req.location === 'TRIVANDRUM' ? 'selected' : ''}>TRIVANDRUM</option>
+                            <option value="KOTTAYAM" ${req.location === 'KOTTARAKKARA' ? 'selected' : ''}>KOTTARAKKARA</option>
+                            <option value="ALAPPUZHA" ${req.location === 'KARUNAGAPPALLY' ? 'selected' : ''}>KARUNAGAPPALLY</option>
+                            <option value="PATHANAMTHITTA" ${req.location === 'ATTINGAL' ? 'selected' : ''}>ATTINGAL</option>
+                            <option value="ANCHAL" ${req.location === 'CHENGANNUR' ? 'selected' : ''}>CHENGANNUR</option>
+                        </select>
+                        <div class="grid grid-cols-2 gap-2">
+                            <select onchange="updateReqField(${idx}, 'dept', this.value)" class="p-3 border rounded-xl font-bold text-xs uppercase">
+                                <option value="SALES" ${req.dept === 'SALES' ? 'selected' : ''}>SALES</option>
+                                <option value="SERVICE" ${req.dept === 'SERVICE' ? 'selected' : ''}>SERVICE</option>
+                                <option value="SPARE" ${req.dept === 'SPARE' ? 'selected' : ''}>SPARE</option>
+                                <option value="ACCOUNTS" ${req.dept === 'ACCOUNTS' ? 'selected' : ''}>ACCOUNTS</option>
+                            </select>
+                            <input type="number" value="${req.target}" onchange="updateReqField(${idx}, 'target', this.value)" class="p-3 border rounded-xl font-black text-center text-xs uppercase" placeholder="TARGET">
+                        </div>
+                    </div>
+                </div>`;
             });
         }
 
-        function addReqRow() { manpowerReqList.push({ company: 'SARATHY MOTORS', dept: 'SALES', target: 1 }); renderReqEntries(); }
+        function addReqRow() { manpowerReqList.push({ company: 'SARATHY MOTORS', dept: 'SALES', location: 'HEAD OFFICE', target: 1 }); renderReqEntries(); }
         function removeReqRow(idx) { manpowerReqList.splice(idx, 1); renderReqEntries(); }
         function updateReqField(idx, field, value) { manpowerReqList[idx][field] = value; }
-        function saveRequirements() { localStorage.setItem('sarathy_req_detailed_v4', JSON.stringify(manpowerReqList)); showToast("TARGETS UPDATED"); closeReqModal(); renderTable(); }
+        function saveRequirements() { localStorage.setItem('sarathy_req_detailed_v5', JSON.stringify(manpowerReqList)); showToast("TARGETS UPDATED"); closeReqModal(); renderTable(); }
     </script>
 </body>
 </html>
