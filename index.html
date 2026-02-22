@@ -39,7 +39,7 @@
             background: #ffffff;
             border-radius: 1.25rem;
             box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.05);
-            border: 1px solid rgb(6, 42, 73);
+            border: 1px solid rgba(7, 38, 66, 0.1);
         }
 
         .status-stamp {
@@ -481,11 +481,13 @@
                             <select id="location" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl font-bold uppercase">
                                 <option value="HEAD OFFICE">HEAD OFFICE</option>
                                 <option value="KOLLAM">KOLLAM</option>
-                                <option value="TRIVANDRUM">TRIVANDRUM</option>
-                                <option value="KOTTAYAM">KOTTARAKKARA</option>
+                                <option value="KARUNAGAPPALLY">KARUNAGAPPALLY</option>
+                                <option value="KOTTARAKKARA">KOTTARAKKARA</option>
+                                <option value="PUNALUR">PUNALUR</option>
+                                <option value="PARAVUR">PARAVUR</option>
+                                <option value="ANCHAL">ANCHAL</option>
                                 <option value="ATTINGAL">ATTINGAL</option>
-                                <option value="KARUNAGAPPALLY>KARUNAGAPPALLY</option>
-                                <option value="CHENGANNUR>CHENGANNUR</option>
+                                <option value="TRIVANDRUM">TRIVANDRUM</option>
                             </select>
                         </div>
                     </div>
@@ -941,11 +943,13 @@
                         <select onchange="updateReqField(${idx}, 'location', this.value)" class="w-full p-3 border rounded-xl font-bold text-xs uppercase">
                             <option value="HEAD OFFICE" ${req.location === 'HEAD OFFICE' ? 'selected' : ''}>HEAD OFFICE</option>
                             <option value="KOLLAM" ${req.location === 'KOLLAM' ? 'selected' : ''}>KOLLAM</option>
-                            <option value="TRIVANDRUM" ${req.location === 'TRIVANDRUM' ? 'selected' : ''}>TRIVANDRUM</option>
-                            <option value="KOTTARAKKARA" ${req.location === 'KOTTARAKKARA' ? 'selected' : ''}>KOTTARAKKARA</option>
                             <option value="KARUNAGAPPALLY" ${req.location === 'KARUNAGAPPALLY' ? 'selected' : ''}>KARUNAGAPPALLY</option>
+                            <option value="KOTTARAKKARA" ${req.location === 'KOTTARAKKARA' ? 'selected' : ''}>KOTTARAKKARA</option>
+                            <option value="PUNALUR" ${req.location === 'PUNALUR' ? 'selected' : ''}>PUNALUR</option>
+                            <option value="PARAVUR" ${req.location === 'PARAVUR' ? 'selected' : ''}>PARAVUR</option>
+                            <option value="ANCHAL" ${req.location === 'ANCHAL' ? 'selected' : ''}>ANCHAL</option>
                             <option value="ATTINGAL" ${req.location === 'ATTINGAL' ? 'selected' : ''}>ATTINGAL</option>
-                            <option value="CHENGANNUR" ${req.location === 'CHENGANNUR' ? 'selected' : ''}>CHENGANNUR</option>
+                            <option value="TRIVANDRUM" ${req.location === 'TRIVANDRUM' ? 'selected' : ''}>TRIVANDRUM</option>
                         </select>
                         <div class="grid grid-cols-2 gap-2">
                             <select onchange="updateReqField(${idx}, 'dept', this.value)" class="p-3 border rounded-xl font-bold text-xs uppercase">
