@@ -51,7 +51,8 @@
         .status-selected { color: #059669; background: #ecfdf5; }
         .status-pending { color: #d97706; background: #fffbeb; }
 
-        .fab {
+        /* Renamed to avoid conflict with FontAwesome 'fab' class */
+        .sarathy-fab {
             position: fixed;
             bottom: 20px;
             right: 20px;
@@ -68,7 +69,7 @@
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .fab:active { transform: scale(0.9) rotate(90deg); }
+        .sarathy-fab:active { transform: scale(0.9) rotate(90deg); }
 
         /* Custom Scroll */
         .custom-scroll::-webkit-scrollbar { width: 4px; height: 4px; }
@@ -81,7 +82,6 @@
         }
         .animate-up { animation: slideUp 0.4s ease-out forwards; }
 
-        /* Sticky header backdrop */
         .mobile-header {
             position: sticky;
             top: 0;
@@ -91,7 +91,6 @@
             border-bottom: 1px solid #e2e8f0;
         }
 
-        /* Requirements Badge */
         .req-pill {
             background: #f1f5f9;
             padding: 2px 8px;
@@ -138,7 +137,6 @@
     <div id="dashboardPage" class="hidden">
         <header class="mobile-header px-4 py-4 flex justify-between items-center shadow-sm">
             <div class="flex items-center gap-3">
-                <!-- LOGO ADDED HERE -->
                 <img src="Sarathy2.png.png" alt="SARATHY" class="h-8 md:h-10 w-auto" onerror="this.style.display='none'">
                 <h2 class="font-black text-sm md:text-base tracking-tighter border-l border-slate-200 pl-3">HR <span class="text-sarathy-red">PORTAL</span></h2>
             </div>
@@ -153,7 +151,6 @@
         </header>
 
         <main class="p-4 md:p-8 max-w-6xl mx-auto space-y-6">
-            <!-- Header Section -->
             <div class="flex flex-col gap-4">
                 <div>
                     <h1 class="text-2xl font-black text-slate-800 tracking-tight">PERSONNEL <span class="text-slate-300">HUB</span></h1>
@@ -171,7 +168,6 @@
                 </div>
             </div>
 
-            <!-- Stats Grid -->
             <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
                 <div class="modern-card p-4 border-l-4 border-sarathy-blue">
                     <p class="text-[8px] font-black text-slate-400 tracking-widest mb-1">TOTAL</p>
@@ -191,7 +187,6 @@
                 </div>
             </div>
 
-            <!-- Department Breakdown -->
             <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
                 <div class="bg-white p-3 rounded-2xl border border-slate-200 flex justify-between items-center px-4">
                     <span class="text-[9px] font-black text-slate-400">SALES</span>
@@ -223,7 +218,6 @@
                 </div>
             </div>
 
-            <!-- Search & Filter -->
             <div class="space-y-3">
                 <div class="relative">
                     <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
@@ -257,12 +251,10 @@
                 </div>
             </div>
 
-            <!-- Data List (Mobile Optimized) -->
             <div id="dataList" class="space-y-4">
                 <!-- Records injected here -->
             </div>
 
-            <!-- Empty State -->
             <div id="emptyState" class="hidden py-16 text-center modern-card bg-slate-50 border-2 border-dashed border-slate-200">
                 <i class="fas fa-folder-open text-4xl text-slate-300 mb-4"></i>
                 <p class="text-slate-400 font-black text-xs tracking-widest">NO RECORDS FOUND</p>
@@ -270,8 +262,8 @@
         </main>
     </div>
 
-    <!-- FAB for Adding -->
-    <button id="addBtn" onclick="openModal()" class="fab hidden">
+    <!-- FAB for Adding (Updated class to avoid conflict) -->
+    <button id="addBtn" onclick="openModal()" class="sarathy-fab hidden">
         <i class="fas fa-plus text-xl"></i>
     </button>
 
@@ -421,9 +413,6 @@
             return "SG-" + (Math.max(...ids) + 1).toString().padStart(3, '0');
         }
 
-        /**
-         * Converts YYYY-MM-DD to DD-MM-YYYY
-         */
         function formatDisplayDate(dateStr) {
             if (!dateStr) return "---";
             const parts = dateStr.split('-');
@@ -554,6 +543,27 @@
             }
         }
 
+        // WhatsApp Integration Function
+        function shareWhatsApp(id) {
+            const r = joinees.find(x => x.id === id);
+            if (!r) return;
+
+            const message = `*SARATHY GROUP - PERSONNEL RECORD*%0A` +
+                            `-----------------------------%0A` +
+                            `*NAME:* ${r.name}%0A` +
+                            `*ID:* ${r.empId}%0A` +
+                            `*DEPT:* ${r.dept}%0A` +
+                            `*ENTITY:* ${r.company}%0A` +
+                            `*STATUS:* ${r.status}%0A` +
+                            `*INTERVIEW:* ${formatDisplayDate(r.interviewDate)}%0A` +
+                            `*JOIN DATE:* ${formatDisplayDate(r.joinDate)}%0A` +
+                            `*REMARKS:* ${r.manager || 'N/A'}%0A` +
+                            `-----------------------------%0A` +
+                            `_SHARED VIA HR PORTAL_`;
+            
+            window.open(`https://wa.me/?text=${message}`, '_blank');
+        }
+
         function renderTable() {
             const month = document.getElementById('monthFilter').value;
             const term = document.getElementById('searchInput').value.toUpperCase();
@@ -619,6 +629,10 @@
                             <div class="flex items-center justify-between">
                                 <p class="text-[9px] text-amber-600 italic font-bold truncate pr-4">${x.manager || 'NO REMARKS'}</p>
                                 <div class="flex gap-2">
+                                    <!-- WhatsApp Integration -->
+                                    <button onclick="shareWhatsApp(${x.id})" class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center shadow-sm">
+                                        <i class="fab fa-whatsapp text-xs"></i>
+                                    </button>
                                     ${isAdmin() ? `
                                         <button onclick="editRecord(${x.id})" class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center"><i class="fas fa-edit text-xs"></i></button>
                                         <button onclick="deleteRecord(${x.id})" class="w-8 h-8 rounded-lg bg-red-50 text-red-600 flex items-center justify-center"><i class="fas fa-trash text-xs"></i></button>
@@ -640,11 +654,9 @@
 
             const depts = ['SALES', 'SERVICE', 'SPARE', 'ACCOUNTS'];
             depts.forEach(d => {
-                // Count how many are selected in the currently filtered data
                 const count = data.filter(x => x.dept === d && x.status === 'SELECTED').length;
                 document.getElementById(`count${d.charAt(0) + d.slice(1).toLowerCase()}`).innerText = count;
                 
-                // Pull targets filtered by Company if a specific company is selected
                 let target = 0;
                 if (selectedCompany === "All") {
                     target = manpowerReqList.filter(r => r.dept === d).reduce((a, c) => a + parseInt(c.target || 0), 0);
