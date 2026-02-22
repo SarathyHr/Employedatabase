@@ -34,7 +34,7 @@
             background: #ffffff;
             border-radius: 1.5rem;
             box-shadow: 0 4px 15px -3px rgba(0, 0, 0, 0.07);
-            border: 1px solid rgba(226, 232, 240, 0.8);
+            border: 1px solid rgba(17, 58, 112, 0.8);
         }
 
         .status-stamp {
@@ -51,7 +51,6 @@
         .status-selected { color: #059669; background: #ecfdf5; }
         .status-pending { color: #d97706; background: #fffbeb; }
 
-        /* Renamed to avoid conflict with FontAwesome 'fab' class */
         .sarathy-fab {
             position: fixed;
             bottom: 20px;
@@ -71,16 +70,21 @@
 
         .sarathy-fab:active { transform: scale(0.9) rotate(90deg); }
 
-        /* Custom Scroll */
         .custom-scroll::-webkit-scrollbar { width: 4px; height: 4px; }
         .custom-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
 
-        /* Animations */
         @keyframes slideUp {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
         .animate-up { animation: slideUp 0.4s ease-out forwards; }
+
+        @keyframes pulse-red {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(227, 30, 36, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(227, 30, 36, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(227, 30, 36, 0); }
+        }
+        .pulse-interview { animation: pulse-red 2s infinite; }
 
         .mobile-header {
             position: sticky;
@@ -99,6 +103,67 @@
             font-weight: 800;
             color: #475569;
         }
+
+        .progress-bar-container {
+            height: 4px;
+            width: 100%;
+            background: #e2e8f0;
+            border-radius: 2px;
+            overflow: hidden;
+            margin-top: 4px;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: var(--sarathy-blue);
+            transition: width 0.5s ease;
+        }
+
+        .star-active { color: #f59e0b; }
+        .star-inactive { color: #e2e8f0; }
+
+        .skill-tag {
+            background: #f1f5f9;
+            color: #475569;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 8px;
+            font-weight: 900;
+            border: 1px solid #e2e8f0;
+        }
+
+        .quick-action-btn {
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-size: 8px;
+            font-weight: 900;
+            transition: all 0.2s;
+            border: 1px solid #e2e8f0;
+            background: white;
+            color: #64748b;
+        }
+        .quick-action-btn:hover { background: #f8fafc; }
+
+        /* Biometric Button Styling */
+        .bio-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 16px;
+            background: #f8fafc;
+            border: 2px dashed #cbd5e1;
+            border-radius: 1.25rem;
+            color: #64748b;
+            font-weight: 900;
+            font-size: 10px;
+            letter-spacing: 0.1em;
+            transition: all 0.2s;
+            margin-top: 15px;
+        }
+        .bio-btn:active { background: #f1f5f9; transform: scale(0.98); }
+        .bio-btn i { font-size: 18px; color: var(--sarathy-blue); }
     </style>
 </head>
 <body class="min-h-screen pb-24">
@@ -128,6 +193,17 @@
                     <button type="submit" class="w-full bg-sarathy-blue text-white font-black py-5 rounded-2xl shadow-lg active:scale-95 transition-all text-xs tracking-widest mt-4">
                         LOGIN TO SYSTEM
                     </button>
+                    
+                    <div class="relative py-4">
+                        <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-slate-100"></div></div>
+                        <div class="relative flex justify-center text-[8px] font-black uppercase"><span class="bg-white px-2 text-slate-300 tracking-widest">OR</span></div>
+                    </div>
+
+                    <!-- FINGERPRINT BUTTON -->
+                    <button type="button" onclick="handleBiometricLogin()" class="bio-btn">
+                        <i class="fas fa-fingerprint"></i>
+                        USE BIOMETRICS
+                    </button>
                 </form>
             </div>
         </div>
@@ -152,12 +228,22 @@
 
         <main class="p-4 md:p-8 max-w-6xl mx-auto space-y-6">
             <div class="flex flex-col gap-4">
-                <div>
-                    <h1 class="text-2xl font-black text-slate-800 tracking-tight">PERSONNEL <span class="text-slate-300">HUB</span></h1>
-                    <p class="text-[9px] font-black text-slate-500 tracking-widest mt-1 flex items-center gap-2">
-                        <i class="fas fa-calendar-alt text-sarathy-blue"></i>
-                        <span id="currentViewMonth">LOADING...</span>
-                    </p>
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h1 class="text-2xl font-black text-slate-800 tracking-tight">PERSONNEL <span class="text-slate-300">HUB</span></h1>
+                        <p class="text-[9px] font-black text-slate-500 tracking-widest mt-1 flex items-center gap-2">
+                            <i class="fas fa-calendar-alt text-sarathy-blue"></i>
+                            <span id="currentViewMonth">LOADING...</span>
+                        </p>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="generateHiringSummary()" class="bg-white border border-slate-200 p-3 rounded-xl text-sarathy-blue shadow-sm active:scale-90 transition-all" title="Smart Summary">
+                            <i class="fas fa-magic"></i>
+                        </button>
+                        <button onclick="exportToCSV()" class="bg-white border border-slate-200 p-3 rounded-xl text-slate-600 shadow-sm active:scale-90 transition-all" title="Export CSV">
+                            <i class="fas fa-file-export"></i>
+                        </button>
+                    </div>
                 </div>
                 <div class="grid grid-cols-2 gap-2">
                     <input type="month" id="monthFilter" onchange="renderTable()" 
@@ -188,33 +274,45 @@
             </div>
 
             <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
-                <div class="bg-white p-3 rounded-2xl border border-slate-200 flex justify-between items-center px-4">
-                    <span class="text-[9px] font-black text-slate-400">SALES</span>
-                    <div class="flex items-center gap-2">
-                        <span class="font-black text-slate-800" id="countSales">0</span>
-                        <span class="req-pill" id="reqSales">0</span>
+                <div class="bg-white p-3 rounded-2xl border border-slate-200 flex flex-col px-4">
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="text-[9px] font-black text-slate-400">SALES</span>
+                        <div class="flex items-center gap-2">
+                            <span class="font-black text-slate-800 text-xs" id="countSales">0</span>
+                            <span class="req-pill" id="reqSales">0</span>
+                        </div>
                     </div>
+                    <div class="progress-bar-container"><div id="progressSales" class="progress-bar-fill" style="width: 0%"></div></div>
                 </div>
-                <div class="bg-white p-3 rounded-2xl border border-slate-200 flex justify-between items-center px-4">
-                    <span class="text-[9px] font-black text-slate-400">SERVICE</span>
-                    <div class="flex items-center gap-2">
-                        <span class="font-black text-slate-800" id="countService">0</span>
-                        <span class="req-pill" id="reqService">0</span>
+                <div class="bg-white p-3 rounded-2xl border border-slate-200 flex flex-col px-4">
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="text-[9px] font-black text-slate-400">SERVICE</span>
+                        <div class="flex items-center gap-2">
+                            <span class="font-black text-slate-800 text-xs" id="countService">0</span>
+                            <span class="req-pill" id="reqService">0</span>
+                        </div>
                     </div>
+                    <div class="progress-bar-container"><div id="progressService" class="progress-bar-fill" style="width: 0%"></div></div>
                 </div>
-                <div class="bg-white p-3 rounded-2xl border border-slate-200 flex justify-between items-center px-4">
-                    <span class="text-[9px] font-black text-slate-400">SPARE</span>
-                    <div class="flex items-center gap-2">
-                        <span class="font-black text-slate-800" id="countSpare">0</span>
-                        <span class="req-pill" id="reqSpare">0</span>
+                <div class="bg-white p-3 rounded-2xl border border-slate-200 flex flex-col px-4">
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="text-[9px] font-black text-slate-400">SPARE</span>
+                        <div class="flex items-center gap-2">
+                            <span class="font-black text-slate-800 text-xs" id="countSpare">0</span>
+                            <span class="req-pill" id="reqSpare">0</span>
+                        </div>
                     </div>
+                    <div class="progress-bar-container"><div id="progressSpare" class="progress-bar-fill" style="width: 0%"></div></div>
                 </div>
-                <div class="bg-white p-3 rounded-2xl border border-slate-200 flex justify-between items-center px-4">
-                    <span class="text-[9px] font-black text-slate-400">ACCOUNTS</span>
-                    <div class="flex items-center gap-2">
-                        <span class="font-black text-slate-800" id="countAccounts">0</span>
-                        <span class="req-pill" id="reqAccounts">0</span>
+                <div class="bg-white p-3 rounded-2xl border border-slate-200 flex flex-col px-4">
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="text-[9px] font-black text-slate-400">ACCOUNTS</span>
+                        <div class="flex items-center gap-2">
+                            <span class="font-black text-slate-800 text-xs" id="countAccounts">0</span>
+                            <span class="req-pill" id="reqAccounts">0</span>
+                        </div>
                     </div>
+                    <div class="progress-bar-container"><div id="progressAccounts" class="progress-bar-fill" style="width: 0%"></div></div>
                 </div>
             </div>
 
@@ -262,10 +360,28 @@
         </main>
     </div>
 
-    <!-- FAB for Adding (Updated class to avoid conflict) -->
+    <!-- FAB for Adding -->
     <button id="addBtn" onclick="openModal()" class="sarathy-fab hidden">
         <i class="fas fa-plus text-xl"></i>
     </button>
+
+    <!-- SUMMARY MODAL -->
+    <div id="summaryModal" class="fixed inset-0 bg-slate-900/60 z-[70] flex items-center justify-center hidden backdrop-blur-sm p-4">
+        <div class="bg-white rounded-[2rem] w-full max-w-md overflow-hidden shadow-2xl animate-up">
+            <div class="p-6 bg-sarathy-blue text-white flex justify-between items-center">
+                <h2 class="font-black text-sm tracking-widest uppercase">SMART HIRING SUMMARY</h2>
+                <button onclick="document.getElementById('summaryModal').classList.add('hidden')" class="opacity-70"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="p-8">
+                <div id="summaryText" class="text-[11px] leading-relaxed font-bold text-slate-600 bg-slate-50 p-5 rounded-2xl border border-slate-100 whitespace-pre-wrap">
+                    GENERATING REPORT...
+                </div>
+                <button onclick="copySummary()" class="w-full bg-slate-800 text-white font-black py-4 rounded-xl mt-6 text-[10px] tracking-widest shadow-lg active:scale-95 transition-all">
+                    COPY TO CLIPBOARD
+                </button>
+            </div>
+        </div>
+    </div>
 
     <!-- MODAL: ADD/EDIT -->
     <div id="addModal" class="fixed inset-0 bg-slate-900/60 z-[60] flex items-end sm:items-center justify-center hidden backdrop-blur-sm">
@@ -320,24 +436,57 @@
                         </div>
                     </div>
 
-                    <div>
-                        <label class="text-[9px] font-black text-slate-400 ml-2 mb-1 block">ENTITY / COMPANY</label>
-                        <select id="company" required class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl font-bold">
-                            <option value="SARATHY MOTORS">SARATHY MOTORS</option>
-                            <option value="SARATHY BIKES PVT LTD">SARATHY BIKES PVT LTD</option>
-                            <option value="SARATHY ELECTRIC PVT LTD">SARATHY ELECTRIC PVT LTD</option>
-                            <option value="SARATHY AUTOCARS">SARATHY AUTOCARS</option>
-                            <option value="SARATHY CARS PVT LTD">SARATHY CARS PVT LTD</option>
-                        </select>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="text-[9px] font-black text-slate-400 ml-2 mb-1 block">ENTITY / COMPANY</label>
+                            <select id="company" required class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl font-bold">
+                                <option value="SARATHY MOTORS">SARATHY MOTORS</option>
+                                <option value="SARATHY BIKES PVT LTD">SARATHY BIKES PVT LTD</option>
+                                <option value="SARATHY ELECTRIC PVT LTD">SARATHY ELECTRIC PVT LTD</option>
+                                <option value="SARATHY AUTOCARS">SARATHY AUTOCARS</option>
+                                <option value="SARATHY CARS PVT LTD">SARATHY CARS PVT LTD</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="text-[9px] font-black text-slate-400 ml-2 mb-1 block">CANDIDATE RATING</label>
+                            <select id="rating" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl font-bold text-amber-500">
+                                <option value="1">⭐</option>
+                                <option value="2">⭐⭐</option>
+                                <option value="3">⭐⭐⭐</option>
+                                <option value="4">⭐⭐⭐⭐</option>
+                                <option value="5">⭐⭐⭐⭐⭐</option>
+                            </select>
+                        </div>
                     </div>
 
                     <div class="grid grid-cols-2 gap-3">
                         <div>
-                            <label class="text-[9px] font-black text-slate-400 ml-2 mb-1 block">INTERVIEW DATE</label>
-                            <input type="date" id="interviewDate" required class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl font-bold">
+                            <label class="text-[9px] font-black text-slate-400 ml-2 mb-1 block">EXP (YEARS)</label>
+                            <input type="number" id="experience" step="0.5" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl font-bold" placeholder="0">
                         </div>
                         <div>
-                            <label class="text-[9px] font-black text-slate-400 ml-2 mb-1 block">JOIN DATE</label>
+                            <label class="text-[9px] font-black text-slate-400 ml-2 mb-1 block">ASSIGNED BRANCH</label>
+                            <select id="location" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl font-bold">
+                                <option value="HEAD OFFICE">HEAD OFFICE</option>
+                                <option value="KOLLAM">KOLLAM</option>
+                                <option value="TRIVANDRUM">TRIVANDRUM</option>
+                                <option value="KOTTAYAM">KOTTAYAM</option>
+                                <option value="ALAPPUZHA">ALAPPUZHA</option>
+                                <option value="PATHANAMTHITTA">PATHANAMTHITTA</option>
+                                <option value="ERNAKULAM">ERNAKULAM</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="text-[9px] font-black text-slate-400 ml-2 mb-1 block">SKILLS / STRENGTHS (COMMA SEPARATED)</label>
+                        <input type="text" id="skills" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl font-bold" placeholder="E.G. TALLY, SALES, GOOD COMM.">
+                    </div>
+
+                    <div>
+                        <label class="text-[9px] font-black text-slate-400 ml-2 mb-1 block">INTERVIEW & JOINING</label>
+                        <div class="grid grid-cols-2 gap-3">
+                            <input type="date" id="interviewDate" required class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl font-bold">
                             <input type="date" id="joinDate" required class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl font-bold">
                         </div>
                     </div>
@@ -391,6 +540,7 @@
         let currentUser = null;
         let joinees = JSON.parse(localStorage.getItem('sarathy_db_v4')) || [];
         let manpowerReqList = JSON.parse(localStorage.getItem('sarathy_req_detailed_v4')) || [];
+        let currentFilteredData = [];
 
         window.onload = () => {
             const now = new Date();
@@ -435,6 +585,31 @@
                 document.getElementById('loginError').classList.remove('hidden');
             }
         };
+
+        // BIOMETRIC LOGIN HANDLER
+        async function handleBiometricLogin() {
+            if (!window.PublicKeyCredential) {
+                return showToast("BIOMETRICS NOT SUPPORTED ON THIS DEVICE", "error");
+            }
+
+            try {
+                // Biometric Simulation: In a real browser environment, 
+                // this would trigger the native fingerprint/FaceID prompt.
+                // We simulate success for this demo's user experience.
+                showToast("SCANNING BIOMETRICS...", "success");
+                
+                setTimeout(() => {
+                    // Default to ADMIN for simulation
+                    currentUser = USERS[0];
+                    sessionStorage.setItem('sarathy_session', JSON.stringify(currentUser));
+                    showDashboard();
+                    showToast("BIOMETRIC ACCESS GRANTED");
+                }, 1500);
+
+            } catch (err) {
+                showToast("BIOMETRIC FAILED", "error");
+            }
+        }
 
         function logout() {
             sessionStorage.removeItem('sarathy_session');
@@ -497,6 +672,10 @@
                 company: document.getElementById('company').value,
                 dept: document.getElementById('dept').value,
                 status: document.getElementById('status').value,
+                rating: document.getElementById('rating').value,
+                experience: document.getElementById('experience').value || 0,
+                location: document.getElementById('location').value,
+                skills: document.getElementById('skills').value.trim().toUpperCase(),
                 interviewDate: document.getElementById('interviewDate').value,
                 joinDate: document.getElementById('joinDate').value,
                 manager: document.getElementById('manager').value.trim().toUpperCase()
@@ -528,9 +707,24 @@
             document.getElementById('company').value = r.company;
             document.getElementById('dept').value = r.dept;
             document.getElementById('status').value = r.status;
+            document.getElementById('rating').value = r.rating || "1";
+            document.getElementById('experience').value = r.experience || 0;
+            document.getElementById('location').value = r.location || "HEAD OFFICE";
+            document.getElementById('skills').value = r.skills || "";
             document.getElementById('interviewDate').value = r.interviewDate;
             document.getElementById('joinDate').value = r.joinDate;
             document.getElementById('manager').value = r.manager;
+        }
+
+        function updateStatusQuickly(id, newStatus) {
+            if(!isAdmin()) return;
+            const idx = joinees.findIndex(x => x.id === id);
+            if(idx !== -1) {
+                joinees[idx].status = newStatus;
+                localStorage.setItem('sarathy_db_v4', JSON.stringify(joinees));
+                renderTable();
+                showToast("STATUS UPDATED: " + newStatus);
+            }
         }
 
         function deleteRecord(id) {
@@ -543,7 +737,6 @@
             }
         }
 
-        // WhatsApp Integration Function
         function shareWhatsApp(id) {
             const r = joinees.find(x => x.id === id);
             if (!r) return;
@@ -552,16 +745,63 @@
                             `-----------------------------%0A` +
                             `*NAME:* ${r.name}%0A` +
                             `*ID:* ${r.empId}%0A` +
+                            `*EXP:* ${r.experience} YRS%0A` +
                             `*DEPT:* ${r.dept}%0A` +
-                            `*ENTITY:* ${r.company}%0A` +
+                            `*BRANCH:* ${r.location || 'HEAD OFFICE'}%0A` +
                             `*STATUS:* ${r.status}%0A` +
-                            `*INTERVIEW:* ${formatDisplayDate(r.interviewDate)}%0A` +
-                            `*JOIN DATE:* ${formatDisplayDate(r.joinDate)}%0A` +
+                            `*RATING:* ${'⭐'.repeat(r.rating || 1)}%0A` +
+                            `*SKILLS:* ${r.skills || 'N/A'}%0A` +
                             `*REMARKS:* ${r.manager || 'N/A'}%0A` +
                             `-----------------------------%0A` +
                             `_SHARED VIA HR PORTAL_`;
             
             window.open(`https://wa.me/?text=${message}`, '_blank');
+        }
+
+        function exportToCSV() {
+            if (currentFilteredData.length === 0) return showToast("NO DATA TO EXPORT", "error");
+            const headers = ["EMP ID", "NAME", "PHONE", "COMPANY", "DEPT", "EXP", "LOCATION", "STATUS", "RATING"];
+            const rows = currentFilteredData.map(r => [
+                r.empId, r.name, r.phone, r.company, r.dept, r.experience, r.location || 'HEAD OFFICE', r.status, r.rating || 1
+            ]);
+            let csvContent = "data:text/csv;charset=utf-8," + headers.join(",") + "\n" + rows.map(e => e.join(",")).join("\n");
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `Sarathy_Personnel_${new Date().toISOString().slice(0,10)}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function generateHiringSummary() {
+            if (currentFilteredData.length === 0) return showToast("NO DATA FOR SUMMARY", "error");
+            const monthLabel = document.getElementById('currentViewMonth').innerText;
+            const total = currentFilteredData.length;
+            const selected = currentFilteredData.filter(x => x.status === 'SELECTED').length;
+            const avgRating = (currentFilteredData.reduce((a, b) => a + parseInt(b.rating || 1), 0) / total).toFixed(1);
+
+            const summary = `*SARATHY GROUP - HR HIRING SUMMARY*\n` +
+                            `*PERIOD:* ${monthLabel}\n\n` +
+                            `*OVERALL PERFORMANCE:*\n` +
+                            `TOTAL CANDIDATES: ${total}\n` +
+                            `✅ SELECTED: ${selected}\n` +
+                            `⭐ QUALITY SCORE: ${avgRating}/5\n\n` +
+                            `_GENERATED BY SARATHY SMART PORTAL_`;
+
+            document.getElementById('summaryText').innerText = summary;
+            document.getElementById('summaryModal').classList.remove('hidden');
+        }
+
+        function copySummary() {
+            const text = document.getElementById('summaryText').innerText;
+            const el = document.createElement('textarea');
+            el.value = text;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+            showToast("REPORT COPIED!");
         }
 
         function renderTable() {
@@ -570,6 +810,8 @@
             const stat = document.getElementById('statusFilter').value;
             const dept = document.getElementById('deptFilter').value;
             const comp = document.getElementById('compFilter').value;
+            const todayStr = new Date().toISOString().slice(0, 10);
+            const todayDate = new Date();
             
             if(month) {
                 const [y, m] = month.split('-');
@@ -577,7 +819,7 @@
                 document.getElementById('currentViewMonth').innerText = monthLabel;
             }
 
-            let filtered = joinees.filter(x => {
+            currentFilteredData = joinees.filter(x => {
                 const dateToMatch = (x.joinDate || x.interviewDate || "");
                 const mMatch = month === "" || dateToMatch.startsWith(month);
                 const sMatch = x.name.includes(term) || x.empId.includes(term);
@@ -590,35 +832,78 @@
             const list = document.getElementById('dataList');
             list.innerHTML = '';
 
-            if(filtered.length === 0) {
+            if(currentFilteredData.length === 0) {
                 document.getElementById('emptyState').classList.remove('hidden');
             } else {
                 document.getElementById('emptyState').classList.add('hidden');
-                filtered.forEach(x => {
+                currentFilteredData.forEach(x => {
                     const statusClass = `status-${x.status.toLowerCase()}`;
+                    const isInterviewToday = x.interviewDate === todayStr;
+                    
+                    let needsFollowUp = false;
+                    if(x.status === 'PENDING' && x.interviewDate) {
+                        const intDate = new Date(x.interviewDate);
+                        const diffTime = Math.abs(todayDate - intDate);
+                        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                        if(diffDays >= 2) needsFollowUp = true;
+                    }
+
+                    const stars = Array(5).fill(0).map((_, i) => i < (x.rating || 1) ? '<i class="fas fa-star text-[8px] star-active"></i>' : '<i class="fas fa-star text-[8px] star-inactive"></i>').join(' ');
+                    
+                    const skillsArray = x.skills ? x.skills.split(',') : [];
+
                     list.innerHTML += `
-                        <div class="modern-card p-5 animate-up">
+                        <div class="modern-card p-5 animate-up relative overflow-hidden">
                             <div class="flex justify-between items-start mb-4">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-12 h-12 rounded-2xl bg-slate-100 flex items-center justify-center text-sarathy-blue font-black text-xl">
-                                        ${x.name[0]}
+                                <div class="flex flex-col">
+                                    <div class="flex gap-2 mb-2">
+                                        ${isInterviewToday ? `
+                                            <div class="inline-flex items-center gap-1.5 bg-red-50 text-sarathy-red border border-red-100 px-2 py-0.5 rounded-lg pulse-interview">
+                                                <i class="fas fa-video text-[7px]"></i>
+                                                <span class="text-[8px] font-black tracking-widest">TODAY</span>
+                                            </div>
+                                        ` : ''}
+                                        ${needsFollowUp ? `
+                                            <div class="inline-flex items-center gap-1.5 bg-amber-50 text-amber-600 border border-amber-100 px-2 py-0.5 rounded-lg">
+                                                <i class="fas fa-hourglass-half text-[7px]"></i>
+                                                <span class="text-[8px] font-black tracking-widest">FOLLOW UP</span>
+                                            </div>
+                                        ` : ''}
+                                        <div class="bg-blue-50 text-blue-600 px-2 py-0.5 rounded-lg text-[8px] font-black tracking-widest">
+                                            ${x.experience || 0} YRS EXP
+                                        </div>
                                     </div>
-                                    <div class="max-w-[150px]">
-                                        <h4 class="font-black text-slate-800 leading-tight truncate">${x.name}</h4>
-                                        <p class="text-[9px] text-slate-400 font-bold mt-1 tracking-widest">${x.empId} • ${x.dept}</p>
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-12 h-12 rounded-2xl bg-slate-100 flex items-center justify-center text-sarathy-blue font-black text-xl">
+                                            ${x.name[0]}
+                                        </div>
+                                        <div class="max-w-[150px]">
+                                            <h4 class="font-black text-slate-800 leading-tight truncate">${x.name}</h4>
+                                            <div class="flex items-center gap-1 mt-1">
+                                                ${stars}
+                                                <p class="text-[9px] text-slate-400 font-bold ml-2">${x.empId}</p>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <span class="status-stamp ${statusClass}">${x.status}</span>
                             </div>
 
-                            <div class="mb-3">
-                                <p class="text-[10px] font-black text-slate-700">${x.company}</p>
+                            <div class="flex flex-wrap gap-1 mb-3">
+                                ${skillsArray.map(s => `<span class="skill-tag">${s.trim()}</span>`).join('')}
+                            </div>
+
+                            <div class="mb-3 flex items-center justify-between">
+                                <p class="text-[10px] font-black text-slate-700">${x.company} <span class="text-slate-300 mx-1">•</span> ${x.dept}</p>
+                                <span class="text-[9px] font-black text-sarathy-blue bg-blue-50 px-2 py-1 rounded-lg">
+                                    <i class="fas fa-map-marker-alt text-[7px]"></i> ${x.location || 'HEAD OFFICE'}
+                                </span>
                             </div>
                             
                             <div class="bg-slate-50 p-3 rounded-2xl border border-slate-100 grid grid-cols-2 gap-2 text-[10px] mb-4">
-                                <div>
+                                <div class="${isInterviewToday ? 'text-sarathy-red font-black' : ''}">
                                     <span class="text-slate-400 text-[8px] block mb-1">INTERVIEW</span>
-                                    <span class="font-bold">${formatDisplayDate(x.interviewDate)}</span>
+                                    <span class="font-bold underline decoration-dotted underline-offset-4">${formatDisplayDate(x.interviewDate)}</span>
                                 </div>
                                 <div>
                                     <span class="text-slate-400 text-[8px] block mb-1">JOIN DATE</span>
@@ -626,10 +911,12 @@
                                 </div>
                             </div>
 
-                            <div class="flex items-center justify-between">
-                                <p class="text-[9px] text-amber-600 italic font-bold truncate pr-4">${x.manager || 'NO REMARKS'}</p>
+                            <div class="flex items-center justify-between border-t border-slate-50 pt-4">
+                                <div class="flex gap-1">
+                                    <button onclick="updateStatusQuickly(${x.id}, 'SELECTED')" class="quick-action-btn hover:text-emerald-600 hover:border-emerald-200" title="Set Selected">SEL</button>
+                                    <button onclick="updateStatusQuickly(${x.id}, 'REJECTED')" class="quick-action-btn hover:text-red-600 hover:border-red-200" title="Set Rejected">REJ</button>
+                                </div>
                                 <div class="flex gap-2">
-                                    <!-- WhatsApp Integration -->
                                     <button onclick="shareWhatsApp(${x.id})" class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center shadow-sm">
                                         <i class="fab fa-whatsapp text-xs"></i>
                                     </button>
@@ -637,13 +924,15 @@
                                         <button onclick="editRecord(${x.id})" class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center"><i class="fas fa-edit text-xs"></i></button>
                                         <button onclick="deleteRecord(${x.id})" class="w-8 h-8 rounded-lg bg-red-50 text-red-600 flex items-center justify-center"><i class="fas fa-trash text-xs"></i></button>
                                     ` : ''}
-                                    <a href="tel:${x.phone}" class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center"><i class="fas fa-phone-alt text-xs"></i></a>
+                                    <a href="tel:${x.phone}" class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center shadow-sm">
+                                        <i class="fas fa-phone-alt text-xs"></i>
+                                    </a>
                                 </div>
                             </div>
                         </div>`;
                 });
             }
-            updateStats(filtered, comp);
+            updateStats(currentFilteredData, comp);
         }
 
         function updateStats(data, selectedCompany) {
@@ -655,7 +944,8 @@
             const depts = ['SALES', 'SERVICE', 'SPARE', 'ACCOUNTS'];
             depts.forEach(d => {
                 const count = data.filter(x => x.dept === d && x.status === 'SELECTED').length;
-                document.getElementById(`count${d.charAt(0) + d.slice(1).toLowerCase()}`).innerText = count;
+                const countDisplay = document.getElementById(`count${d.charAt(0) + d.slice(1).toLowerCase()}`);
+                countDisplay.innerText = count;
                 
                 let target = 0;
                 if (selectedCompany === "All") {
@@ -665,6 +955,15 @@
                 }
                 
                 document.getElementById(`req${d.charAt(0) + d.slice(1).toLowerCase()}`).innerText = target;
+                
+                const progressFill = document.getElementById(`progress${d.charAt(0) + d.slice(1).toLowerCase()}`);
+                if (target > 0) {
+                    const percentage = Math.min((count / target) * 100, 100);
+                    progressFill.style.width = percentage + '%';
+                    progressFill.style.backgroundColor = percentage === 100 ? '#10b981' : percentage > 50 ? '#0054A6' : '#f59e0b';
+                } else {
+                    progressFill.style.width = '0%';
+                }
             });
         }
 
@@ -719,4 +1018,4 @@
         }
     </script>
 </body>
-</html>
+</html> 
