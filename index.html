@@ -24,7 +24,12 @@
         input, select, textarea, button {
             font-family: 'Verdana', Geneva, sans-serif;
             text-transform: uppercase;
-            font-size: 14px !important;
+            /* Prevent iOS zoom while maintaining style */
+            font-size: 16px !important; 
+        }
+
+        @media (min-width: 768px) {
+            input, select, textarea, button { font-size: 14px !important; }
         }
 
         .text-sarathy-blue { color: var(--sarathy-blue); }
@@ -35,7 +40,7 @@
             background: #ffffff;
             border-radius: 1.25rem;
             box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.05);
-            border: 1px solid rgba(7, 38, 66, 0.8);
+            border: 1px solid rgba(6, 52, 94, 0.89);
         }
 
         .status-stamp {
@@ -144,6 +149,15 @@
         }
         .quick-action-btn:active { transform: scale(0.85); }
 
+        .company-highlight {
+            background-color: var(--sarathy-blue);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-weight: 900;
+            letter-spacing: 0.05em;
+        }
+        
         .bio-btn {
             display: flex;
             align-items: center;
@@ -177,7 +191,7 @@
 
     <!-- LOGIN PAGE -->
     <div id="loginPage" class="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-slate-900">
-        <div class="w-full max-w-sm animate-up">
+        <div class="w-full max-sm animate-up">
             <div class="modern-card p-8 bg-white text-center shadow-2xl">
                 <div class="mb-8">
                     <img src="Sarathy2.png.png" alt="SARATHY" class="w-48 mx-auto mb-4" onerror="this.src='https://via.placeholder.com/200x80?text=SARATHY+GROUP'">
@@ -322,16 +336,15 @@
                 </div>
             </div>
 
-            <div class="space-y-3">
-                <div class="relative flex items-center">
-                    <div class="absolute left-5 flex items-center justify-center text-slate-400">
-                        <i class="fas fa-search"></i>
-                    </div>
+            <!-- SEARCH & FILTERS SECTION (MOBILE FRIENDLY) -->
+            <div class="space-y-4">
+                <div class="relative">
+                    <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
                     <input type="text" id="searchInput" onkeyup="renderTable()" placeholder="SEARCH PERSONNEL..." 
-                           class="w-full pl-16 pr-4 py-4 bg-white border border-slate-200 rounded-2xl font-bold text-sm focus:ring-4 ring-blue-50 outline-none transition-all shadow-sm uppercase">
+                           class="w-full pl-12 pr-4 py-4 md:py-4 bg-white border border-slate-200 rounded-2xl font-bold text-sm focus:ring-4 ring-blue-50 outline-none transition-all shadow-sm uppercase placeholder:text-slate-300">
                 </div>
-                <div class="flex flex-col sm:flex-row gap-2">
-                    <select id="compFilter" onchange="renderTable()" class="flex-1 px-4 py-4 bg-white border border-sarathy-blue rounded-2xl font-black text-[10px] shadow-sm text-sarathy-blue uppercase">
+                <div class="flex flex-col gap-3">
+                    <select id="compFilter" onchange="renderTable()" class="w-full px-4 py-4 bg-white border border-sarathy-blue rounded-2xl font-black text-[10px] shadow-sm text-sarathy-blue uppercase appearance-none">
                         <option value="All">ALL COMPANIES</option>
                         <option value="SARATHY MOTORS">SARATHY MOTORS</option>
                         <option value="SARATHY BIKES PVT LTD">SARATHY BIKES PVT LTD</option>
@@ -339,15 +352,15 @@
                         <option value="SARATHY AUTOCARS">SARATHY AUTOCARS</option>
                         <option value="SARATHY CARS PVT LTD">SARATHY CARS PVT LTD</option>
                     </select>
-                    <div class="flex gap-2 flex-1">
-                        <select id="deptFilter" onchange="renderTable()" class="flex-1 px-4 py-4 bg-white border border-slate-200 rounded-2xl font-bold text-[10px] shadow-sm uppercase">
+                    <div class="grid grid-cols-2 gap-3">
+                        <select id="deptFilter" onchange="renderTable()" class="w-full px-4 py-4 bg-white border border-slate-200 rounded-2xl font-bold text-[10px] shadow-sm uppercase appearance-none">
                             <option value="All">ALL DEPTS</option>
                             <option value="SALES">SALES</option>
                             <option value="SERVICE">SERVICE</option>
                             <option value="SPARE">SPARE</option>
                             <option value="ACCOUNTS">ACCOUNTS</option>
                         </select>
-                        <select id="statusFilter" onchange="renderTable()" class="flex-1 px-4 py-4 bg-white border border-slate-200 rounded-2xl font-bold text-[10px] shadow-sm uppercase">
+                        <select id="statusFilter" onchange="renderTable()" class="w-full px-4 py-4 bg-white border border-slate-200 rounded-2xl font-bold text-[10px] shadow-sm uppercase appearance-none">
                             <option value="All">ALL STATUS</option>
                             <option value="SELECTED">SELECTED</option>
                             <option value="PENDING">PENDING</option>
@@ -461,10 +474,10 @@
                                 <option value="HEAD OFFICE">HEAD OFFICE</option>
                                 <option value="KOLLAM">KOLLAM</option>
                                 <option value="TRIVANDRUM">TRIVANDRUM</option>
-                                <option value="KOTTAYAM">KOTTAYAM</option>
-                                <option value="ALAPPUZHA">ALAPPUZHA</option>
-                                <option value="PATHANAMTHITTA">PATHANAMTHITTA</option>
-                                <option value="ERNAKULAM">ERNAKULAM</option>
+                                <option value="KOTTAYAM">KOTTARAKKARA</option>
+                                <option value="ALAPPUZHA">KARUNAGAPPALLY</option>
+                                <option value="PATHANAMTHITTA">ATTINGAL</option>
+                                <option value="ERNAKULAM">CHENGANNUR</option>
                             </select>
                         </div>
                     </div>
@@ -708,17 +721,6 @@
             document.getElementById('manager').value = r.manager;
         }
 
-        function updateStatusQuickly(id, newStatus) {
-            if(!isAdmin()) return;
-            const idx = joinees.findIndex(x => x.id === id);
-            if(idx !== -1) {
-                joinees[idx].status = newStatus;
-                localStorage.setItem('sarathy_db_v4', JSON.stringify(joinees));
-                renderTable();
-                showToast("UPDATED TO " + newStatus);
-            }
-        }
-
         function deleteRecord(id) {
             if(!isAdmin()) return;
             if(confirm('DELETE THIS RECORD?')) {
@@ -735,6 +737,7 @@
             const message = `*SARATHY GROUP - PERSONNEL*%0A` +
                             `*NAME:* ${r.name}%0A` +
                             `*ID:* ${r.empId}%0A` +
+                            `*COMPANY:* ${r.company}%0A` +
                             `*DEPT:* ${r.dept}%0A` +
                             `*EXP:* ${r.experience} YRS%0A` +
                             `*BRANCH:* ${r.location || 'HEAD OFFICE'}%0A` +
@@ -849,11 +852,16 @@
                                 ${skillsArray.map(s => `<span class="skill-tag">${s.trim()}</span>`).join('')}
                             </div>
 
-                            <div class="mb-3 flex items-center justify-between">
-                                <p class="text-[9px] font-black text-slate-600 truncate mr-2">${x.company} • ${x.dept}</p>
-                                <span class="text-[8px] font-black text-sarathy-blue bg-blue-50 px-2 py-1 rounded-lg whitespace-nowrap">
-                                    <i class="fas fa-map-marker-alt"></i> ${x.location || 'HEAD OFFICE'}
-                                </span>
+                            <!-- HIGHLIGHTED COMPANY SECTION -->
+                            <div class="mb-3 flex flex-wrap items-center gap-2">
+                                <span class="company-highlight text-[9px] uppercase">${x.company}</span>
+                                <span class="text-[9px] font-black text-slate-500">•</span>
+                                <span class="text-[9px] font-black text-slate-600 uppercase">${x.dept}</span>
+                                <div class="ml-auto">
+                                    <span class="text-[8px] font-black text-sarathy-blue bg-blue-50 px-2 py-1 rounded-lg whitespace-nowrap">
+                                        <i class="fas fa-map-marker-alt"></i> ${x.location || 'HEAD OFFICE'}
+                                    </span>
+                                </div>
                             </div>
                             
                             <div class="bg-slate-50 p-3 rounded-2xl border border-slate-100 grid grid-cols-2 gap-2 text-[9px] mb-2">
@@ -868,8 +876,6 @@
 
                             <div class="flex items-center justify-between border-t border-slate-50 pt-4">
                                 <div class="flex gap-2">
-                                    <button onclick="updateStatusQuickly(${x.id}, 'SELECTED')" class="quick-action-btn border-emerald-100 text-emerald-600 shadow-sm" title="Approve"><i class="fas fa-check"></i></button>
-                                    <button onclick="updateStatusQuickly(${x.id}, 'REJECTED')" class="quick-action-btn border-red-100 text-red-500 shadow-sm" title="Reject"><i class="fas fa-times"></i></button>
                                     <button onclick="viewRemarks('${x.manager || ""}')" class="quick-action-btn border-blue-100 text-blue-500 shadow-sm" title="Remarks"><i class="fas fa-info-circle"></i></button>
                                 </div>
                                 <div class="flex gap-2">
