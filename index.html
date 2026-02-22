@@ -131,13 +131,13 @@
         }
 
         .quick-action-btn {
-            width: 32px;
-            height: 32px;
-            border-radius: 10px;
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 12px;
+            font-size: 14px;
             transition: all 0.2s;
             border: 1px solid #e2e8f0;
             background: white;
@@ -326,7 +326,7 @@
                 <div class="relative">
                     <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
                     <input type="text" id="searchInput" onkeyup="renderTable()" placeholder="SEARCH PERSONNEL..." 
-                           class="w-full pl-11 pr-4 py-4 bg-white border border-slate-200 rounded-2xl font-bold text-sm focus:ring-4 ring-blue-50 outline-none transition-all shadow-sm uppercase">
+                           class="w-full pl-14 pr-4 py-4 bg-white border border-slate-200 rounded-2xl font-bold text-sm focus:ring-4 ring-blue-50 outline-none transition-all shadow-sm uppercase">
                 </div>
                 <div class="flex flex-col sm:flex-row gap-2">
                     <select id="compFilter" onchange="renderTable()" class="flex-1 px-4 py-4 bg-white border border-sarathy-blue rounded-2xl font-black text-[10px] shadow-sm text-sarathy-blue uppercase">
@@ -742,6 +742,11 @@
             window.open(`https://wa.me/?text=${message}`, '_blank');
         }
 
+        function viewRemarks(managerName) {
+            const text = managerName && managerName.trim() !== "" ? managerName : "NO REMARKS RECORDED";
+            showToast("REMARKS: " + text);
+        }
+
         function exportToCSV() {
             if (currentFilteredData.length === 0) return showToast("NO DATA", "error");
             const headers = ["ID", "NAME", "PHONE", "COMPANY", "DEPT", "EXP", "LOCATION", "STATUS"];
@@ -863,6 +868,7 @@
                                 <div class="flex gap-2">
                                     <button onclick="updateStatusQuickly(${x.id}, 'SELECTED')" class="quick-action-btn border-emerald-100 text-emerald-600 shadow-sm" title="Approve"><i class="fas fa-check"></i></button>
                                     <button onclick="updateStatusQuickly(${x.id}, 'REJECTED')" class="quick-action-btn border-red-100 text-red-500 shadow-sm" title="Reject"><i class="fas fa-times"></i></button>
+                                    <button onclick="viewRemarks('${x.manager || ""}')" class="quick-action-btn border-blue-100 text-blue-500 shadow-sm" title="Remarks"><i class="fas fa-info-circle"></i></button>
                                 </div>
                                 <div class="flex gap-2">
                                     <button onclick="shareWhatsApp(${x.id})" class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shadow-sm"><i class="fab fa-whatsapp text-lg"></i></button>
