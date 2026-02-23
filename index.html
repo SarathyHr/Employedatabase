@@ -89,7 +89,7 @@
             70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(227, 30, 36, 0); }
             100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(227, 30, 36, 0); }
         }
-        .pulse-interview { animation: pulse-red 2s infinite; }
+        .pulse-notification { animation: pulse-red 2s infinite; }
 
         .mobile-header {
             position: sticky;
@@ -157,9 +157,8 @@
             letter-spacing: 0.05em;
         }
 
-        /* NEW HIGHLIGHT FOR DEPARTMENT */
         .dept-highlight {
-            background-color: #facc15; /* Yellow-400 */
+            background-color: #facc15; 
             color: #1e293b;
             padding: 2px 8px;
             border-radius: 6px;
@@ -167,6 +166,24 @@
             letter-spacing: 0.05em;
         }
         
+        /* Notification Badge */
+        .notif-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--sarathy-red);
+            color: white;
+            font-size: 10px;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-weight: 900;
+            border: 2px solid white;
+        }
+
         .bio-btn {
             display: flex;
             align-items: center;
@@ -245,7 +262,12 @@
                 <img src="Sarathy2.png.png" alt="SARATHY" class="h-8 md:h-10 w-auto" onerror="this.style.display='none'">
                 <h2 class="font-black text-sm md:text-base tracking-tighter border-l border-slate-200 pl-3">HR <span class="text-sarathy-red">PORTAL</span></h2>
             </div>
-            <div class="flex items-center gap-2">
+            <div class="flex items-center gap-3">
+                <!-- Notification Trigger -->
+                <button onclick="openNotificationCenter()" class="relative w-10 h-10 rounded-xl bg-blue-50 text-sarathy-blue flex items-center justify-center">
+                    <i class="fas fa-bell"></i>
+                    <span id="notifBadge" class="notif-badge hidden">0</span>
+                </button>
                 <div class="text-right hidden sm:block">
                     <p class="text-[8px] font-black text-slate-400" id="userRoleDisplay">ADMIN</p>
                 </div>
@@ -394,6 +416,32 @@
         <i class="fas fa-plus text-xl"></i>
     </button>
 
+    <!-- NOTIFICATION MODAL -->
+    <div id="notifModal" class="fixed inset-0 bg-slate-900/60 z-[80] flex items-center justify-center hidden backdrop-blur-sm p-4">
+        <div class="bg-white rounded-[2rem] w-full max-w-md overflow-hidden shadow-2xl animate-up">
+            <div class="p-6 bg-sarathy-blue text-white flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                    <i class="fas fa-bell pulse-notification"></i>
+                    <h2 class="font-black text-sm tracking-widest uppercase">Daily Briefing</h2>
+                </div>
+                <button onclick="closeNotificationCenter()" class="opacity-70"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="p-6 space-y-4 max-h-[70vh] overflow-y-auto custom-scroll">
+                <div class="p-4 bg-red-50 border border-red-100 rounded-2xl">
+                    <h3 class="text-sarathy-red font-black text-[10px] mb-2 uppercase tracking-widest">Joinees for Today</h3>
+                    <div id="notifJoinList" class="space-y-2"></div>
+                </div>
+                <div class="p-4 bg-blue-50 border border-blue-100 rounded-2xl">
+                    <h3 class="text-sarathy-blue font-black text-[10px] mb-2 uppercase tracking-widest">Department Status (Selected)</h3>
+                    <div id="notifDeptStats" class="space-y-2"></div>
+                </div>
+            </div>
+            <div class="p-4 border-t">
+                <button onclick="closeNotificationCenter()" class="w-full bg-slate-800 text-white font-black py-4 rounded-xl text-[10px] tracking-widest uppercase">Understood</button>
+            </div>
+        </div>
+    </div>
+
     <!-- SUMMARY MODAL -->
     <div id="summaryModal" class="fixed inset-0 bg-slate-900/60 z-[70] flex items-center justify-center hidden backdrop-blur-sm p-4">
         <div class="bg-white rounded-[2rem] w-full max-w-md overflow-hidden shadow-2xl animate-up">
@@ -428,7 +476,6 @@
             <div class="overflow-y-auto p-6 custom-scroll bg-white">
                 <form id="joineeForm" class="grid grid-cols-1 gap-5">
                     <input type="hidden" id="editId">
-                    
                     <div class="grid grid-cols-2 gap-3">
                         <div>
                             <label class="text-[9px] font-black text-slate-400 ml-2 mb-1 block uppercase">Emp Id</label>
@@ -443,12 +490,10 @@
                             </select>
                         </div>
                     </div>
-
                     <div>
                         <label class="text-[9px] font-black text-slate-400 ml-2 mb-1 block uppercase">Full Name</label>
                         <input type="text" id="empName" required class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl font-bold uppercase">
                     </div>
-
                     <div class="grid grid-cols-2 gap-3">
                         <div>
                             <label class="text-[9px] font-black text-slate-400 ml-2 mb-1 block uppercase">Phone</label>
@@ -464,7 +509,6 @@
                             </select>
                         </div>
                     </div>
-
                     <div class="grid grid-cols-2 gap-3">
                         <div>
                             <label class="text-[9px] font-black text-slate-400 ml-2 mb-1 block uppercase">Entity</label>
@@ -491,7 +535,6 @@
                             </select>
                         </div>
                     </div>
-
                     <div class="grid grid-cols-2 gap-3">
                         <div>
                             <label class="text-[9px] font-black text-slate-400 ml-2 mb-1 block uppercase">Exp (Years)</label>
@@ -502,12 +545,10 @@
                             <input type="date" id="interviewDate" required class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl font-bold uppercase">
                         </div>
                     </div>
-
                     <div>
                         <label class="text-[9px] font-black text-slate-400 ml-2 mb-1 block uppercase">Skills / Strengths</label>
                         <input type="text" id="skills" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl font-bold uppercase" placeholder="Tally, Sales, Good Comm.">
                     </div>
-
                     <div>
                         <label class="text-[9px] font-black text-slate-400 ml-2 mb-1 block uppercase">Join Date / Remarks (Manager Name)</label>
                         <div class="grid grid-cols-2 gap-3">
@@ -515,7 +556,6 @@
                             <input type="text" id="manager" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl font-bold uppercase" placeholder="Enter Remarks/Manager">
                         </div>
                     </div>
-
                     <div class="flex flex-col gap-3 mt-4">
                         <button type="submit" class="w-full bg-sarathy-blue text-white font-black py-5 rounded-2xl shadow-xl active:scale-95 transition-all text-xs tracking-widest uppercase">
                             Commit Record
@@ -538,11 +578,7 @@
                     <i class="fas fa-plus"></i>
                 </button>
             </div>
-            
-            <div id="reqEntriesContainer" class="p-6 overflow-y-auto space-y-4 custom-scroll">
-                <!-- Target rows injected here -->
-            </div>
-
+            <div id="reqEntriesContainer" class="p-6 overflow-y-auto space-y-4 custom-scroll"></div>
             <div class="p-6 border-t bg-slate-50 flex gap-2">
                 <button onclick="saveRequirements()" class="flex-1 bg-emerald-600 text-white py-4 rounded-xl font-black text-[10px] uppercase">Save Changes</button>
                 <button onclick="closeReqModal()" class="flex-1 bg-slate-200 text-slate-600 py-4 rounded-xl font-black text-[10px] uppercase">Close</button>
@@ -569,7 +605,9 @@
 
         window.onload = () => {
             const now = new Date();
-            document.getElementById('monthFilter').value = now.toISOString().slice(0, 7);
+            const localMonth = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0');
+            document.getElementById('monthFilter').value = localMonth;
+            
             const session = sessionStorage.getItem('sarathy_session');
             if(session) {
                 currentUser = JSON.parse(session);
@@ -641,6 +679,7 @@
             document.getElementById('userRoleDisplay').textContent = currentUser.role;
             if (isAdmin()) document.getElementById('addBtn').classList.remove('hidden');
             renderTable();
+            checkDailyNotifications(true);
         }
 
         function openModal() {
@@ -676,6 +715,62 @@
             document.getElementById('toastIcon').className = type === 'success' ? 'fas fa-check-circle text-emerald-400' : 'fas fa-exclamation-circle text-red-400';
             toast.classList.remove('opacity-0', 'translate-y-32');
             setTimeout(() => toast.classList.add('opacity-0', 'translate-y-32'), 3000);
+        }
+
+        // Notification Logic
+        function checkDailyNotifications(autoShow = false) {
+            const now = new Date();
+            const todayStr = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
+            
+            // 1. Joiners Today
+            const joinToday = joinees.filter(x => x.joinDate === todayStr && x.status === 'SELECTED');
+            const joinContainer = document.getElementById('notifJoinList');
+            
+            if (joinToday.length > 0) {
+                joinContainer.innerHTML = joinToday.map(x => `
+                    <div class="flex items-center justify-between bg-white p-3 rounded-xl shadow-sm border border-red-50">
+                        <span class="font-black text-[10px] text-slate-700 uppercase">${x.name}</span>
+                        <span class="text-[8px] font-black text-slate-400 uppercase">${x.dept}</span>
+                    </div>
+                `).join('');
+            } else {
+                joinContainer.innerHTML = `<p class="text-[9px] font-bold text-slate-400 italic">No Joinees Scheduled for Today</p>`;
+            }
+
+            // 2. Dept Summary
+            const depts = ['SALES', 'SERVICE', 'SPARE', 'ACCOUNTS'];
+            const statsContainer = document.getElementById('notifDeptStats');
+            statsContainer.innerHTML = depts.map(d => {
+                const count = joinees.filter(x => x.dept === d && x.status === 'SELECTED').length;
+                return `
+                    <div class="flex justify-between items-center py-1 border-b border-blue-100 last:border-0">
+                        <span class="text-[9px] font-black text-slate-600">${d}</span>
+                        <span class="text-[10px] font-black text-sarathy-blue">${count}</span>
+                    </div>
+                `;
+            }).join('');
+
+            // Update Badge Count
+            const badgeCount = joinToday.length;
+            const badge = document.getElementById('notifBadge');
+            if (badgeCount > 0) {
+                badge.textContent = badgeCount;
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+
+            if (autoShow && joinToday.length > 0) {
+                openNotificationCenter();
+            }
+        }
+
+        function openNotificationCenter() {
+            document.getElementById('notifModal').classList.remove('hidden');
+        }
+
+        function closeNotificationCenter() {
+            document.getElementById('notifModal').classList.add('hidden');
         }
 
         document.getElementById('joineeForm').onsubmit = (e) => {
@@ -862,7 +957,6 @@
                                 ${skillsArray.map(s => `<span class="skill-tag">${s.trim()}</span>`).join('')}
                             </div>
 
-                            <!-- HIGHLIGHTED COMPANY & DEPARTMENT SECTION -->
                             <div class="mb-3 flex flex-wrap items-center gap-2">
                                 <span class="company-highlight text-[9px] uppercase">${x.company}</span>
                                 <span class="text-[9px] font-black text-slate-500">•</span>
@@ -901,6 +995,7 @@
                 });
             }
             updateStats(currentFilteredData, comp);
+            checkDailyNotifications(false);
         }
 
         function updateStats(data, selectedCompany) {
