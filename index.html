@@ -2,11 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>SARATHY GROUP - HR PORTAL</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Polyfill for Mobile Drag and Drop in Kanban Board -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mobile-drag-drop@3.0.0-rc.0/default.css">
+    <script src="https://cdn.jsdelivr.net/npm/mobile-drag-drop@3.0.0-rc.0/index.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mobile-drag-drop@3.0.0-rc.0/scroll-behaviour.min.js"></script>
+
     <style>
         :root {
             --sarathy-blue: #0054A6;
@@ -21,11 +27,16 @@
             text-transform: uppercase;
             -webkit-tap-highlight-color: transparent;
             transition: background-color 0.3s, color 0.3s;
+            /* Safe area padding for modern mobile devices (iPhone Notch, etc.) */
+            padding-bottom: calc(6rem + env(safe-area-inset-bottom));
+            padding-left: env(safe-area-inset-left);
+            padding-right: env(safe-area-inset-right);
         }
 
         input, select, textarea, button {
             font-family: 'Verdana', Geneva, sans-serif;
             text-transform: uppercase;
+            /* Prevents iOS zoom on focus */
             font-size: 16px !important; 
         }
 
@@ -68,8 +79,8 @@
 
         .sarathy-fab {
             position: fixed;
-            bottom: 24px;
-            right: 24px;
+            bottom: calc(24px + env(safe-area-inset-bottom));
+            right: calc(24px + env(safe-area-inset-right));
             width: 56px;
             height: 56px;
             border-radius: 50%;
@@ -85,7 +96,9 @@
 
         .sarathy-fab:active { transform: scale(0.9) rotate(90deg); }
 
-        .custom-scroll::-webkit-scrollbar { width: 4px; height: 4px; }
+        /* Custom Scroll with Native App Feel */
+        .custom-scroll::-webkit-scrollbar { width: 4px; height: 4px; display: none; }
+        .custom-scroll { -ms-overflow-style: none; scrollbar-width: none; }
         .custom-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
 
         @keyframes slideUp {
@@ -109,6 +122,7 @@
             backdrop-filter: blur(12px);
             border-bottom: 1px solid #e2e8f0;
             transition: background-color 0.3s, border-color 0.3s;
+            padding-top: max(1rem, env(safe-area-inset-top)); /* Safe area for notch */
         }
 
         .req-pill {
@@ -143,6 +157,7 @@
             font-size: 8px;
             font-weight: 900;
             border: 1px solid #e2e8f0;
+            white-space: nowrap;
         }
 
         .quick-action-btn {
@@ -235,7 +250,7 @@
         .bio-btn i { font-size: 18px; color: var(--sarathy-blue); }
         
         #modalContent {
-            max-height: 95vh;
+            max-height: 90vh;
         }
         @media (max-width: 640px) {
             .modern-card { border-radius: 1rem; }
@@ -254,6 +269,9 @@
             padding: 10px;
             transition: background 0.2s;
         }
+        @media (max-width: 768px) {
+            .kanban-column { min-height: 150px; margin-bottom: 1rem; }
+        }
         .kanban-column.drag-over {
             background: rgba(226, 232, 240, 0.8);
             border-style: solid;
@@ -262,6 +280,8 @@
         .kanban-card {
             cursor: grab;
             margin-bottom: 10px;
+            /* Prevent touch gestures from scrolling the page while dragging */
+            touch-action: none;
         }
         .kanban-card:active {
             cursor: grabbing;
@@ -341,7 +361,7 @@
         body.dark-theme .match-highlight { background-color: rgba(168, 85, 247, 0.2); border-color: rgba(168, 85, 247, 0.4); color: #d8b4fe; }
     </style>
 </head>
-<body class="min-h-screen pb-24">
+<body class="min-h-screen">
 
     <!-- LOGIN PAGE -->
     <div id="loginPage" class="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-slate-900">
@@ -385,23 +405,23 @@
 
     <!-- MAIN DASHBOARD -->
     <div id="dashboardPage" class="hidden">
-        <header class="mobile-header px-4 py-4 flex justify-between items-center shadow-sm">
+        <header class="mobile-header px-4 pb-4 flex justify-between items-center shadow-sm">
             <div class="flex items-center gap-3">
                 <img src="Sarathy2.png.png" alt="SARATHY" class="h-8 md:h-10 w-auto" onerror="this.style.display='none'">
                 <h2 class="font-black text-sm md:text-base tracking-tighter border-l border-slate-200 pl-3">HR <span class="text-sarathy-red">PORTAL</span></h2>
             </div>
-            <div class="flex items-center gap-3">
-                <button onclick="toggleTheme()" class="w-10 h-10 rounded-xl bg-slate-100 text-slate-500 flex items-center justify-center transition-all">
+            <div class="flex items-center gap-2 sm:gap-3">
+                <button onclick="toggleTheme()" class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-slate-100 text-slate-500 flex items-center justify-center transition-all">
                     <i id="themeIcon" class="fas fa-moon"></i>
                 </button>
-                <button onclick="openNotificationCenter()" class="relative w-10 h-10 rounded-xl bg-blue-50 text-sarathy-blue flex items-center justify-center">
+                <button onclick="openNotificationCenter()" class="relative w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-blue-50 text-sarathy-blue flex items-center justify-center">
                     <i class="fas fa-bell"></i>
                     <span id="notifBadge" class="notif-badge hidden">0</span>
                 </button>
                 <div class="text-right hidden sm:block">
                     <p class="text-[8px] font-black text-slate-400" id="userRoleDisplay">ADMIN</p>
                 </div>
-                <button onclick="logout()" class="w-10 h-10 rounded-xl bg-slate-100 text-slate-500 flex items-center justify-center">
+                <button onclick="logout()" class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-slate-100 text-slate-500 flex items-center justify-center">
                     <i class="fas fa-sign-out-alt"></i>
                 </button>
             </div>
@@ -436,33 +456,34 @@
             </div>
 
             <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-                <div class="modern-card p-4 border-l-4 border-sarathy-blue">
+                <div class="modern-card p-4 border-l-4 border-sarathy-blue flex flex-col justify-center">
                     <p class="text-[8px] font-black text-slate-400 tracking-widest mb-1 uppercase">Total</p>
                     <h3 class="text-2xl font-black" id="statTotal">0</h3>
                 </div>
-                <div class="modern-card p-4 border-l-4 border-emerald-500">
+                <div class="modern-card p-4 border-l-4 border-emerald-500 flex flex-col justify-center">
                     <p class="text-[8px] font-black text-slate-400 tracking-widest mb-1 uppercase">Selected</p>
                     <h3 class="text-2xl font-black text-emerald-600" id="statSelected">0</h3>
                 </div>
-                <div class="modern-card p-4 border-l-4 border-amber-500">
+                <div class="modern-card p-4 border-l-4 border-amber-500 flex flex-col justify-center">
                     <p class="text-[8px] font-black text-slate-400 tracking-widest mb-1 uppercase">Pending</p>
                     <h3 class="text-2xl font-black text-amber-600" id="statPending">0</h3>
                 </div>
-                <div class="modern-card p-4 border-l-4 border-red-500">
+                <div class="modern-card p-4 border-l-4 border-red-500 flex flex-col justify-center">
                     <p class="text-[8px] font-black text-slate-400 tracking-widest mb-1 uppercase">Rejected</p>
                     <h3 class="text-2xl font-black text-red-600" id="statRejected">0</h3>
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-                <div class="modern-card p-4 md:col-span-1 flex flex-col items-center justify-center border border-slate-200">
+            <!-- Enhanced Mobile Grid for Department Progress -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-3">
+                <div class="modern-card p-4 lg:col-span-1 flex flex-col items-center justify-center border border-slate-200">
                     <h3 class="text-[9px] font-black text-slate-400 mb-2 w-full text-left uppercase tracking-widest">Status Overview</h3>
                     <div class="relative w-full h-32 flex justify-center items-center">
                         <canvas id="statusChart"></canvas>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-2 md:grid-cols-2 gap-2 md:col-span-2">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:col-span-2 gap-2">
                     <div class="bg-white p-3 rounded-2xl border border-slate-200 flex flex-col px-4">
                         <div class="flex justify-between items-center mb-1">
                             <span class="text-[9px] font-black text-slate-400">SALES</span>
@@ -507,16 +528,17 @@
             </div>
 
             <div class="space-y-4">
-                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                    <div class="flex gap-2 overflow-x-auto custom-scroll pb-2 mt-2 w-full md:w-auto">
-                        <button onclick="applySmartFilter('all')" id="sf-all" class="smart-filter-btn smart-filter-active px-4 py-2 bg-white text-slate-600 border border-slate-200 rounded-xl text-[9px] font-black whitespace-nowrap shadow-sm uppercase">All Candidates</button>
-                        <button onclick="applySmartFilter('today')" id="sf-today" class="smart-filter-btn px-4 py-2 bg-white text-red-600 border border-red-100 rounded-xl text-[9px] font-black whitespace-nowrap shadow-sm uppercase"><i class="fas fa-clock mr-1"></i> Today's Interviews</button>
-                        <button onclick="applySmartFilter('followup')" id="sf-followup" class="smart-filter-btn px-4 py-2 bg-white text-amber-600 border border-amber-100 rounded-xl text-[9px] font-black whitespace-nowrap shadow-sm uppercase"><i class="fas fa-exclamation-circle mr-1"></i> Needs Follow-up</button>
+                <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
+                    <!-- Improved Mobile Scrolling for Filters -->
+                    <div class="flex gap-2 overflow-x-auto custom-scroll pb-2 mt-2 w-full lg:w-auto snap-x snap-mandatory scroll-pl-2">
+                        <button onclick="applySmartFilter('all')" id="sf-all" class="smart-filter-btn smart-filter-active px-4 py-3 bg-white text-slate-600 border border-slate-200 rounded-xl text-[10px] font-black whitespace-nowrap shadow-sm uppercase snap-start">All Candidates</button>
+                        <button onclick="applySmartFilter('today')" id="sf-today" class="smart-filter-btn px-4 py-3 bg-white text-red-600 border border-red-100 rounded-xl text-[10px] font-black whitespace-nowrap shadow-sm uppercase snap-start"><i class="fas fa-clock mr-1"></i> Today's Interviews</button>
+                        <button onclick="applySmartFilter('followup')" id="sf-followup" class="smart-filter-btn px-4 py-3 bg-white text-amber-600 border border-amber-100 rounded-xl text-[10px] font-black whitespace-nowrap shadow-sm uppercase snap-start"><i class="fas fa-exclamation-circle mr-1"></i> Needs Follow-up</button>
                     </div>
 
-                    <div class="view-toggle">
-                        <button onclick="switchView('list')" id="viewBtnList" class="view-btn active"><i class="fas fa-list mr-1"></i> LIST</button>
-                        <button onclick="switchView('board')" id="viewBtnBoard" class="view-btn"><i class="fas fa-columns mr-1"></i> BOARD</button>
+                    <div class="view-toggle w-full md:w-auto flex justify-center">
+                        <button onclick="switchView('list')" id="viewBtnList" class="view-btn active flex-1 md:flex-none justify-center"><i class="fas fa-list mr-1"></i> LIST</button>
+                        <button onclick="switchView('board')" id="viewBtnBoard" class="view-btn flex-1 md:flex-none justify-center"><i class="fas fa-columns mr-1"></i> BOARD</button>
                     </div>
                 </div>
 
@@ -562,7 +584,7 @@
                         <h3 class="text-[10px] font-black text-amber-600 uppercase tracking-widest flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-amber-500"></div> PENDING</h3>
                         <span id="boardCount-PENDING" class="bg-white px-2 py-0.5 rounded-md text-[9px] font-bold text-slate-500 shadow-sm">0</span>
                     </div>
-                    <div id="boardCards-PENDING" class="space-y-3"></div>
+                    <div id="boardCards-PENDING" class="space-y-3 min-h-[50px]"></div>
                 </div>
                 
                 <div class="kanban-column" id="col-SELECTED" ondrop="drop(event, 'SELECTED')" ondragover="allowDrop(event)">
@@ -570,7 +592,7 @@
                         <h3 class="text-[10px] font-black text-emerald-600 uppercase tracking-widest flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-emerald-500"></div> SELECTED</h3>
                         <span id="boardCount-SELECTED" class="bg-white px-2 py-0.5 rounded-md text-[9px] font-bold text-slate-500 shadow-sm">0</span>
                     </div>
-                    <div id="boardCards-SELECTED" class="space-y-3"></div>
+                    <div id="boardCards-SELECTED" class="space-y-3 min-h-[50px]"></div>
                 </div>
 
                 <div class="kanban-column" id="col-REJECTED" ondrop="drop(event, 'REJECTED')" ondragover="allowDrop(event)">
@@ -578,7 +600,7 @@
                         <h3 class="text-[10px] font-black text-red-600 uppercase tracking-widest flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-red-500"></div> REJECTED</h3>
                         <span id="boardCount-REJECTED" class="bg-white px-2 py-0.5 rounded-md text-[9px] font-bold text-slate-500 shadow-sm">0</span>
                     </div>
-                    <div id="boardCards-REJECTED" class="space-y-3"></div>
+                    <div id="boardCards-REJECTED" class="space-y-3 min-h-[50px]"></div>
                 </div>
             </div>
 
@@ -589,15 +611,15 @@
         </main>
     </div>
 
-    <!-- NEW: BULK ACTION BAR -->
-    <div id="bulkActionBar" class="fixed bottom-4 left-1/2 -translate-x-1/2 bg-slate-800 text-white px-6 py-4 rounded-[2rem] shadow-2xl flex items-center gap-4 z-[90] transform transition-transform translate-y-32 flex-wrap justify-center border border-slate-700">
+    <!-- BULK ACTION BAR -->
+    <div id="bulkActionBar" class="fixed bottom-[calc(1rem+env(safe-area-inset-bottom))] left-1/2 -translate-x-1/2 bg-slate-800 text-white px-6 py-4 rounded-[2rem] shadow-2xl flex items-center gap-4 z-[90] transform transition-transform translate-y-48 flex-wrap justify-center border border-slate-700 w-[95%] max-w-md">
         <span class="text-[10px] font-black uppercase tracking-widest"><span id="bulkCount" class="text-sarathy-blue bg-white px-2 py-1 rounded-md mr-2">0</span> Selected</span>
-        <div class="h-6 w-px bg-slate-600"></div>
-        <button onclick="bulkUpdateStatus('SELECTED')" class="text-[10px] font-black uppercase tracking-widest hover:text-emerald-400 transition-colors"><i class="fas fa-check-circle mr-1"></i> Select</button>
-        <button onclick="bulkUpdateStatus('REJECTED')" class="text-[10px] font-black uppercase tracking-widest hover:text-red-400 transition-colors"><i class="fas fa-times-circle mr-1"></i> Reject</button>
-        <button onclick="bulkExport()" class="text-[10px] font-black uppercase tracking-widest hover:text-blue-400 transition-colors"><i class="fas fa-file-export mr-1"></i> Export</button>
-        <button onclick="bulkDelete()" class="text-[10px] font-black uppercase tracking-widest text-red-400 hover:text-red-300 transition-colors"><i class="fas fa-trash mr-1"></i> Delete</button>
-        <button onclick="clearBulkSelection()" class="ml-2 w-6 h-6 rounded-full bg-slate-700 flex items-center justify-center hover:bg-slate-600"><i class="fas fa-times"></i></button>
+        <div class="h-6 w-px bg-slate-600 hidden sm:block"></div>
+        <button onclick="bulkUpdateStatus('SELECTED')" class="text-[10px] font-black uppercase tracking-widest hover:text-emerald-400 transition-colors"><i class="fas fa-check-circle sm:mr-1"></i> <span class="hidden sm:inline">Select</span></button>
+        <button onclick="bulkUpdateStatus('REJECTED')" class="text-[10px] font-black uppercase tracking-widest hover:text-red-400 transition-colors"><i class="fas fa-times-circle sm:mr-1"></i> <span class="hidden sm:inline">Reject</span></button>
+        <button onclick="bulkExport()" class="text-[10px] font-black uppercase tracking-widest hover:text-blue-400 transition-colors"><i class="fas fa-file-export sm:mr-1"></i> <span class="hidden sm:inline">Export</span></button>
+        <button onclick="bulkDelete()" class="text-[10px] font-black uppercase tracking-widest text-red-400 hover:text-red-300 transition-colors"><i class="fas fa-trash sm:mr-1"></i> <span class="hidden sm:inline">Delete</span></button>
+        <button onclick="clearBulkSelection()" class="ml-auto w-6 h-6 rounded-full bg-slate-700 flex items-center justify-center hover:bg-slate-600"><i class="fas fa-times"></i></button>
     </div>
 
     <!-- FAB for Adding -->
@@ -649,7 +671,7 @@
         </div>
     </div>
 
-    <!-- NEW: ONBOARDING MODAL -->
+    <!-- ONBOARDING MODAL -->
     <div id="onboardingModal" class="fixed inset-0 bg-slate-900/60 z-[70] flex items-center justify-center hidden backdrop-blur-sm p-4">
         <div class="bg-white rounded-[2rem] w-full max-w-md overflow-hidden shadow-2xl animate-up">
             <div class="p-6 bg-indigo-600 text-white flex justify-between items-center">
@@ -665,19 +687,19 @@
                 
                 <label class="flex items-center gap-3 p-4 bg-slate-50 rounded-2xl border border-slate-200 cursor-pointer">
                     <input type="checkbox" id="obDocs" class="custom-checkbox w-5 h-5">
-                    <span class="text-xs font-bold text-slate-700 uppercase">Documents Collected (ID, Ed.)</span>
+                    <span class="text-xs font-bold text-slate-700 uppercase flex-1">Documents Collected (ID, Ed.)</span>
                 </label>
                 <label class="flex items-center gap-3 p-4 bg-slate-50 rounded-2xl border border-slate-200 cursor-pointer">
                     <input type="checkbox" id="obBank" class="custom-checkbox w-5 h-5">
-                    <span class="text-xs font-bold text-slate-700 uppercase">Bank Account details Received</span>
+                    <span class="text-xs font-bold text-slate-700 uppercase flex-1">Bank Account details Received</span>
                 </label>
                 <label class="flex items-center gap-3 p-4 bg-slate-50 rounded-2xl border border-slate-200 cursor-pointer">
                     <input type="checkbox" id="obIT" class="custom-checkbox w-5 h-5">
-                    <span class="text-xs font-bold text-slate-700 uppercase">IT Assets Assigned (Email, PC)</span>
+                    <span class="text-xs font-bold text-slate-700 uppercase flex-1">IT Assets Assigned (Email, PC)</span>
                 </label>
                 <label class="flex items-center gap-3 p-4 bg-slate-50 rounded-2xl border border-slate-200 cursor-pointer">
                     <input type="checkbox" id="obInduction" class="custom-checkbox w-5 h-5">
-                    <span class="text-xs font-bold text-slate-700 uppercase">HR Induction Completed</span>
+                    <span class="text-xs font-bold text-slate-700 uppercase flex-1">HR Induction Completed</span>
                 </label>
 
                 <button onclick="saveOnboarding()" class="w-full bg-indigo-600 text-white font-black py-4 rounded-xl mt-4 text-[10px] tracking-widest shadow-lg active:scale-95 transition-all uppercase">
@@ -700,7 +722,7 @@
                 </button>
             </div>
             
-            <div class="overflow-y-auto p-6 custom-scroll bg-white">
+            <div class="overflow-y-auto p-6 custom-scroll bg-white" style="padding-bottom: calc(1.5rem + env(safe-area-inset-bottom));">
                 <form id="joineeForm" class="grid grid-cols-1 gap-5">
                     <input type="hidden" id="editId">
                     <div class="grid grid-cols-2 gap-3">
@@ -862,12 +884,18 @@
     </div>
 
     <!-- TOAST NOTIFICATION -->
-    <div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 translate-y-32 opacity-0 bg-slate-900 text-white px-6 py-4 rounded-2xl shadow-2xl transition-all duration-300 z-[100] flex items-center gap-3">
+    <div id="toast" class="fixed bottom-[calc(2.5rem+env(safe-area-inset-bottom))] left-1/2 -translate-x-1/2 translate-y-32 opacity-0 bg-slate-900 text-white px-6 py-4 rounded-2xl shadow-2xl transition-all duration-300 z-[100] flex items-center gap-3">
         <i id="toastIcon" class="fas fa-check-circle text-emerald-400"></i>
-        <p id="toastMessage" class="font-black text-[10px] tracking-widest uppercase"></p>
+        <p id="toastMessage" class="font-black text-[10px] tracking-widest uppercase whitespace-nowrap"></p>
     </div>
 
     <script>
+        // Init Mobile Drag Drop Polyfill
+        MobileDragDrop.polyfill({
+            dragImageTranslateOverride: MobileDragDrop.scrollBehaviourDragImageTranslateOverride
+        });
+        window.addEventListener('touchmove', function() {}, {passive: false});
+
         const USERS = [
             { user: 'ADMIN', pass: 'SARATHY@26', role: 'System Admin' },
             { user: 'HR', pass: 'SARATHY@HR', role: 'HR Executive' }
@@ -881,7 +909,6 @@
         let activeSmartFilter = 'all'; 
         let currentDisplayMode = 'list'; 
         
-        // NEW: State for bulk actions
         let selectedCandidates = new Set();
 
         window.onload = () => {
@@ -932,12 +959,11 @@
             return `${parts[2]}-${parts[1]}-${parts[0]}`;
         }
         
-        // NEW: Calculate Profile Score dynamically
         function calculateMatchScore(skillsString) {
-            if (!skillsString || skillsString.trim() === '') return 40; // Base score
+            if (!skillsString || skillsString.trim() === '') return 40; 
             const count = skillsString.split(',').filter(s => s.trim().length > 0).length;
             let score = 40 + (count * 15);
-            return Math.min(score, 98); // Max 98%
+            return Math.min(score, 98); 
         }
 
         document.getElementById('loginForm').onsubmit = (e) => {
@@ -1012,7 +1038,6 @@
             setTimeout(() => document.getElementById('addModal').classList.add('hidden'), 300);
         }
 
-        // NEW: Onboarding Modal logic
         function openOnboarding(id) {
             const r = joinees.find(x => x.id === id);
             if (!r) return;
@@ -1146,7 +1171,6 @@
 
             if (editId) {
                 const idx = joinees.findIndex(x => x.id === data.id);
-                // Preserve onboarding state if exists
                 if(idx !== -1 && joinees[idx].onboarding) data.onboarding = joinees[idx].onboarding;
                 if (idx !== -1) joinees[idx] = data;
                 showToast("RECORD UPDATED");
@@ -1353,7 +1377,6 @@
             }
         }
 
-        // NEW: BULK ACTION LOGIC
         function toggleCandidateSelection(id, isChecked) {
             if (isChecked) {
                 selectedCandidates.add(id);
@@ -1369,15 +1392,14 @@
             countSpan.innerText = selectedCandidates.size;
             
             if (selectedCandidates.size > 0) {
-                bar.classList.remove('translate-y-32', 'opacity-0');
+                bar.classList.remove('translate-y-48', 'opacity-0');
             } else {
-                bar.classList.add('translate-y-32', 'opacity-0');
+                bar.classList.add('translate-y-48', 'opacity-0');
             }
         }
 
         function clearBulkSelection() {
             selectedCandidates.clear();
-            // Uncheck all checkboxes in UI
             document.querySelectorAll('.candidate-checkbox').forEach(cb => cb.checked = false);
             updateBulkActionBar();
         }
@@ -1456,87 +1478,88 @@
             const matchScore = calculateMatchScore(x.skills);
             const paddingClass = isBoard ? 'p-3' : 'p-5';
             
-            // Checkbox for list view
             const checkboxHTML = (!isBoard && isAdmin()) ? `<div class="mr-3 mt-1"><input type="checkbox" class="custom-checkbox candidate-checkbox" ${selectedCandidates.has(x.id) ? 'checked' : ''} onchange="toggleCandidateSelection(${x.id}, this.checked)"></div>` : '';
 
             return `
-                <div class="modern-card ${paddingClass} animate-up relative overflow-hidden kanban-card bg-white flex" 
+                <div class="modern-card ${paddingClass} animate-up relative overflow-hidden kanban-card bg-white flex flex-col md:flex-row" 
                      draggable="${isAdmin() ? 'true' : 'false'}" 
                      ondragstart="drag(event)" 
                      data-id="${x.id}">
-                    ${checkboxHTML}
-                    <div class="flex-1 min-w-0">
-                        <div class="flex justify-between items-start mb-4">
-                            <div class="flex flex-col">
-                                <div class="flex flex-wrap gap-1.5 mb-2">
-                                    ${isToday ? `<div class="bg-red-50 text-sarathy-red border border-red-100 px-2 py-0.5 rounded-lg pulse-interview text-[8px] font-black uppercase">Today</div>` : ''}
-                                    ${needsFollowUp ? `<div class="bg-amber-50 text-amber-600 border border-amber-100 px-2 py-0.5 rounded-lg text-[8px] font-black uppercase">Follow Up</div>` : ''}
-                                    <div class="bg-blue-50 text-blue-600 px-2 py-0.5 rounded-lg text-[8px] font-black uppercase">${x.experience || 0} Yrs Exp</div>
-                                    ${!isBoard ? `<div class="match-highlight text-[8px]"><i class="fas fa-bolt mr-1"></i>${matchScore}% Match</div>` : ''}
-                                </div>
-                                <div class="flex items-center gap-3">
-                                    <div class="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-slate-100 flex items-center justify-center text-sarathy-blue font-black text-xl">${x.name[0]}</div>
-                                    <div class="max-w-[120px] md:max-w-[150px]">
-                                        <h4 class="font-black text-slate-800 leading-tight truncate text-sm flex items-center gap-2">
-                                            ${x.name} 
-                                        </h4>
-                                        <div class="flex items-center mt-0.5">
-                                            <p class="text-[9px] text-slate-400 font-bold tracking-widest">${x.empId}</p>
-                                            ${!isBoard ? ratingHtml : ''}
+                    <div class="flex w-full">
+                        ${checkboxHTML}
+                        <div class="flex-1 min-w-0">
+                            <div class="flex justify-between items-start mb-4">
+                                <div class="flex flex-col">
+                                    <div class="flex flex-wrap gap-1.5 mb-2">
+                                        ${isToday ? `<div class="bg-red-50 text-sarathy-red border border-red-100 px-2 py-0.5 rounded-lg pulse-interview text-[8px] font-black uppercase">Today</div>` : ''}
+                                        ${needsFollowUp ? `<div class="bg-amber-50 text-amber-600 border border-amber-100 px-2 py-0.5 rounded-lg text-[8px] font-black uppercase">Follow Up</div>` : ''}
+                                        <div class="bg-blue-50 text-blue-600 px-2 py-0.5 rounded-lg text-[8px] font-black uppercase">${x.experience || 0} Yrs Exp</div>
+                                        ${!isBoard ? `<div class="match-highlight text-[8px]"><i class="fas fa-bolt mr-1"></i>${matchScore}% Match</div>` : ''}
+                                    </div>
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-slate-100 flex items-center justify-center text-sarathy-blue font-black text-xl">${x.name[0]}</div>
+                                        <div class="max-w-[150px] md:max-w-[200px]">
+                                            <h4 class="font-black text-slate-800 leading-tight truncate text-sm flex items-center gap-2">
+                                                ${x.name} 
+                                            </h4>
+                                            <div class="flex items-center mt-0.5">
+                                                <p class="text-[9px] text-slate-400 font-bold tracking-widest">${x.empId}</p>
+                                                ${!isBoard ? ratingHtml : ''}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                                ${!isBoard ? statusUI : ''}
                             </div>
-                            ${!isBoard ? statusUI : ''}
-                        </div>
 
-                        ${!isBoard ? `
-                        <div class="flex flex-wrap gap-1 mb-3">
-                            ${skillsArray.map(s => `<span class="skill-tag">${s.trim()}</span>`).join('')}
-                        </div>` : ''}
+                            ${!isBoard ? `
+                            <div class="flex flex-wrap gap-1 mb-3">
+                                ${skillsArray.map(s => `<span class="skill-tag">${s.trim()}</span>`).join('')}
+                            </div>` : ''}
 
-                        <div class="mb-3 flex flex-wrap items-center gap-2">
-                            <span class="company-highlight text-[8px] uppercase">${isBoard ? x.company.substring(0,8)+'..' : x.company}</span>
-                            <span class="text-[9px] font-black text-slate-500">•</span>
-                            <span class="dept-highlight text-[8px] uppercase">${x.dept}</span>
-                            <div class="${isBoard ? 'w-full mt-2' : 'ml-auto'}">
-                                <span class="text-[8px] font-black text-sarathy-blue bg-blue-50 px-2 py-1 rounded-lg whitespace-nowrap">
-                                    <i class="fas fa-map-marker-alt"></i> ${x.location || 'HEAD OFFICE'}
-                                </span>
+                            <div class="mb-3 flex flex-wrap items-center gap-2">
+                                <span class="company-highlight text-[8px] uppercase">${isBoard ? x.company.substring(0,8)+'..' : x.company}</span>
+                                <span class="text-[9px] font-black text-slate-500">•</span>
+                                <span class="dept-highlight text-[8px] uppercase">${x.dept}</span>
+                                <div class="${isBoard ? 'w-full mt-2' : 'ml-auto'}">
+                                    <span class="text-[8px] font-black text-sarathy-blue bg-blue-50 px-2 py-1 rounded-lg whitespace-nowrap">
+                                        <i class="fas fa-map-marker-alt"></i> ${x.location || 'HEAD OFFICE'}
+                                    </span>
+                                </div>
                             </div>
-                        </div>
-                        
-                        ${!isBoard ? `
-                        <div class="bg-slate-50 p-3 rounded-2xl border border-slate-100 grid grid-cols-2 gap-2 text-[9px] mb-2">
-                            <div><span class="text-slate-400 block mb-0.5">INTERVIEW</span><span class="font-bold underline decoration-dotted underline-offset-4">${formatDisplayDate(x.interviewDate)}</span></div>
-                            <div><span class="text-slate-400 block mb-0.5">JOIN DATE</span><span class="font-bold">${formatDisplayDate(x.joinDate)}</span></div>
-                        </div>
-
-                        <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 mb-4">
-                            <span class="text-[8px] font-black text-slate-400 uppercase block mb-1">Remarks Manager:</span>
-                            <span class="text-[10px] font-black text-sarathy-blue tracking-wider">${x.manager || 'NO REMARKS'}</span>
-                        </div>` : ''}
-
-                        <div class="flex items-center justify-between border-t border-slate-50 pt-3 mt-auto">
-                            <div class="flex gap-2">
-                                <button onclick="viewRemarks('${x.manager || ""}')" class="quick-action-btn border-blue-100 text-blue-500 shadow-sm" title="Remarks"><i class="fas fa-info-circle"></i></button>
-                                ${x.resumeLink ? `
-                                    <a href="${x.resumeLink}" target="_blank" class="quick-action-btn border-purple-100 text-purple-600 bg-purple-50 shadow-sm" title="View Resume">
-                                        <i class="fas fa-file-pdf"></i>
-                                    </a>
-                                ` : ''}
-                                ${offerBtn}
-                                ${obBtn}
+                            
+                            ${!isBoard ? `
+                            <div class="bg-slate-50 p-3 rounded-2xl border border-slate-100 grid grid-cols-2 gap-2 text-[9px] mb-2">
+                                <div><span class="text-slate-400 block mb-0.5">INTERVIEW</span><span class="font-bold underline decoration-dotted underline-offset-4">${formatDisplayDate(x.interviewDate)}</span></div>
+                                <div><span class="text-slate-400 block mb-0.5">JOIN DATE</span><span class="font-bold">${formatDisplayDate(x.joinDate)}</span></div>
                             </div>
-                            <div class="flex gap-2">
-                                ${x.email ? `
-                                    <a href="mailto:${x.email}" class="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shadow-sm" title="Send Email"><i class="fas fa-envelope text-xs"></i></a>
-                                ` : ''}
-                                <button onclick="shareWhatsApp(${x.id})" class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shadow-sm"><i class="fab fa-whatsapp text-lg"></i></button>
-                                ${isAdmin() && !isBoard ? `
-                                    <button onclick="editRecord(${x.id})" class="w-9 h-9 rounded-xl bg-slate-100 text-slate-600 flex items-center justify-center shadow-sm"><i class="fas fa-edit text-xs"></i></button>
-                                    <button onclick="deleteRecord(${x.id})" class="w-9 h-9 rounded-xl bg-red-50 text-red-600 flex items-center justify-center shadow-sm"><i class="fas fa-trash text-xs"></i></button>
-                                ` : ''}
+
+                            <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 mb-4">
+                                <span class="text-[8px] font-black text-slate-400 uppercase block mb-1">Remarks Manager:</span>
+                                <span class="text-[10px] font-black text-sarathy-blue tracking-wider">${x.manager || 'NO REMARKS'}</span>
+                            </div>` : ''}
+
+                            <div class="flex flex-wrap items-center justify-between border-t border-slate-50 pt-3 mt-auto gap-2">
+                                <div class="flex flex-wrap gap-2">
+                                    <button onclick="viewRemarks('${x.manager || ""}')" class="quick-action-btn border-blue-100 text-blue-500 shadow-sm" title="Remarks"><i class="fas fa-info-circle"></i></button>
+                                    ${x.resumeLink ? `
+                                        <a href="${x.resumeLink}" target="_blank" class="quick-action-btn border-purple-100 text-purple-600 bg-purple-50 shadow-sm" title="View Resume">
+                                            <i class="fas fa-file-pdf"></i>
+                                        </a>
+                                    ` : ''}
+                                    ${offerBtn}
+                                    ${obBtn}
+                                </div>
+                                <div class="flex flex-wrap gap-2 ml-auto">
+                                    ${x.email ? `
+                                        <a href="mailto:${x.email}" class="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shadow-sm" title="Send Email"><i class="fas fa-envelope text-xs"></i></a>
+                                    ` : ''}
+                                    <button onclick="shareWhatsApp(${x.id})" class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shadow-sm"><i class="fab fa-whatsapp text-lg"></i></button>
+                                    ${isAdmin() && !isBoard ? `
+                                        <button onclick="editRecord(${x.id})" class="w-9 h-9 rounded-xl bg-slate-100 text-slate-600 flex items-center justify-center shadow-sm"><i class="fas fa-edit text-xs"></i></button>
+                                        <button onclick="deleteRecord(${x.id})" class="w-9 h-9 rounded-xl bg-red-50 text-red-600 flex items-center justify-center shadow-sm"><i class="fas fa-trash text-xs"></i></button>
+                                    ` : ''}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1544,7 +1567,7 @@
         }
 
         function triggerRenderTable() {
-            clearBulkSelection(); // Clear selections on re-render to prevent UI ghosting
+            clearBulkSelection(); 
             const list = document.getElementById('dataList');
             const boardPending = document.getElementById('boardCards-PENDING');
             const boardSelected = document.getElementById('boardCards-SELECTED');
