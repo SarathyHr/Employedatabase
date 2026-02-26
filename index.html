@@ -6,6 +6,8 @@
     <title>SARATHY GROUP - HR PORTAL</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Added Chart.js for Analytics -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
             --sarathy-blue: #0054A6;
@@ -50,6 +52,13 @@
             font-size: 9px;
             border: 1px solid currentColor;
             letter-spacing: 0.05em;
+            appearance: none;
+        }
+        
+        select.status-stamp {
+            background-image: none;
+            padding-right: 10px;
+            text-align: center;
         }
 
         .status-rejected { color: #dc2626; background: #fef2f2; }
@@ -145,6 +154,7 @@
             transition: all 0.2s;
             border: 1px solid #e2e8f0;
             background: white;
+            cursor: pointer;
         }
         .quick-action-btn:active { transform: scale(0.85); }
 
@@ -166,7 +176,15 @@
             letter-spacing: 0.05em;
         }
         
-        /* Notification Badge */
+        .source-highlight {
+            background-color: #e2e8f0;
+            color: #475569;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-weight: 900;
+            letter-spacing: 0.05em;
+        }
+        
         .notif-badge {
             position: absolute;
             top: -5px;
@@ -210,6 +228,52 @@
         @media (max-width: 640px) {
             .modern-card { border-radius: 1rem; }
             input, select, textarea { padding: 12px !important; }
+        }
+        
+        .smart-filter-btn { transition: all 0.2s; }
+        .smart-filter-active { background-color: var(--sarathy-blue) !important; color: white !important; border-color: var(--sarathy-blue) !important; }
+
+        /* KANBAN BOARD STYLES */
+        .kanban-column {
+            background: rgba(241, 245, 249, 0.5);
+            border: 1px dashed #cbd5e1;
+            border-radius: 1.25rem;
+            min-height: 300px;
+            padding: 10px;
+            transition: background 0.2s;
+        }
+        .kanban-column.drag-over {
+            background: rgba(226, 232, 240, 0.8);
+            border-style: solid;
+            border-color: var(--sarathy-blue);
+        }
+        .kanban-card {
+            cursor: grab;
+            margin-bottom: 10px;
+        }
+        .kanban-card:active {
+            cursor: grabbing;
+        }
+        
+        /* VIEW TOGGLE STYLES */
+        .view-toggle {
+            display: inline-flex;
+            background: #e2e8f0;
+            padding: 4px;
+            border-radius: 12px;
+        }
+        .view-btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 10px;
+            font-weight: 900;
+            color: #64748b;
+            transition: all 0.2s;
+        }
+        .view-btn.active {
+            background: white;
+            color: var(--sarathy-blue);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
     </style>
 </head>
@@ -305,6 +369,7 @@
                 </div>
             </div>
 
+            <!-- Top Level Statistics -->
             <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
                 <div class="modern-card p-4 border-l-4 border-sarathy-blue">
                     <p class="text-[8px] font-black text-slate-400 tracking-widest mb-1 uppercase">Total</p>
@@ -324,50 +389,78 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
-                <div class="bg-white p-3 rounded-2xl border border-slate-200 flex flex-col px-4">
-                    <div class="flex justify-between items-center mb-1">
-                        <span class="text-[9px] font-black text-slate-400">SALES</span>
-                        <div class="flex items-center gap-2">
-                            <span class="font-black text-slate-800 text-xs" id="countSales">0</span>
-                            <span class="req-pill" id="reqSales">0</span>
-                        </div>
+            <!-- Department Goals & Chart Section -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                <!-- Chart Area -->
+                <div class="modern-card p-4 md:col-span-1 flex flex-col items-center justify-center border border-slate-200">
+                    <h3 class="text-[9px] font-black text-slate-400 mb-2 w-full text-left uppercase tracking-widest">Status Overview</h3>
+                    <div class="relative w-full h-32 flex justify-center items-center">
+                        <canvas id="statusChart"></canvas>
                     </div>
-                    <div class="progress-bar-container"><div id="progressSales" class="progress-bar-fill" style="width: 0%"></div></div>
                 </div>
-                <div class="bg-white p-3 rounded-2xl border border-slate-200 flex flex-col px-4">
-                    <div class="flex justify-between items-center mb-1">
-                        <span class="text-[9px] font-black text-slate-400">SERVICE</span>
-                        <div class="flex items-center gap-2">
-                            <span class="font-black text-slate-800 text-xs" id="countService">0</span>
-                            <span class="req-pill" id="reqService">0</span>
+
+                <!-- Department Progress Area -->
+                <div class="grid grid-cols-2 md:grid-cols-2 gap-2 md:col-span-2">
+                    <div class="bg-white p-3 rounded-2xl border border-slate-200 flex flex-col px-4">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-[9px] font-black text-slate-400">SALES</span>
+                            <div class="flex items-center gap-2">
+                                <span class="font-black text-slate-800 text-xs" id="countSales">0</span>
+                                <span class="req-pill" id="reqSales">0</span>
+                            </div>
                         </div>
+                        <div class="progress-bar-container"><div id="progressSales" class="progress-bar-fill" style="width: 0%"></div></div>
                     </div>
-                    <div class="progress-bar-container"><div id="progressService" class="progress-bar-fill" style="width: 0%"></div></div>
-                </div>
-                <div class="bg-white p-3 rounded-2xl border border-slate-200 flex flex-col px-4">
-                    <div class="flex justify-between items-center mb-1">
-                        <span class="text-[9px] font-black text-slate-400">SPARE</span>
-                        <div class="flex items-center gap-2">
-                            <span class="font-black text-slate-800 text-xs" id="countSpare">0</span>
-                            <span class="req-pill" id="reqSpare">0</span>
+                    <div class="bg-white p-3 rounded-2xl border border-slate-200 flex flex-col px-4">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-[9px] font-black text-slate-400">SERVICE</span>
+                            <div class="flex items-center gap-2">
+                                <span class="font-black text-slate-800 text-xs" id="countService">0</span>
+                                <span class="req-pill" id="reqService">0</span>
+                            </div>
                         </div>
+                        <div class="progress-bar-container"><div id="progressService" class="progress-bar-fill" style="width: 0%"></div></div>
                     </div>
-                    <div class="progress-bar-container"><div id="progressSpare" class="progress-bar-fill" style="width: 0%"></div></div>
-                </div>
-                <div class="bg-white p-3 rounded-2xl border border-slate-200 flex flex-col px-4">
-                    <div class="flex justify-between items-center mb-1">
-                        <span class="text-[9px] font-black text-slate-400">ACCOUNTS</span>
-                        <div class="flex items-center gap-2">
-                            <span class="font-black text-slate-800 text-xs" id="countAccounts">0</span>
-                            <span class="req-pill" id="reqAccounts">0</span>
+                    <div class="bg-white p-3 rounded-2xl border border-slate-200 flex flex-col px-4">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-[9px] font-black text-slate-400">SPARE</span>
+                            <div class="flex items-center gap-2">
+                                <span class="font-black text-slate-800 text-xs" id="countSpare">0</span>
+                                <span class="req-pill" id="reqSpare">0</span>
+                            </div>
                         </div>
+                        <div class="progress-bar-container"><div id="progressSpare" class="progress-bar-fill" style="width: 0%"></div></div>
                     </div>
-                    <div class="progress-bar-container"><div id="progressAccounts" class="progress-bar-fill" style="width: 0%"></div></div>
+                    <div class="bg-white p-3 rounded-2xl border border-slate-200 flex flex-col px-4">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-[9px] font-black text-slate-400">ACCOUNTS</span>
+                            <div class="flex items-center gap-2">
+                                <span class="font-black text-slate-800 text-xs" id="countAccounts">0</span>
+                                <span class="req-pill" id="reqAccounts">0</span>
+                            </div>
+                        </div>
+                        <div class="progress-bar-container"><div id="progressAccounts" class="progress-bar-fill" style="width: 0%"></div></div>
+                    </div>
                 </div>
             </div>
 
             <div class="space-y-4">
+                
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                    <!-- SMART FILTERS -->
+                    <div class="flex gap-2 overflow-x-auto custom-scroll pb-2 mt-2 w-full md:w-auto">
+                        <button onclick="applySmartFilter('all')" id="sf-all" class="smart-filter-btn smart-filter-active px-4 py-2 bg-white text-slate-600 border border-slate-200 rounded-xl text-[9px] font-black whitespace-nowrap shadow-sm uppercase">All Candidates</button>
+                        <button onclick="applySmartFilter('today')" id="sf-today" class="smart-filter-btn px-4 py-2 bg-white text-red-600 border border-red-100 rounded-xl text-[9px] font-black whitespace-nowrap shadow-sm uppercase"><i class="fas fa-clock mr-1"></i> Today's Interviews</button>
+                        <button onclick="applySmartFilter('followup')" id="sf-followup" class="smart-filter-btn px-4 py-2 bg-white text-amber-600 border border-amber-100 rounded-xl text-[9px] font-black whitespace-nowrap shadow-sm uppercase"><i class="fas fa-exclamation-circle mr-1"></i> Needs Follow-up</button>
+                    </div>
+
+                    <!-- VIEW TOGGLE -->
+                    <div class="view-toggle">
+                        <button onclick="switchView('list')" id="viewBtnList" class="view-btn active"><i class="fas fa-list mr-1"></i> LIST</button>
+                        <button onclick="switchView('board')" id="viewBtnBoard" class="view-btn"><i class="fas fa-columns mr-1"></i> BOARD</button>
+                    </div>
+                </div>
+
                 <div class="relative">
                     <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
                     <input type="text" id="searchInput" onkeyup="renderTable()" placeholder="SEARCH PERSONNEL..." 
@@ -400,8 +493,39 @@
                 </div>
             </div>
 
+            <!-- LIST VIEW CONTAINER -->
             <div id="dataList" class="space-y-4">
                 <!-- Records injected here -->
+            </div>
+
+            <!-- KANBAN BOARD VIEW CONTAINER -->
+            <div id="boardView" class="hidden grid-cols-1 md:grid-cols-3 gap-4">
+                <!-- PENDING COLUMN -->
+                <div class="kanban-column" id="col-PENDING" ondrop="drop(event, 'PENDING')" ondragover="allowDrop(event)">
+                    <div class="flex items-center justify-between mb-4 px-2">
+                        <h3 class="text-[10px] font-black text-amber-600 uppercase tracking-widest flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-amber-500"></div> PENDING</h3>
+                        <span id="boardCount-PENDING" class="bg-white px-2 py-0.5 rounded-md text-[9px] font-bold text-slate-500 shadow-sm">0</span>
+                    </div>
+                    <div id="boardCards-PENDING" class="space-y-3"></div>
+                </div>
+                
+                <!-- SELECTED COLUMN -->
+                <div class="kanban-column" id="col-SELECTED" ondrop="drop(event, 'SELECTED')" ondragover="allowDrop(event)">
+                    <div class="flex items-center justify-between mb-4 px-2">
+                        <h3 class="text-[10px] font-black text-emerald-600 uppercase tracking-widest flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-emerald-500"></div> SELECTED</h3>
+                        <span id="boardCount-SELECTED" class="bg-white px-2 py-0.5 rounded-md text-[9px] font-bold text-slate-500 shadow-sm">0</span>
+                    </div>
+                    <div id="boardCards-SELECTED" class="space-y-3"></div>
+                </div>
+
+                <!-- REJECTED COLUMN -->
+                <div class="kanban-column" id="col-REJECTED" ondrop="drop(event, 'REJECTED')" ondragover="allowDrop(event)">
+                    <div class="flex items-center justify-between mb-4 px-2">
+                        <h3 class="text-[10px] font-black text-red-600 uppercase tracking-widest flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-red-500"></div> REJECTED</h3>
+                        <span id="boardCount-REJECTED" class="bg-white px-2 py-0.5 rounded-md text-[9px] font-bold text-slate-500 shadow-sm">0</span>
+                    </div>
+                    <div id="boardCards-REJECTED" class="space-y-3"></div>
+                </div>
             </div>
 
             <div id="emptyState" class="hidden py-16 text-center modern-card bg-slate-50 border-2 border-dashed border-slate-200">
@@ -442,16 +566,16 @@
         </div>
     </div>
 
-    <!-- SUMMARY MODAL -->
+    <!-- SUMMARY/OFFER LETTER MODAL -->
     <div id="summaryModal" class="fixed inset-0 bg-slate-900/60 z-[70] flex items-center justify-center hidden backdrop-blur-sm p-4">
         <div class="bg-white rounded-[2rem] w-full max-w-md overflow-hidden shadow-2xl animate-up">
             <div class="p-6 bg-sarathy-blue text-white flex justify-between items-center">
-                <h2 class="font-black text-sm tracking-widest uppercase">HIRING SUMMARY</h2>
+                <h2 id="summaryModalTitle" class="font-black text-sm tracking-widest uppercase">REPORT</h2>
                 <button onclick="document.getElementById('summaryModal').classList.add('hidden')" class="opacity-70"><i class="fas fa-times"></i></button>
             </div>
             <div class="p-8">
-                <div id="summaryText" class="text-[11px] leading-relaxed font-bold text-slate-600 bg-slate-50 p-5 rounded-2xl border border-slate-100 whitespace-pre-wrap uppercase">
-                    Generating report...
+                <div id="summaryText" class="text-[11px] leading-relaxed font-bold text-slate-600 bg-slate-50 p-5 rounded-2xl border border-slate-100 whitespace-pre-wrap uppercase h-64 overflow-y-auto custom-scroll">
+                    Generating...
                 </div>
                 <button onclick="copySummary()" class="w-full bg-slate-800 text-white font-black py-4 rounded-xl mt-6 text-[10px] tracking-widest shadow-lg active:scale-95 transition-all uppercase">
                     Copy to Clipboard
@@ -494,6 +618,43 @@
                         <label class="text-[9px] font-black text-slate-400 ml-2 mb-1 block uppercase">Full Name</label>
                         <input type="text" id="empName" required class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl font-bold uppercase">
                     </div>
+                    
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="text-[9px] font-black text-slate-400 ml-2 mb-1 block uppercase">Rating (1-5)</label>
+                            <select id="rating" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl font-bold uppercase">
+                                <option value="0">NOT RATED</option>
+                                <option value="1">1 STAR</option>
+                                <option value="2">2 STARS</option>
+                                <option value="3">3 STARS</option>
+                                <option value="4">4 STARS</option>
+                                <option value="5">5 STARS</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="text-[9px] font-black text-slate-400 ml-2 mb-1 block uppercase">Source</label>
+                            <select id="source" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl font-bold uppercase">
+                                <option value="WALK-IN">WALK-IN</option>
+                                <option value="REFERRAL">REFERRAL</option>
+                                <option value="LINKEDIN">LINKEDIN</option>
+                                <option value="INDEED">INDEED</option>
+                                <option value="NAUKRI">NAUKRI</option>
+                                <option value="OTHER">OTHER</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="text-[9px] font-black text-slate-400 ml-2 mb-1 block uppercase">Current CTC (LPA)</label>
+                            <input type="number" id="currentCTC" step="0.01" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl font-bold uppercase" placeholder="E.g. 2.5">
+                        </div>
+                        <div>
+                            <label class="text-[9px] font-black text-slate-400 ml-2 mb-1 block uppercase">Expected CTC (LPA)</label>
+                            <input type="number" id="expectedCTC" step="0.01" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl font-bold uppercase" placeholder="E.g. 3.5">
+                        </div>
+                    </div>
+
                     <div class="grid grid-cols-2 gap-3">
                         <div>
                             <label class="text-[9px] font-black text-slate-400 ml-2 mb-1 block uppercase">Phone</label>
@@ -549,6 +710,12 @@
                         <label class="text-[9px] font-black text-slate-400 ml-2 mb-1 block uppercase">Skills / Strengths</label>
                         <input type="text" id="skills" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl font-bold uppercase" placeholder="Tally, Sales, Good Comm.">
                     </div>
+                    
+                    <div>
+                        <label class="text-[9px] font-black text-slate-400 ml-2 mb-1 block uppercase">Resume URL (Drive/Web Link)</label>
+                        <input type="url" id="resumeLink" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl font-bold" placeholder="https://drive.google.com/...">
+                    </div>
+
                     <div>
                         <label class="text-[9px] font-black text-slate-400 ml-2 mb-1 block uppercase">Join Date / Remarks (Manager Name)</label>
                         <div class="grid grid-cols-2 gap-3">
@@ -602,6 +769,9 @@
         let joinees = JSON.parse(localStorage.getItem('sarathy_db_v4')) || [];
         let manpowerReqList = JSON.parse(localStorage.getItem('sarathy_req_detailed_v5')) || [];
         let currentFilteredData = [];
+        let statusChartInstance = null;
+        let activeSmartFilter = 'all'; 
+        let currentDisplayMode = 'list'; // list or board
 
         window.onload = () => {
             const now = new Date();
@@ -686,6 +856,11 @@
             document.getElementById('joineeForm').reset();
             document.getElementById('editId').value = "";
             document.getElementById('empId').value = getNextEmpId();
+            document.getElementById('source').value = "WALK-IN";
+            document.getElementById('rating').value = "0";
+            document.getElementById('currentCTC').value = "";
+            document.getElementById('expectedCTC').value = "";
+            document.getElementById('resumeLink').value = "";
             document.getElementById('modalTitle').innerText = "Register Personnel";
             const modal = document.getElementById('addModal');
             modal.classList.remove('hidden');
@@ -717,12 +892,10 @@
             setTimeout(() => toast.classList.add('opacity-0', 'translate-y-32'), 3000);
         }
 
-        // Notification Logic
         function checkDailyNotifications(autoShow = false) {
             const now = new Date();
             const todayStr = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
             
-            // 1. Joiners Today
             const joinToday = joinees.filter(x => x.joinDate === todayStr && x.status === 'SELECTED');
             const joinContainer = document.getElementById('notifJoinList');
             
@@ -737,7 +910,6 @@
                 joinContainer.innerHTML = `<p class="text-[9px] font-bold text-slate-400 italic">No Joinees Scheduled for Today</p>`;
             }
 
-            // 2. Dept Summary
             const depts = ['SALES', 'SERVICE', 'SPARE', 'ACCOUNTS'];
             const statsContainer = document.getElementById('notifDeptStats');
             statsContainer.innerHTML = depts.map(d => {
@@ -750,7 +922,6 @@
                 `;
             }).join('');
 
-            // Update Badge Count
             const badgeCount = joinToday.length;
             const badge = document.getElementById('notifBadge');
             if (badgeCount > 0) {
@@ -784,6 +955,11 @@
                 company: document.getElementById('company').value,
                 dept: document.getElementById('dept').value,
                 status: document.getElementById('status').value,
+                rating: document.getElementById('rating').value || 0,
+                source: document.getElementById('source').value || 'WALK-IN',
+                currentCTC: document.getElementById('currentCTC').value || '',
+                expectedCTC: document.getElementById('expectedCTC').value || '',
+                resumeLink: document.getElementById('resumeLink').value.trim() || '',
                 experience: document.getElementById('experience').value || 0,
                 location: document.getElementById('location').value,
                 skills: document.getElementById('skills').value.trim().toUpperCase(),
@@ -818,12 +994,28 @@
             document.getElementById('company').value = r.company;
             document.getElementById('dept').value = r.dept;
             document.getElementById('status').value = r.status;
+            document.getElementById('rating').value = r.rating || "0";
+            document.getElementById('source').value = r.source || "WALK-IN";
+            document.getElementById('currentCTC').value = r.currentCTC || "";
+            document.getElementById('expectedCTC').value = r.expectedCTC || "";
+            document.getElementById('resumeLink').value = r.resumeLink || "";
             document.getElementById('experience').value = r.experience || 0;
             document.getElementById('location').value = r.location || "HEAD OFFICE";
             document.getElementById('skills').value = r.skills || "";
             document.getElementById('interviewDate').value = r.interviewDate;
             document.getElementById('joinDate').value = r.joinDate;
             document.getElementById('manager').value = r.manager;
+        }
+
+        function quickUpdateStatus(id, newStatus) {
+            if(!isAdmin()) return;
+            const idx = joinees.findIndex(x => x.id === id);
+            if(idx > -1) {
+                joinees[idx].status = newStatus;
+                localStorage.setItem('sarathy_db_v4', JSON.stringify(joinees));
+                renderTable();
+                showToast(`STATUS CHANGED TO ${newStatus}`, "success");
+            }
         }
 
         function deleteRecord(id) {
@@ -859,8 +1051,8 @@
 
         function exportToCSV() {
             if (currentFilteredData.length === 0) return showToast("NO DATA", "error");
-            const headers = ["ID", "NAME", "PHONE", "COMPANY", "DEPT", "EXP", "LOCATION", "STATUS"];
-            const rows = currentFilteredData.map(r => [r.empId, r.name, r.phone, r.company, r.dept, r.experience, r.location, r.status]);
+            const headers = ["ID", "NAME", "PHONE", "COMPANY", "DEPT", "EXP", "LOCATION", "STATUS", "SOURCE", "RATING", "CURRENT_CTC", "EXPECTED_CTC"];
+            const rows = currentFilteredData.map(r => [r.empId, r.name, r.phone, r.company, r.dept, r.experience, r.location, r.status, r.source || 'N/A', r.rating || 0, r.currentCTC || '-', r.expectedCTC || '-']);
             let csvContent = "data:text/csv;charset=utf-8," + headers.join(",") + "\n" + rows.map(e => e.join(",")).join("\n");
             const link = document.createElement("a");
             link.setAttribute("href", encodeURI(csvContent));
@@ -877,7 +1069,29 @@
             const summary = `*SARATHY GROUP HR SUMMARY*\n` +
                             `TOTAL: ${total}\nSELECTED: ${sel}\n` +
                             `_GENERATED BY PORTAL_`;
+            document.getElementById('summaryModalTitle').innerText = "HIRING SUMMARY";
             document.getElementById('summaryText').innerText = summary;
+            document.getElementById('summaryModal').classList.remove('hidden');
+        }
+        
+        // NEW FEATURE: Generate Automated Offer Letter
+        function generateOfferLetter(id) {
+            const r = joinees.find(x => x.id === id);
+            if (!r) return;
+            
+            const dateStr = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'long', year: 'numeric' });
+            let salaryText = r.expectedCTC ? `an annual CTC of INR ${r.expectedCTC} Lakhs` : `a salary to be discussed during onboarding`;
+            
+            const letter = `Date: ${dateStr}\n\n` +
+                           `Dear ${r.name},\n\n` +
+                           `Congratulations! We are pleased to offer you the position of Executive - ${r.dept} at ${r.company}.\n\n` +
+                           `Your assigned branch will be ${r.location || 'Head Office'}. You will be entitled to ${salaryText} as per company policies.\n\n` +
+                           `Your tentative date of joining will be ${formatDisplayDate(r.joinDate)}. Please accept this offer by replying to this communication.\n\n` +
+                           `We look forward to welcoming you to the Sarathy Group family.\n\n` +
+                           `Sincerely,\nHuman Resources\nSarathy Group`;
+            
+            document.getElementById('summaryModalTitle').innerText = "OFFER LETTER";
+            document.getElementById('summaryText').innerText = letter;
             document.getElementById('summaryModal').classList.remove('hidden');
         }
 
@@ -889,6 +1103,170 @@
             document.execCommand('copy');
             document.body.removeChild(el);
             showToast("COPIED!");
+        }
+
+        function renderChartData(selected, pending, rejected) {
+            const ctx = document.getElementById('statusChart').getContext('2d');
+            if (statusChartInstance) {
+                statusChartInstance.data.datasets[0].data = [selected, pending, rejected];
+                statusChartInstance.update();
+            } else {
+                statusChartInstance = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Selected', 'Pending', 'Rejected'],
+                        datasets: [{
+                            data: [selected, pending, rejected],
+                            backgroundColor: ['#10b981', '#f59e0b', '#ef4444'],
+                            borderWidth: 0,
+                            hoverOffset: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        cutout: '65%',
+                        plugins: {
+                            legend: {
+                                position: 'right',
+                                labels: { font: { size: 9, family: 'Verdana' }, boxWidth: 10, usePointStyle: true }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+        
+        // Smart Filter Logic
+        function applySmartFilter(type) {
+            activeSmartFilter = type;
+            document.querySelectorAll('.smart-filter-btn').forEach(btn => btn.classList.remove('smart-filter-active'));
+            document.getElementById('sf-' + type).classList.add('smart-filter-active');
+            renderTable();
+        }
+        
+        // View Toggle Logic
+        function switchView(mode) {
+            currentDisplayMode = mode;
+            document.getElementById('viewBtnList').classList.toggle('active', mode === 'list');
+            document.getElementById('viewBtnBoard').classList.toggle('active', mode === 'board');
+            
+            if (mode === 'list') {
+                document.getElementById('boardView').classList.add('hidden');
+                document.getElementById('boardView').classList.remove('grid');
+                document.getElementById('dataList').classList.remove('hidden');
+            } else {
+                document.getElementById('dataList').classList.add('hidden');
+                document.getElementById('boardView').classList.remove('hidden');
+                document.getElementById('boardView').classList.add('grid');
+            }
+            renderTable();
+        }
+
+        // Kanban Drag and Drop Logic
+        function allowDrop(ev) {
+            ev.preventDefault();
+            ev.currentTarget.classList.add('drag-over');
+        }
+        function dragLeave(ev) {
+            ev.currentTarget.classList.remove('drag-over');
+        }
+        function drag(ev) {
+            ev.dataTransfer.setData("candidateId", ev.target.getAttribute("data-id"));
+        }
+        function drop(ev, newStatus) {
+            ev.preventDefault();
+            document.querySelectorAll('.kanban-column').forEach(col => col.classList.remove('drag-over'));
+            const id = parseInt(ev.dataTransfer.getData("candidateId"));
+            if (id) {
+                quickUpdateStatus(id, newStatus);
+            }
+        }
+
+        // Helper to generate a candidate card HTML (used in both views)
+        function generateCandidateCardHTML(x, isToday, needsFollowUp, statusClass, ratingHtml, statusUI, isBoard = false) {
+            const skillsArray = x.skills ? x.skills.split(',') : [];
+            const offerBtn = (x.status === 'SELECTED') ? `<button onclick="generateOfferLetter(${x.id})" class="quick-action-btn border-amber-200 text-amber-600 bg-amber-50 shadow-sm" title="Generate Offer Letter"><i class="fas fa-file-contract"></i></button>` : '';
+            
+            // Adjust styles slightly if rendering inside the narrow Kanban board
+            const paddingClass = isBoard ? 'p-3' : 'p-5';
+            
+            return `
+                <div class="modern-card ${paddingClass} animate-up relative overflow-hidden kanban-card bg-white" 
+                     draggable="${isAdmin() ? 'true' : 'false'}" 
+                     ondragstart="drag(event)" 
+                     data-id="${x.id}">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="flex flex-col">
+                            <div class="flex flex-wrap gap-1.5 mb-2">
+                                ${isToday ? `<div class="bg-red-50 text-sarathy-red border border-red-100 px-2 py-0.5 rounded-lg pulse-interview text-[8px] font-black uppercase">Today</div>` : ''}
+                                ${needsFollowUp ? `<div class="bg-amber-50 text-amber-600 border border-amber-100 px-2 py-0.5 rounded-lg text-[8px] font-black uppercase">Follow Up</div>` : ''}
+                                <div class="bg-blue-50 text-blue-600 px-2 py-0.5 rounded-lg text-[8px] font-black uppercase">${x.experience || 0} Yrs Exp</div>
+                                ${x.source && !isBoard ? `<div class="source-highlight text-[8px]">${x.source}</div>` : ''}
+                                ${x.expectedCTC && !isBoard ? `<div class="bg-green-50 text-green-700 px-2 py-0.5 rounded-lg text-[8px] font-black uppercase" title="Expected CTC">₹ ${x.expectedCTC}L</div>` : ''}
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-slate-100 flex items-center justify-center text-sarathy-blue font-black text-xl">${x.name[0]}</div>
+                                <div class="max-w-[120px] md:max-w-[150px]">
+                                    <h4 class="font-black text-slate-800 leading-tight truncate text-sm flex items-center gap-2">
+                                        ${x.name} 
+                                    </h4>
+                                    <div class="flex items-center mt-0.5">
+                                        <p class="text-[9px] text-slate-400 font-bold tracking-widest">${x.empId}</p>
+                                        ${!isBoard ? ratingHtml : ''}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        ${!isBoard ? statusUI : ''}
+                    </div>
+
+                    ${!isBoard ? `
+                    <div class="flex flex-wrap gap-1 mb-3">
+                        ${skillsArray.map(s => `<span class="skill-tag">${s.trim()}</span>`).join('')}
+                    </div>` : ''}
+
+                    <div class="mb-3 flex flex-wrap items-center gap-2">
+                        <span class="company-highlight text-[8px] uppercase">${isBoard ? x.company.substring(0,8)+'..' : x.company}</span>
+                        <span class="text-[9px] font-black text-slate-500">•</span>
+                        <span class="dept-highlight text-[8px] uppercase">${x.dept}</span>
+                        <div class="${isBoard ? 'w-full mt-2' : 'ml-auto'}">
+                            <span class="text-[8px] font-black text-sarathy-blue bg-blue-50 px-2 py-1 rounded-lg whitespace-nowrap">
+                                <i class="fas fa-map-marker-alt"></i> ${x.location || 'HEAD OFFICE'}
+                            </span>
+                        </div>
+                    </div>
+                    
+                    ${!isBoard ? `
+                    <div class="bg-slate-50 p-3 rounded-2xl border border-slate-100 grid grid-cols-2 gap-2 text-[9px] mb-2">
+                        <div><span class="text-slate-400 block mb-0.5">INTERVIEW</span><span class="font-bold underline decoration-dotted underline-offset-4">${formatDisplayDate(x.interviewDate)}</span></div>
+                        <div><span class="text-slate-400 block mb-0.5">JOIN DATE</span><span class="font-bold">${formatDisplayDate(x.joinDate)}</span></div>
+                    </div>
+
+                    <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 mb-4">
+                        <span class="text-[8px] font-black text-slate-400 uppercase block mb-1">Remarks Manager:</span>
+                        <span class="text-[10px] font-black text-sarathy-blue tracking-wider">${x.manager || 'NO REMARKS'}</span>
+                    </div>` : ''}
+
+                    <div class="flex items-center justify-between border-t border-slate-50 pt-3">
+                        <div class="flex gap-2">
+                            <button onclick="viewRemarks('${x.manager || ""}')" class="quick-action-btn border-blue-100 text-blue-500 shadow-sm" title="Remarks"><i class="fas fa-info-circle"></i></button>
+                            ${x.resumeLink ? `
+                                <a href="${x.resumeLink}" target="_blank" class="quick-action-btn border-purple-100 text-purple-600 bg-purple-50 shadow-sm" title="View Resume">
+                                    <i class="fas fa-file-pdf"></i>
+                                </a>
+                            ` : ''}
+                            ${offerBtn}
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="shareWhatsApp(${x.id})" class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shadow-sm"><i class="fab fa-whatsapp text-lg"></i></button>
+                            ${isAdmin() && !isBoard ? `
+                                <button onclick="editRecord(${x.id})" class="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shadow-sm"><i class="fas fa-edit text-xs"></i></button>
+                                <button onclick="deleteRecord(${x.id})" class="w-9 h-9 rounded-xl bg-red-50 text-red-600 flex items-center justify-center shadow-sm"><i class="fas fa-trash text-xs"></i></button>
+                            ` : ''}
+                        </div>
+                    </div>
+                </div>`;
         }
 
         function renderTable() {
@@ -911,87 +1289,93 @@
                 const stMatch = stat === "All" || x.status === stat;
                 const dMatch = dept === "All" || x.dept === dept;
                 const cMatch = comp === "All" || x.company === comp;
-                return (month === "" || dateMatch) && searchMatch && stMatch && dMatch && cMatch;
+                
+                let smartMatch = true;
+                if (activeSmartFilter === 'today') {
+                    smartMatch = x.interviewDate === todayStr;
+                } else if (activeSmartFilter === 'followup') {
+                    const diffDays = Math.ceil((todayDate - new Date(x.interviewDate)) / (1000 * 60 * 60 * 24));
+                    smartMatch = (x.status === 'PENDING' && diffDays >= 2);
+                }
+
+                return (month === "" || dateMatch) && searchMatch && stMatch && dMatch && cMatch && smartMatch;
             });
 
+            // Update List View
             const list = document.getElementById('dataList');
             list.innerHTML = '';
+            
+            // Update Board View
+            const boardPending = document.getElementById('boardCards-PENDING');
+            const boardSelected = document.getElementById('boardCards-SELECTED');
+            const boardRejected = document.getElementById('boardCards-REJECTED');
+            
+            boardPending.innerHTML = '';
+            boardSelected.innerHTML = '';
+            boardRejected.innerHTML = '';
+
+            let counts = { 'PENDING': 0, 'SELECTED': 0, 'REJECTED': 0 };
 
             if(currentFilteredData.length === 0) {
                 document.getElementById('emptyState').classList.remove('hidden');
+                document.getElementById('boardView').classList.add('hidden');
+                document.getElementById('dataList').classList.add('hidden');
             } else {
                 document.getElementById('emptyState').classList.add('hidden');
+                
+                // Show appropriate container based on mode
+                if(currentDisplayMode === 'list') {
+                    document.getElementById('dataList').classList.remove('hidden');
+                } else {
+                    document.getElementById('boardView').classList.remove('hidden');
+                }
+
                 currentFilteredData.forEach(x => {
+                    counts[x.status]++;
                     const statusClass = `status-${x.status.toLowerCase()}`;
                     const isToday = x.interviewDate === todayStr;
                     
                     let needsFollowUp = false;
                     if(x.status === 'PENDING' && x.interviewDate) {
-                        const diffDays = Math.ceil(Math.abs(todayDate - new Date(x.interviewDate)) / (1000 * 60 * 60 * 24));
+                        const diffDays = Math.ceil((todayDate - new Date(x.interviewDate)) / (1000 * 60 * 60 * 24));
                         if(diffDays >= 2) needsFollowUp = true;
                     }
+
+                    const candidateRating = parseInt(x.rating) || 0;
+                    let ratingHtml = '';
+                    if (candidateRating > 0) {
+                        for(let i=1; i<=5; i++){
+                            ratingHtml += `<i class="fas fa-star ${i <= candidateRating ? 'text-amber-400' : 'text-slate-200'} text-[10px]"></i>`;
+                        }
+                        ratingHtml = `<div class="flex gap-0.5 ml-2 border-l pl-2 border-slate-200" title="Candidate Rating">${ratingHtml}</div>`;
+                    }
+
+                    const statusUI = isAdmin() ? `
+                        <select onchange="quickUpdateStatus(${x.id}, this.value)" class="status-stamp cursor-pointer outline-none ${statusClass}">
+                            <option value="PENDING" ${x.status==='PENDING'?'selected':''}>PENDING</option>
+                            <option value="SELECTED" ${x.status==='SELECTED'?'selected':''}>SELECTED</option>
+                            <option value="REJECTED" ${x.status==='REJECTED'?'selected':''}>REJECTED</option>
+                        </select>
+                    ` : `<span class="status-stamp ${statusClass}">${x.status}</span>`;
+
+                    // Push to List
+                    list.innerHTML += generateCandidateCardHTML(x, isToday, needsFollowUp, statusClass, ratingHtml, statusUI, false);
                     
-                    const skillsArray = x.skills ? x.skills.split(',') : [];
-
-                    list.innerHTML += `
-                        <div class="modern-card p-5 animate-up relative overflow-hidden">
-                            <div class="flex justify-between items-start mb-4">
-                                <div class="flex flex-col">
-                                    <div class="flex flex-wrap gap-1.5 mb-2">
-                                        ${isToday ? `<div class="bg-red-50 text-sarathy-red border border-red-100 px-2 py-0.5 rounded-lg pulse-interview text-[8px] font-black uppercase">Today</div>` : ''}
-                                        ${needsFollowUp ? `<div class="bg-amber-50 text-amber-600 border border-amber-100 px-2 py-0.5 rounded-lg text-[8px] font-black uppercase">Follow Up</div>` : ''}
-                                        <div class="bg-blue-50 text-blue-600 px-2 py-0.5 rounded-lg text-[8px] font-black uppercase">${x.experience || 0} Yrs Exp</div>
-                                    </div>
-                                    <div class="flex items-center gap-3">
-                                        <div class="w-12 h-12 rounded-2xl bg-slate-100 flex items-center justify-center text-sarathy-blue font-black text-xl">${x.name[0]}</div>
-                                        <div class="max-w-[150px]">
-                                            <h4 class="font-black text-slate-800 leading-tight truncate text-sm">${x.name}</h4>
-                                            <p class="text-[9px] text-slate-400 font-bold tracking-widest mt-0.5">${x.empId}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <span class="status-stamp ${statusClass}">${x.status}</span>
-                            </div>
-
-                            <div class="flex flex-wrap gap-1 mb-3">
-                                ${skillsArray.map(s => `<span class="skill-tag">${s.trim()}</span>`).join('')}
-                            </div>
-
-                            <div class="mb-3 flex flex-wrap items-center gap-2">
-                                <span class="company-highlight text-[9px] uppercase">${x.company}</span>
-                                <span class="text-[9px] font-black text-slate-500">•</span>
-                                <span class="dept-highlight text-[9px] uppercase">${x.dept}</span>
-                                <div class="ml-auto">
-                                    <span class="text-[8px] font-black text-sarathy-blue bg-blue-50 px-2 py-1 rounded-lg whitespace-nowrap">
-                                        <i class="fas fa-map-marker-alt"></i> ${x.location || 'HEAD OFFICE'}
-                                    </span>
-                                </div>
-                            </div>
-                            
-                            <div class="bg-slate-50 p-3 rounded-2xl border border-slate-100 grid grid-cols-2 gap-2 text-[9px] mb-2">
-                                <div><span class="text-slate-400 block mb-0.5">INTERVIEW</span><span class="font-bold underline decoration-dotted underline-offset-4">${formatDisplayDate(x.interviewDate)}</span></div>
-                                <div><span class="text-slate-400 block mb-0.5">JOIN DATE</span><span class="font-bold">${formatDisplayDate(x.joinDate)}</span></div>
-                            </div>
-
-                            <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 mb-4">
-                                <span class="text-[8px] font-black text-slate-400 uppercase block mb-1">Remarks Manager:</span>
-                                <span class="text-[10px] font-black text-sarathy-blue tracking-wider">${x.manager || 'NO REMARKS'}</span>
-                            </div>
-
-                            <div class="flex items-center justify-between border-t border-slate-50 pt-4">
-                                <div class="flex gap-2">
-                                    <button onclick="viewRemarks('${x.manager || ""}')" class="quick-action-btn border-blue-100 text-blue-500 shadow-sm" title="Remarks"><i class="fas fa-info-circle"></i></button>
-                                </div>
-                                <div class="flex gap-2">
-                                    <button onclick="shareWhatsApp(${x.id})" class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shadow-sm"><i class="fab fa-whatsapp text-lg"></i></button>
-                                    ${isAdmin() ? `
-                                        <button onclick="editRecord(${x.id})" class="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shadow-sm"><i class="fas fa-edit text-xs"></i></button>
-                                        <button onclick="deleteRecord(${x.id})" class="w-9 h-9 rounded-xl bg-red-50 text-red-600 flex items-center justify-center shadow-sm"><i class="fas fa-trash text-xs"></i></button>
-                                    ` : ''}
-                                    <a href="tel:${x.phone}" class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shadow-sm"><i class="fas fa-phone-alt text-xs"></i></a>
-                                </div>
-                            </div>
-                        </div>`;
+                    // Push to Board
+                    const boardHtml = generateCandidateCardHTML(x, isToday, needsFollowUp, statusClass, ratingHtml, statusUI, true);
+                    if (x.status === 'PENDING') boardPending.innerHTML += boardHtml;
+                    else if (x.status === 'SELECTED') boardSelected.innerHTML += boardHtml;
+                    else if (x.status === 'REJECTED') boardRejected.innerHTML += boardHtml;
+                });
+                
+                // Update board counts
+                document.getElementById('boardCount-PENDING').innerText = counts['PENDING'];
+                document.getElementById('boardCount-SELECTED').innerText = counts['SELECTED'];
+                document.getElementById('boardCount-REJECTED').innerText = counts['REJECTED'];
+                
+                // Re-attach drag events for Kanban column highlights
+                document.querySelectorAll('.kanban-column').forEach(col => {
+                    col.addEventListener('dragleave', dragLeave);
                 });
             }
             updateStats(currentFilteredData, comp);
@@ -999,10 +1383,17 @@
         }
 
         function updateStats(data, selectedCompany) {
-            document.getElementById('statTotal').innerText = data.length;
-            document.getElementById('statSelected').innerText = data.filter(x => x.status === 'SELECTED').length;
-            document.getElementById('statPending').innerText = data.filter(x => x.status === 'PENDING').length;
-            document.getElementById('statRejected').innerText = data.filter(x => x.status === 'REJECTED').length;
+            const total = data.length;
+            const selected = data.filter(x => x.status === 'SELECTED').length;
+            const pending = data.filter(x => x.status === 'PENDING').length;
+            const rejected = data.filter(x => x.status === 'REJECTED').length;
+
+            document.getElementById('statTotal').innerText = total;
+            document.getElementById('statSelected').innerText = selected;
+            document.getElementById('statPending').innerText = pending;
+            document.getElementById('statRejected').innerText = rejected;
+
+            renderChartData(selected, pending, rejected);
 
             ['SALES', 'SERVICE', 'SPARE', 'ACCOUNTS'].forEach(d => {
                 const count = data.filter(x => x.dept === d && x.status === 'SELECTED').length;
