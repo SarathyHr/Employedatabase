@@ -46,6 +46,7 @@
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
             border: 1px solid rgba(13, 66, 134, 0.1);
             transition: all 0.3s ease;
+            position: relative;
         }
         
         .modern-card:hover {
@@ -187,16 +188,68 @@
         
         /* Custom Checkbox */
         .doc-checkbox {
-            appearance: none; width: 16px; height: 16px; border: 2px solid #cbd5e1; border-radius: 4px; display: inline-grid; place-content: center;
+            appearance: none; width: 16px; height: 16px; border: 2px solid #cbd5e1; border-radius: 4px; display: inline-grid; place-content: center; cursor: pointer;
         }
         .doc-checkbox::before {
             content: ""; width: 8px; height: 8px; transform: scale(0); transition: 120ms transform ease-in-out; box-shadow: inset 1em 1em var(--sarathy-blue); background-color: transform-origin; clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
         }
         .doc-checkbox:checked::before { transform: scale(1); }
         .doc-checkbox:checked { border-color: var(--sarathy-blue); }
+
+        /* Bulk Select Checkbox */
+        .bulk-checkbox {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 22px;
+            height: 22px;
+            border-radius: 6px;
+            border: 2px solid #cbd5e1;
+            appearance: none;
+            background: white;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.2s;
+        }
+        .bulk-checkbox:checked {
+            background: var(--sarathy-blue);
+            border-color: var(--sarathy-blue);
+        }
+        .bulk-checkbox:checked::after {
+            content: '✓';
+            color: white;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 12px;
+            font-weight: bold;
+        }
         
         /* Voice Mic Animation */
         .listening { color: var(--sarathy-red) !important; animation: pulse-red 1.5s infinite; }
+
+        /* Bulk Action Bar */
+        #bulkActionBar {
+            position: fixed;
+            bottom: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1e293b;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+            transition: bottom 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 60;
+            border: 1px solid #334155;
+        }
+        #bulkActionBar.visible {
+            bottom: 30px;
+        }
     </style>
 </head>
 <body class="min-h-screen pb-32">
@@ -268,8 +321,8 @@
                     </div>
                 </div>
 
-                <!-- DASHBOARD STATS WITH CHART -->
-                <div class="grid grid-cols-1 lg:grid-cols-4 gap-4 animate-up">
+                <!-- DASHBOARD STATS WITH CHARTS -->
+                <div class="grid grid-cols-1 lg:grid-cols-5 gap-4 animate-up">
                     <div class="lg:col-span-3 grid grid-cols-2 md:grid-cols-4 gap-4">
                         <div class="modern-card p-5 border-l-8 border-sarathy-blue relative overflow-hidden">
                             <i class="fas fa-users absolute -right-4 -bottom-4 text-6xl text-slate-100 opacity-50"></i>
@@ -293,11 +346,18 @@
                         </div>
                     </div>
                     
-                    <!-- Analytics Chart Card -->
+                    <!-- Analytics Chart Cards -->
                     <div class="modern-card p-4 lg:col-span-1 flex flex-col justify-center items-center">
-                        <p class="text-[10px] font-black text-slate-500 uppercase mb-2 w-full text-left">Recruitment Overview</p>
+                        <p class="text-[10px] font-black text-slate-500 uppercase mb-2 w-full text-left">Status Overview</p>
                         <div class="chart-container">
                             <canvas id="statusChart"></canvas>
+                        </div>
+                    </div>
+                    <!-- NEW FEATURE: Source Analytics Chart -->
+                    <div class="modern-card p-4 lg:col-span-1 flex flex-col justify-center items-center">
+                        <p class="text-[10px] font-black text-slate-500 uppercase mb-2 w-full text-left">Sourcing Channel</p>
+                        <div class="chart-container">
+                            <canvas id="sourceChart"></canvas>
                         </div>
                     </div>
                 </div>
@@ -410,14 +470,13 @@
             <!-- DATA VIEWS -->
             
             <!-- LIST VIEW -->
-            <div id="listView" class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+            <div id="listView" class="grid grid-cols-1 lg:grid-cols-2 gap-5 relative pb-10">
                 <!-- Cards injected here -->
             </div>
 
             <!-- KANBAN BOARD VIEW -->
             <div id="boardView" class="hidden grid-cols-1 md:grid-cols-3 gap-6">
                 <!-- Pending Column -->
-                <!-- Drag and Drop Handlers added to Columns -->
                 <div class="kanban-col border-t-4 border-t-amber-500" id="col-PENDING" ondragover="allowDrop(event)" ondragleave="dragLeave(event)" ondrop="drop(event, 'PENDING')">
                     <h3 class="font-black text-amber-600 mb-4 flex items-center justify-between border-b border-amber-200 pb-2">
                         <span><i class="fas fa-clock mr-2"></i> PENDING</span>
@@ -449,6 +508,18 @@
                 <button onclick="document.getElementById('searchInput').value=''; setQuickFilter('All'); renderTable();" class="mt-4 text-sarathy-blue text-xs font-bold underline">Clear Filters</button>
             </div>
         </main>
+    </div>
+
+    <!-- NEW FEATURE: FLOATING BULK ACTION BAR -->
+    <div id="bulkActionBar" class="hidden">
+        <span class="font-black text-xs uppercase" id="bulkCountText">0 Selected</span>
+        <div class="h-6 w-px bg-slate-600 mx-2"></div>
+        <button onclick="bulkChangeStatus('PENDING')" class="text-amber-400 hover:text-amber-300 text-[10px] font-bold tracking-wider uppercase transition-colors"><i class="fas fa-clock mr-1"></i> Pending</button>
+        <button onclick="bulkChangeStatus('SELECTED')" class="text-emerald-400 hover:text-emerald-300 text-[10px] font-bold tracking-wider uppercase transition-colors"><i class="fas fa-check-circle mr-1"></i> Select</button>
+        <button onclick="bulkChangeStatus('REJECTED')" class="text-red-400 hover:text-red-300 text-[10px] font-bold tracking-wider uppercase transition-colors"><i class="fas fa-times-circle mr-1"></i> Reject</button>
+        <div class="h-6 w-px bg-slate-600 mx-2"></div>
+        <button onclick="bulkDeleteSelected()" class="text-white hover:text-red-400 text-[10px] font-bold tracking-wider uppercase transition-colors"><i class="fas fa-trash-alt mr-1"></i> Delete</button>
+        <button onclick="clearBulkSelection()" class="ml-4 w-6 h-6 rounded-full bg-slate-700 flex items-center justify-center hover:bg-slate-600 transition-colors"><i class="fas fa-times text-xs"></i></button>
     </div>
 
     <!-- FAB -->
@@ -744,6 +815,10 @@
         let currentView = 'list'; 
         let itemToDelete = null;
         let hrChartInstance = null; 
+        let sourceChartInstance = null;
+        
+        // NEW FEATURE: Bulk Selection State
+        let selectedCandidates = new Set();
         
         // Drag and drop state
         let draggedCardId = null;
@@ -761,7 +836,7 @@
 
         function isAdmin() { return currentUser && currentUser.user === 'ADMIN'; }
 
-        // Chart Init function
+        // Chart Init function (Updated)
         function initOrUpdateChart(sel, pen, rej) {
             const ctx = document.getElementById('statusChart');
             if(!ctx) return;
@@ -785,10 +860,51 @@
                         responsive: true,
                         maintainAspectRatio: false,
                         plugins: {
-                            legend: { position: 'right', labels: { font: { family: 'Verdana', size: 10, weight: 'bold' } } },
+                            legend: { position: 'right', labels: { font: { family: 'Verdana', size: 10, weight: 'bold' }, boxWidth: 10 } },
                             tooltip: { titleFont: { family: 'Verdana' }, bodyFont: { family: 'Verdana' } }
                         },
                         cutout: '65%'
+                    }
+                });
+            }
+        }
+
+        // NEW FEATURE: Source Chart Initialization
+        function initOrUpdateSourceChart(data) {
+            const ctx = document.getElementById('sourceChart');
+            if(!ctx) return;
+
+            const counts = { 'WALK-IN': 0, 'REFERRAL': 0, 'LINKEDIN': 0, 'NAUKRI': 0, 'CONSULTANCY': 0 };
+            data.forEach(x => {
+                const src = x.source || 'WALK-IN';
+                if(counts[src] !== undefined) counts[src]++;
+            });
+
+            const labels = Object.keys(counts);
+            const values = Object.values(counts);
+
+            if(sourceChartInstance) {
+                sourceChartInstance.data.datasets[0].data = values;
+                sourceChartInstance.update();
+            } else {
+                sourceChartInstance = new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            data: values,
+                            backgroundColor: ['#f59e0b', '#a855f7', '#3b82f6', '#06b6d4', '#64748b'],
+                            borderWidth: 0,
+                            hoverOffset: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { position: 'right', labels: { font: { family: 'Verdana', size: 9, weight: 'bold' }, boxWidth: 8 } },
+                            tooltip: { titleFont: { family: 'Verdana' }, bodyFont: { family: 'Verdana' } }
+                        }
                     }
                 });
             }
@@ -833,6 +949,65 @@
             };
             
             recognition.start();
+        }
+
+        // NEW FEATURE: Bulk Selection Logic
+        function toggleBulkSelection(id) {
+            if(selectedCandidates.has(id)) {
+                selectedCandidates.delete(id);
+            } else {
+                selectedCandidates.add(id);
+            }
+            updateBulkActionBar();
+        }
+
+        function clearBulkSelection() {
+            selectedCandidates.clear();
+            renderTable(); // Re-render to clear checkboxes
+            updateBulkActionBar();
+        }
+
+        function updateBulkActionBar() {
+            const bar = document.getElementById('bulkActionBar');
+            const countText = document.getElementById('bulkCountText');
+            
+            if(selectedCandidates.size > 0) {
+                countText.innerText = `${selectedCandidates.size} Selected`;
+                bar.classList.add('visible');
+                bar.classList.remove('hidden');
+            } else {
+                bar.classList.remove('visible');
+                setTimeout(() => { if(selectedCandidates.size === 0) bar.classList.add('hidden'); }, 400);
+            }
+        }
+
+        function bulkChangeStatus(newStatus) {
+            if(!isAdmin()) return showToast("ADMIN ONLY", "error");
+            
+            let updated = 0;
+            joinees.forEach(j => {
+                if(selectedCandidates.has(j.id) && j.status !== newStatus) {
+                    j.status = newStatus;
+                    updated++;
+                }
+            });
+            
+            if(updated > 0) {
+                localStorage.setItem('sarathy_db_v10', JSON.stringify(joinees));
+                showToast(`STATUS CHANGED FOR ${updated} RECORDS`);
+                if(newStatus === 'SELECTED') triggerConfetti();
+            }
+            clearBulkSelection();
+        }
+
+        function bulkDeleteSelected() {
+            if(!isAdmin()) return showToast("ADMIN ONLY", "error");
+            if(confirm(`Are you sure you want to delete ${selectedCandidates.size} selected records?`)) {
+                joinees = joinees.filter(j => !selectedCandidates.has(j.id));
+                localStorage.setItem('sarathy_db_v10', JSON.stringify(joinees));
+                showToast(`${selectedCandidates.size} RECORDS DELETED`, "error");
+                clearBulkSelection();
+            }
         }
 
         function dragStart(event, id) {
@@ -1195,9 +1370,12 @@
                 renderTable(); 
                 showToast("RECORD DELETED", "error"); 
                 closeDeleteModal();
+                selectedCandidates.delete(itemToDelete);
+                updateBulkActionBar();
             }
         };
 
+        // NEW FEATURE: Updated toggleDoc to show progress
         function toggleDoc(id, docType) {
             const idx = joinees.findIndex(x => x.id === id);
             if(idx === -1) return;
@@ -1212,6 +1390,14 @@
             }
             
             localStorage.setItem('sarathy_db_v10', JSON.stringify(joinees));
+            
+            // Instantly update progress bar visually
+            const progressEl = document.getElementById(`docProgress_${id}`);
+            if(progressEl) {
+                const perc = (joinees[idx].documents.length / 3) * 100;
+                progressEl.style.width = perc + '%';
+                progressEl.style.backgroundColor = perc === 100 ? '#10b981' : '#f59e0b';
+            }
         }
 
         function renderTable() {
@@ -1276,6 +1462,10 @@
             const staggerClass = viewType === 'board' ? '' : `stagger-${Math.floor(Math.random() * 3) + 1}`;
             const docs = x.documents || [];
             
+            const isChecked = selectedCandidates.has(x.id);
+            const docPerc = (docs.length / 3) * 100;
+            const docColor = docPerc === 100 ? '#10b981' : '#f59e0b';
+            
             let hikeBadge = '';
             if(x.currentCTC && x.expectedCTC && x.currentCTC > 0) {
                 const hike = (((x.expectedCTC - x.currentCTC) / x.currentCTC) * 100).toFixed(0);
@@ -1303,9 +1493,12 @@
                 <div class="modern-card p-5 animate-up ${staggerClass} relative overflow-hidden group flex flex-col h-full" 
                      draggable="${viewType === 'board' ? 'true' : 'false'}" 
                      ondragstart="dragStart(event, ${x.id})" ondragend="dragEnd(event)">
+                    
+                    ${viewType === 'list' ? `<input type="checkbox" class="bulk-checkbox" onchange="toggleBulkSelection(${x.id})" ${isChecked ? 'checked' : ''}>` : ''}
+
                     <div class="flex justify-between items-start mb-4">
                         <div class="flex flex-col w-full">
-                            <div class="flex flex-wrap justify-between w-full mb-3 gap-2">
+                            <div class="flex flex-wrap justify-between w-full mb-3 gap-2 pr-6">
                                 <div class="flex gap-2">
                                     ${isToday ? `<div class="bg-red-50 text-sarathy-red border border-red-100 px-2.5 py-1 rounded-lg pulse-interview text-[9px] font-black uppercase"><i class="fas fa-calendar-day mr-1"></i>Today</div>` : ''}
                                     <div class="bg-blue-50 text-blue-600 px-2.5 py-1 rounded-lg text-[9px] font-black uppercase"><i class="fas fa-briefcase mr-1"></i>${x.experience || 0} Yrs</div>
@@ -1350,9 +1543,14 @@
 
                     ${x.remarks ? `<div class="bg-amber-50/50 p-3 rounded-xl border border-amber-100/50 mb-4 mt-2"><span class="text-[8px] font-black text-amber-600 uppercase block mb-1 tracking-widest"><i class="fas fa-comment-dots mr-1"></i> Manager Note:</span><span class="text-[10px] font-bold text-slate-700 leading-relaxed italic">"${x.remarks}"</span></div>` : ''}
 
+                    <!-- NEW FEATURE: Embedded Document Progress Tracker -->
                     ${x.status === 'SELECTED' ? `
-                    <div class="mt-2 mb-4 p-3 bg-white rounded-xl border border-emerald-100 shadow-sm">
-                        <span class="text-[9px] font-black text-emerald-600 uppercase block mb-2"><i class="fas fa-folder-open mr-1"></i> Onboarding Docs</span>
+                    <div class="mt-2 mb-4 p-3 bg-white rounded-xl border border-emerald-100 shadow-sm relative">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-[9px] font-black text-emerald-600 uppercase"><i class="fas fa-folder-open mr-1"></i> Onboarding Docs</span>
+                            <span class="text-[8px] font-bold text-slate-400">${docs.length}/3 Received</span>
+                        </div>
+                        <div class="progress-bar-container h-1.5 mb-3"><div id="docProgress_${x.id}" class="progress-bar-fill" style="width: ${docPerc}%; background-color: ${docColor};"></div></div>
                         <div class="flex flex-wrap gap-3 text-[10px] font-bold text-slate-600 uppercase">
                             <label class="flex items-center gap-1.5 cursor-pointer hover:text-sarathy-blue transition-colors">
                                 <input type="checkbox" onchange="toggleDoc(${x.id}, 'aadhar')" ${docs.includes('aadhar') ? 'checked' : ''} class="doc-checkbox"> Aadhar
@@ -1433,6 +1631,7 @@
             });
 
             initOrUpdateChart(selCount, penCount, rejCount);
+            initOrUpdateSourceChart(data); // Call NEW FEATURE
         }
 
         function openInterviewAssistant(id) {
