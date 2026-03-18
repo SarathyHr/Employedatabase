@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SARATHY GROUP - HR PORTAL PRO</title>
+    <title>SARATHY GROUP - HR PORTAL ULTIMATE</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <!-- Chart.js for Visual Analytics -->
@@ -14,17 +14,29 @@
         :root {
             --sarathy-blue: #0054A6;
             --sarathy-red: #E31E24;
-            --slate-50: #f8fafc;
-            --slate-100: #f1f5f9;
+            --bg-primary: #f1f5f9;
+            --bg-card: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --border-light: #e2e8f0;
+        }
+
+        .dark-mode {
+            --bg-primary: #0f172a;
+            --bg-card: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --border-light: #334155;
         }
 
         body {
             font-family: 'Verdana', Geneva, sans-serif;
-            background-color: #f1f5f9;
-            color: #1e293b;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
             text-transform: uppercase;
             -webkit-tap-highlight-color: transparent;
             overscroll-behavior-y: contain;
+            transition: background-color 0.3s, color 0.3s;
         }
 
         input, select, textarea {
@@ -41,7 +53,7 @@
         .bg-sarathy-blue { background-color: var(--sarathy-blue); }
 
         .modern-card {
-            background: #ffffff;
+            background: var(--bg-card);
             border-radius: 1.25rem;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
             border: 1px solid rgba(13, 66, 134, 0.1);
@@ -75,6 +87,19 @@
         .status-rejected { color: #dc2626; background: #fef2f2; }
         .status-selected { color: #059669; background: #ecfdf5; }
         .status-pending { color: #d97706; background: #fffbeb; }
+
+        .induction-badge {
+            font-weight: 900;
+            padding: 4px 8px;
+            border-radius: 9999px;
+            display: inline-flex;
+            align-items: center;
+            font-size: 8px;
+            border: 1px solid currentColor;
+            letter-spacing: 0.05em;
+        }
+        .induction-completed { color: #059669; background: #ecfdf5; border-color: #059669; }
+        .induction-pending { color: #d97706; background: #fffbeb; border-color: #d97706; }
 
         .sarathy-fab {
             position: fixed;
@@ -113,6 +138,13 @@
             100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(227, 30, 36, 0); }
         }
 
+        .animate-pulse-slight { animation: pulse-border 2s infinite; }
+        @keyframes pulse-border {
+            0% { box-shadow: 0 0 0 0 rgba(147, 51, 234, 0.2); }
+            70% { box-shadow: 0 0 0 10px rgba(147, 51, 234, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(147, 51, 234, 0); }
+        }
+
         .mobile-header {
             position: sticky;
             top: 0;
@@ -120,6 +152,9 @@
             background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(15px);
             border-bottom: 2px solid var(--sarathy-blue);
+        }
+        .dark-mode .mobile-header {
+            background: rgba(30, 41, 59, 0.9);
         }
 
         .progress-bar-container {
@@ -143,11 +178,11 @@
             font-size: 11px;
             font-weight: 900;
             cursor: pointer;
-            border: 1px solid #e2e8f0;
-            background: white;
+            border: 1px solid var(--border-light);
+            background: var(--bg-card);
             white-space: nowrap;
             transition: all 0.2s ease;
-            color: #64748b;
+            color: var(--text-secondary);
         }
         .search-chip.active {
             background: var(--sarathy-blue);
@@ -161,32 +196,25 @@
 
         #modalContent { max-height: 92vh; }
 
-        /* Custom Scrollbar */
         .custom-scroll::-webkit-scrollbar { width: 6px; height: 6px; }
         .custom-scroll::-webkit-scrollbar-track { background: transparent; }
         .custom-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         
-        /* View Toggles */
         .view-toggle.active { background-color: var(--sarathy-blue); color: white; }
         
-        /* Star Rating */
         .star-rating i { cursor: pointer; color: #cbd5e1; transition: color 0.2s; }
         .star-rating i.active, .star-rating i:hover, .star-rating i:hover ~ i { color: #f59e0b; }
         .display-stars i { color: #f59e0b; font-size: 10px; }
         .display-stars i.empty { color: #e2e8f0; }
         
-        /* Kanban Columns */
         .kanban-col { background: #f8fafc; border-radius: 1.5rem; padding: 1rem; border: 1px dashed #cbd5e1; min-height: 300px; transition: all 0.2s ease; }
         .kanban-col.drag-over { background: #e2e8f0; border: 2px dashed var(--sarathy-blue); }
 
-        /* Offer Letter Styling */
         .offer-letter-content { font-family: 'Times New Roman', Times, serif; text-transform: none; }
         
-        /* Chart Container */
         .chart-container { position: relative; height: 160px; width: 100%; }
         
-        /* Custom Checkbox */
         .doc-checkbox {
             appearance: none; width: 16px; height: 16px; border: 2px solid #cbd5e1; border-radius: 4px; display: inline-grid; place-content: center; cursor: pointer;
         }
@@ -196,7 +224,6 @@
         .doc-checkbox:checked::before { transform: scale(1); }
         .doc-checkbox:checked { border-color: var(--sarathy-blue); }
 
-        /* Bulk Select Checkbox */
         .bulk-checkbox {
             position: absolute;
             top: 15px;
@@ -226,10 +253,8 @@
             font-weight: bold;
         }
         
-        /* Voice Mic Animation */
         .listening { color: var(--sarathy-red) !important; animation: pulse-red 1.5s infinite; }
 
-        /* Bulk Action Bar */
         #bulkActionBar {
             position: fixed;
             bottom: -100px;
@@ -250,6 +275,42 @@
         #bulkActionBar.visible {
             bottom: 30px;
         }
+
+        .induction-field { transition: all 0.3s; }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 28px;
+            margin-bottom: 16px;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 4px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--sarathy-blue);
+        }
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: 13px;
+            top: 20px;
+            width: 2px;
+            height: calc(100% - 16px);
+            background: #cbd5e1;
+        }
+        .timeline-item:last-child::after { display: none; }
+
+        .filter-panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 1rem;
+            padding: 1rem;
+            margin-top: 0.5rem;
+        }
     </style>
 </head>
 <body class="min-h-screen pb-32">
@@ -259,7 +320,6 @@
         <div class="w-full max-w-sm animate-up">
             <div class="modern-card p-10 bg-white text-center shadow-2xl">
                 <div class="mb-8">
-                    <!-- LOGO UPDATED HERE -->
                     <img src="sarathy-group-logo.png" alt="SARATHY GROUP" class="w-56 mx-auto mb-4 object-contain" onerror="this.src='https://via.placeholder.com/200x80?text=SARATHY+GROUP'">
                     <h2 class="text-xs font-black tracking-[0.4em] text-slate-400">EXECUTIVE PORTAL</h2>
                 </div>
@@ -291,7 +351,6 @@
     <div id="dashboardPage" class="hidden">
         <header class="mobile-header px-4 py-5 flex justify-between items-center shadow-md">
             <div class="flex items-center gap-3">
-                <!-- LOGO UPDATED HERE -->
                 <img src="sarathy-group-logo.png" alt="SARATHY Logo" class="h-10 md:h-12 w-auto object-contain" onerror="this.style.display='none'">
                 <div class="border-l-2 border-slate-200 pl-3">
                     <h2 class="font-black text-base md:text-lg tracking-tighter">HR <span class="text-sarathy-red">PORTAL</span></h2>
@@ -299,6 +358,29 @@
                 </div>
             </div>
             <div class="flex items-center gap-3">
+                <!-- Dark Mode Toggle -->
+                <button onclick="toggleDarkMode()" class="w-11 h-11 rounded-2xl bg-slate-100 text-slate-500 flex items-center justify-center shadow-inner active:bg-slate-200 hover:text-sarathy-blue transition-colors" title="Toggle Dark Mode">
+                    <i id="darkModeIcon" class="fas fa-moon text-lg"></i>
+                </button>
+                <!-- Backup/Restore -->
+                <div class="relative">
+                    <button onclick="toggleBackupMenu()" class="w-11 h-11 rounded-2xl bg-slate-100 text-slate-500 flex items-center justify-center shadow-inner active:bg-slate-200 hover:text-sarathy-blue transition-colors" title="Backup / Restore">
+                        <i class="fas fa-database text-lg"></i>
+                    </button>
+                    <div id="backupMenu" class="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-slate-200 hidden z-50">
+                        <button onclick="exportBackup()" class="w-full text-left px-4 py-3 text-xs font-bold hover:bg-slate-100 flex items-center gap-2"><i class="fas fa-download text-emerald-600"></i> Export Backup</button>
+                        <button onclick="document.getElementById('importFile').click()" class="w-full text-left px-4 py-3 text-xs font-bold hover:bg-slate-100 flex items-center gap-2"><i class="fas fa-upload text-blue-600"></i> Import Backup</button>
+                        <input type="file" id="importFile" accept=".json" class="hidden" onchange="importBackup(event)">
+                    </div>
+                </div>
+                <!-- Notifications Bell -->
+                <button onclick="toggleNotifications()" class="relative w-11 h-11 rounded-2xl bg-slate-100 text-slate-500 flex items-center justify-center shadow-inner active:bg-slate-200 hover:text-sarathy-blue transition-colors" title="Updates & Notifications">
+                    <i class="fas fa-bell text-lg"></i>
+                    <span id="notificationBadge" class="absolute top-2 right-2 flex h-3 w-3">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500 border-2 border-white"></span>
+                    </span>
+                </button>
                 <button onclick="logout()" class="w-11 h-11 rounded-2xl bg-slate-100 text-slate-500 flex items-center justify-center shadow-inner active:bg-slate-200 hover:text-red-500 transition-colors" title="Logout">
                     <i class="fas fa-sign-out-alt text-lg"></i>
                 </button>
@@ -321,7 +403,7 @@
                     </div>
                 </div>
 
-                <!-- DASHBOARD STATS WITH CHARTS -->
+                <!-- DASHBOARD STATS -->
                 <div class="grid grid-cols-1 lg:grid-cols-5 gap-4 animate-up">
                     <div class="lg:col-span-3 grid grid-cols-2 md:grid-cols-4 gap-4">
                         <div class="modern-card p-5 border-l-8 border-sarathy-blue relative overflow-hidden">
@@ -345,15 +427,12 @@
                             <h3 class="text-3xl font-black text-red-600 relative z-10" id="statRejected">0</h3>
                         </div>
                     </div>
-                    
-                    <!-- Analytics Chart Cards -->
                     <div class="modern-card p-4 lg:col-span-1 flex flex-col justify-center items-center">
                         <p class="text-[10px] font-black text-slate-500 uppercase mb-2 w-full text-left">Status Overview</p>
                         <div class="chart-container">
                             <canvas id="statusChart"></canvas>
                         </div>
                     </div>
-                    <!-- NEW FEATURE: Source Analytics Chart -->
                     <div class="modern-card p-4 lg:col-span-1 flex flex-col justify-center items-center">
                         <p class="text-[10px] font-black text-slate-500 uppercase mb-2 w-full text-left">Sourcing Channel</p>
                         <div class="chart-container">
@@ -425,6 +504,7 @@
                         <button onclick="setQuickFilter('Pending')" class="search-chip" id="chip-Pending">PENDING</button>
                         <button onclick="setQuickFilter('Selected')" class="search-chip" id="chip-Selected">SELECTED</button>
                         <button onclick="setQuickFilter('Rejected')" class="search-chip" id="chip-Rejected">REJECTED</button>
+                        <button onclick="setQuickFilter('InductionPending')" class="search-chip" id="chip-InductionPending">INDUCTION PENDING</button>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
@@ -449,11 +529,36 @@
                             <option value="exp_high">Sort: Exp (High to Low)</option>
                             <option value="rating_high">Sort: Rating (High to Low)</option>
                         </select>
-                        
-                        <!-- View Toggles -->
                         <div class="flex bg-slate-100 p-1 rounded-xl">
                             <button onclick="setView('list')" id="btnViewList" class="flex-1 rounded-lg font-bold text-xs view-toggle active transition-all flex justify-center items-center gap-2"><i class="fas fa-list"></i> <span class="hidden md:inline">List</span></button>
                             <button onclick="setView('board')" id="btnViewBoard" class="flex-1 rounded-lg font-bold text-xs view-toggle text-slate-500 transition-all flex justify-center items-center gap-2"><i class="fas fa-columns"></i> <span class="hidden md:inline">Board</span></button>
+                        </div>
+                    </div>
+
+                    <!-- Advanced filter panel -->
+                    <div class="mt-3">
+                        <button onclick="toggleAdvancedFilters()" class="text-[10px] font-bold text-sarathy-blue flex items-center gap-1">
+                            <i class="fas fa-sliders-h"></i> ADVANCED FILTERS
+                        </button>
+                        <div id="advancedFilters" class="filter-panel hidden mt-3 grid grid-cols-1 md:grid-cols-4 gap-3">
+                            <select id="noticeFilter" onchange="renderTable()" class="px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-[10px] font-bold uppercase">
+                                <option value="">NOTICE PERIOD (ALL)</option>
+                                <option value="IMMEDIATE">IMMEDIATE</option>
+                                <option value="15 DAYS">15 DAYS</option>
+                                <option value="30 DAYS">30 DAYS</option>
+                                <option value="60 DAYS">60 DAYS</option>
+                                <option value="90+ DAYS">90+ DAYS</option>
+                            </select>
+                            <div class="flex items-center gap-2">
+                                <input type="number" id="minCTC" placeholder="MIN CTC" onchange="renderTable()" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-[10px] font-bold">
+                                <span class="text-slate-400">-</span>
+                                <input type="number" id="maxCTC" placeholder="MAX CTC" onchange="renderTable()" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-[10px] font-bold">
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <input type="number" id="minRating" min="1" max="5" placeholder="MIN RATING" onchange="renderTable()" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-[10px] font-bold">
+                                <input type="text" id="skillsFilter" placeholder="SKILLS (COMMA)" onchange="renderTable()" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-[10px] font-bold">
+                            </div>
+                            <button onclick="clearAdvancedFilters()" class="px-3 py-2 bg-slate-200 rounded-xl text-[10px] font-bold">CLEAR</button>
                         </div>
                     </div>
                 </div>
@@ -463,20 +568,12 @@
             <div class="relative group">
                 <i class="fas fa-search absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 text-lg group-focus-within:text-sarathy-blue transition-colors"></i>
                 <input type="text" id="searchInput" onkeyup="renderTable()" placeholder="SEARCH PERSONNEL BY NAME, ID OR SKILLS..." class="w-full pl-16 pr-14 py-5 bg-white border-2 border-slate-100 rounded-2xl font-bold text-sm focus:border-sarathy-blue outline-none uppercase shadow-sm transition-all">
-                <!-- Voice Search Icon -->
                 <i class="fas fa-microphone absolute right-6 top-1/2 -translate-y-1/2 text-slate-400 hover:text-sarathy-blue cursor-pointer text-lg transition-colors" id="micIcon" onclick="startVoiceSearch()" title="Click to speak"></i>
             </div>
 
             <!-- DATA VIEWS -->
-            
-            <!-- LIST VIEW -->
-            <div id="listView" class="grid grid-cols-1 lg:grid-cols-2 gap-5 relative pb-10">
-                <!-- Cards injected here -->
-            </div>
-
-            <!-- KANBAN BOARD VIEW -->
+            <div id="listView" class="grid grid-cols-1 lg:grid-cols-2 gap-5 relative pb-10"></div>
             <div id="boardView" class="hidden grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Pending Column -->
                 <div class="kanban-col border-t-4 border-t-amber-500" id="col-PENDING" ondragover="allowDrop(event)" ondragleave="dragLeave(event)" ondrop="drop(event, 'PENDING')">
                     <h3 class="font-black text-amber-600 mb-4 flex items-center justify-between border-b border-amber-200 pb-2">
                         <span><i class="fas fa-clock mr-2"></i> PENDING</span>
@@ -484,7 +581,6 @@
                     </h3>
                     <div id="boardPending" class="space-y-4 min-h-[100px]"></div>
                 </div>
-                <!-- Selected Column -->
                 <div class="kanban-col border-t-4 border-t-emerald-500" id="col-SELECTED" ondragover="allowDrop(event)" ondragleave="dragLeave(event)" ondrop="drop(event, 'SELECTED')">
                     <h3 class="font-black text-emerald-600 mb-4 flex items-center justify-between border-b border-emerald-200 pb-2">
                         <span><i class="fas fa-check-circle mr-2"></i> SELECTED</span>
@@ -492,7 +588,6 @@
                     </h3>
                     <div id="boardSelected" class="space-y-4 min-h-[100px]"></div>
                 </div>
-                <!-- Rejected Column -->
                 <div class="kanban-col border-t-4 border-t-red-500" id="col-REJECTED" ondragover="allowDrop(event)" ondragleave="dragLeave(event)" ondrop="drop(event, 'REJECTED')">
                     <h3 class="font-black text-red-600 mb-4 flex items-center justify-between border-b border-red-200 pb-2">
                         <span><i class="fas fa-times-circle mr-2"></i> REJECTED</span>
@@ -510,13 +605,16 @@
         </main>
     </div>
 
-    <!-- NEW FEATURE: FLOATING BULK ACTION BAR -->
+    <!-- FLOATING BULK ACTION BAR -->
     <div id="bulkActionBar" class="hidden">
         <span class="font-black text-xs uppercase" id="bulkCountText">0 Selected</span>
         <div class="h-6 w-px bg-slate-600 mx-2"></div>
         <button onclick="bulkChangeStatus('PENDING')" class="text-amber-400 hover:text-amber-300 text-[10px] font-bold tracking-wider uppercase transition-colors"><i class="fas fa-clock mr-1"></i> Pending</button>
         <button onclick="bulkChangeStatus('SELECTED')" class="text-emerald-400 hover:text-emerald-300 text-[10px] font-bold tracking-wider uppercase transition-colors"><i class="fas fa-check-circle mr-1"></i> Select</button>
         <button onclick="bulkChangeStatus('REJECTED')" class="text-red-400 hover:text-red-300 text-[10px] font-bold tracking-wider uppercase transition-colors"><i class="fas fa-times-circle mr-1"></i> Reject</button>
+        <div class="h-6 w-px bg-slate-600 mx-2"></div>
+        <button onclick="bulkSetInduction(true)" class="text-indigo-400 hover:text-indigo-300 text-[10px] font-bold tracking-wider uppercase transition-colors"><i class="fas fa-graduation-cap mr-1"></i> Induct</button>
+        <button onclick="bulkSetInduction(false)" class="text-amber-400 hover:text-amber-300 text-[10px] font-bold tracking-wider uppercase transition-colors"><i class="fas fa-hourglass-half mr-1"></i> Pending</button>
         <div class="h-6 w-px bg-slate-600 mx-2"></div>
         <button onclick="bulkDeleteSelected()" class="text-white hover:text-red-400 text-[10px] font-bold tracking-wider uppercase transition-colors"><i class="fas fa-trash-alt mr-1"></i> Delete</button>
         <button onclick="clearBulkSelection()" class="ml-4 w-6 h-6 rounded-full bg-slate-700 flex items-center justify-center hover:bg-slate-600 transition-colors"><i class="fas fa-times text-xs"></i></button>
@@ -527,7 +625,20 @@
         <i class="fas fa-plus text-2xl"></i>
     </button>
 
-    <!-- MODAL: REGISTER / ADD PERSONNEL -->
+    <!-- NOTIFICATION MODAL -->
+    <div id="notificationModal" class="fixed inset-0 bg-slate-900/80 z-[80] flex items-center justify-center hidden backdrop-blur-sm p-4">
+        <div class="bg-white rounded-3xl w-full max-w-md overflow-hidden shadow-2xl animate-up">
+            <div class="p-5 bg-sarathy-blue text-white flex justify-between items-center border-b border-blue-800">
+                <h2 class="font-black text-sm uppercase tracking-widest flex items-center gap-2">
+                    <i class="fas fa-bell"></i> System Updates & Alerts
+                </h2>
+                <button onclick="closeNotifications()" class="w-8 h-8 rounded-full bg-white/20 flex justify-center items-center hover:bg-white/30 transition-colors"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="p-6 bg-slate-50 max-h-[60vh] overflow-y-auto custom-scroll space-y-4" id="dynamicNotifications"></div>
+        </div>
+    </div>
+
+    <!-- ADD/EDIT MODAL -->
     <div id="addModal" class="fixed inset-0 bg-slate-900/80 z-[60] flex items-end sm:items-center justify-center hidden backdrop-blur-sm">
         <div id="modalContent" class="bg-white w-full max-w-2xl sm:rounded-3xl rounded-t-3xl overflow-hidden shadow-2xl flex flex-col transition-transform duration-300 transform translate-y-full max-h-[95vh]">
             <div class="p-6 flex justify-between items-center border-b sticky top-0 bg-white z-10">
@@ -537,11 +648,9 @@
                 </div>
                 <button onclick="closeModal()" class="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center active:bg-slate-200 hover:text-red-500 transition-colors"><i class="fas fa-times text-slate-500 text-lg"></i></button>
             </div>
-            
             <div class="overflow-y-auto p-6 custom-scroll bg-slate-50">
                 <form id="joineeForm" class="grid grid-cols-1 gap-6 bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
                     <input type="hidden" id="editId">
-                    
                     <div class="grid grid-cols-2 gap-4">
                         <div class="bg-blue-50/50 p-4 rounded-2xl border border-blue-100">
                             <label class="text-[10px] font-black text-slate-400 mb-1 block uppercase">Emp Id</label>
@@ -549,14 +658,13 @@
                         </div>
                         <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200">
                             <label class="text-[10px] font-black text-slate-400 mb-1 block uppercase">Status</label>
-                            <select id="status" required class="w-full bg-transparent font-black text-slate-700 outline-none uppercase">
+                            <select id="status" required class="w-full bg-transparent font-black text-slate-700 outline-none uppercase" onchange="toggleInductionFields()">
                                 <option value="PENDING">PENDING</option>
                                 <option value="SELECTED">SELECTED</option>
                                 <option value="REJECTED">REJECTED</option>
                             </select>
                         </div>
                     </div>
-
                     <div class="space-y-2">
                         <label class="text-[10px] font-black text-slate-400 ml-2 uppercase">Full Name</label>
                         <div class="relative">
@@ -564,7 +672,6 @@
                             <input type="text" id="empName" required class="w-full pl-10 p-4 bg-slate-50 border border-slate-200 rounded-xl font-bold uppercase focus:ring-2 ring-blue-100 outline-none transition-all">
                         </div>
                     </div>
-
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div class="space-y-2">
                             <label class="text-[10px] font-black text-slate-400 ml-2 uppercase">Phone Number</label>
@@ -583,7 +690,6 @@
                             </select>
                         </div>
                     </div>
-
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div class="space-y-2">
                             <label class="text-[10px] font-black text-slate-400 ml-2 uppercase">Entity</label>
@@ -608,7 +714,6 @@
                             </select>
                         </div>
                     </div>
-
                     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
                         <div class="space-y-2">
                             <label class="text-[10px] font-black text-slate-400 ml-1 uppercase">Exp (Yrs)</label>
@@ -637,7 +742,21 @@
                             <input type="date" id="followUpDate" class="w-full p-4 bg-blue-50 border border-blue-200 rounded-xl font-bold focus:ring-2 ring-blue-300 outline-none text-xs text-blue-800">
                         </div>
                     </div>
-                    
+                    <!-- Induction Section -->
+                    <div id="inductionSection" class="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 bg-purple-50/30 rounded-xl border border-purple-100 hidden">
+                        <div class="space-y-2">
+                            <label class="text-[10px] font-black text-purple-700 ml-1 uppercase">Induction Completed?</label>
+                            <div class="flex items-center gap-4">
+                                <label class="flex items-center gap-1.5 cursor-pointer">
+                                    <input type="checkbox" id="inductionCompleted" class="doc-checkbox"> Yes
+                                </label>
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-[10px] font-black text-purple-700 ml-1 uppercase">Induction Date</label>
+                            <input type="date" id="inductionDate" class="w-full p-3 bg-white border border-purple-200 rounded-xl text-sm focus:ring-2 ring-purple-200 outline-none">
+                        </div>
+                    </div>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 bg-emerald-50/30 rounded-xl border border-emerald-100">
                         <div class="space-y-2">
                             <label class="text-[10px] font-black text-emerald-700 ml-1 uppercase">Current CTC (LPA)</label>
@@ -655,7 +774,6 @@
                             </div>
                         </div>
                     </div>
-                    
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div class="bg-amber-50/30 p-4 rounded-xl border border-amber-100">
                             <label class="text-[10px] font-black text-slate-500 block uppercase mb-2">Candidate Rating</label>
@@ -668,7 +786,6 @@
                             </div>
                             <input type="hidden" id="candidateRating" value="0">
                         </div>
-                        
                         <div class="bg-indigo-50/30 p-4 rounded-xl border border-indigo-100 flex flex-col justify-center">
                             <label class="text-[10px] font-black text-indigo-700 block uppercase mb-2">Candidate Source</label>
                             <select id="source" class="w-full p-3 bg-white border border-indigo-200 rounded-xl font-bold uppercase outline-none focus:ring-2 ring-indigo-200 text-sm text-indigo-800">
@@ -680,23 +797,46 @@
                             </select>
                         </div>
                     </div>
-
                     <div class="space-y-2">
                         <label class="text-[10px] font-black text-slate-400 ml-2 uppercase">Skills / Strengths</label>
                         <input type="text" id="skills" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl font-bold uppercase placeholder:text-slate-300 focus:ring-2 ring-blue-100 outline-none" placeholder="E.G. TALLY, SALES, EXCEL">
                         <p class="text-[9px] text-slate-400 ml-2">Separate multiple skills with commas</p>
                     </div>
-
                     <div class="space-y-2">
                         <label class="text-[10px] font-black text-slate-400 ml-2 uppercase">Remarks / Manager Notes</label>
                         <textarea id="remarks" rows="3" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl font-bold uppercase placeholder:text-slate-300 focus:ring-2 ring-blue-100 outline-none" placeholder="ENTER INTERVIEW FEEDBACK HERE..."></textarea>
                     </div>
-
                     <button type="submit" class="w-full bg-sarathy-blue text-white font-black py-5 rounded-2xl shadow-xl active:scale-95 transition-all text-sm tracking-widest uppercase mt-2 hover:bg-blue-700">
                         <i class="fas fa-save mr-2"></i> COMMIT RECORD
                     </button>
                 </form>
             </div>
+        </div>
+    </div>
+
+    <!-- TIMELINE MODAL -->
+    <div id="timelineModal" class="fixed inset-0 bg-slate-900/80 z-[70] flex items-center justify-center hidden backdrop-blur-md p-4">
+        <div class="bg-white rounded-3xl w-full max-w-lg overflow-hidden shadow-2xl animate-up">
+            <div class="p-5 bg-indigo-600 text-white flex justify-between items-center">
+                <h2 class="font-black text-sm uppercase tracking-widest flex items-center gap-2">
+                    <i class="fas fa-history"></i> Activity Timeline
+                </h2>
+                <button onclick="document.getElementById('timelineModal').classList.add('hidden')" class="w-8 h-8 rounded-full bg-white/20 flex justify-center items-center hover:bg-white/30 transition-colors"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="p-6 max-h-[70vh] overflow-y-auto custom-scroll" id="timelineContent"></div>
+        </div>
+    </div>
+
+    <!-- EMAIL TEMPLATE MODAL -->
+    <div id="emailTemplateModal" class="fixed inset-0 bg-slate-900/80 z-[70] flex items-center justify-center hidden backdrop-blur-md p-4">
+        <div class="bg-white rounded-3xl w-full max-w-md overflow-hidden shadow-2xl animate-up">
+            <div class="p-5 bg-emerald-600 text-white flex justify-between items-center">
+                <h2 class="font-black text-sm uppercase tracking-widest flex items-center gap-2">
+                    <i class="fas fa-envelope-open-text"></i> Email Templates
+                </h2>
+                <button onclick="document.getElementById('emailTemplateModal').classList.add('hidden')" class="w-8 h-8 rounded-full bg-white/20 flex justify-center items-center hover:bg-white/30 transition-colors"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="p-6 space-y-3" id="emailTemplateContent"></div>
         </div>
     </div>
 
@@ -749,9 +889,7 @@
                         <span class="bg-blue-100 text-blue-800 text-[9px] font-bold px-2 py-0.5 rounded" id="assistantExp">---</span>
                     </div>
                 </div>
-                <div class="space-y-3 mt-6" id="assistantQuestions">
-                    <!-- Questions injected here -->
-                </div>
+                <div class="space-y-3 mt-6" id="assistantQuestions"></div>
             </div>
         </div>
     </div>
@@ -764,8 +902,7 @@
                 <button onclick="document.getElementById('offerModal').classList.add('hidden')" class="w-8 h-8 rounded-full bg-slate-700 flex justify-center items-center hover:bg-slate-600 transition-colors"><i class="fas fa-times"></i></button>
             </div>
             <div class="p-6 overflow-y-auto custom-scroll flex-1 bg-slate-200">
-                <div class="bg-white p-8 md:p-12 shadow-md rounded border border-slate-300 mx-auto max-w-xl offer-letter-content text-sm leading-relaxed text-slate-800" id="offerLetterContent" contenteditable="true">
-                </div>
+                <div class="bg-white p-8 md:p-12 shadow-md rounded border border-slate-300 mx-auto max-w-xl offer-letter-content text-sm leading-relaxed text-slate-800" id="offerLetterContent" contenteditable="true"></div>
             </div>
             <div class="p-4 bg-white border-t flex gap-3">
                 <button onclick="copyOfferLetter()" class="flex-1 bg-sarathy-blue hover:bg-blue-700 transition-colors text-white font-black py-3 rounded-xl text-xs tracking-widest active:scale-95 uppercase shadow-md flex items-center justify-center gap-2">
@@ -777,8 +914,8 @@
             </div>
         </div>
     </div>
-    
-    <!-- CUSTOM CONFIRM DELETE MODAL -->
+
+    <!-- DELETE MODAL -->
     <div id="deleteModal" class="fixed inset-0 bg-slate-900/80 z-[80] flex items-center justify-center hidden backdrop-blur-sm p-4">
         <div class="bg-white rounded-3xl w-full max-w-sm overflow-hidden shadow-2xl animate-up text-center p-8">
             <div class="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -800,14 +937,14 @@
     </div>
 
     <script>
-        // Data Configuration
+        // ================== DATA CONFIG ==================
         const USERS = [
             { user: 'ADMIN', pass: 'SARATHY@26', role: 'System Administrator' },
             { user: 'HR', pass: 'SARATHY@HR', role: 'HR Executive' }
         ];
 
         let currentUser = null;
-        let joinees = JSON.parse(localStorage.getItem('sarathy_db_v10')) || []; 
+        let joinees = JSON.parse(localStorage.getItem('sarathy_db_v12')) || [];
         let manpowerReqList = JSON.parse(localStorage.getItem('sarathy_req_detailed_v5')) || [];
         
         // App State
@@ -816,31 +953,273 @@
         let itemToDelete = null;
         let hrChartInstance = null; 
         let sourceChartInstance = null;
-        
-        // NEW FEATURE: Bulk Selection State
         let selectedCandidates = new Set();
-        
-        // Drag and drop state
         let draggedCardId = null;
 
-        // Initialization
-        window.onload = () => {
-            const now = new Date();
-            document.getElementById('monthFilter').value = now.toISOString().slice(0, 7);
-            const session = sessionStorage.getItem('sarathy_session');
-            if(session) {
-                currentUser = JSON.parse(session);
-                showDashboard();
-            }
-        };
-
+        // ================== UTILITIES ==================
         function isAdmin() { return currentUser && currentUser.user === 'ADMIN'; }
 
-        // Chart Init function (Updated)
+        function showToast(msg, type = 'success') {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMessage').innerText = msg;
+            document.getElementById('toastIcon').className = type === 'success' ? 'fas fa-check-circle text-emerald-400 text-xl' : 'fas fa-exclamation-circle text-red-400 text-xl';
+            toast.classList.remove('opacity-0', 'translate-y-40');
+            setTimeout(() => toast.classList.add('opacity-0', 'translate-y-40'), 3000);
+        }
+
+        function formatDisplayDate(dateStr) {
+            if (!dateStr) return "---";
+            const parts = dateStr.split('-');
+            return parts.length !== 3 ? dateStr : `${parts[2]}-${parts[1]}-${parts[0]}`;
+        }
+
+        function getNextEmpId() {
+            if (joinees.length === 0) return "SG-001";
+            const ids = joinees.map(j => {
+                const num = parseInt(j.empId.replace("SG-", ""));
+                return isNaN(num) ? 0 : num;
+            });
+            return "SG-" + (Math.max(...ids) + 1).toString().padStart(3, '0');
+        }
+
+        // ================== DARK MODE ==================
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            const icon = document.getElementById('darkModeIcon');
+            if (document.body.classList.contains('dark-mode')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+                localStorage.setItem('darkMode', 'true');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+                localStorage.setItem('darkMode', 'false');
+            }
+        }
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            document.getElementById('darkModeIcon').classList.remove('fa-moon');
+            document.getElementById('darkModeIcon').classList.add('fa-sun');
+        }
+
+        // ================== BACKUP / RESTORE ==================
+        function toggleBackupMenu() {
+            document.getElementById('backupMenu').classList.toggle('hidden');
+        }
+        function exportBackup() {
+            const data = { joinees, manpowerReqList };
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `sarathy_backup_${new Date().toISOString().slice(0,10)}.json`;
+            a.click();
+            showToast("BACKUP EXPORTED");
+            document.getElementById('backupMenu').classList.add('hidden');
+        }
+        function importBackup(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    if (data.joinees && data.manpowerReqList) {
+                        joinees = data.joinees;
+                        manpowerReqList = data.manpowerReqList;
+                        localStorage.setItem('sarathy_db_v12', JSON.stringify(joinees));
+                        localStorage.setItem('sarathy_req_detailed_v5', JSON.stringify(manpowerReqList));
+                        renderTable();
+                        showToast("BACKUP RESTORED");
+                    } else {
+                        showToast("INVALID BACKUP FILE", "error");
+                    }
+                } catch (err) {
+                    showToast("ERROR READING FILE", "error");
+                }
+            };
+            reader.readAsText(file);
+            document.getElementById('backupMenu').classList.add('hidden');
+        }
+
+        // ================== TIMELINE ==================
+        function addActivity(candidateId, action, details) {
+            const idx = joinees.findIndex(j => j.id === candidateId);
+            if (idx === -1) return;
+            if (!joinees[idx].activity) joinees[idx].activity = [];
+            joinees[idx].activity.push({
+                timestamp: new Date().toISOString(),
+                action,
+                details,
+                user: currentUser?.user || 'SYSTEM'
+            });
+        }
+
+        function showTimeline(id) {
+            const candidate = joinees.find(j => j.id === id);
+            if (!candidate) return;
+            const activities = candidate.activity || [];
+            let html = '<div class="space-y-4">';
+            if (activities.length === 0) {
+                html += '<p class="text-center text-slate-400 text-xs font-bold">No activity recorded yet.</p>';
+            } else {
+                activities.sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
+                activities.forEach(act => {
+                    const date = new Date(act.timestamp).toLocaleString();
+                    html += `
+                        <div class="timeline-item">
+                            <div class="text-[9px] font-black text-slate-400">${date}</div>
+                            <div class="text-xs font-bold text-slate-700">${act.action}</div>
+                            <div class="text-[9px] text-slate-500">${act.details} • by ${act.user}</div>
+                        </div>
+                    `;
+                });
+            }
+            html += '</div>';
+            document.getElementById('timelineContent').innerHTML = html;
+            document.getElementById('timelineModal').classList.remove('hidden');
+        }
+
+        // ================== EMAIL TEMPLATES ==================
+        function showEmailTemplates(id) {
+            const candidate = joinees.find(j => j.id === id);
+            if (!candidate) return;
+            const templates = {
+                interview: `Dear ${candidate.name},\nWe are pleased to invite you for an interview at Sarathy Group for the position in the ${candidate.dept} department.\nDate: ${candidate.interviewDate}\nLocation: ${candidate.location}\nPlease bring your updated resume.\nRegards,\nHR Department`,
+                offer: `Dear ${candidate.name},\nCongratulations! We are thrilled to inform you that you have been SELECTED for the role in the ${candidate.dept} department at Sarathy Group (${candidate.company}).\nOur HR team will contact you shortly with the offer letter and joining details.\nWelcome to the Sarathy family!\nHR Department`,
+                rejection: `Dear ${candidate.name},\nThank you for taking the time to interview with us for the role in the ${candidate.dept} department.\nWhile we were impressed with your background, we have decided to move forward with another candidate. We will keep your resume for future opportunities.\nWishing you all the best.\nHR Department`
+            };
+            let html = '';
+            for (const [key, text] of Object.entries(templates)) {
+                html += `
+                    <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                        <h3 class="font-black text-[10px] uppercase mb-2">${key.toUpperCase()}</h3>
+                        <p class="text-[9px] text-slate-600 mb-2 whitespace-pre-wrap">${text}</p>
+                        <button onclick="sendEmailFromTemplate(${id}, '${key}')" class="text-[9px] bg-blue-500 text-white px-3 py-1 rounded-lg font-bold">Send Email</button>
+                    </div>
+                `;
+            }
+            document.getElementById('emailTemplateContent').innerHTML = html;
+            document.getElementById('emailTemplateModal').classList.remove('hidden');
+        }
+
+        function sendEmailFromTemplate(id, templateKey) {
+            const candidate = joinees.find(j => j.id === id);
+            if (!candidate) return;
+            const templates = {
+                interview: {
+                    subject: `Interview Invitation - Sarathy Group - ${candidate.dept}`,
+                    body: `Dear ${candidate.name},\n\nWe are pleased to invite you for an interview at Sarathy Group for the position in the ${candidate.dept} department.\nDate: ${candidate.interviewDate}\nLocation: ${candidate.location}\n\nPlease bring your updated resume.\n\nRegards,\nHR Department`
+                },
+                offer: {
+                    subject: `Offer Letter from Sarathy Group - ${candidate.dept}`,
+                    body: `Dear ${candidate.name},\n\nCongratulations! We are thrilled to inform you that you have been SELECTED for the role in the ${candidate.dept} department at Sarathy Group (${candidate.company}).\n\nOur HR team will contact you shortly with the offer letter and joining details.\n\nWelcome to the Sarathy family!\nHR Department`
+                },
+                rejection: {
+                    subject: `Update on your application - Sarathy Group`,
+                    body: `Dear ${candidate.name},\n\nThank you for taking the time to interview with us for the role in the ${candidate.dept} department.\n\nWhile we were impressed with your background, we have decided to move forward with another candidate. We will keep your resume for future opportunities.\n\nWishing you all the best.\nHR Department`
+                }
+            };
+            const t = templates[templateKey];
+            if (t) {
+                window.location.href = `mailto:?subject=${encodeURIComponent(t.subject)}&body=${encodeURIComponent(t.body)}`;
+            }
+            document.getElementById('emailTemplateModal').classList.add('hidden');
+        }
+
+        // ================== ADVANCED FILTERS ==================
+        function toggleAdvancedFilters() {
+            document.getElementById('advancedFilters').classList.toggle('hidden');
+        }
+        function clearAdvancedFilters() {
+            document.getElementById('noticeFilter').value = '';
+            document.getElementById('minCTC').value = '';
+            document.getElementById('maxCTC').value = '';
+            document.getElementById('minRating').value = '';
+            document.getElementById('skillsFilter').value = '';
+            renderTable();
+        }
+
+        // ================== NOTIFICATIONS ==================
+        function checkNotifications() {
+            const todayStr = new Date().toISOString().slice(0, 10);
+            const joinersToday = joinees.filter(j => j.status === 'SELECTED' && j.joinDate === todayStr);
+            const pendingInductions = joinees.filter(j => j.status === 'SELECTED' && !j.inductionCompleted && j.joinDate && j.joinDate <= todayStr);
+            const upcomingInterviews = joinees.filter(j => {
+                if (!j.interviewDate) return false;
+                const d = new Date(j.interviewDate);
+                const now = new Date();
+                const diff = Math.ceil((d - now) / (1000*60*60*24));
+                return diff >= 0 && diff <= 2;
+            });
+
+            let urgentCount = joinersToday.length + pendingInductions.length + upcomingInterviews.length;
+            const badge = document.getElementById('notificationBadge');
+            if (urgentCount > 0) {
+                badge.classList.remove('hidden');
+                badge.innerHTML = `<span class="relative flex h-3 w-3"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span><span class="relative inline-flex rounded-full h-3 w-3 bg-red-500 border-2 border-white"></span><span class="absolute top-0 right-0 text-[8px] font-bold text-white" style="transform: translate(50%, -50%);">${urgentCount}</span></span>`;
+            } else {
+                badge.classList.add('hidden');
+            }
+
+            let dynamicHtml = '';
+            joinersToday.forEach(j => {
+                dynamicHtml += `
+                    <div class="bg-white p-4 rounded-2xl border border-purple-200 shadow-md relative overflow-hidden mb-4 animate-pulse-slight">
+                        <div class="absolute top-0 left-0 w-1 h-full bg-purple-600"></div>
+                        <span class="text-[10px] font-black text-purple-700 uppercase tracking-widest mb-1 block"><i class="fas fa-handshake mr-1"></i> JOINING TODAY</span>
+                        <h3 class="font-black text-sm text-slate-800 mb-1">${j.name} <span class="text-xs text-slate-500 font-bold">(${j.empId})</span></h3>
+                        <p class="text-[10px] text-slate-600 leading-relaxed font-bold uppercase">${j.dept} • ${j.location}</p>
+                        <div class="mt-3 flex gap-2">
+                            <button onclick="sendWelcomeWhatsApp('${j.name}', '${j.phone}', '${j.company}')" class="text-[9px] bg-[#25D366]/10 text-[#25D366] font-black px-3 py-1.5 rounded-lg border border-[#25D366]/20 uppercase hover:bg-[#25D366]/20 transition-colors"><i class="fab fa-whatsapp mr-1"></i> Welcome Msg</button>
+                        </div>
+                    </div>
+                `;
+            });
+            pendingInductions.forEach(j => {
+                dynamicHtml += `
+                    <div class="bg-white p-4 rounded-2xl border border-orange-200 shadow-md relative overflow-hidden mb-4">
+                        <div class="absolute top-0 left-0 w-1 h-full bg-orange-500"></div>
+                        <span class="text-[10px] font-black text-orange-600 uppercase tracking-widest mb-1 block"><i class="fas fa-graduation-cap mr-1"></i> INDUCTION PENDING</span>
+                        <h3 class="font-black text-sm text-slate-800 mb-1">${j.name} <span class="text-xs text-slate-500 font-bold">(${j.empId})</span></h3>
+                        <p class="text-[10px] text-slate-600 leading-relaxed font-bold uppercase">Join Date: ${j.joinDate} | Dept: ${j.dept}</p>
+                        <div class="mt-3">
+                            <button onclick="toggleInduction(${j.id})" class="text-[9px] bg-indigo-100 text-indigo-700 font-black px-3 py-1.5 rounded-lg border border-indigo-200 uppercase hover:bg-indigo-200 transition-colors"><i class="fas fa-check mr-1"></i> Mark Completed</button>
+                        </div>
+                    </div>
+                `;
+            });
+            upcomingInterviews.forEach(j => {
+                dynamicHtml += `
+                    <div class="bg-white p-4 rounded-2xl border border-blue-200 shadow-md relative overflow-hidden mb-4">
+                        <div class="absolute top-0 left-0 w-1 h-full bg-blue-500"></div>
+                        <span class="text-[10px] font-black text-blue-600 uppercase tracking-widest mb-1 block"><i class="fas fa-calendar-alt mr-1"></i> UPCOMING INTERVIEW</span>
+                        <h3 class="font-black text-sm text-slate-800 mb-1">${j.name} <span class="text-xs text-slate-500 font-bold">(${j.empId})</span></h3>
+                        <p class="text-[10px] text-slate-600 leading-relaxed font-bold uppercase">Date: ${formatDisplayDate(j.interviewDate)} | ${j.dept}</p>
+                    </div>
+                `;
+            });
+            document.getElementById('dynamicNotifications').innerHTML = dynamicHtml || '<div class="text-center text-slate-400 text-xs font-bold py-4">No new notifications</div>';
+        }
+
+        function sendWelcomeWhatsApp(name, phone, company) {
+            const msg = `Dear ${name},%0A%0AWelcome to *${company}*! 🎉%0A%0AWe are excited to have you join our team today. Please report to the HR desk for your onboarding formalities.%0A%0AWishing you a successful journey with Sarathy Group! 🚀%0A%0ARegards,%0AHR Department`;
+            window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
+        }
+
+        function toggleNotifications() {
+            document.getElementById('notificationModal').classList.remove('hidden');
+            checkNotifications();
+        }
+
+        function closeNotifications() {
+            document.getElementById('notificationModal').classList.add('hidden');
+        }
+
+        // ================== CHART FUNCTIONS ==================
         function initOrUpdateChart(sel, pen, rej) {
             const ctx = document.getElementById('statusChart');
             if(!ctx) return;
-            
             if(hrChartInstance) {
                 hrChartInstance.data.datasets[0].data = [sel, pen, rej];
                 hrChartInstance.update();
@@ -869,20 +1248,16 @@
             }
         }
 
-        // NEW FEATURE: Source Chart Initialization
         function initOrUpdateSourceChart(data) {
             const ctx = document.getElementById('sourceChart');
             if(!ctx) return;
-
             const counts = { 'WALK-IN': 0, 'REFERRAL': 0, 'LINKEDIN': 0, 'NAUKRI': 0, 'CONSULTANCY': 0 };
             data.forEach(x => {
                 const src = x.source || 'WALK-IN';
                 if(counts[src] !== undefined) counts[src]++;
             });
-
             const labels = Object.keys(counts);
             const values = Object.values(counts);
-
             if(sourceChartInstance) {
                 sourceChartInstance.data.datasets[0].data = values;
                 sourceChartInstance.update();
@@ -929,29 +1304,25 @@
             const recognition = new webkitSpeechRecognition();
             recognition.lang = 'en-US';
             const micIcon = document.getElementById('micIcon');
-            
             recognition.onstart = () => {
                 micIcon.classList.add('listening');
                 micIcon.classList.remove('text-slate-400');
                 document.getElementById('searchInput').placeholder = "LISTENING...";
             };
-            
             recognition.onresult = (event) => {
                 const transcript = event.results[0][0].transcript;
                 document.getElementById('searchInput').value = transcript.toUpperCase();
                 renderTable();
             };
-            
             recognition.onend = () => {
                 micIcon.classList.remove('listening');
                 micIcon.classList.add('text-slate-400');
                 document.getElementById('searchInput').placeholder = "SEARCH PERSONNEL BY NAME, ID OR SKILLS...";
             };
-            
             recognition.start();
         }
 
-        // NEW FEATURE: Bulk Selection Logic
+        // ================== BULK SELECTION ==================
         function toggleBulkSelection(id) {
             if(selectedCandidates.has(id)) {
                 selectedCandidates.delete(id);
@@ -963,14 +1334,13 @@
 
         function clearBulkSelection() {
             selectedCandidates.clear();
-            renderTable(); // Re-render to clear checkboxes
+            renderTable();
             updateBulkActionBar();
         }
 
         function updateBulkActionBar() {
             const bar = document.getElementById('bulkActionBar');
             const countText = document.getElementById('bulkCountText');
-            
             if(selectedCandidates.size > 0) {
                 countText.innerText = `${selectedCandidates.size} Selected`;
                 bar.classList.add('visible');
@@ -983,19 +1353,41 @@
 
         function bulkChangeStatus(newStatus) {
             if(!isAdmin()) return showToast("ADMIN ONLY", "error");
-            
             let updated = 0;
             joinees.forEach(j => {
                 if(selectedCandidates.has(j.id) && j.status !== newStatus) {
+                    const oldStatus = j.status;
                     j.status = newStatus;
+                    addActivity(j.id, 'Status Changed (Bulk)', `From ${oldStatus} to ${newStatus}`);
                     updated++;
                 }
             });
-            
             if(updated > 0) {
-                localStorage.setItem('sarathy_db_v10', JSON.stringify(joinees));
+                localStorage.setItem('sarathy_db_v12', JSON.stringify(joinees));
                 showToast(`STATUS CHANGED FOR ${updated} RECORDS`);
                 if(newStatus === 'SELECTED') triggerConfetti();
+            }
+            clearBulkSelection();
+        }
+
+        function bulkSetInduction(completed) {
+            if(!isAdmin()) return showToast("ADMIN ONLY", "error");
+            let updated = 0;
+            const todayStr = new Date().toISOString().slice(0, 10);
+            joinees.forEach(j => {
+                if(selectedCandidates.has(j.id) && j.status === 'SELECTED') {
+                    const old = j.inductionCompleted;
+                    j.inductionCompleted = completed;
+                    if (completed && !j.inductionDate) {
+                        j.inductionDate = todayStr;
+                    }
+                    addActivity(j.id, 'Induction Updated (Bulk)', `From ${old ? 'Completed' : 'Pending'} to ${completed ? 'Completed' : 'Pending'}`);
+                    updated++;
+                }
+            });
+            if(updated > 0) {
+                localStorage.setItem('sarathy_db_v12', JSON.stringify(joinees));
+                showToast(`INDUCTION UPDATED FOR ${updated} RECORDS`);
             }
             clearBulkSelection();
         }
@@ -1004,12 +1396,13 @@
             if(!isAdmin()) return showToast("ADMIN ONLY", "error");
             if(confirm(`Are you sure you want to delete ${selectedCandidates.size} selected records?`)) {
                 joinees = joinees.filter(j => !selectedCandidates.has(j.id));
-                localStorage.setItem('sarathy_db_v10', JSON.stringify(joinees));
+                localStorage.setItem('sarathy_db_v12', JSON.stringify(joinees));
                 showToast(`${selectedCandidates.size} RECORDS DELETED`, "error");
                 clearBulkSelection();
             }
         }
 
+        // ================== DRAG & DROP ==================
         function dragStart(event, id) {
             draggedCardId = id;
             event.dataTransfer.effectAllowed = 'move';
@@ -1026,7 +1419,7 @@
             event.preventDefault();
             event.currentTarget.classList.add('drag-over');
         }
-        
+
         function dragLeave(event) {
             event.currentTarget.classList.remove('drag-over');
         }
@@ -1034,14 +1427,14 @@
         function drop(event, newStatus) {
             event.preventDefault();
             event.currentTarget.classList.remove('drag-over');
-            
             if(!isAdmin()) return showToast("ADMIN ONLY", "error");
-            
             if(draggedCardId) {
                 const idx = joinees.findIndex(x => x.id === draggedCardId);
                 if(idx !== -1 && joinees[idx].status !== newStatus) {
+                    const oldStatus = joinees[idx].status;
                     joinees[idx].status = newStatus;
-                    localStorage.setItem('sarathy_db_v10', JSON.stringify(joinees));
+                    addActivity(draggedCardId, 'Status Changed (Drag & Drop)', `From ${oldStatus} to ${newStatus}`);
+                    localStorage.setItem('sarathy_db_v12', JSON.stringify(joinees));
                     renderTable();
                     showToast(`MOVED TO ${newStatus}`);
                     if(newStatus === 'SELECTED') triggerConfetti();
@@ -1049,6 +1442,7 @@
             }
         }
 
+        // ================== RATING ==================
         function setRating(rating) {
             document.getElementById('candidateRating').value = rating;
             const stars = document.querySelectorAll('#starContainer i');
@@ -1060,7 +1454,7 @@
                 }
             });
         }
-        
+
         function getStarsHTML(rating) {
             let html = '<div class="display-stars flex gap-0.5 mt-2 mb-1">';
             rating = rating || 0;
@@ -1072,6 +1466,7 @@
             return html;
         }
 
+        // ================== VIEW & FILTER ==================
         function setView(view) {
             currentView = view;
             if(view === 'list') {
@@ -1079,7 +1474,6 @@
                 document.getElementById('btnViewList').classList.remove('text-slate-500');
                 document.getElementById('btnViewBoard').classList.remove('active', 'bg-sarathy-blue', 'text-white');
                 document.getElementById('btnViewBoard').classList.add('text-slate-500');
-                
                 document.getElementById('listView').classList.remove('hidden');
                 document.getElementById('boardView').classList.add('hidden');
                 document.getElementById('listView').classList.add('grid');
@@ -1088,7 +1482,6 @@
                 document.getElementById('btnViewBoard').classList.remove('text-slate-500');
                 document.getElementById('btnViewList').classList.remove('active', 'bg-sarathy-blue', 'text-white');
                 document.getElementById('btnViewList').classList.add('text-slate-500');
-                
                 document.getElementById('listView').classList.add('hidden');
                 document.getElementById('listView').classList.remove('grid');
                 document.getElementById('boardView').classList.remove('hidden');
@@ -1103,21 +1496,7 @@
             renderTable();
         }
 
-        function getNextEmpId() {
-            if (joinees.length === 0) return "SG-001";
-            const ids = joinees.map(j => {
-                const num = parseInt(j.empId.replace("SG-", ""));
-                return isNaN(num) ? 0 : num;
-            });
-            return "SG-" + (Math.max(...ids) + 1).toString().padStart(3, '0');
-        }
-
-        function formatDisplayDate(dateStr) {
-            if (!dateStr) return "---";
-            const parts = dateStr.split('-');
-            return parts.length !== 3 ? dateStr : `${parts[2]}-${parts[1]}-${parts[0]}`;
-        }
-
+        // ================== LOGIN / LOGOUT ==================
         document.getElementById('loginForm').onsubmit = (e) => {
             e.preventDefault();
             const u = document.getElementById('username').value.trim().toUpperCase();
@@ -1142,7 +1521,10 @@
             setTimeout(() => { currentUser = USERS[0]; sessionStorage.setItem('sarathy_session', JSON.stringify(currentUser)); showDashboard(); }, 1000);
         }
 
-        function logout() { sessionStorage.removeItem('sarathy_session'); location.reload(); }
+        function logout() {
+            sessionStorage.removeItem('sarathy_session');
+            location.reload();
+        }
 
         function showDashboard() {
             document.getElementById('loginPage').classList.add('hidden');
@@ -1152,6 +1534,7 @@
             renderTable();
         }
 
+        // ================== MODAL HANDLING ==================
         function openModal() {
             document.getElementById('joineeForm').reset();
             document.getElementById('editId').value = "";
@@ -1161,6 +1544,7 @@
             setRating(0); 
             document.getElementById('modalTitle').innerText = "Register Personnel";
             document.getElementById('addModal').classList.remove('hidden');
+            document.getElementById('inductionSection').classList.add('hidden');
             setTimeout(() => { document.getElementById('modalContent').style.transform = "translateY(0)"; }, 10);
         }
 
@@ -1172,18 +1556,22 @@
         function openReqModal() { if (!isAdmin()) return showToast("ADMIN ONLY", "error"); renderReqEntries(); document.getElementById('reqModal').classList.remove('hidden'); }
         function closeReqModal() { document.getElementById('reqModal').classList.add('hidden'); }
 
-        function showToast(msg, type = 'success') {
-            const toast = document.getElementById('toast');
-            document.getElementById('toastMessage').innerText = msg;
-            document.getElementById('toastIcon').className = type === 'success' ? 'fas fa-check-circle text-emerald-400 text-xl' : 'fas fa-exclamation-circle text-red-400 text-xl';
-            toast.classList.remove('opacity-0', 'translate-y-40');
-            setTimeout(() => toast.classList.add('opacity-0', 'translate-y-40'), 3000);
+        function toggleInductionFields() {
+            const status = document.getElementById('status').value;
+            const inductionSection = document.getElementById('inductionSection');
+            if (status === 'SELECTED') {
+                inductionSection.classList.remove('hidden');
+            } else {
+                inductionSection.classList.add('hidden');
+                document.getElementById('inductionCompleted').checked = false;
+                document.getElementById('inductionDate').value = '';
+            }
         }
 
+        // ================== FORM SUBMIT ==================
         document.getElementById('joineeForm').onsubmit = (e) => {
             e.preventDefault();
             const editId = document.getElementById('editId').value;
-            
             let existingDocs = [];
             if(editId) {
                 const oldRec = joinees.find(x => x.id === parseInt(editId));
@@ -1212,22 +1600,30 @@
                 remarks: document.getElementById('remarks').value.trim().toUpperCase(),
                 rating: parseInt(document.getElementById('candidateRating').value) || 0,
                 documents: existingDocs,
+                inductionCompleted: document.getElementById('inductionCompleted')?.checked || false,
+                inductionDate: document.getElementById('inductionDate')?.value || null,
                 createdAt: editId ? (joinees.find(x => x.id === parseInt(editId))?.createdAt || Date.now()) : Date.now()
             };
 
-            const wasPending = editId && joinees.find(x => x.id === parseInt(editId))?.status !== 'SELECTED';
-
             if (editId) {
                 const idx = joinees.findIndex(x => x.id === data.id);
-                if (idx !== -1) joinees[idx] = data;
-            } else { joinees.push(data); }
-            
-            localStorage.setItem('sarathy_db_v10', JSON.stringify(joinees));
+                if (idx !== -1) {
+                    const old = joinees[idx];
+                    // Log changes (simplified)
+                    addActivity(data.id, 'Record Updated', 'Details modified');
+                    joinees[idx] = data;
+                }
+            } else { 
+                joinees.push(data); 
+                addActivity(data.id, 'Record Created', 'New personnel added');
+            }
+
+            localStorage.setItem('sarathy_db_v12', JSON.stringify(joinees));
             closeModal();
             renderTable();
             showToast("DATABASE UPDATED SUCCESSFULLY");
-            
-            if(data.status === 'SELECTED' && (!editId || wasPending)) {
+
+            if(data.status === 'SELECTED' && !editId) {
                 triggerConfetti();
             }
         };
@@ -1258,42 +1654,60 @@
             document.getElementById('followUpDate').value = r.followUpDate || "";
             document.getElementById('remarks').value = r.remarks || "";
             setRating(r.rating || 0);
+            if (r.status === 'SELECTED') {
+                document.getElementById('inductionSection').classList.remove('hidden');
+                document.getElementById('inductionCompleted').checked = r.inductionCompleted || false;
+                document.getElementById('inductionDate').value = r.inductionDate || '';
+            } else {
+                document.getElementById('inductionSection').classList.add('hidden');
+            }
         }
 
         function quickToggleStatus(id) {
             if(!isAdmin()) return;
             const idx = joinees.findIndex(x => x.id === id);
             if(idx === -1) return;
-            
             const currentStatus = joinees[idx].status;
             let newStatus = 'PENDING';
-            
             if(currentStatus === 'PENDING') newStatus = 'SELECTED';
             else if(currentStatus === 'SELECTED') newStatus = 'REJECTED';
             else if(currentStatus === 'REJECTED') newStatus = 'PENDING';
-            
             joinees[idx].status = newStatus;
-            localStorage.setItem('sarathy_db_v10', JSON.stringify(joinees));
+            addActivity(id, 'Status Changed', `From ${currentStatus} to ${newStatus}`);
+            localStorage.setItem('sarathy_db_v12', JSON.stringify(joinees));
             renderTable();
             showToast(`STATUS CHANGED TO ${newStatus}`);
-            
             if(newStatus === 'SELECTED') triggerConfetti();
+        }
+
+        function toggleInduction(id) {
+            if(!isAdmin()) return;
+            const idx = joinees.findIndex(x => x.id === id);
+            if(idx === -1 || joinees[idx].status !== 'SELECTED') return;
+            const old = joinees[idx].inductionCompleted;
+            joinees[idx].inductionCompleted = !old;
+            if (joinees[idx].inductionCompleted && !joinees[idx].inductionDate) {
+                joinees[idx].inductionDate = new Date().toISOString().slice(0, 10);
+            }
+            addActivity(id, 'Induction Updated', `From ${old ? 'Completed' : 'Pending'} to ${!old ? 'Completed' : 'Pending'}`);
+            localStorage.setItem('sarathy_db_v12', JSON.stringify(joinees));
+            renderTable();
+            showToast(`INDUCTION ${joinees[idx].inductionCompleted ? 'COMPLETED' : 'PENDING'}`);
         }
 
         function cloneRecord(id) {
             if(!isAdmin()) return showToast("ADMIN ONLY", "error");
             const r = joinees.find(x => x.id === id);
             if(!r) return;
-            
             const cloned = JSON.parse(JSON.stringify(r));
             cloned.id = Date.now();
             cloned.empId = getNextEmpId();
             cloned.name = cloned.name + " (COPY)";
             cloned.status = "PENDING";
             cloned.createdAt = Date.now();
-            
+            cloned.activity = []; // fresh timeline
             joinees.push(cloned);
-            localStorage.setItem('sarathy_db_v10', JSON.stringify(joinees));
+            localStorage.setItem('sarathy_db_v12', JSON.stringify(joinees));
             renderTable();
             showToast("RECORD DUPLICATED SUCCESSFULLY");
         }
@@ -1301,7 +1715,6 @@
         function printCandidate(id) {
             const r = joinees.find(x => x.id === id);
             if(!r) return;
-            
             const printWin = window.open('', '', 'width=800,height=600');
             printWin.document.write(`
                 <html>
@@ -1340,6 +1753,8 @@
                         <tr><th>Candidate Source</th><td>${r.source || 'WALK-IN'}</td></tr>
                         <tr><th>Interview Date</th><td>${formatDisplayDate(r.interviewDate)}</td></tr>
                         <tr><th>HR Rating</th><td>${r.rating ? r.rating + ' / 5 Stars' : 'Not Rated'}</td></tr>
+                        <tr><th>Induction Completed</th><td>${r.inductionCompleted ? 'YES' : 'NO'}</td></tr>
+                        ${r.inductionDate ? `<tr><th>Induction Date</th><td>${formatDisplayDate(r.inductionDate)}</td></tr>` : ''}
                         <tr><th>Manager / HR Remarks</th><td>${r.remarks || 'None'}</td></tr>
                     </table>
                     <div class="print-footer">
@@ -1366,7 +1781,7 @@
         document.getElementById('confirmDeleteBtn').onclick = () => {
             if(itemToDelete) {
                 joinees = joinees.filter(x => x.id !== itemToDelete); 
-                localStorage.setItem('sarathy_db_v10', JSON.stringify(joinees)); 
+                localStorage.setItem('sarathy_db_v12', JSON.stringify(joinees)); 
                 renderTable(); 
                 showToast("RECORD DELETED", "error"); 
                 closeDeleteModal();
@@ -1375,23 +1790,21 @@
             }
         };
 
-        // NEW FEATURE: Updated toggleDoc to show progress
         function toggleDoc(id, docType) {
             const idx = joinees.findIndex(x => x.id === id);
             if(idx === -1) return;
-            
             if(!joinees[idx].documents) joinees[idx].documents = [];
-            
             const docIdx = joinees[idx].documents.indexOf(docType);
+            let action = '';
             if(docIdx > -1) {
                 joinees[idx].documents.splice(docIdx, 1);
+                action = 'removed';
             } else {
                 joinees[idx].documents.push(docType);
+                action = 'added';
             }
-            
-            localStorage.setItem('sarathy_db_v10', JSON.stringify(joinees));
-            
-            // Instantly update progress bar visually
+            addActivity(id, 'Document Updated', `${docType.toUpperCase()} ${action}`);
+            localStorage.setItem('sarathy_db_v12', JSON.stringify(joinees));
             const progressEl = document.getElementById(`docProgress_${id}`);
             if(progressEl) {
                 const perc = (joinees[idx].documents.length / 3) * 100;
@@ -1400,14 +1813,19 @@
             }
         }
 
+        // ================== RENDER FUNCTIONS ==================
         function renderTable() {
             const month = document.getElementById('monthFilter').value;
             const term = document.getElementById('searchInput').value.toUpperCase();
             const todayStr = new Date().toISOString().slice(0, 10);
-            
             const selComp = document.getElementById('compFilter').value;
             const selDept = document.getElementById('deptFilter').value;
             const selSort = document.getElementById('sortFilter').value;
+            const noticeFilter = document.getElementById('noticeFilter').value;
+            const minCTC = parseFloat(document.getElementById('minCTC').value);
+            const maxCTC = parseFloat(document.getElementById('maxCTC').value);
+            const minRating = parseInt(document.getElementById('minRating').value);
+            const skillsFilter = document.getElementById('skillsFilter').value.toUpperCase().split(',').map(s => s.trim()).filter(s => s);
 
             if(month) {
                 const [y, m] = month.split('-');
@@ -1419,14 +1837,19 @@
                 const searchMatch = x.name.includes(term) || x.empId.includes(term) || (x.skills && x.skills.includes(term));
                 const compMatch = selComp === "All" || x.company === selComp;
                 const deptMatch = selDept === "All" || x.dept === selDept;
-                
                 let quickMatch = true;
                 if(activeQuickFilter === 'Today') quickMatch = x.interviewDate === todayStr;
                 if(activeQuickFilter === 'Pending') quickMatch = x.status === 'PENDING';
                 if(activeQuickFilter === 'Selected') quickMatch = x.status === 'SELECTED';
                 if(activeQuickFilter === 'Rejected') quickMatch = x.status === 'REJECTED';
+                if(activeQuickFilter === 'InductionPending') quickMatch = x.status === 'SELECTED' && !x.inductionCompleted;
                 
-                return dateMatch && searchMatch && quickMatch && compMatch && deptMatch;
+                const noticeMatch = !noticeFilter || x.noticePeriod === noticeFilter;
+                const ctcMatch = (!minCTC || (x.expectedCTC || 0) >= minCTC) && (!maxCTC || (x.expectedCTC || 0) <= maxCTC);
+                const ratingMatch = !minRating || (x.rating || 0) >= minRating;
+                const skillsMatch = skillsFilter.length === 0 || (x.skills && skillsFilter.some(skill => x.skills.includes(skill)));
+
+                return dateMatch && searchMatch && quickMatch && compMatch && deptMatch && noticeMatch && ctcMatch && ratingMatch && skillsMatch;
             });
 
             filtered.sort((a, b) => {
@@ -1445,15 +1868,14 @@
                 document.getElementById('boardRejected').innerHTML = '';
             } else {
                 document.getElementById('emptyState').classList.add('hidden');
-                
                 if(currentView === 'list') {
                     renderListView(filtered, todayStr);
                 } else {
                     renderBoardView(filtered, todayStr);
                 }
             }
-            
             updateStats(filtered); 
+            checkNotifications();
         }
 
         function generateCardHTML(x, isToday, viewType) {
@@ -1461,7 +1883,6 @@
             const skillsArray = x.skills ? x.skills.split(',') : [];
             const staggerClass = viewType === 'board' ? '' : `stagger-${Math.floor(Math.random() * 3) + 1}`;
             const docs = x.documents || [];
-            
             const isChecked = selectedCandidates.has(x.id);
             const docPerc = (docs.length / 3) * 100;
             const docColor = docPerc === 100 ? '#10b981' : '#f59e0b';
@@ -1488,10 +1909,15 @@
             } else {
                 noticeBadge = `<div class="bg-indigo-50 text-indigo-600 px-2.5 py-1 rounded-lg text-[9px] font-black uppercase" title="Notice Period"><i class="fas fa-hourglass-half mr-1"></i>${np}</div>`;
             }
+
+            let inductionBadge = '';
+            if (x.status === 'SELECTED') {
+                inductionBadge = `<div class="induction-badge ${x.inductionCompleted ? 'induction-completed' : 'induction-pending'} mt-1" title="Induction ${x.inductionCompleted ? 'Completed' : 'Pending'} ${x.inductionDate ? 'on '+formatDisplayDate(x.inductionDate) : ''}"><i class="fas fa-graduation-cap mr-1"></i>${x.inductionCompleted ? 'Inducted' : 'Induction Pending'}</div>`;
+            }
             
             return `
-                <div class="modern-card p-5 animate-up ${staggerClass} relative overflow-hidden group flex flex-col h-full" 
-                     draggable="${viewType === 'board' ? 'true' : 'false'}" 
+                <div class="modern-card p-5 animate-up ${staggerClass} relative overflow-hidden group flex flex-col h-full"
+                     draggable="${viewType === 'board' ? 'true' : 'false'}"
                      ondragstart="dragStart(event, ${x.id})" ondragend="dragEnd(event)">
                     
                     ${viewType === 'list' ? `<input type="checkbox" class="bulk-checkbox" onchange="toggleBulkSelection(${x.id})" ${isChecked ? 'checked' : ''}>` : ''}
@@ -1515,6 +1941,7 @@
                                     </h4>
                                     <p class="text-[9px] text-slate-400 font-bold mt-0.5 tracking-widest">${x.empId}</p>
                                     ${getStarsHTML(x.rating)}
+                                    ${inductionBadge}
                                 </div>
                             </div>
                         </div>
@@ -1543,7 +1970,6 @@
 
                     ${x.remarks ? `<div class="bg-amber-50/50 p-3 rounded-xl border border-amber-100/50 mb-4 mt-2"><span class="text-[8px] font-black text-amber-600 uppercase block mb-1 tracking-widest"><i class="fas fa-comment-dots mr-1"></i> Manager Note:</span><span class="text-[10px] font-bold text-slate-700 leading-relaxed italic">"${x.remarks}"</span></div>` : ''}
 
-                    <!-- NEW FEATURE: Embedded Document Progress Tracker -->
                     ${x.status === 'SELECTED' ? `
                     <div class="mt-2 mb-4 p-3 bg-white rounded-xl border border-emerald-100 shadow-sm relative">
                         <div class="flex justify-between items-center mb-2">
@@ -1576,10 +2002,11 @@
                             ${x.status === 'SELECTED' ? `<button onclick="generateOfferLetter(${x.id})" class="h-8 px-2 rounded-lg bg-emerald-50 text-emerald-700 border border-emerald-200 font-bold text-[9px] flex items-center gap-1 hover:bg-emerald-100 transition-colors" title="Draft Offer Letter"><i class="fas fa-file-contract"></i></button>` : ''}
                         </div>
                         <div class="flex gap-1.5">
+                            <button onclick="showTimeline(${x.id})" class="w-8 h-8 rounded-lg bg-purple-50 text-purple-600 flex items-center justify-center hover:bg-purple-100 transition-colors" title="View Timeline"><i class="fas fa-history text-[10px]"></i></button>
+                            <button onclick="showEmailTemplates(${x.id})" class="w-8 h-8 rounded-lg bg-blue-50 text-blue-500 flex items-center justify-center hover:bg-blue-100 transition-colors" title="Email Templates"><i class="fas fa-envelope-open-text text-[10px]"></i></button>
                             <button onclick="openInterviewAssistant(${x.id})" class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center hover:bg-indigo-100 transition-colors" title="AI Interview Questions"><i class="fas fa-brain text-[10px]"></i></button>
                             <button onclick="addToCalendar(${x.id})" class="w-8 h-8 rounded-lg bg-fuchsia-50 text-fuchsia-600 flex items-center justify-center hover:bg-fuchsia-100 transition-colors" title="Add to Google Calendar"><i class="fas fa-calendar-plus text-[10px]"></i></button>
                             <button onclick="shareWhatsApp(${x.id})" class="w-8 h-8 rounded-lg bg-[#25D366]/10 text-[#25D366] flex items-center justify-center hover:bg-[#25D366]/20 transition-colors" title="Smart WhatsApp Message"><i class="fab fa-whatsapp text-sm"></i></button>
-                            <button onclick="sendEmail(${x.id})" class="w-8 h-8 rounded-lg bg-blue-50 text-blue-500 flex items-center justify-center hover:bg-blue-100 transition-colors" title="Send Email"><i class="fas fa-envelope text-[10px]"></i></button>
                         </div>
                     </div>
                 </div>`;
@@ -1594,11 +2021,9 @@
             const pending = data.filter(x => x.status === 'PENDING');
             const selected = data.filter(x => x.status === 'SELECTED');
             const rejected = data.filter(x => x.status === 'REJECTED');
-
             document.getElementById('countBoardPending').innerText = pending.length;
             document.getElementById('countBoardSelected').innerText = selected.length;
             document.getElementById('countBoardRejected').innerText = rejected.length;
-
             document.getElementById('boardPending').innerHTML = pending.map(x => generateCardHTML(x, x.interviewDate === todayStr, 'board')).join('') || '<div class="text-center p-6 text-slate-400 text-xs font-bold border-2 border-dashed border-slate-200 rounded-xl">NO PENDING</div>';
             document.getElementById('boardSelected').innerHTML = selected.map(x => generateCardHTML(x, x.interviewDate === todayStr, 'board')).join('') || '<div class="text-center p-6 text-slate-400 text-xs font-bold border-2 border-dashed border-slate-200 rounded-xl">NO SELECTED</div>';
             document.getElementById('boardRejected').innerHTML = rejected.map(x => generateCardHTML(x, x.interviewDate === todayStr, 'board')).join('') || '<div class="text-center p-6 text-slate-400 text-xs font-bold border-2 border-dashed border-slate-200 rounded-xl">NO REJECTED</div>';
@@ -1609,7 +2034,6 @@
             const selCount = data.filter(x => x.status === 'SELECTED').length;
             const penCount = data.filter(x => x.status === 'PENDING').length;
             const rejCount = data.filter(x => x.status === 'REJECTED').length;
-            
             document.getElementById('statTotal').innerText = totalCount;
             document.getElementById('statSelected').innerText = selCount;
             document.getElementById('statPending').innerText = penCount;
@@ -1618,10 +2042,8 @@
             ['SALES', 'SERVICE', 'SPARE', 'ACCOUNTS'].forEach(d => {
                 const count = data.filter(x => x.dept === d && x.status === 'SELECTED').length;
                 document.getElementById(`count${d.charAt(0) + d.slice(1).toLowerCase()}`).innerText = count;
-                
                 let target = manpowerReqList.filter(r => r.dept === d).reduce((a, c) => a + parseInt(c.target || 0), 0);
                 document.getElementById(`req${d.charAt(0) + d.slice(1).toLowerCase()}`).innerText = target;
-                
                 const progressFill = document.getElementById(`progress${d.charAt(0) + d.slice(1).toLowerCase()}`);
                 if (target > 0) {
                     const percentage = Math.min((count / target) * 100, 100);
@@ -1631,19 +2053,17 @@
             });
 
             initOrUpdateChart(selCount, penCount, rejCount);
-            initOrUpdateSourceChart(data); // Call NEW FEATURE
+            initOrUpdateSourceChart(data); 
         }
 
+        // ================== AI INTERVIEW ASSISTANT ==================
         function openInterviewAssistant(id) {
             const r = joinees.find(x => x.id === id);
             if(!r) return;
-            
             document.getElementById('assistantCandidateName').innerText = r.name;
             document.getElementById('assistantDept').innerText = r.dept;
             document.getElementById('assistantExp').innerText = r.experience + " Yrs Exp";
-            
             let questions = [];
-            
             if(r.dept === 'SALES') {
                 questions = [
                     "How do you handle a customer who says the price of our vehicle is too high?",
@@ -1669,48 +2089,40 @@
                     "How do you handle a situation where you find a discrepancy in the company's financial records?"
                 ];
             }
-
             if(r.skills) {
                 const skillsList = r.skills.split(',').map(s => s.trim());
                 if(skillsList.length > 0 && skillsList[0] !== "") {
                     questions.push(`I see you have skills in ${skillsList[0]}. Can you describe a project where you practically applied this?`);
                 }
             }
-
             const qHTML = questions.map((q, i) => `
                 <div class="bg-white p-4 rounded-xl border border-indigo-100 shadow-sm flex gap-3">
                     <div class="w-6 h-6 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center font-black text-xs shrink-0">${i+1}</div>
                     <p class="text-xs font-bold text-slate-700 leading-relaxed">${q}</p>
                 </div>
             `).join('');
-            
             document.getElementById('assistantQuestions').innerHTML = qHTML;
             document.getElementById('assistantModal').classList.remove('hidden');
         }
 
+        // ================== CALENDAR, OFFER, WHATSAPP, EMAIL ==================
         function addToCalendar(id) {
             const r = joinees.find(x => x.id === id);
             if(!r || !r.interviewDate) return showToast("No Interview Date Set!", "error");
-            
             const dateParts = r.interviewDate.split('-');
-            const formattedDate = `${dateParts[0]}${dateParts[1]}${dateParts[2]}`; // YYYYMMDD
-            
+            const formattedDate = `${dateParts[0]}${dateParts[1]}${dateParts[2]}`;
             const title = encodeURIComponent(`Interview: ${r.name} - Sarathy Group`);
             const details = encodeURIComponent(`Candidate: ${r.name}\nDepartment: ${r.dept}\nPhone: ${r.phone}\nNotes: ${r.remarks || 'None'}`);
-            
             const calendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${formattedDate}T043000Z/${formattedDate}T053000Z&details=${details}&location=${encodeURIComponent(r.location)}`;
-            
             window.open(calendarUrl, '_blank');
         }
 
         function generateOfferLetter(id) {
             const r = joinees.find(x => x.id === id);
             if (!r) return;
-            
             const today = new Date().toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' });
             const joinD = r.joinDate ? new Date(r.joinDate).toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' }) : '[Date of Joining]';
             const ctcText = r.expectedCTC ? `₹${r.expectedCTC} Lakhs per annum` : '[CTC Amount]';
-
             const template = `
                 <div style="text-align: right; margin-bottom: 20px;">
                     <strong>Date:</strong> ${today}
@@ -1744,7 +2156,6 @@
                     </div>
                 </div>
             `;
-            
             document.getElementById('offerLetterContent').innerHTML = template;
             document.getElementById('offerModal').classList.remove('hidden');
         }
@@ -1772,7 +2183,6 @@
         function shareWhatsApp(id) {
             const r = joinees.find(x => x.id === id);
             let msg = "";
-            
             if(r.status === 'PENDING') {
                 msg = `Dear ${r.name},%0A%0AWe are pleased to invite you for an interview at *Sarathy Group* for the position in the *${r.dept}* department.%0A%0A*Date:* ${r.interviewDate}%0A*Location:* ${r.location}%0A%0APlease bring a copy of your updated resume. Let us know if you need any assistance.%0A%0ARegards,%0AHR Department%0ASarathy Group`;
             } else if (r.status === 'SELECTED') {
@@ -1780,7 +2190,6 @@
             } else {
                 msg = `Dear ${r.name},%0A%0AThank you for taking the time to interview with us for the role in the *${r.dept}* department at Sarathy Group.%0A%0AWhile we were impressed with your background, we have decided to move forward with another candidate for this specific role. We will keep your resume in our database for future opportunities.%0A%0AWishing you all the best in your career search.%0A%0ARegards,%0AHR Department`;
             }
-            
             window.open(`https://wa.me/${r.phone}?text=${msg}`, '_blank');
         }
 
@@ -1788,7 +2197,6 @@
             const r = joinees.find(x => x.id === id);
             let subject = "";
             let body = "";
-            
             if(r.status === 'SELECTED') {
                 subject = encodeURIComponent(`Offer Letter from Sarathy Group - ${r.dept}`);
                 body = encodeURIComponent(`Dear ${r.name},\n\nCongratulations! We are pleased to inform you that you have been selected for the position in the ${r.dept} department at Sarathy Group.\n\nPlease find further details attached.\n\nRegards,\nHR Department\nSarathy Group`);
@@ -1796,13 +2204,13 @@
                 subject = encodeURIComponent(`Interview Call - Sarathy Group - ${r.dept}`);
                 body = encodeURIComponent(`Dear ${r.name},\n\nWe are pleased to invite you for an interview for the position in the ${r.dept} department at Sarathy Group.\n\nDate: ${r.interviewDate}\nLocation: ${r.location}\n\nPlease bring your updated resume.\n\nRegards,\nHR Department\nSarathy Group`);
             }
-            
             window.location.href = `mailto:?subject=${subject}&body=${body}`;
         }
 
+        // ================== EXPORT / SUMMARY / REQUIREMENTS ==================
         function exportToCSV() {
-            const headers = ["ID", "NAME", "PHONE", "COMPANY", "DEPT", "SOURCE", "NOTICE_PERIOD", "EXP_YRS", "CUR_CTC", "EXP_CTC", "RATING", "LOCATION", "STATUS", "REMARKS", "FOLLOW_UP", "RESUME_LINK", "DOCS_SUBMITTED", "INTERVIEW_DATE", "JOIN_DATE"];
-            const rows = joinees.map(r => [r.empId, `"${r.name}"`, r.phone, `"${r.company}"`, r.dept, r.source||'WALK-IN', r.noticePeriod||'IMMEDIATE', r.experience||0, r.currentCTC||'', r.expectedCTC||'', r.rating||0, r.location, r.status, `"${r.remarks || ""}"`, r.followUpDate||'', `"${r.resumeLink || ""}"`, `"${(r.documents||[]).join(' | ')}"`, r.interviewDate, r.joinDate || ""]);
+            const headers = ["ID", "NAME", "PHONE", "COMPANY", "DEPT", "SOURCE", "NOTICE_PERIOD", "EXP_YRS", "CUR_CTC", "EXP_CTC", "RATING", "LOCATION", "STATUS", "REMARKS", "FOLLOW_UP", "RESUME_LINK", "DOCS_SUBMITTED", "INTERVIEW_DATE", "JOIN_DATE", "INDUCTION_COMPLETED", "INDUCTION_DATE"];
+            const rows = joinees.map(r => [r.empId, `"${r.name}"`, r.phone, `"${r.company}"`, r.dept, r.source||'WALK-IN', r.noticePeriod||'IMMEDIATE', r.experience||0, r.currentCTC||'', r.expectedCTC||'', r.rating||0, r.location, r.status, `"${r.remarks || ""}"`, r.followUpDate||'', `"${r.resumeLink || ""}"`, `"${(r.documents||[]).join(' | ')}"`, r.interviewDate, r.joinDate || "", r.inductionCompleted ? 'YES' : 'NO', r.inductionDate || '']);
             let csv = "data:text/csv;charset=utf-8," + headers.join(",") + "\n" + rows.map(e => e.join(",")).join("\n");
             const link = document.createElement("a"); link.href = encodeURI(csv); link.download = `Sarathy_Personnel_Export_${new Date().toISOString().slice(0,10)}.csv`; link.click();
             showToast("CSV EXPORTED SUCCESSFULLY");
@@ -1813,19 +2221,19 @@
             const sel = joinees.filter(x => x.status === 'SELECTED').length;
             const pend = joinees.filter(x => x.status === 'PENDING').length;
             const rej = joinees.filter(x => x.status === 'REJECTED').length;
-            
+            const inducted = joinees.filter(x => x.status === 'SELECTED' && x.inductionCompleted).length;
             const summary = `📊 *SARATHY GROUP HR SUMMARY*\n\n` +
-                            `👥 TOTAL APPLICANTS: ${total}\n` +
-                            `✅ SELECTED: ${sel}\n` +
-                            `⏳ PENDING: ${pend}\n` +
-                            `❌ REJECTED: ${rej}\n\n` +
-                            `*Dept Wise Selected:*\n` +
-                            `Sales: ${joinees.filter(x => x.dept === 'SALES' && x.status === 'SELECTED').length}\n` +
-                            `Service: ${joinees.filter(x => x.dept === 'SERVICE' && x.status === 'SELECTED').length}\n` +
-                            `Spare: ${joinees.filter(x => x.dept === 'SPARE' && x.status === 'SELECTED').length}\n` +
-                            `Accounts: ${joinees.filter(x => x.dept === 'ACCOUNTS' && x.status === 'SELECTED').length}\n\n` +
-                            `Report Generated: ${new Date().toLocaleDateString()}`;
-            
+                `👥 TOTAL APPLICANTS: ${total}\n` +
+                `✅ SELECTED: ${sel}\n` +
+                `   └─ Inducted: ${inducted}\n` +
+                `⏳ PENDING: ${pend}\n` +
+                `❌ REJECTED: ${rej}\n\n` +
+                `*Dept Wise Selected:*\n` +
+                `Sales: ${joinees.filter(x => x.dept === 'SALES' && x.status === 'SELECTED').length}\n` +
+                `Service: ${joinees.filter(x => x.dept === 'SERVICE' && x.status === 'SELECTED').length}\n` +
+                `Spare: ${joinees.filter(x => x.dept === 'SPARE' && x.status === 'SELECTED').length}\n` +
+                `Accounts: ${joinees.filter(x => x.dept === 'ACCOUNTS' && x.status === 'SELECTED').length}\n\n` +
+                `Report Generated: ${new Date().toLocaleDateString()}`;
             document.getElementById('summaryText').innerText = summary;
             document.getElementById('summaryModal').classList.remove('hidden');
         }
@@ -1875,6 +2283,18 @@
         function addReqRow() { manpowerReqList.push({ company: 'SARATHY MOTORS', dept: 'SALES', location: 'HEAD OFFICE', target: 1 }); renderReqEntries(); }
         function removeReqRow(idx) { manpowerReqList.splice(idx, 1); renderReqEntries(); }
         function saveRequirements() { localStorage.setItem('sarathy_req_detailed_v5', JSON.stringify(manpowerReqList)); showToast("TARGETS UPDATED SUCCESSFULLY"); closeReqModal(); renderTable(); }
+
+        // ================== INIT ==================
+        window.onload = () => {
+            const now = new Date();
+            document.getElementById('monthFilter').value = now.toISOString().slice(0, 7);
+            const session = sessionStorage.getItem('sarathy_session');
+            if(session) {
+                currentUser = JSON.parse(session);
+                showDashboard();
+            }
+            checkNotifications();
+        };
     </script>
 </body>
 </html>
