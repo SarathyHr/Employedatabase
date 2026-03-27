@@ -32,9 +32,9 @@
             --bg-primary: #f8fafc;
             --bg-secondary: #ffffff;
             --bg-glass: rgba(255, 255, 255, 0.7);
-            --text-primary: #050505;
-            --text-secondary: #000000;
-            --border-color: #00000059;
+            --text-primary: #050505c9;
+            --text-secondary: #000000c0;
+            --border-color: #0000004d;
             --sidebar-width: 260px;
         }
 
@@ -90,9 +90,9 @@
 
         /* Sidebar Nav */
         .nav-link {
-            display: flex; align-items: center; gap: 12px; padding: 12px 20px; border-radius: 12px;
+            display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 12px;
             color: var(--text-secondary); font-weight: 600; font-size: 0.9rem; transition: all 0.2s;
-            margin-bottom: 8px; cursor: pointer;
+            margin-bottom: 8px; cursor: pointer; white-space: nowrap; overflow: hidden;
         }
         .nav-link:hover { background: rgba(0, 84, 166, 0.05); color: #0054A6; transform: translateX(4px); }
         .nav-link.active { background: #0054A6; color: white; box-shadow: 0 4px 12px rgba(0, 84, 166, 0.3); }
@@ -202,46 +202,67 @@
         <!-- MOBILE OVERLAY -->
         <div id="mobileOverlay" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-[90] hidden md:hidden" onclick="toggleSidebar()"></div>
 
-        <!-- SIDEBAR -->
-        <aside id="sidebar" class="fixed md:static inset-y-0 left-0 w-[var(--sidebar-width)] h-screen glass-panel flex flex-col shrink-0 z-[100] border-r border-[var(--border-color)] transform -translate-x-full md:translate-x-0 transition-transform duration-300 bg-[var(--bg-secondary)] md:bg-transparent">
+        <!-- HOVER EXPANDABLE SIDEBAR -->
+        <aside id="sidebar" class="fixed md:static inset-y-0 left-0 w-[var(--sidebar-width)] md:w-[80px] hover:md:w-[var(--sidebar-width)] h-screen glass-panel flex flex-col shrink-0 z-[100] border-r border-[var(--border-color)] transform -translate-x-full md:translate-x-0 transition-all duration-300 bg-[var(--bg-secondary)] md:bg-transparent overflow-x-hidden group">
+            
             <!-- Header / Logo area -->
-            <div class="p-5 md:p-6 flex justify-between items-center border-b border-[var(--border-color)]">
-                <div class="flex items-center gap-3">
-                    <img src="Sarathy2.png.png" alt="Sarathy Group" class="h-12 md:h-16 w-auto object-contain" onerror="this.style.display='none'">
-                    <div>
-                        <h1 class="font-black text-sm md:text-base tracking-tight gradient-text"></h1>
-                    </div>
+            <div class="h-16 md:h-20 px-4 flex items-center gap-3 border-b border-[var(--border-color)] shrink-0 overflow-hidden">
+                <img src="Sarathy2.png.png" alt="Sarathy Group" class="h-10 w-auto object-contain shrink-0 ml-1" onerror="this.style.display='none'">
+                <div class="transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap overflow-hidden flex-1">
+                    <h1 class="font-black text-sm md:text-base tracking-tight gradient-text"></h1>
                 </div>
-                <button class="md:hidden text-[var(--text-secondary)] hover:text-red-500" onclick="toggleSidebar()">
+                <button class="md:hidden text-[var(--text-secondary)] hover:text-red-500 shrink-0 ml-auto" onclick="toggleSidebar()">
                     <i class="fas fa-times text-lg"></i>
                 </button>
             </div>
 
             <!-- Nav Links -->
-            <div class="flex flex-col p-4 flex-1 custom-scroll overflow-y-auto">
-                <div class="text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-widest mb-3 px-4">Menu</div>
-                <a onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-link active"><i class="fas fa-home w-5 text-center"></i> Overview</a>
-                <a onclick="switchTab('candidates')" id="nav-candidates" class="nav-link"><i class="fas fa-user-friends w-5 text-center"></i> Candidates</a>
-                <a onclick="switchTab('calendar')" id="nav-calendar" class="nav-link"><i class="fas fa-calendar-alt w-5 text-center"></i> Interviews</a>
-                <a onclick="switchTab('analytics')" id="nav-analytics" class="nav-link"><i class="fas fa-chart-pie w-5 text-center"></i> Analytics</a>
+            <div class="flex flex-col px-3 py-4 flex-1 custom-scroll overflow-y-auto overflow-x-hidden">
+                <div class="text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-widest mb-3 px-2 transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap overflow-hidden">Menu</div>
                 
-                <div class="text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-widest mb-3 mt-8 px-4">Management</div>
-                <a onclick="openReqModal()" class="nav-link"><i class="fas fa-bullseye w-5 text-center"></i> Targets</a>
-                <a onclick="exportToCSV()" class="nav-link"><i class="fas fa-file-export w-5 text-center"></i> Export CSV</a>
-                <a onclick="document.getElementById('importFile').click()" class="nav-link"><i class="fas fa-database w-5 text-center"></i> Restore</a>
+                <a onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-link active">
+                    <i class="fas fa-home w-5 text-center shrink-0"></i> 
+                    <span class="transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap">Overview</span>
+                </a>
+                <a onclick="switchTab('candidates')" id="nav-candidates" class="nav-link">
+                    <i class="fas fa-user-friends w-5 text-center shrink-0"></i> 
+                    <span class="transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap">Candidates</span>
+                </a>
+                <a onclick="switchTab('calendar')" id="nav-calendar" class="nav-link">
+                    <i class="fas fa-calendar-alt w-5 text-center shrink-0"></i> 
+                    <span class="transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap">Interviews</span>
+                </a>
+                <a onclick="switchTab('analytics')" id="nav-analytics" class="nav-link">
+                    <i class="fas fa-chart-pie w-5 text-center shrink-0"></i> 
+                    <span class="transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap">Analytics</span>
+                </a>
+                
+                <div class="text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-widest mb-3 mt-8 px-2 transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap overflow-hidden">Management</div>
+                <a onclick="openReqModal()" class="nav-link">
+                    <i class="fas fa-bullseye w-5 text-center shrink-0"></i> 
+                    <span class="transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap">Targets</span>
+                </a>
+                <a onclick="exportToCSV()" class="nav-link">
+                    <i class="fas fa-file-export w-5 text-center shrink-0"></i> 
+                    <span class="transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap">Export CSV</span>
+                </a>
+                <a onclick="document.getElementById('importFile').click()" class="nav-link">
+                    <i class="fas fa-database w-5 text-center shrink-0"></i> 
+                    <span class="transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap">Restore</span>
+                </a>
                 <input type="file" id="importFile" accept=".json" class="hidden" onchange="importBackup(event)">
             </div>
 
             <!-- User Profile Bottom -->
-            <div class="flex p-4 border-t border-[var(--border-color)] items-center gap-3 bg-[var(--bg-secondary)] md:bg-transparent">
-                <div class="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-[var(--text-primary)] font-bold shrink-0">
+            <div class="flex p-4 border-t border-[var(--border-color)] items-center gap-3 bg-[var(--bg-secondary)] md:bg-transparent overflow-hidden shrink-0">
+                <div class="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-[var(--text-primary)] font-bold shrink-0 ml-[-2px]">
                     <i class="fas fa-user"></i>
                 </div>
-                <div class="flex-1 min-w-0">
+                <div class="flex-1 min-w-0 transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap overflow-hidden">
                     <p class="text-sm font-bold text-[var(--text-primary)] truncate" id="userNameDisplay">Admin User</p>
                     <p class="text-[10px] text-[var(--text-secondary)] truncate" id="userRoleDisplay">System Administrator</p>
                 </div>
-                <button onclick="logout()" class="text-red-500 hover:bg-red-500/10 p-2 rounded-lg transition-colors shrink-0"><i class="fas fa-sign-out-alt"></i></button>
+                <button onclick="logout()" class="text-red-500 hover:bg-red-500/10 p-2 rounded-lg transition-colors shrink-0 transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100"><i class="fas fa-sign-out-alt"></i></button>
             </div>
         </aside>
 
@@ -249,8 +270,12 @@
         <main class="flex-1 flex flex-col h-screen overflow-hidden relative min-w-0">
             
             <!-- Top Header Area -->
-            <header class="h-16 glass-panel border-b border-[var(--border-color)] flex justify-between items-center px-4 md:px-6 shrink-0 z-30">
+            <header class="h-16 md:h-20 glass-panel border-b border-[var(--border-color)] flex justify-between items-center px-4 md:px-6 shrink-0 z-30">
                 <div class="flex items-center gap-3">
+                    <!-- Added BACK Button -->
+                    <button id="backBtn" onclick="goBack()" class="hidden w-10 h-10 rounded-xl bg-[var(--bg-secondary)] text-[var(--text-secondary)] flex items-center justify-center shadow-sm border border-[var(--border-color)] hover:text-sarathy-blue transition-colors">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
                     <!-- Mobile Hamburger -->
                     <button onclick="toggleSidebar()" class="md:hidden w-10 h-10 rounded-xl bg-[var(--bg-secondary)] text-[var(--text-secondary)] flex items-center justify-center shadow-sm border border-[var(--border-color)] hover:text-sarathy-blue transition-colors">
                         <i class="fas fa-bars"></i>
@@ -289,23 +314,23 @@
 
                     <!-- Stats Grid -->
                     <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 animate-up">
-                        <div class="modern-card p-4 md:p-5 flex flex-col relative overflow-hidden group">
-                            <div class="absolute top-0 right-0 w-12 h-12 md:w-16 md:h-16 bg-blue-50 dark:bg-blue-900/20 rounded-bl-full flex items-start justify-end p-2 md:p-3 transition-transform group-hover:scale-110"><i class="fas fa-users text-blue-500 text-sm md:text-xl"></i></div>
+                        <div class="modern-card p-4 md:p-5 flex flex-col relative overflow-hidden group/stat">
+                            <div class="absolute top-0 right-0 w-12 h-12 md:w-16 md:h-16 bg-blue-50 dark:bg-blue-900/20 rounded-bl-full flex items-start justify-end p-2 md:p-3 transition-transform group-hover/stat:scale-110"><i class="fas fa-users text-blue-500 text-sm md:text-xl"></i></div>
                             <span class="text-[9px] md:text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-widest mb-1 truncate">Total Candidate</span>
                             <h3 class="text-2xl md:text-3xl font-black text-[var(--text-primary)]" id="statTotal">0</h3>
                         </div>
-                        <div class="modern-card p-4 md:p-5 flex flex-col relative overflow-hidden group stagger-1">
-                            <div class="absolute top-0 right-0 w-12 h-12 md:w-16 md:h-16 bg-emerald-50 dark:bg-emerald-900/20 rounded-bl-full flex items-start justify-end p-2 md:p-3 transition-transform group-hover:scale-110"><i class="fas fa-check text-emerald-500 text-sm md:text-xl"></i></div>
+                        <div class="modern-card p-4 md:p-5 flex flex-col relative overflow-hidden group/stat stagger-1">
+                            <div class="absolute top-0 right-0 w-12 h-12 md:w-16 md:h-16 bg-emerald-50 dark:bg-emerald-900/20 rounded-bl-full flex items-start justify-end p-2 md:p-3 transition-transform group-hover/stat:scale-110"><i class="fas fa-check text-emerald-500 text-sm md:text-xl"></i></div>
                             <span class="text-[9px] md:text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-widest mb-1 truncate">Selected</span>
                             <h3 class="text-2xl md:text-3xl font-black text-emerald-500" id="statSelected">0</h3>
                         </div>
-                        <div class="modern-card p-4 md:p-5 flex flex-col relative overflow-hidden group stagger-2">
-                            <div class="absolute top-0 right-0 w-12 h-12 md:w-16 md:h-16 bg-amber-50 dark:bg-amber-900/20 rounded-bl-full flex items-start justify-end p-2 md:p-3 transition-transform group-hover:scale-110"><i class="fas fa-clock text-amber-500 text-sm md:text-xl"></i></div>
+                        <div class="modern-card p-4 md:p-5 flex flex-col relative overflow-hidden group/stat stagger-2">
+                            <div class="absolute top-0 right-0 w-12 h-12 md:w-16 md:h-16 bg-amber-50 dark:bg-amber-900/20 rounded-bl-full flex items-start justify-end p-2 md:p-3 transition-transform group-hover/stat:scale-110"><i class="fas fa-clock text-amber-500 text-sm md:text-xl"></i></div>
                             <span class="text-[9px] md:text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-widest mb-1 truncate">Pending</span>
                             <h3 class="text-2xl md:text-3xl font-black text-amber-500" id="statPending">0</h3>
                         </div>
-                        <div class="modern-card p-4 md:p-5 flex flex-col relative overflow-hidden group stagger-3">
-                            <div class="absolute top-0 right-0 w-12 h-12 md:w-16 md:h-16 bg-red-50 dark:bg-red-900/20 rounded-bl-full flex items-start justify-end p-2 md:p-3 transition-transform group-hover:scale-110"><i class="fas fa-times text-red-500 text-sm md:text-xl"></i></div>
+                        <div class="modern-card p-4 md:p-5 flex flex-col relative overflow-hidden group/stat stagger-3">
+                            <div class="absolute top-0 right-0 w-12 h-12 md:w-16 md:h-16 bg-red-50 dark:bg-red-900/20 rounded-bl-full flex items-start justify-end p-2 md:p-3 transition-transform group-hover/stat:scale-110"><i class="fas fa-times text-red-500 text-sm md:text-xl"></i></div>
                             <span class="text-[9px] md:text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-widest mb-1 truncate">Rejected</span>
                             <h3 class="text-2xl md:text-3xl font-black text-red-500" id="statRejected">0</h3>
                         </div>
@@ -604,6 +629,7 @@
         let reqList = JSON.parse(localStorage.getItem('sarathy_req_v13')) || [{dept: 'SALES', target: 5}, {dept: 'SERVICE', target: 3}];
         
         let currentTab = 'dashboard';
+        let tabHistory = []; // Added for Back button functionality
         let currentView = 'list';
         let selectedCandidates = new Set();
         let chartStatus, chartSource;
@@ -670,8 +696,13 @@
             overlay.classList.toggle('hidden');
         };
 
-        // Navigation (Tabs)
-        const switchTab = (tab) => {
+        // Navigation (Tabs) - Modified to support Back Button
+        const switchTab = (tab, isBack = false) => {
+            // Push current tab to history before switching, if not going back
+            if (!isBack && currentTab !== tab) {
+                tabHistory.push(currentTab);
+            }
+
             currentTab = tab;
             document.querySelectorAll('.nav-link').forEach(el => {
                 el.classList.remove('active');
@@ -683,6 +714,14 @@
             const titles = { dashboard: 'Overview', candidates: 'Candidate Directory', calendar: 'Interview Schedule', analytics: 'Data Analytics' };
             document.getElementById('pageTitle').innerText = titles[tab];
 
+            // Update Back Button Visibility
+            const backBtn = document.getElementById('backBtn');
+            if (tabHistory.length > 0) {
+                backBtn.classList.remove('hidden');
+            } else {
+                backBtn.classList.add('hidden');
+            }
+
             // Close mobile sidebar automatically on tab switch
             if (window.innerWidth < 768) {
                 document.getElementById('sidebar').classList.add('-translate-x-full');
@@ -690,6 +729,14 @@
             }
 
             if(tab === 'analytics') initCharts();
+        };
+
+        // Back Button Function
+        const goBack = () => {
+            if (tabHistory.length > 0) {
+                const prevTab = tabHistory.pop();
+                switchTab(prevTab, true);
+            }
         };
 
         // Dashboard Rendering
@@ -729,7 +776,7 @@
             document.getElementById('btnViewBoard').className = v==='board'?'px-3 md:px-4 py-1.5 md:py-1 rounded-lg font-bold text-xs bg-white dark:bg-slate-700 shadow-sm':'px-3 md:px-4 py-1.5 md:py-1 rounded-lg font-bold text-xs text-[var(--text-secondary)] hover:bg-[var(--bg-secondary)]';
         };
 
-        // UPDATED: renderTable and generateRow for Professional Table View
+        // Professional Table View
         const renderTable = () => {
             const term = document.getElementById('searchInput').value.toUpperCase();
             const month = document.getElementById('monthFilter').value;
@@ -830,7 +877,6 @@
             `;
         };
 
-        // Kanban Card generator (remains similar but slightly simplified for Kanban context)
         const generateCard = (x, isBoard=false) => {
             const intDate = formatDateString(x.interviewDate);
             return `
@@ -1132,7 +1178,7 @@
         };
         const closeReqModal = () => document.getElementById('reqModal').classList.add('hidden');
 
-        // UPDATED: Professional Summary Logic with More Columns
+        // Professional Summary Logic
         const generateHiringSummary = () => {
             const total = joinees.length;
             const sel = joinees.filter(x => x.status === 'SELECTED').length;
