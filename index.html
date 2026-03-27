@@ -32,9 +32,9 @@
             --bg-primary: #f8fafc;
             --bg-secondary: #ffffff;
             --bg-glass: rgba(255, 255, 255, 0.7);
-            --text-primary: #050505ea;
-            --text-secondary: #000000c0;
-            --border-color: #0000004d;
+            --text-primary: #050505;
+            --text-secondary: #000000;
+            --border-color: #00000059;
             --sidebar-width: 260px;
         }
 
@@ -157,7 +157,7 @@
         <div class="w-full max-w-[420px] animate-up relative z-10">
             <div class="bg-white dark:bg-slate-800 p-8 md:p-10 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.06)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.3)] border border-slate-100 dark:border-slate-700">
                 <div class="mb-8 text-center">
-                    <img src="Sarathy2.png.png" alt="Sarathy Group Logo" class="h-32 md:h-44 w-auto object-contain mx-auto mb-4 drop-shadow-sm" onerror="this.src='https://via.placeholder.com/150x50?text=SARATHY'">
+                    <img src="Sarathy2.png.png" alt="Sarathy Group Logo" class="h-24 md:h-32 w-auto object-contain mx-auto mb-4 drop-shadow-sm" onerror="this.src='https://via.placeholder.com/150x50?text=SARATHY'">
                     <h2 class="text-2xl font-black text-slate-800 dark:text-white tracking-tight">Welcome Back</h2>
                     <p class="text-xs font-bold text-slate-500 dark:text-slate-400 mt-2 uppercase tracking-widest"></p>
                 </div>
@@ -807,7 +807,7 @@
                                     <tr>
                                         <th class="w-10"><input type="checkbox" onchange="toggleAllBulk(this)" class="rounded border-slate-300 text-sarathy-blue focus:ring-sarathy-blue"></th>
                                         <th>Personnel Info</th>
-                                        <th>Designation / Dept</th>
+                                        <th>Role & Entity</th>
                                         <th>Location</th>
                                         <th>Status</th>
                                         <th>Schedule</th>
@@ -857,7 +857,10 @@
                     </td>
                     <td>
                         <p class="font-bold text-slate-700 dark:text-slate-300 text-[11px] uppercase">${x.designation || '-'}</p>
-                        <p class="text-[9px] text-slate-400 font-bold uppercase">${x.dept}</p>
+                        <div class="flex flex-col items-start gap-1 mt-0.5">
+                            <p class="text-[9px] text-slate-500 font-bold uppercase">${x.dept}</p>
+                            <span class="inline-block px-1.5 py-0.5 rounded text-[8px] font-black bg-indigo-50 text-indigo-700 border border-indigo-100 dark:bg-indigo-900/40 dark:text-indigo-300 dark:border-indigo-800/50 uppercase tracking-widest shadow-sm">${x.company}</span>
+                        </div>
                     </td>
                     <td class="text-[11px] font-bold text-slate-500 uppercase">${x.location || '-'}</td>
                     <td><span class="status-badge-md ${statusClass}">${x.status}</span></td>
@@ -883,9 +886,10 @@
             <div class="modern-card p-4 relative flex flex-col gap-3 group bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm" draggable="true" ondragstart="dragStart(event, ${x.id})" ondragend="dragEnd(event)">
                 <div class="flex items-center gap-3">
                     <div class="w-10 h-10 rounded-lg bg-blue-50 dark:bg-blue-900/30 text-blue-600 flex items-center justify-center font-black text-lg shrink-0">${x.name[0]}</div>
-                    <div class="min-w-0">
-                        <h4 class="font-black text-xs truncate text-slate-800 dark:text-white leading-tight uppercase">${x.name}</h4>
-                        <p class="text-[9px] text-slate-400 font-bold uppercase">${x.empId} • ${x.dept}</p>
+                    <div class="min-w-0 flex-1 flex flex-col items-start">
+                        <h4 class="font-black text-xs truncate text-slate-800 dark:text-white leading-tight uppercase w-full">${x.name}</h4>
+                        <p class="text-[9px] text-slate-400 font-bold uppercase mb-1">${x.empId} • ${x.dept}</p>
+                        <span class="inline-block px-1.5 py-0.5 rounded text-[7px] font-black bg-indigo-50 text-indigo-700 border border-indigo-100 dark:bg-indigo-900/40 dark:text-indigo-300 dark:border-indigo-800/50 uppercase tracking-widest">${x.company}</span>
                     </div>
                 </div>
                 <div class="flex justify-between items-center pt-2 border-t border-slate-50 dark:border-slate-700">
