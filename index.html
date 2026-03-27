@@ -84,22 +84,6 @@
         .dark .custom-scroll::-webkit-scrollbar-thumb { background: #475569; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
 
-        /* Status Badges */
-        .status-badge {
-            padding: 4px 12px;
-            border-radius: 9999px;
-            font-size: 0.7rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-        }
-        .status-PENDING { background: rgba(245, 158, 11, 0.1); color: #d97706; border: 1px solid rgba(245, 158, 11, 0.2); }
-        .status-SELECTED { background: rgba(16, 185, 129, 0.1); color: #059669; border: 1px solid rgba(16, 185, 129, 0.2); }
-        .status-REJECTED { background: rgba(239, 68, 68, 0.1); color: #dc2626; border: 1px solid rgba(239, 68, 68, 0.2); }
-
         /* Animations */
         @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         .animate-up { animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
@@ -146,6 +130,15 @@
 
         #bulkActionBar { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); transition: bottom 0.4s cubic-bezier(0.4, 0, 0.2, 1); z-index: 60; width: 90%; max-width: 500px; justify-content: center; }
         #bulkActionBar.visible { bottom: 20px; md:bottom: 30px; }
+
+        /* Professional Summary Tables */
+        .summary-table { width: 100%; border-collapse: separate; border-spacing: 0; margin-bottom: 1.5rem; font-size: 0.75rem; }
+        .summary-table th { background: #f1f5f9; color: #475569; font-weight: 800; text-transform: uppercase; text-align: left; padding: 10px 12px; border-bottom: 2px solid #e2e8f0; }
+        .dark .summary-table th { background: #1e293b; color: #94a3b8; border-bottom: 2px solid #334155; }
+        .summary-table td { padding: 10px 12px; border-bottom: 1px solid #f1f5f9; color: var(--text-primary); font-weight: 600; }
+        .dark .summary-table td { border-bottom: 1px solid #334155; }
+        .summary-table tr:last-child td { border-bottom: none; }
+        .summary-badge { padding: 2px 8px; border-radius: 6px; font-weight: 800; font-size: 0.65rem; }
     </style>
 </head>
 <body class="antialiased">
@@ -572,15 +565,16 @@
 
     <!-- SUMMARY MODAL -->
     <div id="summaryModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[115] hidden flex items-center justify-center p-4 transition-opacity">
-        <div class="bg-[var(--bg-secondary)] w-full max-w-md rounded-2xl shadow-2xl overflow-hidden animate-up border border-[var(--border-color)]">
+        <div class="bg-[var(--bg-secondary)] w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden animate-up border border-[var(--border-color)]">
             <div class="p-4 md:p-5 bg-gradient-to-r from-sarathy-blue to-blue-600 text-white flex justify-between items-center">
                 <h2 class="font-black text-xs md:text-sm uppercase tracking-widest"><i class="fas fa-chart-pie mr-2"></i> Hiring Summary</h2>
                 <button onclick="document.getElementById('summaryModal').classList.add('hidden')" class="opacity-70 hover:opacity-100"><i class="fas fa-times"></i></button>
             </div>
             <div class="p-4 md:p-6">
-                <div id="summaryText" class="text-xs md:text-sm font-bold text-[var(--text-primary)] bg-[var(--bg-primary)] p-4 md:p-5 rounded-xl border border-[var(--border-color)] whitespace-pre-wrap uppercase leading-relaxed shadow-inner max-h-[50vh] overflow-y-auto custom-scroll"></div>
+                <!-- UPDATED CONTAINER TO SUPPORT HTML CONTENT -->
+                <div id="summaryText" class="text-xs md:text-sm text-[var(--text-primary)] bg-[var(--bg-primary)] p-4 md:p-5 rounded-xl border border-[var(--border-color)] shadow-inner max-h-[60vh] overflow-y-auto custom-scroll"></div>
                 <button onclick="copySummary()" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-black py-3 rounded-xl mt-4 md:mt-5 text-[10px] md:text-xs tracking-widest active:scale-95 uppercase shadow-md flex items-center justify-center gap-2 transition-colors">
-                    <i class="fas fa-copy"></i> Copy to Clipboard
+                    <i class="fas fa-copy"></i> Copy Text for Sharing
                 </button>
             </div>
         </div>
@@ -1101,7 +1095,7 @@
         };
         const closeReqModal = () => document.getElementById('reqModal').classList.add('hidden');
 
-        // UPDATED: Summary Logic to include Name, Join Date, Company and Dept Reports
+        // UPDATED: Professional Summary Logic with Tables
         const generateHiringSummary = () => {
             const total = joinees.length;
             const sel = joinees.filter(x => x.status === 'SELECTED').length;
@@ -1110,45 +1104,111 @@
             const notJoinedTotal = pend + rej;
             const today = new Date().toISOString().slice(0, 10);
 
-            // Filter upcoming joiners (Selected and has join date)
-            const joiners = joinees.filter(x => x.status === 'SELECTED' && x.joinDate).sort((a,b) => a.joinDate.localeCompare(b.joinDate));
+            const selectedJoiners = joinees.filter(x => x.status === 'SELECTED' && x.joinDate).sort((a,b) => a.joinDate.localeCompare(b.joinDate));
             
-            let summary = `📊 *SARATHY GROUP - DETAILED HR SUMMARY*\n` +
-                          `------------------------------------------\n` +
-                          `👥 TOTAL APPLICANTS  : ${total}\n` +
-                          `✅ SELECTED (JOINING) : ${sel}\n` +
-                          `⏳ PENDING REVIEW    : ${pend}\n` +
-                          `❌ REJECTED          : ${rej}\n` +
-                          `🚫 TOTAL NOT JOINED  : ${notJoinedTotal}\n\n`;
+            // Build Plain Text for Copying
+            let plainText = `📊 SARATHY GROUP - HR SUMMARY\n` +
+                          `Report Date: ${new Date().toLocaleDateString()}\n\n` +
+                          `👥 Total Applicants: ${total}\n` +
+                          `✅ Selected: ${sel}\n` +
+                          `⏳ Pending: ${pend}\n` +
+                          `❌ Rejected: ${rej}\n` +
+                          `🚫 Total Not Joined: ${notJoinedTotal}\n\n`;
 
-            if(joiners.length > 0) {
-                summary += `📅 *JOINING SCHEDULE:*\n`;
-                joiners.forEach(j => {
+            // Build HTML for Display
+            let html = `
+                <div class="mb-6 grid grid-cols-2 md:grid-cols-4 gap-3">
+                    <div class="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-xl text-center">
+                        <span class="block text-[10px] font-black text-blue-600 uppercase">Total</span>
+                        <span class="text-xl font-black">${total}</span>
+                    </div>
+                    <div class="p-3 bg-emerald-50 dark:bg-emerald-900/20 rounded-xl text-center">
+                        <span class="block text-[10px] font-black text-emerald-600 uppercase">Selected</span>
+                        <span class="text-xl font-black">${sel}</span>
+                    </div>
+                    <div class="p-3 bg-amber-50 dark:bg-amber-900/20 rounded-xl text-center">
+                        <span class="block text-[10px] font-black text-amber-600 uppercase">Pending</span>
+                        <span class="text-xl font-black">${pend}</span>
+                    </div>
+                    <div class="p-3 bg-red-50 dark:bg-red-900/20 rounded-xl text-center">
+                        <span class="block text-[10px] font-black text-red-600 uppercase">Rejected</span>
+                        <span class="text-xl font-black">${rej}</span>
+                    </div>
+                </div>
+
+                <h4 class="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-2">
+                    <i class="fas fa-calendar-alt text-blue-500"></i> Joining Schedule
+                </h4>
+                <table class="summary-table">
+                    <thead>
+                        <tr>
+                            <th>Candidate Name</th>
+                            <th>Joining Date</th>
+                            <th>Company/Entity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            if(selectedJoiners.length > 0) {
+                plainText += `📅 JOINING SCHEDULE:\n`;
+                selectedJoiners.forEach(j => {
                     const statusIcon = j.joinDate < today ? '✅' : '🔜';
-                    summary += `${statusIcon} ${j.name} | ${formatDateString(j.joinDate)} | ${j.company}\n`;
+                    html += `
+                        <tr>
+                            <td class="font-bold">${j.name}</td>
+                            <td>${formatDateString(j.joinDate)}</td>
+                            <td class="text-[10px] opacity-70">${j.company}</td>
+                        </tr>
+                    `;
+                    plainText += `${statusIcon} ${j.name} | ${formatDateString(j.joinDate)} | ${j.company}\n`;
                 });
-                summary += `\n`;
+                plainText += `\n`;
+            } else {
+                html += `<tr><td colspan="3" class="text-center py-4 text-slate-400">No joiners scheduled</td></tr>`;
             }
 
-            summary += `🏢 *DEPT WISE SELECTED (COUNT):*\n`;
+            html += `</tbody></table>`;
+
+            html += `
+                <h4 class="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-2">
+                    <i class="fas fa-building text-blue-500"></i> Department Wise Selection
+                </h4>
+                <table class="summary-table">
+                    <thead>
+                        <tr>
+                            <th>Department</th>
+                            <th>Selected Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            plainText += `🏢 DEPT WISE SELECTED:\n`;
             ['SALES', 'SERVICE', 'SPARE', 'ACCOUNTS'].forEach(dept => {
                 const count = joinees.filter(x => x.dept === dept && x.status === 'SELECTED').length;
-                summary += `• ${dept}: ${count}\n`;
+                html += `
+                    <tr>
+                        <td class="font-bold">${dept}</td>
+                        <td class="font-black text-blue-600">${count}</td>
+                    </tr>
+                `;
+                plainText += `• ${dept}: ${count}\n`;
             });
 
-            summary += `\n------------------------------------------\n` +
-                          `Report Generated: ${new Date().toLocaleString()}\n` +
-                          `Portal: SARATHY HR V2`;
-            
-            document.getElementById('summaryText').innerText = summary;
+            html += `</tbody></table>`;
+
+            document.getElementById('summaryText').innerHTML = html;
+            // Store plain text in a data attribute for copying
+            document.getElementById('summaryModal').setAttribute('data-plain-text', plainText);
             document.getElementById('summaryModal').classList.remove('hidden');
         };
 
         const copySummary = () => {
-            const text = document.getElementById('summaryText').innerText;
+            const text = document.getElementById('summaryModal').getAttribute('data-plain-text');
             const el = document.createElement('textarea');
             el.value = text; document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el);
-            showToast("Detailed Summary Copied!");
+            showToast("Summary Copied to Clipboard!");
         };
 
         const renderReqEntries = () => {
