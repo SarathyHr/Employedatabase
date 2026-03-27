@@ -144,7 +144,7 @@
         .fab { position: fixed; bottom: 20px; right: 20px; md:bottom: 30px; md:right: 30px; width: 56px; height: 56px; md:width: 60px; md:height: 60px; border-radius: 50%; background: #0054A6; color: white; display: flex; justify-content: center; align-items: center; box-shadow: 0 10px 20px rgba(0, 84, 166, 0.4); z-index: 50; cursor: pointer; transition: all 0.3s; }
         .fab:hover { transform: scale(1.05) rotate(90deg); }
 
-        #bulkActionBar { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); transition: bottom 0.4s cubic-bezier(0.4, 0, 0.2, 1); z-index: 60; width: 90%; max-width: 600px; justify-content: center; }
+        #bulkActionBar { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); transition: bottom 0.4s cubic-bezier(0.4, 0, 0.2, 1); z-index: 60; width: 90%; max-width: 500px; justify-content: center; }
         #bulkActionBar.visible { bottom: 20px; md:bottom: 30px; }
     </style>
 </head>
@@ -761,16 +761,15 @@
             }
         };
 
-        // ADDED INDIVIDUAL DELETE FUNCTION
+        // Individual Delete Function
         const deleteCandidate = (id) => {
-            // Confirm would normally go here, using toast for safe confirmation in Canvas
             joinees = joinees.filter(x => x.id !== id);
             localStorage.setItem('sarathy_db_v13', JSON.stringify(joinees));
             renderTable(); renderDashboard(); renderCalendar(); checkNotifications();
             showToast("Candidate Entry Deleted!", "error");
         };
 
-        // ADDED BULK DELETE FUNCTION
+        // Bulk Delete Function
         const bulkDelete = () => {
             if(selectedCandidates.size === 0) return;
             joinees = joinees.filter(j => !selectedCandidates.has(j.id));
@@ -793,7 +792,6 @@
             <div class="modern-card p-4 md:p-5 relative flex flex-col gap-4 group bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-sm hover:shadow-md transition-shadow" draggable="${isBoard}" ondragstart="dragStart(event, ${x.id})" ondragend="dragEnd(event)">
                 ${!isBoard ? `
                 <div class="absolute top-4 md:top-5 right-4 md:right-5 z-10 flex gap-2">
-                    <!-- ADDED TRASH ICON TO CARD -->
                     <button onclick="deleteCandidate(${x.id})" class="text-slate-400 hover:text-red-500 transition-colors mr-1">
                         <i class="fas fa-trash-alt text-sm"></i>
                     </button>
@@ -926,7 +924,6 @@
                 </div>
                 <div class="mt-8 flex gap-3">
                     <button onclick="editRecord(${r.id})" class="flex-1 py-3 bg-sarathy-blue hover:bg-[#004080] text-white rounded-xl font-black text-xs uppercase tracking-widest transition-colors shadow-lg active:scale-95"><i class="fas fa-edit mr-2"></i> Edit Details</button>
-                    <!-- ADDED DELETE OPTION IN VIEW PROFILE -->
                     <button onclick="deleteCandidate(${r.id}); closeViewModal();" class="w-12 h-12 bg-red-50 text-red-500 rounded-xl hover:bg-red-100 transition-colors flex items-center justify-center border border-red-100"><i class="fas fa-trash-alt"></i></button>
                 </div>
             `;
@@ -1053,7 +1050,7 @@
 
         const toggleNotifications = () => document.getElementById('notificationModal').classList.toggle('hidden');
         
-        // MODIFIED: checkNotifications to include Joining Reminders
+        // checkNotifications to include Joining Reminders
         const checkNotifications = () => {
             const today = new Date().toISOString().slice(0,10);
             const interviewAlerts = joinees.filter(x => x.interviewDate === today);
@@ -1104,24 +1101,44 @@
         };
         const closeReqModal = () => document.getElementById('reqModal').classList.add('hidden');
 
-        // Summary Logic
+        // UPDATED: Summary Logic to include Name, Join Date, Company and Dept Reports
         const generateHiringSummary = () => {
             const total = joinees.length;
             const sel = joinees.filter(x => x.status === 'SELECTED').length;
             const pend = joinees.filter(x => x.status === 'PENDING').length;
             const rej = joinees.filter(x => x.status === 'REJECTED').length;
+            const notJoinedTotal = pend + rej;
+            const today = new Date().toISOString().slice(0, 10);
+
+            // Filter upcoming joiners (Selected and has join date)
+            const joiners = joinees.filter(x => x.status === 'SELECTED' && x.joinDate).sort((a,b) => a.joinDate.localeCompare(b.joinDate));
             
-            const summary = `📊 *SARATHY GROUP HR SUMMARY*\n\n` +
-                `👥 TOTAL APPLICANTS: ${total}\n` +
-                `✅ SELECTED: ${sel}\n` +
-                `⏳ PENDING: ${pend}\n` +
-                `❌ REJECTED: ${rej}\n\n` +
-                `*Dept Wise Selected:*\n` +
-                `Sales: ${joinees.filter(x => x.dept === 'SALES' && x.status === 'SELECTED').length}\n` +
-                `Service: ${joinees.filter(x => x.dept === 'SERVICE' && x.status === 'SELECTED').length}\n` +
-                `Spare: ${joinees.filter(x => x.dept === 'SPARE' && x.status === 'SELECTED').length}\n` +
-                `Accounts: ${joinees.filter(x => x.dept === 'ACCOUNTS' && x.status === 'SELECTED').length}\n\n` +
-                `Report Generated: ${new Date().toLocaleDateString()}`;
+            let summary = `📊 *SARATHY GROUP - DETAILED HR SUMMARY*\n` +
+                          `------------------------------------------\n` +
+                          `👥 TOTAL APPLICANTS  : ${total}\n` +
+                          `✅ SELECTED (JOINING) : ${sel}\n` +
+                          `⏳ PENDING REVIEW    : ${pend}\n` +
+                          `❌ REJECTED          : ${rej}\n` +
+                          `🚫 TOTAL NOT JOINED  : ${notJoinedTotal}\n\n`;
+
+            if(joiners.length > 0) {
+                summary += `📅 *JOINING SCHEDULE:*\n`;
+                joiners.forEach(j => {
+                    const statusIcon = j.joinDate < today ? '✅' : '🔜';
+                    summary += `${statusIcon} ${j.name} | ${formatDateString(j.joinDate)} | ${j.company}\n`;
+                });
+                summary += `\n`;
+            }
+
+            summary += `🏢 *DEPT WISE SELECTED (COUNT):*\n`;
+            ['SALES', 'SERVICE', 'SPARE', 'ACCOUNTS'].forEach(dept => {
+                const count = joinees.filter(x => x.dept === dept && x.status === 'SELECTED').length;
+                summary += `• ${dept}: ${count}\n`;
+            });
+
+            summary += `\n------------------------------------------\n` +
+                          `Report Generated: ${new Date().toLocaleString()}\n` +
+                          `Portal: SARATHY HR V2`;
             
             document.getElementById('summaryText').innerText = summary;
             document.getElementById('summaryModal').classList.remove('hidden');
@@ -1131,7 +1148,7 @@
             const text = document.getElementById('summaryText').innerText;
             const el = document.createElement('textarea');
             el.value = text; document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el);
-            showToast("Summary Copied!");
+            showToast("Detailed Summary Copied!");
         };
 
         const renderReqEntries = () => {
