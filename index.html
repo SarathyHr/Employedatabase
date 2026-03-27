@@ -443,7 +443,7 @@
                 <form id="joineeForm" class="flex flex-col h-full">
                     <input type="hidden" id="editId">
                     
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 flex-1">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6 flex-1">
                         <!-- EMP ID & STATUS -->
                         <div class="p-3 md:p-4 bg-[#f0f7ff] dark:bg-blue-900/20 rounded-xl border border-blue-100 dark:border-blue-900/50 flex flex-col justify-center">
                             <label class="text-[9px] md:text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Emp Id</label>
@@ -501,14 +501,15 @@
                             <input type="date" id="joinDate" class="w-full p-3 md:p-3.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl font-bold text-sm outline-none focus:border-[#0054A6] transition-colors dark:text-white dark:[color-scheme:dark]">
                         </div>
 
-                        <!-- EXPERIENCE -->
+                        <!-- EXPERIENCE & LOCATION -->
                         <div class="flex flex-col justify-end">
                             <label class="text-[9px] md:text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5 ml-1">Experience (Yrs)</label>
                             <input type="number" id="experience" step="0.5" class="w-full p-3 md:p-3.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl font-bold text-sm outline-none focus:border-[#0054A6] transition-colors dark:text-white" value="0">
                         </div>
-                        
-                        <!-- Empty Placeholder for Grid Balance -->
-                        <div class="hidden md:block"></div>
+                        <div class="flex flex-col justify-end">
+                            <label class="text-[9px] md:text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5 ml-1">Location</label>
+                            <input type="text" id="location" required class="w-full p-3 md:p-3.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl font-bold text-sm uppercase outline-none focus:border-[#0054A6] transition-colors dark:text-white" placeholder="ENTER LOCATION">
+                        </div>
                         
                         <!-- MANAGER REMARKS -->
                         <div class="col-span-1 md:col-span-2 flex flex-col justify-end">
@@ -751,7 +752,7 @@
                     <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-gradient-to-br from-blue-100 to-blue-50 text-sarathy-blue flex items-center justify-center font-black text-base md:text-lg border border-blue-200 shrink-0 shadow-sm">${x.name[0]}</div>
                     <div class="flex-1 min-w-0 pr-4">
                         <h4 class="font-black text-xs md:text-sm truncate dark:text-white">${x.name}</h4>
-                        <p class="text-[9px] md:text-[10px] text-[var(--text-secondary)] font-bold tracking-widest uppercase truncate">${x.empId} • ${x.dept}</p>
+                        <p class="text-[9px] md:text-[10px] text-[var(--text-secondary)] font-bold tracking-widest uppercase truncate">${x.empId} • ${x.dept} ${x.location ? '• ' + x.location : ''}</p>
                     </div>
                 </div>
                 <div class="flex justify-between items-center text-[9px] md:text-[10px] font-bold mt-1 md:mt-2">
@@ -807,6 +808,7 @@
                 interviewDate: document.getElementById('interviewDate').value,
                 joinDate: document.getElementById('joinDate').value,
                 experience: parseFloat(document.getElementById('experience').value)||0,
+                location: document.getElementById('location').value.trim().toUpperCase(),
                 remarks: document.getElementById('remarks').value.trim()
             };
             const idx = joinees.findIndex(x=>x.id===data.id);
