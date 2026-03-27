@@ -84,6 +84,22 @@
         .dark .custom-scroll::-webkit-scrollbar-thumb { background: #475569; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
 
+        /* Status Badges */
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .status-PENDING { background: rgba(245, 158, 11, 0.1); color: #d97706; border: 1px solid rgba(245, 158, 11, 0.2); }
+        .status-SELECTED { background: rgba(16, 185, 129, 0.1); color: #059669; border: 1px solid rgba(16, 185, 129, 0.2); }
+        .status-REJECTED { background: rgba(239, 68, 68, 0.1); color: #dc2626; border: 1px solid rgba(239, 68, 68, 0.2); }
+
         /* Animations */
         @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         .animate-up { animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
@@ -495,6 +511,14 @@
                             <input type="text" id="location" required class="w-full p-3 md:p-3.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl font-bold text-sm uppercase outline-none focus:border-[#0054A6] transition-colors dark:text-white" placeholder="ENTER LOCATION">
                         </div>
                         
+                        <!-- DESIGNATION -->
+                        <div class="flex flex-col justify-end">
+                            <label class="text-[9px] md:text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5 ml-1">Designation</label>
+                            <input type="text" id="designation" required class="w-full p-3 md:p-3.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl font-bold text-sm uppercase outline-none focus:border-[#0054A6] transition-colors dark:text-white" placeholder="ENTER DESIGNATION">
+                        </div>
+                        <!-- Empty Placeholder for Grid Balance -->
+                        <div class="hidden md:block"></div>
+
                         <!-- MANAGER REMARKS -->
                         <div class="col-span-1 md:col-span-2 flex flex-col justify-end">
                             <label class="text-[9px] md:text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5 ml-1">Manager Remarks</label>
@@ -758,7 +782,7 @@
                     <div class="flex-1 min-w-0">
                         <h4 class="font-black text-sm md:text-base truncate text-[#0f172a] dark:text-white leading-tight mb-1">${x.name}</h4>
                         <p class="text-[9px] md:text-[10px] text-slate-500 dark:text-slate-400 font-bold tracking-[0.1em] uppercase truncate">
-                            ${x.empId} • ${x.dept} ${x.location ? '• ' + x.location : ''}
+                            ${x.empId} ${x.designation ? '• ' + x.designation : ''} • ${x.dept} ${x.location ? '• ' + x.location : ''}
                         </p>
                     </div>
                 </div>
@@ -834,6 +858,7 @@
                 joinDate: document.getElementById('joinDate').value,
                 experience: parseFloat(document.getElementById('experience').value)||0,
                 location: document.getElementById('location').value.trim().toUpperCase(),
+                designation: document.getElementById('designation').value.trim().toUpperCase(),
                 remarks: document.getElementById('remarks').value.trim()
             };
             const idx = joinees.findIndex(x=>x.id===data.id);
@@ -865,6 +890,7 @@
                 <div class="grid grid-cols-2 gap-4">
                     <div><span class="block text-[10px] font-bold text-[var(--text-secondary)] uppercase mb-1">Phone</span><span class="font-bold text-sm text-[var(--text-primary)]">${r.phone || 'N/A'}</span></div>
                     <div><span class="block text-[10px] font-bold text-[var(--text-secondary)] uppercase mb-1">Experience</span><span class="font-bold text-sm text-[var(--text-primary)]">${r.experience} Yrs</span></div>
+                    <div><span class="block text-[10px] font-bold text-[var(--text-secondary)] uppercase mb-1">Designation</span><span class="font-bold text-sm text-[var(--text-primary)]">${r.designation || 'N/A'}</span></div>
                     <div><span class="block text-[10px] font-bold text-[var(--text-secondary)] uppercase mb-1">Department</span><span class="font-bold text-sm text-[var(--text-primary)]">${r.dept}</span></div>
                     <div><span class="block text-[10px] font-bold text-[var(--text-secondary)] uppercase mb-1">Location</span><span class="font-bold text-sm text-[var(--text-primary)]">${r.location || 'N/A'}</span></div>
                     <div class="col-span-2"><span class="block text-[10px] font-bold text-[var(--text-secondary)] uppercase mb-1">Entity</span><span class="font-bold text-sm text-[var(--text-primary)]">${r.company}</span></div>
@@ -897,6 +923,7 @@
             document.getElementById('joinDate').value = r.joinDate || '';
             document.getElementById('experience').value = r.experience || 0;
             document.getElementById('location').value = r.location || '';
+            document.getElementById('designation').value = r.designation || '';
             document.getElementById('remarks').value = r.remarks || '';
             
             document.getElementById('modalTitle').innerText = "Edit Personnel Details";
