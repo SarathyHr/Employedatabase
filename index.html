@@ -157,7 +157,7 @@
                 <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-sarathy-blue via-blue-400 to-sarathy-red"></div>
                 <div class="mb-8 relative z-10">
                     <div class="bg-white/95 p-4 md:p-5 rounded-2xl mx-auto mb-4 shadow-lg inline-block">
-                        <img src="Sarathy2.png.png" alt="Sarathy Group Logo" class="h-10 md:h-14 w-auto object-contain mx-auto">
+                        <img src="Sarathy2.png.png" alt="Sarathy Group Logo" class="h-10 md:h-14 w-auto object-contain mx-auto" onerror="this.src='https://via.placeholder.com/150x50?text=SARATHY'">
                     </div>
                     <p class="text-[9px] md:text-[10px] font-bold tracking-[0.3em] text-slate-300 uppercase mt-2">Executive Portal V2</p>
                 </div>
@@ -195,9 +195,9 @@
             <!-- Header / Logo area -->
             <div class="p-5 md:p-6 flex justify-between items-center border-b border-[var(--border-color)]">
                 <div class="flex items-center gap-3">
-                    <img src="Sarathy2.png.png" alt="Sarathy Group" class="h-7 md:h-9 w-auto object-contain bg-white/90 p-1 rounded shadow-sm dark:bg-slate-200">
+                    <img src="Sarathy2.png.png" alt="Sarathy Group" class="h-7 md:h-9 w-auto object-contain bg-white/90 p-1 rounded shadow-sm dark:bg-slate-200" onerror="this.style.display='none'">
                     <div>
-                        <h1 class="font-black text-sm md:text-base tracking-tight gradient-text">HR Portal</h1>
+                        <h1 class="font-black text-sm md:text-base tracking-tight gradient-text">HR NEXUS</h1>
                     </div>
                 </div>
                 <button class="md:hidden text-[var(--text-secondary)] hover:text-red-500" onclick="toggleSidebar()">
@@ -470,6 +470,10 @@
                             <label class="text-[9px] md:text-[10px] font-bold text-[var(--text-secondary)] ml-1 uppercase">Experience (Yrs)</label>
                             <input type="number" id="experience" step="0.5" class="w-full p-2.5 md:p-3 mt-1 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl font-bold text-sm outline-none dark:text-white" value="0">
                         </div>
+                        <div class="col-span-1 md:col-span-2">
+                            <label class="text-[9px] md:text-[10px] font-bold text-[var(--text-secondary)] ml-1 uppercase">Manager Remarks</label>
+                            <textarea id="remarks" rows="2" class="w-full p-2.5 md:p-3 mt-1 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl font-bold text-sm uppercase outline-none focus:border-sarathy-blue dark:text-white" placeholder="Add interview feedback or notes..."></textarea>
+                        </div>
                     </div>
                     <div class="pt-4 border-t border-[var(--border-color)]">
                         <button type="submit" class="w-full bg-sarathy-blue text-white font-black py-3.5 md:py-4 rounded-xl shadow-lg active:scale-95 transition-transform uppercase tracking-widest text-xs md:text-sm">Save Candidate</button>
@@ -712,6 +716,9 @@
                     <span class="status-badge status-${x.status}">${x.status}</span>
                     <span class="text-[var(--text-secondary)] shrink-0"><i class="fas fa-calendar-alt mr-1"></i> ${x.interviewDate}</span>
                 </div>
+                
+                ${x.remarks ? `<div class="mt-2 p-2.5 bg-amber-50 dark:bg-amber-900/20 rounded-lg border border-amber-100 dark:border-amber-900/50"><p class="text-[9px] md:text-[10px] font-bold text-amber-700 dark:text-amber-400 italic">" ${x.remarks} "</p></div>` : ''}
+
                 <div class="flex gap-2 mt-auto pt-3 border-t border-[var(--border-color)]">
                     <button onclick="openInterviewAssistant(${x.id})" class="flex-1 py-1.5 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 rounded-lg text-[9px] md:text-[10px] font-black uppercase hover:bg-indigo-100 transition-colors"><i class="fas fa-brain"></i> AI</button>
                     <button onclick="quickToggleStatus(${x.id})" class="w-8 py-1.5 bg-[var(--bg-primary)] text-[var(--text-secondary)] rounded-lg hover:bg-[var(--border-color)] transition-colors"><i class="fas fa-sync-alt"></i></button>
@@ -753,7 +760,8 @@
                 company: document.getElementById('company').value,
                 status: document.getElementById('status').value,
                 interviewDate: document.getElementById('interviewDate').value,
-                experience: parseFloat(document.getElementById('experience').value)||0
+                experience: parseFloat(document.getElementById('experience').value)||0,
+                remarks: document.getElementById('remarks').value.trim()
             };
             const idx = joinees.findIndex(x=>x.id===data.id);
             if(idx>-1) joinees[idx] = data; else joinees.push(data);
