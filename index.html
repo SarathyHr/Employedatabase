@@ -84,22 +84,6 @@
         .dark .custom-scroll::-webkit-scrollbar-thumb { background: #475569; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
 
-        /* Status Badges */
-        .status-badge {
-            padding: 4px 12px;
-            border-radius: 9999px;
-            font-size: 0.7rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-        }
-        .status-PENDING { background: rgba(245, 158, 11, 0.1); color: #d97706; border: 1px solid rgba(245, 158, 11, 0.2); }
-        .status-SELECTED { background: rgba(16, 185, 129, 0.1); color: #059669; border: 1px solid rgba(16, 185, 129, 0.2); }
-        .status-REJECTED { background: rgba(239, 68, 68, 0.1); color: #dc2626; border: 1px solid rgba(239, 68, 68, 0.2); }
-
         /* Animations */
         @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         .animate-up { animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
@@ -543,19 +527,17 @@
         <span id="toastMessage">Success</span>
     </div>
 
-    <!-- AI Assistant Modal -->
-    <div id="assistantModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[115] hidden flex items-center justify-center p-4">
+    <!-- VIEW PROFILE MODAL -->
+    <div id="viewModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[115] hidden flex items-center justify-center p-4 transition-opacity">
         <div class="bg-[var(--bg-secondary)] w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden animate-up border border-[var(--border-color)]">
-            <div class="p-4 md:p-5 bg-gradient-to-r from-indigo-600 to-purple-600 text-white flex justify-between items-center">
-                <h2 class="font-black text-xs md:text-sm uppercase tracking-widest"><i class="fas fa-brain mr-2"></i> AI Assistant</h2>
-                <button onclick="document.getElementById('assistantModal').classList.add('hidden')" class="opacity-70 hover:opacity-100"><i class="fas fa-times"></i></button>
+            <div class="p-4 md:p-5 bg-gradient-to-r from-sarathy-blue to-blue-600 text-white flex justify-between items-center">
+                <h2 class="font-black text-xs md:text-sm uppercase tracking-widest"><i class="fas fa-id-card mr-2"></i> Candidate Profile</h2>
+                <button onclick="closeViewModal()" class="opacity-70 hover:opacity-100"><i class="fas fa-times text-lg"></i></button>
             </div>
             <div class="p-4 md:p-6 custom-scroll max-h-[70vh] overflow-y-auto">
-                <div class="mb-4">
-                    <span class="text-[9px] md:text-[10px] font-bold text-[var(--text-secondary)] uppercase block">Prepared for:</span>
-                    <h3 class="font-black text-sm md:text-base text-[var(--text-primary)]" id="assistantCandidateName">---</h3>
+                <div id="viewModalContent">
+                    <!-- Dynamic Content -->
                 </div>
-                <div class="space-y-2 md:space-y-3" id="assistantQuestions"></div>
             </div>
         </div>
     </div>
@@ -614,6 +596,14 @@
         };
 
         const isAdmin = () => currentUser?.user === 'ADMIN';
+
+        // Format Date to DD-MM-YYYY
+        const formatDateString = (d) => {
+            if(!d) return '';
+            const parts = d.split('-');
+            if (parts.length !== 3) return d;
+            return `${parts[2]}-${parts[1]}-${parts[0]}`;
+        };
 
         // Dark Mode
         const toggleDarkMode = () => {
@@ -745,8 +735,16 @@
 
         const generateCard = (x, isBoard=false) => {
             const isChecked = selectedCandidates.has(x.id);
+            const intDate = formatDateString(x.interviewDate);
+            const joinDate = formatDateString(x.joinDate);
+            
+            let statusStyle = '';
+            if(x.status === 'SELECTED') statusStyle = 'bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800/50';
+            else if(x.status === 'PENDING') statusStyle = 'bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400 border-amber-200 dark:border-amber-800/50';
+            else statusStyle = 'bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 border-red-200 dark:border-red-800/50';
+
             return `
-            <div class="modern-card p-4 md:p-5 relative flex flex-col gap-3 group" draggable="${isBoard}" ondragstart="dragStart(event, ${x.id})" ondragend="dragEnd(event)">
+            <div class="modern-card p-4 md:p-5 relative flex flex-col gap-4 group bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-sm hover:shadow-md transition-shadow" draggable="${isBoard}" ondragstart="dragStart(event, ${x.id})" ondragend="dragEnd(event)">
                 ${!isBoard ? `
                 <div class="absolute top-4 md:top-5 right-4 md:right-5 z-10">
                     <input type="checkbox" class="w-4 h-4 md:w-5 md:h-5 rounded border-slate-300 text-sarathy-blue focus:ring-sarathy-blue cursor-pointer" onchange="toggleBulkSelection(${x.id})" ${isChecked?'checked':''}>
@@ -754,11 +752,11 @@
 
                 <!-- Header: Avatar & Info -->
                 <div class="flex items-center gap-3 md:gap-4 pr-8">
-                    <div class="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-blue-50 dark:bg-blue-900/20 text-sarathy-blue dark:text-blue-400 flex items-center justify-center font-black text-xl md:text-2xl border border-blue-100 dark:border-blue-800/50 shrink-0 shadow-sm">
+                    <div class="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-[#eff6ff] dark:bg-blue-900/30 text-[#1e3a8a] dark:text-blue-400 flex items-center justify-center font-black text-xl md:text-2xl shrink-0">
                         ${x.name[0]}
                     </div>
                     <div class="flex-1 min-w-0">
-                        <h4 class="font-black text-sm md:text-base truncate text-slate-800 dark:text-white leading-tight mb-1">${x.name}</h4>
+                        <h4 class="font-black text-sm md:text-base truncate text-[#0f172a] dark:text-white leading-tight mb-1">${x.name}</h4>
                         <p class="text-[9px] md:text-[10px] text-slate-500 dark:text-slate-400 font-bold tracking-[0.1em] uppercase truncate">
                             ${x.empId} • ${x.dept} ${x.location ? '• ' + x.location : ''}
                         </p>
@@ -766,30 +764,32 @@
                 </div>
 
                 <!-- Middle: Status & Dates -->
-                <div class="flex justify-between items-center mt-1 px-0.5">
-                    <span class="status-badge status-${x.status} shadow-sm px-3 md:px-4 py-1.5 md:py-2 rounded-full border">${x.status}</span>
+                <div class="flex justify-between items-center mt-1">
+                    <div class="px-4 py-1.5 rounded-full border ${statusStyle} text-[10px] md:text-xs font-black tracking-wider">
+                        ${x.status}
+                    </div>
                     
-                    <div class="flex flex-col items-end text-[9px] md:text-[10px] font-black tracking-wider space-y-1">
-                        <span class="text-slate-500 dark:text-slate-400"><i class="fas fa-calendar-alt mr-1.5 opacity-70"></i>Int: ${x.interviewDate}</span>
-                        ${x.joinDate ? `<span class="text-emerald-600 dark:text-emerald-400"><i class="fas fa-flag-checkered mr-1.5 opacity-70"></i>Join: ${x.joinDate}</span>` : ''}
+                    <div class="flex flex-col items-end text-[9px] md:text-[10px] font-bold tracking-wider space-y-1.5">
+                        <span class="text-slate-500 dark:text-slate-400"><i class="fas fa-calendar-alt mr-1.5 opacity-70"></i>Int: <span class="font-black">${intDate}</span></span>
+                        ${x.joinDate ? `<span class="text-emerald-600 dark:text-emerald-400"><i class="fas fa-flag-checkered mr-1.5 opacity-70"></i>Join: <span class="font-black">${joinDate}</span></span>` : ''}
                     </div>
                 </div>
                 
                 <!-- Remarks -->
                 ${x.remarks ? `
-                <div class="mt-1 p-3 bg-amber-50/50 dark:bg-amber-900/10 rounded-xl border border-amber-200/50 dark:border-amber-900/30">
-                    <p class="text-[10px] md:text-[11px] font-bold text-amber-700 dark:text-amber-400 italic text-center leading-relaxed">
+                <div class="mt-1 p-3 bg-[#fffbeb] dark:bg-amber-900/10 rounded-xl border border-[#fde68a] dark:border-amber-900/30">
+                    <p class="text-[10px] md:text-[11px] font-bold text-[#b45309] dark:text-amber-400 italic text-center leading-relaxed">
                         " ${x.remarks} "
                     </p>
                 </div>
                 ` : ''}
 
                 <!-- Actions -->
-                <div class="flex gap-2.5 mt-2 pt-4 border-t border-slate-100 dark:border-slate-800">
-                    <button onclick="openInterviewAssistant(${x.id})" class="flex-1 py-2.5 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-400 rounded-xl text-[10px] md:text-[11px] font-black uppercase hover:bg-indigo-100 dark:hover:bg-indigo-900/40 transition-colors flex justify-center items-center gap-2 border border-indigo-100 dark:border-indigo-900/50">
-                        <i class="fas fa-brain text-indigo-500"></i> AI
+                <div class="flex gap-2.5 mt-2 pt-4 border-t border-slate-100 dark:border-slate-700">
+                    <button onclick="viewCandidate(${x.id})" class="flex-1 py-2.5 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-400 rounded-xl text-[10px] md:text-[11px] font-black uppercase hover:bg-indigo-100 dark:hover:bg-indigo-900/40 transition-colors flex justify-center items-center gap-2 border border-indigo-100 dark:border-indigo-900/50">
+                        <i class="fas fa-eye text-indigo-500"></i> View Profile
                     </button>
-                    <button onclick="quickToggleStatus(${x.id})" class="w-10 md:w-11 py-2.5 bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors flex justify-center items-center border border-slate-200 dark:border-slate-700 shadow-sm">
+                    <button onclick="quickToggleStatus(${x.id})" class="w-10 md:w-11 py-2.5 bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors flex justify-center items-center border border-slate-200 dark:border-slate-600 shadow-sm">
                         <i class="fas fa-sync-alt"></i>
                     </button>
                 </div>
@@ -801,6 +801,7 @@
             document.getElementById('joineeForm').reset();
             document.getElementById('editId').value = '';
             document.getElementById('empId').value = 'SG-' + (joinees.length+1).toString().padStart(3,'0');
+            document.getElementById('modalTitle').innerText = "Register Personnel";
             document.getElementById('addModal').classList.remove('hidden');
             
             // Adjust animation direction based on screen width
@@ -842,6 +843,71 @@
             showToast("Record Saved!");
             if(data.status==='SELECTED') confetti({particleCount: 100, spread: 70});
         };
+
+        // View Profile Logic
+        const viewCandidate = (id) => {
+            const r = joinees.find(x=>x.id===id);
+            if(!r) return;
+            
+            const content = `
+                <div class="flex items-center gap-4 mb-6 border-b border-[var(--border-color)] pb-5">
+                    <div class="w-16 h-16 rounded-2xl bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center font-black text-2xl border border-blue-100 dark:border-blue-800/50 shadow-sm shrink-0">
+                        ${r.name[0]}
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-black text-xl text-[var(--text-primary)] mb-1">${r.name}</h3>
+                        <p class="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-widest">${r.empId}</p>
+                        <div class="mt-2 inline-block px-3 py-1 rounded-md text-[10px] font-black uppercase tracking-wider ${r.status === 'SELECTED' ? 'bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/50' : r.status === 'REJECTED' ? 'bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800/50' : 'bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400 border border-amber-200 dark:border-amber-800/50'}">
+                            ${r.status}
+                        </div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div><span class="block text-[10px] font-bold text-[var(--text-secondary)] uppercase mb-1">Phone</span><span class="font-bold text-sm text-[var(--text-primary)]">${r.phone || 'N/A'}</span></div>
+                    <div><span class="block text-[10px] font-bold text-[var(--text-secondary)] uppercase mb-1">Experience</span><span class="font-bold text-sm text-[var(--text-primary)]">${r.experience} Yrs</span></div>
+                    <div><span class="block text-[10px] font-bold text-[var(--text-secondary)] uppercase mb-1">Department</span><span class="font-bold text-sm text-[var(--text-primary)]">${r.dept}</span></div>
+                    <div><span class="block text-[10px] font-bold text-[var(--text-secondary)] uppercase mb-1">Location</span><span class="font-bold text-sm text-[var(--text-primary)]">${r.location || 'N/A'}</span></div>
+                    <div class="col-span-2"><span class="block text-[10px] font-bold text-[var(--text-secondary)] uppercase mb-1">Entity</span><span class="font-bold text-sm text-[var(--text-primary)]">${r.company}</span></div>
+                    <div><span class="block text-[10px] font-bold text-[var(--text-secondary)] uppercase mb-1">Interview Date</span><span class="font-bold text-sm text-[var(--text-primary)]">${formatDateString(r.interviewDate)}</span></div>
+                    <div><span class="block text-[10px] font-bold text-[var(--text-secondary)] uppercase mb-1">Join Date</span><span class="font-bold text-sm text-emerald-600 dark:text-emerald-400">${formatDateString(r.joinDate) || 'N/A'}</span></div>
+                    ${r.remarks ? `<div class="col-span-2 mt-2"><span class="block text-[10px] font-bold text-[var(--text-secondary)] uppercase mb-1.5">Manager Remarks</span><div class="p-3 bg-amber-50 dark:bg-amber-900/10 rounded-xl border border-amber-200/50 dark:border-amber-900/30 text-xs font-bold text-amber-700 dark:text-amber-400 italic">" ${r.remarks} "</div></div>` : ''}
+                </div>
+                <div class="mt-8 flex gap-3">
+                    <button onclick="editRecord(${r.id})" class="flex-1 py-3 bg-sarathy-blue hover:bg-[#004080] text-white rounded-xl font-black text-xs uppercase tracking-widest transition-colors shadow-lg active:scale-95"><i class="fas fa-edit mr-2"></i> Edit Details</button>
+                </div>
+            `;
+            document.getElementById('viewModalContent').innerHTML = content;
+            document.getElementById('viewModal').classList.remove('hidden');
+        };
+        
+        const closeViewModal = () => document.getElementById('viewModal').classList.add('hidden');
+
+        const editRecord = (id) => {
+            closeViewModal();
+            const r = joinees.find(x=>x.id===id);
+            if(!r) return;
+            document.getElementById('editId').value = r.id;
+            document.getElementById('empId').value = r.empId;
+            document.getElementById('status').value = r.status;
+            document.getElementById('empName').value = r.name;
+            document.getElementById('empPhone').value = r.phone;
+            document.getElementById('dept').value = r.dept;
+            document.getElementById('company').value = r.company;
+            document.getElementById('interviewDate').value = r.interviewDate || '';
+            document.getElementById('joinDate').value = r.joinDate || '';
+            document.getElementById('experience').value = r.experience || 0;
+            document.getElementById('location').value = r.location || '';
+            document.getElementById('remarks').value = r.remarks || '';
+            
+            document.getElementById('modalTitle').innerText = "Edit Personnel Details";
+            document.getElementById('addModal').classList.remove('hidden');
+            if (window.innerWidth < 768) {
+                setTimeout(()=>document.getElementById('modalContent').style.transform = 'translateY(0)', 10);
+            } else {
+                setTimeout(()=>document.getElementById('modalContent').style.transform = 'translateX(0)', 10);
+            }
+        };
+
 
         // Calendar Logic
         const renderCalendar = () => {
@@ -928,14 +994,6 @@
             localStorage.setItem('sarathy_db_v13', JSON.stringify(joinees));
             clearBulkSelection(); renderDashboard(); renderCalendar(); showToast(`Status Updated!`);
             if(st==='SELECTED') confetti();
-        };
-
-        const openInterviewAssistant = (id) => {
-            const r = joinees.find(x=>x.id===id);
-            document.getElementById('assistantCandidateName').innerText = `${r.name} (${r.dept})`;
-            const qs = ["Tell me about your experience in " + r.dept, "How do you handle difficult situations at work?", "Where do you see yourself in 3 years?"];
-            document.getElementById('assistantQuestions').innerHTML = qs.map((q,i) => `<div class="p-2.5 md:p-3 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-800 dark:text-indigo-200 rounded-lg text-xs md:text-sm font-medium flex gap-2 md:gap-3"><span class="font-black text-indigo-400">Q${i+1}</span> ${q}</div>`).join('');
-            document.getElementById('assistantModal').classList.remove('hidden');
         };
 
         const toggleNotifications = () => document.getElementById('notificationModal').classList.toggle('hidden');
