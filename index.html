@@ -475,15 +475,24 @@
                             <i class="fas fa-chevron-down absolute right-4 bottom-4 text-slate-400 pointer-events-none text-xs"></i>
                         </div>
 
-                        <!-- INTERVIEW DATE & EXPERIENCE -->
+                        <!-- INTERVIEW DATE & JOIN DATE -->
                         <div class="flex flex-col justify-end relative">
                             <label class="text-[9px] md:text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5 ml-1">Interview Date</label>
                             <input type="date" id="interviewDate" required class="w-full p-3 md:p-3.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl font-bold text-sm outline-none focus:border-[#0054A6] transition-colors dark:text-white dark:[color-scheme:dark]">
                         </div>
+                        <div class="flex flex-col justify-end relative">
+                            <label class="text-[9px] md:text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5 ml-1">Join Date</label>
+                            <input type="date" id="joinDate" class="w-full p-3 md:p-3.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl font-bold text-sm outline-none focus:border-[#0054A6] transition-colors dark:text-white dark:[color-scheme:dark]">
+                        </div>
+
+                        <!-- EXPERIENCE -->
                         <div class="flex flex-col justify-end">
                             <label class="text-[9px] md:text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5 ml-1">Experience (Yrs)</label>
                             <input type="number" id="experience" step="0.5" class="w-full p-3 md:p-3.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl font-bold text-sm outline-none focus:border-[#0054A6] transition-colors dark:text-white" value="0">
                         </div>
+                        
+                        <!-- Empty Placeholder for Grid Balance -->
+                        <div class="hidden md:block"></div>
                         
                         <!-- MANAGER REMARKS -->
                         <div class="col-span-1 md:col-span-2 flex flex-col justify-end">
@@ -731,7 +740,10 @@
                 </div>
                 <div class="flex justify-between items-center text-[9px] md:text-[10px] font-bold mt-1 md:mt-2">
                     <span class="status-badge status-${x.status}">${x.status}</span>
-                    <span class="text-[var(--text-secondary)] shrink-0"><i class="fas fa-calendar-alt mr-1"></i> ${x.interviewDate}</span>
+                    <span class="text-[var(--text-secondary)] shrink-0 flex flex-col items-end">
+                        <span><i class="fas fa-calendar-alt mr-1"></i> Int: ${x.interviewDate}</span>
+                        ${x.joinDate ? `<span class="text-emerald-600 mt-0.5"><i class="fas fa-flag-checkered mr-1"></i> Join: ${x.joinDate}</span>` : ''}
+                    </span>
                 </div>
                 
                 ${x.remarks ? `<div class="mt-2 p-2.5 bg-amber-50 dark:bg-amber-900/20 rounded-lg border border-amber-100 dark:border-amber-900/50"><p class="text-[9px] md:text-[10px] font-bold text-amber-700 dark:text-amber-400 italic">" ${x.remarks} "</p></div>` : ''}
@@ -777,6 +789,7 @@
                 company: document.getElementById('company').value,
                 status: document.getElementById('status').value,
                 interviewDate: document.getElementById('interviewDate').value,
+                joinDate: document.getElementById('joinDate').value,
                 experience: parseFloat(document.getElementById('experience').value)||0,
                 remarks: document.getElementById('remarks').value.trim()
             };
