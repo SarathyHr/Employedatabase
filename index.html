@@ -264,10 +264,6 @@
             <!-- Top Header Area -->
             <header class="h-16 md:h-20 glass-panel border-b border-[var(--border-color)] flex justify-between items-center px-4 md:px-6 shrink-0 z-30">
                 <div class="flex items-center gap-3">
-                    <!-- Added BACK Button -->
-                    <button id="backBtn" onclick="goBack()" class="hidden w-10 h-10 rounded-xl bg-[var(--bg-secondary)] text-[var(--text-secondary)] flex items-center justify-center shadow-sm border border-[var(--border-color)] hover:text-sarathy-blue transition-colors">
-                        <i class="fas fa-arrow-left"></i>
-                    </button>
                     <!-- Mobile Hamburger -->
                     <button onclick="toggleSidebar()" class="md:hidden w-10 h-10 rounded-xl bg-[var(--bg-secondary)] text-[var(--text-secondary)] flex items-center justify-center shadow-sm border border-[var(--border-color)] hover:text-sarathy-blue transition-colors">
                         <i class="fas fa-bars"></i>
@@ -447,6 +443,11 @@
 
             <!-- Global Floating Action Button -->
             <button id="addBtn" onclick="openModal()" class="fab hidden" title="Add New Candidate"><i class="fas fa-plus text-lg md:text-xl"></i></button>
+            
+            <!-- Floating Back Button (Bottom Left) -->
+            <button id="backBtn" onclick="goBack()" class="hidden absolute bottom-6 left-4 md:bottom-8 md:left-8 w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-[var(--bg-secondary)] text-[var(--text-primary)] flex items-center justify-center shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-[var(--border-color)] hover:text-sarathy-blue hover:-translate-x-1 transition-all z-50">
+                <i class="fas fa-arrow-left text-lg md:text-xl"></i>
+            </button>
         </main>
     </div>
 
@@ -468,8 +469,13 @@
     <div id="addModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-[110] hidden flex justify-end items-end md:items-stretch transition-opacity">
         <div id="modalContent" class="bg-[var(--bg-secondary)] w-full md:w-3/4 lg:w-1/2 h-[90vh] md:h-full rounded-t-2xl md:rounded-none shadow-2xl flex flex-col transform translate-y-full md:translate-y-0 md:translate-x-full transition-transform duration-300">
             <div class="p-4 md:p-8 border-b border-[var(--border-color)] flex justify-between items-center bg-[var(--bg-secondary)] z-10 rounded-t-2xl md:rounded-none">
-                <h2 class="text-xl md:text-2xl font-black uppercase text-[#0f172a] dark:text-white" id="modalTitle">Register Personnel</h2>
-                <button onclick="closeModal()" class="w-8 h-8 rounded-full bg-[var(--bg-primary)] flex items-center justify-center hover:text-red-500 transition-colors"><i class="fas fa-times"></i></button>
+                <div class="flex items-center gap-3 md:gap-4">
+                    <button type="button" onclick="closeModal()" class="w-9 h-9 md:w-10 md:h-10 rounded-xl bg-[var(--bg-secondary)] text-[var(--text-secondary)] flex items-center justify-center shadow-sm border border-[var(--border-color)] hover:text-sarathy-blue transition-colors shrink-0">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                    <h2 class="text-xl md:text-2xl font-black uppercase text-[#0f172a] dark:text-white" id="modalTitle">Register Personnel</h2>
+                </div>
+                <button type="button" onclick="closeModal()" class="w-8 h-8 rounded-full bg-[var(--bg-primary)] flex items-center justify-center hover:text-red-500 transition-colors shrink-0"><i class="fas fa-times"></i></button>
             </div>
             <div class="overflow-y-auto p-4 md:p-8 custom-scroll flex-1">
                 <form id="joineeForm" class="flex flex-col h-full">
