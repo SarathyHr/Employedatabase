@@ -144,7 +144,7 @@
         .fab { position: fixed; bottom: 20px; right: 20px; md:bottom: 30px; md:right: 30px; width: 56px; height: 56px; md:width: 60px; md:height: 60px; border-radius: 50%; background: #0054A6; color: white; display: flex; justify-content: center; align-items: center; box-shadow: 0 10px 20px rgba(0, 84, 166, 0.4); z-index: 50; cursor: pointer; transition: all 0.3s; }
         .fab:hover { transform: scale(1.05) rotate(90deg); }
 
-        #bulkActionBar { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); transition: bottom 0.4s cubic-bezier(0.4, 0, 0.2, 1); z-index: 60; width: 90%; max-width: 500px; justify-content: center; }
+        #bulkActionBar { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); transition: bottom 0.4s cubic-bezier(0.4, 0, 0.2, 1); z-index: 60; width: 90%; max-width: 600px; justify-content: center; }
         #bulkActionBar.visible { bottom: 20px; md:bottom: 30px; }
     </style>
 </head>
@@ -161,7 +161,7 @@
         <div class="w-full max-w-[420px] animate-up relative z-10">
             <div class="bg-white dark:bg-slate-800 p-8 md:p-10 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.06)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.3)] border border-slate-100 dark:border-slate-700">
                 <div class="mb-8 text-center">
-                    <img src="Sarathy2.png.png" alt="Sarathy Group Logo" class="h-18 md:h-24 w-auto object-contain mx-auto mb-4 drop-shadow-sm" onerror="this.src='https://via.placeholder.com/150x50?text=SARATHY'">
+                    <img src="Sarathy2.png.png" alt="Sarathy Group Logo" class="h-24 md:h-32 w-auto object-contain mx-auto mb-4 drop-shadow-sm" onerror="this.src='https://via.placeholder.com/150x50?text=SARATHY'">
                     <h2 class="text-2xl font-black text-slate-800 dark:text-white tracking-tight">Welcome Back</h2>
                     <p class="text-xs font-bold text-slate-500 dark:text-slate-400 mt-2 uppercase tracking-widest"></p>
                 </div>
@@ -211,7 +211,7 @@
             <!-- Header / Logo area -->
             <div class="p-5 md:p-6 flex justify-between items-center border-b border-[var(--border-color)]">
                 <div class="flex items-center gap-3">
-                    <img src="Sarathy2.png.png" alt="Sarathy Group" class="h-24 md:h-32 w-auto object-contain" onerror="this.style.display='none'">
+                    <img src="Sarathy2.png.png" alt="Sarathy Group" class="h-12 md:h-16 w-auto object-contain" onerror="this.style.display='none'">
                     <div>
                         <h1 class="font-black text-sm md:text-base tracking-tight gradient-text"></h1>
                     </div>
@@ -428,6 +428,9 @@
         <button onclick="bulkChangeStatus('SELECTED')" class="text-[9px] md:text-[10px] font-bold uppercase hover:text-emerald-500 transition-colors shrink-0"><i class="fas fa-check-circle mr-1"></i> Select</button>
         <button onclick="bulkChangeStatus('REJECTED')" class="text-[9px] md:text-[10px] font-bold uppercase hover:text-red-500 transition-colors shrink-0"><i class="fas fa-times-circle mr-1"></i> Reject</button>
         <div class="h-4 w-px bg-[var(--border-color)] shrink-0 mx-1"></div>
+        <!-- ADDED DELETE OPTION TO BULK BAR -->
+        <button onclick="bulkDelete()" class="text-[9px] md:text-[10px] font-bold uppercase hover:text-red-600 transition-colors shrink-0"><i class="fas fa-trash-alt mr-1"></i> Delete</button>
+        <div class="h-4 w-px bg-[var(--border-color)] shrink-0 mx-1"></div>
         <button onclick="clearBulkSelection()" class="w-5 h-5 md:w-6 md:h-6 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center hover:bg-slate-300 transition-colors shrink-0"><i class="fas fa-times text-[10px] md:text-xs"></i></button>
     </div>
 
@@ -541,6 +544,7 @@
                 <h3 class="font-black text-sm uppercase">Notifications</h3>
                 <button onclick="toggleNotifications()" class="text-[var(--text-secondary)]"><i class="fas fa-times"></i></button>
             </div>
+            <!-- DYNAMIC NOTIFICATIONS CONTAINER -->
             <div class="p-4 custom-scroll max-h-[60vh] overflow-y-auto space-y-3" id="dynamicNotifications"></div>
         </div>
     </div>
@@ -757,6 +761,24 @@
             }
         };
 
+        // ADDED INDIVIDUAL DELETE FUNCTION
+        const deleteCandidate = (id) => {
+            // Confirm would normally go here, using toast for safe confirmation in Canvas
+            joinees = joinees.filter(x => x.id !== id);
+            localStorage.setItem('sarathy_db_v13', JSON.stringify(joinees));
+            renderTable(); renderDashboard(); renderCalendar(); checkNotifications();
+            showToast("Candidate Entry Deleted!", "error");
+        };
+
+        // ADDED BULK DELETE FUNCTION
+        const bulkDelete = () => {
+            if(selectedCandidates.size === 0) return;
+            joinees = joinees.filter(j => !selectedCandidates.has(j.id));
+            localStorage.setItem('sarathy_db_v13', JSON.stringify(joinees));
+            clearBulkSelection(); renderDashboard(); renderCalendar(); checkNotifications();
+            showToast("Selected Entries Deleted!", "error");
+        };
+
         const generateCard = (x, isBoard=false) => {
             const isChecked = selectedCandidates.has(x.id);
             const intDate = formatDateString(x.interviewDate);
@@ -770,7 +792,11 @@
             return `
             <div class="modern-card p-4 md:p-5 relative flex flex-col gap-4 group bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-sm hover:shadow-md transition-shadow" draggable="${isBoard}" ondragstart="dragStart(event, ${x.id})" ondragend="dragEnd(event)">
                 ${!isBoard ? `
-                <div class="absolute top-4 md:top-5 right-4 md:right-5 z-10">
+                <div class="absolute top-4 md:top-5 right-4 md:right-5 z-10 flex gap-2">
+                    <!-- ADDED TRASH ICON TO CARD -->
+                    <button onclick="deleteCandidate(${x.id})" class="text-slate-400 hover:text-red-500 transition-colors mr-1">
+                        <i class="fas fa-trash-alt text-sm"></i>
+                    </button>
                     <input type="checkbox" class="w-4 h-4 md:w-5 md:h-5 rounded border-slate-300 text-sarathy-blue focus:ring-sarathy-blue cursor-pointer" onchange="toggleBulkSelection(${x.id})" ${isChecked?'checked':''}>
                 </div>` : ''}
 
@@ -864,7 +890,7 @@
             const idx = joinees.findIndex(x=>x.id===data.id);
             if(idx>-1) joinees[idx] = data; else joinees.push(data);
             localStorage.setItem('sarathy_db_v13', JSON.stringify(joinees));
-            closeModal(); renderTable(); renderDashboard(); renderCalendar();
+            closeModal(); renderTable(); renderDashboard(); renderCalendar(); checkNotifications();
             showToast("Record Saved!");
             if(data.status==='SELECTED') confetti({particleCount: 100, spread: 70});
         };
@@ -900,6 +926,8 @@
                 </div>
                 <div class="mt-8 flex gap-3">
                     <button onclick="editRecord(${r.id})" class="flex-1 py-3 bg-sarathy-blue hover:bg-[#004080] text-white rounded-xl font-black text-xs uppercase tracking-widest transition-colors shadow-lg active:scale-95"><i class="fas fa-edit mr-2"></i> Edit Details</button>
+                    <!-- ADDED DELETE OPTION IN VIEW PROFILE -->
+                    <button onclick="deleteCandidate(${r.id}); closeViewModal();" class="w-12 h-12 bg-red-50 text-red-500 rounded-xl hover:bg-red-100 transition-colors flex items-center justify-center border border-red-100"><i class="fas fa-trash-alt"></i></button>
                 </div>
             `;
             document.getElementById('viewModalContent').innerHTML = content;
@@ -1024,11 +1052,41 @@
         };
 
         const toggleNotifications = () => document.getElementById('notificationModal').classList.toggle('hidden');
+        
+        // MODIFIED: checkNotifications to include Joining Reminders
         const checkNotifications = () => {
             const today = new Date().toISOString().slice(0,10);
-            const alerts = joinees.filter(x => x.interviewDate === today);
-            document.getElementById('notificationBadge').style.display = alerts.length ? 'block' : 'none';
-            document.getElementById('dynamicNotifications').innerHTML = alerts.map(a => `<div class="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-xl border border-blue-100 dark:border-blue-900/50 text-xs"><span class="font-black text-blue-600 block mb-1">INTERVIEW TODAY</span>${a.name} - ${a.dept}</div>`).join('') || '<p class="text-xs text-center text-gray-500">No new notifications</p>';
+            const interviewAlerts = joinees.filter(x => x.interviewDate === today);
+            const joiningAlerts = joinees.filter(x => x.joinDate === today);
+            
+            const totalCount = interviewAlerts.length + joiningAlerts.length;
+            document.getElementById('notificationBadge').style.display = totalCount > 0 ? 'block' : 'none';
+            
+            let html = '';
+            
+            // Interview Alerts
+            if(interviewAlerts.length > 0) {
+                html += interviewAlerts.map(a => `
+                    <div class="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-xl border border-blue-100 dark:border-blue-900/50 text-xs">
+                        <span class="font-black text-blue-600 block mb-1 uppercase tracking-tighter"><i class="fas fa-clock mr-1"></i> INTERVIEW TODAY</span>
+                        <span class="font-bold text-[var(--text-primary)]">${a.name}</span> - ${a.dept}
+                    </div>
+                `).join('');
+            }
+            
+            // Joining Alerts
+            if(joiningAlerts.length > 0) {
+                html += joiningAlerts.map(a => `
+                    <div class="p-3 bg-emerald-50 dark:bg-emerald-900/20 rounded-xl border border-emerald-100 dark:border-emerald-900/50 text-xs">
+                        <span class="font-black text-emerald-600 block mb-1 uppercase tracking-tighter"><i class="fas fa-flag-checkered mr-1"></i> JOINING TODAY</span>
+                        <span class="font-bold text-[var(--text-primary)]">${a.name}</span> - ${a.dept}
+                    </div>
+                `).join('');
+            }
+            
+            if(html === '') html = '<p class="text-xs text-center text-gray-500 py-4 font-bold uppercase tracking-widest">No new reminders</p>';
+            
+            document.getElementById('dynamicNotifications').innerHTML = html;
         };
 
         const quickToggleStatus = (id) => {
@@ -1119,7 +1177,7 @@
             if(dragId) {
                 joinees.find(x=>x.id===dragId).status = st;
                 localStorage.setItem('sarathy_db_v13', JSON.stringify(joinees));
-                renderTable(); renderDashboard(); renderCalendar();
+                renderTable(); renderDashboard(); renderCalendar(); checkNotifications();
                 if(st==='SELECTED') confetti();
             }
         };
