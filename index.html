@@ -565,14 +565,14 @@
 
     <!-- SUMMARY MODAL -->
     <div id="summaryModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[115] hidden flex items-center justify-center p-4 transition-opacity">
-        <div class="bg-[var(--bg-secondary)] w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden animate-up border border-[var(--border-color)]">
+        <div class="bg-[var(--bg-secondary)] w-full max-w-[95%] md:max-w-4xl rounded-2xl shadow-2xl overflow-hidden animate-up border border-[var(--border-color)]">
             <div class="p-4 md:p-5 bg-gradient-to-r from-sarathy-blue to-blue-600 text-white flex justify-between items-center">
                 <h2 class="font-black text-xs md:text-sm uppercase tracking-widest"><i class="fas fa-chart-pie mr-2"></i> Hiring Summary</h2>
                 <button onclick="document.getElementById('summaryModal').classList.add('hidden')" class="opacity-70 hover:opacity-100"><i class="fas fa-times"></i></button>
             </div>
             <div class="p-4 md:p-6">
-                <!-- UPDATED CONTAINER TO SUPPORT HTML CONTENT -->
-                <div id="summaryText" class="text-xs md:text-sm text-[var(--text-primary)] bg-[var(--bg-primary)] p-4 md:p-5 rounded-xl border border-[var(--border-color)] shadow-inner max-h-[60vh] overflow-y-auto custom-scroll"></div>
+                <!-- CONTAINER FOR TABLE CONTENT -->
+                <div id="summaryText" class="text-xs md:text-sm text-[var(--text-primary)] bg-[var(--bg-primary)] p-2 md:p-4 rounded-xl border border-[var(--border-color)] shadow-inner max-h-[70vh] overflow-y-auto custom-scroll"></div>
                 <button onclick="copySummary()" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-black py-3 rounded-xl mt-4 md:mt-5 text-[10px] md:text-xs tracking-widest active:scale-95 uppercase shadow-md flex items-center justify-center gap-2 transition-colors">
                     <i class="fas fa-copy"></i> Copy Text for Sharing
                 </button>
@@ -1095,7 +1095,7 @@
         };
         const closeReqModal = () => document.getElementById('reqModal').classList.add('hidden');
 
-        // UPDATED: Professional Summary Logic with Tables
+        // UPDATED: Professional Summary Logic with More Columns
         const generateHiringSummary = () => {
             const total = joinees.length;
             const sel = joinees.filter(x => x.status === 'SELECTED').length;
@@ -1139,16 +1139,20 @@
                 <h4 class="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-2">
                     <i class="fas fa-calendar-alt text-blue-500"></i> Joining Schedule
                 </h4>
-                <table class="summary-table">
-                    <thead>
-                        <tr>
-                            <th>Candidate Name</th>
-                            <th>Joining Date</th>
-                            <th>Company/Entity</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-            `;
+                <div class="overflow-x-auto mb-6">
+                    <table class="summary-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Date</th>
+                                <th>Designation</th>
+                                <th>Dept</th>
+                                <th>Entity</th>
+                                <th>Location</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
 
             if(selectedJoiners.length > 0) {
                 plainText += `📅 JOINING SCHEDULE:\n`;
@@ -1157,18 +1161,21 @@
                     html += `
                         <tr>
                             <td class="font-bold">${j.name}</td>
-                            <td>${formatDateString(j.joinDate)}</td>
+                            <td class="whitespace-nowrap">${formatDateString(j.joinDate)}</td>
+                            <td>${j.designation || '-'}</td>
+                            <td>${j.dept}</td>
                             <td class="text-[10px] opacity-70">${j.company}</td>
+                            <td>${j.location || '-'}</td>
                         </tr>
                     `;
-                    plainText += `${statusIcon} ${j.name} | ${formatDateString(j.joinDate)} | ${j.company}\n`;
+                    plainText += `${statusIcon} ${j.name} | ${formatDateString(j.joinDate)} | ${j.designation} | ${j.dept} | ${j.company} | ${j.location}\n`;
                 });
                 plainText += `\n`;
             } else {
-                html += `<tr><td colspan="3" class="text-center py-4 text-slate-400">No joiners scheduled</td></tr>`;
+                html += `<tr><td colspan="6" class="text-center py-4 text-slate-400">No joiners scheduled</td></tr>`;
             }
 
-            html += `</tbody></table>`;
+            html += `</tbody></table></div>`;
 
             html += `
                 <h4 class="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-2">
@@ -1208,7 +1215,7 @@
             const text = document.getElementById('summaryModal').getAttribute('data-plain-text');
             const el = document.createElement('textarea');
             el.value = text; document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el);
-            showToast("Summary Copied to Clipboard!");
+            showToast("Detailed Summary Copied!");
         };
 
         const renderReqEntries = () => {
@@ -1270,7 +1277,7 @@
             }
         });
 
-        // FIXED: CSV Export Function
+        // CSV Export Function
         const exportToCSV = () => {
             if (joinees.length === 0) {
                 showToast("No data found to export", "error");
