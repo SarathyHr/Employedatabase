@@ -124,7 +124,7 @@
         .dark .nav-link.active { background: #2563eb; color: white; }
 
         /* View Toggle */
-        .tab-content { display: none; opacity: 0; transition: opacity 0.3s ease; height: 100%; overflow-y: auto; padding-bottom: 100px; }
+        .tab-content { display: none; opacity: 0; transition: opacity 0.3s ease; height: 100%; overflow-y: auto; padding-bottom: 120px; }
         .tab-content.active { display: block; opacity: 1; }
 
         /* Kanban */
@@ -132,52 +132,52 @@
         .kanban-col.drag-over { background: rgba(0, 84, 166, 0.05); border: 2px dashed #0054A6; }
 
         /* Calendar Grid */
-        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; }
-        .calendar-day { aspect-ratio: 1; border-radius: 12px; border: 1px solid var(--border-color); padding: 8px; display: flex; flex-direction: column; background: var(--bg-secondary); transition: all 0.2s; }
+        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; md:gap: 8px; }
+        .calendar-day { min-height: 80px; aspect-ratio: unset; md:aspect-ratio: 1; border-radius: 8px; md:border-radius: 12px; border: 1px solid var(--border-color); padding: 4px md:padding: 8px; display: flex; flex-direction: column; background: var(--bg-secondary); transition: all 0.2s; }
         .calendar-day:hover { border-color: #0054A6; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
         .calendar-day.today { background: rgba(0, 84, 166, 0.05); border: 2px solid #0054A6; }
-        .calendar-event { font-size: 0.65rem; padding: 2px 6px; border-radius: 4px; margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 700; cursor: pointer; }
+        .calendar-event { font-size: 0.6rem; md:font-size: 0.65rem; padding: 2px 4px; border-radius: 4px; margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 700; cursor: pointer; }
 
         .gradient-text { background: linear-gradient(135deg, #0054A6, #0ea5e9); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .dark .gradient-text { background: linear-gradient(135deg, #60a5fa, #38bdf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        .fab { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; border-radius: 50%; background: #0054A6; color: white; display: flex; justify-content: center; align-items: center; box-shadow: 0 10px 20px rgba(0, 84, 166, 0.4); z-index: 50; cursor: pointer; transition: all 0.3s; }
+        .fab { position: fixed; bottom: 20px; right: 20px; md:bottom: 30px; md:right: 30px; width: 56px; height: 56px; md:width: 60px; md:height: 60px; border-radius: 50%; background: #0054A6; color: white; display: flex; justify-content: center; align-items: center; box-shadow: 0 10px 20px rgba(0, 84, 166, 0.4); z-index: 50; cursor: pointer; transition: all 0.3s; }
         .fab:hover { transform: scale(1.05) rotate(90deg); }
 
-        #bulkActionBar { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); transition: bottom 0.4s cubic-bezier(0.4, 0, 0.2, 1); z-index: 60; }
-        #bulkActionBar.visible { bottom: 30px; }
+        #bulkActionBar { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); transition: bottom 0.4s cubic-bezier(0.4, 0, 0.2, 1); z-index: 60; width: 90%; max-width: 500px; justify-content: center; }
+        #bulkActionBar.visible { bottom: 20px; md:bottom: 30px; }
     </style>
 </head>
 <body class="antialiased">
 
     <!-- LOGIN PAGE -->
-    <div id="loginPage" class="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-slate-900 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]">
+    <div id="loginPage" class="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-6 bg-slate-900 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]">
         <div class="w-full max-w-md animate-up">
-            <div class="glass-panel p-10 rounded-[2rem] text-center shadow-2xl relative overflow-hidden">
+            <div class="glass-panel p-8 md:p-10 rounded-[2rem] text-center shadow-2xl relative overflow-hidden">
                 <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-sarathy-blue via-blue-400 to-sarathy-red"></div>
                 <div class="mb-8 relative z-10">
-                    <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
-                        <i class="fas fa-fingerprint text-4xl text-sarathy-blue"></i>
+                    <div class="w-16 h-16 md:w-20 md:h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                        <i class="fas fa-fingerprint text-3xl md:text-4xl text-sarathy-blue"></i>
                     </div>
-                    <h2 class="text-2xl font-black text-white tracking-tight">SARATHY <span class="text-blue-400">NEXUS</span></h2>
-                    <p class="text-[10px] font-bold tracking-[0.3em] text-slate-400 uppercase mt-2">Executive Portal V2</p>
+                    <h2 class="text-xl md:text-2xl font-black text-white tracking-tight">SARATHY <span class="text-blue-400">NEXUS</span></h2>
+                    <p class="text-[9px] md:text-[10px] font-bold tracking-[0.3em] text-slate-400 uppercase mt-2">Executive Portal V2</p>
                 </div>
-                <div id="loginError" class="hidden bg-red-500/10 text-red-400 p-4 rounded-xl text-xs font-bold mb-6 border border-red-500/20 backdrop-blur-sm">
+                <div id="loginError" class="hidden bg-red-500/10 text-red-400 p-3 md:p-4 rounded-xl text-xs font-bold mb-6 border border-red-500/20 backdrop-blur-sm">
                     <i class="fas fa-exclamation-triangle mr-2"></i> ACCESS DENIED.
                 </div>
-                <form id="loginForm" class="space-y-5 relative z-10">
+                <form id="loginForm" class="space-y-4 md:space-y-5 relative z-10">
                     <div class="text-left">
                         <label class="text-[10px] font-bold text-slate-400 ml-2 mb-1 block uppercase tracking-wider">User ID</label>
-                        <input type="text" id="username" required value="ADMIN" class="w-full px-6 py-4 bg-slate-800/50 border border-slate-700 rounded-2xl font-bold text-white focus:ring-2 ring-blue-500 outline-none transition-all uppercase placeholder-slate-600 backdrop-blur-sm">
+                        <input type="text" id="username" required value="ADMIN" class="w-full px-5 py-3.5 bg-slate-800/50 border border-slate-700 rounded-2xl font-bold text-white focus:ring-2 ring-blue-500 outline-none transition-all uppercase placeholder-slate-600 backdrop-blur-sm text-sm">
                     </div>
                     <div class="text-left">
                         <label class="text-[10px] font-bold text-slate-400 ml-2 mb-1 block uppercase tracking-wider">Access PIN</label>
-                        <input type="password" id="password" required value="SARATHY@26" class="w-full px-6 py-4 bg-slate-800/50 border border-slate-700 rounded-2xl font-bold text-white focus:ring-2 ring-blue-500 outline-none transition-all uppercase placeholder-slate-600 backdrop-blur-sm">
+                        <input type="password" id="password" required value="SARATHY@26" class="w-full px-5 py-3.5 bg-slate-800/50 border border-slate-700 rounded-2xl font-bold text-white focus:ring-2 ring-blue-500 outline-none transition-all uppercase placeholder-slate-600 backdrop-blur-sm text-sm">
                     </div>
-                    <button type="submit" class="w-full bg-gradient-to-r from-sarathy-blue to-blue-600 text-white font-black py-4 rounded-xl shadow-lg hover:shadow-blue-500/30 active:scale-95 transition-all text-sm tracking-widest mt-6 uppercase">
+                    <button type="submit" class="w-full bg-gradient-to-r from-sarathy-blue to-blue-600 text-white font-black py-3.5 md:py-4 rounded-xl shadow-lg hover:shadow-blue-500/30 active:scale-95 transition-all text-xs md:text-sm tracking-widest mt-6 uppercase">
                         Authenticate
                     </button>
-                    <button type="button" onclick="handleBiometricLogin()" class="w-full flex items-center justify-center p-3 bg-transparent text-slate-400 hover:text-white transition-colors mt-2 text-xs font-bold uppercase tracking-widest">
+                    <button type="button" onclick="handleBiometricLogin()" class="w-full flex items-center justify-center p-3 bg-transparent text-slate-400 hover:text-white transition-colors mt-1 md:mt-2 text-xs font-bold uppercase tracking-widest">
                         <i class="fas fa-expand cursor-pointer mr-2"></i> Biometric Login
                     </button>
                 </form>
@@ -186,67 +186,76 @@
     </div>
 
     <!-- MAIN APP LAYOUT -->
-    <div id="appLayout" class="hidden h-screen w-full flex flex-col md:flex-row bg-[var(--bg-primary)]">
+    <div id="appLayout" class="hidden h-screen w-full flex bg-[var(--bg-primary)]">
         
+        <!-- MOBILE OVERLAY -->
+        <div id="mobileOverlay" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-[90] hidden md:hidden" onclick="toggleSidebar()"></div>
+
         <!-- SIDEBAR -->
-        <aside class="w-full md:w-[var(--sidebar-width)] h-auto md:h-screen glass-panel flex flex-col shrink-0 z-40 border-r border-[var(--border-color)]">
-            <!-- Mobile Header / Logo area -->
-            <div class="p-6 flex justify-between items-center border-b border-[var(--border-color)]">
+        <aside id="sidebar" class="fixed md:static inset-y-0 left-0 w-[var(--sidebar-width)] h-screen glass-panel flex flex-col shrink-0 z-[100] border-r border-[var(--border-color)] transform -translate-x-full md:translate-x-0 transition-transform duration-300 bg-[var(--bg-secondary)] md:bg-transparent">
+            <!-- Header / Logo area -->
+            <div class="p-5 md:p-6 flex justify-between items-center border-b border-[var(--border-color)]">
                 <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 bg-gradient-to-br from-sarathy-blue to-blue-400 rounded-xl flex items-center justify-center shadow-lg">
-                        <i class="fas fa-users text-white text-lg"></i>
+                    <div class="w-9 h-9 md:w-10 md:h-10 bg-gradient-to-br from-sarathy-blue to-blue-400 rounded-xl flex items-center justify-center shadow-lg">
+                        <i class="fas fa-users text-white text-base md:text-lg"></i>
                     </div>
                     <div>
-                        <h1 class="font-black text-lg tracking-tight gradient-text">HR NEXUS</h1>
-                        <p class="text-[9px] font-bold text-[var(--text-secondary)] uppercase tracking-widest">Sarathy Group</p>
+                        <h1 class="font-black text-base md:text-lg tracking-tight gradient-text">HR NEXUS</h1>
+                        <p class="text-[8px] md:text-[9px] font-bold text-[var(--text-secondary)] uppercase tracking-widest">Sarathy Group</p>
                     </div>
                 </div>
-                <button class="md:hidden text-[var(--text-secondary)] text-xl" onclick="document.getElementById('navLinks').classList.toggle('hidden')">
-                    <i class="fas fa-bars"></i>
+                <button class="md:hidden text-[var(--text-secondary)] hover:text-red-500" onclick="toggleSidebar()">
+                    <i class="fas fa-times text-lg"></i>
                 </button>
             </div>
 
             <!-- Nav Links -->
-            <div id="navLinks" class="hidden md:flex flex-col p-4 flex-1 custom-scroll">
+            <div class="flex flex-col p-4 flex-1 custom-scroll overflow-y-auto">
                 <div class="text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-widest mb-3 px-4">Menu</div>
-                <a onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-link active"><i class="fas fa-home w-5"></i> Overview</a>
-                <a onclick="switchTab('candidates')" id="nav-candidates" class="nav-link"><i class="fas fa-user-friends w-5"></i> Candidates</a>
-                <a onclick="switchTab('calendar')" id="nav-calendar" class="nav-link"><i class="fas fa-calendar-alt w-5"></i> Interviews</a>
-                <a onclick="switchTab('analytics')" id="nav-analytics" class="nav-link"><i class="fas fa-chart-pie w-5"></i> Analytics</a>
+                <a onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-link active"><i class="fas fa-home w-5 text-center"></i> Overview</a>
+                <a onclick="switchTab('candidates')" id="nav-candidates" class="nav-link"><i class="fas fa-user-friends w-5 text-center"></i> Candidates</a>
+                <a onclick="switchTab('calendar')" id="nav-calendar" class="nav-link"><i class="fas fa-calendar-alt w-5 text-center"></i> Interviews</a>
+                <a onclick="switchTab('analytics')" id="nav-analytics" class="nav-link"><i class="fas fa-chart-pie w-5 text-center"></i> Analytics</a>
                 
                 <div class="text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-widest mb-3 mt-8 px-4">Management</div>
-                <a onclick="openReqModal()" class="nav-link"><i class="fas fa-bullseye w-5"></i> Targets</a>
-                <a onclick="exportToCSV()" class="nav-link"><i class="fas fa-file-export w-5"></i> Export CSV</a>
-                <a onclick="document.getElementById('importFile').click()" class="nav-link"><i class="fas fa-database w-5"></i> Restore</a>
+                <a onclick="openReqModal()" class="nav-link"><i class="fas fa-bullseye w-5 text-center"></i> Targets</a>
+                <a onclick="exportToCSV()" class="nav-link"><i class="fas fa-file-export w-5 text-center"></i> Export CSV</a>
+                <a onclick="document.getElementById('importFile').click()" class="nav-link"><i class="fas fa-database w-5 text-center"></i> Restore</a>
                 <input type="file" id="importFile" accept=".json" class="hidden" onchange="importBackup(event)">
             </div>
 
             <!-- User Profile Bottom -->
-            <div class="hidden md:flex p-4 border-t border-[var(--border-color)] items-center gap-3">
-                <div class="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-[var(--text-primary)] font-bold">
+            <div class="flex p-4 border-t border-[var(--border-color)] items-center gap-3 bg-[var(--bg-secondary)] md:bg-transparent">
+                <div class="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-[var(--text-primary)] font-bold shrink-0">
                     <i class="fas fa-user"></i>
                 </div>
-                <div class="flex-1 overflow-hidden">
+                <div class="flex-1 min-w-0">
                     <p class="text-sm font-bold text-[var(--text-primary)] truncate" id="userNameDisplay">Admin User</p>
                     <p class="text-[10px] text-[var(--text-secondary)] truncate" id="userRoleDisplay">System Administrator</p>
                 </div>
-                <button onclick="logout()" class="text-red-500 hover:bg-red-500/10 p-2 rounded-lg transition-colors"><i class="fas fa-sign-out-alt"></i></button>
+                <button onclick="logout()" class="text-red-500 hover:bg-red-500/10 p-2 rounded-lg transition-colors shrink-0"><i class="fas fa-sign-out-alt"></i></button>
             </div>
         </aside>
 
         <!-- MAIN CONTENT AREA -->
-        <main class="flex-1 flex flex-col h-screen overflow-hidden relative">
+        <main class="flex-1 flex flex-col h-screen overflow-hidden relative min-w-0">
             
             <!-- Top Header Area -->
-            <header class="h-16 glass-panel border-b border-[var(--border-color)] flex justify-between items-center px-6 shrink-0 z-30">
-                <h2 id="pageTitle" class="text-lg font-black uppercase tracking-wide text-[var(--text-primary)]">Overview</h2>
-                <div class="flex items-center gap-4">
-                    <button onclick="toggleDarkMode()" class="w-10 h-10 rounded-full bg-[var(--bg-secondary)] text-[var(--text-secondary)] flex items-center justify-center shadow-sm border border-[var(--border-color)] hover:text-sarathy-blue transition-colors">
+            <header class="h-16 glass-panel border-b border-[var(--border-color)] flex justify-between items-center px-4 md:px-6 shrink-0 z-30">
+                <div class="flex items-center gap-3">
+                    <!-- Mobile Hamburger -->
+                    <button onclick="toggleSidebar()" class="md:hidden w-10 h-10 rounded-xl bg-[var(--bg-secondary)] text-[var(--text-secondary)] flex items-center justify-center shadow-sm border border-[var(--border-color)] hover:text-sarathy-blue transition-colors">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h2 id="pageTitle" class="text-base md:text-lg font-black uppercase tracking-wide text-[var(--text-primary)] truncate">Overview</h2>
+                </div>
+                <div class="flex items-center gap-2 md:gap-4 shrink-0">
+                    <button onclick="toggleDarkMode()" class="w-9 h-9 md:w-10 md:h-10 rounded-full bg-[var(--bg-secondary)] text-[var(--text-secondary)] flex items-center justify-center shadow-sm border border-[var(--border-color)] hover:text-sarathy-blue transition-colors">
                         <i id="darkModeIcon" class="fas fa-moon"></i>
                     </button>
-                    <button onclick="toggleNotifications()" class="relative w-10 h-10 rounded-full bg-[var(--bg-secondary)] text-[var(--text-secondary)] flex items-center justify-center shadow-sm border border-[var(--border-color)] hover:text-sarathy-blue transition-colors">
+                    <button onclick="toggleNotifications()" class="relative w-9 h-9 md:w-10 md:h-10 rounded-full bg-[var(--bg-secondary)] text-[var(--text-secondary)] flex items-center justify-center shadow-sm border border-[var(--border-color)] hover:text-sarathy-blue transition-colors">
                         <i class="fas fa-bell"></i>
-                        <span id="notificationBadge" class="hidden absolute top-0 right-0 w-3 h-3 rounded-full bg-red-500 border-2 border-[var(--bg-secondary)]"></span>
+                        <span id="notificationBadge" class="hidden absolute top-0 right-0 w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-red-500 border-2 border-[var(--bg-secondary)]"></span>
                     </button>
                 </div>
             </header>
@@ -255,49 +264,49 @@
             <div class="flex-1 relative overflow-hidden bg-[var(--bg-primary)]">
                 
                 <!-- TAB 1: DASHBOARD -->
-                <div id="tab-dashboard" class="tab-content active custom-scroll p-6 md:p-8 space-y-8">
+                <div id="tab-dashboard" class="tab-content active custom-scroll p-4 md:p-8 space-y-6 md:space-y-8">
                     
                     <!-- Welcome Banner -->
                     <div class="modern-card p-6 md:p-8 bg-gradient-to-br from-sarathy-blue to-blue-600 text-white relative overflow-hidden border-none shadow-xl">
-                        <i class="fas fa-chart-line absolute -right-10 -bottom-10 text-[10rem] opacity-10"></i>
+                        <i class="fas fa-chart-line absolute -right-4 -bottom-4 md:-right-10 md:-bottom-10 text-[6rem] md:text-[10rem] opacity-10"></i>
                         <div class="relative z-10">
-                            <h2 class="text-2xl md:text-3xl font-black mb-2">Welcome back to Nexus</h2>
-                            <p class="text-blue-100 text-sm font-medium mb-6">Here is what's happening in HR today.</p>
-                            <div class="flex flex-wrap gap-3">
-                                <button onclick="openModal()" class="bg-white text-sarathy-blue px-5 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider shadow-lg hover:bg-blue-50 transition-colors"><i class="fas fa-plus mr-2"></i> Add Candidate</button>
-                                <button onclick="generateHiringSummary()" class="bg-blue-800/50 text-white border border-blue-400/30 px-5 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider hover:bg-blue-800/70 transition-colors backdrop-blur-sm"><i class="fas fa-magic mr-2"></i> Quick Summary</button>
+                            <h2 class="text-xl md:text-3xl font-black mb-1 md:mb-2">Welcome back to Nexus</h2>
+                            <p class="text-blue-100 text-xs md:text-sm font-medium mb-4 md:mb-6">Here is what's happening in HR today.</p>
+                            <div class="flex flex-wrap gap-2 md:gap-3">
+                                <button onclick="openModal()" class="bg-white text-sarathy-blue px-4 py-2 md:px-5 md:py-2.5 rounded-lg md:rounded-xl font-bold text-[10px] md:text-xs uppercase tracking-wider shadow-lg hover:bg-blue-50 transition-colors"><i class="fas fa-plus mr-1 md:mr-2"></i> Add Candidate</button>
+                                <button onclick="generateHiringSummary()" class="bg-blue-800/50 text-white border border-blue-400/30 px-4 py-2 md:px-5 md:py-2.5 rounded-lg md:rounded-xl font-bold text-[10px] md:text-xs uppercase tracking-wider hover:bg-blue-800/70 transition-colors backdrop-blur-sm"><i class="fas fa-magic mr-1 md:mr-2"></i> Quick Summary</button>
                             </div>
                         </div>
                     </div>
 
                     <!-- Stats Grid -->
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 animate-up">
-                        <div class="modern-card p-5 flex flex-col relative overflow-hidden group">
-                            <div class="absolute top-0 right-0 w-16 h-16 bg-blue-50 dark:bg-blue-900/20 rounded-bl-full flex items-start justify-end p-3 transition-transform group-hover:scale-110"><i class="fas fa-users text-blue-500 text-xl"></i></div>
-                            <span class="text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-widest mb-1">Total Pool</span>
-                            <h3 class="text-3xl font-black text-[var(--text-primary)]" id="statTotal">0</h3>
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 animate-up">
+                        <div class="modern-card p-4 md:p-5 flex flex-col relative overflow-hidden group">
+                            <div class="absolute top-0 right-0 w-12 h-12 md:w-16 md:h-16 bg-blue-50 dark:bg-blue-900/20 rounded-bl-full flex items-start justify-end p-2 md:p-3 transition-transform group-hover:scale-110"><i class="fas fa-users text-blue-500 text-sm md:text-xl"></i></div>
+                            <span class="text-[9px] md:text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-widest mb-1 truncate">Total Pool</span>
+                            <h3 class="text-2xl md:text-3xl font-black text-[var(--text-primary)]" id="statTotal">0</h3>
                         </div>
-                        <div class="modern-card p-5 flex flex-col relative overflow-hidden group stagger-1">
-                            <div class="absolute top-0 right-0 w-16 h-16 bg-emerald-50 dark:bg-emerald-900/20 rounded-bl-full flex items-start justify-end p-3 transition-transform group-hover:scale-110"><i class="fas fa-check text-emerald-500 text-xl"></i></div>
-                            <span class="text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-widest mb-1">Selected</span>
-                            <h3 class="text-3xl font-black text-emerald-500" id="statSelected">0</h3>
+                        <div class="modern-card p-4 md:p-5 flex flex-col relative overflow-hidden group stagger-1">
+                            <div class="absolute top-0 right-0 w-12 h-12 md:w-16 md:h-16 bg-emerald-50 dark:bg-emerald-900/20 rounded-bl-full flex items-start justify-end p-2 md:p-3 transition-transform group-hover:scale-110"><i class="fas fa-check text-emerald-500 text-sm md:text-xl"></i></div>
+                            <span class="text-[9px] md:text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-widest mb-1 truncate">Selected</span>
+                            <h3 class="text-2xl md:text-3xl font-black text-emerald-500" id="statSelected">0</h3>
                         </div>
-                        <div class="modern-card p-5 flex flex-col relative overflow-hidden group stagger-2">
-                            <div class="absolute top-0 right-0 w-16 h-16 bg-amber-50 dark:bg-amber-900/20 rounded-bl-full flex items-start justify-end p-3 transition-transform group-hover:scale-110"><i class="fas fa-clock text-amber-500 text-xl"></i></div>
-                            <span class="text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-widest mb-1">Pending</span>
-                            <h3 class="text-3xl font-black text-amber-500" id="statPending">0</h3>
+                        <div class="modern-card p-4 md:p-5 flex flex-col relative overflow-hidden group stagger-2">
+                            <div class="absolute top-0 right-0 w-12 h-12 md:w-16 md:h-16 bg-amber-50 dark:bg-amber-900/20 rounded-bl-full flex items-start justify-end p-2 md:p-3 transition-transform group-hover:scale-110"><i class="fas fa-clock text-amber-500 text-sm md:text-xl"></i></div>
+                            <span class="text-[9px] md:text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-widest mb-1 truncate">Pending</span>
+                            <h3 class="text-2xl md:text-3xl font-black text-amber-500" id="statPending">0</h3>
                         </div>
-                        <div class="modern-card p-5 flex flex-col relative overflow-hidden group stagger-3">
-                            <div class="absolute top-0 right-0 w-16 h-16 bg-red-50 dark:bg-red-900/20 rounded-bl-full flex items-start justify-end p-3 transition-transform group-hover:scale-110"><i class="fas fa-times text-red-500 text-xl"></i></div>
-                            <span class="text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-widest mb-1">Rejected</span>
-                            <h3 class="text-3xl font-black text-red-500" id="statRejected">0</h3>
+                        <div class="modern-card p-4 md:p-5 flex flex-col relative overflow-hidden group stagger-3">
+                            <div class="absolute top-0 right-0 w-12 h-12 md:w-16 md:h-16 bg-red-50 dark:bg-red-900/20 rounded-bl-full flex items-start justify-end p-2 md:p-3 transition-transform group-hover:scale-110"><i class="fas fa-times text-red-500 text-sm md:text-xl"></i></div>
+                            <span class="text-[9px] md:text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-widest mb-1 truncate">Rejected</span>
+                            <h3 class="text-2xl md:text-3xl font-black text-red-500" id="statRejected">0</h3>
                         </div>
                     </div>
 
                     <!-- Dept Progress -->
                     <div>
-                        <h3 class="font-bold text-sm uppercase tracking-widest text-[var(--text-secondary)] mb-4">Manpower Fulfillment</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <h3 class="font-bold text-xs md:text-sm uppercase tracking-widest text-[var(--text-secondary)] mb-3 md:mb-4">Manpower Fulfillment</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
                             <!-- JS populated progress bars -->
                             <div id="prog-sales" class="modern-card p-4"></div>
                             <div id="prog-service" class="modern-card p-4"></div>
@@ -311,83 +320,83 @@
                 <!-- TAB 2: CANDIDATES -->
                 <div id="tab-candidates" class="tab-content custom-scroll p-4 md:p-6">
                     <!-- Filters & Search -->
-                    <div class="glass-panel p-4 rounded-2xl mb-6 shadow-sm sticky top-0 z-20">
-                        <div class="flex flex-col md:flex-row gap-4 mb-4">
+                    <div class="glass-panel p-3 md:p-4 rounded-2xl mb-4 md:mb-6 shadow-sm sticky top-0 z-20">
+                        <div class="flex flex-col md:flex-row gap-3 mb-3">
                             <div class="relative flex-1 group">
                                 <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-[var(--text-secondary)] group-focus-within:text-sarathy-blue"></i>
-                                <input type="text" id="searchInput" onkeyup="renderTable()" placeholder="Search by name, ID or skills..." class="w-full pl-12 pr-12 py-3 bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-xl font-medium text-sm focus:border-sarathy-blue outline-none transition-all dark:text-white">
+                                <input type="text" id="searchInput" onkeyup="renderTable()" placeholder="Search by name, ID or skills..." class="w-full pl-10 pr-10 py-2.5 md:py-3 bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-xl font-medium text-sm focus:border-sarathy-blue outline-none transition-all dark:text-white">
                                 <i class="fas fa-microphone absolute right-4 top-1/2 -translate-y-1/2 text-[var(--text-secondary)] hover:text-sarathy-blue cursor-pointer" onclick="startVoiceSearch()" title="Voice Search"></i>
                             </div>
-                            <div class="flex gap-2">
-                                <input type="month" id="monthFilter" onchange="renderTable()" class="px-4 py-3 bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-xl font-medium text-xs outline-none dark:text-white dark:[color-scheme:dark]">
-                                <div class="flex bg-[var(--bg-primary)] p-1 rounded-xl border border-[var(--border-color)]">
-                                    <button onclick="setView('list')" id="btnViewList" class="px-4 rounded-lg font-bold text-xs bg-white dark:bg-slate-700 shadow-sm transition-all"><i class="fas fa-list"></i></button>
-                                    <button onclick="setView('board')" id="btnViewBoard" class="px-4 rounded-lg font-bold text-xs text-[var(--text-secondary)] hover:bg-[var(--bg-secondary)] transition-all"><i class="fas fa-columns"></i></button>
+                            <div class="flex gap-2 w-full md:w-auto">
+                                <input type="month" id="monthFilter" onchange="renderTable()" class="flex-1 md:flex-none px-3 py-2.5 md:py-3 bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-xl font-medium text-xs outline-none dark:text-white dark:[color-scheme:dark]">
+                                <div class="flex bg-[var(--bg-primary)] p-1 rounded-xl border border-[var(--border-color)] shrink-0">
+                                    <button onclick="setView('list')" id="btnViewList" class="px-3 md:px-4 rounded-lg font-bold text-xs bg-white dark:bg-slate-700 shadow-sm transition-all"><i class="fas fa-list"></i></button>
+                                    <button onclick="setView('board')" id="btnViewBoard" class="px-3 md:px-4 rounded-lg font-bold text-xs text-[var(--text-secondary)] hover:bg-[var(--bg-secondary)] transition-all"><i class="fas fa-columns"></i></button>
                                 </div>
                             </div>
                         </div>
                         
-                        <!-- Quick Chips -->
-                        <div class="flex gap-2 overflow-x-auto no-scrollbar pb-1">
-                            <button onclick="setQuickFilter('All')" class="px-4 py-1.5 rounded-lg text-xs font-bold border border-[var(--border-color)] bg-[var(--bg-secondary)] text-[var(--text-primary)] transition-all hover:bg-[var(--bg-primary)]" id="chip-All">ALL</button>
-                            <button onclick="setQuickFilter('Today')" class="px-4 py-1.5 rounded-lg text-xs font-bold border border-[var(--border-color)] bg-[var(--bg-secondary)] text-[var(--text-primary)] transition-all hover:bg-[var(--bg-primary)]" id="chip-Today">TODAY</button>
-                            <button onclick="setQuickFilter('Pending')" class="px-4 py-1.5 rounded-lg text-xs font-bold border border-[var(--border-color)] bg-[var(--bg-secondary)] text-[var(--text-primary)] transition-all hover:bg-[var(--bg-primary)]" id="chip-Pending">PENDING</button>
-                            <button onclick="setQuickFilter('Selected')" class="px-4 py-1.5 rounded-lg text-xs font-bold border border-[var(--border-color)] bg-[var(--bg-secondary)] text-[var(--text-primary)] transition-all hover:bg-[var(--bg-primary)]" id="chip-Selected">SELECTED</button>
-                            <button onclick="setQuickFilter('InductionPending')" class="px-4 py-1.5 rounded-lg text-xs font-bold border border-[var(--border-color)] bg-[var(--bg-secondary)] text-[var(--text-primary)] transition-all hover:bg-[var(--bg-primary)]" id="chip-InductionPending">INDUCTION</button>
+                        <!-- Quick Chips with horizontal scroll for mobile -->
+                        <div class="flex gap-2 overflow-x-auto custom-scroll pb-2 whitespace-nowrap">
+                            <button onclick="setQuickFilter('All')" class="px-3 md:px-4 py-1.5 rounded-lg text-[10px] md:text-xs font-bold border border-[var(--border-color)] bg-[var(--bg-secondary)] text-[var(--text-primary)] transition-all hover:bg-[var(--bg-primary)] shrink-0" id="chip-All">ALL</button>
+                            <button onclick="setQuickFilter('Today')" class="px-3 md:px-4 py-1.5 rounded-lg text-[10px] md:text-xs font-bold border border-[var(--border-color)] bg-[var(--bg-secondary)] text-[var(--text-primary)] transition-all hover:bg-[var(--bg-primary)] shrink-0" id="chip-Today">TODAY</button>
+                            <button onclick="setQuickFilter('Pending')" class="px-3 md:px-4 py-1.5 rounded-lg text-[10px] md:text-xs font-bold border border-[var(--border-color)] bg-[var(--bg-secondary)] text-[var(--text-primary)] transition-all hover:bg-[var(--bg-primary)] shrink-0" id="chip-Pending">PENDING</button>
+                            <button onclick="setQuickFilter('Selected')" class="px-3 md:px-4 py-1.5 rounded-lg text-[10px] md:text-xs font-bold border border-[var(--border-color)] bg-[var(--bg-secondary)] text-[var(--text-primary)] transition-all hover:bg-[var(--bg-primary)] shrink-0" id="chip-Selected">SELECTED</button>
+                            <button onclick="setQuickFilter('InductionPending')" class="px-3 md:px-4 py-1.5 rounded-lg text-[10px] md:text-xs font-bold border border-[var(--border-color)] bg-[var(--bg-secondary)] text-[var(--text-primary)] transition-all hover:bg-[var(--bg-primary)] shrink-0" id="chip-InductionPending">INDUCTION</button>
                         </div>
                     </div>
 
                     <!-- Views -->
-                    <div id="listView" class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5"></div>
-                    <div id="boardView" class="hidden grid-cols-1 md:grid-cols-3 gap-6">
+                    <div id="listView" class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-5"></div>
+                    <div id="boardView" class="hidden grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
                         <div class="kanban-col border-t-4 border-t-amber-500" ondragover="allowDrop(event)" ondragleave="dragLeave(event)" ondrop="drop(event, 'PENDING')">
                             <h3 class="font-black text-amber-500 mb-4 flex justify-between uppercase text-xs tracking-wider"><span class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-amber-500"></div> Pending</span> <span id="countBoardPending" class="bg-amber-500/10 px-2 rounded">0</span></h3>
-                            <div id="boardPending" class="space-y-4"></div>
+                            <div id="boardPending" class="space-y-3 md:space-y-4"></div>
                         </div>
                         <div class="kanban-col border-t-4 border-t-emerald-500" ondragover="allowDrop(event)" ondragleave="dragLeave(event)" ondrop="drop(event, 'SELECTED')">
                             <h3 class="font-black text-emerald-500 mb-4 flex justify-between uppercase text-xs tracking-wider"><span class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-emerald-500"></div> Selected</span> <span id="countBoardSelected" class="bg-emerald-500/10 px-2 rounded">0</span></h3>
-                            <div id="boardSelected" class="space-y-4"></div>
+                            <div id="boardSelected" class="space-y-3 md:space-y-4"></div>
                         </div>
                         <div class="kanban-col border-t-4 border-t-red-500" ondragover="allowDrop(event)" ondragleave="dragLeave(event)" ondrop="drop(event, 'REJECTED')">
                             <h3 class="font-black text-red-500 mb-4 flex justify-between uppercase text-xs tracking-wider"><span class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-red-500"></div> Rejected</span> <span id="countBoardRejected" class="bg-red-500/10 px-2 rounded">0</span></h3>
-                            <div id="boardRejected" class="space-y-4"></div>
+                            <div id="boardRejected" class="space-y-3 md:space-y-4"></div>
                         </div>
                     </div>
                 </div>
 
                 <!-- TAB 3: CALENDAR -->
-                <div id="tab-calendar" class="tab-content custom-scroll p-6 md:p-8">
-                    <div class="modern-card p-6 h-full flex flex-col">
-                        <div class="flex justify-between items-center mb-6">
-                            <h3 class="font-black text-xl" id="calendarMonthLabel">Month Year</h3>
-                            <div class="flex gap-2">
-                                <button onclick="changeCalendarMonth(-1)" class="w-8 h-8 rounded-lg bg-[var(--bg-primary)] flex items-center justify-center hover:bg-slate-200 dark:hover:bg-slate-700"><i class="fas fa-chevron-left text-xs"></i></button>
-                                <button onclick="changeCalendarMonth(1)" class="w-8 h-8 rounded-lg bg-[var(--bg-primary)] flex items-center justify-center hover:bg-slate-200 dark:hover:bg-slate-700"><i class="fas fa-chevron-right text-xs"></i></button>
+                <div id="tab-calendar" class="tab-content custom-scroll p-4 md:p-6">
+                    <div class="modern-card p-4 md:p-6 h-full flex flex-col min-h-[500px]">
+                        <div class="flex justify-between items-center mb-4 md:mb-6">
+                            <h3 class="font-black text-lg md:text-xl" id="calendarMonthLabel">Month Year</h3>
+                            <div class="flex gap-1 md:gap-2">
+                                <button onclick="changeCalendarMonth(-1)" class="w-7 h-7 md:w-8 md:h-8 rounded-lg bg-[var(--bg-primary)] flex items-center justify-center hover:bg-slate-200 dark:hover:bg-slate-700"><i class="fas fa-chevron-left text-xs"></i></button>
+                                <button onclick="changeCalendarMonth(1)" class="w-7 h-7 md:w-8 md:h-8 rounded-lg bg-[var(--bg-primary)] flex items-center justify-center hover:bg-slate-200 dark:hover:bg-slate-700"><i class="fas fa-chevron-right text-xs"></i></button>
                             </div>
                         </div>
-                        <div class="calendar-grid mb-2">
-                            <div class="text-center text-[10px] font-bold text-[var(--text-secondary)] uppercase">Sun</div>
-                            <div class="text-center text-[10px] font-bold text-[var(--text-secondary)] uppercase">Mon</div>
-                            <div class="text-center text-[10px] font-bold text-[var(--text-secondary)] uppercase">Tue</div>
-                            <div class="text-center text-[10px] font-bold text-[var(--text-secondary)] uppercase">Wed</div>
-                            <div class="text-center text-[10px] font-bold text-[var(--text-secondary)] uppercase">Thu</div>
-                            <div class="text-center text-[10px] font-bold text-[var(--text-secondary)] uppercase">Fri</div>
-                            <div class="text-center text-[10px] font-bold text-[var(--text-secondary)] uppercase">Sat</div>
+                        <div class="calendar-grid mb-1 md:mb-2">
+                            <div class="text-center text-[8px] md:text-[10px] font-bold text-[var(--text-secondary)] uppercase">Sun</div>
+                            <div class="text-center text-[8px] md:text-[10px] font-bold text-[var(--text-secondary)] uppercase">Mon</div>
+                            <div class="text-center text-[8px] md:text-[10px] font-bold text-[var(--text-secondary)] uppercase">Tue</div>
+                            <div class="text-center text-[8px] md:text-[10px] font-bold text-[var(--text-secondary)] uppercase">Wed</div>
+                            <div class="text-center text-[8px] md:text-[10px] font-bold text-[var(--text-secondary)] uppercase">Thu</div>
+                            <div class="text-center text-[8px] md:text-[10px] font-bold text-[var(--text-secondary)] uppercase">Fri</div>
+                            <div class="text-center text-[8px] md:text-[10px] font-bold text-[var(--text-secondary)] uppercase">Sat</div>
                         </div>
                         <div id="calendarGrid" class="calendar-grid flex-1"></div>
                     </div>
                 </div>
 
                 <!-- TAB 4: ANALYTICS -->
-                <div id="tab-analytics" class="tab-content custom-scroll p-6 md:p-8">
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                        <div class="modern-card p-6 flex flex-col items-center">
-                            <h3 class="font-bold text-sm uppercase tracking-widest text-[var(--text-secondary)] mb-4 w-full text-left">Hiring Status Distribution</h3>
-                            <div class="w-full h-[300px] relative"><canvas id="statusChart"></canvas></div>
+                <div id="tab-analytics" class="tab-content custom-scroll p-4 md:p-6">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
+                        <div class="modern-card p-4 md:p-6 flex flex-col items-center">
+                            <h3 class="font-bold text-xs md:text-sm uppercase tracking-widest text-[var(--text-secondary)] mb-4 w-full text-left">Hiring Status Distribution</h3>
+                            <div class="w-full h-[250px] md:h-[300px] relative"><canvas id="statusChart"></canvas></div>
                         </div>
-                        <div class="modern-card p-6 flex flex-col items-center">
-                            <h3 class="font-bold text-sm uppercase tracking-widest text-[var(--text-secondary)] mb-4 w-full text-left">Candidate Sources</h3>
-                            <div class="w-full h-[300px] relative"><canvas id="sourceChart"></canvas></div>
+                        <div class="modern-card p-4 md:p-6 flex flex-col items-center">
+                            <h3 class="font-bold text-xs md:text-sm uppercase tracking-widest text-[var(--text-secondary)] mb-4 w-full text-left">Candidate Sources</h3>
+                            <div class="w-full h-[250px] md:h-[300px] relative"><canvas id="sourceChart"></canvas></div>
                         </div>
                     </div>
                 </div>
@@ -395,41 +404,40 @@
             </div>
 
             <!-- Global Floating Action Button -->
-            <button id="addBtn" onclick="openModal()" class="fab hidden" title="Add New Candidate"><i class="fas fa-plus text-xl"></i></button>
+            <button id="addBtn" onclick="openModal()" class="fab hidden" title="Add New Candidate"><i class="fas fa-plus text-lg md:text-xl"></i></button>
         </main>
     </div>
 
     <!-- FLOATING BULK ACTION BAR -->
-    <div id="bulkActionBar" class="glass-panel text-[var(--text-primary)] px-6 py-3 rounded-full flex items-center gap-4 shadow-2xl">
-        <span class="font-black text-xs uppercase text-blue-600" id="bulkCountText">0 Selected</span>
-        <div class="h-4 w-px bg-[var(--border-color)]"></div>
-        <button onclick="bulkChangeStatus('PENDING')" class="text-[10px] font-bold uppercase hover:text-amber-500 transition-colors"><i class="fas fa-clock mr-1"></i> Pending</button>
-        <button onclick="bulkChangeStatus('SELECTED')" class="text-[10px] font-bold uppercase hover:text-emerald-500 transition-colors"><i class="fas fa-check-circle mr-1"></i> Select</button>
-        <button onclick="bulkChangeStatus('REJECTED')" class="text-[10px] font-bold uppercase hover:text-red-500 transition-colors"><i class="fas fa-times-circle mr-1"></i> Reject</button>
-        <div class="h-4 w-px bg-[var(--border-color)]"></div>
-        <button onclick="clearBulkSelection()" class="w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center hover:bg-slate-300 transition-colors"><i class="fas fa-times text-xs"></i></button>
+    <div id="bulkActionBar" class="glass-panel text-[var(--text-primary)] px-4 md:px-6 py-2.5 md:py-3 rounded-full flex items-center gap-2 md:gap-4 shadow-2xl overflow-x-auto whitespace-nowrap no-scrollbar">
+        <span class="font-black text-[10px] md:text-xs uppercase text-blue-600 shrink-0" id="bulkCountText">0 Selected</span>
+        <div class="h-4 w-px bg-[var(--border-color)] shrink-0 mx-1"></div>
+        <button onclick="bulkChangeStatus('PENDING')" class="text-[9px] md:text-[10px] font-bold uppercase hover:text-amber-500 transition-colors shrink-0"><i class="fas fa-clock mr-1"></i> Pending</button>
+        <button onclick="bulkChangeStatus('SELECTED')" class="text-[9px] md:text-[10px] font-bold uppercase hover:text-emerald-500 transition-colors shrink-0"><i class="fas fa-check-circle mr-1"></i> Select</button>
+        <button onclick="bulkChangeStatus('REJECTED')" class="text-[9px] md:text-[10px] font-bold uppercase hover:text-red-500 transition-colors shrink-0"><i class="fas fa-times-circle mr-1"></i> Reject</button>
+        <div class="h-4 w-px bg-[var(--border-color)] shrink-0 mx-1"></div>
+        <button onclick="clearBulkSelection()" class="w-5 h-5 md:w-6 md:h-6 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center hover:bg-slate-300 transition-colors shrink-0"><i class="fas fa-times text-[10px] md:text-xs"></i></button>
     </div>
 
-    <!-- INCLUDES: All Modals (Add, Timeline, Offer, Delete, Req, etc.) -->
-    <!-- (Keeping the modals structure similar to previous, just updating classes for theme) -->
+    <!-- INCLUDES: All Modals -->
     
-    <div id="addModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-[110] hidden flex justify-end items-stretch transition-opacity">
-        <div id="modalContent" class="bg-[var(--bg-secondary)] w-full md:w-3/4 lg:w-1/2 h-full shadow-2xl flex flex-col transform translate-x-full transition-transform duration-300">
-            <div class="p-6 border-b border-[var(--border-color)] flex justify-between items-center bg-[var(--bg-secondary)] z-10">
-                <h2 class="text-xl font-black uppercase text-[var(--text-primary)]" id="modalTitle">Register Personnel</h2>
+    <div id="addModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-[110] hidden flex justify-end items-end md:items-stretch transition-opacity">
+        <div id="modalContent" class="bg-[var(--bg-secondary)] w-full md:w-3/4 lg:w-1/2 h-[90vh] md:h-full rounded-t-2xl md:rounded-none shadow-2xl flex flex-col transform translate-y-full md:translate-y-0 md:translate-x-full transition-transform duration-300">
+            <div class="p-4 md:p-6 border-b border-[var(--border-color)] flex justify-between items-center bg-[var(--bg-secondary)] z-10 rounded-t-2xl md:rounded-none">
+                <h2 class="text-lg md:text-xl font-black uppercase text-[var(--text-primary)]" id="modalTitle">Register Personnel</h2>
                 <button onclick="closeModal()" class="w-8 h-8 rounded-full bg-[var(--bg-primary)] flex items-center justify-center hover:text-red-500 transition-colors"><i class="fas fa-times"></i></button>
             </div>
-            <div class="overflow-y-auto p-6 custom-scroll flex-1">
-                <form id="joineeForm" class="space-y-6">
+            <div class="overflow-y-auto p-4 md:p-6 custom-scroll flex-1">
+                <form id="joineeForm" class="space-y-4 md:space-y-6">
                     <input type="hidden" id="editId">
-                    <div class="grid grid-cols-2 gap-4">
+                    <div class="grid grid-cols-2 gap-3 md:gap-4">
                         <div class="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-xl border border-blue-100 dark:border-blue-900/50">
-                            <label class="text-[10px] font-bold text-[var(--text-secondary)] uppercase">Emp Id</label>
-                            <input type="text" id="empId" readonly class="w-full bg-transparent font-black text-sarathy-blue text-lg outline-none">
+                            <label class="text-[9px] md:text-[10px] font-bold text-[var(--text-secondary)] uppercase">Emp Id</label>
+                            <input type="text" id="empId" readonly class="w-full bg-transparent font-black text-sarathy-blue text-base md:text-lg outline-none">
                         </div>
                         <div class="p-3 border border-[var(--border-color)] rounded-xl">
-                            <label class="text-[10px] font-bold text-[var(--text-secondary)] uppercase">Status</label>
-                            <select id="status" required class="w-full bg-transparent font-bold text-[var(--text-primary)] outline-none uppercase dark:[color-scheme:dark]">
+                            <label class="text-[9px] md:text-[10px] font-bold text-[var(--text-secondary)] uppercase">Status</label>
+                            <select id="status" required class="w-full bg-transparent font-bold text-[var(--text-primary)] outline-none uppercase text-sm dark:[color-scheme:dark]">
                                 <option value="PENDING">PENDING</option>
                                 <option value="SELECTED">SELECTED</option>
                                 <option value="REJECTED">REJECTED</option>
@@ -437,38 +445,38 @@
                         </div>
                     </div>
                     <!-- Form Fields -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
                         <div>
-                            <label class="text-[10px] font-bold text-[var(--text-secondary)] ml-1 uppercase">Full Name</label>
-                            <input type="text" id="empName" required class="w-full p-3 mt-1 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl font-bold uppercase outline-none focus:border-sarathy-blue dark:text-white">
+                            <label class="text-[9px] md:text-[10px] font-bold text-[var(--text-secondary)] ml-1 uppercase">Full Name</label>
+                            <input type="text" id="empName" required class="w-full p-2.5 md:p-3 mt-1 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl font-bold text-sm uppercase outline-none focus:border-sarathy-blue dark:text-white">
                         </div>
                         <div>
-                            <label class="text-[10px] font-bold text-[var(--text-secondary)] ml-1 uppercase">Phone</label>
-                            <input type="tel" id="empPhone" required pattern="[0-9]{10}" class="w-full p-3 mt-1 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl font-bold uppercase outline-none focus:border-sarathy-blue dark:text-white">
+                            <label class="text-[9px] md:text-[10px] font-bold text-[var(--text-secondary)] ml-1 uppercase">Phone</label>
+                            <input type="tel" id="empPhone" required pattern="[0-9]{10}" class="w-full p-2.5 md:p-3 mt-1 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl font-bold text-sm uppercase outline-none focus:border-sarathy-blue dark:text-white">
                         </div>
                         <div>
-                            <label class="text-[10px] font-bold text-[var(--text-secondary)] ml-1 uppercase">Department</label>
-                            <select id="dept" required class="w-full p-3 mt-1 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl font-bold uppercase outline-none focus:border-sarathy-blue dark:text-white dark:[color-scheme:dark]">
+                            <label class="text-[9px] md:text-[10px] font-bold text-[var(--text-secondary)] ml-1 uppercase">Department</label>
+                            <select id="dept" required class="w-full p-2.5 md:p-3 mt-1 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl font-bold text-sm uppercase outline-none focus:border-sarathy-blue dark:text-white dark:[color-scheme:dark]">
                                 <option value="SALES">SALES</option><option value="SERVICE">SERVICE</option><option value="SPARE">SPARE</option><option value="ACCOUNTS">ACCOUNTS</option>
                             </select>
                         </div>
                         <div>
-                            <label class="text-[10px] font-bold text-[var(--text-secondary)] ml-1 uppercase">Entity</label>
-                            <select id="company" required class="w-full p-3 mt-1 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl font-bold uppercase outline-none dark:text-white dark:[color-scheme:dark]">
+                            <label class="text-[9px] md:text-[10px] font-bold text-[var(--text-secondary)] ml-1 uppercase">Entity</label>
+                            <select id="company" required class="w-full p-2.5 md:p-3 mt-1 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl font-bold text-sm uppercase outline-none dark:text-white dark:[color-scheme:dark]">
                                 <option value="SARATHY MOTORS">SARATHY MOTORS</option><option value="SARATHY BIKES">SARATHY BIKES</option><option value="SARATHY ELECTRIC">SARATHY ELECTRIC</option>
                             </select>
                         </div>
                         <div>
-                            <label class="text-[10px] font-bold text-[var(--text-secondary)] ml-1 uppercase">Interview Date</label>
-                            <input type="date" id="interviewDate" required class="w-full p-3 mt-1 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl font-bold outline-none dark:text-white dark:[color-scheme:dark]">
+                            <label class="text-[9px] md:text-[10px] font-bold text-[var(--text-secondary)] ml-1 uppercase">Interview Date</label>
+                            <input type="date" id="interviewDate" required class="w-full p-2.5 md:p-3 mt-1 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl font-bold text-sm outline-none dark:text-white dark:[color-scheme:dark]">
                         </div>
                         <div>
-                            <label class="text-[10px] font-bold text-[var(--text-secondary)] ml-1 uppercase">Experience (Yrs)</label>
-                            <input type="number" id="experience" step="0.5" class="w-full p-3 mt-1 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl font-bold outline-none dark:text-white" value="0">
+                            <label class="text-[9px] md:text-[10px] font-bold text-[var(--text-secondary)] ml-1 uppercase">Experience (Yrs)</label>
+                            <input type="number" id="experience" step="0.5" class="w-full p-2.5 md:p-3 mt-1 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl font-bold text-sm outline-none dark:text-white" value="0">
                         </div>
                     </div>
                     <div class="pt-4 border-t border-[var(--border-color)]">
-                        <button type="submit" class="w-full bg-sarathy-blue text-white font-black py-4 rounded-xl shadow-lg active:scale-95 transition-transform uppercase tracking-widest text-sm">Save Candidate</button>
+                        <button type="submit" class="w-full bg-sarathy-blue text-white font-black py-3.5 md:py-4 rounded-xl shadow-lg active:scale-95 transition-transform uppercase tracking-widest text-xs md:text-sm">Save Candidate</button>
                     </div>
                 </form>
             </div>
@@ -476,8 +484,8 @@
     </div>
 
     <!-- Notification Modal -->
-    <div id="notificationModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[120] hidden flex items-start justify-end p-4">
-        <div class="bg-[var(--bg-secondary)] w-full max-w-sm rounded-2xl shadow-2xl mt-14 overflow-hidden animate-up border border-[var(--border-color)]">
+    <div id="notificationModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[120] hidden flex items-start justify-center md:justify-end p-4">
+        <div class="bg-[var(--bg-secondary)] w-full max-w-sm rounded-2xl shadow-2xl mt-16 md:mt-14 overflow-hidden animate-up border border-[var(--border-color)]">
             <div class="p-4 border-b border-[var(--border-color)] flex justify-between items-center">
                 <h3 class="font-black text-sm uppercase">Notifications</h3>
                 <button onclick="toggleNotifications()" class="text-[var(--text-secondary)]"><i class="fas fa-times"></i></button>
@@ -487,24 +495,24 @@
     </div>
 
     <!-- Toast -->
-    <div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 translate-y-40 opacity-0 bg-slate-800 text-white px-6 py-3 rounded-full shadow-2xl transition-all duration-300 z-[200] flex items-center gap-3 text-xs font-bold tracking-wider uppercase">
-        <i id="toastIcon" class="fas fa-check-circle text-emerald-400 text-lg"></i>
+    <div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 translate-y-40 opacity-0 bg-slate-800 text-white px-5 md:px-6 py-2.5 md:py-3 rounded-full shadow-2xl transition-all duration-300 z-[200] flex items-center gap-2 md:gap-3 text-[10px] md:text-xs font-bold tracking-wider uppercase whitespace-nowrap">
+        <i id="toastIcon" class="fas fa-check-circle text-emerald-400 text-base md:text-lg"></i>
         <span id="toastMessage">Success</span>
     </div>
 
     <!-- AI Assistant Modal -->
     <div id="assistantModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[115] hidden flex items-center justify-center p-4">
         <div class="bg-[var(--bg-secondary)] w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden animate-up border border-[var(--border-color)]">
-            <div class="p-5 bg-gradient-to-r from-indigo-600 to-purple-600 text-white flex justify-between items-center">
-                <h2 class="font-black text-sm uppercase tracking-widest"><i class="fas fa-brain mr-2"></i> AI Assistant</h2>
+            <div class="p-4 md:p-5 bg-gradient-to-r from-indigo-600 to-purple-600 text-white flex justify-between items-center">
+                <h2 class="font-black text-xs md:text-sm uppercase tracking-widest"><i class="fas fa-brain mr-2"></i> AI Assistant</h2>
                 <button onclick="document.getElementById('assistantModal').classList.add('hidden')" class="opacity-70 hover:opacity-100"><i class="fas fa-times"></i></button>
             </div>
-            <div class="p-6">
+            <div class="p-4 md:p-6 custom-scroll max-h-[70vh] overflow-y-auto">
                 <div class="mb-4">
-                    <span class="text-[10px] font-bold text-[var(--text-secondary)] uppercase block">Prepared for:</span>
-                    <h3 class="font-black text-[var(--text-primary)]" id="assistantCandidateName">---</h3>
+                    <span class="text-[9px] md:text-[10px] font-bold text-[var(--text-secondary)] uppercase block">Prepared for:</span>
+                    <h3 class="font-black text-sm md:text-base text-[var(--text-primary)]" id="assistantCandidateName">---</h3>
                 </div>
-                <div class="space-y-3" id="assistantQuestions"></div>
+                <div class="space-y-2 md:space-y-3" id="assistantQuestions"></div>
             </div>
         </div>
     </div>
@@ -512,13 +520,13 @@
     <!-- SUMMARY MODAL -->
     <div id="summaryModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[115] hidden flex items-center justify-center p-4 transition-opacity">
         <div class="bg-[var(--bg-secondary)] w-full max-w-md rounded-2xl shadow-2xl overflow-hidden animate-up border border-[var(--border-color)]">
-            <div class="p-5 bg-gradient-to-r from-sarathy-blue to-blue-600 text-white flex justify-between items-center">
-                <h2 class="font-black text-sm uppercase tracking-widest"><i class="fas fa-chart-pie mr-2"></i> Hiring Summary</h2>
+            <div class="p-4 md:p-5 bg-gradient-to-r from-sarathy-blue to-blue-600 text-white flex justify-between items-center">
+                <h2 class="font-black text-xs md:text-sm uppercase tracking-widest"><i class="fas fa-chart-pie mr-2"></i> Hiring Summary</h2>
                 <button onclick="document.getElementById('summaryModal').classList.add('hidden')" class="opacity-70 hover:opacity-100"><i class="fas fa-times"></i></button>
             </div>
-            <div class="p-6">
-                <div id="summaryText" class="text-sm font-bold text-[var(--text-primary)] bg-[var(--bg-primary)] p-5 rounded-xl border border-[var(--border-color)] whitespace-pre-wrap uppercase leading-relaxed shadow-inner"></div>
-                <button onclick="copySummary()" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-black py-3 rounded-xl mt-5 text-xs tracking-widest active:scale-95 uppercase shadow-md flex items-center justify-center gap-2 transition-colors">
+            <div class="p-4 md:p-6">
+                <div id="summaryText" class="text-xs md:text-sm font-bold text-[var(--text-primary)] bg-[var(--bg-primary)] p-4 md:p-5 rounded-xl border border-[var(--border-color)] whitespace-pre-wrap uppercase leading-relaxed shadow-inner max-h-[50vh] overflow-y-auto custom-scroll"></div>
+                <button onclick="copySummary()" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-black py-3 rounded-xl mt-4 md:mt-5 text-[10px] md:text-xs tracking-widest active:scale-95 uppercase shadow-md flex items-center justify-center gap-2 transition-colors">
                     <i class="fas fa-copy"></i> Copy to Clipboard
                 </button>
             </div>
@@ -526,16 +534,16 @@
     </div>
 
     <!-- TARGETS MODAL -->
-    <div id="reqModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[115] hidden flex justify-center items-center p-4 transition-opacity">
-        <div class="bg-[var(--bg-secondary)] w-full max-w-2xl rounded-2xl shadow-2xl flex flex-col max-h-[85vh] animate-up border border-[var(--border-color)]">
-            <div class="p-6 border-b border-[var(--border-color)] flex justify-between items-center bg-[var(--bg-secondary)] z-10 rounded-t-2xl">
-                <h2 class="text-xl font-black uppercase text-[var(--text-primary)]"><i class="fas fa-bullseye text-sarathy-red mr-2"></i> Manpower Targets</h2>
-                <button onclick="addReqRow()" class="w-8 h-8 rounded-full bg-sarathy-blue text-white flex items-center justify-center hover:bg-blue-600 transition-colors shadow-md"><i class="fas fa-plus"></i></button>
+    <div id="reqModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[115] hidden flex justify-center items-end md:items-center p-0 md:p-4 transition-opacity">
+        <div class="bg-[var(--bg-secondary)] w-full max-w-2xl rounded-t-2xl md:rounded-2xl shadow-2xl flex flex-col max-h-[90vh] md:max-h-[85vh] animate-up border border-[var(--border-color)]">
+            <div class="p-4 md:p-6 border-b border-[var(--border-color)] flex justify-between items-center bg-[var(--bg-secondary)] z-10 rounded-t-2xl">
+                <h2 class="text-base md:text-xl font-black uppercase text-[var(--text-primary)]"><i class="fas fa-bullseye text-sarathy-red mr-2"></i> Targets</h2>
+                <button onclick="addReqRow()" class="w-7 h-7 md:w-8 md:h-8 rounded-full bg-sarathy-blue text-white flex items-center justify-center hover:bg-blue-600 transition-colors shadow-md"><i class="fas fa-plus text-sm"></i></button>
             </div>
-            <div id="reqEntriesContainer" class="p-6 overflow-y-auto space-y-4 custom-scroll flex-1 bg-[var(--bg-primary)]"></div>
-            <div class="p-5 border-t border-[var(--border-color)] flex gap-3 bg-[var(--bg-secondary)] rounded-b-2xl">
-                <button onclick="closeReqModal()" class="flex-1 py-3 bg-[var(--bg-primary)] text-[var(--text-secondary)] rounded-xl font-bold uppercase tracking-wider hover:bg-[var(--border-color)] transition-colors">Close</button>
-                <button onclick="saveRequirements()" class="flex-1 py-3 bg-emerald-500 text-white rounded-xl font-bold uppercase tracking-wider hover:bg-emerald-600 transition-colors shadow-md">Save Changes</button>
+            <div id="reqEntriesContainer" class="p-4 md:p-6 overflow-y-auto space-y-3 md:space-y-4 custom-scroll flex-1 bg-[var(--bg-primary)]"></div>
+            <div class="p-4 md:p-5 border-t border-[var(--border-color)] flex gap-2 md:gap-3 bg-[var(--bg-secondary)] md:rounded-b-2xl">
+                <button onclick="closeReqModal()" class="flex-1 py-2.5 md:py-3 bg-[var(--bg-primary)] text-[var(--text-secondary)] rounded-xl font-bold text-[10px] md:text-xs uppercase tracking-wider hover:bg-[var(--border-color)] transition-colors">Close</button>
+                <button onclick="saveRequirements()" class="flex-1 py-2.5 md:py-3 bg-emerald-500 text-white rounded-xl font-bold text-[10px] md:text-xs uppercase tracking-wider hover:bg-emerald-600 transition-colors shadow-md">Save Changes</button>
             </div>
         </div>
     </div>
@@ -598,6 +606,14 @@
         };
         const logout = () => location.reload();
 
+        // Sidebar Toggle for Mobile
+        const toggleSidebar = () => {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('mobileOverlay');
+            sidebar.classList.toggle('-translate-x-full');
+            overlay.classList.toggle('hidden');
+        };
+
         // Navigation (Tabs)
         const switchTab = (tab) => {
             currentTab = tab;
@@ -610,6 +626,12 @@
             
             const titles = { dashboard: 'Overview', candidates: 'Candidate Directory', calendar: 'Interview Schedule', analytics: 'Data Analytics' };
             document.getElementById('pageTitle').innerText = titles[tab];
+
+            // Close mobile sidebar automatically on tab switch
+            if (window.innerWidth < 768) {
+                document.getElementById('sidebar').classList.add('-translate-x-full');
+                document.getElementById('mobileOverlay').classList.add('hidden');
+            }
 
             if(tab === 'analytics') initCharts();
         };
@@ -626,7 +648,7 @@
                 const req = reqList.find(x=>x.dept===d)?.target || 0;
                 const perc = req > 0 ? Math.min((count/req)*100, 100) : 0;
                 document.getElementById(`prog-${d.toLowerCase()}`).innerHTML = `
-                    <div class="flex justify-between text-xs font-bold mb-2 uppercase"><span>${d}</span> <span>${count}/${req}</span></div>
+                    <div class="flex justify-between text-[10px] md:text-xs font-bold mb-2 uppercase"><span>${d}</span> <span>${count}/${req}</span></div>
                     <div class="w-full h-2 bg-[var(--border-color)] rounded-full overflow-hidden">
                         <div class="h-full bg-sarathy-blue transition-all duration-1000" style="width:${perc}%"></div>
                     </div>
@@ -648,8 +670,8 @@
             currentView = v;
             document.getElementById('listView').style.display = v==='list'?'grid':'none';
             document.getElementById('boardView').style.display = v==='board'?'grid':'none';
-            document.getElementById('btnViewList').className = v==='list'?'px-4 py-1 rounded-lg font-bold text-xs bg-white dark:bg-slate-700 shadow-sm':'px-4 py-1 rounded-lg font-bold text-xs text-[var(--text-secondary)] hover:bg-[var(--bg-secondary)]';
-            document.getElementById('btnViewBoard').className = v==='board'?'px-4 py-1 rounded-lg font-bold text-xs bg-white dark:bg-slate-700 shadow-sm':'px-4 py-1 rounded-lg font-bold text-xs text-[var(--text-secondary)] hover:bg-[var(--bg-secondary)]';
+            document.getElementById('btnViewList').className = v==='list'?'px-3 md:px-4 py-1.5 md:py-1 rounded-lg font-bold text-xs bg-white dark:bg-slate-700 shadow-sm':'px-3 md:px-4 py-1.5 md:py-1 rounded-lg font-bold text-xs text-[var(--text-secondary)] hover:bg-[var(--bg-secondary)]';
+            document.getElementById('btnViewBoard').className = v==='board'?'px-3 md:px-4 py-1.5 md:py-1 rounded-lg font-bold text-xs bg-white dark:bg-slate-700 shadow-sm':'px-3 md:px-4 py-1.5 md:py-1 rounded-lg font-bold text-xs text-[var(--text-secondary)] hover:bg-[var(--bg-secondary)]';
         };
 
         const renderTable = () => {
@@ -681,21 +703,21 @@
         const generateCard = (x, isBoard=false) => {
             const isChecked = selectedCandidates.has(x.id);
             return `
-            <div class="modern-card p-5 relative flex flex-col gap-3 group" draggable="${isBoard}" ondragstart="dragStart(event, ${x.id})" ondragend="dragEnd(event)">
+            <div class="modern-card p-4 md:p-5 relative flex flex-col gap-3 group" draggable="${isBoard}" ondragstart="dragStart(event, ${x.id})" ondragend="dragEnd(event)">
                 ${!isBoard ? `<input type="checkbox" class="absolute top-4 right-4 z-10 w-4 h-4 rounded cursor-pointer accent-sarathy-blue" onchange="toggleBulkSelection(${x.id})" ${isChecked?'checked':''}>` : ''}
                 <div class="flex items-center gap-3">
-                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-100 to-blue-50 text-sarathy-blue flex items-center justify-center font-black text-lg border border-blue-200 shrink-0 shadow-sm">${x.name[0]}</div>
-                    <div class="flex-1 min-w-0">
-                        <h4 class="font-black text-sm truncate dark:text-white">${x.name}</h4>
-                        <p class="text-[10px] text-[var(--text-secondary)] font-bold tracking-widest uppercase">${x.empId} • ${x.dept}</p>
+                    <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-gradient-to-br from-blue-100 to-blue-50 text-sarathy-blue flex items-center justify-center font-black text-base md:text-lg border border-blue-200 shrink-0 shadow-sm">${x.name[0]}</div>
+                    <div class="flex-1 min-w-0 pr-4">
+                        <h4 class="font-black text-xs md:text-sm truncate dark:text-white">${x.name}</h4>
+                        <p class="text-[9px] md:text-[10px] text-[var(--text-secondary)] font-bold tracking-widest uppercase truncate">${x.empId} • ${x.dept}</p>
                     </div>
                 </div>
-                <div class="flex justify-between items-center text-[10px] font-bold mt-2">
+                <div class="flex justify-between items-center text-[9px] md:text-[10px] font-bold mt-1 md:mt-2">
                     <span class="status-badge status-${x.status}">${x.status}</span>
-                    <span class="text-[var(--text-secondary)]"><i class="fas fa-calendar-alt mr-1"></i> ${x.interviewDate}</span>
+                    <span class="text-[var(--text-secondary)] shrink-0"><i class="fas fa-calendar-alt mr-1"></i> ${x.interviewDate}</span>
                 </div>
                 <div class="flex gap-2 mt-auto pt-3 border-t border-[var(--border-color)]">
-                    <button onclick="openInterviewAssistant(${x.id})" class="flex-1 py-1.5 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 rounded-lg text-[10px] font-black uppercase hover:bg-indigo-100 transition-colors"><i class="fas fa-brain"></i> AI</button>
+                    <button onclick="openInterviewAssistant(${x.id})" class="flex-1 py-1.5 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 rounded-lg text-[9px] md:text-[10px] font-black uppercase hover:bg-indigo-100 transition-colors"><i class="fas fa-brain"></i> AI</button>
                     <button onclick="quickToggleStatus(${x.id})" class="w-8 py-1.5 bg-[var(--bg-primary)] text-[var(--text-secondary)] rounded-lg hover:bg-[var(--border-color)] transition-colors"><i class="fas fa-sync-alt"></i></button>
                 </div>
             </div>`;
@@ -707,10 +729,20 @@
             document.getElementById('editId').value = '';
             document.getElementById('empId').value = 'SG-' + (joinees.length+1).toString().padStart(3,'0');
             document.getElementById('addModal').classList.remove('hidden');
-            setTimeout(()=>document.getElementById('modalContent').style.transform = 'translateX(0)', 10);
+            
+            // Adjust animation direction based on screen width
+            if (window.innerWidth < 768) {
+                setTimeout(()=>document.getElementById('modalContent').style.transform = 'translateY(0)', 10);
+            } else {
+                setTimeout(()=>document.getElementById('modalContent').style.transform = 'translateX(0)', 10);
+            }
         };
         const closeModal = () => {
-            document.getElementById('modalContent').style.transform = 'translateX(100%)';
+            if (window.innerWidth < 768) {
+                document.getElementById('modalContent').style.transform = 'translateY(100%)';
+            } else {
+                document.getElementById('modalContent').style.transform = 'translateX(100%)';
+            }
             setTimeout(()=>document.getElementById('addModal').classList.add('hidden'), 300);
         };
 
@@ -740,28 +772,30 @@
             const grid = document.getElementById('calendarGrid');
             grid.innerHTML = '';
             const y = calendarDate.getFullYear(), m = calendarDate.getMonth();
-            document.getElementById('calendarMonthLabel').innerText = new Date(y, m).toLocaleString('default', { month: 'long', year: 'numeric' });
+            document.getElementById('calendarMonthLabel').innerText = new Date(y, m).toLocaleString('default', { month: 'short', year: 'numeric' });
             
             const firstDay = new Date(y, m, 1).getDay();
             const daysInMonth = new Date(y, m+1, 0).getDate();
             const todayStr = new Date().toISOString().slice(0, 10);
 
-            for(let i=0; i<firstDay; i++) grid.innerHTML += `<div class="calendar-day opacity-0"></div>`;
+            for(let i=0; i<firstDay; i++) grid.innerHTML += `<div class="calendar-day border-transparent bg-transparent opacity-0"></div>`;
             
             for(let i=1; i<=daysInMonth; i++) {
                 const dStr = `${y}-${(m+1).toString().padStart(2,'0')}-${i.toString().padStart(2,'0')}`;
                 const isToday = dStr === todayStr;
                 const events = joinees.filter(x => x.interviewDate === dStr);
                 
-                let eventsHtml = events.slice(0, 3).map(x => 
+                // On very small screens, limit to 2 events, else 3
+                const limit = window.innerWidth < 768 ? 2 : 3;
+                let eventsHtml = events.slice(0, limit).map(x => 
                     `<div class="calendar-event ${x.status==='SELECTED'?'bg-emerald-100 text-emerald-700':x.status==='REJECTED'?'bg-red-100 text-red-700':'bg-amber-100 text-amber-700'}">${x.name.split(' ')[0]}</div>`
                 ).join('');
-                if(events.length > 3) eventsHtml += `<div class="text-[8px] font-bold text-center mt-1">+${events.length-3} more</div>`;
+                if(events.length > limit) eventsHtml += `<div class="text-[7px] md:text-[8px] font-bold text-center mt-1 text-[var(--text-secondary)]">+${events.length-limit} more</div>`;
 
                 grid.innerHTML += `
                     <div class="calendar-day ${isToday?'today':''}">
-                        <span class="text-xs font-bold mb-1 ${isToday?'text-sarathy-blue':''}">${i}</span>
-                        <div class="flex-1 flex flex-col gap-1 overflow-hidden">${eventsHtml}</div>
+                        <span class="text-[10px] md:text-xs font-bold mb-1 ${isToday?'text-sarathy-blue':''}">${i}</span>
+                        <div class="flex-1 flex flex-col gap-1 overflow-hidden custom-scroll">${eventsHtml}</div>
                     </div>`;
             }
         };
@@ -787,7 +821,7 @@
                         joinees.filter(x=>x.status==='REJECTED').length
                     ], backgroundColor: ['#10b981', '#f59e0b', '#ef4444'], borderWidth: 0 }]
                 },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { color: textColor, font: {family:'Outfit'} } } }, cutout: '70%' }
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { color: textColor, font: {family:'Outfit', size: window.innerWidth<768?10:12} } } }, cutout: window.innerWidth<768?'60%':'70%' }
             });
 
             if(chartSource) chartSource.destroy();
@@ -800,11 +834,11 @@
                         joinees.filter(x=>x.dept==='SPARE').length, joinees.filter(x=>x.dept==='ACCOUNTS').length
                     ], backgroundColor: '#0054A6', borderRadius: 6 }]
                 },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { ticks:{color: textColor}, grid:{color: isDark?'#334155':'#e2e8f0'} }, x: { ticks:{color: textColor}, grid:{display:false} } } }
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { ticks:{color: textColor, font:{size: window.innerWidth<768?9:11}}, grid:{color: isDark?'#334155':'#e2e8f0'} }, x: { ticks:{color: textColor, font:{size: window.innerWidth<768?9:11}}, grid:{display:false} } } }
             });
         };
 
-        // Bulk Actions, Drag Drop, AI (Simplified implementation of requested features)
+        // Bulk Actions, Drag Drop, AI
         const toggleBulkSelection = (id) => { selectedCandidates.has(id) ? selectedCandidates.delete(id) : selectedCandidates.add(id); updateBulkBar(); };
         const clearBulkSelection = () => { selectedCandidates.clear(); renderTable(); updateBulkBar(); };
         const updateBulkBar = () => {
@@ -824,7 +858,7 @@
             const r = joinees.find(x=>x.id===id);
             document.getElementById('assistantCandidateName').innerText = `${r.name} (${r.dept})`;
             const qs = ["Tell me about your experience in " + r.dept, "How do you handle difficult situations at work?", "Where do you see yourself in 3 years?"];
-            document.getElementById('assistantQuestions').innerHTML = qs.map((q,i) => `<div class="p-3 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-800 dark:text-indigo-200 rounded-lg text-sm font-medium flex gap-3"><span class="font-black text-indigo-400">Q${i+1}</span> ${q}</div>`).join('');
+            document.getElementById('assistantQuestions').innerHTML = qs.map((q,i) => `<div class="p-2.5 md:p-3 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-800 dark:text-indigo-200 rounded-lg text-xs md:text-sm font-medium flex gap-2 md:gap-3"><span class="font-black text-indigo-400">Q${i+1}</span> ${q}</div>`).join('');
             document.getElementById('assistantModal').classList.remove('hidden');
         };
 
@@ -878,18 +912,18 @@
             const text = document.getElementById('summaryText').innerText;
             const el = document.createElement('textarea');
             el.value = text; document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el);
-            showToast("Summary Copied to Clipboard!");
+            showToast("Summary Copied!");
         };
 
         const renderReqEntries = () => {
             const container = document.getElementById('reqEntriesContainer');
             container.innerHTML = reqList.map((req, idx) => `
-                <div class="p-4 bg-[var(--bg-secondary)] rounded-xl border border-[var(--border-color)] relative group transition-all hover:shadow-md">
-                    <button onclick="removeReqRow(${idx})" class="absolute top-4 right-4 text-red-400 active:scale-90 hover:text-red-600 transition-colors"><i class="fas fa-trash-alt"></i></button>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 pr-8">
+                <div class="p-3 md:p-4 bg-[var(--bg-secondary)] rounded-xl border border-[var(--border-color)] relative group transition-all hover:shadow-md">
+                    <button onclick="removeReqRow(${idx})" class="absolute top-2 right-2 md:top-4 md:right-4 text-red-400 active:scale-90 hover:text-red-600 transition-colors"><i class="fas fa-trash-alt text-xs md:text-sm"></i></button>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3 pr-6 md:pr-8">
                         <div>
-                            <label class="text-[10px] font-bold text-[var(--text-secondary)] uppercase">Department</label>
-                            <select onchange="reqList[${idx}].dept=this.value" class="w-full p-2.5 mt-1 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-lg font-bold text-xs uppercase outline-none dark:text-white dark:[color-scheme:dark]">
+                            <label class="text-[9px] md:text-[10px] font-bold text-[var(--text-secondary)] uppercase">Department</label>
+                            <select onchange="reqList[${idx}].dept=this.value" class="w-full p-2 md:p-2.5 mt-1 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-lg font-bold text-[10px] md:text-xs uppercase outline-none dark:text-white dark:[color-scheme:dark]">
                                 <option value="SALES" ${req.dept==='SALES'?'selected':''}>SALES</option>
                                 <option value="SERVICE" ${req.dept==='SERVICE'?'selected':''}>SERVICE</option>
                                 <option value="SPARE" ${req.dept==='SPARE'?'selected':''}>SPARE</option>
@@ -897,8 +931,8 @@
                             </select>
                         </div>
                         <div>
-                            <label class="text-[10px] font-bold text-[var(--text-secondary)] uppercase">Target Count</label>
-                            <input type="number" value="${req.target}" onchange="reqList[${idx}].target=parseInt(this.value)||0" min="0" class="w-full p-2.5 mt-1 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-lg font-black text-xs outline-none dark:text-white">
+                            <label class="text-[9px] md:text-[10px] font-bold text-[var(--text-secondary)] uppercase">Target</label>
+                            <input type="number" value="${req.target}" onchange="reqList[${idx}].target=parseInt(this.value)||0" min="0" class="w-full p-2 md:p-2.5 mt-1 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-lg font-black text-xs outline-none dark:text-white">
                         </div>
                     </div>
                 </div>`).join('') || '<p class="text-xs text-center text-[var(--text-secondary)] py-4">No targets defined.</p>';
@@ -929,7 +963,17 @@
             }
         };
 
-        // Simple export fallback
+        // Window resize listener to handle layout edge cases
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 768) {
+                document.getElementById('sidebar').classList.remove('-translate-x-full');
+                document.getElementById('mobileOverlay').classList.add('hidden');
+                if(currentTab === 'analytics') initCharts();
+            } else {
+                document.getElementById('sidebar').classList.add('-translate-x-full');
+            }
+        });
+
         const exportToCSV = () => showToast("Export initiated...");
     </script>
 </body>
