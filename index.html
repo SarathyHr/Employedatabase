@@ -295,7 +295,7 @@
                     <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 animate-up">
                         <div class="modern-card p-4 md:p-5 flex flex-col relative overflow-hidden group">
                             <div class="absolute top-0 right-0 w-12 h-12 md:w-16 md:h-16 bg-blue-50 dark:bg-blue-900/20 rounded-bl-full flex items-start justify-end p-2 md:p-3 transition-transform group-hover:scale-110"><i class="fas fa-users text-blue-500 text-sm md:text-xl"></i></div>
-                            <span class="text-[9px] md:text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-widest mb-1 truncate">Total Candidate</span>
+                            <span class="text-[9px] md:text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-widest mb-1 truncate">Total Pool</span>
                             <h3 class="text-2xl md:text-3xl font-black text-[var(--text-primary)]" id="statTotal">0</h3>
                         </div>
                         <div class="modern-card p-4 md:p-5 flex flex-col relative overflow-hidden group stagger-1">
@@ -443,7 +443,7 @@
                 <form id="joineeForm" class="flex flex-col h-full">
                     <input type="hidden" id="editId">
                     
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6 flex-1">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 flex-1">
                         <!-- EMP ID & STATUS -->
                         <div class="p-3 md:p-4 bg-[#f0f7ff] dark:bg-blue-900/20 rounded-xl border border-blue-100 dark:border-blue-900/50 flex flex-col justify-center">
                             <label class="text-[9px] md:text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Emp Id</label>
@@ -747,27 +747,51 @@
             const isChecked = selectedCandidates.has(x.id);
             return `
             <div class="modern-card p-4 md:p-5 relative flex flex-col gap-3 group" draggable="${isBoard}" ondragstart="dragStart(event, ${x.id})" ondragend="dragEnd(event)">
-                ${!isBoard ? `<input type="checkbox" class="absolute top-4 right-4 z-10 w-4 h-4 rounded cursor-pointer accent-sarathy-blue" onchange="toggleBulkSelection(${x.id})" ${isChecked?'checked':''}>` : ''}
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-gradient-to-br from-blue-100 to-blue-50 text-sarathy-blue flex items-center justify-center font-black text-base md:text-lg border border-blue-200 shrink-0 shadow-sm">${x.name[0]}</div>
-                    <div class="flex-1 min-w-0 pr-4">
-                        <h4 class="font-black text-xs md:text-sm truncate dark:text-white">${x.name}</h4>
-                        <p class="text-[9px] md:text-[10px] text-[var(--text-secondary)] font-bold tracking-widest uppercase truncate">${x.empId} • ${x.dept} ${x.location ? '• ' + x.location : ''}</p>
+                ${!isBoard ? `
+                <div class="absolute top-4 md:top-5 right-4 md:right-5 z-10">
+                    <input type="checkbox" class="w-4 h-4 md:w-5 md:h-5 rounded border-slate-300 text-sarathy-blue focus:ring-sarathy-blue cursor-pointer" onchange="toggleBulkSelection(${x.id})" ${isChecked?'checked':''}>
+                </div>` : ''}
+
+                <!-- Header: Avatar & Info -->
+                <div class="flex items-center gap-3 md:gap-4 pr-8">
+                    <div class="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-blue-50 dark:bg-blue-900/20 text-sarathy-blue dark:text-blue-400 flex items-center justify-center font-black text-xl md:text-2xl border border-blue-100 dark:border-blue-800/50 shrink-0 shadow-sm">
+                        ${x.name[0]}
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h4 class="font-black text-sm md:text-base truncate text-slate-800 dark:text-white leading-tight mb-1">${x.name}</h4>
+                        <p class="text-[9px] md:text-[10px] text-slate-500 dark:text-slate-400 font-bold tracking-[0.1em] uppercase truncate">
+                            ${x.empId} • ${x.dept} ${x.location ? '• ' + x.location : ''}
+                        </p>
                     </div>
                 </div>
-                <div class="flex justify-between items-center text-[9px] md:text-[10px] font-bold mt-1 md:mt-2">
-                    <span class="status-badge status-${x.status}">${x.status}</span>
-                    <span class="text-[var(--text-secondary)] shrink-0 flex flex-col items-end">
-                        <span><i class="fas fa-calendar-alt mr-1"></i> Int: ${x.interviewDate}</span>
-                        ${x.joinDate ? `<span class="text-emerald-600 mt-0.5"><i class="fas fa-flag-checkered mr-1"></i> Join: ${x.joinDate}</span>` : ''}
-                    </span>
+
+                <!-- Middle: Status & Dates -->
+                <div class="flex justify-between items-center mt-1 px-0.5">
+                    <span class="status-badge status-${x.status} shadow-sm px-3 md:px-4 py-1.5 md:py-2 rounded-full border">${x.status}</span>
+                    
+                    <div class="flex flex-col items-end text-[9px] md:text-[10px] font-black tracking-wider space-y-1">
+                        <span class="text-slate-500 dark:text-slate-400"><i class="fas fa-calendar-alt mr-1.5 opacity-70"></i>Int: ${x.interviewDate}</span>
+                        ${x.joinDate ? `<span class="text-emerald-600 dark:text-emerald-400"><i class="fas fa-flag-checkered mr-1.5 opacity-70"></i>Join: ${x.joinDate}</span>` : ''}
+                    </div>
                 </div>
                 
-                ${x.remarks ? `<div class="mt-2 p-2.5 bg-amber-50 dark:bg-amber-900/20 rounded-lg border border-amber-100 dark:border-amber-900/50"><p class="text-[9px] md:text-[10px] font-bold text-amber-700 dark:text-amber-400 italic">" ${x.remarks} "</p></div>` : ''}
+                <!-- Remarks -->
+                ${x.remarks ? `
+                <div class="mt-1 p-3 bg-amber-50/50 dark:bg-amber-900/10 rounded-xl border border-amber-200/50 dark:border-amber-900/30">
+                    <p class="text-[10px] md:text-[11px] font-bold text-amber-700 dark:text-amber-400 italic text-center leading-relaxed">
+                        " ${x.remarks} "
+                    </p>
+                </div>
+                ` : ''}
 
-                <div class="flex gap-2 mt-auto pt-3 border-t border-[var(--border-color)]">
-                    <button onclick="openInterviewAssistant(${x.id})" class="flex-1 py-1.5 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 rounded-lg text-[9px] md:text-[10px] font-black uppercase hover:bg-indigo-100 transition-colors"><i class="fas fa-brain"></i> AI</button>
-                    <button onclick="quickToggleStatus(${x.id})" class="w-8 py-1.5 bg-[var(--bg-primary)] text-[var(--text-secondary)] rounded-lg hover:bg-[var(--border-color)] transition-colors"><i class="fas fa-sync-alt"></i></button>
+                <!-- Actions -->
+                <div class="flex gap-2.5 mt-2 pt-4 border-t border-slate-100 dark:border-slate-800">
+                    <button onclick="openInterviewAssistant(${x.id})" class="flex-1 py-2.5 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-400 rounded-xl text-[10px] md:text-[11px] font-black uppercase hover:bg-indigo-100 dark:hover:bg-indigo-900/40 transition-colors flex justify-center items-center gap-2 border border-indigo-100 dark:border-indigo-900/50">
+                        <i class="fas fa-brain text-indigo-500"></i> AI
+                    </button>
+                    <button onclick="quickToggleStatus(${x.id})" class="w-10 md:w-11 py-2.5 bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors flex justify-center items-center border border-slate-200 dark:border-slate-700 shadow-sm">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
                 </div>
             </div>`;
         };
