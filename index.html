@@ -267,7 +267,7 @@
                     <span class="transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap">Targets</span>
                 </a>
                 <a onclick="exportToExcel()" class="nav-link">
-                    <i class="fas fa-file-excel w-5 text-center shrink-0"></i> 
+                    <i class="fas fa-file-excel w-5 text-center shrink-0 text-emerald-600"></i> 
                     <span class="transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap">Export Excel</span>
                 </a>
                 <input type="file" id="importFile" accept=".json" class="hidden" onchange="importBackup(event)">
@@ -1118,6 +1118,14 @@
                 designation: document.getElementById('designation').value.trim().toUpperCase(),
                 remarks: document.getElementById('remarks').value.trim()
             };
+            
+            // DUPLICATE CHECK: Prevent adding a candidate with the same phone number (if it's not the same person being edited)
+            const existingCandidate = joinees.find(x => x.phone === data.phone && x.id !== data.id);
+            if (existingCandidate) {
+                showToast("Candidate with this Phone Number already exists!", "error");
+                return; // Stop saving
+            }
+
             const idx = joinees.findIndex(x=>x.id===data.id);
             if(idx>-1) joinees[idx] = data; else joinees.push(data);
             localStorage.setItem('sarathy_db_v13', JSON.stringify(joinees));
@@ -1592,45 +1600,56 @@
         };
 
         // CSV Export Function
-        const exportToCSV = () => {
+        const exportToExcel = () => {
             if (joinees.length === 0) {
                 showToast("No data found to export", "error");
                 return;
             }
 
-            const headers = [
-                "Emp ID", "Full Name", "Phone", "Department", "Entity", 
-                "Status", "Interview Date", "Join Date", "Experience", 
-                "Location", "Designation", "Remarks"
+            // 1. Format the data professionally for Excel
+            const exportData = joinees.map(j => ({
+                "Employee ID": j.empId,
+                "Full Name": j.name,
+                "Phone Number": j.phone,
+                "Department": j.dept,
+                "Entity (Company)": j.company,
+                "Current Status": j.status,
+                "Interview Date": formatDateString(j.interviewDate),
+                "Join Date": j.joinDate ? formatDateString(j.joinDate) : 'Not Joined',
+                "Experience (Years)": j.experience,
+                "Location": j.location,
+                "Designation": j.designation,
+                "Manager Remarks": j.remarks || 'No remarks'
+            }));
+
+            // 2. Convert to SheetJS Worksheet
+            const worksheet = XLSX.utils.json_to_sheet(exportData);
+
+            // 3. Define Column Widths for Professional Structure
+            const wscols = [
+                {wch: 15}, // Emp ID
+                {wch: 25}, // Name
+                {wch: 15}, // Phone
+                {wch: 15}, // Dept
+                {wch: 30}, // Entity
+                {wch: 15}, // Status
+                {wch: 15}, // Interview Date
+                {wch: 15}, // Join Date
+                {wch: 18}, // Experience
+                {wch: 20}, // Location
+                {wch: 25}, // Designation
+                {wch: 40}  // Remarks
             ];
+            worksheet['!cols'] = wscols;
 
-            const rows = joinees.map(j => [
-                j.empId,
-                `"${j.name}"`,
-                j.phone,
-                j.dept,
-                `"${j.company}"`,
-                j.status,
-                j.interviewDate,
-                j.joinDate || 'N/A',
-                j.experience,
-                `"${j.location}"`,
-                `"${j.designation}"`,
-                `"${(j.remarks || '').replace(/"/g, '""')}"`
-            ].join(","));
+            // 4. Create Workbook and Append Sheet
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, "Candidate Directory");
 
-            const csvContent = "\uFEFF" + headers.join(",") + "\n" + rows.join("\n");
-            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement("a");
-            const fileName = `Sarathy_HR_Export_${new Date().toLocaleDateString().replace(/\//g, '-')}.csv`;
-            link.setAttribute("href", url);
-            link.setAttribute("download", fileName);
-            link.style.visibility = 'hidden';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            showToast("CSV Downloaded Successfully!");
+            // 5. Trigger File Download
+            const fileName = `Sarathy_HR_Export_${new Date().toISOString().slice(0, 10)}.xlsx`;
+            XLSX.writeFile(workbook, fileName);
+            showToast("Excel Downloaded Successfully!");
         };
     </script>
 </body>
