@@ -119,9 +119,6 @@
         .fab { position: fixed; bottom: 20px; right: 20px; md:bottom: 30px; md:right: 30px; width: 56px; height: 56px; md:width: 60px; md:height: 60px; border-radius: 50%; background: #0054A6; color: white; display: flex; justify-content: center; align-items: center; box-shadow: 0 10px 20px rgba(0, 84, 166, 0.4); z-index: 50; cursor: pointer; transition: all 0.3s; }
         .fab:hover { transform: scale(1.05) rotate(90deg); }
 
-        #bulkActionBar { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); transition: bottom 0.4s cubic-bezier(0.4, 0, 0.2, 1); z-index: 60; width: 90%; max-width: 600px; justify-content: center; }
-        #bulkActionBar.visible { bottom: 20px; md:bottom: 30px; }
-
         /* Professional Summary Tables */
         .summary-table { width: 100%; border-collapse: separate; border-spacing: 0; margin-bottom: 1.5rem; font-size: 0.75rem; }
         .summary-table th { background: #0054A6; color: #ffffff; font-weight: 900; text-transform: uppercase; text-align: left; padding: 12px 16px; border-bottom: none; position: sticky; top: 0; z-index: 10; }
@@ -429,7 +426,7 @@
                         </div>
                     </div>
 
-                    <!-- VIEW CONTAINER TO SUPPORT PROFESSIONAL TABLE -->
+                    <!-- UPDATED: VIEW CONTAINER TO SUPPORT PROFESSIONAL TABLE WITHOUT CHECKBOXES -->
                     <div id="listView" class="animate-up"></div>
                     
                     <div id="boardView" class="hidden grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
@@ -581,19 +578,6 @@
                 <i class="fas fa-arrow-left text-lg md:text-xl"></i>
             </button>
         </main>
-    </div>
-
-    <!-- FLOATING BULK ACTION BAR -->
-    <div id="bulkActionBar" class="glass-panel text-[var(--text-primary)] px-4 md:px-6 py-2.5 md:py-3 rounded-full flex items-center gap-2 md:gap-4 shadow-2xl overflow-x-auto whitespace-nowrap no-scrollbar">
-        <span class="font-black text-[10px] md:text-xs uppercase text-blue-600 shrink-0" id="bulkCountText">0 Selected</span>
-        <div class="h-4 w-px bg-[var(--border-color)] shrink-0 mx-1"></div>
-        <button onclick="bulkChangeStatus('PENDING')" class="text-[9px] md:text-[10px] font-bold uppercase hover:text-amber-500 transition-colors shrink-0"><i class="fas fa-clock mr-1"></i> Pending</button>
-        <button onclick="bulkChangeStatus('SELECTED')" class="text-[9px] md:text-[10px] font-bold uppercase hover:text-emerald-500 transition-colors shrink-0"><i class="fas fa-check-circle mr-1"></i> Select</button>
-        <button onclick="bulkChangeStatus('REJECTED')" class="text-[9px] md:text-[10px] font-bold uppercase hover:text-red-500 transition-colors shrink-0"><i class="fas fa-times-circle mr-1"></i> Reject</button>
-        <div class="h-4 w-px bg-[var(--border-color)] shrink-0 mx-1"></div>
-        <button onclick="bulkDelete()" class="text-[9px] md:text-[10px] font-bold uppercase hover:text-red-600 transition-colors shrink-0"><i class="fas fa-trash-alt mr-1"></i> Delete</button>
-        <div class="h-4 w-px bg-[var(--border-color)] shrink-0 mx-1"></div>
-        <button onclick="clearBulkSelection()" class="w-5 h-5 md:w-6 md:h-6 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center hover:bg-slate-300 transition-colors shrink-0"><i class="fas fa-times text-[10px] md:text-xs"></i></button>
     </div>
 
     <!-- INCLUDES: All Modals -->
@@ -798,7 +782,6 @@
         let currentTab = 'dashboard';
         let tabHistory = []; 
         let currentView = 'list';
-        let selectedCandidates = new Set();
         let chartStatus, chartSource;
         let calendarDate = new Date();
 
@@ -1037,7 +1020,7 @@
                             <table class="data-table">
                                 <thead>
                                     <tr>
-                                        <th class="w-10"><input type="checkbox" onchange="toggleAllBulk(this)" class="rounded border-slate-300 text-sarathy-blue focus:ring-sarathy-blue"></th>
+                                        <!-- REMOVED CHECKBOX TH -->
                                         <th>Personnel Info</th>
                                         <th>Role & Entity</th>
                                         <th>Location</th>
@@ -1048,7 +1031,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    ${filtered.length ? filtered.map(x => generateRow(x)).join('') : '<tr><td colspan="8" class="text-center py-10 text-slate-400 font-bold uppercase tracking-widest">No records found</td></tr>'}
+                                    ${filtered.length ? filtered.map(x => generateRow(x)).join('') : '<tr><td colspan="7" class="text-center py-10 text-slate-400 font-bold uppercase tracking-widest">No records found</td></tr>'}
                                 </tbody>
                             </table>
                         </div>
@@ -1067,7 +1050,6 @@
         };
 
         const generateRow = (x) => {
-            const isChecked = selectedCandidates.has(x.id);
             const intDate = formatDateString(x.interviewDate);
             const joinDate = formatDateString(x.joinDate);
             const ratingValue = parseInt(x.rating) || 0;
@@ -1081,7 +1063,7 @@
 
             return `
                 <tr>
-                    <td><input type="checkbox" class="rounded border-slate-400 text-sarathy-blue focus:ring-sarathy-blue cursor-pointer" onchange="toggleBulkSelection(${x.id})" ${isChecked?'checked':''}></td>
+                    <!-- REMOVED CHECKBOX TD -->
                     <td>
                         <div class="flex items-center gap-3">
                             <div class="w-9 h-9 rounded-lg border-2 flex items-center justify-center font-black text-sm shrink-0 ${avatarClass}">${x.name[0]}</div>
@@ -1142,16 +1124,6 @@
             </div>`;
         };
 
-        const toggleAllBulk = (master) => {
-            if(master.checked) {
-                joinees.forEach(j => selectedCandidates.add(j.id));
-            } else {
-                selectedCandidates.clear();
-            }
-            renderTable();
-            updateBulkBar();
-        };
-
         // Individual Delete Function
         const deleteCandidate = (id) => {
             if(confirm("Are you sure you want to delete this candidate?")) {
@@ -1159,17 +1131,6 @@
                 localStorage.setItem('sarathy_db_v13', JSON.stringify(joinees));
                 renderTable(); renderDashboard(); renderCalendar(); checkNotifications();
                 showToast("Candidate Entry Deleted!", "error");
-            }
-        };
-
-        // Bulk Delete Function
-        const bulkDelete = () => {
-            if(selectedCandidates.size === 0) return;
-            if(confirm(`Are you sure you want to delete ${selectedCandidates.size} selected entries?`)) {
-                joinees = joinees.filter(j => !selectedCandidates.has(j.id));
-                localStorage.setItem('sarathy_db_v13', JSON.stringify(joinees));
-                clearBulkSelection(); renderDashboard(); renderCalendar(); checkNotifications();
-                showToast("Selected Entries Deleted!", "error");
             }
         };
 
@@ -1406,22 +1367,6 @@
                 },
                 options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { ticks:{color: textColor, font:{size: window.innerWidth<768?9:11}}, grid:{color: isDark?'#334155':'#e2e8f0'} }, x: { ticks:{color: textColor, font:{size: window.innerWidth<768?9:11}}, grid:{display:false} } } }
             });
-        };
-
-        // Bulk Actions, Drag Drop
-        const toggleBulkSelection = (id) => { selectedCandidates.has(id) ? selectedCandidates.delete(id) : selectedCandidates.add(id); updateBulkBar(); };
-        const clearBulkSelection = () => { selectedCandidates.clear(); renderTable(); updateBulkBar(); };
-        const updateBulkBar = () => {
-            const b = document.getElementById('bulkActionBar');
-            document.getElementById('bulkCountText').innerText = `${selectedCandidates.size} Selected`;
-            b.classList.toggle('visible', selectedCandidates.size > 0);
-            b.classList.toggle('hidden', selectedCandidates.size === 0);
-        };
-        const bulkChangeStatus = (st) => {
-            joinees.forEach(j => { if(selectedCandidates.has(j.id)) j.status = st; });
-            localStorage.setItem('sarathy_db_v13', JSON.stringify(joinees));
-            clearBulkSelection(); renderDashboard(); renderCalendar(); showToast(`Status Updated!`);
-            if(st==='SELECTED') confetti();
         };
 
         const toggleNotifications = () => document.getElementById('notificationModal').classList.toggle('hidden');
