@@ -137,6 +137,7 @@
         .dark .data-table th { background: #1e3a8a; color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.1); }
         
         .data-table td { padding: 16px; font-size: 0.85rem; border: 1px solid var(--border-color); vertical-align: middle; }
+        .data-table tr:last-child td { border-bottom: none; }
         .data-table tr:hover td { background: rgba(0, 84, 166, 0.02); }
         .dark .data-table tr:hover td { background: rgba(255, 255, 255, 0.02); }
 
@@ -1019,7 +1020,7 @@
                                 <thead>
                                     <tr>
                                         <!-- Added Serial Number TH -->
-                                        <th class="w-10 text-center">#</th>
+                                        <th class="w-12 text-center whitespace-nowrap">SL NO</th>
                                         <th>Personnel Info</th>
                                         <th>Role & Entity</th>
                                         <th>Location</th>
@@ -1063,7 +1064,7 @@
             return `
                 <tr>
                     <!-- Added Serial Number TD -->
-                    <td class="text-center font-black text-slate-400 dark:text-slate-500 text-xs">${index}</td>
+                    <td class="text-center font-black text-black dark:text-white text-sm">${index}</td>
                     <td>
                         <div class="flex items-center gap-3">
                             <div class="w-9 h-9 rounded-lg border-2 flex items-center justify-center font-black text-sm shrink-0 ${avatarClass}">${x.name[0]}</div>
