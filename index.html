@@ -147,9 +147,7 @@
         .badge-rejected { background: #fef2f2; color: #b91c1c; border: 1px solid #ef444440; }
         
         /* Settings Switches */
-        .toggle-switch {
-            position: relative; display: inline-block; width: 44px; height: 24px;
-        }
+        .toggle-switch { position: relative; display: inline-block; width: 44px; height: 24px; }
         .toggle-switch input { opacity: 0; width: 0; height: 0; }
         .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd5e1; transition: .4s; border-radius: 24px; }
         .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
@@ -333,7 +331,7 @@
                         <i class="fas fa-shield-alt absolute -right-4 -bottom-4 md:-right-10 md:-bottom-10 text-[6rem] md:text-[10rem] opacity-10"></i>
                         <div class="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                             <div>
-                                <h2 class="text-xl md:text-3xl font-black mb-1 md:mb-2 flex items-center gap-2"></i> Welcome Back Sachin HR</h2>
+                                <h2 class="text-xl md:text-3xl font-black mb-1 md:mb-2 flex items-center gap-2"><i class="fas fa-hand-sparkles text-amber-300"></i> Welcome Back Sachin HR</h2>
                                 <p class="text-blue-100 text-xs md:text-sm font-medium mb-4 md:mb-6">System Overview & Quick Operations</p>
                                 <div class="flex flex-wrap gap-2 md:gap-3">
                                     <button onclick="openModal()" class="bg-white text-sarathy-blue px-4 py-2 md:px-5 md:py-2.5 rounded-lg md:rounded-xl font-bold text-[10px] md:text-xs uppercase tracking-wider shadow-lg hover:bg-blue-50 transition-colors"><i class="fas fa-plus mr-1 md:mr-2"></i> Add Candidate</button>
@@ -426,7 +424,7 @@
                         </div>
                     </div>
 
-                    <!-- UPDATED: VIEW CONTAINER TO SUPPORT PROFESSIONAL TABLE WITHOUT CHECKBOXES -->
+                    <!-- VIEW CONTAINER TO SUPPORT PROFESSIONAL TABLE WITH SERIAL NUMBER -->
                     <div id="listView" class="animate-up"></div>
                     
                     <div id="boardView" class="hidden grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
@@ -567,7 +565,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
 
             <!-- Global Floating Action Button -->
@@ -581,7 +578,6 @@
     </div>
 
     <!-- INCLUDES: All Modals -->
-    
     <div id="addModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-[110] hidden flex justify-end items-end md:items-stretch transition-opacity">
         <div id="modalContent" class="bg-[var(--bg-secondary)] w-full md:w-3/4 lg:w-1/2 h-[90vh] md:h-full rounded-t-2xl md:rounded-none shadow-2xl flex flex-col transform translate-y-full md:translate-y-0 md:translate-x-full transition-transform duration-300">
             <div class="p-4 md:p-8 border-b border-[var(--border-color)] flex justify-between items-center bg-[var(--bg-secondary)] z-10 rounded-t-2xl md:rounded-none">
@@ -861,7 +857,9 @@
                 document.getElementById('loginError').classList.remove('hidden');
             }
         };
+        
         const handleBiometricLogin = () => { showToast("Authenticating..."); setTimeout(() => { currentUser=USERS[0]; showApp(); }, 800); };
+        
         const showApp = () => {
             document.getElementById('loginPage').classList.add('hidden');
             document.getElementById('appLayout').classList.remove('hidden');
@@ -872,6 +870,7 @@
             renderCalendar();
             checkNotifications();
         };
+        
         const logout = () => location.reload();
 
         // Sidebar Toggle for Mobile
@@ -1020,7 +1019,8 @@
                             <table class="data-table">
                                 <thead>
                                     <tr>
-                                        <!-- REMOVED CHECKBOX TH -->
+                                        <!-- Added Serial Number TH -->
+                                        <th class="w-10 text-center">#</th>
                                         <th>Personnel Info</th>
                                         <th>Role & Entity</th>
                                         <th>Location</th>
@@ -1031,7 +1031,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    ${filtered.length ? filtered.map(x => generateRow(x)).join('') : '<tr><td colspan="7" class="text-center py-10 text-slate-400 font-bold uppercase tracking-widest">No records found</td></tr>'}
+                                    ${filtered.length ? filtered.map((x, index) => generateRow(x, index + 1)).join('') : '<tr><td colspan="8" class="text-center py-10 text-slate-400 font-bold uppercase tracking-widest">No records found</td></tr>'}
                                 </tbody>
                             </table>
                         </div>
@@ -1049,7 +1049,7 @@
             }
         };
 
-        const generateRow = (x) => {
+        const generateRow = (x, index) => {
             const intDate = formatDateString(x.interviewDate);
             const joinDate = formatDateString(x.joinDate);
             const ratingValue = parseInt(x.rating) || 0;
@@ -1063,7 +1063,8 @@
 
             return `
                 <tr>
-                    <!-- REMOVED CHECKBOX TD -->
+                    <!-- Added Serial Number TD -->
+                    <td class="text-center font-black text-slate-400 dark:text-slate-500 text-xs">${index}</td>
                     <td>
                         <div class="flex items-center gap-3">
                             <div class="w-9 h-9 rounded-lg border-2 flex items-center justify-center font-black text-sm shrink-0 ${avatarClass}">${x.name[0]}</div>
@@ -1681,7 +1682,7 @@
             reader.readAsText(file);
         };
 
-        // Professional Excel Export Function (FIXED: Bypasses iframe restrictions)
+        // Professional Excel Export Function
         const exportToExcel = () => {
             if (joinees.length === 0) {
                 showToast("No data found to export", "error");
@@ -1690,7 +1691,8 @@
 
             try {
                 // 1. Format the data professionally for Excel
-                const exportData = joinees.map(j => ({
+                const exportData = joinees.map((j, index) => ({
+                    "Serial Number": index + 1,
                     "Employee ID": j.empId,
                     "Full Name": j.name,
                     "Phone Number": j.phone,
@@ -1711,6 +1713,7 @@
 
                 // 3. Define Column Widths for Professional Structure
                 const wscols = [
+                    {wch: 15}, // Serial Num
                     {wch: 15}, // Emp ID
                     {wch: 25}, // Name
                     {wch: 15}, // Phone
