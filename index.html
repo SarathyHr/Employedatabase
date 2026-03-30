@@ -129,7 +129,7 @@
 
         /* Professional Data Table for Candidate Directory */
         .data-table-container { background: var(--bg-secondary); border-radius: 1.25rem; border: 1px solid var(--border-color); overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.05); max-height: calc(100vh - 200px); overflow-y: auto; }
-        .data-table { width: 100%;}
+        .data-table { width: 100%; border-collapse: collapse; }
         
         /* BLUE BANNER HEADING STYLE & GRID WITH STICKY FIX */
         .data-table th { background: #0054A6; color: #ffffff; font-size: 0.75rem; font-weight: 900; text-transform: uppercase; text-align: left; padding: 16px; letter-spacing: 0.05em; border: 1px solid rgba(255, 255, 255, 0.2); position: sticky; top: 0; z-index: 10; }
@@ -155,11 +155,6 @@
         input:checked + .slider:before { transform: translateX(20px); }
         .dark .slider { background-color: #475569; }
         .dark input:checked + .slider { background-color: #3b82f6; }
-
-        /* Rating Stars */
-        .star-rating { color: #cbd5e1; }
-        .dark .star-rating { color: #475569; }
-        .star-rating.active { color: #f59e0b; }
     </style>
 </head>
 <body class="antialiased">
@@ -311,7 +306,7 @@
                     <div class="h-8 w-px bg-[var(--border-color)] mx-1 hidden sm:block"></div>
                     
                     <!-- Admin Profile -->
-                    <div class="flex items-center gap-3 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 p-1.5 md:pr-4 rounded-full transition-all border border-transparent hover:border-[var(--border-color)]">
+                    <div class="flex items-center gap-3 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 p-1.5 md:pr-4 rounded-full transition-all border border-transparent hover:border-[var(--border-color)]" onclick="switchTab('settings')">
                         <div class="hidden sm:block text-right">
                             <p class="text-sm font-black text-[var(--text-primary)] leading-none uppercase tracking-wide" id="userNameDisplay">Admin</p>
                             <p class="text-[9px] text-[var(--text-secondary)] font-bold tracking-widest mt-1 uppercase">System Admin</p>
@@ -376,6 +371,7 @@
                                 <h3 class="text-3xl md:text-4xl font-black text-emerald-500 tracking-tight" id="statSelected">0</h3>
                             </div>
                         </div>
+                        <!-- NEW STAT CARD: JOINED -->
                         <div class="modern-card p-5 md:p-6 flex flex-col relative overflow-hidden group/stat border-b-4 border-b-[#0054A6] stagger-3">
                             <div class="absolute -top-4 -right-4 w-24 h-24 bg-blue-50 dark:bg-blue-900/20 rounded-full flex items-center justify-center transition-transform duration-500 group-hover/stat:scale-150 group-hover:bg-blue-100 dark:group-hover:bg-blue-800/30">
                                 <i class="fas fa-user-check text-[#0054A6] text-3xl opacity-50"></i>
@@ -418,7 +414,7 @@
                 <!-- TAB 2: CANDIDATES -->
                 <div id="tab-candidates" class="tab-content p-4 md:p-8 max-w-7xl mx-auto">
                     <!-- Filters & Search -->
-                    <div class="glass-panel relative z-10 p-4 md:p-6 rounded-2xl mb-6 shadow-md">
+                    <div class="glass-panel relative z-10 p-4 md:p-6 rounded-2xl mb-6 shadow-md sticky top-0">
                         <div class="flex flex-col md:flex-row gap-4 mb-5">
                             <div class="relative flex-1 group">
                                 <i class="fas fa-search absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-sarathy-blue text-lg transition-colors"></i>
@@ -458,7 +454,6 @@
                                             <th>Personnel Info</th>
                                             <th>Role & Entity</th>
                                             <th>Location</th>
-                                            <th>Rating</th>
                                             <th>Status</th>
                                             <th>Schedule</th>
                                             <th class="text-right">Actions</th>
@@ -482,7 +477,6 @@
                             <h3 class="font-black text-emerald-500 mb-4 flex justify-between uppercase text-xs tracking-wider"><span class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-emerald-500"></div> Selected</span> <span id="countBoardSelected" class="bg-emerald-500/10 px-2 rounded">0</span></h3>
                             <div id="boardSelected" class="space-y-3 md:space-y-4"></div>
                         </div>
-                        <!-- NEW COLUMN: JOINED -->
                         <div class="kanban-col border-t-4 border-t-[#0054A6]" ondragover="allowDrop(event)" ondragleave="dragLeave(event)" ondrop="drop(event, 'JOINED')">
                             <h3 class="font-black text-[#0054A6] dark:text-sky-400 mb-4 flex justify-between uppercase text-xs tracking-wider"><span class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-[#0054A6] dark:bg-sky-400"></div> Joined</span> <span id="countBoardJoined" class="bg-blue-500/10 px-2 rounded">0</span></h3>
                             <div id="boardJoined" class="space-y-3 md:space-y-4"></div>
@@ -549,11 +543,85 @@
                     </div>
                 </div>
 
+                <!-- TAB 5: SETTINGS -->
+                <div id="tab-settings" class="tab-content custom-scroll p-4 md:p-8 space-y-6 md:space-y-8 max-w-5xl mx-auto">
+                    <div class="mb-6 animate-up">
+                        <h2 class="text-2xl md:text-3xl font-black uppercase text-[var(--text-primary)] tracking-tight">System Configuration</h2>
+                        <p class="text-[var(--text-secondary)] text-xs md:text-sm font-bold mt-2 uppercase tracking-widest">Full Control Admin Access Panel</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 animate-up" style="animation-delay: 0.1s;">
+                        
+                        <!-- Security Configuration -->
+                        <div class="modern-card p-6 md:p-8 border-t-4 border-t-sarathy-blue shadow-lg hover:shadow-xl">
+                            <h3 class="font-black text-sm md:text-base uppercase tracking-widest mb-6 flex items-center gap-3 text-[var(--text-primary)] border-b border-[var(--border-color)] pb-4"><div class="w-10 h-10 rounded-lg bg-blue-50 dark:bg-blue-900/30 text-sarathy-blue flex items-center justify-center"><i class="fas fa-shield-alt text-lg"></i></div> Security Settings</h3>
+                            <div class="space-y-5">
+                                <div>
+                                    <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-2 block">Current Admin PIN</label>
+                                    <input type="password" id="currentPin" placeholder="••••" class="w-full p-4 bg-[var(--bg-primary)] border-2 border-[var(--border-color)] rounded-xl font-black text-lg outline-none focus:border-sarathy-blue dark:text-white tracking-[0.5em] text-center transition-colors shadow-inner">
+                                </div>
+                                <div>
+                                    <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-2 block">New Admin PIN</label>
+                                    <input type="password" id="newPin" placeholder="••••" class="w-full p-4 bg-[var(--bg-primary)] border-2 border-[var(--border-color)] rounded-xl font-black text-lg outline-none focus:border-sarathy-blue dark:text-white tracking-[0.5em] text-center transition-colors shadow-inner">
+                                </div>
+                                <button onclick="changeAdminPin()" class="w-full bg-sarathy-blue hover:bg-[#004080] text-white font-black py-4 rounded-xl shadow-lg shadow-blue-600/30 transition-all active:scale-95 text-xs md:text-sm uppercase tracking-widest mt-4">
+                                    Update Security PIN <i class="fas fa-check ml-2"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Data Backup & Restore -->
+                        <div class="modern-card p-6 md:p-8 border-t-4 border-t-emerald-500 shadow-lg hover:shadow-xl">
+                            <h3 class="font-black text-sm md:text-base uppercase tracking-widest mb-6 flex items-center gap-3 text-[var(--text-primary)] border-b border-[var(--border-color)] pb-4"><div class="w-10 h-10 rounded-lg bg-emerald-50 dark:bg-emerald-900/30 text-emerald-500 flex items-center justify-center"><i class="fas fa-database text-lg"></i></div> Data Management</h3>
+                            <p class="text-[10px] md:text-xs text-[var(--text-secondary)] font-bold mb-6 uppercase tracking-widest leading-relaxed">Export your entire database to a JSON file or import a previous backup.</p>
+                            <div class="grid grid-cols-2 gap-4">
+                                <button onclick="exportJSONBackup()" class="flex flex-col items-center justify-center p-5 bg-[var(--bg-primary)] border-2 border-[var(--border-color)] rounded-2xl hover:border-emerald-500 hover:text-emerald-600 transition-all hover:-translate-y-1 hover:shadow-md active:scale-95 gap-3 group">
+                                    <i class="fas fa-cloud-download-alt text-3xl text-slate-400 group-hover:text-emerald-500 transition-colors"></i>
+                                    <span class="text-[10px] font-black uppercase tracking-widest text-[var(--text-primary)] text-center">Export JSON</span>
+                                </button>
+                                <button onclick="document.getElementById('importFile').click()" class="flex flex-col items-center justify-center p-5 bg-[var(--bg-primary)] border-2 border-[var(--border-color)] rounded-2xl hover:border-sarathy-blue hover:text-sarathy-blue transition-all hover:-translate-y-1 hover:shadow-md active:scale-95 gap-3 group">
+                                    <i class="fas fa-cloud-upload-alt text-3xl text-slate-400 group-hover:text-sarathy-blue transition-colors"></i>
+                                    <span class="text-[10px] font-black uppercase tracking-widest text-[var(--text-primary)] text-center">Import Backup</span>
+                                </button>
+                            </div>
+                            <div class="mt-6 p-4 bg-sky-50 dark:bg-sky-900/20 rounded-xl text-sky-700 dark:text-sky-400 text-[10px] font-black uppercase tracking-widest border border-sky-200 dark:border-sky-800 flex items-center gap-3">
+                                <i class="fas fa-info-circle text-2xl"></i> <span>Importing a file replaces all current records.</span>
+                            </div>
+                        </div>
+
+                        <!-- System Preferences -->
+                        <div class="modern-card p-6 md:p-8 border-t-4 border-t-purple-500 shadow-lg hover:shadow-xl">
+                            <h3 class="font-black text-sm md:text-base uppercase tracking-widest mb-6 flex items-center gap-3 text-[var(--text-primary)] border-b border-[var(--border-color)] pb-4"><div class="w-10 h-10 rounded-lg bg-purple-50 dark:bg-purple-900/30 text-purple-500 flex items-center justify-center"><i class="fas fa-sliders-h text-lg"></i></div> Preferences</h3>
+                            <div class="space-y-4">
+                                <div class="flex justify-between items-center p-5 border-2 border-[var(--border-color)] rounded-2xl bg-[var(--bg-primary)] hover:border-purple-300 transition-colors">
+                                    <div>
+                                        <h4 class="font-black text-sm uppercase tracking-widest text-[var(--text-primary)]">Dark Mode</h4>
+                                        <p class="text-[9px] text-[var(--text-secondary)] font-bold mt-1 uppercase tracking-widest">Switch theme interface</p>
+                                    </div>
+                                    <label class="toggle-switch transform scale-110">
+                                        <input type="checkbox" id="settingDarkModeToggle" onchange="toggleDarkMode()">
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Danger Zone -->
+                        <div class="modern-card p-6 md:p-8 border-t-4 border-t-red-600 bg-red-50/50 dark:bg-red-900/10 relative overflow-hidden shadow-lg hover:shadow-xl group/danger">
+                            <div class="absolute -right-10 -bottom-10 opacity-[0.03] transition-transform duration-500 group-hover/danger:scale-110 group-hover/danger:rotate-12"><i class="fas fa-exclamation-triangle text-[15rem] text-red-600"></i></div>
+                            <div class="relative z-10">
+                                <h3 class="font-black text-sm md:text-base uppercase tracking-widest mb-6 flex items-center gap-3 text-red-600 dark:text-red-400 border-b border-red-200 dark:border-red-900/50 pb-4"><div class="w-10 h-10 rounded-lg bg-red-100 dark:bg-red-900/30 text-red-600 flex items-center justify-center"><i class="fas fa-radiation text-lg"></i></div> Danger Zone</h3>
+                                <p class="text-[10px] md:text-xs text-red-700 dark:text-red-300 font-bold mb-6 uppercase tracking-widest leading-relaxed">Actions here are irreversible and will permanently destroy all system data.</p>
+                                
+                                <button onclick="factoryReset()" class="w-full bg-white dark:bg-slate-800 hover:bg-red-600 text-red-600 hover:text-white font-black py-4 rounded-xl shadow-md transition-all duration-300 active:scale-95 text-xs md:text-sm uppercase tracking-widest flex items-center justify-center gap-3 border-2 border-red-600">
+                                    <i class="fas fa-trash-alt"></i> Factory Reset System
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <!-- Global Floating Action Button -->
-            <button id="addBtn" onclick="openModal()" class="fab hidden" title="Add New Candidate"><i class="fas fa-plus text-lg md:text-xl"></i></button>
-            
             <!-- Floating Back Button (Bottom Left) -->
             <button id="backBtn" onclick="goBack()" class="hidden absolute bottom-6 left-4 md:bottom-8 md:left-8 w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-[var(--bg-secondary)] text-[var(--text-primary)] flex items-center justify-center shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-[var(--border-color)] hover:text-sarathy-blue hover:-translate-x-1 active:scale-95 transition-all duration-300 z-50">
                 <i class="fas fa-arrow-left text-lg md:text-xl"></i>
@@ -645,22 +713,10 @@
                             <input type="text" id="location" required class="w-full p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-2xl font-black text-sm uppercase outline-none focus:border-sarathy-blue transition-colors dark:text-white shadow-sm" placeholder="ENTER LOCATION">
                         </div>
                         
-                        <!-- DESIGNATION & INTERVIEW RATING -->
+                        <!-- DESIGNATION -->
                         <div class="flex flex-col justify-end">
                             <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-2 ml-1">Designation</label>
                             <input type="text" id="designation" required class="w-full p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-2xl font-black text-sm uppercase outline-none focus:border-sarathy-blue transition-colors dark:text-white shadow-sm" placeholder="ENTER DESIGNATION">
-                        </div>
-                        <div class="flex flex-col justify-end relative">
-                            <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-2 ml-1">Interview Rating (1-5)</label>
-                            <select id="rating" class="w-full p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-2xl font-black text-sm uppercase outline-none focus:border-sarathy-blue transition-colors appearance-none dark:text-white dark:[color-scheme:dark] shadow-sm cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-700">
-                                <option value="0">NOT RATED</option>
-                                <option value="1">⭐ 1 - POOR</option>
-                                <option value="2">⭐⭐ 2 - FAIR</option>
-                                <option value="3">⭐⭐⭐ 3 - AVERAGE</option>
-                                <option value="4">⭐⭐⭐⭐ 4 - GOOD</option>
-                                <option value="5">⭐⭐⭐⭐⭐ 5 - EXCELLENT</option>
-                            </select>
-                            <i class="fas fa-chevron-down absolute right-5 bottom-5 text-slate-400 pointer-events-none text-xs"></i>
                         </div>
 
                         <!-- MANAGER REMARKS -->
@@ -827,14 +883,6 @@
                 case 'ACCOUNTS': return 'text-yellow-600 dark:text-yellow-400';
                 default: return 'text-slate-600 dark:text-slate-400';
             }
-        };
-
-        const renderStars = (rating) => {
-            let html = '';
-            for(let i=1; i<=5; i++) {
-                html += `<i class="fas fa-star text-[9px] ${i<=rating ? 'text-amber-400' : 'text-slate-300 dark:text-slate-600'}"></i>`;
-            }
-            return html;
         };
 
         const isAdmin = () => currentUser?.user === 'ADMIN';
@@ -1077,7 +1125,7 @@
                 
                 const tableBody = document.getElementById('candidatesTableBody');
                 if(tableBody) {
-                    tableBody.innerHTML = filtered.length ? filtered.map((x, index) => generateRow(x, index + 1)).join('') : '<tr><td colspan="8" class="text-center py-16 text-[var(--text-secondary)] font-black uppercase tracking-widest opacity-60"><i class="fas fa-box-open text-4xl mb-4 block opacity-50"></i> No candidates found</td></tr>';
+                    tableBody.innerHTML = filtered.length ? filtered.map((x, index) => generateRow(x, index + 1)).join('') : '<tr><td colspan="7" class="text-center py-16 text-[var(--text-secondary)] font-black uppercase tracking-widest opacity-60"><i class="fas fa-box-open text-4xl mb-4 block opacity-50"></i> No candidates found</td></tr>';
                 }
             } else {
                 listView.classList.add('hidden');
@@ -1112,7 +1160,6 @@
         const generateRow = (x, index) => {
             const intDate = formatDateString(x.interviewDate);
             const joinDate = formatDateString(x.joinDate);
-            const ratingValue = parseInt(x.rating) || 0;
             
             let statusClass = '';
             if(x.status === 'SELECTED') statusClass = 'badge-selected';
@@ -1156,9 +1203,6 @@
                         </div>
                     </td>
                     <td><p class="text-[11px] font-black text-[var(--text-primary)] uppercase tracking-widest">${x.location || '-'}</p></td>
-                    <td>
-                        <div class="flex gap-0.5 mb-1">${renderStars(ratingValue)}</div>
-                    </td>
                     <td><span class="status-badge-md shadow-sm ${statusClass}">${x.status}</span></td>
                     <td>
                         <div class="text-[9px] leading-relaxed space-y-1.5">
@@ -1178,7 +1222,6 @@
         const generateCard = (x, isBoard=false) => {
             const intDate = formatDateString(x.interviewDate);
             const avatarClass = getAvatarColor(x.name);
-            const ratingValue = parseInt(x.rating) || 0;
             const deptColor = getDeptColor(x.dept);
 
             return `
@@ -1191,7 +1234,6 @@
                         <span class="inline-block px-1.5 py-0.5 rounded text-[7px] font-black bg-[#0054A6] text-white border border-[#003366] dark:bg-blue-600 dark:text-white dark:border-blue-500 uppercase tracking-widest shadow-sm">${x.company}</span>
                     </div>
                 </div>
-                ${ratingValue > 0 ? `<div class="flex gap-0.5 justify-end w-full bg-[var(--bg-primary)] p-1.5 rounded-lg border border-[var(--border-color)]">${renderStars(ratingValue)}</div>` : ''}
                 <div class="flex justify-between items-center pt-3 border-t border-[var(--border-color)]">
                     <span class="text-[8px] font-black text-slate-400 uppercase tracking-widest"><i class="fas fa-calendar mr-1 text-sarathy-blue"></i> INT: ${intDate}</span>
                     <button onclick="viewCandidate(${x.id})" class="text-[9px] font-black text-sarathy-blue uppercase tracking-widest hover:underline bg-blue-50 dark:bg-blue-900/30 px-2 py-1 rounded">Details</button>
@@ -1275,7 +1317,6 @@
                 experience: parseFloat(document.getElementById('experience').value)||0,
                 location: document.getElementById('location').value.trim().toUpperCase(),
                 designation: document.getElementById('designation').value.trim().toUpperCase(),
-                rating: document.getElementById('rating').value,
                 remarks: document.getElementById('remarks').value.trim()
             };
             
@@ -1305,7 +1346,6 @@
             if(!r) return;
             
             const avatarClass = getAvatarColor(r.name);
-            const ratingValue = parseInt(r.rating) || 0;
             
             let statusClass = '';
             if(r.status === 'SELECTED') statusClass = 'bg-emerald-50 text-emerald-600 border-emerald-200';
@@ -1325,7 +1365,6 @@
                             <span class="px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest shadow-sm border ${statusClass}">
                                 ${r.status}
                             </span>
-                            ${ratingValue > 0 ? `<div class="flex gap-1 bg-[var(--bg-primary)] px-3 py-1.5 rounded-lg border border-[var(--border-color)] shadow-sm">${renderStars(ratingValue)}</div>` : ''}
                         </div>
                     </div>
                 </div>
@@ -1369,7 +1408,6 @@
             document.getElementById('experience').value = r.experience || 0;
             document.getElementById('location').value = r.location || '';
             document.getElementById('designation').value = r.designation || '';
-            document.getElementById('rating').value = r.rating || 0;
             document.getElementById('remarks').value = r.remarks || '';
             
             document.getElementById('phoneError').classList.add('hidden');
@@ -1792,7 +1830,6 @@
                     "Experience (Years)": j.experience,
                     "Location": j.location,
                     "Designation": j.designation,
-                    "Rating (Out of 5)": j.rating || 'Unrated',
                     "Manager Remarks": j.remarks || 'No remarks'
                 }));
 
@@ -1810,7 +1847,6 @@
                     {wch: 15},
                     {wch: 20},
                     {wch: 25},
-                    {wch: 15},
                     {wch: 40}  
                 ];
                 worksheet['!cols'] = wscols;
