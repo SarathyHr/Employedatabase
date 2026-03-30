@@ -160,11 +160,6 @@
         .star-rating { color: #cbd5e1; }
         .dark .star-rating { color: #475569; }
         .star-rating.active { color: #f59e0b; }
-
-        /* Bulk Action Bar Animation Fix */
-        #bulkActionBar { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); z-index: 60; width: 90%; max-width: 600px; justify-content: center; opacity: 0; pointer-events: none; display: flex; }
-        #bulkActionBar.visible { bottom: 20px; opacity: 1; pointer-events: auto; }
-        @media (min-width: 768px) { #bulkActionBar.visible { bottom: 30px; } }
     </style>
 </head>
 <body class="antialiased">
@@ -456,19 +451,6 @@
 
                     <!-- LIST VIEW -->
                     <div id="listView" class="animate-up">
-                        <!-- FLOATING BULK ACTION BAR -->
-                        <div id="bulkActionBar" class="glass-panel text-[var(--text-primary)] px-4 md:px-6 py-2.5 md:py-3 rounded-full flex items-center gap-2 md:gap-4 shadow-2xl overflow-x-auto whitespace-nowrap no-scrollbar hidden">
-                            <span class="font-black text-[10px] md:text-xs uppercase text-sarathy-blue shrink-0" id="bulkCountText">0 Selected</span>
-                            <div class="h-4 w-px bg-[var(--border-color)] shrink-0 mx-1"></div>
-                            <button onclick="bulkChangeStatus('PENDING')" class="text-[9px] md:text-[10px] font-bold uppercase hover:text-amber-500 transition-colors shrink-0"><i class="fas fa-clock mr-1"></i> Pending</button>
-                            <button onclick="bulkChangeStatus('SELECTED')" class="text-[9px] md:text-[10px] font-bold uppercase hover:text-emerald-500 transition-colors shrink-0"><i class="fas fa-check-circle mr-1"></i> Select</button>
-                            <button onclick="bulkChangeStatus('JOINED')" class="text-[9px] md:text-[10px] font-bold uppercase hover:text-sarathy-blue transition-colors shrink-0"><i class="fas fa-user-check mr-1"></i> Join</button>
-                            <button onclick="bulkChangeStatus('REJECTED')" class="text-[9px] md:text-[10px] font-bold uppercase hover:text-red-500 transition-colors shrink-0"><i class="fas fa-times-circle mr-1"></i> Reject</button>
-                            <div class="h-4 w-px bg-[var(--border-color)] shrink-0 mx-1"></div>
-                            <button onclick="bulkDelete()" class="text-[9px] md:text-[10px] font-bold uppercase hover:text-red-600 transition-colors shrink-0"><i class="fas fa-trash-alt mr-1"></i> Delete</button>
-                            <div class="h-4 w-px bg-[var(--border-color)] shrink-0 mx-1"></div>
-                            <button onclick="clearBulkSelection()" class="w-6 h-6 rounded-full bg-[var(--bg-primary)] border border-[var(--border-color)] flex items-center justify-center hover:bg-red-50 hover:text-red-500 transition-colors shrink-0"><i class="fas fa-times text-[10px]"></i></button>
-                        </div>
                         <div class="data-table-container">
                             <div class="overflow-x-auto">
                                 <table class="data-table">
@@ -790,7 +772,6 @@
         let activeFilter = 'All';
         let chartStatus, chartSource;
         let calendarDate = new Date();
-        let selectedCandidates = new Set();
 
         // --- AUDIO SOUNDS ---
         const toastSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3');
@@ -1109,7 +1090,6 @@
                     }
                 });
             }
-            updateBulkBar();
         };
 
         // NEW QUICK ACTION TO MARK AS JOINED
@@ -1128,14 +1108,13 @@
         };
 
         const generateRow = (x, index) => {
-            const isChecked = selectedCandidates.has(x.id);
             const intDate = formatDateString(x.interviewDate);
             const joinDate = formatDateString(x.joinDate);
             const ratingValue = parseInt(x.rating) || 0;
             
             let statusClass = '';
             if(x.status === 'SELECTED') statusClass = 'badge-selected';
-            else if(x.status === 'JOINED') statusClass = 'badge-joined'; // NEW
+            else if(x.status === 'JOINED') statusClass = 'badge-joined'; 
             else if(x.status === 'PENDING') statusClass = 'badge-pending';
             else statusClass = 'badge-rejected';
 
@@ -1149,7 +1128,6 @@
                 <button onclick="deleteCandidate(${x.id})" title="Delete" class="w-8 h-8 rounded-lg bg-red-50 border border-red-200 text-red-600 flex items-center justify-center hover:bg-red-100 transition-all shadow-sm hover:-translate-y-0.5 active:scale-95"><i class="fas fa-trash-alt text-xs"></i></button>
             `;
 
-            // If selected, show "Mark as Joined" button
             if (x.status === 'SELECTED') {
                 actionBtns = `
                     <button onclick="markAsJoined(${x.id})" title="Mark as Joined" class="w-8 h-8 rounded-lg bg-emerald-50 border border-emerald-500 text-emerald-600 flex items-center justify-center hover:bg-emerald-500 hover:text-white transition-all shadow-sm hover:-translate-y-0.5 active:scale-95"><i class="fas fa-user-check text-xs"></i></button>
@@ -1158,12 +1136,7 @@
 
             return `
                 <tr class="hover:bg-blue-50/50 dark:hover:bg-blue-900/20 transition-colors group">
-                    <td class="text-center">
-                        <div class="flex items-center justify-center gap-2">
-                            <input type="checkbox" class="rounded border-slate-300 text-sarathy-blue focus:ring-sarathy-blue cursor-pointer" onchange="toggleBulkSelection(${x.id})" ${isChecked?'checked':''}>
-                            <span class="font-black text-black dark:text-white text-[15px]">${index}</span>
-                        </div>
-                    </td>
+                    <td class="text-center font-black text-black dark:text-white text-sm">${index}</td>
                     <td>
                         <div class="flex items-center gap-4">
                             <div class="w-10 h-10 rounded-xl border flex items-center justify-center font-black text-sm shrink-0 shadow-sm ${avatarClass}">${x.name[0]}</div>
@@ -1222,52 +1195,6 @@
                     <button onclick="viewCandidate(${x.id})" class="text-[9px] font-black text-sarathy-blue uppercase tracking-widest hover:underline bg-blue-50 dark:bg-blue-900/30 px-2 py-1 rounded">Details</button>
                 </div>
             </div>`;
-        };
-
-        const toggleBulkSelection = (id) => { selectedCandidates.has(id) ? selectedCandidates.delete(id) : selectedCandidates.add(id); updateBulkBar(); };
-        const toggleAllBulk = (master) => {
-            if(master.checked) {
-                joinees.forEach(j => selectedCandidates.add(j.id));
-            } else {
-                selectedCandidates.clear();
-            }
-            renderTable();
-        };
-        const clearBulkSelection = () => { selectedCandidates.clear(); renderTable(); updateBulkBar(); };
-        const updateBulkBar = () => {
-            const b = document.getElementById('bulkActionBar');
-            const countText = document.getElementById('bulkCountText');
-            if(b && countText) {
-                countText.innerText = `${selectedCandidates.size} Selected`;
-                if(selectedCandidates.size > 0) {
-                    b.classList.add('visible');
-                    b.classList.remove('hidden');
-                } else {
-                    b.classList.remove('visible');
-                    b.classList.add('hidden');
-                }
-            }
-        };
-        const bulkChangeStatus = (st) => {
-            joinees.forEach(j => { 
-                if(selectedCandidates.has(j.id)) {
-                    j.status = st; 
-                    if(st === 'JOINED' && !j.joinDate) j.joinDate = new Date().toISOString().slice(0, 10);
-                } 
-            });
-            localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees));
-            clearBulkSelection(); renderDashboard(); renderCalendar(); checkNotifications();
-            if(st==='SELECTED' || st==='JOINED') confetti();
-        };
-
-        const bulkDelete = () => {
-            if(selectedCandidates.size === 0) return;
-            if(confirm(`Are you sure you want to permanently delete ${selectedCandidates.size} selected entries?`)) {
-                joinees = joinees.filter(j => !selectedCandidates.has(j.id));
-                localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees));
-                clearBulkSelection(); renderDashboard(); renderCalendar(); checkNotifications();
-                showToast("Selected Entries Deleted!", "error");
-            }
         };
 
         const deleteCandidate = (id) => {
@@ -1473,19 +1400,26 @@
                 const dStr = `${y}-${(m+1).toString().padStart(2,'0')}-${i.toString().padStart(2,'0')}`;
                 const isToday = dStr === todayStr;
                 
-                const events = joinees.filter(x => x.interviewDate === dStr);
+                let combinedEvents = [];
+                joinees.forEach(x => {
+                    if(x.interviewDate === dStr) combinedEvents.push({ ...x, eventType: 'INT' });
+                    if(x.joinDate === dStr && (x.status === 'JOINED' || x.status === 'SELECTED')) combinedEvents.push({ ...x, eventType: 'JOIN' });
+                });
                 
                 const limit = window.innerWidth < 768 ? 2 : 3;
-                let eventsHtml = events.slice(0, limit).map(x => {
-                    let stClass = 'bg-amber-100 text-amber-700 border border-amber-200';
-                    if(x.status==='SELECTED') stClass = 'bg-emerald-100 text-emerald-700 border border-emerald-200';
-                    if(x.status==='JOINED') stClass = 'bg-[#0054A6] text-white border border-[#003366]';
-                    if(x.status==='REJECTED') stClass = 'bg-red-100 text-red-700 border border-red-200';
-                    
-                    return `<div onclick="viewCandidate(${x.id})" class="calendar-event ${stClass} shadow-sm">${x.name.split(' ')[0]}</div>`
+                let eventsHtml = combinedEvents.slice(0, limit).map(ev => {
+                    if (ev.eventType === 'INT') {
+                        let stClass = 'bg-amber-100 text-amber-700 border border-amber-200';
+                        if(ev.status==='SELECTED') stClass = 'bg-emerald-100 text-emerald-700 border border-emerald-200';
+                        if(ev.status==='JOINED') stClass = 'bg-[#0054A6] text-white border border-[#003366]';
+                        if(ev.status==='REJECTED') stClass = 'bg-red-100 text-red-700 border border-red-200';
+                        return `<div onclick="viewCandidate(${ev.id})" class="calendar-event ${stClass} shadow-sm">INT: ${ev.name.split(' ')[0]}</div>`;
+                    } else {
+                        return `<div onclick="viewCandidate(${ev.id})" class="calendar-event bg-[#0054A6] text-white border border-[#003366] shadow-sm">JOIN: ${ev.name.split(' ')[0]}</div>`;
+                    }
                 }).join('');
                 
-                if(events.length > limit) eventsHtml += `<div class="text-[7px] md:text-[8px] font-black text-center mt-1 text-[var(--text-secondary)] uppercase tracking-widest">+${events.length-limit} MORE</div>`;
+                if(combinedEvents.length > limit) eventsHtml += `<div class="text-[7px] md:text-[8px] font-black text-center mt-1 text-[var(--text-secondary)] uppercase tracking-widest">+${combinedEvents.length-limit} MORE</div>`;
 
                 grid.innerHTML += `
                     <div class="calendar-day ${isToday?'today':''}">
