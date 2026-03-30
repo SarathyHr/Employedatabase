@@ -353,7 +353,7 @@
                     </div>
 
                     <!-- Stats Grid -->
-                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 animate-up" style="animation-delay: 0.1s;">
+                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6 animate-up" style="animation-delay: 0.1s;">
                         <div class="modern-card p-5 md:p-6 flex flex-col relative overflow-hidden group/stat border-b-4 border-b-slate-400">
                             <div class="absolute -top-4 -right-4 w-24 h-24 bg-slate-50 dark:bg-slate-800 rounded-full flex items-center justify-center transition-transform duration-500 group-hover/stat:scale-150 group-hover:bg-slate-100 dark:group-hover:bg-slate-700">
                                 <i class="fas fa-users text-slate-500 text-3xl opacity-50"></i>
@@ -389,6 +389,16 @@
                             <div class="relative z-10">
                                 <span class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-1 block">Joined</span>
                                 <h3 class="text-3xl md:text-4xl font-black text-[#0054A6] dark:text-sky-400 tracking-tight" id="statJoined">0</h3>
+                            </div>
+                        </div>
+                        <!-- ADDED REJECTED CARD BACK -->
+                        <div class="modern-card p-5 md:p-6 flex flex-col relative overflow-hidden group/stat border-b-4 border-b-red-500 stagger-4">
+                            <div class="absolute -top-4 -right-4 w-24 h-24 bg-red-50 dark:bg-red-900/20 rounded-full flex items-center justify-center transition-transform duration-500 group-hover/stat:scale-150 group-hover:bg-red-100 dark:group-hover:bg-red-800/30">
+                                <i class="fas fa-times text-red-500 text-3xl opacity-50"></i>
+                            </div>
+                            <div class="relative z-10">
+                                <span class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-1 block">Rejected</span>
+                                <h3 class="text-3xl md:text-4xl font-black text-red-500 tracking-tight" id="statRejected">0</h3>
                             </div>
                         </div>
                     </div>
@@ -757,13 +767,13 @@
 
     <script>
         // --- DATA & STATE INITIALIZATION ---
-        const CURRENT_DB_VERSION = 'sarathy_db_v14';
-        const CURRENT_BUDGET_VERSION = 'sarathy_req_v14';
+        const CURRENT_DB_VERSION = 'sarathy_db_v13';
+        const CURRENT_BUDGET_VERSION = 'sarathy_req_v13';
 
-        let localUsers = JSON.parse(localStorage.getItem('sarathy_users_v1'));
+        let localUsers = JSON.parse(localStorage.getItem('sarathy_users_v13'));
         if (!localUsers) {
             localUsers = [{ user: 'ADMIN', pass: 'SARATHY@26', role: 'Administrator' }];
-            localStorage.setItem('sarathy_users_v1', JSON.stringify(localUsers));
+            localStorage.setItem('sarathy_users_v13', JSON.stringify(localUsers));
         }
         let USERS = localUsers;
         let currentUser = null;
@@ -976,7 +986,7 @@
         const renderDashboard = () => {
             document.getElementById('statTotal').innerText = joinees.length;
             document.getElementById('statSelected').innerText = joinees.filter(x=>x.status==='SELECTED').length;
-            document.getElementById('statJoined').innerText = joinees.filter(x=>x.status==='JOINED').length; // NEW STAT
+            document.getElementById('statJoined').innerText = joinees.filter(x=>x.status==='JOINED').length;
             document.getElementById('statPending').innerText = joinees.filter(x=>x.status==='PENDING').length;
             document.getElementById('statRejected').innerText = joinees.filter(x=>x.status==='REJECTED').length;
 
@@ -1215,6 +1225,14 @@
         };
 
         const toggleBulkSelection = (id) => { selectedCandidates.has(id) ? selectedCandidates.delete(id) : selectedCandidates.add(id); updateBulkBar(); };
+        const toggleAllBulk = (master) => {
+            if(master.checked) {
+                joinees.forEach(j => selectedCandidates.add(j.id));
+            } else {
+                selectedCandidates.clear();
+            }
+            renderTable();
+        };
         const clearBulkSelection = () => { selectedCandidates.clear(); renderTable(); updateBulkBar(); };
         const updateBulkBar = () => {
             const b = document.getElementById('bulkActionBar');
