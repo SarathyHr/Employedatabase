@@ -174,8 +174,8 @@
         <div class="w-full max-w-[420px] animate-up relative z-10">
             <div class="bg-white dark:bg-slate-800 p-8 md:p-10 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.06)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.3)] border border-slate-100 dark:border-slate-700">
                 <div class="mb-8 text-center">
-                    <!-- SR LOGO IMPLEMENTATION -->
-                    <img src="WhatsApp%20Image%202026-03-30%20at%207.10.19%20AM.jpeg" alt="SR Logo" class="h-24 w-auto object-contain mx-auto mb-4 drop-shadow-md dark:invert transition-all duration-300 rounded-2xl" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <!-- SARATHY LOGO IMPLEMENTATION -->
+                    <img src="Sarathy2.png.png" alt="Sarathy Group Logo" class="h-24 w-auto object-contain mx-auto mb-4 drop-shadow-md transition-all duration-300 rounded-2xl bg-white/90 p-2" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                     <div class="hidden w-20 h-20 bg-gradient-to-tr from-sarathy-blue to-blue-400 rounded-2xl mx-auto flex items-center justify-center text-white text-3xl font-black mb-4 shadow-lg shadow-blue-500/30">SR</div>
                     
                     <h2 class="text-2xl font-black text-slate-800 dark:text-white tracking-tight mt-2">Welcome Back</h2>
@@ -228,8 +228,8 @@
             
             <!-- Header / Logo area -->
             <div class="h-16 md:h-20 px-4 flex items-center gap-3 border-b border-[var(--border-color)] shrink-0 overflow-hidden">
-                <!-- NEW LOGO SIDEBAR -->
-                <img src="WhatsApp%20Image%202026-03-30%20at%207.10.19%20AM.jpeg" alt="SR Logo" class="h-12 w-12 object-contain shrink-0 dark:invert rounded-lg shadow-sm" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <!-- LOGO SIDEBAR -->
+                <img src="Sarathy2.png.png" alt="Sarathy Group Logo" class="h-12 w-auto object-contain shrink-0 rounded-lg shadow-sm bg-white/90 p-1" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                 <div class="hidden w-12 h-12 bg-gradient-to-tr from-sarathy-blue to-sky-400 rounded-xl flex items-center justify-center text-white text-lg font-black shrink-0 shadow-md">
                     SR
                 </div>
@@ -311,7 +311,7 @@
                     <div class="h-8 w-px bg-[var(--border-color)] mx-1 hidden sm:block"></div>
                     
                     <!-- Admin Profile -->
-                    <div class="flex items-center gap-3 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 p-1.5 md:pr-4 rounded-full transition-all border border-transparent hover:border-[var(--border-color)]">
+                    <div class="flex items-center gap-3 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 p-1.5 md:pr-4 rounded-full transition-all border border-transparent hover:border-[var(--border-color)]" onclick="switchTab('settings')">
                         <div class="hidden sm:block text-right">
                             <p class="text-sm font-black text-[var(--text-primary)] leading-none uppercase tracking-wide" id="userNameDisplay">Admin</p>
                             <p class="text-[9px] text-[var(--text-secondary)] font-bold tracking-widest mt-1 uppercase">System Admin</p>
@@ -451,6 +451,7 @@
 
                     <!-- LIST VIEW -->
                     <div id="listView" class="animate-up">
+                        <!-- FLOATING BULK ACTION BAR (REMOVED) -->
                         <div class="data-table-container">
                             <div class="overflow-x-auto">
                                 <table class="data-table">
@@ -548,13 +549,87 @@
                     </div>
                 </div>
 
+                <!-- TAB 5: SETTINGS -->
+                <div id="tab-settings" class="tab-content custom-scroll p-4 md:p-8 space-y-6 md:space-y-8 max-w-5xl mx-auto">
+                    <div class="mb-6 animate-up">
+                        <h2 class="text-2xl md:text-3xl font-black uppercase text-[var(--text-primary)] tracking-tight">System Configuration</h2>
+                        <p class="text-[var(--text-secondary)] text-xs md:text-sm font-bold mt-2 uppercase tracking-widest">Full Control Admin Access Panel</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 animate-up" style="animation-delay: 0.1s;">
+                        
+                        <!-- Security Configuration -->
+                        <div class="modern-card p-6 md:p-8 border-t-4 border-t-sarathy-blue shadow-lg hover:shadow-xl">
+                            <h3 class="font-black text-sm md:text-base uppercase tracking-widest mb-6 flex items-center gap-3 text-[var(--text-primary)] border-b border-[var(--border-color)] pb-4"><div class="w-10 h-10 rounded-lg bg-blue-50 dark:bg-blue-900/30 text-sarathy-blue flex items-center justify-center"><i class="fas fa-shield-alt text-lg"></i></div> Security Settings</h3>
+                            <div class="space-y-5">
+                                <div>
+                                    <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-2 block">Current Admin PIN</label>
+                                    <input type="password" id="currentPin" placeholder="••••" class="w-full p-4 bg-[var(--bg-primary)] border-2 border-[var(--border-color)] rounded-xl font-black text-lg outline-none focus:border-sarathy-blue dark:text-white tracking-[0.5em] text-center transition-colors shadow-inner">
+                                </div>
+                                <div>
+                                    <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-2 block">New Admin PIN</label>
+                                    <input type="password" id="newPin" placeholder="••••" class="w-full p-4 bg-[var(--bg-primary)] border-2 border-[var(--border-color)] rounded-xl font-black text-lg outline-none focus:border-sarathy-blue dark:text-white tracking-[0.5em] text-center transition-colors shadow-inner">
+                                </div>
+                                <button onclick="changeAdminPin()" class="w-full bg-sarathy-blue hover:bg-[#004080] text-white font-black py-4 rounded-xl shadow-lg shadow-blue-600/30 transition-all active:scale-95 text-xs md:text-sm uppercase tracking-widest mt-4">
+                                    Update Security PIN <i class="fas fa-check ml-2"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Data Backup & Restore -->
+                        <div class="modern-card p-6 md:p-8 border-t-4 border-t-emerald-500 shadow-lg hover:shadow-xl">
+                            <h3 class="font-black text-sm md:text-base uppercase tracking-widest mb-6 flex items-center gap-3 text-[var(--text-primary)] border-b border-[var(--border-color)] pb-4"><div class="w-10 h-10 rounded-lg bg-emerald-50 dark:bg-emerald-900/30 text-emerald-500 flex items-center justify-center"><i class="fas fa-database text-lg"></i></div> Data Management</h3>
+                            <p class="text-[10px] md:text-xs text-[var(--text-secondary)] font-bold mb-6 uppercase tracking-widest leading-relaxed">Export your entire database to a JSON file or import a previous backup.</p>
+                            <div class="grid grid-cols-2 gap-4">
+                                <button onclick="exportJSONBackup()" class="flex flex-col items-center justify-center p-5 bg-[var(--bg-primary)] border-2 border-[var(--border-color)] rounded-2xl hover:border-emerald-500 hover:text-emerald-600 transition-all hover:-translate-y-1 hover:shadow-md active:scale-95 gap-3 group">
+                                    <i class="fas fa-cloud-download-alt text-3xl text-slate-400 group-hover:text-emerald-500 transition-colors"></i>
+                                    <span class="text-[10px] font-black uppercase tracking-widest text-[var(--text-primary)] text-center">Export JSON</span>
+                                </button>
+                                <button onclick="document.getElementById('importFile').click()" class="flex flex-col items-center justify-center p-5 bg-[var(--bg-primary)] border-2 border-[var(--border-color)] rounded-2xl hover:border-sarathy-blue hover:text-sarathy-blue transition-all hover:-translate-y-1 hover:shadow-md active:scale-95 gap-3 group">
+                                    <i class="fas fa-cloud-upload-alt text-3xl text-slate-400 group-hover:text-sarathy-blue transition-colors"></i>
+                                    <span class="text-[10px] font-black uppercase tracking-widest text-[var(--text-primary)] text-center">Import Backup</span>
+                                </button>
+                            </div>
+                            <div class="mt-6 p-4 bg-sky-50 dark:bg-sky-900/20 rounded-xl text-sky-700 dark:text-sky-400 text-[10px] font-black uppercase tracking-widest border border-sky-200 dark:border-sky-800 flex items-center gap-3">
+                                <i class="fas fa-info-circle text-2xl"></i> <span>Importing a file replaces all current records.</span>
+                            </div>
+                        </div>
+
+                        <!-- System Preferences -->
+                        <div class="modern-card p-6 md:p-8 border-t-4 border-t-purple-500 shadow-lg hover:shadow-xl">
+                            <h3 class="font-black text-sm md:text-base uppercase tracking-widest mb-6 flex items-center gap-3 text-[var(--text-primary)] border-b border-[var(--border-color)] pb-4"><div class="w-10 h-10 rounded-lg bg-purple-50 dark:bg-purple-900/30 text-purple-500 flex items-center justify-center"><i class="fas fa-sliders-h text-lg"></i></div> Preferences</h3>
+                            <div class="space-y-4">
+                                <div class="flex justify-between items-center p-5 border-2 border-[var(--border-color)] rounded-2xl bg-[var(--bg-primary)] hover:border-purple-300 transition-colors">
+                                    <div>
+                                        <h4 class="font-black text-sm uppercase tracking-widest text-[var(--text-primary)]">Dark Mode</h4>
+                                        <p class="text-[9px] text-[var(--text-secondary)] font-bold mt-1 uppercase tracking-widest">Switch theme interface</p>
+                                    </div>
+                                    <label class="toggle-switch transform scale-110">
+                                        <input type="checkbox" id="settingDarkModeToggle" onchange="toggleDarkMode()">
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Danger Zone -->
+                        <div class="modern-card p-6 md:p-8 border-t-4 border-t-red-600 bg-red-50/50 dark:bg-red-900/10 relative overflow-hidden shadow-lg hover:shadow-xl group/danger">
+                            <div class="absolute -right-10 -bottom-10 opacity-[0.03] transition-transform duration-500 group-hover/danger:scale-110 group-hover/danger:rotate-12"><i class="fas fa-exclamation-triangle text-[15rem] text-red-600"></i></div>
+                            <div class="relative z-10">
+                                <h3 class="font-black text-sm md:text-base uppercase tracking-widest mb-6 flex items-center gap-3 text-red-600 dark:text-red-400 border-b border-red-200 dark:border-red-900/50 pb-4"><div class="w-10 h-10 rounded-lg bg-red-100 dark:bg-red-900/30 text-red-600 flex items-center justify-center"><i class="fas fa-radiation text-lg"></i></div> Danger Zone</h3>
+                                <p class="text-[10px] md:text-xs text-red-700 dark:text-red-300 font-bold mb-6 uppercase tracking-widest leading-relaxed">Actions here are irreversible and will permanently destroy all system data.</p>
+                                
+                                <button onclick="factoryReset()" class="w-full bg-white dark:bg-slate-800 hover:bg-red-50 text-red-600 hover:text-white font-black py-4 rounded-xl shadow-md transition-all duration-300 active:scale-95 text-xs md:text-sm uppercase tracking-widest flex items-center justify-center gap-3 border-2 border-red-600">
+                                    <i class="fas fa-trash-alt"></i> Factory Reset System
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <!-- Global Floating Action Button -->
-            <button id="addBtn" onclick="openModal()" class="fab hidden" title="Add New Candidate"><i class="fas fa-plus text-lg md:text-xl"></i></button>
-            
             <!-- Floating Back Button (Bottom Left) -->
-            <button id="backBtn" onclick="goBack()" class="hidden absolute bottom-6 left-4 md:bottom-8 md:left-8 w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-[var(--bg-secondary)] text-[var(--text-primary)] flex items-center justify-center shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-[var(--border-color)] hover:text-sarathy-blue hover:-translate-x-1 active:scale-95 transition-all duration-300 z-50">
+            <button id="backBtn" onclick="goBack()" class="hidden absolute bottom-6 left-4 md:bottom-8 md:left-8 w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-[var(--bg-secondary)] text-[var(--text-primary)] flex items-center justify-center shadow-2xl border border-[var(--border-color)] hover:text-sarathy-blue hover:-translate-x-1 active:scale-95 transition-all duration-300 z-50">
                 <i class="fas fa-arrow-left text-lg md:text-xl"></i>
             </button>
         </main>
@@ -1703,7 +1778,7 @@
             }
 
             USERS[0].pass = newPin;
-            localStorage.setItem('sarathy_users_v1', JSON.stringify(USERS));
+            localStorage.setItem('sarathy_users_v13', JSON.stringify(USERS));
             document.getElementById('currentPin').value = '';
             document.getElementById('newPin').value = '';
             showToast("Admin PIN Updated Successfully!");
