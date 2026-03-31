@@ -144,7 +144,7 @@
         .badge-selected { background: #ecfdf5; color: #047857; border: 1px solid #10b98140; }
         .badge-pending { background: #fffbeb; color: #b45309; border: 1px solid #f59e0b40; }
         .badge-rejected { background: #fef2f2; color: #b91c1c; border: 1px solid #ef444440; }
-        .badge-joined { background: #0054A6; color: #ffffff; border: 1px solid #003366; } /* NEW JOINED BADGE */
+        .badge-joined { background: #0054A6; color: #ffffff; border: 1px solid #003366; } 
         
         /* Settings Switches */
         .toggle-switch { position: relative; display: inline-block; width: 44px; height: 24px; }
@@ -169,8 +169,7 @@
         <div class="w-full max-w-[420px] animate-up relative z-10">
             <div class="bg-white dark:bg-slate-800 p-8 md:p-10 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.06)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.3)] border border-slate-100 dark:border-slate-700">
                 <div class="mb-8 text-center">
-                    <!-- SARATHY LOGO IMPLEMENTATION -->
-                    <img src="Sarathy2.png.png" alt="Sarathy Group Logo" class="h-24 w-auto object-contain mx-auto mb-4 drop-shadow-md transition-all duration-300 rounded-2xl bg-white/90 p-2" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <img src="Sarathy2.png.png" alt="SR Logo" class="h-24 w-auto object-contain mx-auto mb-4 drop-shadow-md transition-all duration-300 rounded-2xl bg-white/90 p-2" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                     <div class="hidden w-20 h-20 bg-gradient-to-tr from-sarathy-blue to-blue-400 rounded-2xl mx-auto flex items-center justify-center text-white text-3xl font-black mb-4 shadow-lg shadow-blue-500/30">SR</div>
                     
                     <h2 class="text-2xl font-black text-slate-800 dark:text-white tracking-tight mt-2">Welcome Back</h2>
@@ -223,8 +222,7 @@
             
             <!-- Header / Logo area -->
             <div class="h-16 md:h-20 px-4 flex items-center gap-3 border-b border-[var(--border-color)] shrink-0 overflow-hidden">
-                <!-- LOGO SIDEBAR -->
-                <img src="Sarathy2.png.png" alt="Sarathy Group Logo" class="h-12 w-auto object-contain shrink-0 rounded-lg shadow-sm bg-white/90 p-1" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <img src="Sarathy2.png.png" alt="SR Logo" class="h-12 w-auto object-contain shrink-0 rounded-lg shadow-sm bg-white/90 p-1" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                 <div class="hidden w-12 h-12 bg-gradient-to-tr from-sarathy-blue to-sky-400 rounded-xl flex items-center justify-center text-white text-lg font-black shrink-0 shadow-md">
                     SR
                 </div>
@@ -332,7 +330,7 @@
                         <i class="fas fa-shield-alt absolute -right-4 -bottom-4 md:-right-10 md:-bottom-10 text-[6rem] md:text-[10rem] opacity-10"></i>
                         <div class="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                             <div>
-                                <h2 class="text-xl md:text-3xl font-black mb-1 md:mb-2 flex items-center gap-2"></i> Welcome Back Sachin HR</h2>
+                                <h2 class="text-xl md:text-3xl font-black mb-1 md:mb-2 flex items-center gap-2"><i class="fas fa-hand-sparkles text-amber-300"></i> Welcome Back Sachin HR</h2>
                                 <p class="text-blue-100 text-xs md:text-sm font-medium mb-4 md:mb-6">System Overview & Quick Operations</p>
                                 <div class="flex flex-wrap gap-2 md:gap-3">
                                     <button onclick="openModal()" class="bg-white text-sarathy-blue px-4 py-2 md:px-5 md:py-2.5 rounded-lg md:rounded-xl font-bold text-[10px] md:text-xs uppercase tracking-wider shadow-lg hover:bg-blue-50 transition-colors active:scale-95"><i class="fas fa-plus mr-1 md:mr-2"></i> Add Candidate</button>
@@ -371,7 +369,6 @@
                                 <h3 class="text-3xl md:text-4xl font-black text-emerald-500 tracking-tight" id="statSelected">0</h3>
                             </div>
                         </div>
-                        <!-- NEW STAT CARD: JOINED -->
                         <div class="modern-card p-5 md:p-6 flex flex-col relative overflow-hidden group/stat border-b-4 border-b-[#0054A6] stagger-3">
                             <div class="absolute -top-4 -right-4 w-24 h-24 bg-blue-50 dark:bg-blue-900/20 rounded-full flex items-center justify-center transition-transform duration-500 group-hover/stat:scale-150 group-hover:bg-blue-100 dark:group-hover:bg-blue-800/30">
                                 <i class="fas fa-user-check text-[#0054A6] text-3xl opacity-50"></i>
@@ -441,6 +438,15 @@
                                 <button onclick="setView('board')" id="btnViewBoard" class="px-4 py-1.5 rounded-lg font-black text-sm text-[var(--text-secondary)] hover:bg-[var(--bg-secondary)] transition-all"><i class="fas fa-columns"></i></button>
                             </div>
                         </div>
+                        
+                        <!-- Mini Summary for Filtered View -->
+                        <div class="flex flex-wrap gap-6 pt-4 border-t border-[var(--border-color)] mt-4 items-center justify-between">
+                            <div class="text-[10px] md:text-xs font-black tracking-widest uppercase text-slate-400 bg-slate-100 dark:bg-slate-800 px-3 py-1.5 rounded-lg border border-[var(--border-color)]"><i class="fas fa-users mr-1"></i> Filtered View Totals</div>
+                            <div class="flex gap-6">
+                                <div class="text-xs md:text-sm font-black tracking-widest uppercase text-sarathy-blue flex items-center gap-2"> TOTAL: <span id="filteredTotal">0</span></div>
+                                <div class="text-xs md:text-sm font-black tracking-widest uppercase text-emerald-600 flex items-center gap-2"> SELECTED/JOINED: <span id="filteredSelected">0</span></div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- LIST VIEW -->
@@ -477,6 +483,7 @@
                             <h3 class="font-black text-emerald-500 mb-4 flex justify-between uppercase text-xs tracking-wider"><span class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-emerald-500"></div> Selected</span> <span id="countBoardSelected" class="bg-emerald-500/10 px-2 rounded">0</span></h3>
                             <div id="boardSelected" class="space-y-3 md:space-y-4"></div>
                         </div>
+                        <!-- NEW COLUMN: JOINED -->
                         <div class="kanban-col border-t-4 border-t-[#0054A6]" ondragover="allowDrop(event)" ondragleave="dragLeave(event)" ondrop="drop(event, 'JOINED')">
                             <h3 class="font-black text-[#0054A6] dark:text-sky-400 mb-4 flex justify-between uppercase text-xs tracking-wider"><span class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-[#0054A6] dark:bg-sky-400"></div> Joined</span> <span id="countBoardJoined" class="bg-blue-500/10 px-2 rounded">0</span></h3>
                             <div id="boardJoined" class="space-y-3 md:space-y-4"></div>
@@ -543,85 +550,11 @@
                     </div>
                 </div>
 
-                <!-- TAB 5: SETTINGS -->
-                <div id="tab-settings" class="tab-content custom-scroll p-4 md:p-8 space-y-6 md:space-y-8 max-w-5xl mx-auto">
-                    <div class="mb-6 animate-up">
-                        <h2 class="text-2xl md:text-3xl font-black uppercase text-[var(--text-primary)] tracking-tight">System Configuration</h2>
-                        <p class="text-[var(--text-secondary)] text-xs md:text-sm font-bold mt-2 uppercase tracking-widest">Full Control Admin Access Panel</p>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 animate-up" style="animation-delay: 0.1s;">
-                        
-                        <!-- Security Configuration -->
-                        <div class="modern-card p-6 md:p-8 border-t-4 border-t-sarathy-blue shadow-lg hover:shadow-xl">
-                            <h3 class="font-black text-sm md:text-base uppercase tracking-widest mb-6 flex items-center gap-3 text-[var(--text-primary)] border-b border-[var(--border-color)] pb-4"><div class="w-10 h-10 rounded-lg bg-blue-50 dark:bg-blue-900/30 text-sarathy-blue flex items-center justify-center"><i class="fas fa-shield-alt text-lg"></i></div> Security Settings</h3>
-                            <div class="space-y-5">
-                                <div>
-                                    <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-2 block">Current Admin PIN</label>
-                                    <input type="password" id="currentPin" placeholder="••••" class="w-full p-4 bg-[var(--bg-primary)] border-2 border-[var(--border-color)] rounded-xl font-black text-lg outline-none focus:border-sarathy-blue dark:text-white tracking-[0.5em] text-center transition-colors shadow-inner">
-                                </div>
-                                <div>
-                                    <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-2 block">New Admin PIN</label>
-                                    <input type="password" id="newPin" placeholder="••••" class="w-full p-4 bg-[var(--bg-primary)] border-2 border-[var(--border-color)] rounded-xl font-black text-lg outline-none focus:border-sarathy-blue dark:text-white tracking-[0.5em] text-center transition-colors shadow-inner">
-                                </div>
-                                <button onclick="changeAdminPin()" class="w-full bg-sarathy-blue hover:bg-[#004080] text-white font-black py-4 rounded-xl shadow-lg shadow-blue-600/30 transition-all active:scale-95 text-xs md:text-sm uppercase tracking-widest mt-4">
-                                    Update Security PIN <i class="fas fa-check ml-2"></i>
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Data Backup & Restore -->
-                        <div class="modern-card p-6 md:p-8 border-t-4 border-t-emerald-500 shadow-lg hover:shadow-xl">
-                            <h3 class="font-black text-sm md:text-base uppercase tracking-widest mb-6 flex items-center gap-3 text-[var(--text-primary)] border-b border-[var(--border-color)] pb-4"><div class="w-10 h-10 rounded-lg bg-emerald-50 dark:bg-emerald-900/30 text-emerald-500 flex items-center justify-center"><i class="fas fa-database text-lg"></i></div> Data Management</h3>
-                            <p class="text-[10px] md:text-xs text-[var(--text-secondary)] font-bold mb-6 uppercase tracking-widest leading-relaxed">Export your entire database to a JSON file or import a previous backup.</p>
-                            <div class="grid grid-cols-2 gap-4">
-                                <button onclick="exportJSONBackup()" class="flex flex-col items-center justify-center p-5 bg-[var(--bg-primary)] border-2 border-[var(--border-color)] rounded-2xl hover:border-emerald-500 hover:text-emerald-600 transition-all hover:-translate-y-1 hover:shadow-md active:scale-95 gap-3 group">
-                                    <i class="fas fa-cloud-download-alt text-3xl text-slate-400 group-hover:text-emerald-500 transition-colors"></i>
-                                    <span class="text-[10px] font-black uppercase tracking-widest text-[var(--text-primary)] text-center">Export JSON</span>
-                                </button>
-                                <button onclick="document.getElementById('importFile').click()" class="flex flex-col items-center justify-center p-5 bg-[var(--bg-primary)] border-2 border-[var(--border-color)] rounded-2xl hover:border-sarathy-blue hover:text-sarathy-blue transition-all hover:-translate-y-1 hover:shadow-md active:scale-95 gap-3 group">
-                                    <i class="fas fa-cloud-upload-alt text-3xl text-slate-400 group-hover:text-sarathy-blue transition-colors"></i>
-                                    <span class="text-[10px] font-black uppercase tracking-widest text-[var(--text-primary)] text-center">Import Backup</span>
-                                </button>
-                            </div>
-                            <div class="mt-6 p-4 bg-sky-50 dark:bg-sky-900/20 rounded-xl text-sky-700 dark:text-sky-400 text-[10px] font-black uppercase tracking-widest border border-sky-200 dark:border-sky-800 flex items-center gap-3">
-                                <i class="fas fa-info-circle text-2xl"></i> <span>Importing a file replaces all current records.</span>
-                            </div>
-                        </div>
-
-                        <!-- System Preferences -->
-                        <div class="modern-card p-6 md:p-8 border-t-4 border-t-purple-500 shadow-lg hover:shadow-xl">
-                            <h3 class="font-black text-sm md:text-base uppercase tracking-widest mb-6 flex items-center gap-3 text-[var(--text-primary)] border-b border-[var(--border-color)] pb-4"><div class="w-10 h-10 rounded-lg bg-purple-50 dark:bg-purple-900/30 text-purple-500 flex items-center justify-center"><i class="fas fa-sliders-h text-lg"></i></div> Preferences</h3>
-                            <div class="space-y-4">
-                                <div class="flex justify-between items-center p-5 border-2 border-[var(--border-color)] rounded-2xl bg-[var(--bg-primary)] hover:border-purple-300 transition-colors">
-                                    <div>
-                                        <h4 class="font-black text-sm uppercase tracking-widest text-[var(--text-primary)]">Dark Mode</h4>
-                                        <p class="text-[9px] text-[var(--text-secondary)] font-bold mt-1 uppercase tracking-widest">Switch theme interface</p>
-                                    </div>
-                                    <label class="toggle-switch transform scale-110">
-                                        <input type="checkbox" id="settingDarkModeToggle" onchange="toggleDarkMode()">
-                                        <span class="slider"></span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Danger Zone -->
-                        <div class="modern-card p-6 md:p-8 border-t-4 border-t-red-600 bg-red-50/50 dark:bg-red-900/10 relative overflow-hidden shadow-lg hover:shadow-xl group/danger">
-                            <div class="absolute -right-10 -bottom-10 opacity-[0.03] transition-transform duration-500 group-hover/danger:scale-110 group-hover/danger:rotate-12"><i class="fas fa-exclamation-triangle text-[15rem] text-red-600"></i></div>
-                            <div class="relative z-10">
-                                <h3 class="font-black text-sm md:text-base uppercase tracking-widest mb-6 flex items-center gap-3 text-red-600 dark:text-red-400 border-b border-red-200 dark:border-red-900/50 pb-4"><div class="w-10 h-10 rounded-lg bg-red-100 dark:bg-red-900/30 text-red-600 flex items-center justify-center"><i class="fas fa-radiation text-lg"></i></div> Danger Zone</h3>
-                                <p class="text-[10px] md:text-xs text-red-700 dark:text-red-300 font-bold mb-6 uppercase tracking-widest leading-relaxed">Actions here are irreversible and will permanently destroy all system data.</p>
-                                
-                                <button onclick="factoryReset()" class="w-full bg-white dark:bg-slate-800 hover:bg-red-600 text-red-600 hover:text-white font-black py-4 rounded-xl shadow-md transition-all duration-300 active:scale-95 text-xs md:text-sm uppercase tracking-widest flex items-center justify-center gap-3 border-2 border-red-600">
-                                    <i class="fas fa-trash-alt"></i> Factory Reset System
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
 
+            <!-- Global Floating Action Button -->
+            <button id="addBtn" onclick="openModal()" class="fab hidden" title="Add New Candidate"><i class="fas fa-plus text-lg md:text-xl"></i></button>
+            
             <!-- Floating Back Button (Bottom Left) -->
             <button id="backBtn" onclick="goBack()" class="hidden absolute bottom-6 left-4 md:bottom-8 md:left-8 w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-[var(--bg-secondary)] text-[var(--text-primary)] flex items-center justify-center shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-[var(--border-color)] hover:text-sarathy-blue hover:-translate-x-1 active:scale-95 transition-all duration-300 z-50">
                 <i class="fas fa-arrow-left text-lg md:text-xl"></i>
@@ -785,7 +718,7 @@
         </div>
     </div>
 
-    <!-- NOTIFICATION MODAL (UPDATED) -->
+    <!-- NOTIFICATION MODAL -->
     <div id="notificationModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[120] hidden flex items-start justify-center md:justify-end p-4">
         <div class="bg-[var(--bg-secondary)] w-full max-w-sm rounded-3xl shadow-2xl mt-16 md:mt-20 overflow-hidden animate-up border border-[var(--border-color)]">
             <div class="p-5 border-b border-[var(--border-color)] flex justify-between items-center bg-[var(--bg-primary)]">
@@ -806,8 +739,8 @@
 
     <script>
         // --- DATA & STATE INITIALIZATION ---
-        const CURRENT_DB_VERSION = 'sarathy_db_v13';
-        const CURRENT_BUDGET_VERSION = 'sarathy_req_v13';
+        const CURRENT_DB_VERSION = 'sarathy_db_v15';
+        const CURRENT_BUDGET_VERSION = 'sarathy_req_v15';
 
         let localUsers = JSON.parse(localStorage.getItem('sarathy_users_v13'));
         if (!localUsers) {
@@ -876,7 +809,7 @@
         };
 
         const getDeptColor = (dept) => {
-            switch(dept?.toUpperCase()) {
+            switch(dept?.trim().toUpperCase()) {
                 case 'SALES': return 'text-blue-600 dark:text-blue-400';
                 case 'SERVICE': return 'text-orange-500 dark:text-orange-400';
                 case 'SPARE': return 'text-red-600 dark:text-red-400';
@@ -922,7 +855,6 @@
         };
         
         const handleBiometricLogin = () => { 
-            const btn = document.getElementById('biometricBtn');
             const icon = document.getElementById('bioIcon');
             const text = document.getElementById('bioText');
             
@@ -1025,7 +957,8 @@
             if(progContainer) {
                 progContainer.innerHTML = '';
                 reqList.forEach(req => {
-                    const count = joinees.filter(x => x.dept === req.dept && (x.status === 'SELECTED' || x.status === 'JOINED')).length;
+                    const reqDept = req.dept.trim().toUpperCase();
+                    const count = joinees.filter(x => x.dept && x.dept.trim().toUpperCase() === reqDept && (x.status === 'SELECTED' || x.status === 'JOINED')).length;
                     const target = parseInt(req.target) || 0;
                     const perc = target > 0 ? Math.min((count/target)*100, 100) : 0;
                     
@@ -1116,6 +1049,11 @@
 
             filtered.sort((a,b) => b.id - a.id);
 
+            let fSel = 0;
+            filtered.forEach(t => { if(t.status === 'SELECTED' || t.status === 'JOINED') fSel++; });
+            document.getElementById('filteredTotal').innerText = filtered.length;
+            document.getElementById('filteredSelected').innerText = fSel;
+
             const listView = document.getElementById('listView');
             const boardView = document.getElementById('boardView');
 
@@ -1142,7 +1080,6 @@
             }
         };
 
-        // NEW QUICK ACTION TO MARK AS JOINED
         const markAsJoined = (id) => {
             const idx = joinees.findIndex(x => x.id === id);
             if(idx > -1) {
@@ -1185,7 +1122,7 @@
 
             return `
                 <tr class="hover:bg-blue-50/50 dark:hover:bg-blue-900/20 transition-colors group">
-                    <td class="text-center font-black text-black dark:text-white text-sm">${index}</td>
+                    <td class="text-center font-black text-[var(--text-secondary)] text-sm">${index}</td>
                     <td>
                         <div class="flex items-center gap-4">
                             <div class="w-10 h-10 rounded-xl border flex items-center justify-center font-black text-sm shrink-0 shadow-sm ${avatarClass}">${x.name[0]}</div>
@@ -1489,7 +1426,8 @@
                 if (monthFilter && !t.interviewDate.startsWith(monthFilter)) return;
                 
                 if (statusCounts[t.status] !== undefined) statusCounts[t.status]++;
-                categories[t.dept] = (categories[t.dept] || 0) + 1;
+                const deptName = t.dept ? t.dept.trim().toUpperCase() : '';
+                if(deptName) categories[deptName] = (categories[deptName] || 0) + 1;
             });
 
             Chart.defaults.font.family = "'Outfit', sans-serif";
@@ -1703,10 +1641,12 @@
                     <tbody>
             `;
 
-            plainText += `🏢 DEPT WISE:\n`;
-            const uniqueDepts = [...new Set(reqList.map(r => r.dept))];
+            plainText += `🏢 DEPT WISE SELECTION:\n`;
+            const allDepts = [...reqList.map(r => r.dept.trim().toUpperCase()), ...joinees.map(j => j.dept ? j.dept.trim().toUpperCase() : '')].filter(Boolean);
+            const uniqueDepts = [...new Set(allDepts)];
+            
             uniqueDepts.forEach(dept => {
-                const count = joinees.filter(x => x.dept === dept && (x.status === 'SELECTED' || x.status === 'JOINED')).length;
+                const count = joinees.filter(x => x.dept && x.dept.trim().toUpperCase() === dept && (x.status === 'SELECTED' || x.status === 'JOINED')).length;
                 html += `
                     <tr>
                         <td class="font-black uppercase tracking-widest">${dept}</td>
@@ -1870,25 +1810,6 @@
             } catch (error) {
                 console.error("Excel Export Error: ", error);
                 showToast("Failed to download Excel. Please try again.", "error");
-            }
-        };
-
-        // UI Events
-        let dragId = null;
-        const dragStart = (e, id) => { dragId = id; e.dataTransfer.effectAllowed = 'move'; };
-        const dragEnd = (e) => { dragId = null; document.querySelectorAll('.kanban-col').forEach(c=>c.classList.remove('drag-over')); };
-        const allowDrop = (e) => { e.preventDefault(); e.currentTarget.classList.add('drag-over'); };
-        const dragLeave = (e) => e.currentTarget.classList.remove('drag-over');
-        const drop = (e, st) => {
-            e.preventDefault(); e.currentTarget.classList.remove('drag-over');
-            if(dragId) {
-                const idx = joinees.findIndex(x=>x.id===dragId);
-                joinees[idx].status = st;
-                if(st === 'JOINED' && !joinees[idx].joinDate) joinees[idx].joinDate = new Date().toISOString().slice(0, 10);
-                
-                localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees));
-                renderTable(); renderDashboard(); renderCalendar(); checkNotifications();
-                if(st==='SELECTED' || st==='JOINED') confetti();
             }
         };
 
