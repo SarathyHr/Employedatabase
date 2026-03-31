@@ -118,6 +118,9 @@
 
         .fab { position: fixed; bottom: 20px; right: 20px; md:bottom: 30px; md:right: 30px; width: 56px; height: 56px; md:width: 60px; md:height: 60px; border-radius: 50%; background: #0054A6; color: white; display: flex; justify-content: center; align-items: center; box-shadow: 0 10px 20px rgba(0, 84, 166, 0.4); z-index: 50; cursor: pointer; transition: all 0.3s; }
         .fab:hover { transform: scale(1.05) rotate(90deg); }
+        
+        .fab-notes { position: fixed; bottom: 85px; right: 20px; md:bottom: 100px; md:right: 30px; width: 45px; height: 45px; md:width: 50px; md:height: 50px; border-radius: 50%; background: #f59e0b; color: white; display: flex; justify-content: center; align-items: center; box-shadow: 0 8px 15px rgba(245, 158, 11, 0.4); z-index: 50; cursor: pointer; transition: all 0.3s; }
+        .fab-notes:hover { transform: scale(1.1); }
 
         /* Professional Summary Tables */
         .summary-table { width: 100%; border-collapse: separate; border-spacing: 0; margin-bottom: 1.5rem; font-size: 0.75rem; }
@@ -155,6 +158,10 @@
         input:checked + .slider:before { transform: translateX(20px); }
         .dark .slider { background-color: #475569; }
         .dark input:checked + .slider { background-color: #3b82f6; }
+
+        /* Notes Panel */
+        #notesPanel { transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        #notesPanel.open { transform: translateX(0); }
     </style>
 </head>
 <body class="antialiased">
@@ -169,7 +176,8 @@
         <div class="w-full max-w-[420px] animate-up relative z-10">
             <div class="bg-white dark:bg-slate-800 p-8 md:p-10 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.06)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.3)] border border-slate-100 dark:border-slate-700">
                 <div class="mb-8 text-center">
-                    <img src="Sarathy2.png.png" alt="SR Logo" class="h-24 w-auto object-contain mx-auto mb-4 drop-shadow-md transition-all duration-300 rounded-2xl bg-white/90 p-2" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <!-- SARATHY LOGO IMPLEMENTATION -->
+                    <img src="Sarathy2.png.png" alt="Sarathy Group Logo" class="h-24 w-auto object-contain mx-auto mb-4 drop-shadow-md transition-all duration-300 rounded-2xl bg-white/90 p-2" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                     <div class="hidden w-20 h-20 bg-gradient-to-tr from-sarathy-blue to-blue-400 rounded-2xl mx-auto flex items-center justify-center text-white text-3xl font-black mb-4 shadow-lg shadow-blue-500/30">SR</div>
                     
                     <h2 class="text-2xl font-black text-slate-800 dark:text-white tracking-tight mt-2">Welcome Back</h2>
@@ -222,7 +230,8 @@
             
             <!-- Header / Logo area -->
             <div class="h-16 md:h-20 px-4 flex items-center gap-3 border-b border-[var(--border-color)] shrink-0 overflow-hidden">
-                <img src="Sarathy2.png.png" alt="SR Logo" class="h-12 w-auto object-contain shrink-0 rounded-lg shadow-sm bg-white/90 p-1" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <!-- LOGO SIDEBAR -->
+                <img src="Sarathy2.png.png" alt="Sarathy Group Logo" class="h-12 w-auto object-contain shrink-0 rounded-lg shadow-sm bg-white/90 p-1" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                 <div class="hidden w-12 h-12 bg-gradient-to-tr from-sarathy-blue to-sky-400 rounded-xl flex items-center justify-center text-white text-lg font-black shrink-0 shadow-md">
                     SR
                 </div>
@@ -554,9 +563,21 @@
 
             </div>
 
-            <!-- Global Floating Action Button -->
+            <!-- Global Floating Action Buttons -->
             <button id="addBtn" onclick="openModal()" class="fab hidden" title="Add New Candidate"><i class="fas fa-plus text-lg md:text-xl"></i></button>
+            <button id="notesBtn" onclick="toggleNotesPanel()" class="fab-notes hidden" title="Quick Notes"><i class="fas fa-sticky-note text-lg md:text-xl"></i></button>
             
+            <!-- Quick Notes Slide-over Panel -->
+            <div id="notesPanel" class="fixed inset-y-0 right-0 w-80 bg-[var(--bg-secondary)] shadow-2xl border-l border-[var(--border-color)] z-[105] flex flex-col">
+                <div class="p-5 border-b border-[var(--border-color)] flex justify-between items-center bg-amber-50 dark:bg-amber-900/20">
+                    <h3 class="font-black text-amber-600 uppercase tracking-widest flex items-center gap-2"><i class="fas fa-sticky-note"></i> Quick Notes</h3>
+                    <button onclick="toggleNotesPanel()" class="w-8 h-8 rounded-full bg-white dark:bg-slate-800 text-slate-400 flex items-center justify-center hover:text-red-500 shadow-sm transition-colors"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="flex-1 p-4 bg-amber-50/30 dark:bg-slate-900/50">
+                    <textarea id="quickNotesArea" oninput="saveNotes(this.value)" class="w-full h-full bg-transparent resize-none outline-none font-medium text-sm text-[var(--text-primary)] custom-scroll placeholder-slate-400" placeholder="Type your reminders, to-dos, or quick notes here... They are saved automatically!"></textarea>
+                </div>
+            </div>
+
             <!-- Floating Back Button (Bottom Left) -->
             <button id="backBtn" onclick="goBack()" class="hidden absolute bottom-6 left-4 md:bottom-8 md:left-8 w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-[var(--bg-secondary)] text-[var(--text-primary)] flex items-center justify-center shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-[var(--border-color)] hover:text-sarathy-blue hover:-translate-x-1 active:scale-95 transition-all duration-300 z-50">
                 <i class="fas fa-arrow-left text-lg md:text-xl"></i>
@@ -648,22 +669,10 @@
                             <input type="text" id="location" required class="w-full p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-2xl font-black text-sm uppercase outline-none focus:border-sarathy-blue transition-colors dark:text-white shadow-sm" placeholder="ENTER LOCATION">
                         </div>
                         
-                        <!-- DESIGNATION & INTERVIEW RATING -->
-                        <div class="flex flex-col justify-end">
+                        <!-- DESIGNATION -->
+                        <div class="col-span-1 md:col-span-2 flex flex-col justify-end">
                             <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-2 ml-1">Designation</label>
                             <input type="text" id="designation" required class="w-full p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-2xl font-black text-sm uppercase outline-none focus:border-sarathy-blue transition-colors dark:text-white shadow-sm" placeholder="ENTER DESIGNATION">
-                        </div>
-                        <div class="flex flex-col justify-end relative">
-                            <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-2 ml-1">Interview Rating (1-5)</label>
-                            <select id="rating" class="w-full p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-2xl font-black text-sm uppercase outline-none focus:border-sarathy-blue transition-colors appearance-none dark:text-white dark:[color-scheme:dark] shadow-sm cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-700">
-                                <option value="0">NOT RATED</option>
-                                <option value="1">⭐ 1 - POOR</option>
-                                <option value="2">⭐⭐ 2 - FAIR</option>
-                                <option value="3">⭐⭐⭐ 3 - AVERAGE</option>
-                                <option value="4">⭐⭐⭐⭐ 4 - GOOD</option>
-                                <option value="5">⭐⭐⭐⭐⭐ 5 - EXCELLENT</option>
-                            </select>
-                            <i class="fas fa-chevron-down absolute right-5 bottom-5 text-slate-400 pointer-events-none text-xs"></i>
                         </div>
 
                         <!-- MANAGER REMARKS -->
@@ -776,7 +785,15 @@
         let activeFilter = 'All';
         let chartStatus, chartSource;
         let calendarDate = new Date();
-        let selectedCandidates = new Set();
+
+        // Load Notes
+        document.addEventListener("DOMContentLoaded", () => {
+            const savedNotes = localStorage.getItem('hr_quick_notes');
+            if(savedNotes) {
+                const el = document.getElementById('quickNotesArea');
+                if(el) el.value = savedNotes;
+            }
+        });
 
         // --- AUDIO SOUNDS ---
         const toastSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3');
@@ -831,14 +848,6 @@
                 case 'ACCOUNTS': return 'text-yellow-600 dark:text-yellow-400';
                 default: return 'text-slate-600 dark:text-slate-400';
             }
-        };
-
-        const renderStars = (rating) => {
-            let html = '';
-            for(let i=1; i<=5; i++) {
-                html += `<i class="fas fa-star text-[9px] ${i<=rating ? 'text-amber-400' : 'text-slate-300 dark:text-slate-600'}"></i>`;
-            }
-            return html;
         };
 
         const isAdmin = () => currentUser?.user === 'ADMIN';
@@ -908,6 +917,11 @@
             document.getElementById('loginPage').classList.add('hidden');
             document.getElementById('appLayout').classList.remove('hidden');
             
+            if(isAdmin()) {
+                document.getElementById('addBtn').classList.remove('hidden');
+                document.getElementById('notesBtn').classList.remove('hidden');
+            }
+
             renderDashboard();
             renderTable();
             renderCalendar();
@@ -915,6 +929,15 @@
         };
         
         const logout = () => location.reload();
+
+        // --- QUICK NOTES ---
+        const toggleNotesPanel = () => {
+            document.getElementById('notesPanel').classList.toggle('open');
+        };
+
+        const saveNotes = (val) => {
+            localStorage.setItem('hr_quick_notes', val);
+        };
 
         // --- NAVIGATION ---
         const toggleSidebar = () => {
@@ -1020,7 +1043,8 @@
                                 <h4 class="font-black text-xs uppercase tracking-wide truncate text-[var(--text-primary)]">${r.name}</h4>
                                 <p class="text-[9px] text-[var(--text-secondary)] font-bold uppercase tracking-widest truncate mt-0.5">${r.dept} • ${r.company}</p>
                             </div>
-                            <div class="text-right">
+                            <div class="text-right flex items-center gap-2">
+                                ${r.phone ? `<a href="https://wa.me/91${r.phone}?text=${encodeURIComponent(`Hello ${r.name},\nGreetings from Sarathy Group.`)}" target="_blank" onclick="event.stopPropagation()" class="text-emerald-500 hover:text-emerald-600 hover:scale-110 transition-transform"><i class="fab fa-whatsapp text-lg"></i></a>` : ''}
                                 <span class="text-[9px] px-2 py-1 rounded font-black tracking-widest uppercase border shadow-sm ${statusColor}">${r.status}</span>
                             </div>
                         </div>
@@ -1086,7 +1110,7 @@
                 
                 const tableBody = document.getElementById('candidatesTableBody');
                 if(tableBody) {
-                    tableBody.innerHTML = filtered.length ? filtered.map((x, index) => generateRow(x, index + 1)).join('') : '<tr><td colspan="8" class="text-center py-16 text-[var(--text-secondary)] font-black uppercase tracking-widest opacity-60"><i class="fas fa-box-open text-4xl mb-4 block opacity-50"></i> No candidates found</td></tr>';
+                    tableBody.innerHTML = filtered.length ? filtered.map((x, index) => generateRow(x, index + 1)).join('') : '<tr><td colspan="7" class="text-center py-16 text-[var(--text-secondary)] font-black uppercase tracking-widest opacity-60"><i class="fas fa-box-open text-4xl mb-4 block opacity-50"></i> No candidates found</td></tr>';
                 }
             } else {
                 listView.classList.add('hidden');
@@ -1120,7 +1144,6 @@
         const generateRow = (x, index) => {
             const intDate = formatDateString(x.interviewDate);
             const joinDate = formatDateString(x.joinDate);
-            const ratingValue = parseInt(x.rating) || 0;
             
             let statusClass = '';
             if(x.status === 'SELECTED') statusClass = 'badge-selected';
@@ -1131,8 +1154,12 @@
             const avatarClass = getAvatarColor(x.name);
             const deptColor = getDeptColor(x.dept);
 
+            // WhatsApp Button
+            const waLink = x.phone ? `href="https://wa.me/91${x.phone}?text=${encodeURIComponent(`Hello ${x.name},\nGreetings from Sarathy Group.`)}" target="_blank"` : `href="#" onclick="showToast('Phone number not available', 'error'); return false;"`;
+
             // Action Buttons
             let actionBtns = `
+                <a ${waLink} title="WhatsApp" class="w-8 h-8 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-500 flex items-center justify-center hover:bg-emerald-100 transition-all shadow-sm hover:-translate-y-0.5 active:scale-95"><i class="fab fa-whatsapp text-sm"></i></a>
                 <button onclick="viewCandidate(${x.id})" title="View Profile" class="w-8 h-8 rounded-lg bg-indigo-50 border border-indigo-200 text-indigo-600 flex items-center justify-center hover:bg-indigo-100 transition-all shadow-sm hover:-translate-y-0.5 active:scale-95"><i class="fas fa-eye text-xs"></i></button>
                 <button onclick="editRecord(${x.id})" title="Edit" class="w-8 h-8 rounded-lg bg-blue-50 border border-blue-200 text-blue-600 flex items-center justify-center hover:bg-blue-100 transition-all shadow-sm hover:-translate-y-0.5 active:scale-95"><i class="fas fa-edit text-xs"></i></button>
                 <button onclick="deleteCandidate(${x.id})" title="Delete" class="w-8 h-8 rounded-lg bg-red-50 border border-red-200 text-red-600 flex items-center justify-center hover:bg-red-100 transition-all shadow-sm hover:-translate-y-0.5 active:scale-95"><i class="fas fa-trash-alt text-xs"></i></button>
@@ -1146,7 +1173,7 @@
 
             return `
                 <tr class="hover:bg-blue-50/50 dark:hover:bg-blue-900/20 transition-colors group">
-                    <td class="text-center font-black text-[var(--text-primary)] text-[13px]">${index}</td>
+                    <td class="text-center font-black text-black dark:text-white text-[13px]">${index}</td>
                     <td>
                         <div class="flex items-center gap-4">
                             <div class="w-10 h-10 rounded-xl border flex items-center justify-center font-black text-sm shrink-0 shadow-sm ${avatarClass}">${x.name[0]}</div>
@@ -1314,6 +1341,8 @@
             else if(r.status === 'PENDING') statusClass = 'bg-amber-50 text-amber-600 border-amber-200';
             else statusClass = 'bg-red-50 text-red-600 border-red-200';
 
+            const waLink = r.phone ? `href="https://wa.me/91${r.phone}?text=${encodeURIComponent(`Hello ${r.name},\nGreetings from Sarathy Group.`)}" target="_blank"` : `href="#" onclick="showToast('Phone number not available', 'error'); return false;"`;
+
             const content = `
                 <div class="flex items-center gap-5 mb-8 border-b border-[var(--border-color)] pb-6 relative">
                     <div class="w-20 h-20 rounded-3xl border-2 flex items-center justify-center font-black text-3xl shadow-md shrink-0 ${avatarClass}">
@@ -1326,6 +1355,7 @@
                             <span class="px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest shadow-sm border ${statusClass}">
                                 ${r.status}
                             </span>
+                            <a ${waLink} class="px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest shadow-sm border bg-emerald-50 text-emerald-600 border-emerald-200 hover:bg-emerald-500 hover:text-white transition-colors cursor-pointer"><i class="fab fa-whatsapp text-xs mr-1"></i> MSG</a>
                         </div>
                     </div>
                 </div>
@@ -1342,7 +1372,7 @@
                     ${r.remarks ? `<div class="col-span-2 mt-2"><span class="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2">Manager Remarks</span><div class="p-4 bg-[var(--bg-primary)] rounded-2xl border border-[var(--border-color)] text-xs font-bold text-[var(--text-primary)] italic shadow-inner">" ${r.remarks} "</div></div>` : ''}
                 </div>
                 <div class="mt-8 flex gap-4">
-                    <button onclick="editRecord(${r.id})" class="flex-1 py-4 bg-sarathy-blue hover:bg-[#004080] text-white rounded-2xl font-black text-xs uppercase tracking-widest transition-all shadow-lg active:scale-95 flex items-center justify-center gap-2"><i class="fas fa-edit"></i> Edit Details</button>
+                    <button onclick="editRecord(${r.id})" class="flex-1 py-4 bg-sarathy-blue hover:bg-[#004080] text-white rounded-2xl font-black text-xs uppercase tracking-widest transition-all shadow-lg active:scale-95 flex items-center justify-center gap-2"><i class="fas fa-edit"></i> Edit</button>
                     ${r.status === 'SELECTED' ? `<button onclick="markAsJoined(${r.id}); closeViewModal();" class="flex-1 py-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl font-black text-xs uppercase tracking-widest transition-all shadow-lg active:scale-95 flex items-center justify-center gap-2"><i class="fas fa-user-check"></i> Mark Joined</button>` : ''}
                     <button onclick="deleteCandidate(${r.id}); closeViewModal();" class="w-14 h-14 bg-red-50 hover:bg-red-600 text-red-500 hover:text-white rounded-2xl transition-colors flex items-center justify-center border border-red-200 active:scale-95"><i class="fas fa-trash-alt text-lg"></i></button>
                 </div>
@@ -1414,9 +1444,9 @@
                         if(ev.status==='SELECTED') stClass = 'bg-emerald-100 text-emerald-700 border border-emerald-200';
                         if(ev.status==='JOINED') stClass = 'bg-[#0054A6] text-white border border-[#003366]';
                         if(ev.status==='REJECTED') stClass = 'bg-red-100 text-red-700 border border-red-200';
-                        return `<div onclick="viewCandidate(${ev.id})" class="calendar-event ${stClass} shadow-sm">INT: ${ev.name.split(' ')[0]}</div>`;
+                        return `<div onclick="viewCandidate(${ev.id})" class="calendar-event ${stClass} shadow-sm"><i class="fas fa-calendar-alt opacity-70 mr-1"></i> INT: ${ev.name.split(' ')[0]}</div>`;
                     } else {
-                        return `<div onclick="viewCandidate(${ev.id})" class="calendar-event bg-[#0054A6] text-white border border-[#003366] shadow-sm">JOIN: ${ev.name.split(' ')[0]}</div>`;
+                        return `<div onclick="viewCandidate(${ev.id})" class="calendar-event bg-[#0054A6] text-white border border-[#003366] shadow-sm"><i class="fas fa-flag-checkered opacity-70 mr-1"></i> JOIN: ${ev.name.split(' ')[0]}</div>`;
                     }
                 }).join('');
                 
@@ -1834,6 +1864,25 @@
             } catch (error) {
                 console.error("Excel Export Error: ", error);
                 showToast("Failed to download Excel. Please try again.", "error");
+            }
+        };
+
+        // UI Events
+        let dragId = null;
+        const dragStart = (e, id) => { dragId = id; e.dataTransfer.effectAllowed = 'move'; };
+        const dragEnd = (e) => { dragId = null; document.querySelectorAll('.kanban-col').forEach(c=>c.classList.remove('drag-over')); };
+        const allowDrop = (e) => { e.preventDefault(); e.currentTarget.classList.add('drag-over'); };
+        const dragLeave = (e) => e.currentTarget.classList.remove('drag-over');
+        const drop = (e, st) => {
+            e.preventDefault(); e.currentTarget.classList.remove('drag-over');
+            if(dragId) {
+                const idx = joinees.findIndex(x=>x.id===dragId);
+                joinees[idx].status = st;
+                if(st === 'JOINED' && !joinees[idx].joinDate) joinees[idx].joinDate = new Date().toISOString().slice(0, 10);
+                
+                localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees));
+                renderTable(); renderDashboard(); renderCalendar(); checkNotifications();
+                if(st==='SELECTED' || st==='JOINED') confetti();
             }
         };
 
