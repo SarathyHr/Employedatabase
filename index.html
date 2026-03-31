@@ -398,6 +398,7 @@
                                 <h3 class="text-3xl md:text-4xl font-black text-emerald-500 tracking-tight" id="statSelected">0</h3>
                             </div>
                         </div>
+                        <!-- NEW STAT CARD: JOINED -->
                         <div class="modern-card p-5 md:p-6 flex flex-col relative overflow-hidden group/stat border-b-4 border-b-[#0054A6] stagger-3">
                             <div class="absolute -top-4 -right-4 w-24 h-24 bg-blue-50 dark:bg-blue-900/20 rounded-full flex items-center justify-center transition-transform duration-500 group-hover/stat:scale-150 group-hover:bg-blue-100 dark:group-hover:bg-blue-800/30">
                                 <i class="fas fa-user-check text-[#0054A6] text-3xl opacity-50"></i>
@@ -407,6 +408,7 @@
                                 <h3 class="text-3xl md:text-4xl font-black text-[#0054A6] dark:text-sky-400 tracking-tight" id="statJoined">0</h3>
                             </div>
                         </div>
+                        <!-- ADDED REJECTED CARD BACK -->
                         <div class="modern-card p-5 md:p-6 flex flex-col relative overflow-hidden group/stat border-b-4 border-b-red-500 stagger-4">
                             <div class="absolute -top-4 -right-4 w-24 h-24 bg-red-50 dark:bg-red-900/20 rounded-full flex items-center justify-center transition-transform duration-500 group-hover/stat:scale-150 group-hover:bg-red-100 dark:group-hover:bg-red-800/30">
                                 <i class="fas fa-times text-red-500 text-3xl opacity-50"></i>
@@ -839,8 +841,8 @@
 
     <script>
         // --- DATA & STATE INITIALIZATION ---
-        const CURRENT_DB_VERSION = 'sarathy_db_v14'; // STRICTLY PRESERVING YOUR DATA KEY
-        const CURRENT_BUDGET_VERSION = 'sarathy_req_v14'; // STRICTLY PRESERVING YOUR DATA KEY
+        const CURRENT_DB_VERSION = 'sarathy_db_v13'; // Changed back to v13
+        const CURRENT_BUDGET_VERSION = 'sarathy_req_v13'; // Changed back to v13
 
         let localUsers = JSON.parse(localStorage.getItem('sarathy_users_v13'));
         if (!localUsers) {
@@ -1142,7 +1144,6 @@
                         if(r.status === 'JOINED') statusColor = 'text-white bg-[#0054A6] border-[#003366]';
                         if(r.status === 'REJECTED') statusColor = 'text-red-500 bg-red-50 border-red-200';
                         
-                        // NEW: SMART AUTO MESSAGES
                         let waMessage = `Hello ${r.name},\nGreetings from Sarathy Group.`;
                         if(r.status === 'PENDING') waMessage = `Dear ${r.name},\nYour interview for ${r.designation} at Sarathy Group is scheduled on ${formatDateString(r.interviewDate)}.\n\nRegards,\nHR Team`;
                         else if(r.status === 'SELECTED') waMessage = `Dear ${r.name},\nCongratulations! You have been selected for ${r.designation} at Sarathy Group.\n\nRegards,\nHR Team`;
@@ -1257,6 +1258,53 @@
             }
         };
 
+        // NEW: Print ID Card Feature
+        const printIdCard = (id) => {
+            const r = joinees.find(x => x.id === id);
+            if(!r) return;
+            
+            const joinD = r.joinDate ? formatDateString(r.joinDate) : 'N/A';
+            
+            // Build the ID card HTML structure inside the dedicated modal
+            const idCardHtml = `
+                <div class="bg-gradient-to-br from-blue-600 to-blue-800 h-28 relative rounded-t-3xl border-b-4 border-amber-400">
+                    <div class="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] rounded-t-3xl"></div>
+                    <img src="Sarathy2.png.png" class="h-10 mx-auto mt-4 drop-shadow-md brightness-0 invert" onerror="this.style.display='none'">
+                    <h2 class="text-white text-center font-black tracking-[0.2em] text-lg mt-1 uppercase w-full absolute z-10" style="top: 10px;">Sarathy Group</h2>
+                </div>
+                <div class="w-24 h-24 bg-white rounded-2xl border-4 border-white shadow-xl absolute top-[60px] left-1/2 transform -translate-x-1/2 flex items-center justify-center text-4xl font-black text-blue-600 overflow-hidden bg-slate-100 z-20">
+                    ${r.name[0]}
+                </div>
+                <div class="pt-16 pb-6 px-6 text-center">
+                    <h2 class="text-2xl font-black text-slate-800 uppercase tracking-tight leading-none">${r.name}</h2>
+                    <p class="text-[10px] font-black text-blue-600 uppercase tracking-[0.3em] mt-2 mb-4 bg-blue-50 py-1 px-3 inline-block rounded-lg border border-blue-100">${r.designation || 'EMPLOYEE'}</p>
+                    
+                    <div class="mt-2 text-left bg-slate-50 p-4 rounded-xl border border-slate-200">
+                        <div class="grid grid-cols-3 gap-y-2 text-xs">
+                            <span class="font-bold text-slate-400 uppercase tracking-wider col-span-1">EMP ID:</span>
+                            <span class="font-black text-slate-700 col-span-2">${r.empId}</span>
+                            
+                            <span class="font-bold text-slate-400 uppercase tracking-wider col-span-1">DEPT:</span>
+                            <span class="font-black text-slate-700 col-span-2 uppercase">${r.dept}</span>
+                            
+                            <span class="font-bold text-slate-400 uppercase tracking-wider col-span-1">JOINED:</span>
+                            <span class="font-black text-slate-700 col-span-2">${joinD}</span>
+                            
+                            <span class="font-bold text-slate-400 uppercase tracking-wider col-span-1">PHONE:</span>
+                            <span class="font-black text-slate-700 col-span-2">${r.phone || 'N/A'}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-slate-800 text-white text-center py-3 text-[8px] font-bold tracking-widest uppercase rounded-b-3xl">
+                    Authorized Employee Identity Card<br>${r.company}
+                </div>
+            `;
+            
+            document.getElementById('idCardContainer').innerHTML = idCardHtml;
+            document.getElementById('idCardModal').classList.remove('hidden');
+            showToast("ID Card Generated!", "success");
+        };
+
         const generateRow = (x, index) => {
             const intDate = formatDateString(x.interviewDate);
             const joinDate = formatDateString(x.joinDate);
@@ -1270,14 +1318,7 @@
             const avatarClass = getAvatarColor(x.name);
             const deptColor = getDeptColor(x.dept);
 
-            // NEW: SMART AUTO MESSAGES
-            let waMessage = `Hello ${x.name},\nGreetings from Sarathy Group.`;
-            if(x.status === 'PENDING') waMessage = `Dear ${x.name},\nYour interview for ${x.designation} at Sarathy Group is scheduled on ${formatDateString(x.interviewDate)}.\n\nRegards,\nHR Team`;
-            else if(x.status === 'SELECTED') waMessage = `Dear ${x.name},\nCongratulations! You have been selected for ${x.designation} at Sarathy Group.\n\nRegards,\nHR Team`;
-            else if(x.status === 'REJECTED') waMessage = `Dear ${x.name},\nThank you for your interest. Unfortunately, we are moving forward with other candidates at this time.\n\nRegards,\nHR Team`;
-
-            // Buttons
-            const waLink = x.phone ? `href="https://wa.me/91${x.phone}?text=${encodeURIComponent(waMessage)}" target="_blank"` : `href="#" onclick="showToast('Phone number not available', 'error'); return false;"`;
+            const waLink = x.phone ? `href="https://wa.me/91${x.phone}?text=${encodeURIComponent(`Hello ${x.name},\nGreetings from Sarathy Group.`)}" target="_blank"` : `href="#" onclick="showToast('Phone number not available', 'error'); return false;"`;
             const callLink = x.phone ? `href="tel:+91${x.phone}"` : `href="#" onclick="showToast('Phone number not available', 'error'); return false;"`;
 
             let actionBtns = `
