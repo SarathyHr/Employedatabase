@@ -163,19 +163,26 @@
         #notesPanel { transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
         #notesPanel.open { transform: translateX(0); }
 
-        /* Print Media Styles */
+        /* Print Media Styles & ID Card Print Optimization */
         @media print {
             body { background: white !important; color: black !important; }
             #sidebar, header, .fab, .fab-notes, #notificationModal, #toast, .no-print { display: none !important; }
             #appLayout, main { display: block !important; height: auto !important; overflow: visible !important; }
             .modern-card, .glass-panel { box-shadow: none !important; border: 1px solid #ccc !important; }
             .tab-content { display: block !important; opacity: 1 !important; padding: 0 !important; }
-            #viewModal { position: static !important; background: white !important; width: 100% !important; max-width: none !important; display: block !important; }
+            
+            #viewModal { position: absolute !important; top: 0 !important; left: 0 !important; background: white !important; width: 100% !important; max-width: none !important; display: block !important; border: none !important; box-shadow: none !important; }
             #viewModal .bg-gradient-to-r { background: #f8fafc !important; color: black !important; border-bottom: 2px solid black !important; }
             #viewModalContent { padding: 0 !important; }
-            .fixed { position: static !important; }
-            #tab-dashboard, #tab-candidates, #tab-calendar, #tab-analytics, #tab-settings { display: none !important; } /* Hide tabs when printing modal */
+            
+            /* Print colors exactly */
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+            
+            /* Hide other tabs */
+            #tab-dashboard, #tab-candidates, #tab-calendar, #tab-analytics, #tab-settings { display: none !important; }
         }
+        
+        .id-card-bg { background: url('https://www.transparenttextures.com/patterns/cubes.png'); }
     </style>
 </head>
 <body class="antialiased">
@@ -310,7 +317,7 @@
                         <i class="fas fa-bars"></i>
                     </button>
                     <div>
-                        <h2 id="pageTitle" class="text-lg md:text-xl font-black uppercase tracking-widest text-[var(--text-primary)] truncate">Welcome Back Sachin HR</h2>
+                        <h2 id="pageTitle" class="text-lg md:text-xl font-black uppercase tracking-widest text-[var(--text-primary)] truncate">Welcome Back, Sachin HR</h2>
                     </div>
                 </div>
                 <div class="flex items-center gap-3 md:gap-5 shrink-0">
@@ -352,7 +359,7 @@
                         <i class="fas fa-shield-alt absolute -right-4 -bottom-4 md:-right-10 md:-bottom-10 text-[6rem] md:text-[10rem] opacity-10"></i>
                         <div class="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                             <div>
-                                <h2 class="text-xl md:text-3xl font-black mb-1 md:mb-2 flex items-center gap-2"><i class="fas fa-hand-sparkles text-amber-300"></i> Welcome Back Sachin HR</h2>
+                                <h2 id="welcomeGreeting" class="text-xl md:text-3xl font-black mb-1 md:mb-2 flex items-center gap-2"><i class="fas fa-hand-sparkles text-amber-300"></i> Good Morning, Sachin HR</h2>
                                 <p class="text-blue-100 text-xs md:text-sm font-medium mb-4 md:mb-6">System Overview & Quick Operations</p>
                                 <div class="flex flex-wrap gap-2 md:gap-3">
                                     <button onclick="openModal()" class="bg-white text-sarathy-blue px-4 py-2 md:px-5 md:py-2.5 rounded-lg md:rounded-xl font-bold text-[10px] md:text-xs uppercase tracking-wider shadow-lg hover:bg-blue-50 transition-colors active:scale-95"><i class="fas fa-plus mr-1 md:mr-2"></i> Add Candidate</button>
@@ -772,7 +779,8 @@
 
     <!-- VIEW PROFILE MODAL -->
     <div id="viewModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[115] hidden flex items-center justify-center p-4 transition-opacity">
-        <div class="bg-[var(--bg-secondary)] w-full max-w-2xl rounded-3xl shadow-2xl overflow-hidden modal-animate border border-[var(--border-color)]">
+        <div class="bg-[var(--bg-secondary)] w-full max-w-2xl rounded-3xl shadow-2xl overflow-hidden modal-animate border border-[var(--border-color)] relative">
+            
             <div class="p-5 md:p-6 bg-gradient-to-r from-sarathy-blue to-blue-600 text-white flex justify-between items-center no-print">
                 <h2 class="font-black text-sm md:text-base uppercase tracking-widest flex items-center gap-3"><i class="fas fa-id-badge text-xl opacity-70"></i> Candidate Profile</h2>
                 <div class="flex items-center gap-2">
@@ -791,6 +799,21 @@
                 <div id="viewModalContent">
                     <!-- Dynamic Content -->
                 </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- NEW: ID CARD MODAL -->
+    <div id="idCardModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[150] hidden flex items-center justify-center p-4 transition-opacity no-print">
+        <div class="w-full max-w-sm rounded-3xl shadow-2xl overflow-hidden modal-animate relative">
+            <button onclick="document.getElementById('idCardModal').classList.add('hidden')" class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-white/20 text-white hover:bg-white/40 transition-colors z-20"><i class="fas fa-times"></i></button>
+            <div id="idCardContainer" class="bg-white relative overflow-hidden id-card-bg">
+                <!-- Content injected here -->
+            </div>
+            <div class="bg-slate-800 p-4">
+                <button onclick="window.print()" class="w-full bg-white text-slate-900 hover:bg-slate-200 font-black py-3 rounded-xl shadow-lg active:scale-95 transition-all uppercase tracking-widest text-xs flex items-center justify-center gap-2">
+                    <i class="fas fa-print"></i> Print ID Card
+                </button>
             </div>
         </div>
     </div>
@@ -816,8 +839,8 @@
 
     <script>
         // --- DATA & STATE INITIALIZATION ---
-        const CURRENT_DB_VERSION = 'sarathy_db_v13'; // Kept your updated db structure
-        const CURRENT_BUDGET_VERSION = 'sarathy_req_v13';
+        const CURRENT_DB_VERSION = 'sarathy_db_v14'; // Kept your updated db structure
+        const CURRENT_BUDGET_VERSION = 'sarathy_req_v14';
 
         let localUsers = JSON.parse(localStorage.getItem('sarathy_users_v13'));
         if (!localUsers) {
@@ -839,7 +862,6 @@
         let activeFilter = 'All';
         let chartStatus, chartSource, chartSourcePie;
         let calendarDate = new Date();
-        let selectedCandidates = new Set();
 
         // Load Notes
         document.addEventListener("DOMContentLoaded", () => {
@@ -862,7 +884,7 @@
             t.classList.remove('opacity-0', 'translate-y-40');
             
             try {
-                if (type === 'success' && (msg.includes('Saved') || msg.includes('Joined'))) {
+                if (type === 'success' && (msg.includes('Saved') || msg.includes('Joined') || msg.includes('Generated'))) {
                     successSound.currentTime = 0;
                     successSound.play().catch(e => console.log('Audio error:', e));
                 } else {
@@ -906,6 +928,13 @@
         };
 
         const isAdmin = () => currentUser?.user === 'ADMIN';
+
+        const getGreeting = () => {
+            const hour = new Date().getHours();
+            if (hour < 12) return "Good Morning";
+            if (hour < 17) return "Good Afternoon";
+            return "Good Evening";
+        };
 
         // --- THEME ---
         const toggleDarkMode = () => {
@@ -975,6 +1004,12 @@
             if(isAdmin()) {
                 document.getElementById('addBtn').classList.remove('hidden');
                 document.getElementById('notesBtn').classList.remove('hidden');
+            }
+
+            // Update Greeting based on time
+            const greetingEl = document.getElementById('welcomeGreeting');
+            if(greetingEl) {
+                greetingEl.innerHTML = `<i class="fas fa-hand-sparkles text-amber-300"></i> ${getGreeting()}, ${currentUser.user}`;
             }
 
             renderDashboard();
@@ -1091,15 +1126,18 @@
                         if(r.status === 'JOINED') statusColor = 'text-white bg-[#0054A6] border-[#003366]';
                         if(r.status === 'REJECTED') statusColor = 'text-red-500 bg-red-50 border-red-200';
                         
+                        // Action Call link added to recent list
+                        const callLink = r.phone ? `href="tel:+91${r.phone}"` : `href="#" onclick="showToast('Phone number not available', 'error'); return false;"`;
+
                         return `
-                        <div class="flex items-center gap-4 py-3 cursor-pointer hover:bg-blue-50/50 dark:hover:bg-blue-900/20 px-4 rounded-xl transition-all" onclick="viewCandidate(${r.id})">
+                        <div class="flex items-center gap-4 py-3 cursor-pointer hover:bg-blue-50/50 dark:hover:bg-blue-900/20 px-4 rounded-xl transition-all group/item" onclick="viewCandidate(${r.id})">
                             <div class="w-10 h-10 rounded-xl flex items-center justify-center font-black text-sm shrink-0 shadow-sm border-2 ${getAvatarColor(r.name)}">${r.name[0]}</div>
                             <div class="flex-1 min-w-0">
                                 <h4 class="font-black text-xs uppercase tracking-wide truncate text-[var(--text-primary)]">${r.name}</h4>
                                 <p class="text-[9px] text-[var(--text-secondary)] font-bold uppercase tracking-widest truncate mt-0.5">${r.dept} • ${r.company}</p>
                             </div>
                             <div class="text-right flex items-center gap-2">
-                                ${r.phone ? `<a href="https://wa.me/91${r.phone}?text=${encodeURIComponent(`Hello ${r.name},\nGreetings from Sarathy Group.`)}" target="_blank" onclick="event.stopPropagation()" class="text-emerald-500 hover:text-emerald-600 hover:scale-110 transition-transform"><i class="fab fa-whatsapp text-lg"></i></a>` : ''}
+                                <a ${callLink} onclick="event.stopPropagation()" class="text-blue-500 hover:text-blue-700 hover:scale-110 transition-transform opacity-0 group-hover/item:opacity-100 hidden md:block"><i class="fas fa-phone-alt"></i></a>
                                 <span class="text-[9px] px-2 py-1 rounded font-black tracking-widest uppercase border shadow-sm ${statusColor}">${r.status}</span>
                             </div>
                         </div>
@@ -1196,6 +1234,53 @@
             }
         };
 
+        // NEW: Print ID Card Feature
+        const printIdCard = (id) => {
+            const r = joinees.find(x => x.id === id);
+            if(!r) return;
+            
+            const joinD = r.joinDate ? formatDateString(r.joinDate) : 'N/A';
+            
+            // Build the ID card HTML structure inside the dedicated modal
+            const idCardHtml = `
+                <div class="bg-gradient-to-br from-blue-600 to-blue-800 h-28 relative rounded-t-3xl border-b-4 border-amber-400">
+                    <div class="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] rounded-t-3xl"></div>
+                    <img src="Sarathy2.png.png" class="h-10 mx-auto mt-4 drop-shadow-md brightness-0 invert" onerror="this.style.display='none'">
+                    <h2 class="text-white text-center font-black tracking-[0.2em] text-lg mt-1 uppercase w-full absolute z-10" style="top: 10px;">Sarathy Group</h2>
+                </div>
+                <div class="w-24 h-24 bg-white rounded-2xl border-4 border-white shadow-xl absolute top-[60px] left-1/2 transform -translate-x-1/2 flex items-center justify-center text-4xl font-black text-blue-600 overflow-hidden bg-slate-100 z-20">
+                    ${r.name[0]}
+                </div>
+                <div class="pt-16 pb-6 px-6 text-center">
+                    <h2 class="text-2xl font-black text-slate-800 uppercase tracking-tight leading-none">${r.name}</h2>
+                    <p class="text-[10px] font-black text-blue-600 uppercase tracking-[0.3em] mt-2 mb-4 bg-blue-50 py-1 px-3 inline-block rounded-lg border border-blue-100">${r.designation || 'EMPLOYEE'}</p>
+                    
+                    <div class="mt-2 text-left bg-slate-50 p-4 rounded-xl border border-slate-200">
+                        <div class="grid grid-cols-3 gap-y-2 text-xs">
+                            <span class="font-bold text-slate-400 uppercase tracking-wider col-span-1">EMP ID:</span>
+                            <span class="font-black text-slate-700 col-span-2">${r.empId}</span>
+                            
+                            <span class="font-bold text-slate-400 uppercase tracking-wider col-span-1">DEPT:</span>
+                            <span class="font-black text-slate-700 col-span-2 uppercase">${r.dept}</span>
+                            
+                            <span class="font-bold text-slate-400 uppercase tracking-wider col-span-1">JOINED:</span>
+                            <span class="font-black text-slate-700 col-span-2">${joinD}</span>
+                            
+                            <span class="font-bold text-slate-400 uppercase tracking-wider col-span-1">PHONE:</span>
+                            <span class="font-black text-slate-700 col-span-2">${r.phone || 'N/A'}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-slate-800 text-white text-center py-3 text-[8px] font-bold tracking-widest uppercase rounded-b-3xl">
+                    Authorized Employee Identity Card<br>${r.company}
+                </div>
+            `;
+            
+            document.getElementById('idCardContainer').innerHTML = idCardHtml;
+            document.getElementById('idCardModal').classList.remove('hidden');
+            showToast("ID Card Generated!", "success");
+        };
+
         const generateRow = (x, index) => {
             const intDate = formatDateString(x.interviewDate);
             const joinDate = formatDateString(x.joinDate);
@@ -1209,15 +1294,13 @@
             const avatarClass = getAvatarColor(x.name);
             const deptColor = getDeptColor(x.dept);
 
-            // Buttons
-            const waLink = x.phone ? `href="https://wa.me/91${x.phone}?text=${encodeURIComponent(`Hello ${x.name},\nGreetings from Sarathy Group.`)}" target="_blank"` : `href="#" onclick="showToast('Phone number not available', 'error'); return false;"`;
-            const mailLink = x.email ? `href="mailto:${x.email}"` : `href="#" onclick="showToast('Email not available', 'error'); return false;"`;
-            const resumeLink = x.resumeLink ? `href="${x.resumeLink}" target="_blank"` : `href="#" onclick="showToast('Resume link not available', 'error'); return false;"`;
-
             // Action Buttons
+            const waLink = x.phone ? `href="https://wa.me/91${x.phone}?text=${encodeURIComponent(`Hello ${x.name},\nGreetings from Sarathy Group.`)}" target="_blank"` : `href="#" onclick="showToast('Phone number not available', 'error'); return false;"`;
+            const callLink = x.phone ? `href="tel:+91${x.phone}"` : `href="#" onclick="showToast('Phone number not available', 'error'); return false;"`;
+
             let actionBtns = `
+                <a ${callLink} title="Call Candidate" class="w-8 h-8 rounded-lg bg-blue-50 border border-blue-200 text-blue-500 flex items-center justify-center hover:bg-blue-100 transition-all shadow-sm hover:-translate-y-0.5 active:scale-95"><i class="fas fa-phone-alt text-xs"></i></a>
                 <a ${waLink} title="WhatsApp" class="w-8 h-8 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-500 flex items-center justify-center hover:bg-emerald-100 transition-all shadow-sm hover:-translate-y-0.5 active:scale-95"><i class="fab fa-whatsapp text-sm"></i></a>
-                <a ${mailLink} title="Email Candidate" class="w-8 h-8 rounded-lg bg-blue-50 border border-blue-200 text-blue-500 flex items-center justify-center hover:bg-blue-100 transition-all shadow-sm hover:-translate-y-0.5 active:scale-95"><i class="fas fa-envelope text-xs"></i></a>
                 <button onclick="viewCandidate(${x.id})" title="View Profile" class="w-8 h-8 rounded-lg bg-indigo-50 border border-indigo-200 text-indigo-600 flex items-center justify-center hover:bg-indigo-100 transition-all shadow-sm hover:-translate-y-0.5 active:scale-95"><i class="fas fa-eye text-xs"></i></button>
             `;
 
@@ -1286,15 +1369,6 @@
                     <button onclick="viewCandidate(${x.id})" class="text-[9px] font-black text-sarathy-blue uppercase tracking-widest hover:underline bg-blue-50 dark:bg-blue-900/30 px-2 py-1 rounded">Details</button>
                 </div>
             </div>`;
-        };
-
-        const deleteCandidate = (id) => {
-            if(confirm("Are you sure you want to delete this candidate permanently?")) {
-                joinees = joinees.filter(x => x.id !== id);
-                localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees));
-                renderTable(); renderDashboard(); renderCalendar(); checkNotifications();
-                showToast("Candidate Entry Deleted!", "error");
-            }
         };
 
         // --- HR MODAL FORM ---
@@ -1404,6 +1478,7 @@
             else statusClass = 'bg-red-50 text-red-600 border-red-200';
 
             const waLink = r.phone ? `href="https://wa.me/91${r.phone}?text=${encodeURIComponent(`Hello ${r.name},\nGreetings from Sarathy Group.`)}" target="_blank"` : `href="#" onclick="showToast('Phone number not available', 'error'); return false;"`;
+            const callLink = r.phone ? `href="tel:+91${r.phone}"` : `href="#" onclick="showToast('Phone number not available', 'error'); return false;"`;
             const mailLink = r.email ? `href="mailto:${r.email}"` : `href="#" onclick="showToast('Email not available', 'error'); return false;"`;
             const resumeLink = r.resumeLink ? `href="${r.resumeLink}" target="_blank"` : `href="#" onclick="showToast('Resume link not available', 'error'); return false;"`;
 
@@ -1411,6 +1486,8 @@
             const offerLetterSubject = encodeURIComponent(`Job Offer from Sarathy Group`);
             const offerLetterBody = encodeURIComponent(`Dear ${r.name},\n\nCongratulations! We are pleased to offer you the position of ${r.designation} at Sarathy Group in the ${r.dept} department.\n\nYour joining date is scheduled for ${r.joinDate ? formatDateString(r.joinDate) : '[Date]'}.\n\nPlease let us know if you accept this offer.\n\nBest regards,\nHR Team,\nSarathy Group`);
             const offerBtn = r.email && r.status === 'SELECTED' ? `<a href="mailto:${r.email}?subject=${offerLetterSubject}&body=${offerLetterBody}" class="flex-1 py-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl font-black text-xs uppercase tracking-widest transition-all shadow-lg active:scale-95 flex items-center justify-center gap-2 no-print"><i class="fas fa-envelope-open-text"></i> Send Offer</a>` : '';
+            
+            const idCardBtn = r.status === 'JOINED' ? `<button onclick="printIdCard(${r.id})" class="w-14 h-14 bg-blue-50 hover:bg-blue-600 text-blue-600 hover:text-white rounded-2xl transition-colors flex items-center justify-center border border-blue-200 active:scale-95" title="Generate ID Card"><i class="fas fa-id-card text-lg"></i></button>` : '';
 
             const content = `
                 <div class="flex items-center gap-5 mb-8 border-b border-[var(--border-color)] pb-6 relative">
@@ -1424,6 +1501,7 @@
                             <span class="px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest shadow-sm border ${statusClass}">
                                 ${r.status}
                             </span>
+                            <a ${callLink} class="px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest shadow-sm border bg-blue-50 text-blue-600 border-blue-200 hover:bg-blue-500 hover:text-white transition-colors cursor-pointer"><i class="fas fa-phone-alt text-xs mr-1"></i> CALL</a>
                             <a ${waLink} class="px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest shadow-sm border bg-emerald-50 text-emerald-600 border-emerald-200 hover:bg-emerald-500 hover:text-white transition-colors cursor-pointer"><i class="fab fa-whatsapp text-xs mr-1"></i> MSG</a>
                             <a ${resumeLink} class="px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest shadow-sm border bg-purple-50 text-purple-600 border-purple-200 hover:bg-purple-500 hover:text-white transition-colors cursor-pointer"><i class="fas fa-file-pdf text-xs mr-1"></i> CV</a>
                         </div>
@@ -1450,6 +1528,7 @@
                     <button onclick="editRecord(${r.id})" class="flex-1 py-4 bg-sarathy-blue hover:bg-[#004080] text-white rounded-2xl font-black text-xs uppercase tracking-widest transition-all shadow-lg active:scale-95 flex items-center justify-center gap-2"><i class="fas fa-edit"></i> Edit Details</button>
                     ${r.status === 'SELECTED' ? `<button onclick="markAsJoined(${r.id}); closeViewModal();" class="flex-1 py-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl font-black text-xs uppercase tracking-widest transition-all shadow-lg active:scale-95 flex items-center justify-center gap-2"><i class="fas fa-user-check"></i> Mark Joined</button>` : ''}
                     ${offerBtn}
+                    ${idCardBtn}
                     <button onclick="deleteCandidate(${r.id}); closeViewModal();" class="w-14 h-14 bg-red-50 hover:bg-red-600 text-red-500 hover:text-white rounded-2xl transition-colors flex items-center justify-center border border-red-200 active:scale-95"><i class="fas fa-trash-alt text-lg"></i></button>
                 </div>
             `;
@@ -1532,9 +1611,9 @@
                         if(ev.status==='SELECTED') stClass = 'bg-emerald-100 text-emerald-700 border border-emerald-200';
                         if(ev.status==='JOINED') stClass = 'bg-[#0054A6] text-white border border-[#003366]';
                         if(ev.status==='REJECTED') stClass = 'bg-red-100 text-red-700 border border-red-200';
-                        return `<div onclick="viewCandidate(${ev.id})" class="calendar-event ${stClass} shadow-sm">INT: ${ev.name.split(' ')[0]}</div>`;
+                        return `<div onclick="viewCandidate(${ev.id})" class="calendar-event ${stClass} shadow-sm"><i class="fas fa-calendar-alt opacity-70 mr-1"></i> INT: ${ev.name.split(' ')[0]}</div>`;
                     } else {
-                        return `<div onclick="viewCandidate(${ev.id})" class="calendar-event bg-[#0054A6] text-white border border-[#003366] shadow-sm">JOIN: ${ev.name.split(' ')[0]}</div>`;
+                        return `<div onclick="viewCandidate(${ev.id})" class="calendar-event bg-[#0054A6] text-white border border-[#003366] shadow-sm"><i class="fas fa-flag-checkered opacity-70 mr-1"></i> JOIN: ${ev.name.split(' ')[0]}</div>`;
                     }
                 }).join('');
                 
@@ -1986,25 +2065,6 @@
             } catch (error) {
                 console.error("Excel Export Error: ", error);
                 showToast("Failed to download Excel. Please try again.", "error");
-            }
-        };
-
-        // UI Events
-        let dragId = null;
-        const dragStart = (e, id) => { dragId = id; e.dataTransfer.effectAllowed = 'move'; };
-        const dragEnd = (e) => { dragId = null; document.querySelectorAll('.kanban-col').forEach(c=>c.classList.remove('drag-over')); };
-        const allowDrop = (e) => { e.preventDefault(); e.currentTarget.classList.add('drag-over'); };
-        const dragLeave = (e) => e.currentTarget.classList.remove('drag-over');
-        const drop = (e, st) => {
-            e.preventDefault(); e.currentTarget.classList.remove('drag-over');
-            if(dragId) {
-                const idx = joinees.findIndex(x=>x.id===dragId);
-                joinees[idx].status = st;
-                if(st === 'JOINED' && !joinees[idx].joinDate) joinees[idx].joinDate = new Date().toISOString().slice(0, 10);
-                
-                localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees));
-                renderTable(); renderDashboard(); renderCalendar(); checkNotifications();
-                if(st==='SELECTED' || st==='JOINED') confetti();
             }
         };
 
