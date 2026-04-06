@@ -34,9 +34,9 @@
             --bg-primary: #f8fafc;
             --bg-secondary: #ffffff;
             --bg-glass: rgba(255, 255, 255, 0.85);
-            --text-primary: #050505;
-            --text-secondary: #000000;
-            --border-color: #00000059;
+            --text-primary: #0f172a;
+            --text-secondary: #64748b;
+            --border-color: #e2e8f0;
             --sidebar-width: 260px;
         }
 
@@ -44,8 +44,8 @@
             --bg-primary: #0f172a;
             --bg-secondary: #1e293b;
             --bg-glass: rgba(30, 41, 59, 0.85);
-            --text-primary: #ffffff;
-            --text-secondary: #cbd5e1;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
             --border-color: #334155;
         }
 
@@ -75,8 +75,8 @@
         
         .modern-card:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-            border-color: rgba(0, 84, 166, 0.2);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08);
+            border-color: rgba(0, 84, 166, 0.3);
         }
 
         /* Custom Scrollbar */
@@ -111,7 +111,8 @@
         .calendar-day { min-height: 80px; aspect-ratio: unset; md:aspect-ratio: 1; border-radius: 8px; md:border-radius: 12px; border: 1px solid var(--border-color); padding: 4px md:padding: 8px; display: flex; flex-direction: column; background: var(--bg-secondary); transition: all 0.2s; }
         .calendar-day:hover { border-color: #0054A6; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
         .calendar-day.today { background: rgba(0, 84, 166, 0.05); border: 2px solid #0054A6; }
-        .calendar-event { font-size: 0.6rem; md:font-size: 0.65rem; padding: 2px 4px; border-radius: 4px; margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 700; cursor: pointer; }
+        .calendar-event { font-size: 0.6rem; md:font-size: 0.65rem; padding: 2px 4px; border-radius: 4px; margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 700; cursor: pointer; transition: transform 0.2s; }
+        .calendar-event:hover { transform: scale(1.02); }
 
         .gradient-text { background: linear-gradient(135deg, #0054A6, #0ea5e9); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .dark .gradient-text { background: linear-gradient(135deg, #60a5fa, #38bdf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
@@ -124,31 +125,75 @@
 
         /* Professional Summary Tables */
         .summary-table { width: 100%; border-collapse: separate; border-spacing: 0; margin-bottom: 1.5rem; font-size: 0.75rem; }
-        .summary-table th { background: #0054A6; color: #ffffff; font-weight: 900; text-transform: uppercase; text-align: left; padding: 12px 16px; position: sticky; top: 0; z-index: 10; }
-        .dark .summary-table th { background: #1e3a8a; color: #ffffff; border-bottom: none; }
+        .summary-table th { background: var(--bg-primary); color: var(--text-secondary); font-weight: 800; text-transform: uppercase; text-align: left; padding: 12px 16px; position: sticky; top: 0; z-index: 10; border-bottom: 2px solid var(--border-color); }
         .summary-table td { padding: 12px 16px; border-bottom: 1px solid var(--border-color); color: var(--text-primary); font-weight: 600; }
-        .summary-table tr:hover td { background: rgba(0, 84, 166, 0.05); }
+        .summary-table tr:hover td { background: rgba(0, 84, 166, 0.02); }
         .dark .summary-table tr:hover td { background: rgba(255, 255, 255, 0.02); }
 
         /* Professional Data Table for Candidate Directory */
-        .data-table-container { background: var(--bg-secondary); border-radius: 1.25rem; border: 1px solid var(--border-color); overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.05); max-height: calc(100vh - 200px); overflow-y: auto; }
+        .data-table-container { 
+            background: var(--bg-secondary); 
+            border-radius: 1rem; 
+            border: 1px solid var(--border-color); 
+            overflow: hidden; 
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); 
+            max-height: calc(100vh - 200px); 
+            overflow-y: auto; 
+        }
+        
         .data-table { width: 100%; border-collapse: collapse; }
         
-        /* BLUE BANNER HEADING STYLE & GRID WITH STICKY FIX */
-        .data-table th { background: #0054A6; color: #ffffff; font-size: 0.75rem; font-weight: 900; text-transform: uppercase; text-align: left; padding: 16px; letter-spacing: 0.05em; border: 1px solid rgba(255, 255, 255, 0.2); position: sticky; top: 0; z-index: 10; }
-        .dark .data-table th { background: #1e3a8a; color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.1); }
+        /* Modern Pro Headers */
+        .data-table th { 
+            background: var(--bg-primary); 
+            color: var(--text-secondary); 
+            font-size: 0.75rem; 
+            font-weight: 800; 
+            text-transform: uppercase; 
+            text-align: left; 
+            padding: 16px 20px; 
+            letter-spacing: 0.05em; 
+            border-bottom: 2px solid var(--border-color); 
+            position: sticky; 
+            top: 0; 
+            z-index: 10; 
+        }
         
-        .data-table td { padding: 16px; font-size: 0.85rem; border: 1px solid var(--border-color); vertical-align: middle; }
+        .data-table td { 
+            padding: 16px 20px; 
+            font-size: 0.85rem; 
+            border-bottom: 1px solid var(--border-color); 
+            vertical-align: middle; 
+            color: var(--text-primary);
+        }
+        
         .data-table tr:last-child td { border-bottom: none; }
-        .data-table tr:hover td { background: rgba(0, 84, 166, 0.04); }
+        .data-table tr { transition: all 0.2s ease; }
+        .data-table tr:hover td { background: rgba(0, 84, 166, 0.02); }
         .dark .data-table tr:hover td { background: rgba(255, 255, 255, 0.02); }
 
-        .status-badge-md { padding: 6px 12px; border-radius: 6px; font-size: 0.7rem; font-weight: 900; display: inline-block; text-transform: uppercase; letter-spacing: 0.05em; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-        .badge-selected { background: #ecfdf5; color: #047857; border: 1px solid #10b98140; }
-        .badge-pending { background: #fffbeb; color: #b45309; border: 1px solid #f59e0b40; }
-        .badge-rejected { background: #fef2f2; color: #b91c1c; border: 1px solid #ef444440; }
-        .badge-joined { background: #0054A6; color: #ffffff; border: 1px solid #003366; } 
+        /* Modern Status Badges */
+        .status-badge-md { 
+            padding: 6px 12px; 
+            border-radius: 20px; 
+            font-size: 0.7rem; 
+            font-weight: 800; 
+            display: inline-flex; 
+            align-items: center;
+            justify-content: center;
+            text-transform: uppercase; 
+            letter-spacing: 0.05em; 
+        }
+        .badge-selected { background: #d1fae5; color: #059669; border: 1px solid #a7f3d0; }
+        .badge-pending { background: #fef3c7; color: #d97706; border: 1px solid #fde68a; }
+        .badge-rejected { background: #fee2e2; color: #dc2626; border: 1px solid #fecaca; }
+        .badge-joined { background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd; }
         
+        .dark .badge-selected { background: rgba(16, 185, 129, 0.1); color: #34d399; border-color: rgba(16, 185, 129, 0.2); }
+        .dark .badge-pending { background: rgba(245, 158, 11, 0.1); color: #fbbf24; border-color: rgba(245, 158, 11, 0.2); }
+        .dark .badge-rejected { background: rgba(239, 68, 68, 0.1); color: #f87171; border-color: rgba(239, 68, 68, 0.2); }
+        .dark .badge-joined { background: rgba(14, 165, 233, 0.1); color: #38bdf8; border-color: rgba(14, 165, 233, 0.2); }
+
         /* Settings Switches */
         .toggle-switch { position: relative; display: inline-block; width: 44px; height: 24px; }
         .toggle-switch input { opacity: 0; width: 0; height: 0; }
@@ -481,14 +526,14 @@
                     <div id="listView" class="animate-up">
                         <div class="data-table-container">
                             <div class="overflow-x-auto">
-                                <table class="data-table">
+                                <table class="data-table min-w-[800px]">
                                     <thead>
                                         <tr>
                                             <th class="w-12 text-center whitespace-nowrap">SL NO</th>
                                             <th>Personnel Info</th>
                                             <th>Role & Entity</th>
                                             <th>Location</th>
-                                            <th>Status</th>
+                                            <th class="text-center">Status</th>
                                             <th>Schedule</th>
                                             <th class="text-right">Actions</th>
                                         </tr>
@@ -584,7 +629,7 @@
                 </div>
 
             </div>
-
+            
             <!-- Global Floating Action Buttons -->
             <button id="addBtn" onclick="openModal()" class="fab hidden" title="Add New Candidate"><i class="fas fa-plus text-lg md:text-xl"></i></button>
             <button id="notesBtn" onclick="toggleNotesPanel()" class="fab-notes hidden" title="Quick Notes"><i class="fas fa-sticky-note text-lg md:text-xl"></i></button>
@@ -654,13 +699,13 @@
                             <span id="phoneError" class="hidden text-red-500 text-[10px] font-black mt-1.5 ml-1 tracking-widest uppercase"><i class="fas fa-exclamation-triangle"></i> Duplicate Phone Number!</span>
                         </div>
                         
-                        <!-- NEW: EMAIL ID -->
+                        <!-- EMAIL ID -->
                         <div class="flex flex-col justify-end">
                             <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-2 ml-1">Email Address</label>
                             <input type="email" id="empEmail" class="w-full p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-2xl font-black text-sm outline-none focus:border-sarathy-blue transition-colors dark:text-white shadow-sm" placeholder="CANDIDATE EMAIL">
                         </div>
                         
-                        <!-- NEW: SOURCE -->
+                        <!-- SOURCE -->
                         <div class="flex flex-col justify-end relative">
                             <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-2 ml-1">Source of Application</label>
                             <select id="empSource" class="w-full p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-2xl font-black text-sm uppercase outline-none focus:border-sarathy-blue transition-colors appearance-none dark:text-white dark:[color-scheme:dark] shadow-sm cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-700">
@@ -717,7 +762,7 @@
                             <input type="text" id="designation" required class="w-full p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-2xl font-black text-sm uppercase outline-none focus:border-sarathy-blue transition-colors dark:text-white shadow-sm" placeholder="ENTER DESIGNATION">
                         </div>
                         
-                        <!-- NEW: RESUME LINK -->
+                        <!-- RESUME LINK -->
                         <div class="col-span-1 md:col-span-2 flex flex-col justify-end">
                             <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-2 ml-1 flex items-center gap-1"><i class="fas fa-link text-sarathy-blue"></i> Resume / CV Link (Drive/Dropbox)</label>
                             <input type="url" id="resumeLink" class="w-full p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-2xl font-bold text-sm outline-none focus:border-sarathy-blue transition-colors dark:text-white shadow-sm text-blue-500" placeholder="https://drive.google.com/...">
@@ -781,14 +826,12 @@
             <div class="p-5 md:p-6 bg-gradient-to-r from-sarathy-blue to-blue-600 text-white flex justify-between items-center no-print">
                 <h2 class="font-black text-sm md:text-base uppercase tracking-widest flex items-center gap-3"><i class="fas fa-id-badge text-xl opacity-70"></i> Candidate Profile</h2>
                 <div class="flex items-center gap-2">
-                    <!-- NEW SHARE BUTTON -->
                     <button id="shareProfileBtn" class="px-3 py-1.5 bg-white/20 hover:bg-white/30 rounded-lg text-xs font-bold uppercase tracking-widest transition-colors flex items-center gap-2"><i class="fas fa-share-alt"></i> Share</button>
                     <button onclick="window.print()" class="px-3 py-1.5 bg-white/20 hover:bg-white/30 rounded-lg text-xs font-bold uppercase tracking-widest transition-colors flex items-center gap-2"><i class="fas fa-print"></i> Print</button>
                     <button onclick="closeViewModal()" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/20 transition-colors ml-2"><i class="fas fa-times text-lg"></i></button>
                 </div>
             </div>
             
-            <!-- Added Print Header just for printing -->
             <div class="hidden print:block text-center pt-8 pb-4 border-b-2 border-black mb-6">
                 <h1 class="text-3xl font-black uppercase tracking-widest">SARATHY GROUP</h1>
                 <p class="text-sm font-bold uppercase tracking-widest mt-1">Candidate Profile Report</p>
@@ -802,7 +845,7 @@
         </div>
     </div>
     
-    <!-- NEW: ID CARD MODAL -->
+    <!-- ID CARD MODAL -->
     <div id="idCardModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[150] hidden flex items-center justify-center p-4 transition-opacity no-print">
         <div class="w-full max-w-sm rounded-3xl shadow-2xl overflow-hidden modal-animate relative">
             <button onclick="document.getElementById('idCardModal').classList.add('hidden')" class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-white/20 text-white hover:bg-white/40 transition-colors z-20"><i class="fas fa-times"></i></button>
@@ -937,7 +980,6 @@
             return "Good Evening";
         };
 
-        // NEW: Share Profile
         const shareCandidateProfile = (id) => {
             const c = joinees.find(x => x.id === id);
             if(!c) return;
@@ -988,7 +1030,7 @@
         });
         
         const handleBiometricLogin = () => { 
-            const icon = document.getElementById('bioIcon');
+             const icon = document.getElementById('bioIcon');
             const text = document.getElementById('bioText');
             
             if(icon) {
@@ -998,24 +1040,24 @@
             if(text) text.innerText = "Scanning...";
             
             setTimeout(() => { 
-                if(icon) {
+                 if(icon) {
                     icon.classList.remove('fa-fingerprint', 'animate-pulse');
                     icon.classList.add('fa-check-circle');
                 }
                 if(text) text.innerText = "Verified";
-                showToast("Biometric Verified Successfully!"); 
+                showToast("Biometric Verified Successfully!");
                 
-                setTimeout(() => {
+                 setTimeout(() => {
                     currentUser=USERS[0]; 
-                    showApp(); 
+                    showApp();
                     
-                    setTimeout(() => {
+                     setTimeout(() => {
                         if(icon) icon.className = "fas fa-fingerprint text-xl md:text-2xl text-slate-400 group-hover:text-sarathy-blue mr-2 md:mr-3 transition-colors";
                         if(text) text.innerText = "Biometric Login";
                     }, 1000);
                 }, 500);
             }, 1500); 
-        };
+         };
         
         const showApp = () => {
             document.getElementById('loginPage')?.classList.add('hidden');
@@ -1188,12 +1230,6 @@
                         if(r.status === 'JOINED') statusColor = 'text-white bg-[#0054A6] border-[#003366]';
                         if(r.status === 'REJECTED') statusColor = 'text-red-500 bg-red-50 border-red-200';
                         
-                        let waMessage = `Hello ${r.name},\nGreetings from Sarathy Group.`;
-                        if(r.status === 'PENDING') waMessage = `Dear ${r.name},\nYour interview for ${r.designation} at Sarathy Group is scheduled on ${formatDateString(r.interviewDate)}.\n\nRegards,\nHR Team`;
-                        else if(r.status === 'SELECTED') waMessage = `Dear ${r.name},\nCongratulations! You have been selected for ${r.designation} at Sarathy Group.\n\nRegards,\nHR Team`;
-                        else if(r.status === 'REJECTED') waMessage = `Dear ${r.name},\nThank you for your interest. Unfortunately, we are moving forward with other candidates at this time.\n\nRegards,\nHR Team`;
-
-                        const waLink = r.phone ? `href="https://wa.me/91${r.phone}?text=${encodeURIComponent(waMessage)}" target="_blank"` : `href="#" onclick="showToast('Phone number not available', 'error'); return false;"`;
                         const callLink = r.phone ? `href="tel:+91${r.phone}"` : `href="#" onclick="showToast('Phone number not available', 'error'); return false;"`;
 
                         return `
@@ -1205,7 +1241,6 @@
                             </div>
                             <div class="text-right flex items-center gap-1 md:gap-2">
                                 <a ${callLink} onclick="event.stopPropagation()" class="text-blue-500 hover:text-blue-700 hover:scale-110 transition-transform opacity-100 md:opacity-0 md:group-hover/item:opacity-100"><i class="fas fa-phone-alt text-xs md:text-base"></i></a>
-                                <a ${waLink} onclick="event.stopPropagation()" class="text-emerald-500 hover:text-emerald-700 hover:scale-110 transition-transform opacity-100 md:opacity-0 md:group-hover/item:opacity-100"><i class="fab fa-whatsapp text-sm md:text-lg"></i></a>
                                 <span class="text-[7px] md:text-[9px] px-1.5 md:px-2 py-0.5 md:py-1 rounded font-black tracking-widest uppercase border shadow-sm ${statusColor}">${r.status}</span>
                             </div>
                         </div>
@@ -1368,53 +1403,55 @@
             const avatarClass = getAvatarColor(x.name);
             const deptColor = getDeptColor(x.dept);
 
-            const waLink = x.phone ? `href="https://wa.me/91${x.phone}?text=${encodeURIComponent(`Hello ${x.name},\nGreetings from Sarathy Group.`)}" target="_blank"` : `href="#" onclick="showToast('Phone number not available', 'error'); return false;"`;
+            // Clean Pro Action Buttons (Removed WhatsApp Bug)
             const callLink = x.phone ? `href="tel:+91${x.phone}"` : `href="#" onclick="showToast('Phone number not available', 'error'); return false;"`;
-
+            
             let actionBtns = `
-                <a ${callLink} title="Call Candidate" class="w-7 h-7 md:w-8 md:h-8 rounded-md md:rounded-lg bg-blue-50 border border-[var(--border-color)] md:border-blue-200 text-blue-500 flex items-center justify-center hover:bg-blue-100 transition-all shadow-sm hover:-translate-y-0.5 active:scale-95"><i class="fas fa-phone-alt text-[10px] md:text-xs"></i></a>
-                <a ${waLink} title="WhatsApp" class="w-7 h-7 md:w-8 md:h-8 rounded-md md:rounded-lg bg-emerald-50 border border-[var(--border-color)] md:border-emerald-200 text-emerald-500 flex items-center justify-center hover:bg-emerald-100 transition-all shadow-sm hover:-translate-y-0.5 active:scale-95"><i class="fab fa-whatsapp text-xs md:text-sm"></i></a>
-                <button onclick="viewCandidate(${x.id})" title="View Profile" class="w-7 h-7 md:w-8 md:h-8 rounded-md md:rounded-lg bg-indigo-50 border border-[var(--border-color)] md:border-indigo-200 text-indigo-600 flex items-center justify-center hover:bg-indigo-100 transition-all shadow-sm hover:-translate-y-0.5 active:scale-95"><i class="fas fa-eye text-[10px] md:text-xs"></i></button>
+                <a ${callLink} title="Call Candidate" class="w-8 h-8 rounded-lg bg-slate-50 border border-slate-200 text-slate-600 flex items-center justify-center hover:bg-slate-200 hover:text-slate-900 transition-all shadow-sm active:scale-95"><i class="fas fa-phone-alt text-xs"></i></a>
+                <button onclick="viewCandidate(${x.id})" title="View Profile" class="w-8 h-8 rounded-lg bg-blue-50 border border-blue-200 text-blue-600 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-all shadow-sm active:scale-95"><i class="fas fa-eye text-xs"></i></button>
             `;
 
             if (x.status === 'SELECTED') {
                 actionBtns = `
-                    <button onclick="markAsJoined(${x.id})" title="Mark as Joined" class="w-7 h-7 md:w-8 md:h-8 rounded-md md:rounded-lg bg-emerald-50 border border-emerald-500 text-emerald-600 flex items-center justify-center hover:bg-emerald-500 hover:text-white transition-all shadow-sm hover:-translate-y-0.5 active:scale-95"><i class="fas fa-user-check text-[10px] md:text-xs"></i></button>
+                    <button onclick="markAsJoined(${x.id})" title="Mark as Joined" class="w-8 h-8 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-600 flex items-center justify-center hover:bg-emerald-500 hover:text-white transition-all shadow-sm active:scale-95"><i class="fas fa-check text-xs"></i></button>
                 ` + actionBtns;
             }
 
             return `
-                <tr class="hover:bg-blue-50/50 dark:hover:bg-blue-900/20 transition-colors group">
-                    <td class="text-center font-black text-black dark:text-white text-[10px] md:text-[13px]">${index}</td>
+                <tr class="group">
+                    <td class="text-center font-black text-[var(--text-secondary)] text-[12px]">${index}</td>
                     <td>
-                        <div class="flex items-center gap-2 md:gap-4">
-                            <div class="w-8 h-8 md:w-10 md:h-10 rounded-lg md:rounded-xl border flex items-center justify-center font-black text-[10px] md:text-sm shrink-0 shadow-sm ${avatarClass}">${x.name[0]}</div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl flex items-center justify-center font-black text-sm shrink-0 shadow-sm ${avatarClass}">${x.name[0]}</div>
                             <div>
-                                <p class="font-black text-[var(--text-primary)] leading-tight text-[10px] md:text-sm uppercase tracking-wide truncate max-w-[100px] sm:max-w-none">${x.name}</p>
-                                <p class="text-[8px] md:text-[10px] text-slate-500 font-extrabold uppercase mt-0.5 md:mt-1 tracking-widest">${x.empId}</p>
+                                <p class="font-black text-[var(--text-primary)] leading-tight text-[12px] md:text-[13px] uppercase tracking-wide truncate">${x.name}</p>
+                                <span class="inline-block px-2 py-0.5 mt-1 rounded text-[9px] font-extrabold bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400 uppercase tracking-widest border border-slate-200 dark:border-slate-700">${x.empId}</span>
                             </div>
                         </div>
                     </td>
                     <td>
-                        <p class="font-black text-[var(--text-primary)] text-[9px] md:text-[11px] uppercase tracking-widest truncate max-w-[100px] sm:max-w-none">${x.designation || '-'}</p>
-                        <div class="flex flex-col items-start gap-1 md:gap-1.5 mt-1 md:mt-1.5">
-                            <p class="text-[8px] md:text-[10px] ${deptColor} font-extrabold uppercase tracking-widest">${x.dept}</p>
-                            <span class="inline-block px-1.5 md:px-2 py-0.5 rounded text-[6px] md:text-[8px] font-black bg-[#0054A6] text-white border border-[#003366] dark:bg-blue-600 dark:text-white dark:border-blue-500 uppercase tracking-widest shadow-sm truncate max-w-[100px] sm:max-w-none">${x.company}</span>
+                        <p class="font-black text-[var(--text-primary)] text-[10px] md:text-[11px] uppercase tracking-widest truncate">${x.designation || '-'}</p>
+                        <div class="flex items-center gap-2 mt-1">
+                            <p class="text-[9px] md:text-[10px] ${deptColor} font-black uppercase tracking-widest">${x.dept}</p>
+                            <span class="text-[10px] text-slate-300">•</span>
+                            <p class="text-[9px] md:text-[10px] text-slate-500 font-bold uppercase tracking-widest truncate">${x.company}</p>
                         </div>
                     </td>
                     <td>
-                        <p class="text-[9px] md:text-[11px] font-black text-[var(--text-primary)] uppercase tracking-widest mb-1 md:mb-1.5 truncate max-w-[80px] sm:max-w-none">${x.location || '-'}</p>
-                        <span class="text-[7px] md:text-[8px] font-black text-slate-500 uppercase tracking-widest">${x.source || 'Direct/Walk-in'}</span>
+                        <p class="text-[10px] md:text-[11px] font-black text-[var(--text-primary)] uppercase tracking-widest truncate">${x.location || '-'}</p>
+                        <p class="text-[9px] mt-1 font-bold text-slate-400 uppercase tracking-widest"><i class="fas fa-map-marker-alt mr-1"></i> ${x.source || 'Walk-in'}</p>
                     </td>
-                    <td><span class="status-badge-md shadow-sm ${statusClass}">${x.status}</span></td>
+                    <td class="text-center">
+                        <span class="status-badge-md shadow-sm ${statusClass}">${x.status}</span>
+                    </td>
                     <td>
-                        <div class="text-[8px] md:text-[9px] leading-relaxed space-y-1 md:space-y-1.5">
-                            <p class="text-slate-500 font-extrabold uppercase tracking-widest">INT DATE : <span class="text-[var(--text-primary)] font-black">${intDate}</span></p>
-                            ${x.joinDate ? `<p class="text-emerald-600 dark:text-emerald-400 font-extrabold uppercase tracking-widest">JOIN DATE : <span class="text-emerald-800 dark:text-emerald-300 font-black">${joinDate}</span></p>` : ''}
+                        <div class="text-[9px] leading-relaxed space-y-1">
+                            <p class="text-slate-500 font-bold uppercase tracking-widest">INT DATE : <span class="text-[var(--text-primary)] font-black">${intDate}</span></p>
+                            ${x.joinDate ? `<p class="text-emerald-600 font-bold uppercase tracking-widest">JOIN DATE : <span class="text-emerald-700 font-black">${joinDate}</span></p>` : ''}
                         </div>
                     </td>
                     <td class="text-right">
-                        <div class="flex justify-end gap-1 md:gap-2 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
+                        <div class="flex justify-end gap-2 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300">
                             ${actionBtns}
                         </div>
                     </td>
@@ -1575,12 +1612,6 @@
             else if(r.status === 'PENDING') statusClass = 'bg-amber-50 text-amber-600 border-amber-200';
             else statusClass = 'bg-red-50 text-red-600 border-red-200';
 
-            let waMessage = `Hello ${r.name},\nGreetings from Sarathy Group.`;
-            if(r.status === 'PENDING') waMessage = `Dear ${r.name},\nYour interview for ${r.designation} at Sarathy Group is scheduled on ${formatDateString(r.interviewDate)}.\n\nRegards,\nHR Team`;
-            else if(r.status === 'SELECTED') waMessage = `Dear ${r.name},\nCongratulations! You have been selected for ${r.designation} at Sarathy Group.\n\nRegards,\nHR Team`;
-            else if(r.status === 'REJECTED') waMessage = `Dear ${r.name},\nThank you for your interest. Unfortunately, we are moving forward with other candidates at this time.\n\nRegards,\nHR Team`;
-
-            const waLink = r.phone ? `href="https://wa.me/91${r.phone}?text=${encodeURIComponent(waMessage)}" target="_blank"` : `href="#" onclick="showToast('Phone number not available', 'error'); return false;"`;
             const callLink = r.phone ? `href="tel:+91${r.phone}"` : `href="#" onclick="showToast('Phone number not available', 'error'); return false;"`;
             const mailLink = r.email ? `href="mailto:${r.email}"` : `href="#" onclick="showToast('Email not available', 'error'); return false;"`;
             const resumeLink = r.resumeLink ? `href="${r.resumeLink}" target="_blank"` : `href="#" onclick="showToast('Resume link not available', 'error'); return false;"`;
@@ -1608,7 +1639,6 @@
                                 ${r.status}
                             </span>
                             <a ${callLink} class="px-2 md:px-3 py-1 md:py-1.5 rounded-md md:rounded-lg text-[8px] md:text-[10px] font-black uppercase tracking-widest shadow-sm border bg-blue-50 text-blue-600 border-blue-200 hover:bg-blue-500 hover:text-white transition-colors cursor-pointer"><i class="fas fa-phone-alt text-[10px] md:text-xs mr-1"></i> CALL</a>
-                            <a ${waLink} class="px-2 md:px-3 py-1 md:py-1.5 rounded-md md:rounded-lg text-[8px] md:text-[10px] font-black uppercase tracking-widest shadow-sm border bg-emerald-50 text-emerald-600 border-emerald-200 hover:bg-emerald-500 hover:text-white transition-colors cursor-pointer"><i class="fab fa-whatsapp text-[10px] md:text-xs mr-1"></i> MSG</a>
                             <a ${resumeLink} class="px-2 md:px-3 py-1 md:py-1.5 rounded-md md:rounded-lg text-[8px] md:text-[10px] font-black uppercase tracking-widest shadow-sm border bg-purple-50 text-purple-600 border-purple-200 hover:bg-purple-500 hover:text-white transition-colors cursor-pointer"><i class="fas fa-file-pdf text-[10px] md:text-xs mr-1"></i> CV</a>
                             <a href="mailto:${r.email}?subject=${offerLetterSubject}&body=${offerLetterBody}" class="px-2 md:px-3 py-1 md:py-1.5 rounded-md md:rounded-lg text-[8px] md:text-[10px] font-black uppercase tracking-widest shadow-sm border bg-indigo-50 text-indigo-600 border-indigo-200 hover:bg-indigo-500 hover:text-white transition-colors cursor-pointer">${emailIcon}</a>
                         </div>
@@ -1648,8 +1678,6 @@
             }
         };
         
-        const closeViewModal = () => document.getElementById('viewModal')?.classList.add('hidden');
-
         const editRecord = (id) => {
             closeViewModal();
             const r = joinees.find(x=>x.id===id);
@@ -1947,13 +1975,13 @@
 
             const selectedJoiners = joinees.filter(x => (x.status === 'SELECTED' || x.status === 'JOINED') && x.joinDate).sort((a,b) => a.joinDate.localeCompare(b.joinDate));
             
-            let plainText = `📊 SARATHY GROUP - HR REPORT\n` +
-                          `Date: ${new Date().toLocaleDateString()}\n\n` +
-                          `👥 Total Candidates: ${total}\n` +
-                          `🤝 Joined: ${joined}\n` +
-                          `✅ Selected (Pending Join): ${sel}\n` +
-                          `⏳ Pending: ${pend}\n` +
-                          `❌ Rejected: ${rej}\n\n`;
+            let plainText = `📊 SARATHY GROUP - HR REPORT\n` + 
+                         `Date: ${new Date().toLocaleDateString()}\n\n` + 
+                         `👥 Total Candidates: ${total}\n` + 
+                         `🤝 Joined: ${joined}\n` + 
+                         `✅ Selected (Pending Join): ${sel}\n` + 
+                         `⏳ Pending: ${pend}\n` + 
+                         `❌ Rejected: ${rej}\n\n`;
 
             let html = `
                 <div class="mb-4 md:mb-6 grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3">
@@ -2081,42 +2109,7 @@
             showToast("Detailed Report Copied!");
         };
 
-        // --- SETTINGS & DATA MANAGEMENT ---
-        const changeAdminPin = () => {
-            const currentPin = document.getElementById('currentPin')?.value;
-            const newPin = document.getElementById('newPin')?.value;
-
-            if (currentPin !== USERS[0].pass) {
-                return showToast("Current PIN is incorrect!", "error");
-            }
-            if (newPin.length < 4) {
-                return showToast("New PIN must be at least 4 characters long", "error");
-            }
-
-            USERS[0].pass = newPin;
-            localStorage.setItem('sarathy_users_v13', JSON.stringify(USERS));
-            const cpEl = document.getElementById('currentPin');
-            if(cpEl) cpEl.value = '';
-            const npEl = document.getElementById('newPin');
-            if(npEl) npEl.value = '';
-            showToast("Admin PIN Updated Successfully!");
-        };
-
-        const factoryReset = () => {
-            const confirm1 = confirm("⚠️ WARNING: This will permanently delete all candidate data, targets, and settings. Are you completely sure?");
-            if (confirm1) {
-                const confirmText = prompt("Type 'DELETE' to confirm data wipe:");
-                if (confirmText === "DELETE") {
-                    localStorage.removeItem(CURRENT_DB_VERSION);
-                    localStorage.removeItem(CURRENT_BUDGET_VERSION);
-                    showToast("System Reset Successful. Reloading...", "error");
-                    setTimeout(() => location.reload(), 1500);
-                } else {
-                    showToast("Reset Cancelled.", "success");
-                }
-            }
-        };
-
+        // --- EXPORT & BACKUP ---
         const exportJSONBackup = () => {
             if (joinees.length === 0) {
                 return showToast("No database records to export", "error");
@@ -2192,23 +2185,10 @@
 
                 const worksheet = XLSX.utils.json_to_sheet(exportData);
                 const wscols = [
-                    {wch: 10}, 
-                    {wch: 15}, 
-                    {wch: 25}, 
-                    {wch: 15}, 
-                    {wch: 25}, 
-                    {wch: 15}, 
-                    {wch: 15}, 
-                    {wch: 30}, 
-                    {wch: 15},
-                    {wch: 15},
-                    {wch: 15},
-                    {wch: 15},
-                    {wch: 20},
-                    {wch: 25},
-                    {wch: 30},
-                    {wch: 40}  
-                ];
+                    {wch: 10}, {wch: 15}, {wch: 25}, {wch: 15}, {wch: 25}, {wch: 15}, 
+                    {wch: 15}, {wch: 30}, {wch: 15}, {wch: 15}, {wch: 15}, {wch: 15}, 
+                    {wch: 20}, {wch: 25}, {wch: 30}, {wch: 40}
+                  ];
                 worksheet['!cols'] = wscols;
 
                 const workbook = XLSX.utils.book_new();
@@ -2262,6 +2242,7 @@
             }
             renderTable(); 
         });
+
     </script>
 </body>
 </html>
