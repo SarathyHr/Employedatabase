@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SARATHY GROUP - HR PORTAL PRO</title>
+    <title>SARATHY GROUP - HR </title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <!-- Google Fonts for Modern Look -->
@@ -31,18 +31,18 @@
     </script>
     <style>
         :root {
-            --bg-primary: #f8fafc;
+            --bg-primary: #f1f5f9;
             --bg-secondary: #ffffff;
-            --bg-glass: rgba(255, 255, 255, 0.85);
+            --bg-glass: rgba(255, 255, 255, 0.9);
             --text-primary: #0f172a;
-            --text-secondary: #64748b;
-            --border-color: #e2e8f0;
+            --text-secondary: #475569;
+            --border-color: #cbd5e1;
             --sidebar-width: 260px;
         }
         .dark {
             --bg-primary: #0f172a;
             --bg-secondary: #1e293b;
-            --bg-glass: rgba(30, 41, 59, 0.85);
+            --bg-glass: rgba(30, 41, 59, 0.9);
             --text-primary: #f8fafc;
             --text-secondary: #94a3b8;
             --border-color: #334155;
@@ -54,99 +54,110 @@
             overflow: hidden; 
             transition: background-color 0.3s, color 0.3s;
         }
-        /* Glassmorphism Utilities */
+        /* Glassmorphism & Cards */
         .glass-panel {
             background: var(--bg-glass);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid var(--border-color);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-color);
+            border-right: 1px solid var(--border-color);
         }
         .modern-card {
             background: var(--bg-secondary);
             border-radius: 1.25rem;
             border: 1px solid var(--border-color);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
         }
         .modern-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08);
-            border-color: rgba(0, 84, 166, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 20px -3px rgba(0, 84, 166, 0.1);
+            border-color: rgba(0, 84, 166, 0.4);
         }
         /* Custom Scrollbar */
-        .custom-scroll::-webkit-scrollbar { width: 6px; height: 6px; }
+        .custom-scroll::-webkit-scrollbar { width: 8px; height: 8px; }
         .custom-scroll::-webkit-scrollbar-track { background: transparent; }
-        .custom-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 10px; }
         .dark .custom-scroll::-webkit-scrollbar-thumb { background: #475569; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         /* Animations */
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .animate-up { animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-up { animation: slideUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
         /* Sidebar Nav */
         .nav-link {
-            display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 12px;
-            color: var(--text-secondary); font-weight: 600; font-size: 0.9rem; transition: all 0.2s;
-            margin-bottom: 8px; cursor: pointer; white-space: nowrap; overflow: hidden;
+            display: flex; align-items: center; gap: 14px; padding: 14px 18px; border-radius: 14px;
+            color: var(--text-secondary); font-weight: 700; font-size: 0.95rem; transition: all 0.2s;
+            margin-bottom: 6px; cursor: pointer; white-space: nowrap; overflow: hidden;
         }
-        .nav-link:hover { background: rgba(0, 84, 166, 0.05); color: #0054A6; transform: translateX(4px); }
-        .nav-link.active { background: #0054A6; color: white; box-shadow: 0 4px 12px rgba(0, 84, 166, 0.3); }
-        .dark .nav-link:hover { background: rgba(255, 255, 255, 0.05); color: #60a5fa; }
+        .nav-link:hover { background: rgba(0, 84, 166, 0.08); color: #0054A6; transform: translateX(6px); }
+        .nav-link.active { background: #0054A6; color: white; box-shadow: 0 6px 15px rgba(0, 84, 166, 0.35); }
+        .dark .nav-link:hover { background: rgba(255, 255, 255, 0.08); color: #60a5fa; }
         .dark .nav-link.active { background: #2563eb; color: white; }
         .tab-content { display: none; opacity: 0; transition: opacity 0.3s ease; height: 100%; overflow-y: auto; padding-bottom: 120px; }
         .tab-content.active { display: block; opacity: 1; }
-        .kanban-col { background: var(--bg-secondary); border: 1px dashed var(--border-color); border-radius: 1.5rem; padding: 1rem; min-height: 400px; transition: all 0.2s; }
-        .kanban-col.drag-over { background: rgba(0, 84, 166, 0.05); border: 2px dashed #0054A6; }
-        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; md:gap: 8px; }
-        .calendar-day { min-height: 80px; aspect-ratio: unset; md:aspect-ratio: 1; border-radius: 8px; md:border-radius: 12px; border: 1px solid var(--border-color); padding: 4px md:padding: 8px; display: flex; flex-direction: column; background: var(--bg-secondary); transition: all 0.2s; }
-        .calendar-day:hover { border-color: #0054A6; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        
+        /* Kanban Board */
+        .kanban-col { background: var(--bg-secondary); border: 2px dashed var(--border-color); border-radius: 1.5rem; padding: 1.25rem; min-height: 400px; transition: all 0.2s; }
+        .kanban-col.drag-over { background: rgba(0, 84, 166, 0.05); border: 2px dashed #0054A6; transform: scale(1.02); }
+        
+        /* Calendar */
+        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; md:gap: 10px; }
+        .calendar-day { min-height: 90px; aspect-ratio: unset; md:aspect-ratio: 1; border-radius: 10px; md:border-radius: 14px; border: 1px solid var(--border-color); padding: 6px md:padding: 10px; display: flex; flex-direction: column; background: var(--bg-secondary); transition: all 0.2s; }
+        .calendar-day:hover { border-color: #0054A6; box-shadow: 0 6px 16px rgba(0,84,166,0.1); transform: translateY(-2px); z-index: 10; }
         .calendar-day.today { background: rgba(0, 84, 166, 0.05); border: 2px solid #0054A6; }
-        .calendar-event { font-size: 0.6rem; md:font-size: 0.65rem; padding: 2px 4px; border-radius: 4px; margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 700; cursor: pointer; transition: transform 0.2s; }
-        .calendar-event:hover { transform: scale(1.02); }
+        .calendar-event { font-size: 0.65rem; padding: 3px 6px; border-radius: 6px; margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 800; cursor: pointer; transition: transform 0.2s; }
+        .calendar-event:hover { transform: scale(1.05); }
+        
+        /* Typography */
         .gradient-text { background: linear-gradient(135deg, #0054A6, #0ea5e9); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .dark .gradient-text { background: linear-gradient(135deg, #60a5fa, #38bdf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .fab { position: fixed; bottom: 20px; right: 20px; md:bottom: 30px; md:right: 30px; width: 56px; height: 56px; md:width: 60px; md:height: 60px; border-radius: 50%; background: #0054A6; color: white; display: flex; justify-content: center; align-items: center; box-shadow: 0 10px 20px rgba(0, 84, 166, 0.4); z-index: 50; cursor: pointer; transition: all 0.3s; }
-        .fab:hover { transform: scale(1.05) rotate(90deg); }
-        .fab-notes { position: fixed; bottom: 85px; right: 20px; md:bottom: 100px; md:right: 30px; width: 45px; height: 45px; md:width: 50px; md:height: 50px; border-radius: 50%; background: #f59e0b; color: white; display: flex; justify-content: center; align-items: center; box-shadow: 0 8px 15px rgba(245, 158, 11, 0.4); z-index: 50; cursor: pointer; transition: all 0.3s; }
-        .fab-notes:hover { transform: scale(1.1); }
-        /* Professional Summary Tables */
-        .summary-table { width: 100%; border-collapse: separate; border-spacing: 0; margin-bottom: 1.5rem; font-size: 0.75rem; }
-        .summary-table th { background: var(--bg-primary); color: var(--text-secondary); font-weight: 800; text-transform: uppercase; text-align: left; padding: 12px 16px; position: sticky; top: 0; z-index: 10; border-bottom: 2px solid var(--border-color); }
-        .summary-table td { padding: 12px 16px; border-bottom: 1px solid var(--border-color); color: var(--text-primary); font-weight: 600; }
-        .summary-table tr:hover td { background: rgba(0, 84, 166, 0.02); }
-        .dark .summary-table tr:hover td { background: rgba(255, 255, 255, 0.02); }
         
-        /* Enhanced Pro Table Styling - Black text */
-        .data-table-container { background: var(--bg-secondary); border-radius: 1rem; border: 1px solid var(--border-color); overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); max-height: calc(100vh - 250px); overflow-y: auto; }
+        /* Floating Buttons */
+        .fab { position: fixed; bottom: 30px; right: 30px; width: 64px; height: 64px; border-radius: 50%; background: linear-gradient(135deg, #0054A6, #003366); color: white; display: flex; justify-content: center; align-items: center; box-shadow: 0 12px 25px rgba(0, 84, 166, 0.5); z-index: 50; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .fab:hover { transform: scale(1.1) rotate(90deg); box-shadow: 0 15px 30px rgba(0, 84, 166, 0.6); }
+        .fab-notes { position: fixed; bottom: 110px; right: 30px; width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(135deg, #f59e0b, #d97706); color: white; display: flex; justify-content: center; align-items: center; box-shadow: 0 10px 20px rgba(245, 158, 11, 0.4); z-index: 50; cursor: pointer; transition: all 0.3s; }
+        .fab-notes:hover { transform: scale(1.15); }
+        
+        /* Summary Table */
+        .summary-table { width: 100%; border-collapse: separate; border-spacing: 0; margin-bottom: 1.5rem; font-size: 0.8rem; }
+        .summary-table th { background: var(--bg-primary); color: var(--text-secondary); font-weight: 800; text-transform: uppercase; text-align: left; padding: 14px 18px; position: sticky; top: 0; z-index: 10; border-bottom: 2px solid var(--border-color); }
+        .summary-table td { padding: 14px 18px; border-bottom: 1px solid var(--border-color); color: #000; font-weight: 700; }
+        .dark .summary-table td { color: #fff; }
+        .summary-table tr:hover td { background: rgba(0, 84, 166, 0.05); }
+        
+        /* Pro Data Table */
+        .data-table-container { background: var(--bg-secondary); border-radius: 1.25rem; border: 1px solid var(--border-color); overflow: hidden; box-shadow: 0 8px 20px -4px rgba(0,0,0,0.08); max-height: calc(100vh - 260px); overflow-y: auto; }
         .data-table { width: 100%; border-collapse: collapse; }
-        .data-table th { background: var(--bg-primary); color: var(--text-secondary); font-size: 0.75rem; font-weight: 900; text-transform: uppercase; text-align: left; padding: 16px 20px; letter-spacing: 0.05em; border-bottom: 2px solid var(--border-color); position: sticky; top: 0; z-index: 10; }
-        /* Text color changed to black for strong contrast */
-        .data-table td { padding: 16px 20px; font-size: 0.85rem; border-bottom: 1px solid var(--border-color); vertical-align: middle; color: #000000; font-weight: 600; }
-        .dark .data-table td { color: #ffffff; }
+        .data-table th { background: var(--bg-primary); color: var(--text-secondary); font-size: 0.75rem; font-weight: 900; text-transform: uppercase; text-align: left; padding: 18px 24px; letter-spacing: 0.05em; border-bottom: 2px solid var(--border-color); position: sticky; top: 0; z-index: 10; }
+        
+        /* HIGHLIGHT: Text color fully black in light mode */
+        .data-table td { padding: 18px 24px; font-size: 0.9rem; border-bottom: 1px solid var(--border-color); vertical-align: middle; color: #000000; font-weight: 700; }
+        .dark .data-table td { color: #ffffff; border-bottom: 1px solid var(--border-color); }
         .data-table tr:last-child td { border-bottom: none; }
         .data-table tr { transition: all 0.2s ease; }
         .data-table tr:hover td { background: rgba(0, 84, 166, 0.04); }
         .dark .data-table tr:hover td { background: rgba(255, 255, 255, 0.04); }
         
         /* Checkbox styling */
-        .custom-checkbox { width: 18px; height: 18px; cursor: pointer; accent-color: #0054A6; }
+        .custom-checkbox { width: 20px; height: 20px; cursor: pointer; accent-color: #0054A6; border-radius: 4px; }
         
         /* Bulk Action Bar */
-        #bulkActionBar { transition: all 0.3s ease; transform: translateY(100%); opacity: 0; }
+        #bulkActionBar { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); transform: translateY(100%); opacity: 0; }
         #bulkActionBar.active { transform: translateY(0); opacity: 1; }
 
         /* Modern Status Badges */
-        .status-badge-md { padding: 6px 12px; border-radius: 20px; font-size: 0.7rem; font-weight: 800; display: inline-flex; align-items: center; justify-content: center; text-transform: uppercase; letter-spacing: 0.05em; }
+        .status-badge-md { padding: 8px 14px; border-radius: 8px; font-size: 0.75rem; font-weight: 900; display: inline-flex; align-items: center; justify-content: center; text-transform: uppercase; letter-spacing: 0.05em; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
         .badge-selected { background: #d1fae5; color: #059669; border: 1px solid #a7f3d0; }
         .badge-pending { background: #fef3c7; color: #d97706; border: 1px solid #fde68a; }
         .badge-rejected { background: #fee2e2; color: #dc2626; border: 1px solid #fecaca; }
         .badge-joined { background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd; }
-        .dark .badge-selected { background: rgba(16, 185, 129, 0.1); color: #34d399; border-color: rgba(16, 185, 129, 0.2); }
-        .dark .badge-pending { background: rgba(245, 158, 11, 0.1); color: #fbbf24; border-color: rgba(245, 158, 11, 0.2); }
-        .dark .badge-rejected { background: rgba(239, 68, 68, 0.1); color: #f87171; border-color: rgba(239, 68, 68, 0.2); }
-        .dark .badge-joined { background: rgba(14, 165, 233, 0.1); color: #38bdf8; border-color: rgba(14, 165, 233, 0.2); }
+        .dark .badge-selected { background: rgba(16, 185, 129, 0.15); color: #34d399; border-color: rgba(16, 185, 129, 0.3); }
+        .dark .badge-pending { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border-color: rgba(245, 158, 11, 0.3); }
+        .dark .badge-rejected { background: rgba(239, 68, 68, 0.15); color: #f87171; border-color: rgba(239, 68, 68, 0.3); }
+        .dark .badge-joined { background: rgba(14, 165, 233, 0.15); color: #38bdf8; border-color: rgba(14, 165, 233, 0.3); }
         
         /* Notes Panel */
-        #notesPanel { transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        #notesPanel { transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); border-top-left-radius: 1.5rem; border-bottom-left-radius: 1.5rem; }
         #notesPanel.open { transform: translateX(0); }
         
         /* Print Media Styles & ID Card Print Optimization */
@@ -165,11 +176,13 @@
         .id-card-bg { background: url('https://www.transparenttextures.com/patterns/cubes.png'); }
 
         /* Timeline in Profile View */
-        .timeline-step { position: relative; padding-left: 24px; padding-bottom: 16px; border-left: 2px solid var(--border-color); }
-        .timeline-step:last-child { border-left: 2px solid transparent; padding-bottom: 0; }
-        .timeline-step::before { content: ''; position: absolute; left: -6px; top: 0; width: 10px; height: 10px; border-radius: 50%; background: var(--bg-secondary); border: 2px solid var(--text-secondary); }
+        .timeline-step { position: relative; padding-left: 28px; padding-bottom: 20px; border-left: 3px solid var(--border-color); }
+        .timeline-step:last-child { border-left: 3px solid transparent; padding-bottom: 0; }
+        .timeline-step::before { content: ''; position: absolute; left: -8px; top: 0; width: 14px; height: 14px; border-radius: 50%; background: var(--bg-secondary); border: 3px solid var(--border-color); transition: all 0.3s; }
         .timeline-step.active { border-left-color: #0054A6; }
-        .timeline-step.active::before { border-color: #0054A6; background: #0054A6; }
+        .timeline-step.active::before { border-color: #0054A6; background: #0054A6; box-shadow: 0 0 0 3px rgba(0,84,166,0.2); }
+        .timeline-step.rejected { border-left-color: #ef4444; }
+        .timeline-step.rejected::before { border-color: #ef4444; background: #ef4444; box-shadow: 0 0 0 3px rgba(239,68,68,0.2); }
     </style>
 </head>
 <body class="antialiased">
@@ -180,14 +193,14 @@
             <div class="absolute -bottom-[20%] -left-[10%] w-[60%] h-[60%] rounded-full bg-indigo-100/40 dark:bg-indigo-900/20 blur-3xl"></div>
         </div>
         <div class="w-full max-w-[420px] animate-up relative z-10">
-            <div class="bg-white dark:bg-slate-800 p-8 md:p-10 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.06)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.3)] border border-slate-100 dark:border-slate-700">
+            <div class="bg-white dark:bg-slate-800 p-8 md:p-10 rounded-[2rem] shadow-2xl border border-slate-100 dark:border-slate-700">
                 <div class="mb-8 text-center">
-                    <img src="WhatsApp%20Image%202026-03-30%20at%207.10.19%20AM.jpeg" alt="SR Logo" class="h-24 w-auto object-contain mx-auto mb-4 drop-shadow-md transition-all duration-300 rounded-2xl mix-blend-multiply dark:mix-blend-normal bg-transparent dark:bg-white/90 p-2" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <img src="WhatsApp%20Image%202026-03-30%20at%207.10.19%20AM.jpeg" alt="SR Logo" class="h-24 w-auto object-contain mx-auto mb-4 drop-shadow-lg transition-all duration-300 rounded-2xl mix-blend-multiply dark:mix-blend-normal bg-transparent dark:bg-white/90 p-2" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                     <div class="hidden w-20 h-20 bg-gradient-to-tr from-sarathy-blue to-blue-400 rounded-2xl mx-auto flex items-center justify-center text-white text-3xl font-black mb-4 shadow-lg shadow-blue-500/30">SR</div>
-                    <h2 class="text-2xl font-black text-slate-800 dark:text-white tracking-tight mt-2">Welcome Back</h2>
+                    <h2 class="text-2xl font-black text-slate-800 dark:text-white tracking-tight mt-2">Welcome Back Sachin HR</h2>
                     <p class="text-xs font-bold text-slate-500 dark:text-slate-400 mt-2 uppercase tracking-widest">HR Management System</p>
                 </div>
-                <div id="loginError" class="hidden bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 p-3.5 rounded-xl text-xs font-black mb-6 border border-red-100 dark:border-red-900/30 flex items-center animate-up">
+                <div id="loginError" class="hidden bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 p-4 rounded-xl text-xs font-black mb-6 border border-red-100 dark:border-red-900/30 flex items-center animate-up">
                     <i class="fas fa-exclamation-circle mr-2 text-base"></i> Authentication Failed. Invalid Credentials.
                 </div>
                 <form id="loginForm" class="space-y-5">
@@ -195,22 +208,22 @@
                         <label class="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-1.5 block transition-colors group-focus-within:text-sarathy-blue">User ID</label>
                         <div class="relative">
                             <i class="fas fa-user absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500 transition-colors group-focus-within:text-sarathy-blue"></i>
-                            <input type="text" id="username" required value="ADMIN" class="w-full pl-11 pr-4 py-3.5 bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 rounded-xl font-bold text-slate-800 dark:text-white focus:border-sarathy-blue focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-900/30 outline-none transition-all text-sm">
+                            <input type="text" id="username" required value="ADMIN" class="w-full pl-11 pr-4 py-4 bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 rounded-xl font-black text-slate-800 dark:text-white focus:border-sarathy-blue focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-900/30 outline-none transition-all text-sm shadow-inner">
                         </div>
                     </div>
                     <div class="group">
                         <label class="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-1.5 block transition-colors group-focus-within:text-sarathy-blue">Access PIN</label>
                         <div class="relative">
                             <i class="fas fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500 transition-colors group-focus-within:text-sarathy-blue"></i>
-                            <input type="password" id="password" required value="SARATHY@26" class="w-full pl-11 pr-4 py-3.5 bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 rounded-xl font-bold text-slate-800 dark:text-white focus:border-sarathy-blue focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-900/30 outline-none transition-all text-sm">
+                            <input type="password" id="password" required value="SARATHY@26" class="w-full pl-11 pr-4 py-4 bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 rounded-xl font-black text-slate-800 dark:text-white focus:border-sarathy-blue focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-900/30 outline-none transition-all text-sm shadow-inner">
                         </div>
                     </div>
-                    <button type="submit" class="w-full bg-[#0054A6] hover:bg-[#004080] text-white font-black py-4 rounded-xl shadow-xl shadow-blue-600/20 active:scale-[0.98] transition-all duration-300 text-xs tracking-widest mt-4 uppercase flex justify-center items-center gap-2">
+                    <button type="submit" class="w-full bg-gradient-to-r from-[#0054A6] to-blue-600 hover:from-[#003366] hover:to-[#004080] text-white font-black py-4 rounded-xl shadow-lg shadow-blue-600/30 active:scale-[0.98] transition-all duration-300 text-xs tracking-widest mt-4 uppercase flex justify-center items-center gap-2">
                         <span>Authenticate</span> <i class="fas fa-arrow-right ml-1 transition-transform group-hover:translate-x-1"></i>
                     </button>
                 </form>
                 <div class="mt-6 pt-6 border-t border-slate-100 dark:border-slate-700">
-                    <button type="button" onclick="handleBiometricLogin()" id="biometricBtn" class="w-full flex items-center justify-center p-4 bg-slate-50 dark:bg-slate-800/50 border-2 border-slate-200 dark:border-slate-700 rounded-2xl text-slate-600 dark:text-slate-300 hover:bg-blue-50 hover:border-blue-200 dark:hover:bg-blue-900/20 dark:hover:border-blue-800 transition-all duration-300 text-xs font-black uppercase tracking-widest group shadow-sm active:scale-[0.98]">
+                    <button type="button" onclick="handleBiometricLogin()" id="biometricBtn" class="w-full flex items-center justify-center p-4 bg-slate-50 dark:bg-slate-800/50 border-2 border-slate-200 dark:border-slate-700 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-blue-50 hover:border-blue-200 dark:hover:bg-blue-900/20 dark:hover:border-blue-800 transition-all duration-300 text-xs font-black uppercase tracking-widest group shadow-sm active:scale-[0.98]">
                         <i id="bioIcon" class="fas fa-fingerprint text-2xl text-slate-400 group-hover:text-sarathy-blue mr-3 transition-colors"></i> 
                         <span id="bioText">Biometric Login</span>
                     </button>
@@ -238,9 +251,9 @@
             </div>
 
             <!-- Nav Links -->
-            <div class="flex flex-col px-3 py-6 flex-1 custom-scroll overflow-y-auto overflow-x-hidden">
-                <div class="text-[11px] font-black text-sarathy-blue dark:text-blue-400 uppercase tracking-widest mb-3 px-2 transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap overflow-hidden flex items-center gap-2">
-                    <div class="w-1.5 h-1.5 bg-sarathy-red rounded-full shadow-sm"></div> MENU
+            <div class="flex flex-col px-4 py-8 flex-1 custom-scroll overflow-y-auto overflow-x-hidden">
+                <div class="text-[11px] font-black text-sarathy-blue dark:text-blue-400 uppercase tracking-widest mb-4 px-2 transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap overflow-hidden flex items-center gap-2">
+                    <div class="w-2 h-2 bg-sarathy-red rounded-full shadow-sm"></div> MENU
                 </div>
                 <a onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-link active">
                     <i class="fas fa-home w-6 text-center shrink-0 text-lg"></i> 
@@ -259,20 +272,20 @@
                     <span class="transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap font-bold tracking-wide">Analytics</span>
                 </a>
                 
-                <div class="text-[11px] font-black text-sarathy-blue dark:text-blue-400 uppercase tracking-widest mb-3 mt-10 px-2 transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap overflow-hidden flex items-center gap-2">
-                    <div class="w-1.5 h-1.5 bg-sarathy-red rounded-full shadow-sm"></div> MANAGEMENT
+                <div class="text-[11px] font-black text-sarathy-blue dark:text-blue-400 uppercase tracking-widest mb-4 mt-12 px-2 transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap overflow-hidden flex items-center gap-2">
+                    <div class="w-2 h-2 bg-sarathy-red rounded-full shadow-sm"></div> MANAGEMENT
                 </div>
                 <a onclick="openReqModal()" class="nav-link">
                     <i class="fas fa-bullseye w-6 text-center shrink-0 text-lg"></i> 
                     <span class="transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap font-bold tracking-wide">Targets</span>
                 </a>
-                <a onclick="exportToExcel()" class="nav-link text-sarathy-blue dark:text-blue-400 hover:text-blue-700">
+                <a onclick="exportToExcel()" class="nav-link text-emerald-600 dark:text-emerald-400 hover:text-emerald-700">
                     <i class="fas fa-file-excel w-6 text-center shrink-0 text-lg"></i> 
                     <span class="transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap font-bold tracking-wide">Export Excel</span>
                 </a>
                 <a onclick="document.getElementById('importFile').click()" class="nav-link">
                     <i class="fas fa-database w-6 text-center shrink-0 text-lg"></i> 
-                    <span class="transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap font-bold tracking-wide">Restore</span>
+                    <span class="transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap font-bold tracking-wide">Restore Data</span>
                 </a>
                 <input type="file" id="importFile" accept=".json" class="hidden" onchange="importBackup(event)">
             </div>
@@ -281,35 +294,35 @@
         <!-- MAIN CONTENT AREA -->
         <main class="flex-1 flex flex-col h-screen overflow-hidden relative min-w-0 bg-[var(--bg-primary)]">
             <!-- Top Header Area -->
-            <header class="h-16 md:h-20 glass-panel flex justify-between items-center px-4 md:px-8 shrink-0 z-30 sticky top-0">
+            <header class="h-16 md:h-20 glass-panel flex justify-between items-center px-4 md:px-8 shrink-0 z-30 sticky top-0 shadow-sm">
                 <div class="flex items-center gap-4">
                     <button onclick="toggleSidebar()" class="md:hidden w-10 h-10 rounded-xl bg-[var(--bg-secondary)] text-[var(--text-secondary)] flex items-center justify-center shadow-sm border border-[var(--border-color)] hover:text-sarathy-blue transition-colors">
                         <i class="fas fa-bars"></i>
                     </button>
                     <div>
-                        <h2 id="pageTitle" class="text-lg md:text-xl font-black uppercase tracking-widest text-[var(--text-primary)] truncate">Welcome Back, HR</h2>
+                        <h2 id="pageTitle" class="text-xl md:text-2xl font-black uppercase tracking-widest text-[var(--text-primary)] truncate">HR Overview</h2>
                     </div>
                 </div>
-                <div class="flex items-center gap-3 md:gap-5 shrink-0">
-                    <button onclick="toggleDarkMode()" class="w-10 h-10 rounded-full bg-[var(--bg-secondary)] text-[var(--text-secondary)] flex items-center justify-center shadow-sm border border-[var(--border-color)] hover:text-sarathy-blue transition-all hover:scale-105 active:scale-95">
-                        <i id="darkModeIcon" class="fas fa-moon"></i>
+                <div class="flex items-center gap-3 md:gap-6 shrink-0">
+                    <button onclick="toggleDarkMode()" class="w-12 h-12 rounded-full bg-[var(--bg-secondary)] text-[var(--text-secondary)] flex items-center justify-center shadow-sm border border-[var(--border-color)] hover:text-sarathy-blue transition-all hover:scale-105 active:scale-95">
+                        <i id="darkModeIcon" class="fas fa-moon text-lg"></i>
                     </button>
-                    <button onclick="toggleNotifications()" class="relative w-10 h-10 rounded-full bg-[var(--bg-secondary)] text-[var(--text-secondary)] flex items-center justify-center shadow-sm border border-[var(--border-color)] hover:text-sarathy-blue transition-all hover:scale-105 active:scale-95">
-                        <i class="fas fa-bell"></i>
-                        <span id="notificationBadge" class="hidden absolute top-0 right-0 w-3 h-3 rounded-full bg-red-500 border-2 border-[var(--bg-secondary)]"></span>
+                    <button onclick="toggleNotifications()" class="relative w-12 h-12 rounded-full bg-[var(--bg-secondary)] text-[var(--text-secondary)] flex items-center justify-center shadow-sm border border-[var(--border-color)] hover:text-sarathy-blue transition-all hover:scale-105 active:scale-95">
+                        <i class="fas fa-bell text-lg"></i>
+                        <span id="notificationBadge" class="hidden absolute top-0 right-0 w-3.5 h-3.5 rounded-full bg-red-500 border-2 border-[var(--bg-secondary)]"></span>
                     </button>
-                    <div class="h-8 w-px bg-[var(--border-color)] mx-1 hidden sm:block"></div>
-                    <div class="flex items-center gap-3 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 p-1.5 md:pr-4 rounded-full transition-all border border-transparent hover:border-[var(--border-color)]">
+                    <div class="h-10 w-px bg-[var(--border-color)] mx-1 hidden sm:block"></div>
+                    <div class="flex items-center gap-3 cursor-pointer hover:bg-slate-200 dark:hover:bg-slate-800 p-1.5 md:pr-4 rounded-full transition-all border border-transparent hover:border-[var(--border-color)]">
                         <div class="hidden sm:block text-right">
                             <p class="text-sm font-black text-[var(--text-primary)] leading-none uppercase tracking-wide" id="userNameDisplay">Admin</p>
                             <p class="text-[9px] text-[var(--text-secondary)] font-bold tracking-widest mt-1 uppercase">System Admin</p>
                         </div>
-                        <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-sarathy-blue to-sky-400 text-white flex items-center justify-center font-bold shrink-0 shadow-md">
-                            <i class="fas fa-user-shield text-sm"></i>
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-sarathy-blue to-sky-400 text-white flex items-center justify-center font-bold shrink-0 shadow-lg border-2 border-white dark:border-slate-800">
+                            <i class="fas fa-user-shield text-lg"></i>
                         </div>
                     </div>
-                    <button onclick="logout()" class="w-10 h-10 rounded-full bg-red-50 dark:bg-red-900/20 text-red-500 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/40 flex items-center justify-center transition-all shadow-sm border border-red-100 dark:border-red-800/50 hover:scale-105 active:scale-95" title="Logout">
-                        <i class="fas fa-sign-out-alt text-sm"></i>
+                    <button onclick="logout()" class="w-12 h-12 rounded-full bg-red-50 dark:bg-red-900/20 text-red-500 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/40 flex items-center justify-center transition-all shadow-sm border border-red-100 dark:border-red-800/50 hover:scale-105 active:scale-95" title="Logout">
+                        <i class="fas fa-power-off text-lg"></i>
                     </button>
                 </div>
             </header>
@@ -317,17 +330,18 @@
             <!-- CONTENT TABS -->
             <div class="flex-1 relative overflow-y-auto overflow-x-hidden custom-scroll scroll-smooth pb-24">
                 <!-- TAB 1: DASHBOARD -->
-                <div id="tab-dashboard" class="tab-content active p-4 md:p-8 space-y-6 md:space-y-8 max-w-7xl mx-auto">
+                <div id="tab-dashboard" class="tab-content active p-4 md:p-8 space-y-6 md:space-y-8 max-w-[1600px] mx-auto">
                     <!-- Welcome Banner -->
-                    <div class="modern-card p-6 md:p-8 bg-gradient-to-br from-sarathy-blue to-blue-600 text-white relative overflow-hidden border-none shadow-xl animate-up">
-                        <i class="fas fa-shield-alt absolute -right-4 -bottom-4 md:-right-10 md:-bottom-10 text-[6rem] md:text-[10rem] opacity-10"></i>
-                        <div class="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                    <div class="modern-card p-6 md:p-10 bg-gradient-to-r from-sarathy-blue via-blue-700 to-sky-600 text-white relative overflow-hidden border-none shadow-xl animate-up">
+                        <i class="fas fa-shield-alt absolute -right-4 -bottom-4 md:-right-10 md:-bottom-10 text-[8rem] md:text-[12rem] opacity-10"></i>
+                        <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
+                        <div class="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                             <div>
-                                <h2 id="welcomeGreeting" class="text-xl md:text-3xl font-black mb-1 md:mb-2 flex items-center gap-2"><i class="fas fa-hand-sparkles text-amber-300"></i> Good Morning, HR</h2>
-                                <p class="text-blue-100 text-xs md:text-sm font-medium mb-4 md:mb-6">System Overview & Quick Operations</p>
-                                <div class="flex flex-wrap gap-2 md:gap-3">
-                                    <button onclick="openModal()" class="bg-white text-sarathy-blue px-4 py-2 md:px-5 md:py-2.5 rounded-lg md:rounded-xl font-bold text-[10px] md:text-xs uppercase tracking-wider shadow-lg hover:bg-blue-50 transition-colors active:scale-95"><i class="fas fa-plus mr-1 md:mr-2"></i> Add Candidate</button>
-                                    <button onclick="generateHiringSummary()" class="bg-blue-800/50 text-white border border-blue-400/30 px-4 py-2 md:px-5 md:py-2.5 rounded-lg md:rounded-xl font-bold text-[10px] md:text-xs uppercase tracking-wider hover:bg-blue-800/70 transition-colors backdrop-blur-sm active:scale-95"><i class="fas fa-magic mr-1 md:mr-2"></i> Quick Summary</button>
+                                <h2 id="welcomeGreeting" class="text-2xl md:text-4xl font-black mb-2 flex items-center gap-3"><i class="fas fa-hand-sparkles text-amber-300"></i> Good Morning, HR</h2>
+                                <p class="text-blue-100 text-sm md:text-base font-bold mb-6">Overview & Quick Access Operations</p>
+                                <div class="flex flex-wrap gap-3">
+                                    <button onclick="openModal()" class="bg-white text-sarathy-blue px-6 py-3 rounded-xl font-black text-xs uppercase tracking-widest shadow-lg hover:bg-blue-50 transition-colors active:scale-95 border-2 border-white"><i class="fas fa-user-plus mr-2"></i> Add Candidate</button>
+                                    <button onclick="generateHiringSummary()" class="bg-blue-800/40 text-white border-2 border-blue-300/30 px-6 py-3 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-blue-800/60 transition-colors backdrop-blur-md active:scale-95"><i class="fas fa-magic mr-2"></i> Auto Summary</button>
                                 </div>
                             </div>
                         </div>
@@ -335,122 +349,137 @@
 
                     <!-- Stats Grid -->
                     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6 animate-up" style="animation-delay: 0.1s;">
-                        <div class="modern-card p-5 md:p-6 flex flex-col relative overflow-hidden group/stat border-b-4 border-b-slate-400">
-                            <div class="absolute -top-4 -right-4 w-24 h-24 bg-slate-50 dark:bg-slate-800 rounded-full flex items-center justify-center transition-transform duration-500 group-hover/stat:scale-150 group-hover:bg-slate-100 dark:group-hover:bg-slate-700">
-                                <i class="fas fa-users text-slate-500 text-3xl opacity-50"></i>
+                        <div class="modern-card p-6 md:p-8 flex flex-col relative overflow-hidden group/stat border-b-4 border-b-slate-400">
+                            <div class="absolute -top-4 -right-4 w-28 h-28 bg-slate-50 dark:bg-slate-800 rounded-full flex items-center justify-center transition-transform duration-500 group-hover/stat:scale-[1.8] group-hover:bg-slate-100 dark:group-hover:bg-slate-700">
+                                <i class="fas fa-users text-slate-500 text-4xl opacity-40"></i>
                             </div>
                             <div class="relative z-10">
-                                <span class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-1 block">Total Candidates</span>
-                                <h3 class="text-3xl md:text-4xl font-black text-black dark:text-white tracking-tight" id="statTotal">0</h3>
+                                <span class="text-[11px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-1.5 block">Total Candidates</span>
+                                <h3 class="text-4xl md:text-5xl font-black text-black dark:text-white tracking-tight" id="statTotal">0</h3>
                             </div>
                         </div>
-                        <div class="modern-card p-5 md:p-6 flex flex-col relative overflow-hidden group/stat border-b-4 border-b-amber-500 stagger-1">
-                            <div class="absolute -top-4 -right-4 w-24 h-24 bg-amber-50 dark:bg-amber-900/20 rounded-full flex items-center justify-center transition-transform duration-500 group-hover/stat:scale-150 group-hover:bg-amber-100 dark:group-hover:bg-amber-800/30">
-                                <i class="fas fa-clock text-amber-500 text-3xl opacity-50"></i>
+                        <div class="modern-card p-6 md:p-8 flex flex-col relative overflow-hidden group/stat border-b-4 border-b-amber-500 stagger-1">
+                            <div class="absolute -top-4 -right-4 w-28 h-28 bg-amber-50 dark:bg-amber-900/20 rounded-full flex items-center justify-center transition-transform duration-500 group-hover/stat:scale-[1.8] group-hover:bg-amber-100 dark:group-hover:bg-amber-800/30">
+                                <i class="fas fa-clock text-amber-500 text-4xl opacity-40"></i>
                             </div>
                             <div class="relative z-10">
-                                <span class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-1 block">Pending</span>
-                                <h3 class="text-3xl md:text-4xl font-black text-amber-500 tracking-tight" id="statPending">0</h3>
+                                <span class="text-[11px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-1.5 block">Pending Review</span>
+                                <h3 class="text-4xl md:text-5xl font-black text-amber-500 tracking-tight" id="statPending">0</h3>
                             </div>
                         </div>
-                        <div class="modern-card p-5 md:p-6 flex flex-col relative overflow-hidden group/stat border-b-4 border-b-emerald-500 stagger-2">
-                            <div class="absolute -top-4 -right-4 w-24 h-24 bg-emerald-50 dark:bg-emerald-900/20 rounded-full flex items-center justify-center transition-transform duration-500 group-hover/stat:scale-150 group-hover:bg-emerald-100 dark:group-hover:bg-emerald-800/30">
-                                <i class="fas fa-check text-emerald-500 text-3xl opacity-50"></i>
+                        <div class="modern-card p-6 md:p-8 flex flex-col relative overflow-hidden group/stat border-b-4 border-b-emerald-500 stagger-2">
+                            <div class="absolute -top-4 -right-4 w-28 h-28 bg-emerald-50 dark:bg-emerald-900/20 rounded-full flex items-center justify-center transition-transform duration-500 group-hover/stat:scale-[1.8] group-hover:bg-emerald-100 dark:group-hover:bg-emerald-800/30">
+                                <i class="fas fa-check text-emerald-500 text-4xl opacity-40"></i>
                             </div>
                             <div class="relative z-10">
-                                <span class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-1 block">Selected</span>
-                                <h3 class="text-3xl md:text-4xl font-black text-emerald-500 tracking-tight" id="statSelected">0</h3>
+                                <span class="text-[11px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-1.5 block">Selected</span>
+                                <h3 class="text-4xl md:text-5xl font-black text-emerald-500 tracking-tight" id="statSelected">0</h3>
                             </div>
                         </div>
-                        <div class="modern-card p-5 md:p-6 flex flex-col relative overflow-hidden group/stat border-b-4 border-b-[#0054A6] stagger-3">
-                            <div class="absolute -top-4 -right-4 w-24 h-24 bg-blue-50 dark:bg-blue-900/20 rounded-full flex items-center justify-center transition-transform duration-500 group-hover/stat:scale-150 group-hover:bg-blue-100 dark:group-hover:bg-blue-800/30">
-                                <i class="fas fa-user-check text-[#0054A6] text-3xl opacity-50"></i>
+                        <div class="modern-card p-6 md:p-8 flex flex-col relative overflow-hidden group/stat border-b-4 border-b-[#0054A6] stagger-3">
+                            <div class="absolute -top-4 -right-4 w-28 h-28 bg-blue-50 dark:bg-blue-900/20 rounded-full flex items-center justify-center transition-transform duration-500 group-hover/stat:scale-[1.8] group-hover:bg-blue-100 dark:group-hover:bg-blue-800/30">
+                                <i class="fas fa-user-check text-[#0054A6] text-4xl opacity-40"></i>
                             </div>
                             <div class="relative z-10">
-                                <span class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-1 block">Joined</span>
-                                <h3 class="text-3xl md:text-4xl font-black text-[#0054A6] dark:text-sky-400 tracking-tight" id="statJoined">0</h3>
+                                <span class="text-[11px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-1.5 block">Joined</span>
+                                <h3 class="text-4xl md:text-5xl font-black text-[#0054A6] dark:text-sky-400 tracking-tight" id="statJoined">0</h3>
                             </div>
                         </div>
-                        <div class="modern-card p-5 md:p-6 flex flex-col relative overflow-hidden group/stat border-b-4 border-b-red-500 stagger-4">
-                            <div class="absolute -top-4 -right-4 w-24 h-24 bg-red-50 dark:bg-red-900/20 rounded-full flex items-center justify-center transition-transform duration-500 group-hover/stat:scale-150 group-hover:bg-red-100 dark:group-hover:bg-red-800/30">
-                                <i class="fas fa-times text-red-500 text-3xl opacity-50"></i>
+                        <div class="modern-card p-6 md:p-8 flex flex-col relative overflow-hidden group/stat border-b-4 border-b-red-500 stagger-4">
+                            <div class="absolute -top-4 -right-4 w-28 h-28 bg-red-50 dark:bg-red-900/20 rounded-full flex items-center justify-center transition-transform duration-500 group-hover/stat:scale-[1.8] group-hover:bg-red-100 dark:group-hover:bg-red-800/30">
+                                <i class="fas fa-times text-red-500 text-4xl opacity-40"></i>
                             </div>
                             <div class="relative z-10">
-                                <span class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-1 block">Rejected</span>
-                                <h3 class="text-3xl md:text-4xl font-black text-red-500 tracking-tight" id="statRejected">0</h3>
+                                <span class="text-[11px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-1.5 block">Rejected</span>
+                                <h3 class="text-4xl md:text-5xl font-black text-red-500 tracking-tight" id="statRejected">0</h3>
                             </div>
                         </div>
                     </div>
 
                     <!-- Layout for Progress -->
                     <div class="grid grid-cols-1 gap-6 animate-up" style="animation-delay: 0.3s;">
-                        <div class="modern-card p-6 md:p-8">
-                            <div class="flex justify-between items-center mb-5">
-                                <h3 class="font-black text-base uppercase tracking-widest text-[var(--text-primary)] flex items-center gap-2">
-                                    <div class="w-1.5 h-5 bg-sarathy-blue rounded-full"></div> Manpower Fulfillment
+                        <div class="modern-card p-6 md:p-10">
+                            <div class="flex justify-between items-center mb-8 pb-4 border-b border-[var(--border-color)]">
+                                <h3 class="font-black text-lg md:text-xl uppercase tracking-widest text-[var(--text-primary)] flex items-center gap-3">
+                                    <div class="w-2 h-6 bg-sarathy-blue rounded-full"></div> Target Fulfillment
                                 </h3>
-                                <button onclick="openReqModal()" class="text-[10px] font-black uppercase text-sarathy-blue hover:text-white tracking-widest bg-blue-50 hover:bg-sarathy-blue dark:bg-blue-900/30 dark:hover:bg-sarathy-blue px-4 py-2 rounded-xl transition-all border border-blue-100 dark:border-blue-800 shadow-sm active:scale-95">Edit Targets <i class="fas fa-edit ml-1"></i></button>
+                                <button onclick="openReqModal()" class="text-xs font-black uppercase text-sarathy-blue hover:text-white tracking-widest bg-blue-50 hover:bg-sarathy-blue px-5 py-2.5 rounded-xl transition-all border border-blue-200 shadow-sm active:scale-95 flex items-center gap-2">Edit Targets <i class="fas fa-edit"></i></button>
                             </div>
-                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5" id="progContainer"></div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-8" id="progContainer"></div>
                         </div>
                     </div>
                 </div>
 
                 <!-- TAB 2: CANDIDATES -->
-                <div id="tab-candidates" class="tab-content p-4 md:p-8 max-w-7xl mx-auto">
+                <div id="tab-candidates" class="tab-content p-4 md:p-8 max-w-[1600px] mx-auto">
                     <!-- Filters & Search -->
-                    <div class="glass-panel relative z-10 p-4 md:p-6 rounded-2xl mb-6 shadow-md sticky top-0">
-                        <div class="flex flex-col md:flex-row gap-4 mb-5">
-                            <div class="relative flex-1 group">
+                    <div class="glass-panel relative z-10 p-5 md:p-8 rounded-2xl mb-8 shadow-lg sticky top-0">
+                        <div class="flex flex-col lg:flex-row gap-4 mb-6">
+                            <div class="relative flex-[2] group">
                                 <i class="fas fa-search absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-sarathy-blue text-lg transition-colors"></i>
-                                <input type="text" id="searchInput" onkeyup="renderTable()" placeholder="Search by name, ID, phone or email..." class="w-full pl-12 pr-4 py-3.5 bg-[var(--bg-secondary)] border-2 border-[var(--border-color)] rounded-xl font-bold text-sm focus:border-sarathy-blue outline-none transition-all dark:text-white shadow-sm">
+                                <input type="text" id="searchInput" onkeyup="renderTable()" placeholder="Search candidates by name, ID, phone or email..." class="w-full pl-12 pr-4 py-4 bg-[var(--bg-secondary)] border-2 border-[var(--border-color)] rounded-xl font-bold text-sm focus:border-sarathy-blue outline-none transition-all dark:text-white shadow-sm">
                             </div>
-                            <div class="flex gap-3 w-full md:w-auto">
+                            <div class="flex gap-4 flex-1 overflow-x-auto custom-scroll pb-2 lg:pb-0">
                                 <!-- Pro Feature: Department Filter -->
-                                <div class="relative flex-1 md:flex-none">
-                                    <select id="filterDept" onchange="renderTable()" class="w-full pl-10 pr-8 py-3.5 bg-[var(--bg-secondary)] border-2 border-[var(--border-color)] rounded-xl font-black text-sm outline-none focus:border-sarathy-blue dark:text-white dark:[color-scheme:dark] shadow-sm uppercase tracking-widest text-[var(--text-secondary)] cursor-pointer appearance-none">
+                                <div class="relative min-w-[150px] flex-1">
+                                    <select id="filterDept" onchange="renderTable()" class="w-full pl-11 pr-8 py-4 bg-[var(--bg-secondary)] border-2 border-[var(--border-color)] rounded-xl font-black text-xs outline-none focus:border-sarathy-blue dark:text-white shadow-sm uppercase tracking-widest text-[var(--text-primary)] cursor-pointer appearance-none">
                                         <option value="ALL">All Depts</option>
                                         <option value="SALES">Sales</option>
                                         <option value="SERVICE">Service</option>
                                         <option value="ACCOUNTS">Accounts</option>
                                         <option value="SPARE">Spare</option>
                                     </select>
-                                    <i class="fas fa-building absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"></i>
+                                    <i class="fas fa-briefcase absolute left-4 top-1/2 -translate-y-1/2 text-sarathy-blue pointer-events-none"></i>
                                     <i class="fas fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-xs"></i>
                                 </div>
-                                <div class="relative flex-1 md:flex-none">
-                                    <input type="month" id="monthFilter" onchange="renderTable()" class="w-full pl-10 pr-4 py-3.5 bg-[var(--bg-secondary)] border-2 border-[var(--border-color)] rounded-xl font-black text-sm outline-none focus:border-sarathy-blue dark:text-white dark:[color-scheme:dark] shadow-sm uppercase tracking-widest text-[var(--text-secondary)] cursor-pointer">
-                                    <i class="fas fa-calendar-alt absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"></i>
+                                <!-- Pro Feature: Company Filter -->
+                                <div class="relative min-w-[180px] flex-1">
+                                    <select id="filterCompany" onchange="renderTable()" class="w-full pl-11 pr-8 py-4 bg-[var(--bg-secondary)] border-2 border-[var(--border-color)] rounded-xl font-black text-xs outline-none focus:border-sarathy-blue dark:text-white shadow-sm uppercase tracking-widest text-[var(--text-primary)] cursor-pointer appearance-none">
+                                        <option value="ALL">All Entities</option>
+                                        <option value="SARATHY MOTORS">Motors</option>
+                                        <option value="SARATHY BIKES PVT LTD">Bikes</option>
+                                        <option value="SARATHY ELECTRIC PVT LTD">Electric</option>
+                                        <option value="SARATHY AUTOCARS">Autocars</option>
+                                        <option value="SARATHY CARS PVT LTD">Cars</option>
+                                    </select>
+                                    <i class="fas fa-building absolute left-4 top-1/2 -translate-y-1/2 text-emerald-600 pointer-events-none"></i>
+                                    <i class="fas fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-xs"></i>
+                                </div>
+                                <div class="relative min-w-[150px] flex-1">
+                                    <input type="month" id="monthFilter" onchange="renderTable()" class="w-full pl-11 pr-4 py-4 bg-[var(--bg-secondary)] border-2 border-[var(--border-color)] rounded-xl font-black text-xs outline-none focus:border-sarathy-blue dark:text-white shadow-sm uppercase tracking-widest text-[var(--text-primary)] cursor-pointer">
+                                    <i class="fas fa-calendar-alt absolute left-4 top-1/2 -translate-y-1/2 text-amber-500 pointer-events-none"></i>
                                 </div>
                             </div>
                         </div>
                         
                         <!-- Quick Chips -->
                         <div class="flex gap-3 overflow-x-auto custom-scroll pb-2 whitespace-nowrap items-center">
-                            <button onclick="setQuickFilter('All')" class="px-5 py-2 rounded-xl text-[10px] md:text-xs font-black tracking-widest border-2 border-[var(--border-color)] bg-[var(--bg-secondary)] text-[var(--text-primary)] transition-all hover:border-sarathy-blue active:scale-95 shrink-0" id="chip-All">ALL</button>
-                            <button onclick="setQuickFilter('Pending')" class="px-5 py-2 rounded-xl text-[10px] md:text-xs font-black tracking-widest border-2 border-[var(--border-color)] bg-[var(--bg-secondary)] text-[var(--text-primary)] transition-all hover:border-sarathy-blue active:scale-95 shrink-0" id="chip-Pending">PENDING</button>
-                            <button onclick="setQuickFilter('Selected')" class="px-5 py-2 rounded-xl text-[10px] md:text-xs font-black tracking-widest border-2 border-[var(--border-color)] bg-[var(--bg-secondary)] text-[var(--text-primary)] transition-all hover:border-sarathy-blue active:scale-95 shrink-0" id="chip-Selected">SELECTED</button>
-                            <button onclick="setQuickFilter('Joined')" class="px-5 py-2 rounded-xl text-[10px] md:text-xs font-black tracking-widest border-2 border-[var(--border-color)] bg-[var(--bg-secondary)] text-[var(--text-primary)] transition-all hover:border-sarathy-blue active:scale-95 shrink-0" id="chip-Joined">JOINED</button>
+                            <button onclick="setQuickFilter('All')" class="px-6 py-2.5 rounded-xl text-xs font-black tracking-widest border-2 border-[var(--border-color)] bg-[var(--bg-secondary)] text-[var(--text-primary)] transition-all hover:border-sarathy-blue active:scale-95 shrink-0" id="chip-All">ALL</button>
+                            <button onclick="setQuickFilter('Pending')" class="px-6 py-2.5 rounded-xl text-xs font-black tracking-widest border-2 border-[var(--border-color)] bg-[var(--bg-secondary)] text-[var(--text-primary)] transition-all hover:border-sarathy-blue active:scale-95 shrink-0" id="chip-Pending">PENDING</button>
+                            <button onclick="setQuickFilter('Selected')" class="px-6 py-2.5 rounded-xl text-xs font-black tracking-widest border-2 border-[var(--border-color)] bg-[var(--bg-secondary)] text-[var(--text-primary)] transition-all hover:border-sarathy-blue active:scale-95 shrink-0" id="chip-Selected">SELECTED</button>
+                            <button onclick="setQuickFilter('Joined')" class="px-6 py-2.5 rounded-xl text-xs font-black tracking-widest border-2 border-[var(--border-color)] bg-[var(--bg-secondary)] text-[var(--text-primary)] transition-all hover:border-sarathy-blue active:scale-95 shrink-0" id="chip-Joined">JOINED</button>
                             
                             <div class="ml-auto flex bg-[var(--bg-primary)] p-1.5 rounded-xl border border-[var(--border-color)] shrink-0">
-                                <button onclick="setView('list')" id="btnViewList" class="px-4 py-1.5 rounded-lg font-black text-sm bg-white dark:bg-slate-700 shadow-sm transition-all"><i class="fas fa-list"></i></button>
-                                <button onclick="setView('board')" id="btnViewBoard" class="px-4 py-1.5 rounded-lg font-black text-sm text-[var(--text-secondary)] hover:bg-[var(--bg-secondary)] transition-all"><i class="fas fa-columns"></i></button>
+                                <button onclick="setView('list')" id="btnViewList" class="px-5 py-2 rounded-lg font-black text-sm bg-white dark:bg-slate-700 shadow-sm transition-all"><i class="fas fa-list"></i></button>
+                                <button onclick="setView('board')" id="btnViewBoard" class="px-5 py-2 rounded-lg font-black text-sm text-[var(--text-secondary)] hover:bg-[var(--bg-secondary)] transition-all"><i class="fas fa-columns"></i></button>
                             </div>
                         </div>
                     </div>
 
                     <!-- Pro Feature: Bulk Actions Bar -->
-                    <div id="bulkActionBar" class="fixed bottom-0 left-0 w-full bg-white dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700 shadow-[0_-10px_30px_rgba(0,0,0,0.1)] p-4 flex items-center justify-between z-[80]">
-                        <div class="font-black text-sm text-[var(--text-primary)]">
-                            <span id="bulkCount" class="text-sarathy-blue bg-blue-100 dark:bg-blue-900 px-2 py-1 rounded">0</span> Selected
+                    <div id="bulkActionBar" class="fixed bottom-0 left-0 w-full bg-white dark:bg-slate-800 border-t-4 border-sarathy-blue shadow-[0_-10px_30px_rgba(0,0,0,0.15)] p-4 md:p-6 flex items-center justify-between z-[80]">
+                        <div class="font-black text-sm md:text-base text-[var(--text-primary)] flex items-center gap-3">
+                            <span id="bulkCount" class="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center text-white bg-sarathy-blue rounded-lg shadow-md">0</span> 
+                            <span class="uppercase tracking-widest text-xs md:text-sm">Candidates Selected</span>
                         </div>
-                        <div class="flex items-center gap-2 overflow-x-auto">
-                            <button onclick="bulkUpdateStatus('PENDING')" class="px-3 py-2 bg-amber-50 text-amber-600 border border-amber-200 rounded-lg text-[10px] font-black uppercase tracking-widest hover:bg-amber-500 hover:text-white transition-colors whitespace-nowrap">Mark Pending</button>
-                            <button onclick="bulkUpdateStatus('SELECTED')" class="px-3 py-2 bg-emerald-50 text-emerald-600 border border-emerald-200 rounded-lg text-[10px] font-black uppercase tracking-widest hover:bg-emerald-500 hover:text-white transition-colors whitespace-nowrap">Mark Selected</button>
-                            <button onclick="bulkUpdateStatus('JOINED')" class="px-3 py-2 bg-[#0054A6] text-white border border-[#003366] rounded-lg text-[10px] font-black uppercase tracking-widest hover:bg-blue-800 transition-colors whitespace-nowrap">Mark Joined</button>
-                            <div class="w-px h-6 bg-[var(--border-color)] mx-1"></div>
-                            <button onclick="bulkDelete()" class="px-3 py-2 bg-red-50 text-red-500 border border-red-200 rounded-lg text-[10px] font-black uppercase tracking-widest hover:bg-red-600 hover:text-white transition-colors whitespace-nowrap"><i class="fas fa-trash-alt"></i> Delete</button>
-                            <button onclick="clearBulkSelection()" class="px-3 py-2 bg-slate-100 text-slate-500 rounded-lg text-lg hover:text-slate-800 dark:hover:text-white transition-colors"><i class="fas fa-times"></i></button>
+                        <div class="flex items-center gap-3 overflow-x-auto custom-scroll pb-2 md:pb-0">
+                            <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest mr-2 hidden md:inline">Bulk Actions:</span>
+                            <button onclick="bulkUpdateStatus('PENDING')" class="px-4 py-2.5 bg-amber-50 text-amber-600 border border-amber-200 rounded-xl text-[10px] md:text-xs font-black uppercase tracking-widest hover:bg-amber-500 hover:text-white transition-all shadow-sm whitespace-nowrap"><i class="fas fa-clock mr-1"></i> Pending</button>
+                            <button onclick="bulkUpdateStatus('SELECTED')" class="px-4 py-2.5 bg-emerald-50 text-emerald-600 border border-emerald-200 rounded-xl text-[10px] md:text-xs font-black uppercase tracking-widest hover:bg-emerald-500 hover:text-white transition-all shadow-sm whitespace-nowrap"><i class="fas fa-check mr-1"></i> Selected</button>
+                            <button onclick="bulkUpdateStatus('JOINED')" class="px-4 py-2.5 bg-blue-50 text-blue-600 border border-blue-200 rounded-xl text-[10px] md:text-xs font-black uppercase tracking-widest hover:bg-[#0054A6] hover:text-white transition-all shadow-sm whitespace-nowrap"><i class="fas fa-user-check mr-1"></i> Joined</button>
+                            <div class="w-px h-8 bg-[var(--border-color)] mx-2"></div>
+                            <button onclick="bulkDelete()" class="px-4 py-2.5 bg-red-50 text-red-500 border border-red-200 rounded-xl text-[10px] md:text-xs font-black uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all shadow-sm whitespace-nowrap"><i class="fas fa-trash-alt mr-1"></i> Delete</button>
+                            <button onclick="clearBulkSelection()" class="w-10 h-10 bg-slate-100 text-slate-500 rounded-xl text-lg hover:bg-slate-200 hover:text-slate-800 dark:bg-slate-700 dark:hover:bg-slate-600 dark:text-white transition-all flex justify-center items-center"><i class="fas fa-times"></i></button>
                         </div>
                     </div>
 
@@ -458,121 +487,121 @@
                     <div id="listView" class="animate-up">
                         <div class="data-table-container">
                             <div class="overflow-x-auto">
-                                <table class="data-table min-w-[800px]">
+                                <table class="data-table min-w-[1000px]">
                                     <thead>
                                         <tr>
-                                            <th class="w-12 text-center whitespace-nowrap">
+                                            <th class="w-14 text-center whitespace-nowrap">
                                                 <input type="checkbox" id="selectAllCb" onclick="toggleSelectAll()" class="custom-checkbox">
                                             </th>
-                                            <th>Personnel Info</th>
-                                            <th>Role & Entity</th>
-                                            <th>Location</th>
-                                            <th class="text-center">Status</th>
-                                            <th>Schedule</th>
+                                            <th>Personnel Profile</th>
+                                            <th>Department & Entity</th>
+                                            <th>Location & Source</th>
+                                            <th class="text-center">Current Status</th>
+                                            <th>Interview & Join Dates</th>
                                             <th class="text-right">Actions</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="candidatesTableBody" class="divide-y divide-[var(--border-color)]"></tbody>
+                                    <tbody id="candidatesTableBody" class="divide-y divide-[var(--border-color)] bg-[var(--bg-secondary)]"></tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
                     
                     <!-- KANBAN BOARD VIEW -->
-                    <div id="boardView" class="hidden grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 md:gap-6 animate-up">
-                        <div class="kanban-col border-t-4 border-t-amber-500" ondragover="allowDrop(event)" ondragleave="dragLeave(event)" ondrop="drop(event, 'PENDING')">
-                            <h3 class="font-black text-amber-500 mb-4 flex justify-between uppercase text-xs tracking-wider"><span class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-amber-500"></div> Pending</span> <span id="countBoardPending" class="bg-amber-500/10 px-2 rounded">0</span></h3>
-                            <div id="boardPending" class="space-y-3 md:space-y-4"></div>
+                    <div id="boardView" class="hidden grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 animate-up">
+                        <div class="kanban-col border-t-4 border-t-amber-500 shadow-sm" ondragover="allowDrop(event)" ondragleave="dragLeave(event)" ondrop="drop(event, 'PENDING')">
+                            <h3 class="font-black text-amber-500 mb-6 flex justify-between items-center uppercase text-sm tracking-widest border-b border-[var(--border-color)] pb-3"><span class="flex items-center gap-2"><i class="fas fa-clock"></i> Pending</span> <span id="countBoardPending" class="bg-amber-100 text-amber-700 px-3 py-1 rounded-lg">0</span></h3>
+                            <div id="boardPending" class="space-y-4"></div>
                         </div>
-                        <div class="kanban-col border-t-4 border-t-emerald-500" ondragover="allowDrop(event)" ondragleave="dragLeave(event)" ondrop="drop(event, 'SELECTED')">
-                            <h3 class="font-black text-emerald-500 mb-4 flex justify-between uppercase text-xs tracking-wider"><span class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-emerald-500"></div> Selected</span> <span id="countBoardSelected" class="bg-emerald-500/10 px-2 rounded">0</span></h3>
-                            <div id="boardSelected" class="space-y-3 md:space-y-4"></div>
+                        <div class="kanban-col border-t-4 border-t-emerald-500 shadow-sm" ondragover="allowDrop(event)" ondragleave="dragLeave(event)" ondrop="drop(event, 'SELECTED')">
+                            <h3 class="font-black text-emerald-500 mb-6 flex justify-between items-center uppercase text-sm tracking-widest border-b border-[var(--border-color)] pb-3"><span class="flex items-center gap-2"><i class="fas fa-check-circle"></i> Selected</span> <span id="countBoardSelected" class="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-lg">0</span></h3>
+                            <div id="boardSelected" class="space-y-4"></div>
                         </div>
-                        <div class="kanban-col border-t-4 border-t-[#0054A6]" ondragover="allowDrop(event)" ondragleave="dragLeave(event)" ondrop="drop(event, 'JOINED')">
-                            <h3 class="font-black text-[#0054A6] dark:text-sky-400 mb-4 flex justify-between uppercase text-xs tracking-wider"><span class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-[#0054A6] dark:bg-sky-400"></div> Joined</span> <span id="countBoardJoined" class="bg-blue-500/10 px-2 rounded">0</span></h3>
-                            <div id="boardJoined" class="space-y-3 md:space-y-4"></div>
+                        <div class="kanban-col border-t-4 border-t-[#0054A6] shadow-sm" ondragover="allowDrop(event)" ondragleave="dragLeave(event)" ondrop="drop(event, 'JOINED')">
+                            <h3 class="font-black text-[#0054A6] dark:text-sky-400 mb-6 flex justify-between items-center uppercase text-sm tracking-widest border-b border-[var(--border-color)] pb-3"><span class="flex items-center gap-2"><i class="fas fa-user-check"></i> Joined</span> <span id="countBoardJoined" class="bg-blue-100 text-blue-700 px-3 py-1 rounded-lg">0</span></h3>
+                            <div id="boardJoined" class="space-y-4"></div>
                         </div>
-                        <div class="kanban-col border-t-4 border-t-red-500" ondragover="allowDrop(event)" ondragleave="dragLeave(event)" ondrop="drop(event, 'REJECTED')">
-                            <h3 class="font-black text-red-500 mb-4 flex justify-between uppercase text-xs tracking-wider"><span class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-red-500"></div> Rejected</span> <span id="countBoardRejected" class="bg-red-500/10 px-2 rounded">0</span></h3>
-                            <div id="boardRejected" class="space-y-3 md:space-y-4"></div>
+                        <div class="kanban-col border-t-4 border-t-red-500 shadow-sm" ondragover="allowDrop(event)" ondragleave="dragLeave(event)" ondrop="drop(event, 'REJECTED')">
+                            <h3 class="font-black text-red-500 mb-6 flex justify-between items-center uppercase text-sm tracking-widest border-b border-[var(--border-color)] pb-3"><span class="flex items-center gap-2"><i class="fas fa-times-circle"></i> Rejected</span> <span id="countBoardRejected" class="bg-red-100 text-red-700 px-3 py-1 rounded-lg">0</span></h3>
+                            <div id="boardRejected" class="space-y-4"></div>
                         </div>
                     </div>
                 </div>
 
                 <!-- TAB 3: CALENDAR -->
-                <div id="tab-calendar" class="tab-content custom-scroll p-4 md:p-8 max-w-7xl mx-auto">
-                    <div class="modern-card p-4 md:p-8 h-full flex flex-col min-h-[600px] shadow-lg">
-                        <div class="flex justify-between items-center mb-6 md:mb-8 pb-4 border-b border-[var(--border-color)]">
+                <div id="tab-calendar" class="tab-content custom-scroll p-4 md:p-8 max-w-[1600px] mx-auto">
+                    <div class="modern-card p-6 md:p-10 h-full flex flex-col min-h-[700px] shadow-xl">
+                        <div class="flex justify-between items-center mb-8 pb-6 border-b border-[var(--border-color)]">
                             <div>
-                                <h3 class="font-black text-2xl md:text-3xl uppercase text-sarathy-blue dark:text-sky-400 tracking-tight flex items-center gap-3"><i class="fas fa-calendar-day opacity-50 text-xl"></i> <span id="calendarMonthLabel">Month Year</span></h3>
-                                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1.5 ml-9">Interviews & Joining Dates</p>
+                                <h3 class="font-black text-3xl md:text-4xl uppercase text-sarathy-blue dark:text-sky-400 tracking-tight flex items-center gap-4"><i class="fas fa-calendar-day opacity-20 text-5xl absolute -ml-4"></i> <span id="calendarMonthLabel" class="relative z-10">Month Year</span></h3>
+                                <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mt-2 ml-1 relative z-10">Interviews & Joining Schedules</p>
                             </div>
-                            <div class="flex gap-2">
-                                <button onclick="changeCalendarMonth(-1)" class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-[var(--bg-primary)] border border-[var(--border-color)] flex items-center justify-center hover:bg-sarathy-blue hover:text-white transition-all active:scale-95 shadow-sm"><i class="fas fa-chevron-left text-sm"></i></button>
-                                <button onclick="changeCalendarMonth(1)" class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-[var(--bg-primary)] border border-[var(--border-color)] flex items-center justify-center hover:bg-sarathy-blue hover:text-white transition-all active:scale-95 shadow-sm"><i class="fas fa-chevron-right text-sm"></i></button>
+                            <div class="flex gap-3 relative z-10">
+                                <button onclick="changeCalendarMonth(-1)" class="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-[var(--bg-primary)] border border-[var(--border-color)] flex items-center justify-center hover:bg-sarathy-blue hover:text-white transition-all active:scale-95 shadow-sm"><i class="fas fa-chevron-left text-lg"></i></button>
+                                <button onclick="changeCalendarMonth(1)" class="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-[var(--bg-primary)] border border-[var(--border-color)] flex items-center justify-center hover:bg-sarathy-blue hover:text-white transition-all active:scale-95 shadow-sm"><i class="fas fa-chevron-right text-lg"></i></button>
                             </div>
                         </div>
-                        <div class="calendar-grid mb-2">
-                            <div class="text-center text-[10px] md:text-xs font-black text-slate-400 uppercase tracking-widest bg-slate-50 dark:bg-slate-800 py-2 rounded-lg">Sun</div>
-                            <div class="text-center text-[10px] md:text-xs font-black text-[var(--text-secondary)] uppercase tracking-widest bg-[var(--bg-primary)] py-2 rounded-lg">Mon</div>
-                            <div class="text-center text-[10px] md:text-xs font-black text-[var(--text-secondary)] uppercase tracking-widest bg-[var(--bg-primary)] py-2 rounded-lg">Tue</div>
-                            <div class="text-center text-[10px] md:text-xs font-black text-[var(--text-secondary)] uppercase tracking-widest bg-[var(--bg-primary)] py-2 rounded-lg">Wed</div>
-                            <div class="text-center text-[10px] md:text-xs font-black text-[var(--text-secondary)] uppercase tracking-widest bg-[var(--bg-primary)] py-2 rounded-lg">Thu</div>
-                            <div class="text-center text-[10px] md:text-xs font-black text-[var(--text-secondary)] uppercase tracking-widest bg-[var(--bg-primary)] py-2 rounded-lg">Fri</div>
-                            <div class="text-center text-[10px] md:text-xs font-black text-slate-400 uppercase tracking-widest bg-slate-50 dark:bg-slate-800 py-2 rounded-lg">Sat</div>
+                        <div class="calendar-grid mb-3">
+                            <div class="text-center text-[10px] md:text-xs font-black text-red-400 uppercase tracking-widest bg-red-50 dark:bg-red-900/20 py-3 rounded-xl border border-red-100">Sun</div>
+                            <div class="text-center text-[10px] md:text-xs font-black text-[var(--text-secondary)] uppercase tracking-widest bg-[var(--bg-primary)] py-3 rounded-xl border border-[var(--border-color)]">Mon</div>
+                            <div class="text-center text-[10px] md:text-xs font-black text-[var(--text-secondary)] uppercase tracking-widest bg-[var(--bg-primary)] py-3 rounded-xl border border-[var(--border-color)]">Tue</div>
+                            <div class="text-center text-[10px] md:text-xs font-black text-[var(--text-secondary)] uppercase tracking-widest bg-[var(--bg-primary)] py-3 rounded-xl border border-[var(--border-color)]">Wed</div>
+                            <div class="text-center text-[10px] md:text-xs font-black text-[var(--text-secondary)] uppercase tracking-widest bg-[var(--bg-primary)] py-3 rounded-xl border border-[var(--border-color)]">Thu</div>
+                            <div class="text-center text-[10px] md:text-xs font-black text-[var(--text-secondary)] uppercase tracking-widest bg-[var(--bg-primary)] py-3 rounded-xl border border-[var(--border-color)]">Fri</div>
+                            <div class="text-center text-[10px] md:text-xs font-black text-slate-500 uppercase tracking-widest bg-slate-100 dark:bg-slate-800 py-3 rounded-xl border border-slate-200">Sat</div>
                         </div>
-                        <div id="calendarGrid" class="calendar-grid flex-1 gap-y-2"></div>
+                        <div id="calendarGrid" class="calendar-grid flex-1 gap-y-3"></div>
                     </div>
                 </div>
 
                 <!-- TAB 4: ANALYTICS -->
-                <div id="tab-analytics" class="tab-content custom-scroll p-4 md:p-8 max-w-7xl mx-auto">
-                    <div class="mb-8 flex flex-col md:flex-row justify-between items-center bg-[var(--bg-secondary)] p-4 md:p-6 rounded-2xl border border-[var(--border-color)] shadow-md gap-4 animate-up">
-                        <div class="flex items-center gap-3">
-                            <div class="w-12 h-12 rounded-xl bg-blue-50 dark:bg-blue-900/30 text-sarathy-blue flex items-center justify-center text-xl"><i class="fas fa-chart-line"></i></div>
+                <div id="tab-analytics" class="tab-content custom-scroll p-4 md:p-8 max-w-[1600px] mx-auto">
+                    <div class="mb-8 flex flex-col md:flex-row justify-between items-center bg-[var(--bg-secondary)] p-6 md:p-8 rounded-[2rem] border border-[var(--border-color)] shadow-lg gap-6 animate-up">
+                        <div class="flex items-center gap-5">
+                            <div class="w-16 h-16 rounded-2xl bg-blue-50 dark:bg-blue-900/30 text-sarathy-blue flex items-center justify-center text-2xl shadow-inner border border-blue-100"><i class="fas fa-chart-line"></i></div>
                             <div>
-                                <h2 class="text-xl font-black uppercase text-[var(--text-primary)] tracking-wide">Data Analytics</h2>
-                                <p class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mt-1">Detailed Reports & Insights</p>
+                                <h2 class="text-2xl font-black uppercase text-[var(--text-primary)] tracking-wide">Data Analytics Pro</h2>
+                                <p class="text-[11px] font-bold uppercase tracking-widest text-slate-400 mt-1.5">Detailed HR Insights</p>
                             </div>
                         </div>
                         <div class="relative w-full md:w-auto">
-                            <input type="month" id="chartMonthFilter" onchange="initCharts()" class="w-full md:w-auto pl-12 pr-4 py-3 bg-[var(--bg-primary)] border-2 border-[var(--border-color)] rounded-xl font-black text-sm outline-none focus:border-sarathy-blue dark:text-white dark:[color-scheme:dark] shadow-sm uppercase tracking-widest text-sarathy-blue cursor-pointer">
-                            <i class="fas fa-filter absolute left-4 top-1/2 -translate-y-1/2 text-sarathy-blue pointer-events-none"></i>
+                            <input type="month" id="chartMonthFilter" onchange="initCharts()" class="w-full md:w-auto pl-12 pr-6 py-4 bg-[var(--bg-primary)] border-2 border-[var(--border-color)] rounded-xl font-black text-sm outline-none focus:border-sarathy-blue dark:text-white dark:[color-scheme:dark] shadow-sm uppercase tracking-widest text-sarathy-blue cursor-pointer transition-all hover:bg-blue-50">
+                            <i class="fas fa-filter absolute left-5 top-1/2 -translate-y-1/2 text-sarathy-blue pointer-events-none text-lg"></i>
                         </div>
                     </div>
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8 animate-up" style="animation-delay: 0.1s;">
                         <div class="modern-card p-6 md:p-8 flex flex-col items-center border-t-4 border-t-sarathy-blue shadow-lg hover:shadow-xl lg:col-span-1">
                             <h3 class="font-black text-sm md:text-base uppercase tracking-widest text-[var(--text-primary)] mb-6 w-full border-b border-[var(--border-color)] pb-4 flex items-center gap-2"><i class="fas fa-chart-pie text-sarathy-blue"></i> Hiring Status</h3>
-                            <div class="w-full h-[250px] md:h-[320px] relative"><canvas id="statusChart"></canvas></div>
+                            <div class="w-full h-[280px] md:h-[350px] relative"><canvas id="statusChart"></canvas></div>
                         </div>
                         <div class="modern-card p-6 md:p-8 flex flex-col items-center border-t-4 border-t-emerald-500 shadow-lg hover:shadow-xl lg:col-span-2">
                             <h3 class="font-black text-sm md:text-base uppercase tracking-widest text-[var(--text-primary)] mb-6 w-full border-b border-[var(--border-color)] pb-4 flex items-center gap-2"><i class="fas fa-building text-emerald-500"></i> Candidates by Department</h3>
-                            <div class="w-full h-[250px] md:h-[320px] relative"><canvas id="sourceChart"></canvas></div>
+                            <div class="w-full h-[280px] md:h-[350px] relative"><canvas id="sourceChart"></canvas></div>
                         </div>
                         <div class="modern-card p-6 md:p-8 flex flex-col items-center border-t-4 border-t-purple-500 shadow-lg hover:shadow-xl lg:col-span-3">
                             <h3 class="font-black text-sm md:text-base uppercase tracking-widest text-[var(--text-primary)] mb-6 w-full border-b border-[var(--border-color)] pb-4 flex items-center gap-2"><i class="fas fa-bullhorn text-purple-500"></i> Application Sources</h3>
-                            <div class="w-full h-[250px] md:h-[320px] relative"><canvas id="sourceAnalyticsChart"></canvas></div>
+                            <div class="w-full h-[280px] md:h-[350px] relative"><canvas id="sourceAnalyticsChart"></canvas></div>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Global Floating Action Buttons -->
-            <button id="addBtn" onclick="openModal()" class="fab hidden" title="Add New Candidate"><i class="fas fa-plus text-lg md:text-xl"></i></button>
-            <button id="notesBtn" onclick="toggleNotesPanel()" class="fab-notes hidden" title="Quick Notes"><i class="fas fa-sticky-note text-lg md:text-xl"></i></button>
+            <button id="addBtn" onclick="openModal()" class="fab hidden" title="Add New Candidate"><i class="fas fa-plus text-xl"></i></button>
+            <button id="notesBtn" onclick="toggleNotesPanel()" class="fab-notes hidden" title="Quick Notes"><i class="fas fa-sticky-note text-lg"></i></button>
             
             <!-- Quick Notes Panel -->
-            <div id="notesPanel" class="fixed inset-y-0 right-0 w-80 bg-[var(--bg-secondary)] shadow-2xl border-l border-[var(--border-color)] z-[105] flex flex-col no-print">
-                <div class="p-5 border-b border-[var(--border-color)] flex justify-between items-center bg-amber-50 dark:bg-amber-900/20">
-                    <h3 class="font-black text-amber-600 uppercase tracking-widest flex items-center gap-2"><i class="fas fa-sticky-note"></i> Quick Notes</h3>
-                    <button onclick="toggleNotesPanel()" class="w-8 h-8 rounded-full bg-white dark:bg-slate-800 text-slate-400 flex items-center justify-center hover:text-red-500 shadow-sm transition-colors"><i class="fas fa-times"></i></button>
+            <div id="notesPanel" class="fixed inset-y-0 right-0 w-80 md:w-96 bg-[var(--bg-secondary)] shadow-[rgba(0,0,0,0.3)_0px_0px_40px] border-l border-[var(--border-color)] z-[105] flex flex-col no-print">
+                <div class="p-6 border-b border-[var(--border-color)] flex justify-between items-center bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/30 dark:to-orange-900/20">
+                    <h3 class="font-black text-amber-600 uppercase tracking-widest flex items-center gap-3"><i class="fas fa-sticky-note text-lg"></i> Quick Notes</h3>
+                    <button onclick="toggleNotesPanel()" class="w-10 h-10 rounded-full bg-white dark:bg-slate-800 text-slate-400 flex items-center justify-center hover:text-red-500 hover:bg-red-50 shadow-sm transition-colors"><i class="fas fa-times"></i></button>
                 </div>
-                <div class="flex-1 p-4 bg-amber-50/30 dark:bg-slate-900/50">
-                    <textarea id="quickNotesArea" oninput="saveNotes(this.value)" class="w-full h-full bg-transparent resize-none outline-none font-medium text-sm text-[var(--text-primary)] custom-scroll placeholder-slate-400" placeholder="Type your reminders, to-dos, or quick notes here... They are saved automatically!"></textarea>
+                <div class="flex-1 p-6 bg-amber-50/20 dark:bg-slate-900/50">
+                    <textarea id="quickNotesArea" oninput="saveNotes(this.value)" class="w-full h-full bg-transparent resize-none outline-none font-bold text-sm text-[var(--text-primary)] custom-scroll placeholder-slate-400 leading-relaxed" placeholder="Type your reminders, to-dos, or quick notes here... They are saved automatically!"></textarea>
                 </div>
             </div>
             
-            <button id="backBtn" onclick="goBack()" class="hidden absolute bottom-6 left-4 md:bottom-8 md:left-8 w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-[var(--bg-secondary)] text-[var(--text-primary)] flex items-center justify-center shadow-lg border border-[var(--border-color)] hover:text-sarathy-blue hover:-translate-x-1 active:scale-95 transition-all z-50">
+            <button id="backBtn" onclick="goBack()" class="hidden absolute bottom-6 left-4 md:bottom-8 md:left-8 w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-[var(--bg-secondary)] text-[var(--text-primary)] flex items-center justify-center shadow-xl border border-[var(--border-color)] hover:text-sarathy-blue hover:-translate-x-1 active:scale-95 transition-all z-50">
                 <i class="fas fa-arrow-left text-lg md:text-xl"></i>
             </button>
         </main>
@@ -580,57 +609,57 @@
 
     <!-- HR MODAL (FIXED EDITING LOGIC) -->
     <div id="addModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[110] hidden flex justify-end items-end md:items-stretch transition-opacity duration-300 no-print">
-        <div id="modalContent" class="bg-[var(--bg-secondary)] w-full md:w-3/4 lg:w-[55%] xl:w-[45%] h-[95vh] md:h-full rounded-t-3xl md:rounded-none shadow-2xl flex flex-col transform translate-y-full md:translate-y-0 md:translate-x-full transition-transform duration-400 ease-out border-l border-[var(--border-color)]">
-            <div class="p-5 md:p-8 border-b border-[var(--border-color)] flex justify-between items-center bg-[var(--bg-secondary)] z-10 rounded-t-3xl md:rounded-none">
+        <div id="modalContent" class="bg-[var(--bg-secondary)] w-full md:w-3/4 lg:w-[60%] xl:w-[50%] h-[95vh] md:h-full rounded-t-[2rem] md:rounded-none shadow-2xl flex flex-col transform translate-y-full md:translate-y-0 md:translate-x-full transition-transform duration-400 ease-out border-l border-[var(--border-color)]">
+            <div class="p-6 md:p-8 border-b border-[var(--border-color)] flex justify-between items-center bg-[var(--bg-secondary)] z-10 rounded-t-[2rem] md:rounded-none">
                 <div class="flex items-center gap-4 md:gap-5">
-                    <button type="button" onclick="closeModal()" class="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-[var(--bg-primary)] border border-[var(--border-color)] text-[var(--text-secondary)] flex items-center justify-center shadow-sm hover:text-sarathy-blue hover:-translate-x-1 transition-all active:scale-95 shrink-0"><i class="fas fa-arrow-left text-lg"></i></button>
+                    <button type="button" onclick="closeModal()" class="w-12 h-12 rounded-2xl bg-[var(--bg-primary)] border border-[var(--border-color)] text-[var(--text-secondary)] flex items-center justify-center shadow-sm hover:text-sarathy-blue hover:-translate-x-1 transition-all active:scale-95 shrink-0"><i class="fas fa-arrow-left text-xl"></i></button>
                     <div>
                         <h2 class="text-xl md:text-2xl font-black uppercase text-[var(--text-primary)] tracking-tight" id="modalTitle">Register Personnel</h2>
                         <p class="text-[9px] md:text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Candidate detailed entry</p>
                     </div>
                 </div>
-                <button type="button" onclick="closeModal()" class="w-10 h-10 rounded-full bg-[var(--bg-primary)] flex items-center justify-center hover:bg-red-50 hover:text-red-500 transition-colors shrink-0 active:scale-95"><i class="fas fa-times text-lg"></i></button>
+                <button type="button" onclick="closeModal()" class="w-12 h-12 rounded-full bg-[var(--bg-primary)] flex items-center justify-center hover:bg-red-50 hover:text-red-500 transition-colors shrink-0 active:scale-95 border border-[var(--border-color)]"><i class="fas fa-times text-lg"></i></button>
             </div>
             
-            <div class="overflow-y-auto p-5 md:p-8 custom-scroll flex-1 bg-[var(--bg-primary)] relative">
+            <div class="overflow-y-auto p-6 md:p-8 custom-scroll flex-1 bg-[var(--bg-primary)] relative">
                 <form id="joineeForm" class="flex flex-col h-full relative z-10">
                     <input type="hidden" id="editId">
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6 flex-1">
                         <!-- EMP ID & STATUS -->
-                        <div class="p-4 md:p-5 bg-blue-50 dark:bg-blue-900/20 rounded-2xl border border-blue-100 dark:border-blue-900/50 flex flex-col justify-center">
-                            <label class="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-1.5">Emp Id</label>
-                            <input type="text" id="empId" readonly class="w-full bg-transparent font-black text-sarathy-blue dark:text-sky-400 text-lg md:text-xl outline-none">
+                        <div class="p-5 bg-blue-50 dark:bg-blue-900/20 rounded-2xl border border-blue-100 dark:border-blue-900/50 flex flex-col justify-center">
+                            <label class="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-2">Emp Id</label>
+                            <input type="text" id="empId" readonly class="w-full bg-transparent font-black text-sarathy-blue dark:text-sky-400 text-xl outline-none">
                         </div>
-                        <div class="p-4 md:p-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl flex flex-col justify-center relative shadow-sm">
-                            <label class="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-1.5">Status</label>
+                        <div class="p-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl flex flex-col justify-center relative shadow-sm">
+                            <label class="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-2">Status</label>
                             <select id="status" required class="w-full bg-transparent font-black text-[#0f172a] dark:text-white outline-none uppercase text-sm appearance-none cursor-pointer relative z-10">
                                 <option value="PENDING">PENDING</option>
                                 <option value="SELECTED">SELECTED</option>
                                 <option value="JOINED">JOINED</option>
                                 <option value="REJECTED">REJECTED</option>
                             </select>
-                            <i class="fas fa-chevron-down absolute right-5 bottom-6 text-slate-400 pointer-events-none text-xs"></i>
+                            <i class="fas fa-chevron-down absolute right-6 bottom-6 text-slate-400 pointer-events-none text-sm"></i>
                         </div>
                         
                         <!-- FULL NAME & PHONE -->
                         <div class="flex flex-col justify-end">
-                            <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-2 ml-1">Full Name</label>
-                            <input type="text" id="empName" required class="w-full p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-2xl font-black text-sm uppercase outline-none focus:border-sarathy-blue transition-colors dark:text-white shadow-sm" placeholder="ENTER FULL NAME">
+                            <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-2 ml-2">Full Name</label>
+                            <input type="text" id="empName" required class="w-full p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl font-black text-sm uppercase outline-none focus:border-sarathy-blue transition-colors dark:text-white shadow-sm" placeholder="ENTER FULL NAME">
                         </div>
                         <div class="flex flex-col justify-end">
-                            <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-2 ml-1">Phone Number</label>
-                            <input type="tel" id="empPhone" required pattern="[0-9]{10}" class="w-full p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-2xl font-black text-sm uppercase outline-none focus:border-sarathy-blue transition-colors dark:text-white shadow-sm" placeholder="10 DIGIT MOBILE">
+                            <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-2 ml-2">Phone Number</label>
+                            <input type="tel" id="empPhone" required pattern="[0-9]{10}" class="w-full p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl font-black text-sm uppercase outline-none focus:border-sarathy-blue transition-colors dark:text-white shadow-sm" placeholder="10 DIGIT MOBILE">
                         </div>
                         
                         <!-- EMAIL & SOURCE -->
                         <div class="flex flex-col justify-end">
-                            <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-2 ml-1">Email Address</label>
-                            <input type="email" id="empEmail" class="w-full p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-2xl font-black text-sm outline-none focus:border-sarathy-blue transition-colors dark:text-white shadow-sm" placeholder="CANDIDATE EMAIL">
+                            <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-2 ml-2">Email Address</label>
+                            <input type="email" id="empEmail" class="w-full p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl font-black text-sm outline-none focus:border-sarathy-blue transition-colors dark:text-white shadow-sm" placeholder="CANDIDATE EMAIL">
                         </div>
                         <div class="flex flex-col justify-end relative">
-                            <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-2 ml-1">Source</label>
-                            <select id="empSource" class="w-full p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-2xl font-black text-sm uppercase outline-none focus:border-sarathy-blue transition-colors appearance-none shadow-sm cursor-pointer">
+                            <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-2 ml-2">Source</label>
+                            <select id="empSource" class="w-full p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl font-black text-sm uppercase outline-none focus:border-sarathy-blue transition-colors appearance-none shadow-sm cursor-pointer">
                                 <option value="Direct/Walk-in">Direct / Walk-in</option>
                                 <option value="LinkedIn">LinkedIn</option>
                                 <option value="Naukri">Naukri / Job Portal</option>
@@ -638,62 +667,62 @@
                                 <option value="Consultant">Consultant / Agency</option>
                                 <option value="Other">Other Source</option>
                             </select>
-                            <i class="fas fa-chevron-down absolute right-5 bottom-5 text-slate-400 pointer-events-none text-xs"></i>
+                            <i class="fas fa-chevron-down absolute right-5 bottom-6 text-slate-400 pointer-events-none text-xs"></i>
                         </div>
 
                         <!-- DEPT & ENTITY -->
                         <div class="flex flex-col justify-end">
-                            <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-2 ml-1">Department</label>
-                            <input type="text" id="dept" required oninput="this.value = this.value.toUpperCase()" class="w-full p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-2xl font-black text-sm uppercase outline-none focus:border-sarathy-blue transition-colors dark:text-white shadow-sm" placeholder="E.G. SALES, SERVICE">
+                            <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-2 ml-2">Department</label>
+                            <input type="text" id="dept" required oninput="this.value = this.value.toUpperCase()" class="w-full p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl font-black text-sm uppercase outline-none focus:border-sarathy-blue transition-colors dark:text-white shadow-sm" placeholder="E.G. SALES, SERVICE">
                         </div>
                         <div class="flex flex-col justify-end relative">
-                            <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-2 ml-1">Entity</label>
-                            <select id="company" required class="w-full p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-2xl font-black text-sm uppercase outline-none focus:border-sarathy-blue transition-colors appearance-none shadow-sm cursor-pointer">
+                            <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-2 ml-2">Entity / Company</label>
+                            <select id="company" required class="w-full p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl font-black text-sm uppercase outline-none focus:border-sarathy-blue transition-colors appearance-none shadow-sm cursor-pointer">
                                 <option value="SARATHY MOTORS">SARATHY MOTORS</option>
                                 <option value="SARATHY BIKES PVT LTD">SARATHY BIKES PVT LTD</option>
                                 <option value="SARATHY ELECTRIC PVT LTD">SARATHY ELECTRIC PVT LTD</option>
                                 <option value="SARATHY AUTOCARS">SARATHY AUTOCARS</option>
                                 <option value="SARATHY CARS PVT LTD">SARATHY CARS PVT LTD</option>
                             </select>
-                            <i class="fas fa-chevron-down absolute right-5 bottom-5 text-slate-400 pointer-events-none text-xs"></i>
+                            <i class="fas fa-chevron-down absolute right-5 bottom-6 text-slate-400 pointer-events-none text-xs"></i>
                         </div>
 
                         <!-- DATES -->
                         <div class="flex flex-col justify-end">
-                            <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-2 ml-1">Interview Date</label>
-                            <input type="date" id="interviewDate" required class="w-full p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-2xl font-black text-sm outline-none focus:border-sarathy-blue transition-colors dark:text-white shadow-sm cursor-pointer">
+                            <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-2 ml-2">Interview Date</label>
+                            <input type="date" id="interviewDate" required class="w-full p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl font-black text-sm outline-none focus:border-sarathy-blue transition-colors dark:text-white shadow-sm cursor-pointer">
                         </div>
                         <div class="flex flex-col justify-end">
-                            <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-2 ml-1">Join Date</label>
-                            <input type="date" id="joinDate" class="w-full p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-2xl font-black text-sm outline-none focus:border-sarathy-blue transition-colors dark:text-white shadow-sm cursor-pointer">
+                            <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-2 ml-2">Join Date</label>
+                            <input type="date" id="joinDate" class="w-full p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl font-black text-sm outline-none focus:border-sarathy-blue transition-colors dark:text-white shadow-sm cursor-pointer">
                         </div>
 
                         <!-- EXP, LOCATION, DESIGNATION -->
                         <div class="flex flex-col justify-end">
-                            <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-2 ml-1">Experience (Yrs)</label>
-                            <input type="number" id="experience" step="0.5" class="w-full p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-2xl font-black text-sm outline-none focus:border-sarathy-blue transition-colors dark:text-white shadow-sm" value="0">
+                            <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-2 ml-2">Experience (Yrs)</label>
+                            <input type="number" id="experience" step="0.5" class="w-full p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl font-black text-sm outline-none focus:border-sarathy-blue transition-colors dark:text-white shadow-sm" value="0">
                         </div>
                         <div class="flex flex-col justify-end">
-                            <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-2 ml-1">Location</label>
-                            <input type="text" id="location" required class="w-full p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-2xl font-black text-sm uppercase outline-none focus:border-sarathy-blue transition-colors dark:text-white shadow-sm" placeholder="LOCATION">
+                            <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-2 ml-2">Location</label>
+                            <input type="text" id="location" required class="w-full p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl font-black text-sm uppercase outline-none focus:border-sarathy-blue transition-colors dark:text-white shadow-sm" placeholder="LOCATION">
                         </div>
                         <div class="col-span-1 md:col-span-2 flex flex-col justify-end">
-                            <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-2 ml-1">Designation</label>
-                            <input type="text" id="designation" required class="w-full p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-2xl font-black text-sm uppercase outline-none focus:border-sarathy-blue transition-colors dark:text-white shadow-sm" placeholder="DESIGNATION">
+                            <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-2 ml-2">Designation</label>
+                            <input type="text" id="designation" required class="w-full p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl font-black text-sm uppercase outline-none focus:border-sarathy-blue transition-colors dark:text-white shadow-sm" placeholder="DESIGNATION">
                         </div>
                         <div class="col-span-1 md:col-span-2 flex flex-col justify-end">
-                            <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-2 ml-1">Resume Link</label>
-                            <input type="url" id="resumeLink" class="w-full p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-2xl font-bold text-sm outline-none focus:border-sarathy-blue transition-colors text-blue-500 shadow-sm" placeholder="https://drive.google.com/...">
+                            <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-2 ml-2 flex items-center gap-2"><i class="fas fa-link text-sarathy-blue"></i> Resume Link (Drive/Dropbox)</label>
+                            <input type="url" id="resumeLink" class="w-full p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl font-bold text-sm outline-none focus:border-sarathy-blue transition-colors text-blue-500 shadow-sm" placeholder="https://drive.google.com/...">
                         </div>
                         <div class="col-span-1 md:col-span-2 flex flex-col justify-end">
-                            <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-2 ml-1">Remarks</label>
-                            <textarea id="remarks" rows="2" class="w-full p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-2xl font-black text-sm uppercase outline-none focus:border-sarathy-blue transition-colors dark:text-white shadow-sm" placeholder="Feedback..."></textarea>
+                            <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-2 ml-2">Remarks</label>
+                            <textarea id="remarks" rows="2" class="w-full p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl font-black text-sm outline-none focus:border-sarathy-blue transition-colors dark:text-white shadow-sm" placeholder="Any feedback..."></textarea>
                         </div>
                     </div>
 
-                    <div class="pt-8 mt-4 sticky bottom-0 bg-[var(--bg-primary)] pb-4 z-20">
-                        <button type="submit" id="saveCandidateBtn" class="w-full bg-sarathy-blue hover:bg-[#004080] text-white font-black py-4 rounded-2xl shadow-xl active:scale-[0.98] transition-all uppercase tracking-widest text-sm flex items-center justify-center gap-3">
-                            <i class="fas fa-save text-lg"></i> Save Candidate
+                    <div class="pt-8 mt-6 sticky bottom-0 bg-[var(--bg-primary)] pb-6 z-20 border-t border-[var(--border-color)]">
+                        <button type="submit" id="saveCandidateBtn" class="w-full bg-sarathy-blue hover:bg-[#004080] text-white font-black py-5 rounded-2xl shadow-[0_10px_20px_rgba(0,84,166,0.3)] active:scale-[0.98] transition-all uppercase tracking-widest text-sm flex items-center justify-center gap-3">
+                            <i class="fas fa-save text-xl"></i> Save Candidate Record
                         </button>
                     </div>
                 </form>
@@ -703,18 +732,18 @@
 
     <!-- TARGETS MODAL -->
     <div id="reqModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[115] hidden flex justify-center items-end md:items-center p-0 md:p-4 transition-opacity duration-300 no-print">
-        <div class="bg-[var(--bg-secondary)] w-full max-w-4xl rounded-t-3xl md:rounded-3xl shadow-2xl flex flex-col max-h-[90vh] md:max-h-[85vh] border border-[var(--border-color)]">
-            <div class="p-4 md:p-8 border-b border-[var(--border-color)] flex justify-between items-center shrink-0">
-                <div class="flex items-center gap-2 md:gap-4">
-                    <div class="w-8 h-8 md:w-10 md:h-10 rounded-xl bg-blue-50 text-sarathy-blue flex items-center justify-center"><i class="fas fa-bullseye"></i></div>
-                    <h2 class="text-base md:text-2xl font-black uppercase text-[var(--text-primary)] tracking-tight">Manpower Targets</h2>
+        <div class="bg-[var(--bg-secondary)] w-full max-w-4xl rounded-t-[2rem] md:rounded-3xl shadow-2xl flex flex-col max-h-[90vh] md:max-h-[85vh] border border-[var(--border-color)]">
+            <div class="p-6 md:p-8 border-b border-[var(--border-color)] flex justify-between items-center shrink-0">
+                <div class="flex items-center gap-3 md:gap-4">
+                    <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-blue-50 text-sarathy-blue flex items-center justify-center"><i class="fas fa-bullseye text-lg"></i></div>
+                    <h2 class="text-lg md:text-2xl font-black uppercase text-[var(--text-primary)] tracking-tight">Manpower Targets</h2>
                 </div>
-                <button onclick="addReqRow()" class="h-8 md:h-10 px-3 md:px-4 rounded-xl bg-sarathy-blue text-white hover:bg-[#004080] transition-colors shadow-md active:scale-95 text-[10px] font-black uppercase tracking-widest flex items-center gap-2"><i class="fas fa-plus"></i> Add Target</button>
+                <button onclick="addReqRow()" class="px-4 py-2.5 rounded-xl bg-sarathy-blue text-white hover:bg-[#004080] transition-colors shadow-md active:scale-95 text-[10px] md:text-xs font-black uppercase tracking-widest flex items-center gap-2"><i class="fas fa-plus"></i> Add Target</button>
             </div>
-            <div id="reqEntriesContainer" class="p-4 md:p-8 overflow-y-auto space-y-3 custom-scroll flex-1 bg-[var(--bg-primary)] pb-24 md:pb-8"></div>
-            <div class="p-4 md:p-6 border-t border-[var(--border-color)] flex gap-2 md:gap-4 bg-[var(--bg-secondary)] shrink-0">
-                <button onclick="closeReqModal()" class="flex-1 py-3 md:py-4 bg-[var(--bg-primary)] text-[var(--text-secondary)] rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-slate-100 transition-all border active:scale-95">Close</button>
-                <button onclick="saveRequirements()" class="flex-1 py-3 md:py-4 bg-sarathy-blue text-white rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-[#004080] transition-all shadow-lg active:scale-95 flex items-center justify-center gap-2"><i class="fas fa-check"></i> Save Targets</button>
+            <div id="reqEntriesContainer" class="p-6 md:p-8 overflow-y-auto space-y-4 custom-scroll flex-1 bg-[var(--bg-primary)] pb-24 md:pb-8"></div>
+            <div class="p-6 md:p-8 border-t border-[var(--border-color)] flex gap-3 md:gap-4 bg-[var(--bg-secondary)] shrink-0 rounded-b-3xl">
+                <button onclick="closeReqModal()" class="flex-1 py-4 bg-[var(--bg-primary)] text-[var(--text-secondary)] rounded-2xl font-black text-[10px] md:text-xs uppercase tracking-widest hover:bg-slate-200 transition-all border-2 active:scale-95">Close</button>
+                <button onclick="saveRequirements()" class="flex-1 py-4 bg-sarathy-blue text-white rounded-2xl font-black text-[10px] md:text-xs uppercase tracking-widest hover:bg-[#004080] transition-all shadow-lg active:scale-95 flex items-center justify-center gap-2"><i class="fas fa-check text-lg"></i> Save Targets</button>
             </div>
         </div>
     </div>
@@ -722,35 +751,35 @@
     <!-- SUMMARY MODAL -->
     <div id="summaryModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[115] hidden flex items-center justify-center p-4 transition-opacity no-print">
         <div class="bg-[var(--bg-secondary)] w-full max-w-4xl rounded-3xl shadow-2xl overflow-hidden border border-[var(--border-color)]">
-            <div class="p-5 md:p-8 bg-gradient-to-r from-sarathy-blue to-blue-600 text-white flex justify-between items-center">
-                <h2 class="font-black text-sm md:text-lg uppercase tracking-widest flex items-center gap-3"><i class="fas fa-chart-pie opacity-70"></i> Hiring Summary</h2>
-                <button onclick="document.getElementById('summaryModal').classList.add('hidden')" class="hover:bg-white/20 w-8 h-8 rounded-full flex items-center justify-center transition-colors"><i class="fas fa-times"></i></button>
+            <div class="p-6 md:p-8 bg-gradient-to-r from-sarathy-blue to-blue-600 text-white flex justify-between items-center">
+                <h2 class="font-black text-base md:text-xl uppercase tracking-widest flex items-center gap-3"><i class="fas fa-chart-pie opacity-70 text-2xl"></i> Hiring Summary</h2>
+                <button onclick="document.getElementById('summaryModal').classList.add('hidden')" class="hover:bg-white/20 w-10 h-10 rounded-full flex items-center justify-center transition-colors"><i class="fas fa-times text-xl"></i></button>
             </div>
-            <div class="p-5 md:p-8">
-                <div id="summaryText" class="text-xs md:text-sm text-[var(--text-primary)] bg-[var(--bg-primary)] p-4 md:p-6 rounded-2xl border border-[var(--border-color)] shadow-inner max-h-[60vh] overflow-y-auto custom-scroll"></div>
-                <button onclick="copySummary()" class="w-full bg-slate-800 text-white hover:bg-slate-900 font-black py-4 rounded-xl mt-6 text-[10px] md:text-xs tracking-widest active:scale-95 uppercase shadow-md flex items-center justify-center gap-3 transition-all"><i class="fas fa-copy text-lg"></i> Copy Report for Sharing</button>
+            <div class="p-6 md:p-8">
+                <div id="summaryText" class="text-xs md:text-sm text-[var(--text-primary)] bg-[var(--bg-primary)] p-6 md:p-8 rounded-2xl border border-[var(--border-color)] shadow-inner max-h-[60vh] overflow-y-auto custom-scroll"></div>
+                <button onclick="copySummary()" class="w-full bg-slate-800 text-white hover:bg-slate-900 font-black py-4 md:py-5 rounded-2xl mt-8 text-[10px] md:text-xs tracking-widest active:scale-95 uppercase shadow-xl flex items-center justify-center gap-3 transition-all"><i class="fas fa-copy text-xl"></i> Copy Report for Sharing</button>
             </div>
         </div>
     </div>
 
     <!-- VIEW PROFILE MODAL -->
     <div id="viewModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[115] hidden flex items-center justify-center p-4 transition-opacity">
-        <div class="bg-[var(--bg-secondary)] w-full max-w-2xl rounded-3xl shadow-2xl overflow-hidden border border-[var(--border-color)] relative">
-            <div class="p-5 md:p-6 bg-gradient-to-r from-sarathy-blue to-blue-600 text-white flex justify-between items-center no-print">
-                <h2 class="font-black text-sm md:text-base uppercase tracking-widest flex items-center gap-3"><i class="fas fa-id-badge opacity-70"></i> Candidate Profile</h2>
-                <div class="flex items-center gap-2">
-                    <button id="shareProfileBtn" class="px-3 py-1.5 bg-white/20 hover:bg-white/30 rounded-lg text-xs font-bold uppercase tracking-widest flex items-center gap-2 transition-colors"><i class="fas fa-share-alt"></i> Share</button>
-                    <button onclick="window.print()" class="px-3 py-1.5 bg-white/20 hover:bg-white/30 rounded-lg text-xs font-bold uppercase tracking-widest flex items-center gap-2 transition-colors"><i class="fas fa-print"></i> Print</button>
-                    <button onclick="closeViewModal()" class="w-8 h-8 rounded-full hover:bg-white/20 flex items-center justify-center transition-colors ml-2"><i class="fas fa-times"></i></button>
+        <div class="bg-[var(--bg-secondary)] w-full max-w-3xl rounded-[2rem] shadow-2xl overflow-hidden border border-[var(--border-color)] relative">
+            <div class="p-6 md:p-8 bg-gradient-to-r from-sarathy-blue to-blue-600 text-white flex justify-between items-center no-print">
+                <h2 class="font-black text-sm md:text-base uppercase tracking-widest flex items-center gap-3"><i class="fas fa-id-badge opacity-70 text-2xl"></i> Candidate Profile</h2>
+                <div class="flex items-center gap-3">
+                    <button id="shareProfileBtn" class="px-4 py-2 bg-white/20 hover:bg-white/30 rounded-xl text-[10px] md:text-xs font-bold uppercase tracking-widest flex items-center gap-2 transition-colors"><i class="fas fa-share-alt"></i> Share</button>
+                    <button onclick="window.print()" class="px-4 py-2 bg-white/20 hover:bg-white/30 rounded-xl text-[10px] md:text-xs font-bold uppercase tracking-widest flex items-center gap-2 transition-colors"><i class="fas fa-print"></i> Print</button>
+                    <button onclick="closeViewModal()" class="w-10 h-10 rounded-full bg-white/10 hover:bg-white/30 flex items-center justify-center transition-colors ml-2"><i class="fas fa-times text-lg"></i></button>
                 </div>
             </div>
             
             <div class="hidden print:block text-center pt-8 pb-4 border-b-2 border-black mb-6">
-                <h1 class="text-3xl font-black uppercase tracking-widest">SARATHY GROUP</h1>
+                <h1 class="text-4xl font-black uppercase tracking-widest">SARATHY GROUP</h1>
                 <p class="text-sm font-bold uppercase tracking-widest mt-1">Candidate Profile Report</p>
             </div>
 
-            <div class="p-5 md:p-8 custom-scroll max-h-[75vh] overflow-y-auto bg-[var(--bg-primary)]">
+            <div class="p-6 md:p-10 custom-scroll max-h-[75vh] overflow-y-auto bg-[var(--bg-primary)]">
                 <div id="viewModalContent"></div>
             </div>
         </div>
@@ -758,31 +787,31 @@
 
     <!-- ID CARD MODAL -->
     <div id="idCardModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[150] hidden flex items-center justify-center p-4 transition-opacity no-print">
-        <div class="w-full max-w-sm rounded-3xl shadow-2xl overflow-hidden relative">
-            <button onclick="document.getElementById('idCardModal').classList.add('hidden')" class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-white/20 text-white hover:bg-white/40 transition-colors z-20"><i class="fas fa-times"></i></button>
+        <div class="w-full max-w-md rounded-3xl shadow-2xl overflow-hidden relative">
+            <button onclick="document.getElementById('idCardModal').classList.add('hidden')" class="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full bg-white/20 text-white hover:bg-white/40 transition-colors z-20"><i class="fas fa-times text-lg"></i></button>
             <div id="idCardContainer" class="bg-white relative overflow-hidden id-card-bg"></div>
-            <div class="bg-slate-800 p-4">
-                <button onclick="window.print()" class="w-full bg-white text-slate-900 hover:bg-slate-200 font-black py-3 rounded-xl shadow-lg active:scale-95 transition-all uppercase tracking-widest text-xs flex items-center justify-center gap-2">
-                    <i class="fas fa-print"></i> Print ID Card
+            <div class="bg-slate-800 p-6">
+                <button onclick="window.print()" class="w-full bg-white text-slate-900 hover:bg-slate-200 font-black py-4 rounded-xl shadow-lg active:scale-95 transition-all uppercase tracking-widest text-sm flex items-center justify-center gap-2">
+                    <i class="fas fa-print text-lg"></i> Print ID Card
                 </button>
             </div>
         </div>
     </div>
 
     <!-- NOTIFICATION MODAL -->
-    <div id="notificationModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[120] hidden flex items-start justify-center md:justify-end p-4 no-print">
-        <div class="bg-[var(--bg-secondary)] w-full max-w-sm rounded-3xl shadow-2xl mt-16 md:mt-20 overflow-hidden border border-[var(--border-color)]">
-            <div class="p-5 border-b border-[var(--border-color)] flex justify-between items-center">
-                <h3 class="font-black text-sm uppercase tracking-widest flex items-center gap-2 text-sarathy-blue"><i class="fas fa-bell"></i> Today's Updates</h3>
-                <button onclick="toggleNotifications()" class="w-8 h-8 rounded-full bg-[var(--bg-secondary)] text-[var(--text-secondary)] hover:text-red-500 flex items-center justify-center transition-colors"><i class="fas fa-times"></i></button>
+    <div id="notificationModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[120] hidden flex items-start justify-center md:justify-end p-4 md:pr-8 md:pt-24 no-print">
+        <div class="bg-[var(--bg-secondary)] w-full max-w-sm rounded-[2rem] shadow-2xl overflow-hidden border border-[var(--border-color)] animate-up">
+            <div class="p-6 border-b border-[var(--border-color)] flex justify-between items-center bg-[var(--bg-primary)]">
+                <h3 class="font-black text-sm uppercase tracking-widest flex items-center gap-3 text-sarathy-blue"><i class="fas fa-bell text-lg"></i> Today's Updates</h3>
+                <button onclick="toggleNotifications()" class="w-10 h-10 rounded-full bg-white dark:bg-slate-800 text-[var(--text-secondary)] hover:text-red-500 shadow-sm flex items-center justify-center transition-colors"><i class="fas fa-times"></i></button>
             </div>
-            <div class="p-5 custom-scroll max-h-[60vh] overflow-y-auto bg-[var(--bg-secondary)]" id="dynamicNotifications"></div>
+            <div class="p-6 custom-scroll max-h-[60vh] overflow-y-auto bg-[var(--bg-secondary)]" id="dynamicNotifications"></div>
         </div>
     </div>
 
     <!-- Toast -->
-    <div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 translate-y-40 opacity-0 bg-slate-800 text-white px-6 md:px-8 py-3 md:py-4 rounded-2xl shadow-2xl transition-all duration-400 z-[200] flex items-center gap-3 text-[10px] md:text-xs font-black tracking-widest uppercase whitespace-nowrap no-print">
-        <i id="toastIcon" class="fas fa-check-circle text-emerald-400 text-base md:text-lg"></i>
+    <div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 translate-y-40 opacity-0 bg-slate-800 text-white px-8 py-4 rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.3)] transition-all duration-400 z-[200] flex items-center gap-4 text-xs md:text-sm font-black tracking-widest uppercase whitespace-nowrap no-print border border-slate-700">
+        <i id="toastIcon" class="fas fa-check-circle text-emerald-400 text-xl"></i>
         <span id="toastMessage">Success</span>
     </div>
 
@@ -829,7 +858,7 @@
             const t = document.getElementById('toast');
             if(t) {
                 document.getElementById('toastMessage').innerText = msg;
-                document.getElementById('toastIcon').className = type==='success'?'fas fa-check-circle text-emerald-400 text-lg':'fas fa-exclamation-circle text-red-400 text-lg';
+                document.getElementById('toastIcon').className = type==='success'?'fas fa-check-circle text-emerald-400 text-xl':'fas fa-exclamation-circle text-red-400 text-xl';
                 t.classList.remove('opacity-0', 'translate-y-40');
                 setTimeout(()=>t.classList.add('opacity-0', 'translate-y-40'), 3000);
             }
@@ -873,7 +902,7 @@
             document.documentElement.classList.toggle('dark');
             const isDark = document.documentElement.classList.contains('dark');
             const icon = document.getElementById('darkModeIcon');
-            if(icon) icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+            if(icon) icon.className = isDark ? 'fas fa-sun text-lg' : 'fas fa-moon text-lg';
             localStorage.setItem('theme', isDark ? 'dark' : 'light');
             if(chartStatus) { chartStatus.update(); chartSource.update(); if(chartSourcePie) chartSourcePie.update(); }
         };
@@ -1007,20 +1036,20 @@
                     const locationLabel = reqLocation === 'ALL' ? 'ALL LOCATIONS' : reqLocation;
                     
                     progContainer.innerHTML += `
-                        <div class="modern-card p-4 md:p-5 shadow-sm relative transition-all rounded-xl">
-                            <span class="absolute top-0 right-0 text-[8px] font-black bg-[#0054A6] text-white px-2 py-1 rounded-bl-lg rounded-tr-xl uppercase tracking-widest">${companyLabel} • ${locationLabel}</span>
-                            <div class="flex justify-between text-xs font-black mb-2.5 mt-5 uppercase tracking-widest text-[var(--text-secondary)]">
-                                <span class="truncate pr-2">${req.dept}</span>
-                                <span class="text-sarathy-blue whitespace-nowrap">${count}/${target}</span>
+                        <div class="modern-card p-5 md:p-6 shadow-sm relative transition-all rounded-2xl border-t-4 border-t-[#0054A6]">
+                            <span class="absolute top-0 right-0 text-[9px] font-black bg-[#0054A6] text-white px-3 py-1.5 rounded-bl-xl rounded-tr-2xl uppercase tracking-widest">${companyLabel} • ${locationLabel}</span>
+                            <div class="flex justify-between items-end text-xs font-black mb-3 mt-6 uppercase tracking-widest text-[var(--text-secondary)]">
+                                <span class="truncate pr-2 text-sm">${req.dept}</span>
+                                <span class="text-sarathy-blue whitespace-nowrap text-lg">${count}/${target}</span>
                             </div>
-                            <div class="w-full h-2 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-full overflow-hidden">
-                                <div class="h-full bg-sarathy-blue transition-all duration-1000" style="width:${perc}%"></div>
+                            <div class="w-full h-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-full overflow-hidden shadow-inner">
+                                <div class="h-full bg-gradient-to-r from-sarathy-blue to-sky-400 transition-all duration-1000" style="width:${perc}%"></div>
                             </div>
                         </div>
                     `;
                 });
                 if(reqList.length === 0) {
-                    progContainer.innerHTML = `<div class="col-span-3 p-6 border-2 border-dashed border-[var(--border-color)] rounded-xl text-center text-slate-400 font-bold uppercase tracking-widest text-xs">No targets configured</div>`;
+                    progContainer.innerHTML = `<div class="col-span-1 md:col-span-4 p-8 border-2 border-dashed border-[var(--border-color)] rounded-2xl text-center text-slate-400 font-bold uppercase tracking-widest text-sm">No targets configured</div>`;
                 }
             }
         };
@@ -1084,7 +1113,7 @@
             clearBulkSelection();
             renderTable(); renderDashboard(); renderCalendar(); checkNotifications();
             showToast(`Marked ${selectedCandidates.length} candidates as ${newStatus}`);
-            if(newStatus === 'SELECTED' || newStatus === 'JOINED') confetti();
+            if(newStatus === 'SELECTED' || newStatus === 'JOINED') confetti({particleCount: 150, spread: 80, origin: { y: 0.6 }});
         };
 
         const bulkDelete = () => {
@@ -1101,9 +1130,9 @@
         // --- CANDIDATES VIEW ---
         const setQuickFilter = (f) => {
             activeFilter = f;
-            document.querySelectorAll('[id^="chip-"]').forEach(c => c.classList.remove('border-sarathy-blue', 'text-sarathy-blue'));
+            document.querySelectorAll('[id^="chip-"]').forEach(c => c.classList.remove('border-sarathy-blue', 'text-sarathy-blue', 'dark:text-sky-400'));
             const chip = document.getElementById(`chip-${f}`);
-            if(chip) chip.classList.add('border-sarathy-blue', 'text-sarathy-blue');
+            if(chip) chip.classList.add('border-sarathy-blue', 'text-sarathy-blue', 'dark:text-sky-400');
             renderTable();
         };
 
@@ -1112,26 +1141,30 @@
             renderTable();
             const btnList = document.getElementById('btnViewList');
             const btnBoard = document.getElementById('btnViewBoard');
-            if(btnList) btnList.className = v==='list'?'px-4 py-1.5 rounded-lg font-black text-sm bg-white shadow-sm':'px-4 py-1.5 rounded-lg font-black text-sm text-[var(--text-secondary)] hover:bg-[var(--bg-secondary)]';
-            if(btnBoard) btnBoard.className = v==='board'?'px-4 py-1.5 rounded-lg font-black text-sm bg-white shadow-sm':'px-4 py-1.5 rounded-lg font-black text-sm text-[var(--text-secondary)] hover:bg-[var(--bg-secondary)]';
+            if(btnList) btnList.className = v==='list'?'px-5 py-2 rounded-lg font-black text-sm bg-white dark:bg-slate-700 shadow-sm transition-all':'px-5 py-2 rounded-lg font-black text-sm text-[var(--text-secondary)] hover:bg-[var(--bg-secondary)] transition-all';
+            if(btnBoard) btnBoard.className = v==='board'?'px-5 py-2 rounded-lg font-black text-sm bg-white dark:bg-slate-700 shadow-sm transition-all':'px-5 py-2 rounded-lg font-black text-sm text-[var(--text-secondary)] hover:bg-[var(--bg-secondary)] transition-all';
         };
 
         const renderTable = () => {
             const term = document.getElementById('searchInput')?.value.toUpperCase() || '';
             const month = document.getElementById('monthFilter')?.value || '';
             const deptFilter = document.getElementById('filterDept')?.value || 'ALL';
+            const compFilter = document.getElementById('filterCompany')?.value || 'ALL'; // NEW: Company Filter
             const todayStr = new Date().toISOString().slice(0, 10);
             
             let filtered = joinees.filter(x => {
                 const searchMatch = x.name.includes(term) || x.empId.includes(term) || (x.phone && x.phone.includes(term));
                 const dateMatch = !month || (x.interviewDate||'').startsWith(month);
                 const deptMatch = deptFilter === 'ALL' || (x.dept && x.dept.includes(deptFilter));
+                const compMatch = compFilter === 'ALL' || (x.company && x.company.includes(compFilter)); // NEW: Company Match Logic
+
                 let qMatch = true;
                 if(activeFilter==='Pending') qMatch = x.status === 'PENDING';
                 if(activeFilter==='Selected') qMatch = x.status === 'SELECTED';
                 if(activeFilter==='Joined') qMatch = x.status === 'JOINED'; 
                 if(activeFilter==='InductionPending') qMatch = (x.status === 'SELECTED' && !x.joinDate);
-                return searchMatch && dateMatch && deptMatch && qMatch;
+                
+                return searchMatch && dateMatch && deptMatch && compMatch && qMatch;
             });
 
             filtered.sort((a,b) => b.id - a.id);
@@ -1148,7 +1181,7 @@
                     const selectAllCb = document.getElementById('selectAllCb');
                     if(selectAllCb) selectAllCb.checked = filtered.length > 0 && filtered.every(x => selectedCandidates.includes(String(x.id)));
 
-                    tableBody.innerHTML = filtered.length ? filtered.map((x, index) => generateRow(x, index + 1)).join('') : '<tr><td colspan="7" class="text-center py-10 text-[var(--text-secondary)] font-black uppercase tracking-widest opacity-60">No candidates found</td></tr>';
+                    tableBody.innerHTML = filtered.length ? filtered.map((x, index) => generateRow(x, index + 1)).join('') : '<tr><td colspan="7" class="text-center py-16 text-[var(--text-secondary)] font-black uppercase tracking-widest opacity-60"><i class="fas fa-box-open text-4xl mb-4 block opacity-50"></i> No candidates found</td></tr>';
                 }
             } else {
                 if(listView) listView.classList.add('hidden');
@@ -1182,49 +1215,49 @@
             const callLink = x.phone ? `href="tel:+91${x.phone}"` : `href="#" onclick="showToast('Phone number not available', 'error'); return false;"`;
             
             let actionBtns = `
-                <a ${callLink} title="Call" class="w-8 h-8 rounded-lg bg-slate-50 border border-slate-200 text-slate-600 flex items-center justify-center hover:bg-slate-200 transition-all"><i class="fas fa-phone-alt text-xs"></i></a>
-                <button onclick="viewCandidate(${x.id})" title="View" class="w-8 h-8 rounded-lg bg-blue-50 border border-blue-200 text-blue-600 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-all"><i class="fas fa-eye text-xs"></i></button>
+                <a ${callLink} title="Call" class="w-10 h-10 rounded-xl bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-600 dark:text-white flex items-center justify-center hover:bg-slate-200 dark:hover:bg-slate-600 transition-all shadow-sm active:scale-95"><i class="fas fa-phone-alt"></i></a>
+                <button onclick="viewCandidate(${x.id})" title="View" class="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 text-blue-600 dark:text-sky-400 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-all shadow-sm active:scale-95"><i class="fas fa-eye"></i></button>
             `;
             if (x.status === 'SELECTED') {
-                actionBtns = `<button onclick="markAsJoined(${x.id})" title="Mark Joined" class="w-8 h-8 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-600 flex items-center justify-center hover:bg-emerald-500 hover:text-white transition-all"><i class="fas fa-check text-xs"></i></button>` + actionBtns;
+                actionBtns = `<button onclick="markAsJoined(${x.id})" title="Mark Joined" class="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-900/30 border border-emerald-200 dark:border-emerald-800 text-emerald-600 dark:text-emerald-400 flex items-center justify-center hover:bg-emerald-500 hover:text-white transition-all shadow-sm active:scale-95"><i class="fas fa-check"></i></button>` + actionBtns;
             }
 
             return `
-                <tr class="group hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-                    <td class="text-center">
+                <tr class="group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors cursor-pointer" onclick="viewCandidate(${x.id})">
+                    <td class="text-center" onclick="event.stopPropagation()">
                         <input type="checkbox" class="candidate-cb custom-checkbox" value="${x.id}" ${isChecked} onclick="updateBulkSelection(${x.id}, this.checked)">
                     </td>
                     <td>
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-xl flex items-center justify-center font-black text-sm shrink-0 shadow-sm ${avatarClass}">${x.name[0]}</div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-xl flex items-center justify-center font-black text-lg shrink-0 shadow-sm ${avatarClass}">${x.name[0]}</div>
                             <div>
-                                <p class="font-black text-black dark:text-white text-xs uppercase tracking-wide truncate">${x.name}</p>
-                                <span class="inline-block px-2 py-0.5 mt-1 rounded text-[9px] font-extrabold bg-slate-100 text-slate-500 uppercase tracking-widest border border-slate-200">${x.empId}</span>
+                                <p class="font-black text-black dark:text-white text-sm uppercase tracking-wide truncate leading-tight">${x.name}</p>
+                                <span class="inline-block px-2 py-0.5 mt-1.5 rounded-md text-[9px] font-black bg-slate-100 text-slate-500 dark:bg-slate-700 dark:text-slate-300 uppercase tracking-widest border border-slate-200 dark:border-slate-600">${x.empId}</span>
                             </div>
                         </div>
                     </td>
                     <td>
-                        <p class="font-black text-black dark:text-white text-[11px] uppercase tracking-widest truncate">${x.designation || '-'}</p>
-                        <div class="flex items-center gap-2 mt-1">
+                        <p class="font-black text-black dark:text-white text-xs uppercase tracking-widest truncate">${x.designation || '-'}</p>
+                        <div class="flex items-center gap-2 mt-1.5">
                             <p class="text-[10px] ${deptColor} font-black uppercase tracking-widest">${x.dept}</p>
                             <span class="text-[10px] text-slate-300">•</span>
-                            <p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest truncate">${x.company}</p>
+                            <p class="text-[10px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-widest truncate">${x.company}</p>
                         </div>
                     </td>
                     <td>
-                        <p class="text-[11px] font-black text-black dark:text-white uppercase tracking-widest truncate">${x.location || '-'}</p>
-                        <p class="text-[9px] mt-1 font-bold text-slate-400 uppercase tracking-widest"><i class="fas fa-map-marker-alt mr-1"></i> ${x.source || 'Walk-in'}</p>
+                        <p class="text-xs font-black text-black dark:text-white uppercase tracking-widest truncate">${x.location || '-'}</p>
+                        <p class="text-[9px] mt-1.5 font-bold text-slate-400 uppercase tracking-widest"><i class="fas fa-map-marker-alt mr-1"></i> ${x.source || 'Walk-in'}</p>
                     </td>
                     <td class="text-center">
                         <span class="status-badge-md shadow-sm ${statusClass}">${x.status}</span>
                     </td>
                     <td>
-                        <div class="text-[9px] leading-relaxed space-y-1">
-                            <p class="text-slate-500 font-bold uppercase tracking-widest">INT: <span class="text-black dark:text-white font-black">${intDate}</span></p>
-                            ${x.joinDate ? `<p class="text-emerald-600 font-bold uppercase tracking-widest">JOIN: <span class="text-emerald-700 font-black">${joinDate}</span></p>` : ''}
+                        <div class="text-[10px] leading-relaxed space-y-1.5">
+                            <p class="text-slate-500 dark:text-slate-400 font-bold uppercase tracking-widest">INT: <span class="text-black dark:text-white font-black">${intDate}</span></p>
+                            ${x.joinDate ? `<p class="text-emerald-600 dark:text-emerald-400 font-bold uppercase tracking-widest">JOIN: <span class="text-emerald-700 dark:text-emerald-300 font-black">${joinDate}</span></p>` : ''}
                         </div>
                     </td>
-                    <td class="text-right">
+                    <td class="text-right" onclick="event.stopPropagation()">
                         <div class="flex justify-end gap-2 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
                             ${actionBtns}
                         </div>
@@ -1239,18 +1272,18 @@
             const deptColor = getDeptColor(x.dept);
 
             return `
-            <div class="modern-card p-4 relative flex flex-col gap-3 group bg-[var(--bg-secondary)] border-2 hover:border-sarathy-blue transition-all" draggable="true" ondragstart="dragStart(event, ${x.id})" ondragend="dragEnd(event)">
+            <div class="modern-card p-5 relative flex flex-col gap-4 group bg-[var(--bg-secondary)] border-2 hover:border-sarathy-blue transition-all" draggable="true" ondragstart="dragStart(event, ${x.id})" ondragend="dragEnd(event)">
                 <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl border flex items-center justify-center font-black text-lg shrink-0 ${avatarClass}">${x.name[0]}</div>
+                    <div class="w-12 h-12 rounded-xl border flex items-center justify-center font-black text-xl shrink-0 ${avatarClass}">${x.name[0]}</div>
                     <div class="min-w-0 flex-1 flex flex-col items-start">
-                        <h4 class="font-black text-xs truncate text-[var(--text-primary)] uppercase tracking-wide w-full">${x.name}</h4>
-                        <p class="text-[9px] font-bold uppercase tracking-widest mb-1.5 mt-0.5"><span class="text-slate-400">${x.empId} • </span><span class="${deptColor}">${x.dept}</span></p>
-                        <span class="inline-block px-1.5 py-0.5 rounded text-[7px] font-black bg-[#0054A6] text-white border border-[#003366] uppercase tracking-widest truncate max-w-full">${x.company}</span>
+                        <h4 class="font-black text-sm truncate text-[var(--text-primary)] uppercase tracking-wide w-full">${x.name}</h4>
+                        <p class="text-[9px] font-bold uppercase tracking-widest mb-2 mt-1"><span class="text-slate-400">${x.empId} • </span><span class="${deptColor}">${x.dept}</span></p>
+                        <span class="inline-block px-2 py-1 rounded-md text-[8px] font-black bg-[#0054A6] text-white border border-[#003366] uppercase tracking-widest truncate max-w-full shadow-sm">${x.company}</span>
                     </div>
                 </div>
-                <div class="flex justify-between items-center pt-3 border-t border-[var(--border-color)]">
-                    <span class="text-[8px] font-black text-slate-400 uppercase tracking-widest"><i class="fas fa-calendar mr-1 text-sarathy-blue"></i> INT: ${intDate}</span>
-                    <button onclick="viewCandidate(${x.id})" class="text-[9px] font-black text-sarathy-blue uppercase tracking-widest hover:underline bg-blue-50 px-2 py-1 rounded">Details</button>
+                <div class="flex justify-between items-center pt-4 border-t border-[var(--border-color)]">
+                    <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest"><i class="fas fa-calendar mr-1 text-sarathy-blue"></i> INT: ${intDate}</span>
+                    <button onclick="viewCandidate(${x.id})" class="text-[10px] font-black text-sarathy-blue uppercase tracking-widest hover:underline bg-blue-50 dark:bg-blue-900/30 px-3 py-1.5 rounded-lg border border-blue-100 dark:border-blue-900/50">Details</button>
                 </div>
             </div>`;
         };
@@ -1385,74 +1418,74 @@
             else if(r.status === 'PENDING') statusClass = 'bg-amber-50 text-amber-600 border-amber-200';
             else statusClass = 'bg-red-50 text-red-600 border-red-200';
 
-            const idCardBtn = r.status === 'JOINED' ? `<button onclick="printIdCard(${r.id})" class="w-10 h-10 md:w-14 md:h-14 bg-blue-50 hover:bg-blue-600 text-blue-600 hover:text-white rounded-xl md:rounded-2xl transition-colors flex items-center justify-center border border-blue-200 active:scale-95" title="Generate ID Card"><i class="fas fa-id-card text-sm md:text-lg"></i></button>` : '';
+            const idCardBtn = r.status === 'JOINED' ? `<button onclick="printIdCard(${r.id})" class="flex-1 py-3 md:py-4 bg-blue-50 hover:bg-blue-600 text-blue-600 hover:text-white rounded-xl md:rounded-2xl transition-colors flex items-center justify-center border border-blue-200 active:scale-95 font-black text-[10px] md:text-xs uppercase tracking-widest gap-2" title="Generate ID Card"><i class="fas fa-id-card text-sm"></i> ID Card</button>` : '';
 
             // Pro Feature: Activity Timeline
             let timelineHtml = `
-                <div class="mt-8 pt-6 border-t border-[var(--border-color)]">
-                    <h4 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Candidate Journey</h4>
-                    <div class="ml-2">
+                <div class="mt-8 pt-8 border-t border-[var(--border-color)]">
+                    <h4 class="text-xs font-black text-sarathy-blue uppercase tracking-widest mb-6 flex items-center gap-2"><div class="w-1.5 h-4 bg-sarathy-blue rounded-full"></div> Candidate Journey</h4>
+                    <div class="ml-4 md:ml-6">
                         <div class="timeline-step active">
-                            <p class="text-xs font-black text-[var(--text-primary)] uppercase">Registered</p>
-                            <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">${r.source || 'Portal'}</p>
+                            <p class="text-sm font-black text-[var(--text-primary)] uppercase">Application Received</p>
+                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Source: ${r.source || 'Portal'}</p>
                         </div>
                         <div class="timeline-step ${r.status !== 'PENDING' ? 'active' : ''}">
-                            <p class="text-xs font-black text-[var(--text-primary)] uppercase">Interview</p>
-                            <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">${formatDateString(r.interviewDate)}</p>
+                            <p class="text-sm font-black text-[var(--text-primary)] uppercase">Interview Scheduled</p>
+                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Date: ${formatDateString(r.interviewDate)}</p>
                         </div>
                         ${(r.status === 'SELECTED' || r.status === 'JOINED') ? `
                         <div class="timeline-step ${r.status === 'JOINED' ? 'active' : ''}">
-                            <p class="text-xs font-black text-[var(--text-primary)] uppercase">${r.status === 'JOINED' ? 'Joined' : 'Selected'}</p>
-                            <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">${r.joinDate ? formatDateString(r.joinDate) : 'Pending'}</p>
+                            <p class="text-sm font-black text-[var(--text-primary)] uppercase">${r.status === 'JOINED' ? 'Successfully Joined' : 'Candidate Selected'}</p>
+                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Date: ${r.joinDate ? formatDateString(r.joinDate) : 'Pending Confirmation'}</p>
                         </div>` : ''}
                         ${r.status === 'REJECTED' ? `
-                        <div class="timeline-step active" style="border-left-color: #ef4444;">
-                            <p class="text-xs font-black text-red-500 uppercase">Rejected</p>
+                        <div class="timeline-step rejected" style="border-left-color: transparent;">
+                            <p class="text-sm font-black text-red-500 uppercase">Application Rejected</p>
                         </div>` : ''}
                     </div>
                 </div>
             `;
 
             const content = `
-                <div class="flex items-center gap-4 md:gap-5 mb-6 md:mb-8 border-b border-[var(--border-color)] pb-4 md:pb-6 relative">
-                    <div class="w-16 h-16 md:w-20 md:h-20 rounded-2xl border flex items-center justify-center font-black text-3xl shadow-sm shrink-0 ${avatarClass}">
+                <div class="flex flex-col md:flex-row items-center md:items-start gap-6 mb-8 border-b border-[var(--border-color)] pb-8 relative">
+                    <div class="w-24 h-24 md:w-32 md:h-32 rounded-[2rem] border flex items-center justify-center font-black text-4xl md:text-5xl shadow-md shrink-0 ${avatarClass}">
                         ${r.name[0]}
                     </div>
-                    <div class="flex-1 min-w-0">
-                        <h3 class="font-black text-xl md:text-2xl text-[var(--text-primary)] mb-1 uppercase tracking-tight truncate">${r.name}</h3>
-                        <p class="text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-widest truncate">${r.empId} • ${r.company}</p>
-                        <div class="mt-2 md:mt-3 flex flex-wrap items-center gap-2 md:gap-3 no-print">
-                            <span class="px-2 md:px-3 py-1 md:py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest shadow-sm border ${statusClass}">
+                    <div class="flex-1 min-w-0 text-center md:text-left">
+                        <h3 class="font-black text-2xl md:text-4xl text-[var(--text-primary)] mb-2 uppercase tracking-tight truncate">${r.name}</h3>
+                        <p class="text-xs md:text-sm font-bold text-[var(--text-secondary)] uppercase tracking-widest truncate mb-4">${r.empId} • ${r.company}</p>
+                        <div class="flex flex-wrap justify-center md:justify-start items-center gap-3 no-print">
+                            <span class="px-4 py-2 rounded-xl text-[10px] md:text-xs font-black uppercase tracking-widest shadow-sm border ${statusClass}">
                                 ${r.status}
                             </span>
                         </div>
                     </div>
                 </div>
-                <div class="grid grid-cols-2 gap-y-4 md:gap-y-6 gap-x-3 md:gap-x-4 bg-[var(--bg-secondary)] p-4 md:p-6 rounded-2xl md:rounded-3xl border border-[var(--border-color)] shadow-sm">
-                    <div><span class="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1.5">Phone</span><span class="font-black text-sm text-[var(--text-primary)] tracking-wide">${r.phone || 'N/A'}</span></div>
-                    <div><span class="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1.5">Email</span><span class="font-black text-sm text-[var(--text-primary)] tracking-wide lowercase truncate block pr-2">${r.email || 'N/A'}</span></div>
+                <div class="grid grid-cols-2 gap-y-6 gap-x-4 bg-[var(--bg-secondary)] p-6 md:p-8 rounded-[2rem] border border-[var(--border-color)] shadow-sm">
+                    <div><span class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Phone Number</span><span class="font-black text-sm md:text-base text-[var(--text-primary)] tracking-wide">${r.phone || 'N/A'}</span></div>
+                    <div><span class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Email Address</span><span class="font-black text-sm md:text-base text-[var(--text-primary)] tracking-wide lowercase truncate block pr-2">${r.email || 'N/A'}</span></div>
                     
-                    <div><span class="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1.5">Experience</span><span class="font-black text-sm text-[var(--text-primary)] tracking-wide">${r.experience} Yrs</span></div>
-                    <div><span class="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1.5">Source</span><span class="font-black text-sm text-[var(--text-primary)] tracking-wide uppercase">${r.source || 'Walk-in'}</span></div>
+                    <div><span class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Experience</span><span class="font-black text-sm md:text-base text-[var(--text-primary)] tracking-wide">${r.experience} Yrs</span></div>
+                    <div><span class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Source</span><span class="font-black text-sm md:text-base text-[var(--text-primary)] tracking-wide uppercase">${r.source || 'Walk-in'}</span></div>
 
-                    <div><span class="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1.5">Designation</span><span class="font-black text-sm text-[var(--text-primary)] uppercase tracking-wide truncate block">${r.designation || 'N/A'}</span></div>
-                    <div><span class="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1.5">Department</span><span class="font-black text-sm text-[var(--text-primary)] uppercase tracking-wide truncate block ${getDeptColor(r.dept)}">${r.dept}</span></div>
+                    <div><span class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Designation</span><span class="font-black text-sm md:text-base text-[var(--text-primary)] uppercase tracking-wide truncate block">${r.designation || 'N/A'}</span></div>
+                    <div><span class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Department</span><span class="font-black text-sm md:text-base text-[var(--text-primary)] uppercase tracking-wide truncate block ${getDeptColor(r.dept)}">${r.dept}</span></div>
                     
-                    <div class="col-span-2"><span class="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1.5">Location</span><span class="font-black text-sm text-[var(--text-primary)] uppercase tracking-wide">${r.location || 'N/A'}</span></div>
+                    <div class="col-span-2"><span class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Location</span><span class="font-black text-sm md:text-base text-[var(--text-primary)] uppercase tracking-wide">${r.location || 'N/A'}</span></div>
                     
-                    <div class="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-xl border border-blue-100 dark:border-blue-900/50"><span class="block text-[9px] font-black text-sarathy-blue dark:text-sky-400 uppercase tracking-widest mb-1.5">Interview Date</span><span class="font-black text-sm text-[var(--text-primary)]">${formatDateString(r.interviewDate)}</span></div>
-                    <div class="p-3 bg-emerald-50 dark:bg-emerald-900/20 rounded-xl border border-emerald-100 dark:border-emerald-900/50"><span class="block text-[9px] font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-widest mb-1.5">Join Date</span><span class="font-black text-sm text-[var(--text-primary)]">${formatDateString(r.joinDate) || 'N/A'}</span></div>
+                    <div class="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-2xl border border-blue-100 dark:border-blue-900/50"><span class="block text-[10px] font-black text-sarathy-blue dark:text-sky-400 uppercase tracking-widest mb-2">Interview Date</span><span class="font-black text-base text-[var(--text-primary)]">${formatDateString(r.interviewDate)}</span></div>
+                    <div class="p-4 bg-emerald-50 dark:bg-emerald-900/20 rounded-2xl border border-emerald-100 dark:border-emerald-900/50"><span class="block text-[10px] font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-widest mb-2">Join Date</span><span class="font-black text-base text-[var(--text-primary)]">${formatDateString(r.joinDate) || 'N/A'}</span></div>
                     
-                    ${r.remarks ? `<div class="col-span-2 mt-2"><span class="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2">Remarks</span><div class="p-4 bg-[var(--bg-primary)] rounded-2xl border border-[var(--border-color)] text-xs font-bold text-[var(--text-primary)] italic shadow-inner">" ${r.remarks} "</div></div>` : ''}
+                    ${r.remarks ? `<div class="col-span-2 mt-2"><span class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3">Remarks / Feedback</span><div class="p-5 bg-[var(--bg-primary)] rounded-2xl border border-[var(--border-color)] text-sm font-bold text-[var(--text-primary)] italic shadow-inner leading-relaxed">" ${r.remarks} "</div></div>` : ''}
                 </div>
                 
                 ${timelineHtml}
 
-                <div class="mt-6 md:mt-8 flex gap-2 md:gap-4 no-print">
-                    <button onclick="editRecord(${r.id})" class="flex-1 py-3 md:py-4 bg-sarathy-blue hover:bg-[#004080] text-white rounded-xl md:rounded-2xl font-black text-[10px] md:text-xs uppercase tracking-widest transition-all shadow-md md:shadow-lg active:scale-95 flex items-center justify-center gap-1.5 md:gap-2"><i class="fas fa-edit text-xs md:text-sm"></i> Edit</button>
-                    ${r.status === 'SELECTED' ? `<button onclick="markAsJoined(${r.id}); closeViewModal();" class="flex-1 py-3 md:py-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl md:rounded-2xl font-black text-[10px] md:text-xs uppercase tracking-widest transition-all shadow-md md:shadow-lg active:scale-95 flex items-center justify-center gap-1.5 md:gap-2"><i class="fas fa-user-check text-xs md:text-sm"></i> Join</button>` : ''}
+                <div class="mt-8 flex flex-wrap gap-3 no-print">
+                    <button onclick="editRecord(${r.id})" class="flex-1 py-3 md:py-4 bg-sarathy-blue hover:bg-[#004080] text-white rounded-xl md:rounded-2xl font-black text-[10px] md:text-xs uppercase tracking-widest transition-all shadow-md active:scale-95 flex items-center justify-center gap-2"><i class="fas fa-edit"></i> Edit</button>
+                    ${r.status === 'SELECTED' ? `<button onclick="markAsJoined(${r.id}); closeViewModal();" class="flex-1 py-3 md:py-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl md:rounded-2xl font-black text-[10px] md:text-xs uppercase tracking-widest transition-all shadow-md active:scale-95 flex items-center justify-center gap-2"><i class="fas fa-user-check"></i> Join</button>` : ''}
                     ${idCardBtn}
-                    <button onclick="deleteCandidate(${r.id}); closeViewModal();" class="w-10 h-10 md:w-14 md:h-14 bg-red-50 hover:bg-red-600 text-red-500 hover:text-white rounded-xl md:rounded-2xl transition-colors flex items-center justify-center border border-red-200 active:scale-95"><i class="fas fa-trash-alt text-sm md:text-lg"></i></button>
+                    <button onclick="deleteCandidate(${r.id}); closeViewModal();" class="w-12 h-12 md:w-auto md:flex-1 py-3 md:py-4 bg-red-50 hover:bg-red-600 text-red-500 hover:text-white rounded-xl md:rounded-2xl font-black text-[10px] md:text-xs uppercase tracking-widest transition-all border border-red-200 active:scale-95 flex items-center justify-center gap-2"><i class="fas fa-trash-alt"></i> <span class="hidden md:inline">Delete</span></button>
                 </div>
             `;
             const viewContent = document.getElementById('viewModalContent');
@@ -1465,31 +1498,31 @@
             if(!r) return;
             const joinD = r.joinDate ? formatDateString(r.joinDate) : 'N/A';
             const idCardHtml = `
-                <div class="bg-gradient-to-br from-blue-600 to-blue-800 h-28 relative rounded-t-3xl border-b-4 border-amber-400">
+                <div class="bg-gradient-to-br from-blue-600 to-blue-800 h-32 relative rounded-t-3xl border-b-4 border-amber-400">
                     <div class="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] rounded-t-3xl"></div>
-                    <img src="WhatsApp%20Image%202026-03-30%20at%207.10.19%20AM.jpeg" class="h-10 mx-auto mt-4 drop-shadow-md mix-blend-multiply brightness-0 invert" onerror="this.style.display='none'">
-                    <h2 class="text-white text-center font-black tracking-[0.2em] text-lg mt-1 uppercase w-full absolute z-10" style="top: 10px;">Sarathy Group</h2>
+                    <img src="WhatsApp%20Image%202026-03-30%20at%207.10.19%20AM.jpeg" class="h-12 mx-auto mt-5 drop-shadow-md mix-blend-multiply brightness-0 invert" onerror="this.style.display='none'">
+                    <h2 class="text-white text-center font-black tracking-[0.25em] text-xl mt-2 uppercase w-full absolute z-10" style="top: 15px;">Sarathy Group</h2>
                 </div>
-                <div class="w-24 h-24 bg-white rounded-2xl border-4 border-white shadow-xl absolute top-[60px] left-1/2 transform -translate-x-1/2 flex items-center justify-center text-4xl font-black text-blue-600 overflow-hidden bg-slate-100 z-20">
+                <div class="w-28 h-28 bg-white rounded-[2rem] border-4 border-white shadow-xl absolute top-[65px] left-1/2 transform -translate-x-1/2 flex items-center justify-center text-5xl font-black text-blue-600 overflow-hidden bg-slate-100 z-20">
                     ${r.name[0]}
                 </div>
-                <div class="pt-16 pb-6 px-6 text-center">
+                <div class="pt-20 pb-8 px-6 text-center">
                     <h2 class="text-2xl font-black text-slate-800 uppercase tracking-tight leading-none">${r.name}</h2>
-                    <p class="text-[10px] font-black text-blue-600 uppercase tracking-[0.3em] mt-2 mb-4 bg-blue-50 py-1 px-3 inline-block rounded-lg border border-blue-100">${r.designation || 'EMPLOYEE'}</p>
-                    <div class="mt-2 text-left bg-slate-50 p-4 rounded-xl border border-slate-200">
-                        <div class="grid grid-cols-3 gap-y-2 text-xs">
+                    <p class="text-[10px] font-black text-blue-600 uppercase tracking-[0.3em] mt-3 mb-6 bg-blue-50 py-1.5 px-4 inline-block rounded-xl border border-blue-100">${r.designation || 'EMPLOYEE'}</p>
+                    <div class="mt-2 text-left bg-slate-50 p-5 rounded-2xl border border-slate-200 shadow-inner">
+                        <div class="grid grid-cols-3 gap-y-3 text-xs">
                             <span class="font-bold text-slate-400 uppercase tracking-wider col-span-1">EMP ID:</span>
-                            <span class="font-black text-slate-700 col-span-2">${r.empId}</span>
+                            <span class="font-black text-slate-800 col-span-2">${r.empId}</span>
                             <span class="font-bold text-slate-400 uppercase tracking-wider col-span-1">DEPT:</span>
-                            <span class="font-black text-slate-700 col-span-2 uppercase">${r.dept}</span>
+                            <span class="font-black text-slate-800 col-span-2 uppercase">${r.dept}</span>
                             <span class="font-bold text-slate-400 uppercase tracking-wider col-span-1">JOINED:</span>
-                            <span class="font-black text-slate-700 col-span-2">${joinD}</span>
+                            <span class="font-black text-slate-800 col-span-2">${joinD}</span>
                             <span class="font-bold text-slate-400 uppercase tracking-wider col-span-1">PHONE:</span>
-                            <span class="font-black text-slate-700 col-span-2">${r.phone || 'N/A'}</span>
+                            <span class="font-black text-slate-800 col-span-2">${r.phone || 'N/A'}</span>
                         </div>
                     </div>
                 </div>
-                <div class="bg-slate-800 text-white text-center py-3 text-[8px] font-bold tracking-widest uppercase rounded-b-3xl">
+                <div class="bg-slate-800 text-white text-center py-4 text-[9px] font-bold tracking-[0.2em] uppercase rounded-b-3xl">
                     Authorized Employee Identity Card<br>${r.company}
                 </div>
             `;
@@ -1623,13 +1656,13 @@
             const container = document.getElementById('reqEntriesContainer');
             if(!container) return;
             container.innerHTML = reqList.map((req, idx) => `
-                <div class="p-5 bg-[var(--bg-secondary)] rounded-2xl border border-[var(--border-color)] relative group">
-                    <button onclick="removeReqRow(${idx})" class="absolute top-4 right-4 w-8 h-8 rounded-xl text-slate-400 hover:bg-red-50 hover:text-red-600"><i class="fas fa-trash-alt"></i></button>
-                    <div class="grid grid-cols-4 gap-4 pr-10">
-                        <div><label class="text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-widest">Department</label><input type="text" value="${req.dept}" onchange="reqList[${idx}].dept=this.value.trim().toUpperCase()" class="w-full p-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl font-bold text-xs uppercase outline-none focus:border-sarathy-blue dark:text-white"></div>
-                        <div><label class="text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-widest">Entity</label><select onchange="reqList[${idx}].company=this.value" class="w-full p-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl font-bold text-xs uppercase outline-none focus:border-sarathy-blue dark:text-white appearance-none"><option value="ALL" ${(!req.company || req.company === 'ALL') ? 'selected' : ''}>ALL ENTITIES</option><option value="SARATHY MOTORS" ${req.company === 'SARATHY MOTORS' ? 'selected' : ''}>SARATHY MOTORS</option><option value="SARATHY BIKES PVT LTD" ${req.company === 'SARATHY BIKES PVT LTD' ? 'selected' : ''}>SARATHY BIKES</option><option value="SARATHY ELECTRIC PVT LTD" ${req.company === 'SARATHY ELECTRIC PVT LTD' ? 'selected' : ''}>SARATHY ELECTRIC</option><option value="SARATHY AUTOCARS" ${req.company === 'SARATHY AUTOCARS' ? 'selected' : ''}>SARATHY AUTOCARS</option><option value="SARATHY CARS PVT LTD" ${req.company === 'SARATHY CARS PVT LTD' ? 'selected' : ''}>SARATHY CARS</option></select></div>
-                        <div><label class="text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-widest">Location</label><input type="text" value="${req.location || 'ALL'}" onchange="reqList[${idx}].location=this.value.trim().toUpperCase()" class="w-full p-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl font-bold text-xs uppercase outline-none focus:border-sarathy-blue dark:text-white"></div>
-                        <div><label class="text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-widest">Target</label><input type="number" value="${req.target}" onchange="reqList[${idx}].target=parseInt(this.value)||0" min="0" class="w-full p-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl font-black text-xs outline-none focus:border-sarathy-blue dark:text-white"></div>
+                <div class="p-6 bg-[var(--bg-secondary)] rounded-2xl border border-[var(--border-color)] relative group shadow-sm">
+                    <button onclick="removeReqRow(${idx})" class="absolute top-4 right-4 w-8 h-8 rounded-xl text-slate-400 hover:bg-red-50 hover:text-red-600 transition-colors"><i class="fas fa-trash-alt"></i></button>
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 md:pr-10">
+                        <div><label class="text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-widest">Department</label><input type="text" value="${req.dept}" onchange="reqList[${idx}].dept=this.value.trim().toUpperCase()" class="w-full p-3 mt-1 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl font-bold text-xs uppercase outline-none focus:border-sarathy-blue dark:text-white transition-colors"></div>
+                        <div class="relative"><label class="text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-widest">Entity</label><select onchange="reqList[${idx}].company=this.value" class="w-full p-3 mt-1 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl font-bold text-xs uppercase outline-none focus:border-sarathy-blue dark:text-white appearance-none cursor-pointer"><option value="ALL" ${(!req.company || req.company === 'ALL') ? 'selected' : ''}>ALL ENTITIES</option><option value="SARATHY MOTORS" ${req.company === 'SARATHY MOTORS' ? 'selected' : ''}>SARATHY MOTORS</option><option value="SARATHY BIKES PVT LTD" ${req.company === 'SARATHY BIKES PVT LTD' ? 'selected' : ''}>SARATHY BIKES</option><option value="SARATHY ELECTRIC PVT LTD" ${req.company === 'SARATHY ELECTRIC PVT LTD' ? 'selected' : ''}>SARATHY ELECTRIC</option><option value="SARATHY AUTOCARS" ${req.company === 'SARATHY AUTOCARS' ? 'selected' : ''}>SARATHY AUTOCARS</option><option value="SARATHY CARS PVT LTD" ${req.company === 'SARATHY CARS PVT LTD' ? 'selected' : ''}>SARATHY CARS</option></select><i class="fas fa-chevron-down absolute right-4 bottom-4 text-slate-400 pointer-events-none text-[10px]"></i></div>
+                        <div><label class="text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-widest">Location</label><input type="text" value="${req.location || 'ALL'}" onchange="reqList[${idx}].location=this.value.trim().toUpperCase()" class="w-full p-3 mt-1 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl font-bold text-xs uppercase outline-none focus:border-sarathy-blue dark:text-white transition-colors"></div>
+                        <div><label class="text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-widest">Target Count</label><input type="number" value="${req.target}" onchange="reqList[${idx}].target=parseInt(this.value)||0" min="0" class="w-full p-3 mt-1 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl font-black text-xs outline-none focus:border-sarathy-blue dark:text-white transition-colors"></div>
                     </div>
                 </div>`).join('') || '<div class="flex flex-col items-center justify-center h-40 opacity-50"><i class="fas fa-box-open text-4xl text-slate-400 mb-3"></i><p class="text-xs font-black uppercase tracking-widest text-[var(--text-secondary)]">No targets defined.</p></div>';
         };
@@ -1650,11 +1683,11 @@
                 html += todayTxns.map(a => {
                     const isJoin = a.joinDate === today;
                     return `
-                    <div class="p-3 mb-3 ${isJoin ? 'bg-blue-50 border-blue-100' : 'bg-emerald-50 border-emerald-100'} rounded-2xl border flex items-center gap-4 hover:scale-[1.02] transition-all">
+                    <div class="p-4 mb-3 ${isJoin ? 'bg-blue-50 border-blue-100' : 'bg-emerald-50 border-emerald-100'} rounded-2xl border flex items-center gap-4 hover:scale-[1.02] transition-all cursor-pointer" onclick="viewCandidate(${a.id})">
                         <div class="w-10 h-10 rounded-xl flex items-center justify-center font-black ${isJoin ? 'bg-sarathy-blue text-white' : 'bg-emerald-100 text-emerald-600'}"><i class="fas ${isJoin ? 'fa-user-check' : 'fa-clock'}"></i></div>
                         <div>
-                            <span class="font-black block uppercase tracking-wide truncate">${a.name}</span>
-                            <span class="font-bold text-[var(--text-secondary)] text-[9px] uppercase tracking-widest">${a.dept} • ${isJoin ? 'JOINING TODAY' : 'INTERVIEW TODAY'}</span>
+                            <span class="font-black block uppercase tracking-wide truncate text-[var(--text-primary)] text-sm">${a.name}</span>
+                            <span class="font-bold text-[var(--text-secondary)] text-[9px] uppercase tracking-widest mt-0.5">${a.dept} • ${isJoin ? 'JOINING TODAY' : 'INTERVIEW TODAY'}</span>
                         </div>
                     </div>`}).join('');
             } else { html = '<div class="text-center py-10 opacity-50"><i class="fas fa-bell-slash text-4xl mb-4 text-slate-400"></i><p class="text-[10px] font-black uppercase tracking-widest text-[var(--text-secondary)]">No activity today</p></div>'; }
@@ -1673,22 +1706,22 @@
             
             let plainText = `📊 SARATHY GROUP - HR REPORT\nDate: ${new Date().toLocaleDateString()}\n\n👥 Total Candidates: ${total}\n🤝 Joined: ${joined}\n✅ Selected: ${sel}\n⏳ Pending: ${pend}\n\n📅 JOINING SCHEDULE:\n`;
             let html = `
-                <div class="mb-6 grid grid-cols-4 gap-3">
-                    <div class="p-4 bg-slate-50 dark:bg-slate-800 rounded-xl border border-[var(--border-color)] text-center"><span class="block text-[10px] font-black text-slate-500 uppercase tracking-widest">Total</span><span class="text-2xl font-black text-[var(--text-primary)]">${total}</span></div>
-                    <div class="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl border border-blue-100 text-center"><span class="block text-[10px] font-black text-sarathy-blue uppercase tracking-widest">Joined</span><span class="text-2xl font-black text-sarathy-blue">${joined}</span></div>
-                    <div class="p-4 bg-emerald-50 dark:bg-emerald-900/20 rounded-xl border border-emerald-100 text-center"><span class="block text-[10px] font-black text-emerald-600 uppercase tracking-widest">Selected</span><span class="text-2xl font-black text-emerald-600">${sel}</span></div>
-                    <div class="p-4 bg-amber-50 dark:bg-amber-900/20 rounded-xl border border-amber-100 text-center"><span class="block text-[10px] font-black text-amber-600 uppercase tracking-widest">Pending</span><span class="text-2xl font-black text-amber-600">${pend}</span></div>
+                <div class="mb-8 grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="p-5 bg-slate-50 dark:bg-slate-800 rounded-2xl border border-[var(--border-color)] text-center shadow-sm"><span class="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Total</span><span class="text-3xl font-black text-[var(--text-primary)]">${total}</span></div>
+                    <div class="p-5 bg-blue-50 dark:bg-blue-900/20 rounded-2xl border border-blue-100 text-center shadow-sm"><span class="block text-[10px] font-black text-sarathy-blue uppercase tracking-widest mb-1">Joined</span><span class="text-3xl font-black text-sarathy-blue">${joined}</span></div>
+                    <div class="p-5 bg-emerald-50 dark:bg-emerald-900/20 rounded-2xl border border-emerald-100 text-center shadow-sm"><span class="block text-[10px] font-black text-emerald-600 uppercase tracking-widest mb-1">Selected</span><span class="text-3xl font-black text-emerald-600">${sel}</span></div>
+                    <div class="p-5 bg-amber-50 dark:bg-amber-900/20 rounded-2xl border border-amber-100 text-center shadow-sm"><span class="block text-[10px] font-black text-amber-600 uppercase tracking-widest mb-1">Pending</span><span class="text-3xl font-black text-amber-600">${pend}</span></div>
                 </div>
                 <h4 class="text-[11px] font-black text-sarathy-blue uppercase tracking-widest mb-4 flex items-center gap-2"><div class="w-1.5 h-4 bg-sarathy-blue rounded-full"></div> Joining Schedule</h4>
-                <div class="overflow-x-auto mb-8 border border-[var(--border-color)] rounded-2xl shadow-sm"><table class="summary-table mb-0 min-w-full"><thead><tr><th class="py-3 px-4">Name</th><th class="py-3 px-4">Date Of Join</th><th class="py-3 px-4">Designation</th><th class="py-3 px-4">Dept</th></tr></thead><tbody>`;
+                <div class="overflow-x-auto mb-8 border border-[var(--border-color)] rounded-2xl shadow-sm"><table class="summary-table mb-0 min-w-full"><thead><tr><th class="py-4 px-5">Name</th><th class="py-4 px-5">Date Of Join</th><th class="py-4 px-5">Designation</th><th class="py-4 px-5">Dept</th></tr></thead><tbody>`;
             
             if(selectedJoiners.length > 0) {
                 selectedJoiners.forEach(j => {
                     const statusIcon = j.status === 'JOINED' ? '🤝' : (j.joinDate < today ? '⚠️' : '🔜');
-                    html += `<tr><td class="font-bold uppercase text-xs py-3 px-4 text-black dark:text-white">${j.name}</td><td class="whitespace-nowrap font-black text-xs py-3 px-4 ${j.status === 'JOINED' ? 'text-sarathy-blue' : 'text-black dark:text-white'}">${formatDateString(j.joinDate)}</td><td class="uppercase text-[10px] tracking-widest font-black text-gray-900 dark:text-gray-100 py-3 px-4">${j.designation || '-'}</td><td class="uppercase text-[10px] tracking-widest font-black py-3 px-4 text-black dark:text-white">${j.dept}</td></tr>`;
+                    html += `<tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"><td class="font-bold uppercase text-xs py-4 px-5 text-black dark:text-white">${j.name}</td><td class="whitespace-nowrap font-black text-xs py-4 px-5 ${j.status === 'JOINED' ? 'text-sarathy-blue' : 'text-black dark:text-white'}">${formatDateString(j.joinDate)}</td><td class="uppercase text-[10px] tracking-widest font-black text-gray-900 dark:text-gray-100 py-4 px-5">${j.designation || '-'}</td><td class="uppercase text-[10px] tracking-widest font-black py-4 px-5 text-black dark:text-white">${j.dept}</td></tr>`;
                     plainText += `${statusIcon} ${j.name} | ${formatDateString(j.joinDate)} | ${j.designation} | ${j.dept}\n`;
                 });
-            } else { html += `<tr><td colspan="4" class="text-center py-6 text-[var(--text-secondary)] uppercase font-black text-[10px] tracking-widest opacity-50">No schedule available</td></tr>`; }
+            } else { html += `<tr><td colspan="4" class="text-center py-8 text-[var(--text-secondary)] uppercase font-black text-[10px] tracking-widest opacity-50">No schedule available</td></tr>`; }
             html += `</tbody></table></div>`;
 
             const summaryText = document.getElementById('summaryText');
