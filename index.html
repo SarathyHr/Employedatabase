@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SARATHY GROUP - HR </title>
+    <title>SARATHY GROUP - HR PORTAL PRO</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <!-- Google Fonts for Modern Look -->
@@ -105,7 +105,7 @@
         .calendar-day { min-height: 90px; aspect-ratio: unset; md:aspect-ratio: 1; border-radius: 10px; md:border-radius: 14px; border: 1px solid var(--border-color); padding: 6px md:padding: 10px; display: flex; flex-direction: column; background: var(--bg-secondary); transition: all 0.2s; }
         .calendar-day:hover { border-color: #0054A6; box-shadow: 0 6px 16px rgba(0,84,166,0.1); transform: translateY(-2px); z-index: 10; }
         .calendar-day.today { background: rgba(0, 84, 166, 0.05); border: 2px solid #0054A6; }
-        .calendar-event { font-size: 0.65rem; padding: 3px 6px; border-radius: 6px; margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 800; cursor: pointer; transition: transform 0.2s; }
+        .calendar-event { font-size: 0.6rem; md:font-size: 0.65rem; padding: 3px 6px; border-radius: 6px; margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 800; cursor: pointer; transition: transform 0.2s; }
         .calendar-event:hover { transform: scale(1.05); }
         
         /* Typography */
@@ -197,7 +197,7 @@
                 <div class="mb-8 text-center">
                     <img src="WhatsApp%20Image%202026-03-30%20at%207.10.19%20AM.jpeg" alt="SR Logo" class="h-24 w-auto object-contain mx-auto mb-4 drop-shadow-lg transition-all duration-300 rounded-2xl mix-blend-multiply dark:mix-blend-normal bg-transparent dark:bg-white/90 p-2" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                     <div class="hidden w-20 h-20 bg-gradient-to-tr from-sarathy-blue to-blue-400 rounded-2xl mx-auto flex items-center justify-center text-white text-3xl font-black mb-4 shadow-lg shadow-blue-500/30">SR</div>
-                    <h2 class="text-2xl font-black text-slate-800 dark:text-white tracking-tight mt-2">Welcome Back Sachin HR</h2>
+                    <h2 class="text-2xl font-black text-slate-800 dark:text-white tracking-tight mt-2">Welcome Back</h2>
                     <p class="text-xs font-bold text-slate-500 dark:text-slate-400 mt-2 uppercase tracking-widest">HR Management System</p>
                 </div>
                 <div id="loginError" class="hidden bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 p-4 rounded-xl text-xs font-black mb-6 border border-red-100 dark:border-red-900/30 flex items-center animate-up">
@@ -283,9 +283,9 @@
                     <i class="fas fa-file-excel w-6 text-center shrink-0 text-lg"></i> 
                     <span class="transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap font-bold tracking-wide">Export Excel</span>
                 </a>
-                <a onclick="document.getElementById('importFile').click()" class="nav-link">
-                    <i class="fas fa-database w-6 text-center shrink-0 text-lg"></i> 
-                    <span class="transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap font-bold tracking-wide">Restore Data</span>
+                <a onclick="switchTab('settings')" id="nav-settings" class="nav-link text-amber-600 dark:text-amber-500 hover:text-amber-700">
+                    <i class="fas fa-cog w-6 text-center shrink-0 text-lg"></i> 
+                    <span class="transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap font-bold tracking-wide">Settings</span>
                 </a>
                 <input type="file" id="importFile" accept=".json" class="hidden" onchange="importBackup(event)">
             </div>
@@ -312,7 +312,7 @@
                         <span id="notificationBadge" class="hidden absolute top-0 right-0 w-3.5 h-3.5 rounded-full bg-red-500 border-2 border-[var(--bg-secondary)]"></span>
                     </button>
                     <div class="h-10 w-px bg-[var(--border-color)] mx-1 hidden sm:block"></div>
-                    <div class="flex items-center gap-3 cursor-pointer hover:bg-slate-200 dark:hover:bg-slate-800 p-1.5 md:pr-4 rounded-full transition-all border border-transparent hover:border-[var(--border-color)]">
+                    <div class="flex items-center gap-3 cursor-pointer hover:bg-slate-200 dark:hover:bg-slate-800 p-1.5 md:pr-4 rounded-full transition-all border border-transparent hover:border-[var(--border-color)]" onclick="switchTab('settings')">
                         <div class="hidden sm:block text-right">
                             <p class="text-sm font-black text-[var(--text-primary)] leading-none uppercase tracking-wide" id="userNameDisplay">Admin</p>
                             <p class="text-[9px] text-[var(--text-secondary)] font-bold tracking-widest mt-1 uppercase">System Admin</p>
@@ -406,6 +406,21 @@
                                 <button onclick="openReqModal()" class="text-xs font-black uppercase text-sarathy-blue hover:text-white tracking-widest bg-blue-50 hover:bg-sarathy-blue px-5 py-2.5 rounded-xl transition-all border border-blue-200 shadow-sm active:scale-95 flex items-center gap-2">Edit Targets <i class="fas fa-edit"></i></button>
                             </div>
                             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-8" id="progContainer"></div>
+                        </div>
+                        
+                        <!-- NEW PRO FEATURE: Recent Candidates -->
+                        <div class="modern-card p-6 md:p-10 mt-2">
+                            <div class="flex justify-between items-center mb-6 pb-4 border-b border-[var(--border-color)]">
+                                <h3 class="font-black text-lg md:text-xl uppercase tracking-widest text-[var(--text-primary)] flex items-center gap-3">
+                                    <div class="w-2 h-6 bg-amber-500 rounded-full"></div> Recent Registrations
+                                </h3>
+                                <button onclick="switchTab('candidates')" class="text-xs font-black uppercase text-slate-500 hover:text-sarathy-blue tracking-widest transition-all flex items-center gap-2">View All <i class="fas fa-arrow-right"></i></button>
+                            </div>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left border-collapse">
+                                    <tbody id="recentCandidatesBody" class="divide-y divide-[var(--border-color)]"></tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -584,6 +599,39 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- NEW PRO FEATURE: TAB 5: SETTINGS -->
+                <div id="tab-settings" class="tab-content custom-scroll p-4 md:p-8 max-w-[1600px] mx-auto">
+                    <div class="mb-8 flex items-center gap-5 bg-[var(--bg-secondary)] p-6 md:p-8 rounded-[2rem] border border-[var(--border-color)] shadow-lg animate-up">
+                        <div class="w-16 h-16 rounded-2xl bg-slate-100 dark:bg-slate-800 text-slate-500 flex items-center justify-center text-2xl shadow-inner border border-slate-200 dark:border-slate-700"><i class="fas fa-cog"></i></div>
+                        <div>
+                            <h2 class="text-2xl font-black uppercase text-[var(--text-primary)] tracking-wide">System Settings</h2>
+                            <p class="text-[11px] font-bold uppercase tracking-widest text-slate-400 mt-1.5">Manage Portal Preferences</p>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 animate-up" style="animation-delay: 0.1s;">
+                        <div class="modern-card p-6 md:p-8">
+                            <h3 class="font-black text-lg uppercase tracking-widest mb-6 border-b border-[var(--border-color)] pb-4"><i class="fas fa-shield-alt text-sarathy-blue mr-2"></i> Security</h3>
+                            <form id="changePinForm" class="space-y-4">
+                                <div>
+                                    <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-2 block">New Admin PIN</label>
+                                    <input type="password" id="newAdminPin" required minlength="4" class="w-full p-4 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl font-bold text-[var(--text-primary)] outline-none focus:border-sarathy-blue" placeholder="Enter new secure PIN">
+                                </div>
+                                <button type="submit" class="w-full bg-sarathy-blue text-white font-black py-4 rounded-xl uppercase tracking-widest text-xs hover:bg-[#004080] transition-colors shadow-md active:scale-95">Update PIN</button>
+                            </form>
+                        </div>
+                        
+                        <div class="modern-card p-6 md:p-8">
+                            <h3 class="font-black text-lg uppercase tracking-widest mb-6 border-b border-[var(--border-color)] pb-4"><i class="fas fa-database text-emerald-500 mr-2"></i> Data Management</h3>
+                            <div class="space-y-4">
+                                <button onclick="exportJSONBackup()" class="w-full bg-emerald-50 text-emerald-600 border border-emerald-200 font-black py-4 rounded-xl uppercase tracking-widest text-xs hover:bg-emerald-500 hover:text-white transition-colors flex items-center justify-center gap-2 active:scale-95"><i class="fas fa-download text-lg"></i> Backup Data (JSON)</button>
+                                <button onclick="document.getElementById('importFile').click()" class="w-full bg-blue-50 text-blue-600 border border-blue-200 font-black py-4 rounded-xl uppercase tracking-widest text-xs hover:bg-blue-600 hover:text-white transition-colors flex items-center justify-center gap-2 active:scale-95"><i class="fas fa-upload text-lg"></i> Restore Data</button>
+                                <button onclick="clearAllData()" class="w-full bg-red-50 text-red-500 border border-red-200 font-black py-4 rounded-xl uppercase tracking-widest text-xs hover:bg-red-600 hover:text-white transition-colors flex items-center justify-center gap-2 active:scale-95 mt-8"><i class="fas fa-trash-alt text-lg"></i> Clear All Data</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- Global Floating Action Buttons -->
@@ -716,7 +764,7 @@
                         </div>
                         <div class="col-span-1 md:col-span-2 flex flex-col justify-end">
                             <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-2 ml-2">Remarks</label>
-                            <textarea id="remarks" rows="2" class="w-full p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl font-black text-sm outline-none focus:border-sarathy-blue transition-colors dark:text-white shadow-sm" placeholder="Any feedback..."></textarea>
+                            <textarea id="remarks" rows="2" class="w-full p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl font-black text-sm uppercase outline-none focus:border-sarathy-blue transition-colors dark:text-white shadow-sm" placeholder="Any feedback..."></textarea>
                         </div>
                     </div>
 
@@ -980,7 +1028,7 @@
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
             document.getElementById(`tab-${tab}`)?.classList.add('active');
             
-            const titles = { dashboard: 'HR Overview', candidates: 'Candidate Directory', calendar: 'Interview Schedule', analytics: 'Data Analytics' };
+            const titles = { dashboard: 'HR Overview', candidates: 'Candidate Directory', calendar: 'Interview Schedule', analytics: 'Data Analytics', settings: 'System Settings' };
             const pageTitle = document.getElementById('pageTitle');
             if(pageTitle) pageTitle.innerText = titles[tab] || 'HR Overview';
 
@@ -1002,6 +1050,33 @@
         // --- QUICK NOTES ---
         const toggleNotesPanel = () => document.getElementById('notesPanel')?.classList.toggle('open');
         const saveNotes = (val) => localStorage.setItem('hr_quick_notes', val);
+
+        // --- SETTINGS LOGIC ---
+        document.getElementById('changePinForm')?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const newPin = document.getElementById('newAdminPin').value;
+            if(newPin.length < 4) return showToast("PIN must be at least 4 characters", "error");
+            
+            let users = JSON.parse(localStorage.getItem('sarathy_users_v13')) || USERS;
+            users[0].pass = newPin;
+            localStorage.setItem('sarathy_users_v13', JSON.stringify(users));
+            USERS = users;
+            showToast("Admin PIN Updated Successfully!");
+            document.getElementById('changePinForm').reset();
+        });
+
+        const clearAllData = () => {
+            if(prompt("WARNING: This will delete ALL candidates and targets. Type 'CONFIRM' to proceed.") === "CONFIRM") {
+                joinees = [];
+                reqList = [];
+                localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees));
+                localStorage.setItem(CURRENT_BUDGET_VERSION, JSON.stringify(reqList));
+                showToast("All data cleared successfully", "success");
+                renderDashboard(); renderTable(); renderCalendar(); if(currentTab === 'analytics') initCharts();
+            } else {
+                showToast("Action Cancelled", "error");
+            }
+        };
 
         // --- DASHBOARD LOGIC ---
         const renderDashboard = () => {
@@ -1051,6 +1126,28 @@
                 if(reqList.length === 0) {
                     progContainer.innerHTML = `<div class="col-span-1 md:col-span-4 p-8 border-2 border-dashed border-[var(--border-color)] rounded-2xl text-center text-slate-400 font-bold uppercase tracking-widest text-sm">No targets configured</div>`;
                 }
+            }
+
+            // Recent Candidates List
+            const recentBody = document.getElementById('recentCandidatesBody');
+            if(recentBody) {
+                const recent = [...joinees].sort((a,b) => b.id - a.id).slice(0, 5);
+                recentBody.innerHTML = recent.length ? recent.map(x => `
+                    <tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors cursor-pointer" onclick="viewCandidate(${x.id})">
+                        <td class="py-4">
+                            <div class="flex items-center gap-4">
+                                <div class="w-10 h-10 rounded-xl flex items-center justify-center font-black text-sm shrink-0 shadow-sm ${getAvatarColor(x.name)}">${x.name[0]}</div>
+                                <div>
+                                    <p class="font-black text-[var(--text-primary)] text-sm uppercase tracking-wide">${x.name}</p>
+                                    <span class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">${x.dept} • ${x.company}</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="py-4 text-right">
+                            <span class="status-badge-md shadow-sm badge-${x.status.toLowerCase()}">${x.status}</span>
+                        </td>
+                    </tr>
+                `).join('') : '<tr><td colspan="2" class="text-center py-8 text-[var(--text-secondary)] font-black uppercase tracking-widest opacity-50">No recent candidates</td></tr>';
             }
         };
 
@@ -1149,14 +1246,14 @@
             const term = document.getElementById('searchInput')?.value.toUpperCase() || '';
             const month = document.getElementById('monthFilter')?.value || '';
             const deptFilter = document.getElementById('filterDept')?.value || 'ALL';
-            const compFilter = document.getElementById('filterCompany')?.value || 'ALL'; // NEW: Company Filter
+            const compFilter = document.getElementById('filterCompany')?.value || 'ALL';
             const todayStr = new Date().toISOString().slice(0, 10);
             
             let filtered = joinees.filter(x => {
                 const searchMatch = x.name.includes(term) || x.empId.includes(term) || (x.phone && x.phone.includes(term));
                 const dateMatch = !month || (x.interviewDate||'').startsWith(month);
                 const deptMatch = deptFilter === 'ALL' || (x.dept && x.dept.includes(deptFilter));
-                const compMatch = compFilter === 'ALL' || (x.company && x.company.includes(compFilter)); // NEW: Company Match Logic
+                const compMatch = compFilter === 'ALL' || (x.company && x.company.includes(compFilter));
 
                 let qMatch = true;
                 if(activeFilter==='Pending') qMatch = x.status === 'PENDING';
@@ -1177,7 +1274,6 @@
                 
                 const tableBody = document.getElementById('candidatesTableBody');
                 if(tableBody) {
-                    // Update Select All Checkbox Status
                     const selectAllCb = document.getElementById('selectAllCb');
                     if(selectAllCb) selectAllCb.checked = filtered.length > 0 && filtered.every(x => selectedCandidates.includes(String(x.id)));
 
@@ -1211,15 +1307,16 @@
             const deptColor = getDeptColor(x.dept);
             const isChecked = selectedCandidates.includes(String(x.id)) ? 'checked' : '';
 
-            // Enhanced text colors for pure black in light mode
             const callLink = x.phone ? `href="tel:+91${x.phone}"` : `href="#" onclick="showToast('Phone number not available', 'error'); return false;"`;
+            const waLink = x.phone ? `href="https://wa.me/91${x.phone}" target="_blank"` : `href="#" onclick="showToast('Phone number not available', 'error'); return false;"`;
             
             let actionBtns = `
-                <a ${callLink} title="Call" class="w-10 h-10 rounded-xl bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-600 dark:text-white flex items-center justify-center hover:bg-slate-200 dark:hover:bg-slate-600 transition-all shadow-sm active:scale-95"><i class="fas fa-phone-alt"></i></a>
+                <a ${waLink} title="WhatsApp" class="w-10 h-10 rounded-xl bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-800 text-green-600 dark:text-green-400 flex items-center justify-center hover:bg-green-600 hover:text-white transition-all shadow-sm active:scale-95" onclick="event.stopPropagation()"><i class="fab fa-whatsapp text-lg"></i></a>
+                <a ${callLink} title="Call" class="w-10 h-10 rounded-xl bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-600 dark:text-white flex items-center justify-center hover:bg-slate-200 dark:hover:bg-slate-600 transition-all shadow-sm active:scale-95" onclick="event.stopPropagation()"><i class="fas fa-phone-alt"></i></a>
                 <button onclick="viewCandidate(${x.id})" title="View" class="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 text-blue-600 dark:text-sky-400 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-all shadow-sm active:scale-95"><i class="fas fa-eye"></i></button>
             `;
             if (x.status === 'SELECTED') {
-                actionBtns = `<button onclick="markAsJoined(${x.id})" title="Mark Joined" class="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-900/30 border border-emerald-200 dark:border-emerald-800 text-emerald-600 dark:text-emerald-400 flex items-center justify-center hover:bg-emerald-500 hover:text-white transition-all shadow-sm active:scale-95"><i class="fas fa-check"></i></button>` + actionBtns;
+                actionBtns = `<button onclick="markAsJoined(${x.id}); event.stopPropagation();" title="Mark Joined" class="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-900/30 border border-emerald-200 dark:border-emerald-800 text-emerald-600 dark:text-emerald-400 flex items-center justify-center hover:bg-emerald-500 hover:text-white transition-all shadow-sm active:scale-95"><i class="fas fa-check"></i></button>` + actionBtns;
             }
 
             return `
@@ -1257,7 +1354,7 @@
                             ${x.joinDate ? `<p class="text-emerald-600 dark:text-emerald-400 font-bold uppercase tracking-widest">JOIN: <span class="text-emerald-700 dark:text-emerald-300 font-black">${joinDate}</span></p>` : ''}
                         </div>
                     </td>
-                    <td class="text-right" onclick="event.stopPropagation()">
+                    <td class="text-right">
                         <div class="flex justify-end gap-2 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
                             ${actionBtns}
                         </div>
@@ -1321,8 +1418,7 @@
             const r = joinees.find(x => String(x.id) === String(id));
             if(!r) return;
             
-            // Populate form
-            document.getElementById('editId').value = r.id; // SETTING THE EDIT ID CRITICALLY HERE
+            document.getElementById('editId').value = r.id;
             document.getElementById('empId').value = r.empId;
             document.getElementById('status').value = r.status;
             document.getElementById('empName').value = r.name;
@@ -1349,7 +1445,7 @@
             const editIdVal = document.getElementById('editId').value;
             
             const data = {
-                id: editIdVal ? parseInt(editIdVal) : Date.now(), // Use existing ID if editing
+                id: editIdVal ? parseInt(editIdVal) : Date.now(),
                 empId: document.getElementById('empId').value,
                 name: document.getElementById('empName').value.trim().toUpperCase(),
                 phone: document.getElementById('empPhone').value,
@@ -1371,7 +1467,6 @@
                 data.joinDate = new Date().toISOString().slice(0, 10);
             }
 
-            // Prevent duplicate phone ONLY if it's a new entry OR a different candidate's phone
             const existingCandidate = joinees.find(x => x.phone === data.phone && String(x.id) !== String(data.id));
             if (existingCandidate) {
                 showToast("Candidate with this Phone Number already exists!", "error");
@@ -1379,14 +1474,12 @@
             }
 
             if(editIdVal) {
-                // IT IS AN EDIT -> Find Index and Replace
                 const idx = joinees.findIndex(x => String(x.id) === String(editIdVal));
                 if(idx > -1) {
                     joinees[idx] = data;
                     showToast("Candidate Record Updated!");
                 }
             } else {
-                // IT IS A NEW RECORD -> Push
                 joinees.push(data);
                 showToast("Candidate Record Saved!");
                 if(data.status==='SELECTED' || data.status==='JOINED') confetti({particleCount: 120, spread: 80, origin: { y: 0.6 }});
@@ -1446,6 +1539,8 @@
                 </div>
             `;
 
+            const waLink = r.phone ? `href="https://wa.me/91${r.phone}" target="_blank"` : `href="#" onclick="showToast('Phone number not available', 'error'); return false;"`;
+
             const content = `
                 <div class="flex flex-col md:flex-row items-center md:items-start gap-6 mb-8 border-b border-[var(--border-color)] pb-8 relative">
                     <div class="w-24 h-24 md:w-32 md:h-32 rounded-[2rem] border flex items-center justify-center font-black text-4xl md:text-5xl shadow-md shrink-0 ${avatarClass}">
@@ -1458,6 +1553,7 @@
                             <span class="px-4 py-2 rounded-xl text-[10px] md:text-xs font-black uppercase tracking-widest shadow-sm border ${statusClass}">
                                 ${r.status}
                             </span>
+                            <a ${waLink} class="px-4 py-2 rounded-xl text-[10px] md:text-xs font-black uppercase tracking-widest shadow-sm border bg-green-50 text-green-600 border-green-200 hover:bg-green-600 hover:text-white transition-colors cursor-pointer flex items-center gap-2"><i class="fab fa-whatsapp text-sm"></i> WhatsApp</a>
                         </div>
                     </div>
                 </div>
