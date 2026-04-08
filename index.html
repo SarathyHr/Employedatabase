@@ -6,17 +6,12 @@
     <title>SARATHY GROUP - HR PORTAL PRO</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <!-- Google Fonts for Modern Look -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <!-- Chart.js for Visual Analytics -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Confetti Animation Library -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <!-- SheetJS for Excel Export -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-    <!-- HTML2PDF for Offer Letter & ID Card -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script>
         tailwind.config = {
@@ -130,7 +125,9 @@
         /* Pro Data Table */
         .data-table-container { background: var(--bg-secondary); border-radius: 1.25rem; border: 1px solid var(--border-color); overflow: hidden; box-shadow: 0 8px 20px -4px rgba(0,0,0,0.08); max-height: calc(100vh - 260px); overflow-y: auto; }
         .data-table { width: 100%; border-collapse: collapse; }
-        .data-table th { background: var(--bg-primary); color: var(--text-secondary); font-size: 0.75rem; font-weight: 900; text-transform: uppercase; text-align: left; padding: 18px 24px; letter-spacing: 0.05em; border-bottom: 2px solid var(--border-color); position: sticky; top: 0; z-index: 10; }
+        .data-table th { background: var(--bg-primary); color: var(--text-secondary); font-size: 0.75rem; font-weight: 900; text-transform: uppercase; text-align: left; padding: 18px 24px; letter-spacing: 0.05em; position: sticky; top: 0; z-index: 10; border-bottom: 2px solid var(--border-color); }
+        
+        /* HIGHLIGHT: Text color fully black in light mode */
         .data-table td { padding: 18px 24px; font-size: 0.9rem; border-bottom: 1px solid var(--border-color); vertical-align: middle; color: #000000; font-weight: 700; }
         .dark .data-table td { color: #ffffff; border-bottom: 1px solid var(--border-color); }
         .data-table tr:last-child td { border-bottom: none; }
@@ -186,7 +183,6 @@
     </style>
 </head>
 <body class="antialiased">
-    <!-- LOGIN PAGE -->
     <div id="loginPage" class="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-6 bg-slate-50 dark:bg-slate-900 transition-opacity duration-500">
         <div class="absolute inset-0 overflow-hidden pointer-events-none">
             <div class="absolute -top-[20%] -right-[10%] w-[60%] h-[60%] rounded-full bg-blue-200/40 dark:bg-blue-900/20 blur-3xl"></div>
@@ -232,12 +228,9 @@
         </div>
     </div>
 
-    <!-- MAIN APP LAYOUT -->
     <div id="appLayout" class="hidden h-screen w-full flex bg-[var(--bg-primary)]">
-        <!-- MOBILE OVERLAY -->
         <div id="mobileOverlay" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[90] hidden md:hidden transition-opacity duration-300" onclick="toggleSidebar()"></div>
 
-        <!-- HOVER EXPANDABLE SIDEBAR -->
         <aside id="sidebar" class="fixed md:static inset-y-0 left-0 w-[var(--sidebar-width)] md:w-[85px] hover:md:w-[var(--sidebar-width)] h-screen glass-panel flex flex-col shrink-0 z-[100] border-r border-[var(--border-color)] transform -translate-x-full md:translate-x-0 transition-all duration-300 ease-in-out bg-[var(--bg-secondary)] md:bg-transparent overflow-x-hidden group shadow-2xl md:shadow-none">
             <div class="h-16 md:h-20 px-4 flex items-center gap-3 border-b border-[var(--border-color)] shrink-0 overflow-hidden">
                 <img src="WhatsApp%20Image%202026-03-30%20at%207.10.19%20AM.jpeg" alt="Sarathy Group Logo" class="h-12 w-auto object-contain shrink-0 rounded-lg shadow-sm mix-blend-multiply dark:mix-blend-normal bg-transparent dark:bg-white/90 p-1" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
@@ -250,7 +243,6 @@
                 </button>
             </div>
 
-            <!-- Nav Links -->
             <div class="flex flex-col px-4 py-8 flex-1 custom-scroll overflow-y-auto overflow-x-hidden">
                 <div class="text-[11px] font-black text-sarathy-blue dark:text-blue-400 uppercase tracking-widest mb-4 px-2 transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap overflow-hidden flex items-center gap-2">
                     <div class="w-2 h-2 bg-sarathy-red rounded-full shadow-sm"></div> MENU
@@ -291,9 +283,7 @@
             </div>
         </aside>
 
-        <!-- MAIN CONTENT AREA -->
         <main class="flex-1 flex flex-col h-screen overflow-hidden relative min-w-0 bg-[var(--bg-primary)]">
-            <!-- Top Header Area -->
             <header class="h-16 md:h-20 glass-panel flex justify-between items-center px-4 md:px-8 shrink-0 z-30 sticky top-0 shadow-sm">
                 <div class="flex items-center gap-4">
                     <button onclick="toggleSidebar()" class="md:hidden w-10 h-10 rounded-xl bg-[var(--bg-secondary)] text-[var(--text-secondary)] flex items-center justify-center shadow-sm border border-[var(--border-color)] hover:text-sarathy-blue transition-colors">
@@ -327,11 +317,8 @@
                 </div>
             </header>
 
-            <!-- CONTENT TABS -->
             <div class="flex-1 relative overflow-y-auto overflow-x-hidden custom-scroll scroll-smooth pb-24">
-                <!-- TAB 1: DASHBOARD -->
                 <div id="tab-dashboard" class="tab-content active p-4 md:p-8 space-y-6 md:space-y-8 max-w-[1600px] mx-auto">
-                    <!-- Welcome Banner -->
                     <div class="modern-card p-6 md:p-10 bg-gradient-to-r from-sarathy-blue via-blue-700 to-sky-600 text-white relative overflow-hidden border-none shadow-xl animate-up">
                         <i class="fas fa-shield-alt absolute -right-4 -bottom-4 md:-right-10 md:-bottom-10 text-[8rem] md:text-[12rem] opacity-10"></i>
                         <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
@@ -347,7 +334,6 @@
                         </div>
                     </div>
 
-                    <!-- Stats Grid -->
                     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6 animate-up" style="animation-delay: 0.1s;">
                         <div class="modern-card p-6 md:p-8 flex flex-col relative overflow-hidden group/stat border-b-4 border-b-slate-400">
                             <div class="absolute -top-4 -right-4 w-28 h-28 bg-slate-50 dark:bg-slate-800 rounded-full flex items-center justify-center transition-transform duration-500 group-hover/stat:scale-[1.8] group-hover:bg-slate-100 dark:group-hover:bg-slate-700">
@@ -396,7 +382,6 @@
                         </div>
                     </div>
 
-                    <!-- Layout for Progress -->
                     <div class="grid grid-cols-1 gap-6 animate-up" style="animation-delay: 0.3s;">
                         <div class="modern-card p-6 md:p-10">
                             <div class="flex justify-between items-center mb-8 pb-4 border-b border-[var(--border-color)]">
@@ -408,7 +393,6 @@
                             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-8" id="progContainer"></div>
                         </div>
                         
-                        <!-- NEW PRO FEATURE: Recent Candidates -->
                         <div class="modern-card p-6 md:p-10 mt-2">
                             <div class="flex justify-between items-center mb-6 pb-4 border-b border-[var(--border-color)]">
                                 <h3 class="font-black text-lg md:text-xl uppercase tracking-widest text-[var(--text-primary)] flex items-center gap-3">
@@ -425,9 +409,7 @@
                     </div>
                 </div>
 
-                <!-- TAB 2: CANDIDATES -->
                 <div id="tab-candidates" class="tab-content p-4 md:p-8 max-w-[1600px] mx-auto">
-                    <!-- Filters & Search -->
                     <div class="glass-panel relative z-10 p-5 md:p-8 rounded-2xl mb-8 shadow-lg sticky top-0">
                         <div class="flex flex-col lg:flex-row gap-4 mb-6">
                             <div class="relative flex-[2] group">
@@ -435,7 +417,6 @@
                                 <input type="text" id="searchInput" onkeyup="renderTable()" placeholder="Search candidates by name, ID, phone or email..." class="w-full pl-12 pr-4 py-4 bg-[var(--bg-secondary)] border-2 border-[var(--border-color)] rounded-xl font-bold text-sm focus:border-sarathy-blue outline-none transition-all dark:text-white shadow-sm">
                             </div>
                             <div class="flex gap-4 flex-1 overflow-x-auto custom-scroll pb-2 lg:pb-0">
-                                <!-- Pro Feature: Department Filter -->
                                 <div class="relative min-w-[150px] flex-1">
                                     <select id="filterDept" onchange="renderTable()" class="w-full pl-11 pr-8 py-4 bg-[var(--bg-secondary)] border-2 border-[var(--border-color)] rounded-xl font-black text-xs outline-none focus:border-sarathy-blue dark:text-white shadow-sm uppercase tracking-widest text-[var(--text-primary)] cursor-pointer appearance-none">
                                         <option value="ALL">All Depts</option>
@@ -447,7 +428,6 @@
                                     <i class="fas fa-briefcase absolute left-4 top-1/2 -translate-y-1/2 text-sarathy-blue pointer-events-none"></i>
                                     <i class="fas fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-xs"></i>
                                 </div>
-                                <!-- Pro Feature: Company Filter -->
                                 <div class="relative min-w-[180px] flex-1">
                                     <select id="filterCompany" onchange="renderTable()" class="w-full pl-11 pr-8 py-4 bg-[var(--bg-secondary)] border-2 border-[var(--border-color)] rounded-xl font-black text-xs outline-none focus:border-sarathy-blue dark:text-white shadow-sm uppercase tracking-widest text-[var(--text-primary)] cursor-pointer appearance-none">
                                         <option value="ALL">All Entities</option>
@@ -467,7 +447,6 @@
                             </div>
                         </div>
                         
-                        <!-- Quick Chips -->
                         <div class="flex gap-3 overflow-x-auto custom-scroll pb-2 whitespace-nowrap items-center">
                             <button onclick="setQuickFilter('All')" class="px-6 py-2.5 rounded-xl text-xs font-black tracking-widest border-2 border-[var(--border-color)] bg-[var(--bg-secondary)] text-[var(--text-primary)] transition-all hover:border-sarathy-blue active:scale-95 shrink-0" id="chip-All">ALL</button>
                             <button onclick="setQuickFilter('Pending')" class="px-6 py-2.5 rounded-xl text-xs font-black tracking-widest border-2 border-[var(--border-color)] bg-[var(--bg-secondary)] text-[var(--text-primary)] transition-all hover:border-sarathy-blue active:scale-95 shrink-0" id="chip-Pending">PENDING</button>
@@ -481,14 +460,12 @@
                         </div>
                     </div>
 
-                    <!-- Pro Feature: Bulk Actions Bar -->
                     <div id="bulkActionBar" class="fixed bottom-0 left-0 w-full bg-white dark:bg-slate-800 border-t-4 border-sarathy-blue shadow-[0_-10px_30px_rgba(0,0,0,0.15)] p-4 md:p-6 flex items-center justify-between z-[80]">
                         <div class="font-black text-sm md:text-base text-[var(--text-primary)] flex items-center gap-3">
                             <span id="bulkCount" class="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center text-white bg-sarathy-blue rounded-lg shadow-md">0</span> 
                             <span class="uppercase tracking-widest text-xs md:text-sm">Selected</span>
                         </div>
                         <div class="flex items-center gap-3 overflow-x-auto custom-scroll pb-2 md:pb-0">
-                            <!-- NEW PRO FEATURE: Copy Phones for WhatsApp -->
                             <button onclick="copyBulkPhones()" class="px-4 py-2.5 bg-green-50 text-green-600 border border-green-200 rounded-xl text-[10px] md:text-xs font-black uppercase tracking-widest hover:bg-green-600 hover:text-white transition-all shadow-sm whitespace-nowrap"><i class="fab fa-whatsapp mr-1 text-sm"></i> Copy Phones</button>
                             
                             <div class="w-px h-8 bg-[var(--border-color)] mx-1"></div>
@@ -503,21 +480,20 @@
                         </div>
                     </div>
 
-                    <!-- LIST VIEW -->
                     <div id="listView" class="animate-up">
                         <div class="data-table-container">
                             <div class="overflow-x-auto">
                                 <table class="data-table min-w-[1000px]">
                                     <thead>
                                         <tr>
-                                            <th class="w-14 text-center whitespace-nowrap">
+                                            <th class="w-16 text-center whitespace-nowrap">
                                                 <input type="checkbox" id="selectAllCb" onclick="toggleSelectAll()" class="custom-checkbox">
                                             </th>
                                             <th>Personnel Profile</th>
-                                            <th>Department & Entity</th>
-                                            <th>Location & Source</th>
+                                            <th>Department & Source</th>
+                                            <th>Location</th>
                                             <th class="text-center">Current Status</th>
-                                            <th>Interview & Join Dates</th>
+                                            <th>Schedule Dates</th>
                                             <th class="text-right">Actions</th>
                                         </tr>
                                     </thead>
@@ -527,7 +503,6 @@
                         </div>
                     </div>
                     
-                    <!-- KANBAN BOARD VIEW -->
                     <div id="boardView" class="hidden grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 animate-up">
                         <div class="kanban-col border-t-4 border-t-amber-500 shadow-sm" ondragover="allowDrop(event)" ondragleave="dragLeave(event)" ondrop="drop(event, 'PENDING')">
                             <h3 class="font-black text-amber-500 mb-6 flex justify-between items-center uppercase text-sm tracking-widest border-b border-[var(--border-color)] pb-3"><span class="flex items-center gap-2"><i class="fas fa-clock"></i> Pending</span> <span id="countBoardPending" class="bg-amber-100 text-amber-700 px-3 py-1 rounded-lg">0</span></h3>
@@ -548,7 +523,6 @@
                     </div>
                 </div>
 
-                <!-- TAB 3: CALENDAR -->
                 <div id="tab-calendar" class="tab-content custom-scroll p-4 md:p-8 max-w-[1600px] mx-auto">
                     <div class="modern-card p-6 md:p-10 h-full flex flex-col min-h-[700px] shadow-xl">
                         <div class="flex justify-between items-center mb-8 pb-6 border-b border-[var(--border-color)]">
@@ -574,7 +548,6 @@
                     </div>
                 </div>
 
-                <!-- TAB 4: ANALYTICS -->
                 <div id="tab-analytics" class="tab-content custom-scroll p-4 md:p-8 max-w-[1600px] mx-auto">
                     <div class="mb-8 flex flex-col md:flex-row justify-between items-center bg-[var(--bg-secondary)] p-6 md:p-8 rounded-[2rem] border border-[var(--border-color)] shadow-lg gap-6 animate-up">
                         <div class="flex items-center gap-5">
@@ -605,7 +578,6 @@
                     </div>
                 </div>
 
-                <!-- TAB 5: SETTINGS -->
                 <div id="tab-settings" class="tab-content custom-scroll p-4 md:p-8 max-w-[1600px] mx-auto">
                     <div class="mb-8 flex items-center gap-5 bg-[var(--bg-secondary)] p-6 md:p-8 rounded-[2rem] border border-[var(--border-color)] shadow-lg animate-up">
                         <div class="w-16 h-16 rounded-2xl bg-slate-100 dark:bg-slate-800 text-slate-500 flex items-center justify-center text-2xl shadow-inner border border-slate-200 dark:border-slate-700"><i class="fas fa-cog"></i></div>
@@ -639,11 +611,9 @@
                 </div>
             </div>
 
-            <!-- Global Floating Action Buttons -->
             <button id="addBtn" onclick="openModal()" class="fab hidden" title="Add New Candidate"><i class="fas fa-plus text-xl"></i></button>
             <button id="notesBtn" onclick="toggleNotesPanel()" class="fab-notes hidden" title="Quick Notes"><i class="fas fa-sticky-note text-lg"></i></button>
             
-            <!-- Quick Notes Panel -->
             <div id="notesPanel" class="fixed inset-y-0 right-0 w-80 md:w-96 bg-[var(--bg-secondary)] shadow-[rgba(0,0,0,0.3)_0px_0px_40px] border-l border-[var(--border-color)] z-[105] flex flex-col no-print">
                 <div class="p-6 border-b border-[var(--border-color)] flex justify-between items-center bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/30 dark:to-orange-900/20">
                     <h3 class="font-black text-amber-600 uppercase tracking-widest flex items-center gap-3"><i class="fas fa-sticky-note text-lg"></i> Quick Notes</h3>
@@ -660,7 +630,6 @@
         </main>
     </div>
 
-    <!-- HR MODAL (FIXED EDITING LOGIC) -->
     <div id="addModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[110] hidden flex justify-end items-end md:items-stretch transition-opacity duration-300 no-print">
         <div id="modalContent" class="bg-[var(--bg-secondary)] w-full md:w-3/4 lg:w-[60%] xl:w-[50%] h-[95vh] md:h-full rounded-t-[2rem] md:rounded-none shadow-2xl flex flex-col transform translate-y-full md:translate-y-0 md:translate-x-full transition-transform duration-400 ease-out border-l border-[var(--border-color)]">
             <div class="p-6 md:p-8 border-b border-[var(--border-color)] flex justify-between items-center bg-[var(--bg-secondary)] z-10 rounded-t-[2rem] md:rounded-none">
@@ -679,7 +648,6 @@
                     <input type="hidden" id="editId">
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6 flex-1">
-                        <!-- EMP ID & STATUS -->
                         <div class="p-5 bg-blue-50 dark:bg-blue-900/20 rounded-2xl border border-blue-100 dark:border-blue-900/50 flex flex-col justify-center">
                             <label class="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-2">Emp Id</label>
                             <input type="text" id="empId" readonly class="w-full bg-transparent font-black text-sarathy-blue dark:text-sky-400 text-xl outline-none">
@@ -695,7 +663,6 @@
                             <i class="fas fa-chevron-down absolute right-6 bottom-6 text-slate-400 pointer-events-none text-sm"></i>
                         </div>
                         
-                        <!-- FULL NAME & PHONE -->
                         <div class="flex flex-col justify-end">
                             <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-2 ml-2">Full Name</label>
                             <input type="text" id="empName" required class="w-full p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl font-black text-sm uppercase outline-none focus:border-sarathy-blue transition-colors dark:text-white shadow-sm" placeholder="ENTER FULL NAME">
@@ -705,7 +672,6 @@
                             <input type="tel" id="empPhone" required pattern="[0-9]{10}" class="w-full p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl font-black text-sm uppercase outline-none focus:border-sarathy-blue transition-colors dark:text-white shadow-sm" placeholder="10 DIGIT MOBILE">
                         </div>
                         
-                        <!-- EMAIL & SOURCE -->
                         <div class="flex flex-col justify-end">
                             <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-2 ml-2">Email Address</label>
                             <input type="email" id="empEmail" class="w-full p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl font-black text-sm outline-none focus:border-sarathy-blue transition-colors dark:text-white shadow-sm" placeholder="CANDIDATE EMAIL">
@@ -723,7 +689,6 @@
                             <i class="fas fa-chevron-down absolute right-5 bottom-6 text-slate-400 pointer-events-none text-xs"></i>
                         </div>
 
-                        <!-- DEPT & ENTITY -->
                         <div class="flex flex-col justify-end">
                             <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-2 ml-2">Department</label>
                             <input type="text" id="dept" required oninput="this.value = this.value.toUpperCase()" class="w-full p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl font-black text-sm uppercase outline-none focus:border-sarathy-blue transition-colors dark:text-white shadow-sm" placeholder="E.G. SALES, SERVICE">
@@ -740,7 +705,6 @@
                             <i class="fas fa-chevron-down absolute right-5 bottom-6 text-slate-400 pointer-events-none text-xs"></i>
                         </div>
 
-                        <!-- DATES -->
                         <div class="flex flex-col justify-end">
                             <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-2 ml-2">Interview Date</label>
                             <input type="date" id="interviewDate" required class="w-full p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl font-black text-sm outline-none focus:border-sarathy-blue transition-colors dark:text-white shadow-sm cursor-pointer">
@@ -750,7 +714,6 @@
                             <input type="date" id="joinDate" class="w-full p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl font-black text-sm outline-none focus:border-sarathy-blue transition-colors dark:text-white shadow-sm cursor-pointer">
                         </div>
 
-                        <!-- EXP, LOCATION, DESIGNATION -->
                         <div class="flex flex-col justify-end">
                             <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-2 ml-2">Experience (Yrs)</label>
                             <input type="number" id="experience" step="0.5" class="w-full p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl font-black text-sm outline-none focus:border-sarathy-blue transition-colors dark:text-white shadow-sm" value="0">
@@ -783,7 +746,6 @@
         </div>
     </div>
 
-    <!-- TARGETS MODAL -->
     <div id="reqModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[115] hidden flex justify-center items-end md:items-center p-0 md:p-4 transition-opacity duration-300 no-print">
         <div class="bg-[var(--bg-secondary)] w-full max-w-4xl rounded-t-[2rem] md:rounded-3xl shadow-2xl flex flex-col max-h-[90vh] md:max-h-[85vh] border border-[var(--border-color)]">
             <div class="p-6 md:p-8 border-b border-[var(--border-color)] flex justify-between items-center shrink-0">
@@ -801,7 +763,6 @@
         </div>
     </div>
 
-    <!-- SUMMARY MODAL -->
     <div id="summaryModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[115] hidden flex items-center justify-center p-4 transition-opacity no-print">
         <div class="bg-[var(--bg-secondary)] w-full max-w-4xl rounded-3xl shadow-2xl overflow-hidden border border-[var(--border-color)]">
             <div class="p-6 md:p-8 bg-gradient-to-r from-sarathy-blue to-blue-600 text-white flex justify-between items-center">
@@ -815,7 +776,6 @@
         </div>
     </div>
 
-    <!-- VIEW PROFILE MODAL -->
     <div id="viewModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[115] hidden flex items-center justify-center p-4 transition-opacity">
         <div class="bg-[var(--bg-secondary)] w-full max-w-3xl rounded-[2rem] shadow-2xl overflow-hidden border border-[var(--border-color)] relative">
             <div class="p-6 md:p-8 bg-gradient-to-r from-sarathy-blue to-blue-600 text-white flex justify-between items-center no-print">
@@ -838,7 +798,6 @@
         </div>
     </div>
 
-    <!-- ID CARD MODAL -->
     <div id="idCardModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[150] hidden flex items-center justify-center p-4 transition-opacity no-print">
         <div class="w-full max-w-md rounded-3xl shadow-2xl overflow-hidden relative">
             <button onclick="document.getElementById('idCardModal').classList.add('hidden')" class="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full bg-white/20 text-white hover:bg-white/40 transition-colors z-20"><i class="fas fa-times text-lg"></i></button>
@@ -851,14 +810,11 @@
         </div>
     </div>
 
-    <!-- HIDDEN OFFER LETTER CONTAINER FOR PDF EXPORT -->
     <div id="offerLetterModal" class="hidden">
         <div id="offerLetterContainer" class="bg-white text-black p-10">
-            <!-- Injected by JS -->
-        </div>
+            </div>
     </div>
 
-    <!-- NOTIFICATION MODAL -->
     <div id="notificationModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[120] hidden flex items-start justify-center md:justify-end p-4 md:pr-8 md:pt-24 no-print">
         <div class="bg-[var(--bg-secondary)] w-full max-w-sm rounded-[2rem] shadow-2xl overflow-hidden border border-[var(--border-color)] animate-up">
             <div class="p-6 border-b border-[var(--border-color)] flex justify-between items-center bg-[var(--bg-primary)]">
@@ -869,7 +825,6 @@
         </div>
     </div>
 
-    <!-- Toast -->
     <div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 translate-y-40 opacity-0 bg-slate-800 text-white px-8 py-4 rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.3)] transition-all duration-400 z-[200] flex items-center gap-4 text-xs md:text-sm font-black tracking-widest uppercase whitespace-nowrap no-print border border-slate-700">
         <i id="toastIcon" class="fas fa-check-circle text-emerald-400 text-xl"></i>
         <span id="toastMessage">Success</span>
@@ -1303,7 +1258,44 @@
                     const selectAllCb = document.getElementById('selectAllCb');
                     if(selectAllCb) selectAllCb.checked = filtered.length > 0 && filtered.every(x => selectedCandidates.includes(String(x.id)));
 
-                    tableBody.innerHTML = filtered.length ? filtered.map((x, index) => generateRow(x, index + 1)).join('') : '<tr><td colspan="7" class="text-center py-16 text-[var(--text-secondary)] font-black uppercase tracking-widest opacity-60"><i class="fas fa-box-open text-4xl mb-4 block opacity-50"></i> No candidates found</td></tr>';
+                    if(filtered.length === 0) {
+                        tableBody.innerHTML = '<tr><td colspan="7" class="text-center py-16 text-[var(--text-secondary)] font-black uppercase tracking-widest opacity-60"><i class="fas fa-box-open text-4xl mb-4 block opacity-50"></i> No candidates found</td></tr>';
+                    } else {
+                        // Grouping by Company for Banner Display
+                        const groupedByCompany = {};
+                        filtered.forEach(candidate => {
+                            const comp = candidate.company || 'OTHER ENTITIES';
+                            if(!groupedByCompany[comp]) groupedByCompany[comp] = [];
+                            groupedByCompany[comp].push(candidate);
+                        });
+
+                        let tableHtml = '';
+                        let globalIndex = 1;
+
+                        for(const [company, candidatesList] of Object.entries(groupedByCompany)) {
+                            // Add Company Banner
+                            tableHtml += `
+                                <tr class="bg-gradient-to-r from-slate-100 to-slate-50 dark:from-slate-800 dark:to-slate-800/50 border-y-2 border-slate-200 dark:border-slate-700">
+                                    <td colspan="7" class="px-6 py-3">
+                                        <div class="flex justify-between items-center">
+                                            <h3 class="font-black text-sm md:text-base text-sarathy-blue dark:text-sky-400 uppercase tracking-widest flex items-center gap-2">
+                                                <i class="fas fa-building"></i> ${company}
+                                            </h3>
+                                            <span class="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 py-1 px-3 rounded-lg text-[10px] font-black tracking-widest uppercase shadow-sm">
+                                                ${candidatesList.length} Candidates
+                                            </span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            `;
+                            
+                            // Add Candidate Rows
+                            candidatesList.forEach(x => {
+                                tableHtml += generateRow(x, globalIndex++);
+                            });
+                        }
+                        tableBody.innerHTML = tableHtml;
+                    }
                 }
             } else {
                 if(listView) listView.classList.add('hidden');
@@ -1321,8 +1313,8 @@
         };
 
         const generateRow = (x, index) => {
-            const intDate = formatDateString(x.interviewDate);
-            const joinDate = formatDateString(x.joinDate);
+            const intDate = formatDateString(x.interviewDate) || 'N/A';
+            const joinDate = formatDateString(x.joinDate) || 'N/A';
             let statusClass = '';
             if(x.status === 'SELECTED') statusClass = 'badge-selected';
             else if(x.status === 'JOINED') statusClass = 'badge-joined'; 
@@ -1348,7 +1340,10 @@
             return `
                 <tr class="group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors cursor-pointer" onclick="viewCandidate(${x.id})">
                     <td class="text-center" onclick="event.stopPropagation()">
-                        <input type="checkbox" class="candidate-cb custom-checkbox" value="${x.id}" ${isChecked} onclick="updateBulkSelection(${x.id}, this.checked)">
+                        <div class="flex flex-col items-center justify-center gap-2">
+                            <span class="text-[10px] font-black text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 w-6 h-6 rounded-full flex items-center justify-center shadow-sm">${index}</span>
+                            <input type="checkbox" class="candidate-cb custom-checkbox" value="${x.id}" ${isChecked} onclick="updateBulkSelection(${x.id}, this.checked)">
+                        </div>
                     </td>
                     <td>
                         <div class="flex items-center gap-4">
@@ -1364,20 +1359,26 @@
                         <div class="flex items-center gap-2 mt-1.5">
                             <p class="text-[10px] ${deptColor} font-black uppercase tracking-widest">${x.dept}</p>
                             <span class="text-[10px] text-slate-300">•</span>
-                            <p class="text-[10px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-widest truncate">${x.company}</p>
+                            <p class="text-[10px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-widest truncate">${x.source || 'Walk-in'}</p>
                         </div>
                     </td>
                     <td>
                         <p class="text-xs font-black text-black dark:text-white uppercase tracking-widest truncate">${x.location || '-'}</p>
-                        <p class="text-[9px] mt-1.5 font-bold text-slate-400 uppercase tracking-widest"><i class="fas fa-map-marker-alt mr-1"></i> ${x.source || 'Walk-in'}</p>
                     </td>
                     <td class="text-center">
                         <span class="status-badge-md shadow-sm ${statusClass}">${x.status}</span>
                     </td>
                     <td>
-                        <div class="text-[10px] leading-relaxed space-y-1.5">
-                            <p class="text-slate-500 dark:text-slate-400 font-bold uppercase tracking-widest">INT: <span class="text-black dark:text-white font-black">${intDate}</span></p>
-                            ${x.joinDate ? `<p class="text-emerald-600 dark:text-emerald-400 font-bold uppercase tracking-widest">JOIN: <span class="text-emerald-700 dark:text-emerald-300 font-black">${joinDate}</span></p>` : ''}
+                        <div class="text-[10px] leading-relaxed space-y-2">
+                            <div>
+                                <p class="text-slate-500 dark:text-slate-400 font-bold uppercase tracking-widest mb-0.5">INTERVIEW DATE :</p>
+                                <span class="text-black dark:text-white font-black text-xs bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded-md border border-slate-200 dark:border-slate-700 inline-block shadow-sm">${intDate}</span>
+                            </div>
+                            ${x.joinDate ? `
+                            <div>
+                                <p class="text-emerald-600 dark:text-emerald-400 font-bold uppercase tracking-widest mb-0.5 mt-1">JOIN DATE :</p>
+                                <span class="text-emerald-700 dark:text-emerald-300 font-black text-xs bg-emerald-50 dark:bg-emerald-900/30 px-2 py-1 rounded-md border border-emerald-200 dark:border-emerald-800 inline-block shadow-sm">${joinDate}</span>
+                            </div>` : ''}
                         </div>
                     </td>
                     <td class="text-right" onclick="event.stopPropagation()">
@@ -1444,6 +1445,7 @@
             const r = joinees.find(x => String(x.id) === String(id));
             if(!r) return;
             
+            // Populate form
             document.getElementById('editId').value = r.id; 
             document.getElementById('empId').value = r.empId;
             document.getElementById('status').value = r.status;
