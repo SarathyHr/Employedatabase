@@ -16,6 +16,8 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <!-- SheetJS for Excel Export -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <!-- HTML2PDF for Offer Letter & ID Card -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -130,10 +132,10 @@
         .dark .summary-table td { color: #fff; }
         .summary-table tr:hover td { background: rgba(0, 84, 166, 0.05); }
         
-        /* Pro Data Table */
-        .data-table-container { background: var(--bg-secondary); border-radius: 1.25rem; border: 1px solid var(--border-color); overflow: hidden; box-shadow: 0 8px 20px -4px rgba(0,0,0,0.08); max-height: calc(100vh - 260px); overflow-y: auto; }
+        /* Pro Data Table (Fixed Mobile Blank Issue by removing fixed max-height) */
+        .data-table-container { background: var(--bg-secondary); border-radius: 1.25rem; border: 1px solid var(--border-color); overflow: hidden; box-shadow: 0 8px 20px -4px rgba(0,0,0,0.08); }
         .data-table { width: 100%; border-collapse: collapse; }
-        .data-table th { background: var(--bg-primary); color: var(--text-secondary); font-size: 0.75rem; font-weight: 900; text-transform: uppercase; text-align: left; padding: 18px 24px; letter-spacing: 0.05em; position: sticky; top: 0; z-index: 10; border-bottom: 2px solid var(--border-color); }
+        .data-table th { background: var(--bg-primary); color: var(--text-secondary); font-size: 0.75rem; font-weight: 900; text-transform: uppercase; text-align: left; padding: 18px 24px; letter-spacing: 0.05em; border-bottom: 2px solid var(--border-color); position: sticky; top: 0; z-index: 10; }
         .data-table td { padding: 18px 24px; font-size: 0.9rem; border-bottom: 1px solid var(--border-color); vertical-align: middle; color: #000000; font-weight: 700; }
         .dark .data-table td { color: #ffffff; border-bottom: 1px solid var(--border-color); }
         .data-table tr:last-child td { border-bottom: none; }
@@ -234,12 +236,12 @@
     </div>
 
     <!-- MAIN APP LAYOUT -->
-    <div id="appLayout" class="hidden h-screen w-full flex bg-[var(--bg-primary)]">
+    <div id="appLayout" class="hidden h-[100dvh] w-full flex bg-[var(--bg-primary)]">
         <!-- MOBILE OVERLAY -->
         <div id="mobileOverlay" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[90] hidden md:hidden transition-opacity duration-300" onclick="toggleSidebar()"></div>
 
         <!-- HOVER EXPANDABLE SIDEBAR -->
-        <aside id="sidebar" class="fixed md:static inset-y-0 left-0 w-[var(--sidebar-width)] md:w-[85px] hover:md:w-[var(--sidebar-width)] h-screen glass-panel flex flex-col shrink-0 z-[100] border-r border-[var(--border-color)] transform -translate-x-full md:translate-x-0 transition-all duration-300 ease-in-out bg-[var(--bg-secondary)] md:bg-transparent overflow-x-hidden group shadow-2xl md:shadow-none pb-16 md:pb-0">
+        <aside id="sidebar" class="fixed md:static inset-y-0 left-0 w-[var(--sidebar-width)] md:w-[85px] hover:md:w-[var(--sidebar-width)] h-[100dvh] glass-panel flex flex-col shrink-0 z-[100] border-r border-[var(--border-color)] transform -translate-x-full md:translate-x-0 transition-all duration-300 ease-in-out bg-[var(--bg-secondary)] md:bg-transparent overflow-x-hidden group shadow-2xl md:shadow-none pb-16 md:pb-0">
             <div class="h-16 md:h-20 px-4 flex items-center gap-3 border-b border-[var(--border-color)] shrink-0 overflow-hidden">
                 <img src="Sarathy2.png.png" alt="Sarathy Group Logo" class="h-12 w-auto object-contain shrink-0 rounded-lg shadow-sm mix-blend-multiply dark:mix-blend-normal bg-transparent dark:bg-white/90 p-1" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                 <div class="hidden w-12 h-12 bg-gradient-to-tr from-sarathy-blue to-sky-400 rounded-xl flex items-center justify-center text-white text-lg font-black shrink-0 shadow-md">SR</div>
@@ -293,7 +295,7 @@
         </aside>
 
         <!-- MAIN CONTENT AREA -->
-        <main class="flex-1 flex flex-col h-screen overflow-hidden relative min-w-0 bg-[var(--bg-primary)]">
+        <main class="flex-1 flex flex-col h-[100dvh] overflow-hidden relative min-w-0 bg-[var(--bg-primary)]">
             <!-- Top Header Area -->
             <header class="h-16 md:h-20 glass-panel flex justify-between items-center px-4 md:px-8 shrink-0 z-30 sticky top-0 shadow-sm">
                 <div class="flex items-center gap-2 md:gap-4">
@@ -301,11 +303,11 @@
                         <i class="fas fa-bars"></i>
                     </button>
                     <!-- Mobile Back Button -->
-                    <button id="headerBackBtn" onclick="goBack()" class="hidden md:hidden w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 text-[var(--text-primary)] flex items-center justify-center shadow-sm border border-[var(--border-color)] hover:text-sarathy-blue transition-colors">
+                    <button id="headerBackBtn" onclick="goBack()" class="hidden w-10 h-10 rounded-xl bg-[var(--bg-secondary)] text-[var(--text-primary)] items-center justify-center shadow-sm border border-[var(--border-color)] hover:text-sarathy-blue transition-colors md:hidden">
                         <i class="fas fa-arrow-left"></i>
                     </button>
                     <div>
-                        <h2 id="pageTitle" class="text-xl md:text-2xl font-black uppercase tracking-widest text-[var(--text-primary)] truncate ml-1 md:ml-0">HR Overview</h2>
+                        <h2 id="pageTitle" class="text-lg md:text-2xl font-black uppercase tracking-widest text-[var(--text-primary)] truncate ml-1 md:ml-0">HR Overview</h2>
                     </div>
                 </div>
                 <div class="flex items-center gap-3 md:gap-6 shrink-0">
@@ -333,6 +335,7 @@
             <div class="flex-1 relative overflow-y-auto overflow-x-hidden custom-scroll scroll-smooth pb-24 md:pb-8">
                 <!-- TAB 1: DASHBOARD -->
                 <div id="tab-dashboard" class="tab-content active p-4 md:p-8 space-y-6 md:space-y-8 max-w-[1600px] mx-auto">
+                    <!-- Welcome Banner -->
                     <div class="modern-card p-6 md:p-10 bg-gradient-to-r from-sarathy-blue via-blue-700 to-sky-600 text-white relative overflow-hidden border-none shadow-xl animate-up">
                         <i class="fas fa-shield-alt absolute -right-4 -bottom-4 md:-right-10 md:-bottom-10 text-[8rem] md:text-[12rem] opacity-10"></i>
                         <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
@@ -348,6 +351,7 @@
                         </div>
                     </div>
 
+                    <!-- Stats Grid -->
                     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6 animate-up" style="animation-delay: 0.1s;">
                         <div class="modern-card p-6 md:p-8 flex flex-col relative overflow-hidden group/stat border-b-4 border-b-slate-400">
                             <div class="absolute -top-4 -right-4 w-28 h-28 bg-slate-50 dark:bg-slate-800 rounded-full flex items-center justify-center transition-transform duration-500 group-hover/stat:scale-[1.8] group-hover:bg-slate-100 dark:group-hover:bg-slate-700">
@@ -396,6 +400,7 @@
                         </div>
                     </div>
 
+                    <!-- Layout for Progress -->
                     <div class="grid grid-cols-1 gap-6 animate-up" style="animation-delay: 0.3s;">
                         <div class="modern-card p-6 md:p-10">
                             <div class="flex justify-between items-center mb-8 pb-4 border-b border-[var(--border-color)]">
@@ -407,6 +412,7 @@
                             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-8" id="progContainer"></div>
                         </div>
                         
+                        <!-- NEW PRO FEATURE: Recent Candidates -->
                         <div class="modern-card p-6 md:p-10 mt-2">
                             <div class="flex justify-between items-center mb-6 pb-4 border-b border-[var(--border-color)]">
                                 <h3 class="font-black text-lg md:text-xl uppercase tracking-widest text-[var(--text-primary)] flex items-center gap-3">
@@ -425,6 +431,7 @@
 
                 <!-- TAB 2: CANDIDATES -->
                 <div id="tab-candidates" class="tab-content p-4 md:p-8 max-w-[1600px] mx-auto">
+                    <!-- Filters & Search -->
                     <div class="glass-panel relative z-10 p-5 md:p-8 rounded-2xl mb-8 shadow-lg sticky top-0">
                         <div class="flex flex-col lg:flex-row gap-4 mb-6">
                             <div class="relative flex-[2] group">
@@ -432,6 +439,7 @@
                                 <input type="text" id="searchInput" onkeyup="renderTable()" placeholder="Search candidates by name, ID, phone or email..." class="w-full pl-12 pr-4 py-4 bg-[var(--bg-secondary)] border-2 border-[var(--border-color)] rounded-xl font-bold text-sm focus:border-sarathy-blue outline-none transition-all dark:text-white shadow-sm">
                             </div>
                             <div class="flex gap-4 flex-1 overflow-x-auto custom-scroll pb-2 lg:pb-0">
+                                <!-- Pro Feature: Department Filter -->
                                 <div class="relative min-w-[150px] flex-1">
                                     <select id="filterDept" onchange="renderTable()" class="w-full pl-11 pr-8 py-4 bg-[var(--bg-secondary)] border-2 border-[var(--border-color)] rounded-xl font-black text-xs outline-none focus:border-sarathy-blue dark:text-white shadow-sm uppercase tracking-widest text-[var(--text-primary)] cursor-pointer appearance-none">
                                         <option value="ALL">All Depts</option>
@@ -443,6 +451,7 @@
                                     <i class="fas fa-briefcase absolute left-4 top-1/2 -translate-y-1/2 text-sarathy-blue pointer-events-none"></i>
                                     <i class="fas fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-xs"></i>
                                 </div>
+                                <!-- Pro Feature: Company Filter -->
                                 <div class="relative min-w-[180px] flex-1">
                                     <select id="filterCompany" onchange="renderTable()" class="w-full pl-11 pr-8 py-4 bg-[var(--bg-secondary)] border-2 border-[var(--border-color)] rounded-xl font-black text-xs outline-none focus:border-sarathy-blue dark:text-white shadow-sm uppercase tracking-widest text-[var(--text-primary)] cursor-pointer appearance-none">
                                         <option value="ALL">All Entities</option>
@@ -462,6 +471,7 @@
                             </div>
                         </div>
                         
+                        <!-- Quick Chips -->
                         <div class="flex gap-3 overflow-x-auto custom-scroll pb-2 whitespace-nowrap items-center">
                             <button onclick="setQuickFilter('All')" class="px-6 py-2.5 rounded-xl text-xs font-black tracking-widest border-2 border-[var(--border-color)] bg-[var(--bg-secondary)] text-[var(--text-primary)] transition-all hover:border-sarathy-blue active:scale-95 shrink-0" id="chip-All">ALL</button>
                             <button onclick="setQuickFilter('Pending')" class="px-6 py-2.5 rounded-xl text-xs font-black tracking-widest border-2 border-[var(--border-color)] bg-[var(--bg-secondary)] text-[var(--text-primary)] transition-all hover:border-sarathy-blue active:scale-95 shrink-0" id="chip-Pending">PENDING</button>
@@ -475,12 +485,14 @@
                         </div>
                     </div>
 
+                    <!-- Pro Feature: Bulk Actions Bar -->
                     <div id="bulkActionBar" class="fixed bottom-[70px] md:bottom-0 left-0 w-full bg-white dark:bg-slate-800 border-t-4 border-sarathy-blue shadow-[0_-10px_30px_rgba(0,0,0,0.15)] p-4 md:p-6 flex items-center justify-between z-[80]">
                         <div class="font-black text-sm md:text-base text-[var(--text-primary)] flex items-center gap-3">
                             <span id="bulkCount" class="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center text-white bg-sarathy-blue rounded-lg shadow-md">0</span> 
                             <span class="uppercase tracking-widest text-xs md:text-sm">Selected</span>
                         </div>
                         <div class="flex items-center gap-3 overflow-x-auto custom-scroll pb-2 md:pb-0">
+                            <!-- NEW PRO FEATURE: Copy Phones for WhatsApp -->
                             <button onclick="copyBulkPhones()" class="px-4 py-2.5 bg-green-50 text-green-600 border border-green-200 rounded-xl text-[10px] md:text-xs font-black uppercase tracking-widest hover:bg-green-600 hover:text-white transition-all shadow-sm whitespace-nowrap"><i class="fab fa-whatsapp mr-1 text-sm"></i> Copy Phones</button>
                             
                             <div class="w-px h-8 bg-[var(--border-color)] mx-1"></div>
@@ -495,6 +507,7 @@
                         </div>
                     </div>
 
+                    <!-- LIST VIEW -->
                     <div id="listView" class="animate-up">
                         <div class="data-table-container">
                             <div class="overflow-x-auto">
@@ -518,6 +531,7 @@
                         </div>
                     </div>
                     
+                    <!-- KANBAN BOARD VIEW -->
                     <div id="boardView" class="hidden grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 animate-up">
                         <div class="kanban-col border-t-4 border-t-amber-500 shadow-sm" ondragover="allowDrop(event)" ondragleave="dragLeave(event)" ondrop="drop(event, 'PENDING')">
                             <h3 class="font-black text-amber-500 mb-6 flex justify-between items-center uppercase text-sm tracking-widest border-b border-[var(--border-color)] pb-3"><span class="flex items-center gap-2"><i class="fas fa-clock"></i> Pending</span> <span id="countBoardPending" class="bg-amber-100 text-amber-700 px-3 py-1 rounded-lg">0</span></h3>
