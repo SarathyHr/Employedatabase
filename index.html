@@ -16,6 +16,8 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <!-- SheetJS for Excel Export -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <!-- HTML2PDF for Offer Letter & ID Card -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -444,6 +446,7 @@
                         </div>
                     </div>
 
+                    <!-- Layout for Progress -->
                     <div class="grid grid-cols-1 gap-6 animate-up" style="animation-delay: 0.3s;">
                         <div class="modern-card p-6 md:p-10">
                             <div class="flex justify-between items-center mb-8 pb-4 border-b border-[var(--border-color)]">
@@ -455,6 +458,7 @@
                             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-8" id="progContainer"></div>
                         </div>
                         
+                        <!-- Recent Candidates -->
                         <div class="modern-card p-6 md:p-10 mt-2">
                             <div class="flex justify-between items-center mb-6 pb-4 border-b border-[var(--border-color)]">
                                 <h3 class="font-black text-lg md:text-xl uppercase tracking-widest text-[var(--text-primary)] flex items-center gap-3">
@@ -473,6 +477,7 @@
 
                 <!-- TAB 2: CANDIDATES -->
                 <div id="tab-candidates" class="tab-content p-4 md:p-8 max-w-[1600px] mx-auto">
+                    <!-- Filters & Search -->
                     <div class="glass-panel relative z-10 p-5 md:p-8 rounded-2xl mb-8 shadow-lg sticky top-0">
                         <div class="flex flex-col lg:flex-row gap-4 mb-6">
                             <div class="relative flex-[2] group">
@@ -480,6 +485,7 @@
                                 <input type="text" id="searchInput" onkeyup="renderTable()" placeholder="Search candidates by name, ID, phone or email..." class="w-full pl-12 pr-4 py-4 bg-[var(--bg-secondary)] border-2 border-[var(--border-color)] rounded-xl font-bold text-sm focus:border-sarathy-blue outline-none transition-all dark:text-white shadow-sm">
                             </div>
                             <div class="flex gap-4 flex-1 overflow-x-auto custom-scroll pb-2 lg:pb-0">
+                                <!-- Department Filter -->
                                 <div class="relative min-w-[150px] flex-1">
                                     <select id="filterDept" onchange="renderTable()" class="w-full pl-11 pr-8 py-4 bg-[var(--bg-secondary)] border-2 border-[var(--border-color)] rounded-xl font-black text-xs outline-none focus:border-sarathy-blue dark:text-white shadow-sm uppercase tracking-widest text-[var(--text-primary)] cursor-pointer appearance-none">
                                         <option value="ALL">All Depts</option>
@@ -491,6 +497,7 @@
                                     <i class="fas fa-briefcase absolute left-4 top-1/2 -translate-y-1/2 text-sarathy-blue pointer-events-none"></i>
                                     <i class="fas fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-xs"></i>
                                 </div>
+                                <!-- Company Filter -->
                                 <div class="relative min-w-[180px] flex-1">
                                     <select id="filterCompany" onchange="renderTable()" class="w-full pl-11 pr-8 py-4 bg-[var(--bg-secondary)] border-2 border-[var(--border-color)] rounded-xl font-black text-xs outline-none focus:border-sarathy-blue dark:text-white shadow-sm uppercase tracking-widest text-[var(--text-primary)] cursor-pointer appearance-none">
                                         <option value="ALL">All Entities</option>
@@ -510,6 +517,7 @@
                             </div>
                         </div>
                         
+                        <!-- Quick Chips -->
                         <div class="flex gap-3 overflow-x-auto custom-scroll pb-2 whitespace-nowrap items-center">
                             <button onclick="setQuickFilter('All')" class="px-6 py-2.5 rounded-xl text-xs font-black tracking-widest border-2 border-[var(--border-color)] bg-[var(--bg-secondary)] text-[var(--text-primary)] transition-all hover:border-sarathy-blue active:scale-95 shrink-0" id="chip-All">ALL</button>
                             <button onclick="setQuickFilter('Pending')" class="px-6 py-2.5 rounded-xl text-xs font-black tracking-widest border-2 border-[var(--border-color)] bg-[var(--bg-secondary)] text-[var(--text-primary)] transition-all hover:border-sarathy-blue active:scale-95 shrink-0" id="chip-Pending">PENDING</button>
@@ -524,6 +532,7 @@
                         </div>
                     </div>
 
+                    <!-- Bulk Actions Bar -->
                     <div id="bulkActionBar" class="fixed bottom-[70px] md:bottom-0 left-0 w-full bg-white dark:bg-slate-800 border-t-4 border-sarathy-blue shadow-[0_-10px_30px_rgba(0,0,0,0.15)] p-4 md:p-6 flex items-center justify-between z-[80]">
                         <div class="font-black text-sm md:text-base text-[var(--text-primary)] flex items-center gap-3">
                             <span id="bulkCount" class="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center text-white bg-sarathy-blue rounded-lg shadow-md">0</span> 
@@ -544,6 +553,7 @@
                         </div>
                     </div>
 
+                    <!-- LIST VIEW -->
                     <div id="listView" class="animate-up">
                         <div class="data-table-container">
                             <div class="overflow-x-auto">
@@ -567,6 +577,7 @@
                         </div>
                     </div>
                     
+                    <!-- KANBAN BOARD VIEW -->
                     <div id="boardView" class="hidden grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 animate-up">
                         <div class="kanban-col border-t-4 border-t-amber-500 shadow-sm" ondragover="allowDrop(event)" ondragleave="dragLeave(event)" ondrop="drop(event, 'PENDING')">
                             <h3 class="font-black text-amber-500 mb-6 flex justify-between items-center uppercase text-sm tracking-widest border-b border-[var(--border-color)] pb-3"><span class="flex items-center gap-2"><i class="fas fa-clock"></i> Pending</span> <span id="countBoardPending" class="bg-amber-100 text-amber-700 px-3 py-1 rounded-lg">0</span></h3>
@@ -634,7 +645,7 @@
                     </div>
                 </div>
 
-                <!-- NEW TAB: EMPLOYEE DIRECTORY (PRO FEATURE) -->
+                <!-- NEW TAB: EMPLOYEE DIRECTORY -->
                 <div id="tab-directory" class="tab-content p-4 md:p-8 max-w-[1600px] mx-auto">
                     <div class="mb-8 flex flex-col md:flex-row justify-between items-center bg-[var(--bg-secondary)] p-6 md:p-8 rounded-[2rem] border border-[var(--border-color)] shadow-lg gap-6 animate-up">
                         <div class="flex items-center gap-5">
@@ -655,7 +666,7 @@
                     </div>
                 </div>
 
-                <!-- NEW TAB: PAYROLL MANAGEMENT (PRO FEATURE) -->
+                <!-- NEW TAB: PAYROLL MANAGEMENT -->
                 <div id="tab-payroll" class="tab-content p-4 md:p-8 max-w-[1600px] mx-auto">
                     <div class="mb-8 flex flex-col md:flex-row justify-between items-center bg-[var(--bg-secondary)] p-6 md:p-8 rounded-[2rem] border border-[var(--border-color)] shadow-lg gap-6 animate-up">
                         <div class="flex items-center gap-5">
@@ -1749,10 +1760,6 @@
                 <button onclick="viewCandidate(${x.id})" title="View Profile" class="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 text-blue-600 dark:text-sky-400 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-all shadow-sm active:scale-95"><i class="fas fa-eye text-sm"></i></button>
             `;
             if (x.status === 'SELECTED' || x.status === 'JOINED') {
-                const quickOfferBtn = `<button onclick="generateOfferLetter(${x.id}); event.stopPropagation();" title="Offer Letter" class="w-10 h-10 rounded-xl bg-purple-50 dark:bg-purple-900/30 border border-purple-200 dark:border-purple-800 text-purple-600 dark:text-purple-400 flex items-center justify-center hover:bg-purple-600 hover:text-white transition-all shadow-sm active:scale-95 mr-2"><i class="fas fa-file-signature"></i></button>`;
-                actionBtns = quickOfferBtn + actionBtns;
-            }
-            if (x.status === 'SELECTED') {
                 actionBtns = `<button onclick="markAsJoined(${x.id}); event.stopPropagation();" title="Mark Joined" class="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-900/30 border border-emerald-200 dark:border-emerald-800 text-emerald-600 dark:text-emerald-400 flex items-center justify-center hover:bg-emerald-500 hover:text-white transition-all shadow-sm active:scale-95 mr-2"><i class="fas fa-check text-sm"></i></button>` + actionBtns;
             }
 
@@ -1887,7 +1894,6 @@
             const r = joinees.find(x => String(x.id) === String(id));
             if(!r) return;
             
-            // Populate form
             document.getElementById('editId').value = r.id; 
             document.getElementById('empId').value = r.empId;
             document.getElementById('status').value = r.status;
@@ -1989,61 +1995,6 @@
             }
         };
 
-        // --- PRO FEATURE 1: OFFER LETTER GENERATOR (NATIVE PRINT) ---
-        const generateOfferLetter = (id) => {
-            const r = joinees.find(x => String(x.id) === String(id));
-            if(!r) return;
-            
-            const today = new Date().toLocaleDateString('en-IN');
-            const joinD = r.joinDate ? formatDateString(r.joinDate) : 'TBD';
-            
-            const html = `
-                <div style="font-family: Arial, sans-serif; padding: 20px; color: #000; background: #fff; line-height: 1.6; max-width: 100%; margin: 0 auto; text-align: left;">
-                    <div style="text-align: center; border-bottom: 2px solid #0054A6; padding-bottom: 20px; margin-bottom: 30px;">
-                        <img src="Sarathy2.png.png" alt="Sarathy Group" style="height: 60px; margin-bottom: 10px;" onerror="this.style.display='none'">
-                        <h1 style="color: #0054A6; margin: 0; font-size: 24px; text-transform: uppercase; font-weight: 900;">${r.company}</h1>
-                        <p style="margin: 5px 0 0; font-size: 12px; color: #555;">Official Appointment Letter</p>
-                    </div>
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 40px;">
-                        <div>
-                            <p style="margin:0 0 10px; font-size: 14px;"><strong>Ref No:</strong> ${r.company.substring(0,3).toUpperCase()}/HR/${new Date().getFullYear()}/${r.empId.replace('SG-','')}</p>
-                            <p style="margin:0; font-size: 14px;"><strong>To,</strong><br>${r.name}<br>${r.location || 'Kerala'}<br>Ph: ${r.phone}</p>
-                        </div>
-                        <div>
-                            <p style="margin:0; font-size: 14px;"><strong>Date:</strong> ${today}</p>
-                        </div>
-                    </div>
-                    <h3 style="text-align: center; text-decoration: underline; margin-bottom: 30px; font-size: 18px;">LETTER OF APPOINTMENT</h3>
-                    <p style="margin-bottom: 20px; font-size: 14px;">Dear <strong>${r.name}</strong>,</p>
-                    <p style="margin-bottom: 15px; text-align: justify; font-size: 14px;">Following your recent interview, we are pleased to offer you the position of <strong>${r.designation || 'Executive'}</strong> in the <strong>${r.dept}</strong> department at <strong>${r.company}</strong>.</p>
-                    <p style="margin-bottom: 15px; text-align: justify; font-size: 14px;">Your scheduled date of joining is <strong>${joinD}</strong>. Please report to the HR department at 9:30 AM with your original certificates for verification.</p>
-                    <p style="margin-bottom: 15px; text-align: justify; font-size: 14px;">Your starting salary and other benefits will be as discussed during the interview and detailed in the annexure provided on your joining date. You will be on probation for a period of six months from your date of joining.</p>
-                    <p style="margin-bottom: 30px; text-align: justify; font-size: 14px;">We welcome you to the Sarathy family and wish you a long and successful career with us.</p>
-                    <div style="margin-top: 60px; display: flex; justify-content: space-between; font-size: 14px;">
-                        <div>
-                            <p style="margin-bottom:40px;">Yours faithfully,</p>
-                            <p style="margin:0;"><strong>For ${r.company}</strong></p>
-                            <p style="margin-top:50px;">_______________________</p>
-                            <p style="margin:0;"><strong>Authorized Signatory</strong><br>Human Resources</p>
-                        </div>
-                        <div style="text-align: right;">
-                            <p style="margin-bottom:40px;">Accepted By,</p>
-                            <p style="margin-top:68px;">_______________________</p>
-                            <p style="margin:0;"><strong>${r.name}</strong></p>
-                        </div>
-                    </div>
-                </div>
-            `;
-            
-            const printArea = document.getElementById('printArea');
-            if(printArea) {
-                printArea.innerHTML = html;
-                showToast("Generating Offer Letter...", "success");
-                setTimeout(() => { window.print(); }, 100);
-            }
-        };
-
-        // --- VIEW PROFILE & ID CARD ---
         const viewCandidate = (id) => {
             const r = joinees.find(x=> String(x.id) === String(id));
             if(!r) return;
@@ -2055,34 +2006,6 @@
             else if(r.status === 'PENDING') statusClass = 'bg-amber-50 text-amber-600 border-amber-200';
             else statusClass = 'bg-red-50 text-red-600 border-red-200';
 
-            const idCardBtn = r.status === 'JOINED' ? `<button onclick="printIdCard(${r.id})" class="flex-1 py-3 md:py-4 bg-blue-50 hover:bg-blue-600 text-blue-600 hover:text-white rounded-xl md:rounded-2xl transition-colors flex items-center justify-center border border-blue-200 active:scale-95 font-black text-[10px] md:text-xs uppercase tracking-widest gap-2" title="Print ID Card"><i class="fas fa-id-card text-sm"></i> ID Card</button>` : '';
-            const offerBtn = (r.status === 'SELECTED' || r.status === 'JOINED') ? `<button onclick="generateOfferLetter(${r.id})" class="flex-1 py-3 md:py-4 bg-purple-50 hover:bg-purple-600 text-purple-600 hover:text-white rounded-xl md:rounded-2xl transition-colors flex items-center justify-center border border-purple-200 active:scale-95 font-black text-[10px] md:text-xs uppercase tracking-widest gap-2" title="Generate Offer Letter"><i class="fas fa-file-signature text-sm"></i> Offer Letter</button>` : '';
-
-            // Pro Feature: Document Vault
-            let docsHtml = `
-                <div class="col-span-2 mt-4 no-print">
-                    <span class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3">Document Verification</span>
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-                        <div class="bg-white dark:bg-slate-800 p-3 rounded-xl border border-[var(--border-color)] flex items-center justify-between shadow-sm cursor-pointer hover:border-sarathy-blue transition-colors group">
-                            <div class="flex items-center gap-2"><i class="fas fa-id-card text-slate-400 group-hover:text-sarathy-blue transition-colors text-lg"></i> <span class="text-[10px] font-black text-[var(--text-primary)] uppercase">Aadhaar</span></div>
-                            <i class="fas fa-check-circle text-emerald-500"></i>
-                        </div>
-                        <div class="bg-white dark:bg-slate-800 p-3 rounded-xl border border-[var(--border-color)] flex items-center justify-between shadow-sm cursor-pointer hover:border-sarathy-blue transition-colors group">
-                            <div class="flex items-center gap-2"><i class="fas fa-credit-card text-slate-400 group-hover:text-sarathy-blue transition-colors text-lg"></i> <span class="text-[10px] font-black text-[var(--text-primary)] uppercase">PAN Card</span></div>
-                            <i class="fas fa-check-circle text-emerald-500"></i>
-                        </div>
-                        <div class="bg-white dark:bg-slate-800 p-3 rounded-xl border border-[var(--border-color)] flex items-center justify-between shadow-sm cursor-pointer hover:border-sarathy-blue transition-colors group">
-                            <div class="flex items-center gap-2"><i class="fas fa-graduation-cap text-slate-400 group-hover:text-sarathy-blue transition-colors text-lg"></i> <span class="text-[10px] font-black text-[var(--text-primary)] uppercase">Education</span></div>
-                            <i class="fas fa-clock text-amber-500"></i>
-                        </div>
-                        <div class="bg-white dark:bg-slate-800 p-3 rounded-xl border border-dashed border-[var(--border-color)] flex items-center justify-center shadow-sm cursor-pointer hover:border-sarathy-blue hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors">
-                            <span class="text-[10px] font-black text-sarathy-blue uppercase"><i class="fas fa-upload mr-1"></i> Attach More</span>
-                        </div>
-                    </div>
-                </div>
-            `;
-
-            // Pro Feature: Activity Timeline
             let rejectionReasonText = '';
             if(r.status === 'REJECTED' && r.rejectionReason) {
                 rejectionReasonText = `<p class="text-[10px] font-bold text-red-400 uppercase tracking-widest mt-1">Reason: ${r.rejectionReason}</p>`;
@@ -2114,10 +2037,6 @@
                 </div>
             `;
 
-            const waLink = r.phone ? `href="https://wa.me/91${r.phone}" target="_blank"` : `href="#" onclick="showToast('Phone number not available', 'error'); return false;"`;
-
-            const ratingStars = Array(5).fill(0).map((_,i) => `<i class="fas fa-star ${i < (r.rating||0) ? 'text-amber-400' : 'text-slate-300'}"></i>`).join('');
-
             const content = `
                 <div class="flex flex-col md:flex-row items-center md:items-start gap-6 mb-8 border-b border-[var(--border-color)] pb-8 relative">
                     <div class="w-24 h-24 md:w-32 md:h-32 rounded-[2rem] border flex items-center justify-center font-black text-4xl md:text-5xl shadow-md shrink-0 ${avatarClass}">
@@ -2125,15 +2044,11 @@
                     </div>
                     <div class="flex-1 min-w-0 text-center md:text-left">
                         <h3 class="font-black text-2xl md:text-4xl text-[var(--text-primary)] mb-2 uppercase tracking-tight truncate">${r.name}</h3>
-                        <p class="text-xs md:text-sm font-bold text-[var(--text-secondary)] uppercase tracking-widest truncate mb-3">${r.empId} • ${r.company}</p>
-                        <div class="flex items-center justify-center md:justify-start gap-1 mb-4 text-xs md:text-sm">
-                            ${ratingStars}
-                        </div>
+                        <p class="text-xs md:text-sm font-bold text-[var(--text-secondary)] uppercase tracking-widest truncate mb-4">${r.empId} • ${r.company}</p>
                         <div class="flex flex-wrap justify-center md:justify-start items-center gap-3 no-print">
                             <span class="px-4 py-2 rounded-xl text-[10px] md:text-xs font-black uppercase tracking-widest shadow-sm border ${statusClass}">
                                 ${r.status}
                             </span>
-                            <a ${waLink} class="px-4 py-2 rounded-xl text-[10px] md:text-xs font-black uppercase tracking-widest shadow-sm border bg-green-50 text-green-600 border-green-200 hover:bg-green-600 hover:text-white transition-colors cursor-pointer flex items-center gap-2"><i class="fab fa-whatsapp text-sm"></i> WhatsApp</a>
                         </div>
                     </div>
                 </div>
@@ -2153,8 +2068,6 @@
                     <div class="p-4 bg-emerald-50 dark:bg-emerald-900/20 rounded-2xl border border-emerald-100 dark:border-emerald-900/50"><span class="block text-[10px] font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-widest mb-2">Join Date</span><span class="font-black text-base text-[var(--text-primary)]">${formatDateString(r.joinDate) || 'N/A'}</span></div>
                     
                     ${r.remarks ? `<div class="col-span-2 mt-2"><span class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3">Remarks / Feedback</span><div class="p-5 bg-[var(--bg-primary)] rounded-2xl border border-[var(--border-color)] text-sm font-bold text-[var(--text-primary)] italic shadow-inner leading-relaxed">" ${r.remarks} "</div></div>` : ''}
-                    
-                    ${docsHtml}
                 </div>
                 
                 ${timelineHtml}
@@ -2162,52 +2075,12 @@
                 <div class="mt-8 flex flex-wrap gap-3 no-print">
                     <button onclick="editRecord(${r.id})" class="flex-1 py-3 md:py-4 bg-sarathy-blue hover:bg-[#004080] text-white rounded-xl md:rounded-2xl font-black text-[10px] md:text-xs uppercase tracking-widest transition-all shadow-md active:scale-95 flex items-center justify-center gap-2"><i class="fas fa-edit"></i> Edit</button>
                     ${r.status === 'SELECTED' ? `<button onclick="markAsJoined(${r.id}); closeViewModal();" class="flex-1 py-3 md:py-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl md:rounded-2xl font-black text-[10px] md:text-xs uppercase tracking-widest transition-all shadow-md active:scale-95 flex items-center justify-center gap-2"><i class="fas fa-user-check"></i> Join</button>` : ''}
-                    ${offerBtn}
-                    ${idCardBtn}
                     <button onclick="deleteCandidate(${r.id}); closeViewModal();" class="w-12 h-12 md:w-auto md:flex-1 py-3 md:py-4 bg-red-50 hover:bg-red-600 text-red-500 hover:text-white rounded-xl md:rounded-2xl font-black text-[10px] md:text-xs uppercase tracking-widest transition-all border border-red-200 active:scale-95 flex items-center justify-center gap-2"><i class="fas fa-trash-alt"></i> <span class="hidden md:inline">Delete</span></button>
                 </div>
             `;
             const viewContent = document.getElementById('viewModalContent');
             if(viewContent) viewContent.innerHTML = content;
             document.getElementById('viewModal')?.classList.remove('hidden');
-        };
-
-        const printIdCard = (id) => {
-            const r = joinees.find(x => String(x.id) === String(id));
-            if(!r) return;
-            const joinD = r.joinDate ? formatDateString(r.joinDate) : 'N/A';
-            const html = `
-                <div style="font-family: Arial, sans-serif; width: 350px; height: 550px; border: 2px solid #ccc; border-radius: 20px; overflow: hidden; position: relative; margin: 0 auto; background: white;">
-                    <div style="background: linear-gradient(135deg, #0054A6, #003366); height: 130px; text-align: center; border-bottom: 5px solid #ff9f1c;">
-                        <img src="Sarathy2.png.png" style="height: 40px; margin-top: 20px; filter: brightness(0) invert(1);" onerror="this.style.display='none'">
-                        <h2 style="color: white; font-size: 18px; margin: 5px 0 0; text-transform: uppercase; letter-spacing: 2px; font-weight: 900;">Sarathy Group</h2>
-                    </div>
-                    <div style="width: 100px; height: 100px; background: #f1f5f9; border-radius: 50%; border: 4px solid white; position: absolute; top: 80px; left: 125px; display: flex; align-items: center; justify-content: center; font-size: 40px; font-weight: 900; color: #0054A6; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
-                        ${r.name[0]}
-                    </div>
-                    <div style="padding: 60px 20px 20px; text-align: center;">
-                        <h2 style="font-size: 22px; font-weight: 900; color: #0f172a; margin: 0 0 5px; text-transform: uppercase;">${r.name}</h2>
-                        <span style="background: #eff6ff; color: #1d4ed8; padding: 4px 10px; border-radius: 8px; font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; border: 1px solid #bfdbfe;">${r.designation || 'EMPLOYEE'}</span>
-                        
-                        <div style="margin-top: 20px; text-align: left; background: #f8fafc; padding: 15px; border-radius: 12px; border: 1px solid #e2e8f0;">
-                            <div style="margin-bottom: 8px; font-size: 12px;"><strong style="color: #64748b; font-size: 10px; display: inline-block; width: 60px;">EMP ID:</strong> <span style="font-weight: 900; color: #0f172a;">${r.empId}</span></div>
-                            <div style="margin-bottom: 8px; font-size: 12px;"><strong style="color: #64748b; font-size: 10px; display: inline-block; width: 60px;">DEPT:</strong> <span style="font-weight: 900; color: #0f172a; text-transform: uppercase;">${r.dept}</span></div>
-                            <div style="margin-bottom: 8px; font-size: 12px;"><strong style="color: #64748b; font-size: 10px; display: inline-block; width: 60px;">JOINED:</strong> <span style="font-weight: 900; color: #0f172a;">${joinD}</span></div>
-                            <div style="font-size: 12px;"><strong style="color: #64748b; font-size: 10px; display: inline-block; width: 60px;">PHONE:</strong> <span style="font-weight: 900; color: #0f172a;">${r.phone || 'N/A'}</span></div>
-                        </div>
-                    </div>
-                    <div style="position: absolute; bottom: 0; width: 100%; background: #0f172a; color: white; text-align: center; padding: 10px 0; font-size: 8px; font-weight: 900; letter-spacing: 1px; text-transform: uppercase;">
-                        Authorized Identity Card<br>${r.company}
-                    </div>
-                </div>
-            `;
-            
-            const printArea = document.getElementById('printArea');
-            if(printArea) {
-                printArea.innerHTML = html;
-                window.print();
-                showToast("Printing ID Card...", "success");
-            }
         };
 
         // --- CALENDAR ---
@@ -2478,6 +2351,289 @@
                 } catch (error) { showToast("Invalid Backup File", "error"); }
             };
             reader.readAsText(file);
+        };
+
+        // --- NEW PRO FEATURE: LEAVE MANAGEMENT ---
+        const renderLeaves = () => {
+            const tableBody = document.getElementById('leavesTableBody');
+            if(!tableBody) return;
+
+            const currentMonth = new Date().toISOString().slice(0, 7);
+            
+            const pendingCount = leavesList.filter(l => l.status === 'PENDING').length;
+            const approvedCount = leavesList.filter(l => l.status === 'APPROVED' && l.fromDate.startsWith(currentMonth)).length;
+            const rejectedCount = leavesList.filter(l => l.status === 'REJECTED' && l.fromDate.startsWith(currentMonth)).length;
+
+            if(document.getElementById('leaveStatPending')) document.getElementById('leaveStatPending').innerText = pendingCount;
+            if(document.getElementById('leaveStatApproved')) document.getElementById('leaveStatApproved').innerText = approvedCount;
+            if(document.getElementById('leaveStatRejected')) document.getElementById('leaveStatRejected').innerText = rejectedCount;
+
+            if(leavesList.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="6" class="text-center py-16 text-[var(--text-secondary)] font-black uppercase tracking-widest opacity-60"><i class="fas fa-calendar-minus text-4xl mb-4 block opacity-50"></i> No Leave Requests</td></tr>';
+                return;
+            }
+
+            tableBody.innerHTML = [...leavesList].sort((a,b) => b.id - a.id).map((l, index) => {
+                let statusClass = 'bg-amber-50 text-amber-600 border-amber-200';
+                if(l.status === 'APPROVED') statusClass = 'bg-emerald-50 text-emerald-600 border-emerald-200';
+                if(l.status === 'REJECTED') statusClass = 'bg-red-50 text-red-600 border-red-200';
+
+                return `
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                    <td class="text-center font-black text-[10px]">${index + 1}</td>
+                    <td>
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 rounded-xl flex items-center justify-center font-black text-sm shrink-0 shadow-sm ${getAvatarColor(l.empName)}">${l.empName[0]}</div>
+                            <div>
+                                <p class="font-black text-black dark:text-white text-sm uppercase tracking-wide truncate leading-tight">${l.empName}</p>
+                                <span class="inline-block px-2 py-0.5 mt-1.5 rounded-md text-[9px] font-black bg-slate-100 text-slate-500 dark:bg-slate-700 dark:text-slate-300 uppercase tracking-widest border border-slate-200 dark:border-slate-600">${l.empId}</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <p class="font-black text-black dark:text-white text-xs uppercase tracking-widest">${l.leaveType}</p>
+                        <p class="text-[10px] font-medium mt-1 truncate max-w-[200px]" title="${l.reason}">${l.reason}</p>
+                    </td>
+                    <td>
+                        <div class="text-[10px] leading-relaxed space-y-2">
+                            <div><span class="text-slate-500 font-bold uppercase mr-1">FROM:</span> <span class="text-black dark:text-white font-black">${formatDateString(l.fromDate)}</span></div>
+                            <div><span class="text-slate-500 font-bold uppercase mr-1">TO:</span> <span class="text-black dark:text-white font-black">${formatDateString(l.toDate)}</span></div>
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <span class="status-badge-md shadow-sm border ${statusClass}">${l.status}</span>
+                    </td>
+                    <td class="text-right">
+                        ${l.status === 'PENDING' ? `
+                        <div class="flex justify-end gap-2">
+                            <button onclick="updateLeaveStatus(${l.id}, 'APPROVED')" class="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 border border-emerald-200 hover:bg-emerald-500 hover:text-white transition-colors active:scale-95"><i class="fas fa-check"></i></button>
+                            <button onclick="updateLeaveStatus(${l.id}, 'REJECTED')" class="w-8 h-8 rounded-xl bg-red-50 text-red-600 border border-red-200 hover:bg-red-500 hover:text-white transition-colors active:scale-95"><i class="fas fa-times"></i></button>
+                        </div>
+                        ` : `
+                        <button onclick="deleteLeave(${l.id})" class="w-8 h-8 rounded-xl bg-slate-100 text-slate-400 hover:text-red-500 transition-colors active:scale-95"><i class="fas fa-trash-alt"></i></button>
+                        `}
+                    </td>
+                </tr>
+            `}).join('');
+        };
+
+        const openLeaveModal = () => {
+            document.getElementById('leaveForm').reset();
+            const select = document.getElementById('leaveEmpId');
+            const joinedEmployees = joinees.filter(x => x.status === 'JOINED');
+            select.innerHTML = '<option value="" disabled selected>Select an employee</option>' + 
+                joinedEmployees.map(e => `<option value="${e.id}">${e.name} (${e.empId})</option>`).join('');
+            document.getElementById('leaveModal').classList.remove('hidden');
+        };
+
+        const closeLeaveModal = () => { document.getElementById('leaveModal').classList.add('hidden'); };
+
+        document.getElementById('leaveForm')?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const empIdRef = document.getElementById('leaveEmpId').value;
+            const emp = joinees.find(x => String(x.id) === String(empIdRef));
+            if(!emp) return;
+            const newLeave = {
+                id: Date.now(), empRefId: emp.id, empId: emp.empId, empName: emp.name,
+                leaveType: document.getElementById('leaveType').value,
+                fromDate: document.getElementById('leaveFrom').value,
+                toDate: document.getElementById('leaveTo').value,
+                reason: document.getElementById('leaveReason').value,
+                status: 'PENDING'
+            };
+            leavesList.push(newLeave);
+            localStorage.setItem(LEAVES_DB_VERSION, JSON.stringify(leavesList));
+            closeLeaveModal(); renderLeaves(); showToast("Leave Request Submitted!", "success"); checkNotifications();
+        });
+
+        const updateLeaveStatus = (id, newStatus) => {
+            const idx = leavesList.findIndex(l => String(l.id) === String(id));
+            if(idx > -1) {
+                leavesList[idx].status = newStatus;
+                localStorage.setItem(LEAVES_DB_VERSION, JSON.stringify(leavesList));
+                renderLeaves(); showToast(`Leave ${newStatus}!`, newStatus === 'APPROVED' ? 'success' : 'error');
+                if(newStatus === 'APPROVED') confetti();
+            }
+        };
+
+        const deleteLeave = (id) => {
+            if(confirm("Delete this leave record?")) {
+                leavesList = leavesList.filter(l => String(l.id) !== String(id));
+                localStorage.setItem(LEAVES_DB_VERSION, JSON.stringify(leavesList));
+                renderLeaves(); showToast("Record Deleted", "error");
+            }
+        };
+
+        // --- NEW PRO FEATURE: EMPLOYEE DIRECTORY ---
+        const renderDirectory = () => {
+            const container = document.getElementById('directoryContainer');
+            if(!container) return;
+            const term = document.getElementById('dirSearchInput')?.value.toUpperCase() || '';
+            const activeEmployees = joinees.filter(x => x.status === 'JOINED' && (x.name.includes(term) || x.empId.includes(term) || x.dept.includes(term)));
+            if(activeEmployees.length === 0) {
+                container.innerHTML = '<div class="col-span-full text-center py-20 opacity-50"><i class="fas fa-address-book text-5xl mb-4 text-slate-400"></i><h3 class="text-lg font-black uppercase tracking-widest text-[var(--text-secondary)]">No Active Employees Found</h3></div>';
+                return;
+            }
+            container.innerHTML = activeEmployees.map(c => {
+                const avatarClass = getAvatarColor(c.name);
+                return `
+                    <div class="modern-card p-6 border-t-4 border-t-indigo-500 text-center relative hover:shadow-xl transition-all cursor-pointer group" onclick="viewCandidate(${c.id})">
+                        <div class="w-20 h-20 mx-auto rounded-[1.5rem] border-2 flex items-center justify-center font-black text-3xl shadow-sm mb-4 transition-transform group-hover:scale-110 ${avatarClass}">${c.name[0]}</div>
+                        <h4 class="font-black text-base uppercase text-[var(--text-primary)] truncate">${c.name}</h4>
+                        <p class="text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-widest mt-1 mb-4 truncate">${c.designation || 'EMPLOYEE'}</p>
+                        <div class="bg-slate-50 dark:bg-slate-800 rounded-xl p-3 border border-[var(--border-color)]">
+                            <p class="text-[9px] font-black text-[var(--text-primary)] uppercase tracking-widest flex items-center justify-center gap-2 mb-1.5"><i class="fas fa-building text-slate-400"></i> ${c.dept}</p>
+                            <p class="text-[9px] font-black text-[var(--text-primary)] uppercase tracking-widest flex items-center justify-center gap-2"><i class="fas fa-phone text-slate-400"></i> ${c.phone || 'N/A'}</p>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        };
+
+        // --- NEW PRO FEATURE: PAYROLL MANAGEMENT ---
+        const renderPayroll = () => {
+            const tableBody = document.getElementById('payrollTableBody');
+            if(!tableBody) return;
+            const activeEmployees = joinees.filter(x => x.status === 'JOINED');
+            if(activeEmployees.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="5" class="text-center py-16 text-[var(--text-secondary)] font-black uppercase tracking-widest opacity-60"><i class="fas fa-file-invoice-dollar text-4xl mb-4 block opacity-50"></i> No Active Employees to Generate Payslip</td></tr>';
+                return;
+            }
+            tableBody.innerHTML = activeEmployees.map((x, index) => `
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                    <td class="text-center font-black text-[10px]">${index + 1}</td>
+                    <td>
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 rounded-xl flex items-center justify-center font-black text-sm shrink-0 shadow-sm ${getAvatarColor(x.name)}">${x.name[0]}</div>
+                            <div>
+                                <p class="font-black text-black dark:text-white text-sm uppercase tracking-wide truncate leading-tight">${x.name}</p>
+                                <span class="inline-block px-2 py-0.5 mt-1.5 rounded-md text-[9px] font-black bg-slate-100 text-slate-500 dark:bg-slate-700 dark:text-slate-300 uppercase tracking-widest border border-slate-200 dark:border-slate-600">${x.empId}</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <p class="font-black text-black dark:text-white text-[11px] uppercase tracking-widest truncate">${x.designation || '-'}</p>
+                        <div class="flex items-center gap-2 mt-1.5">
+                            <p class="text-[10px] ${getDeptColor(x.dept)} font-black uppercase tracking-widest">${x.dept}</p>
+                        </div>
+                    </td>
+                    <td><span class="status-badge-md shadow-sm badge-joined">ACTIVE</span></td>
+                    <td class="text-right">
+                        <button onclick="generatePayslip(${x.id})" class="px-4 py-2 bg-amber-50 text-amber-600 border border-amber-200 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-amber-500 hover:text-white transition-all shadow-sm"><i class="fas fa-print mr-1"></i> Payslip</button>
+                    </td>
+                </tr>
+            `).join('');
+        };
+
+        const generatePayslip = (id) => {
+            const r = joinees.find(x => String(x.id) === String(id));
+            if(!r) return;
+            const monthStr = document.getElementById('payrollMonthFilter')?.value || new Date().toISOString().slice(0, 7);
+            const displayMonth = new Date(monthStr + '-01').toLocaleString('en-IN', { month: 'long', year: 'numeric' });
+            const html = `
+                <div style="font-family: Arial, sans-serif; padding: 30px; color: #000; background: #fff; line-height: 1.6; max-width: 800px; margin: 0 auto; text-align: left; border: 1px solid #ccc;">
+                    <div style="text-align: center; border-bottom: 2px solid #0054A6; padding-bottom: 15px; margin-bottom: 25px;">
+                        <img src="Sarathy2.png.png" alt="Sarathy Group" style="height: 50px; margin-bottom: 10px;" onerror="this.style.display='none'">
+                        <h1 style="color: #0054A6; margin: 0; font-size: 22px; text-transform: uppercase; font-weight: 900;">${r.company}</h1>
+                        <p style="margin: 5px 0 0; font-size: 14px; font-weight: bold; color: #333;">PAYSLIP FOR THE MONTH OF ${displayMonth.toUpperCase()}</p>
+                    </div>
+                    <table style="width: 100%; border-collapse: collapse; margin-bottom: 30px; font-size: 14px;">
+                        <tr><td style="padding: 8px; border: 1px solid #ccc; width: 25%;"><strong>Employee Name:</strong></td><td style="padding: 8px; border: 1px solid #ccc; width: 25%; font-weight: bold;">${r.name}</td><td style="padding: 8px; border: 1px solid #ccc; width: 25%;"><strong>Employee ID:</strong></td><td style="padding: 8px; border: 1px solid #ccc; width: 25%; font-weight: bold;">${r.empId}</td></tr>
+                        <tr><td style="padding: 8px; border: 1px solid #ccc;"><strong>Designation:</strong></td><td style="padding: 8px; border: 1px solid #ccc;">${r.designation || 'N/A'}</td><td style="padding: 8px; border: 1px solid #ccc;"><strong>Department:</strong></td><td style="padding: 8px; border: 1px solid #ccc;">${r.dept}</td></tr>
+                        <tr><td style="padding: 8px; border: 1px solid #ccc;"><strong>Date of Joining:</strong></td><td style="padding: 8px; border: 1px solid #ccc;">${formatDateString(r.joinDate)}</td><td style="padding: 8px; border: 1px solid #ccc;"><strong>Location:</strong></td><td style="padding: 8px; border: 1px solid #ccc;">${r.location || 'N/A'}</td></tr>
+                    </table>
+                    <table style="width: 100%; border-collapse: collapse; margin-bottom: 30px; font-size: 14px;">
+                        <tr style="background: #f1f5f9;"><th style="padding: 12px; border: 1px solid #ccc; text-align: left; width: 50%;">EARNINGS</th><th style="padding: 12px; border: 1px solid #ccc; text-align: right; width: 50%;">AMOUNT (Rs)</th></tr>
+                        <tr><td style="padding: 10px; border: 1px solid #ccc;">Basic Salary</td><td style="padding: 10px; border: 1px solid #ccc; text-align: right;">15,000.00</td></tr>
+                        <tr><td style="padding: 10px; border: 1px solid #ccc;">House Rent Allowance (HRA)</td><td style="padding: 10px; border: 1px solid #ccc; text-align: right;">5,000.00</td></tr>
+                        <tr><td style="padding: 10px; border: 1px solid #ccc;">Special Allowance</td><td style="padding: 10px; border: 1px solid #ccc; text-align: right;">3,500.00</td></tr>
+                        <tr><td style="padding: 10px; border: 1px solid #ccc;">Incentives</td><td style="padding: 10px; border: 1px solid #ccc; text-align: right;">1,500.00</td></tr>
+                        <tr style="background: #e2e8f0; font-weight: bold;"><td style="padding: 12px; border: 1px solid #ccc;">GROSS EARNINGS</td><td style="padding: 12px; border: 1px solid #ccc; text-align: right; color: #0054A6;">25,000.00</td></tr>
+                    </table>
+                    <div style="margin-top: 60px; display: flex; justify-content: space-between; font-size: 14px;">
+                        <div style="text-align: center;"><p style="margin-bottom:40px;">_______________________</p><p style="margin:0;"><strong>Employer Signature</strong></p></div>
+                        <div style="text-align: center;"><p style="margin-bottom:40px;">_______________________</p><p style="margin:0;"><strong>Employee Signature</strong></p></div>
+                    </div>
+                    <p style="text-align: center; font-size: 10px; color: #94a3b8; margin-top: 40px;">* This is a system-generated document and does not require a physical signature for validity.</p>
+                </div>
+            `;
+            const printArea = document.getElementById('printArea');
+            if(printArea) {
+                printArea.innerHTML = html;
+                showToast(`Printing Payslip for ${r.name}...`, "success");
+                setTimeout(() => { window.print(); }, 100);
+            }
+        };
+
+        // --- ONBOARDING SYSTEM ---
+        const renderOnboarding = () => {
+            const container = document.getElementById('onboardingContainer');
+            if(!container) return;
+            const joinedCandidates = joinees.filter(x => x.status === 'JOINED');
+            
+            if(joinedCandidates.length === 0) {
+                container.innerHTML = '<div class="col-span-full text-center py-20 opacity-50"><i class="fas fa-box-open text-5xl mb-4 text-slate-400"></i><h3 class="text-lg font-black uppercase tracking-widest text-[var(--text-secondary)]">No Joined Candidates</h3><p class="text-xs font-bold text-slate-400 uppercase tracking-widest mt-2">Mark candidates as JOINED to start onboarding</p></div>';
+                return;
+            }
+
+            container.innerHTML = joinedCandidates.map(c => {
+                if(!c.onboarding) c.onboarding = { idCard: false, bank: false, pf: false, training: false };
+                const tasks = [
+                    { key: 'idCard', label: 'ID Card & Assets' },
+                    { key: 'bank', label: 'Bank Details' },
+                    { key: 'pf', label: 'PF & ESI Reg' },
+                    { key: 'training', label: 'Orientation' }
+                ];
+                
+                const completedCount = tasks.filter(t => c.onboarding[t.key]).length;
+                const perc = (completedCount / tasks.length) * 100;
+                
+                return `
+                    <div class="modern-card p-6 border-t-4 border-emerald-500 hover:border-emerald-600">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 rounded-xl flex items-center justify-center font-black text-xl shrink-0 shadow-sm ${getAvatarColor(c.name)}">${c.name[0]}</div>
+                                <div class="cursor-pointer" onclick="viewCandidate(${c.id})">
+                                    <h4 class="font-black text-sm uppercase text-[var(--text-primary)] hover:text-sarathy-blue transition-colors">${c.name}</h4>
+                                    <p class="text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-widest mt-1">${c.empId} • ${c.dept}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-5">
+                            <div class="flex justify-between text-[10px] font-black uppercase tracking-widest mb-2 text-[var(--text-secondary)]">
+                                <span>Progress</span>
+                                <span class="text-emerald-600">${perc}%</span>
+                            </div>
+                            <div class="w-full h-2 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
+                                <div class="h-full bg-emerald-500 transition-all duration-500" style="width: ${perc}%"></div>
+                            </div>
+                        </div>
+                        <div class="space-y-3">
+                            ${tasks.map(t => `
+                                <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer transition-colors border border-transparent hover:border-[var(--border-color)]">
+                                    <input type="checkbox" ${c.onboarding[t.key] ? 'checked' : ''} onchange="toggleOnboardingTask(${c.id}, '${t.key}', this.checked)" class="w-4 h-4 accent-emerald-500 rounded cursor-pointer">
+                                    <span class="text-xs font-bold text-[var(--text-primary)] uppercase tracking-widest ${c.onboarding[t.key] ? 'line-through opacity-50' : ''}">${t.label}</span>
+                                </label>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        };
+        
+        const toggleOnboardingTask = (id, taskKey, isChecked) => {
+            const idx = joinees.findIndex(x => String(x.id) === String(id));
+            if(idx > -1) {
+                if(!joinees[idx].onboarding) joinees[idx].onboarding = {};
+                joinees[idx].onboarding[taskKey] = isChecked;
+                localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees));
+                renderOnboarding(); 
+                if(isChecked) {
+                    showToast("Task Completed!", "success");
+                    const isAllDone = Object.values(joinees[idx].onboarding).filter(Boolean).length === 4;
+                    if(isAllDone) confetti({particleCount: 100, spread: 60, origin: { y: 0.6 }});
+                }
+            }
         };
     </script>
 </body>
