@@ -16,8 +16,6 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <!-- SheetJS for Excel Export -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-    <!-- HTML2PDF for Offer Letter & ID Card -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -287,9 +285,19 @@
                     <i class="fas fa-user-friends w-6 text-center shrink-0 text-lg"></i> 
                     <span class="transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap font-bold tracking-wide">Candidates</span>
                 </a>
+                <!-- NEW PRO FEATURE: Employee Directory Tab -->
+                <a onclick="switchTab('directory')" id="nav-directory" class="nav-link text-indigo-600 dark:text-indigo-400">
+                    <i class="fas fa-address-book w-6 text-center shrink-0 text-lg"></i> 
+                    <span class="transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap font-bold tracking-wide">Directory</span>
+                </a>
                 <a onclick="switchTab('onboarding')" id="nav-onboarding" class="nav-link text-emerald-600 dark:text-emerald-400">
                     <i class="fas fa-tasks w-6 text-center shrink-0 text-lg"></i> 
                     <span class="transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap font-bold tracking-wide">Onboarding</span>
+                </a>
+                <!-- NEW PRO FEATURE: Payroll Tab -->
+                <a onclick="switchTab('payroll')" id="nav-payroll" class="nav-link text-amber-600 dark:text-amber-500">
+                    <i class="fas fa-file-invoice-dollar w-6 text-center shrink-0 text-lg"></i> 
+                    <span class="transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap font-bold tracking-wide">Payroll</span>
                 </a>
                 <a onclick="switchTab('calendar')" id="nav-calendar" class="nav-link">
                     <i class="fas fa-calendar-alt w-6 text-center shrink-0 text-lg"></i> 
@@ -311,7 +319,7 @@
                     <i class="fas fa-file-excel w-6 text-center shrink-0 text-lg"></i> 
                     <span class="transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap font-bold tracking-wide">Export Excel</span>
                 </a>
-                <a onclick="switchTab('settings')" id="nav-settings" class="nav-link text-amber-600 dark:text-amber-500 hover:text-amber-700">
+                <a onclick="switchTab('settings')" id="nav-settings" class="nav-link text-slate-600 dark:text-slate-400 hover:text-slate-800">
                     <i class="fas fa-cog w-6 text-center shrink-0 text-lg"></i> 
                     <span class="transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap font-bold tracking-wide">Settings</span>
                 </a>
@@ -353,6 +361,9 @@
                             <i class="fas fa-user-shield text-base md:text-lg"></i>
                         </div>
                     </div>
+                    <button onclick="logout()" class="w-12 h-12 rounded-full bg-red-50 dark:bg-red-900/20 text-red-500 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/40 flex items-center justify-center transition-all shadow-sm border border-red-100 dark:border-red-800/50 hover:scale-105 active:scale-95 hidden md:flex" title="Logout">
+                        <i class="fas fa-power-off text-lg"></i>
+                    </button>
                 </div>
             </header>
 
@@ -455,24 +466,6 @@
                     </div>
                 </div>
 
-                <!-- NEW TAB: ONBOARDING -->
-                <div id="tab-onboarding" class="tab-content p-4 md:p-8 max-w-[1600px] mx-auto">
-                    <div class="mb-8 flex flex-col md:flex-row justify-between items-center bg-[var(--bg-secondary)] p-6 md:p-8 rounded-[2rem] border border-[var(--border-color)] shadow-lg gap-6 animate-up">
-                        <div class="flex items-center gap-5">
-                            <div class="w-16 h-16 rounded-2xl bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 flex items-center justify-center text-2xl shadow-inner border border-emerald-100"><i class="fas fa-tasks"></i></div>
-                            <div>
-                                <h2 class="text-2xl font-black uppercase text-[var(--text-primary)] tracking-wide">Onboarding Workflow</h2>
-                                <p class="text-[11px] font-bold uppercase tracking-widest text-slate-400 mt-1.5">Manage Joined Candidates Checklists</p>
-                            </div>
-                        </div>
-                        <button onclick="renderOnboarding()" class="px-6 py-3 bg-white dark:bg-slate-700 border border-[var(--border-color)] rounded-xl font-black text-xs uppercase tracking-widest hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors shadow-sm active:scale-95"><i class="fas fa-sync-alt mr-2 text-sarathy-blue"></i> Refresh List</button>
-                    </div>
-                    
-                    <div id="onboardingContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 animate-up" style="animation-delay: 0.1s;">
-                        <!-- Populated by JS -->
-                    </div>
-                </div>
-
                 <!-- TAB 2: CANDIDATES -->
                 <div id="tab-candidates" class="tab-content p-4 md:p-8 max-w-[1600px] mx-auto">
                     <!-- Filters & Search -->
@@ -554,7 +547,6 @@
                             <div class="overflow-x-auto">
                                 <table class="data-table min-w-[1000px]">
                                     <thead>
-                                        <!-- PRO FEATURE: Blue Banner Table Headings -->
                                         <tr>
                                             <th class="w-16 text-center whitespace-nowrap">
                                                 <input type="checkbox" id="selectAllCb" onclick="toggleSelectAll()" class="custom-checkbox">
@@ -591,6 +583,78 @@
                             <h3 class="font-black text-red-500 mb-6 flex justify-between items-center uppercase text-sm tracking-widest border-b border-[var(--border-color)] pb-3"><span class="flex items-center gap-2"><i class="fas fa-times-circle"></i> Rejected</span> <span id="countBoardRejected" class="bg-red-100 text-red-700 px-3 py-1 rounded-lg">0</span></h3>
                             <div id="boardRejected" class="space-y-4"></div>
                         </div>
+                    </div>
+                </div>
+
+                <!-- NEW TAB: EMPLOYEE DIRECTORY (PRO FEATURE) -->
+                <div id="tab-directory" class="tab-content p-4 md:p-8 max-w-[1600px] mx-auto">
+                    <div class="mb-8 flex flex-col md:flex-row justify-between items-center bg-[var(--bg-secondary)] p-6 md:p-8 rounded-[2rem] border border-[var(--border-color)] shadow-lg gap-6 animate-up">
+                        <div class="flex items-center gap-5">
+                            <div class="w-16 h-16 rounded-2xl bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 flex items-center justify-center text-2xl shadow-inner border border-indigo-100"><i class="fas fa-address-book"></i></div>
+                            <div>
+                                <h2 class="text-2xl font-black uppercase text-[var(--text-primary)] tracking-wide">Employee Directory</h2>
+                                <p class="text-[11px] font-bold uppercase tracking-widest text-slate-400 mt-1.5">View all active employees in the organization</p>
+                            </div>
+                        </div>
+                        <div class="relative w-full md:w-auto">
+                            <i class="fas fa-search absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 text-lg"></i>
+                            <input type="text" id="dirSearchInput" onkeyup="renderDirectory()" placeholder="Search active employees..." class="w-full md:w-80 pl-12 pr-4 py-4 bg-[var(--bg-primary)] border-2 border-[var(--border-color)] rounded-xl font-bold text-sm focus:border-sarathy-blue outline-none transition-all dark:text-white shadow-sm">
+                        </div>
+                    </div>
+                    
+                    <div id="directoryContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 animate-up" style="animation-delay: 0.1s;">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- NEW TAB: PAYROLL MANAGEMENT (PRO FEATURE) -->
+                <div id="tab-payroll" class="tab-content p-4 md:p-8 max-w-[1600px] mx-auto">
+                    <div class="mb-8 flex flex-col md:flex-row justify-between items-center bg-[var(--bg-secondary)] p-6 md:p-8 rounded-[2rem] border border-[var(--border-color)] shadow-lg gap-6 animate-up">
+                        <div class="flex items-center gap-5">
+                            <div class="w-16 h-16 rounded-2xl bg-amber-50 dark:bg-amber-900/30 text-amber-600 flex items-center justify-center text-2xl shadow-inner border border-amber-100"><i class="fas fa-file-invoice-dollar"></i></div>
+                            <div>
+                                <h2 class="text-2xl font-black uppercase text-[var(--text-primary)] tracking-wide">Payroll & Payslips</h2>
+                                <p class="text-[11px] font-bold uppercase tracking-widest text-slate-400 mt-1.5">Generate salary slips for active employees</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-3">
+                             <input type="month" id="payrollMonthFilter" onchange="renderPayroll()" class="w-full md:w-auto px-4 py-4 bg-[var(--bg-primary)] border-2 border-[var(--border-color)] rounded-xl font-black text-sm outline-none focus:border-sarathy-blue dark:text-white dark:[color-scheme:dark] shadow-sm uppercase tracking-widest text-[var(--text-primary)] cursor-pointer">
+                        </div>
+                    </div>
+                    
+                    <div class="data-table-container animate-up" style="animation-delay: 0.1s;">
+                        <div class="overflow-x-auto">
+                            <table class="data-table min-w-[1000px]">
+                                <thead>
+                                    <tr>
+                                        <th class="w-16 text-center">SL NO</th>
+                                        <th>Employee Details</th>
+                                        <th>Role & Entity</th>
+                                        <th>Status</th>
+                                        <th class="text-right">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="payrollTableBody" class="divide-y divide-[var(--border-color)] bg-[var(--bg-secondary)]"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB: ONBOARDING -->
+                <div id="tab-onboarding" class="tab-content p-4 md:p-8 max-w-[1600px] mx-auto">
+                    <div class="mb-8 flex flex-col md:flex-row justify-between items-center bg-[var(--bg-secondary)] p-6 md:p-8 rounded-[2rem] border border-[var(--border-color)] shadow-lg gap-6 animate-up">
+                        <div class="flex items-center gap-5">
+                            <div class="w-16 h-16 rounded-2xl bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 flex items-center justify-center text-2xl shadow-inner border border-emerald-100"><i class="fas fa-tasks"></i></div>
+                            <div>
+                                <h2 class="text-2xl font-black uppercase text-[var(--text-primary)] tracking-wide">Onboarding Workflow</h2>
+                                <p class="text-[11px] font-bold uppercase tracking-widest text-slate-400 mt-1.5">Manage Joined Candidates Checklists</p>
+                            </div>
+                        </div>
+                        <button onclick="renderOnboarding()" class="px-6 py-3 bg-white dark:bg-slate-700 border border-[var(--border-color)] rounded-xl font-black text-xs uppercase tracking-widest hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors shadow-sm active:scale-95"><i class="fas fa-sync-alt mr-2 text-sarathy-blue"></i> Refresh List</button>
+                    </div>
+                    
+                    <div id="onboardingContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 animate-up" style="animation-delay: 0.1s;">
+                        <!-- Populated by JS -->
                     </div>
                 </div>
 
@@ -693,9 +757,8 @@
             <nav class="md:hidden fixed bottom-0 left-0 w-full bg-[var(--bg-secondary)] border-t border-[var(--border-color)] flex justify-around items-center z-[90] pb-safe shadow-[0_-10px_30px_rgba(0,0,0,0.05)]">
                 <a onclick="switchTab('dashboard')" id="bottom-nav-dashboard" class="flex flex-col items-center p-3 text-[var(--text-secondary)] bottom-nav-link active"><i class="fas fa-home text-xl mb-1"></i><span class="text-[9px] font-black uppercase tracking-widest">Home</span></a>
                 <a onclick="switchTab('candidates')" id="bottom-nav-candidates" class="flex flex-col items-center p-3 text-[var(--text-secondary)] bottom-nav-link"><i class="fas fa-users text-xl mb-1"></i><span class="text-[9px] font-black uppercase tracking-widest">Users</span></a>
-                <a onclick="switchTab('onboarding')" id="bottom-nav-onboarding" class="flex flex-col items-center p-3 text-[var(--text-secondary)] bottom-nav-link"><i class="fas fa-tasks text-xl mb-1"></i><span class="text-[9px] font-black uppercase tracking-widest">Tasks</span></a>
-                <a onclick="switchTab('calendar')" id="bottom-nav-calendar" class="flex flex-col items-center p-3 text-[var(--text-secondary)] bottom-nav-link"><i class="fas fa-calendar-alt text-xl mb-1"></i><span class="text-[9px] font-black uppercase tracking-widest">Dates</span></a>
-                <a onclick="switchTab('analytics')" id="bottom-nav-analytics" class="flex flex-col items-center p-3 text-[var(--text-secondary)] bottom-nav-link"><i class="fas fa-chart-pie text-xl mb-1"></i><span class="text-[9px] font-black uppercase tracking-widest">Stats</span></a>
+                <a onclick="switchTab('directory')" id="bottom-nav-directory" class="flex flex-col items-center p-3 text-[var(--text-secondary)] bottom-nav-link"><i class="fas fa-address-book text-xl mb-1"></i><span class="text-[9px] font-black uppercase tracking-widest">Directory</span></a>
+                <a onclick="switchTab('payroll')" id="bottom-nav-payroll" class="flex flex-col items-center p-3 text-[var(--text-secondary)] bottom-nav-link"><i class="fas fa-file-invoice-dollar text-xl mb-1"></i><span class="text-[9px] font-black uppercase tracking-widest">Payroll</span></a>
             </nav>
 
             <button id="addBtn" onclick="openModal()" class="fab hidden md:flex" title="Add New Candidate"><i class="fas fa-plus text-xl"></i></button>
@@ -928,6 +991,13 @@
         </div>
     </div>
 
+    <!-- HIDDEN PAYSLIP CONTAINER FOR PDF EXPORT -->
+    <div id="payslipModal" class="hidden">
+        <div id="payslipContainer" class="bg-white text-black p-10">
+            <!-- Injected by JS -->
+        </div>
+    </div>
+
     <!-- NOTIFICATION MODAL -->
     <div id="notificationModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[120] hidden flex items-start justify-center md:justify-end p-4 md:pr-8 md:pt-24 no-print">
         <div class="bg-[var(--bg-secondary)] w-full max-w-sm rounded-[2rem] shadow-2xl overflow-hidden border border-[var(--border-color)] animate-up">
@@ -1036,6 +1106,17 @@
             setTimeout(() => { window.print(); }, 100);
         };
 
+        const refreshAllViews = () => {
+            renderDashboard(); 
+            renderTable(); 
+            renderCalendar(); 
+            checkNotifications(); 
+            renderOnboarding();
+            renderDirectory();
+            renderPayroll();
+            if(currentTab === 'analytics') initCharts();
+        };
+
         // --- THEME ---
         const toggleDarkMode = () => {
             document.documentElement.classList.toggle('dark');
@@ -1104,7 +1185,7 @@
             if(backBtn) backBtn.classList.add('hidden');
             if(headerBackBtn) headerBackBtn.classList.add('hidden');
 
-            renderDashboard(); renderTable(); renderCalendar(); checkNotifications(); renderOnboarding();
+            refreshAllViews();
         };
         const logout = () => location.reload();
 
@@ -1140,7 +1221,16 @@
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
             document.getElementById(`tab-${tab}`)?.classList.add('active');
             
-            const titles = { dashboard: 'HR Overview', candidates: 'Candidate Directory', calendar: 'Interview Schedule', analytics: 'Data Analytics', settings: 'System Settings', onboarding: 'Onboarding Checklist' };
+            const titles = { 
+                dashboard: 'HR Overview', 
+                candidates: 'Candidate Directory', 
+                directory: 'Employee Directory',
+                payroll: 'Payroll Management',
+                calendar: 'Interview Schedule', 
+                analytics: 'Data Analytics', 
+                settings: 'System Settings', 
+                onboarding: 'Onboarding Checklist' 
+            };
             const pageTitle = document.getElementById('pageTitle');
             if(pageTitle) pageTitle.innerText = titles[tab] || 'HR Overview';
 
@@ -1161,6 +1251,8 @@
             }
             if(tab === 'analytics') initCharts();
             if(tab === 'onboarding') renderOnboarding();
+            if(tab === 'directory') renderDirectory();
+            if(tab === 'payroll') renderPayroll();
         };
         
         const goBack = () => {
@@ -1226,7 +1318,7 @@
                 localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees));
                 localStorage.setItem(CURRENT_BUDGET_VERSION, JSON.stringify(reqList));
                 showToast("All data cleared successfully", "success");
-                renderDashboard(); renderTable(); renderCalendar(); if(currentTab === 'analytics') initCharts();
+                refreshAllViews();
             } else {
                 showToast("Action Cancelled", "error");
             }
@@ -1373,7 +1465,7 @@
             });
             localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees));
             clearBulkSelection();
-            renderTable(); renderDashboard(); renderCalendar(); checkNotifications(); renderOnboarding();
+            refreshAllViews();
             showToast(`Marked ${selectedCandidates.length} candidates as ${newStatus}`);
             if(newStatus === 'SELECTED' || newStatus === 'JOINED') confetti({particleCount: 150, spread: 80, origin: { y: 0.6 }});
         };
@@ -1384,7 +1476,7 @@
                 joinees = joinees.filter(j => !selectedCandidates.includes(String(j.id)));
                 localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees));
                 clearBulkSelection();
-                renderTable(); renderDashboard(); renderCalendar(); checkNotifications(); renderOnboarding();
+                refreshAllViews();
                 showToast("Candidates Deleted", "error");
             }
         };
@@ -1418,7 +1510,6 @@
             const month = document.getElementById('monthFilter')?.value || '';
             const deptFilter = document.getElementById('filterDept')?.value || 'ALL';
             const compFilter = document.getElementById('filterCompany')?.value || 'ALL';
-            const todayStr = new Date().toISOString().slice(0, 10);
             
             let filtered = joinees.filter(x => {
                 const searchMatch = x.name.includes(term) || x.empId.includes(term) || (x.phone && x.phone.includes(term));
@@ -1516,10 +1607,6 @@
                 <button onclick="viewCandidate(${x.id})" title="View Profile" class="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 text-blue-600 dark:text-sky-400 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-all shadow-sm active:scale-95"><i class="fas fa-eye text-sm"></i></button>
             `;
             if (x.status === 'SELECTED' || x.status === 'JOINED') {
-                const quickOfferBtn = `<button onclick="generateOfferLetter(${x.id}); event.stopPropagation();" title="Offer Letter" class="w-10 h-10 rounded-xl bg-purple-50 dark:bg-purple-900/30 border border-purple-200 dark:border-purple-800 text-purple-600 dark:text-purple-400 flex items-center justify-center hover:bg-purple-600 hover:text-white transition-all shadow-sm active:scale-95 mr-2"><i class="fas fa-file-signature"></i></button>`;
-                actionBtns = quickOfferBtn + actionBtns;
-            }
-            if (x.status === 'SELECTED') {
                 actionBtns = `<button onclick="markAsJoined(${x.id}); event.stopPropagation();" title="Mark Joined" class="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-900/30 border border-emerald-200 dark:border-emerald-800 text-emerald-600 dark:text-emerald-400 flex items-center justify-center hover:bg-emerald-500 hover:text-white transition-all shadow-sm active:scale-95 mr-2"><i class="fas fa-check text-sm"></i></button>` + actionBtns;
             }
 
@@ -1577,7 +1664,7 @@
                         </div>
                     </td>
                     <td class="text-right" onclick="event.stopPropagation()">
-                        <div class="flex justify-end opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
+                        <div class="flex justify-end gap-2 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
                             ${actionBtns}
                         </div>
                     </td>
@@ -1624,13 +1711,169 @@
                 joinees[idx].status = 'JOINED';
                 if(!joinees[idx].joinDate) joinees[idx].joinDate = new Date().toISOString().slice(0, 10);
                 localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees));
-                renderTable(); renderDashboard(); renderCalendar(); checkNotifications(); renderOnboarding();
+                refreshAllViews();
                 showToast("Candidate Marked as Joined!", "success");
                 confetti({particleCount: 150, spread: 80, origin: { y: 0.6 }});
             }
         };
 
-        // --- PRO FEATURE: ONBOARDING SYSTEM ---
+        // --- NEW PRO FEATURE: EMPLOYEE DIRECTORY ---
+        const renderDirectory = () => {
+            const container = document.getElementById('directoryContainer');
+            if(!container) return;
+            
+            const term = document.getElementById('dirSearchInput')?.value.toUpperCase() || '';
+            const activeEmployees = joinees.filter(x => x.status === 'JOINED' && (x.name.includes(term) || x.empId.includes(term) || x.dept.includes(term)));
+            
+            if(activeEmployees.length === 0) {
+                container.innerHTML = '<div class="col-span-full text-center py-20 opacity-50"><i class="fas fa-address-book text-5xl mb-4 text-slate-400"></i><h3 class="text-lg font-black uppercase tracking-widest text-[var(--text-secondary)]">No Active Employees Found</h3></div>';
+                return;
+            }
+
+            container.innerHTML = activeEmployees.map(c => {
+                const avatarClass = getAvatarColor(c.name);
+                return `
+                    <div class="modern-card p-6 border-t-4 border-t-indigo-500 text-center relative hover:shadow-xl transition-all cursor-pointer group" onclick="viewCandidate(${c.id})">
+                        <div class="w-20 h-20 mx-auto rounded-[1.5rem] border-2 flex items-center justify-center font-black text-3xl shadow-sm mb-4 transition-transform group-hover:scale-110 ${avatarClass}">${c.name[0]}</div>
+                        <h4 class="font-black text-base uppercase text-[var(--text-primary)] truncate">${c.name}</h4>
+                        <p class="text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-widest mt-1 mb-4 truncate">${c.designation || 'EMPLOYEE'}</p>
+                        
+                        <div class="bg-slate-50 dark:bg-slate-800 rounded-xl p-3 border border-[var(--border-color)]">
+                            <p class="text-[9px] font-black text-[var(--text-primary)] uppercase tracking-widest flex items-center justify-center gap-2 mb-1.5"><i class="fas fa-building text-slate-400"></i> ${c.dept}</p>
+                            <p class="text-[9px] font-black text-[var(--text-primary)] uppercase tracking-widest flex items-center justify-center gap-2"><i class="fas fa-phone text-slate-400"></i> ${c.phone || 'N/A'}</p>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        };
+
+        // --- NEW PRO FEATURE: PAYROLL MANAGEMENT ---
+        const renderPayroll = () => {
+            const tableBody = document.getElementById('payrollTableBody');
+            if(!tableBody) return;
+            
+            const activeEmployees = joinees.filter(x => x.status === 'JOINED');
+            
+            if(activeEmployees.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="5" class="text-center py-16 text-[var(--text-secondary)] font-black uppercase tracking-widest opacity-60"><i class="fas fa-file-invoice-dollar text-4xl mb-4 block opacity-50"></i> No Active Employees to Generate Payslip</td></tr>';
+                return;
+            }
+
+            tableBody.innerHTML = activeEmployees.map((x, index) => `
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                    <td class="text-center font-black text-[10px]">${index + 1}</td>
+                    <td>
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 rounded-xl flex items-center justify-center font-black text-sm shrink-0 shadow-sm ${getAvatarColor(x.name)}">${x.name[0]}</div>
+                            <div>
+                                <p class="font-black text-black dark:text-white text-sm uppercase tracking-wide truncate leading-tight">${x.name}</p>
+                                <span class="inline-block px-2 py-0.5 mt-1.5 rounded-md text-[9px] font-black bg-slate-100 text-slate-500 dark:bg-slate-700 dark:text-slate-300 uppercase tracking-widest border border-slate-200 dark:border-slate-600">${x.empId}</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <p class="font-black text-black dark:text-white text-[11px] uppercase tracking-widest truncate">${x.designation || '-'}</p>
+                        <div class="flex items-center gap-2 mt-1.5">
+                            <p class="text-[10px] ${getDeptColor(x.dept)} font-black uppercase tracking-widest">${x.dept}</p>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="status-badge-md shadow-sm badge-joined">ACTIVE</span>
+                    </td>
+                    <td class="text-right">
+                        <button onclick="generatePayslip(${x.id})" class="px-4 py-2 bg-amber-50 text-amber-600 border border-amber-200 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-amber-500 hover:text-white transition-all shadow-sm"><i class="fas fa-print mr-1"></i> Payslip</button>
+                    </td>
+                </tr>
+            `).join('');
+        };
+
+        const generatePayslip = (id) => {
+            const r = joinees.find(x => String(x.id) === String(id));
+            if(!r) return;
+            
+            const monthStr = document.getElementById('payrollMonthFilter')?.value || new Date().toISOString().slice(0, 7);
+            const displayMonth = new Date(monthStr + '-01').toLocaleString('en-IN', { month: 'long', year: 'numeric' });
+            
+            // Dummy logic for a generic payslip layout
+            const html = `
+                <div style="font-family: Arial, sans-serif; padding: 30px; color: #000; background: #fff; line-height: 1.6; max-width: 800px; margin: 0 auto; text-align: left; border: 1px solid #ccc;">
+                    <div style="text-align: center; border-bottom: 2px solid #0054A6; padding-bottom: 15px; margin-bottom: 25px;">
+                        <img src="Sarathy2.png.png" alt="Sarathy Group" style="height: 50px; margin-bottom: 10px;" onerror="this.style.display='none'">
+                        <h1 style="color: #0054A6; margin: 0; font-size: 22px; text-transform: uppercase; font-weight: 900;">${r.company}</h1>
+                        <p style="margin: 5px 0 0; font-size: 14px; font-weight: bold; color: #333;">PAYSLIP FOR THE MONTH OF ${displayMonth.toUpperCase()}</p>
+                    </div>
+                    
+                    <table style="width: 100%; border-collapse: collapse; margin-bottom: 30px; font-size: 14px;">
+                        <tr>
+                            <td style="padding: 8px; border: 1px solid #ccc; width: 25%;"><strong>Employee Name:</strong></td>
+                            <td style="padding: 8px; border: 1px solid #ccc; width: 25%; font-weight: bold;">${r.name}</td>
+                            <td style="padding: 8px; border: 1px solid #ccc; width: 25%;"><strong>Employee ID:</strong></td>
+                            <td style="padding: 8px; border: 1px solid #ccc; width: 25%; font-weight: bold;">${r.empId}</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 8px; border: 1px solid #ccc;"><strong>Designation:</strong></td>
+                            <td style="padding: 8px; border: 1px solid #ccc;">${r.designation || 'N/A'}</td>
+                            <td style="padding: 8px; border: 1px solid #ccc;"><strong>Department:</strong></td>
+                            <td style="padding: 8px; border: 1px solid #ccc;">${r.dept}</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 8px; border: 1px solid #ccc;"><strong>Date of Joining:</strong></td>
+                            <td style="padding: 8px; border: 1px solid #ccc;">${formatDateString(r.joinDate)}</td>
+                            <td style="padding: 8px; border: 1px solid #ccc;"><strong>Location:</strong></td>
+                            <td style="padding: 8px; border: 1px solid #ccc;">${r.location || 'N/A'}</td>
+                        </tr>
+                    </table>
+
+                    <table style="width: 100%; border-collapse: collapse; margin-bottom: 30px; font-size: 14px;">
+                        <tr style="background: #f1f5f9;">
+                            <th style="padding: 12px; border: 1px solid #ccc; text-align: left; width: 50%;">EARNINGS</th>
+                            <th style="padding: 12px; border: 1px solid #ccc; text-align: right; width: 50%;">AMOUNT (Rs)</th>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid #ccc;">Basic Salary</td>
+                            <td style="padding: 10px; border: 1px solid #ccc; text-align: right;">15,000.00</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid #ccc;">House Rent Allowance (HRA)</td>
+                            <td style="padding: 10px; border: 1px solid #ccc; text-align: right;">5,000.00</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid #ccc;">Special Allowance</td>
+                            <td style="padding: 10px; border: 1px solid #ccc; text-align: right;">3,500.00</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid #ccc;">Incentives</td>
+                            <td style="padding: 10px; border: 1px solid #ccc; text-align: right;">1,500.00</td>
+                        </tr>
+                        <tr style="background: #e2e8f0; font-weight: bold;">
+                            <td style="padding: 12px; border: 1px solid #ccc;">GROSS EARNINGS</td>
+                            <td style="padding: 12px; border: 1px solid #ccc; text-align: right; color: #0054A6;">25,000.00</td>
+                        </tr>
+                    </table>
+
+                    <div style="margin-top: 60px; display: flex; justify-content: space-between; font-size: 14px;">
+                        <div style="text-align: center;">
+                            <p style="margin-bottom:40px;">_______________________</p>
+                            <p style="margin:0;"><strong>Employer Signature</strong></p>
+                        </div>
+                        <div style="text-align: center;">
+                            <p style="margin-bottom:40px;">_______________________</p>
+                            <p style="margin:0;"><strong>Employee Signature</strong></p>
+                        </div>
+                    </div>
+                    <p style="text-align: center; font-size: 10px; color: #94a3b8; margin-top: 40px;">* This is a system-generated document and does not require a physical signature for validity.</p>
+                </div>
+            `;
+            
+            const printArea = document.getElementById('printArea');
+            if(printArea) {
+                printArea.innerHTML = html;
+                showToast(`Printing Payslip for ${r.name}...`, "success");
+                setTimeout(() => { window.print(); }, 100);
+            }
+        };
+
+        // --- ONBOARDING SYSTEM ---
         const renderOnboarding = () => {
             const container = document.getElementById('onboardingContainer');
             if(!container) return;
@@ -1654,32 +1897,31 @@
                 const perc = (completedCount / tasks.length) * 100;
                 
                 return `
-                    <div class="modern-card p-6 border-t-4 border-[#0054A6]">
+                    <div class="modern-card p-6 border-t-4 border-emerald-500 hover:border-emerald-600">
                         <div class="flex justify-between items-start mb-4">
                             <div class="flex items-center gap-3">
                                 <div class="w-12 h-12 rounded-xl flex items-center justify-center font-black text-xl shrink-0 shadow-sm ${getAvatarColor(c.name)}">${c.name[0]}</div>
-                                <div>
-                                    <h4 class="font-black text-sm uppercase text-[var(--text-primary)]">${c.name}</h4>
+                                <div class="cursor-pointer" onclick="viewCandidate(${c.id})">
+                                    <h4 class="font-black text-sm uppercase text-[var(--text-primary)] hover:text-sarathy-blue transition-colors">${c.name}</h4>
                                     <p class="text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-widest mt-1">${c.empId} • ${c.dept}</p>
                                 </div>
                             </div>
-                            <span class="text-[9px] font-black bg-blue-100 text-blue-700 px-2 py-1 rounded shadow-sm border border-blue-200 uppercase">${formatDateString(c.joinDate)}</span>
                         </div>
                         
                         <div class="mb-5">
                             <div class="flex justify-between text-[10px] font-black uppercase tracking-widest mb-2 text-[var(--text-secondary)]">
-                                <span>Onboarding Progress</span>
-                                <span class="text-sarathy-blue">${perc}%</span>
+                                <span>Progress</span>
+                                <span class="text-emerald-600">${perc}%</span>
                             </div>
                             <div class="w-full h-2 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
-                                <div class="h-full bg-[#0054A6] transition-all duration-500" style="width: ${perc}%"></div>
+                                <div class="h-full bg-emerald-500 transition-all duration-500" style="width: ${perc}%"></div>
                             </div>
                         </div>
                         
                         <div class="space-y-3">
                             ${tasks.map(t => `
                                 <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer transition-colors border border-transparent hover:border-[var(--border-color)]">
-                                    <input type="checkbox" ${c.onboarding[t.key] ? 'checked' : ''} onchange="toggleOnboardingTask(${c.id}, '${t.key}', this.checked)" class="w-4 h-4 accent-[#0054A6] rounded">
+                                    <input type="checkbox" ${c.onboarding[t.key] ? 'checked' : ''} onchange="toggleOnboardingTask(${c.id}, '${t.key}', this.checked)" class="w-4 h-4 accent-emerald-500 rounded cursor-pointer">
                                     <span class="text-xs font-bold text-[var(--text-primary)] uppercase tracking-widest ${c.onboarding[t.key] ? 'line-through opacity-50' : ''}">${t.label}</span>
                                 </label>
                             `).join('')}
@@ -1812,434 +2054,19 @@
             }
 
             localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees));
-            closeModal(); renderTable(); renderDashboard(); renderCalendar(); checkNotifications(); renderOnboarding();
-            if(currentTab === 'analytics') initCharts();
+            closeModal(); 
+            refreshAllViews();
         });
 
         const deleteCandidate = (id) => {
             if(confirm("Are you sure you want to delete this candidate permanently?")) {
                 joinees = joinees.filter(x => String(x.id) !== String(id));
                 localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees));
-                renderTable(); renderDashboard(); renderCalendar(); checkNotifications(); renderOnboarding();
+                refreshAllViews();
                 showToast("Candidate Entry Deleted!", "error");
             }
         };
 
-        const viewCandidate = (id) => {
-            const r = joinees.find(x=> String(x.id) === String(id));
-            if(!r) return;
-            
-            const avatarClass = getAvatarColor(r.name);
-            let statusClass = '';
-            if(r.status === 'SELECTED') statusClass = 'bg-emerald-50 text-emerald-600 border-emerald-200';
-            else if(r.status === 'JOINED') statusClass = 'bg-[#0054A6] text-white border-[#003366]';
-            else if(r.status === 'PENDING') statusClass = 'bg-amber-50 text-amber-600 border-amber-200';
-            else statusClass = 'bg-red-50 text-red-600 border-red-200';
-
-            const ratingStars = Array(5).fill(0).map((_,i) => `<i class="fas fa-star ${i < (r.rating||0) ? 'text-amber-400' : 'text-slate-300'}"></i>`).join('');
-
-            let rejectionReasonText = '';
-            if(r.status === 'REJECTED' && r.rejectionReason) {
-                rejectionReasonText = `<p class="text-[10px] font-bold text-red-400 uppercase tracking-widest mt-1">Reason: ${r.rejectionReason}</p>`;
-            }
-
-            let timelineHtml = `
-                <div class="mt-8 pt-8 border-t border-[var(--border-color)]">
-                    <h4 class="text-xs font-black text-sarathy-blue uppercase tracking-widest mb-6 flex items-center gap-2"><div class="w-1.5 h-4 bg-sarathy-blue rounded-full"></div> Candidate Journey</h4>
-                    <div class="ml-4 md:ml-6">
-                        <div class="timeline-step active">
-                            <p class="text-sm font-black text-[var(--text-primary)] uppercase">Application Received</p>
-                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Source: ${r.source || 'Portal'}</p>
-                        </div>
-                        <div class="timeline-step ${r.status !== 'PENDING' ? 'active' : ''}">
-                            <p class="text-sm font-black text-[var(--text-primary)] uppercase">Interview Scheduled</p>
-                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Date: ${formatDateString(r.interviewDate)}</p>
-                        </div>
-                        ${(r.status === 'SELECTED' || r.status === 'JOINED') ? `
-                        <div class="timeline-step ${r.status === 'JOINED' ? 'active' : ''}">
-                            <p class="text-sm font-black text-[var(--text-primary)] uppercase">${r.status === 'JOINED' ? 'Successfully Joined' : 'Candidate Selected'}</p>
-                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Date: ${r.joinDate ? formatDateString(r.joinDate) : 'Pending Confirmation'}</p>
-                        </div>` : ''}
-                        ${r.status === 'REJECTED' ? `
-                        <div class="timeline-step rejected" style="border-left-color: transparent;">
-                            <p class="text-sm font-black text-red-500 uppercase">Application Rejected</p>
-                            ${rejectionReasonText}
-                        </div>` : ''}
-                    </div>
-                </div>
-            `;
-
-            const content = `
-                <div class="flex flex-col md:flex-row items-center md:items-start gap-6 mb-8 border-b border-[var(--border-color)] pb-8 relative">
-                    <div class="w-24 h-24 md:w-32 md:h-32 rounded-[2rem] border flex items-center justify-center font-black text-4xl md:text-5xl shadow-md shrink-0 ${avatarClass}">
-                        ${r.name[0]}
-                    </div>
-                    <div class="flex-1 min-w-0 text-center md:text-left">
-                        <h3 class="font-black text-2xl md:text-4xl text-[var(--text-primary)] mb-2 uppercase tracking-tight truncate">${r.name}</h3>
-                        <p class="text-xs md:text-sm font-bold text-[var(--text-secondary)] uppercase tracking-widest truncate mb-3">${r.empId} • ${r.company}</p>
-                        <div class="flex items-center justify-center md:justify-start gap-1 mb-4 text-xs md:text-sm">
-                            ${ratingStars}
-                        </div>
-                        <div class="flex flex-wrap justify-center md:justify-start items-center gap-3 no-print">
-                            <span class="px-4 py-2 rounded-xl text-[10px] md:text-xs font-black uppercase tracking-widest shadow-sm border ${statusClass}">
-                                ${r.status}
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <div class="grid grid-cols-2 gap-y-6 gap-x-4 bg-[var(--bg-secondary)] p-6 md:p-8 rounded-[2rem] border border-[var(--border-color)] shadow-sm">
-                    <div><span class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Phone Number</span><span class="font-black text-sm md:text-base text-[var(--text-primary)] tracking-wide">${r.phone || 'N/A'}</span></div>
-                    <div><span class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Email Address</span><span class="font-black text-sm md:text-base text-[var(--text-primary)] tracking-wide lowercase truncate block pr-2">${r.email || 'N/A'}</span></div>
-                    
-                    <div><span class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Experience</span><span class="font-black text-sm md:text-base text-[var(--text-primary)] tracking-wide">${r.experience} Yrs</span></div>
-                    <div><span class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Source</span><span class="font-black text-sm md:text-base text-[var(--text-primary)] tracking-wide uppercase">${r.source || 'Walk-in'}</span></div>
-
-                    <div><span class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Designation</span><span class="font-black text-sm md:text-base text-[var(--text-primary)] uppercase tracking-wide truncate block">${r.designation || 'N/A'}</span></div>
-                    <div><span class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Department</span><span class="font-black text-sm md:text-base text-[var(--text-primary)] uppercase tracking-wide truncate block ${getDeptColor(r.dept)}">${r.dept}</span></div>
-                    
-                    <div class="col-span-2"><span class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Location</span><span class="font-black text-sm md:text-base text-[var(--text-primary)] uppercase tracking-wide">${r.location || 'N/A'}</span></div>
-                    
-                    <div class="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-2xl border border-blue-100 dark:border-blue-900/50"><span class="block text-[10px] font-black text-sarathy-blue dark:text-sky-400 uppercase tracking-widest mb-2">Interview Date</span><span class="font-black text-base text-[var(--text-primary)]">${formatDateString(r.interviewDate)}</span></div>
-                    <div class="p-4 bg-emerald-50 dark:bg-emerald-900/20 rounded-2xl border border-emerald-100 dark:border-emerald-900/50"><span class="block text-[10px] font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-widest mb-2">Join Date</span><span class="font-black text-base text-[var(--text-primary)]">${formatDateString(r.joinDate) || 'N/A'}</span></div>
-                    
-                    ${r.remarks ? `<div class="col-span-2 mt-2"><span class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3">Remarks / Feedback</span><div class="p-5 bg-[var(--bg-primary)] rounded-2xl border border-[var(--border-color)] text-sm font-bold text-[var(--text-primary)] italic shadow-inner leading-relaxed">" ${r.remarks} "</div></div>` : ''}
-                </div>
-                
-                ${timelineHtml}
-
-                <div class="mt-8 flex flex-wrap gap-3 no-print">
-                    <button onclick="editRecord(${r.id})" class="flex-1 py-3 md:py-4 bg-sarathy-blue hover:bg-[#004080] text-white rounded-xl md:rounded-2xl font-black text-[10px] md:text-xs uppercase tracking-widest transition-all shadow-md active:scale-95 flex items-center justify-center gap-2"><i class="fas fa-edit"></i> Edit</button>
-                    ${r.status === 'SELECTED' ? `<button onclick="markAsJoined(${r.id}); closeViewModal();" class="flex-1 py-3 md:py-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl md:rounded-2xl font-black text-[10px] md:text-xs uppercase tracking-widest transition-all shadow-md active:scale-95 flex items-center justify-center gap-2"><i class="fas fa-user-check"></i> Join</button>` : ''}
-                    <button onclick="deleteCandidate(${r.id}); closeViewModal();" class="w-12 h-12 md:w-auto md:flex-1 py-3 md:py-4 bg-red-50 hover:bg-red-600 text-red-500 hover:text-white rounded-xl md:rounded-2xl font-black text-[10px] md:text-xs uppercase tracking-widest transition-all border border-red-200 active:scale-95 flex items-center justify-center gap-2"><i class="fas fa-trash-alt"></i> <span class="hidden md:inline">Delete</span></button>
-                </div>
-            `;
-            const viewContent = document.getElementById('viewModalContent');
-            if(viewContent) viewContent.innerHTML = content;
-            document.getElementById('viewModal')?.classList.remove('hidden');
-        };
-
-        const printIdCard = (id) => {
-            const r = joinees.find(x => String(x.id) === String(id));
-            if(!r) return;
-            const joinD = r.joinDate ? formatDateString(r.joinDate) : 'N/A';
-            const html = `
-                <div style="font-family: Arial, sans-serif; width: 350px; height: 550px; border: 2px solid #ccc; border-radius: 20px; overflow: hidden; position: relative; margin: 0 auto; background: white;">
-                    <div style="background: linear-gradient(135deg, #0054A6, #003366); height: 130px; text-align: center; border-bottom: 5px solid #ff9f1c;">
-                        <img src="Sarathy2.png.png" style="height: 40px; margin-top: 20px; filter: brightness(0) invert(1);" onerror="this.style.display='none'">
-                        <h2 style="color: white; font-size: 18px; margin: 5px 0 0; text-transform: uppercase; letter-spacing: 2px; font-weight: 900;">Sarathy Group</h2>
-                    </div>
-                    <div style="width: 100px; height: 100px; background: #f1f5f9; border-radius: 50%; border: 4px solid white; position: absolute; top: 80px; left: 125px; display: flex; align-items: center; justify-content: center; font-size: 40px; font-weight: 900; color: #0054A6; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
-                        ${r.name[0]}
-                    </div>
-                    <div style="padding: 60px 20px 20px; text-align: center;">
-                        <h2 style="font-size: 22px; font-weight: 900; color: #0f172a; margin: 0 0 5px; text-transform: uppercase;">${r.name}</h2>
-                        <span style="background: #eff6ff; color: #1d4ed8; padding: 4px 10px; border-radius: 8px; font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; border: 1px solid #bfdbfe;">${r.designation || 'EMPLOYEE'}</span>
-                        
-                        <div style="margin-top: 20px; text-align: left; background: #f8fafc; padding: 15px; border-radius: 12px; border: 1px solid #e2e8f0;">
-                            <div style="margin-bottom: 8px; font-size: 12px;"><strong style="color: #64748b; font-size: 10px; display: inline-block; width: 60px;">EMP ID:</strong> <span style="font-weight: 900; color: #0f172a;">${r.empId}</span></div>
-                            <div style="margin-bottom: 8px; font-size: 12px;"><strong style="color: #64748b; font-size: 10px; display: inline-block; width: 60px;">DEPT:</strong> <span style="font-weight: 900; color: #0f172a; text-transform: uppercase;">${r.dept}</span></div>
-                            <div style="margin-bottom: 8px; font-size: 12px;"><strong style="color: #64748b; font-size: 10px; display: inline-block; width: 60px;">JOINED:</strong> <span style="font-weight: 900; color: #0f172a;">${joinD}</span></div>
-                            <div style="font-size: 12px;"><strong style="color: #64748b; font-size: 10px; display: inline-block; width: 60px;">PHONE:</strong> <span style="font-weight: 900; color: #0f172a;">${r.phone || 'N/A'}</span></div>
-                        </div>
-                    </div>
-                    <div style="position: absolute; bottom: 0; width: 100%; background: #0f172a; color: white; text-align: center; padding: 10px 0; font-size: 8px; font-weight: 900; letter-spacing: 1px; text-transform: uppercase;">
-                        Authorized Identity Card<br>${r.company}
-                    </div>
-                </div>
-            `;
-            const idCardContainer = document.getElementById('idCardContainer');
-            if(idCardContainer) {
-                idCardContainer.innerHTML = idCardHtml;
-                document.getElementById('idCardModal')?.classList.remove('hidden');
-                showToast("ID Card Generated!", "success");
-            }
-        };
-
-        // --- CALENDAR ---
-        const renderCalendar = () => {
-            const grid = document.getElementById('calendarGrid');
-            if(!grid) return;
-            grid.innerHTML = '';
-            const y = calendarDate.getFullYear(), m = calendarDate.getMonth();
-            const calLabel = document.getElementById('calendarMonthLabel');
-            if(calLabel) calLabel.innerText = new Date(y, m).toLocaleString('default', { month: 'long', year: 'numeric' });
-            
-            const firstDay = new Date(y, m, 1).getDay();
-            const daysInMonth = new Date(y, m+1, 0).getDate();
-            const todayStr = new Date().toISOString().slice(0, 10);
-
-            for(let i=0; i<firstDay; i++) grid.innerHTML += `<div class="calendar-day border-transparent bg-transparent opacity-0"></div>`;
-            
-            for(let i=1; i<=daysInMonth; i++) {
-                const dStr = `${y}-${(m+1).toString().padStart(2,'0')}-${i.toString().padStart(2,'0')}`;
-                const isToday = dStr === todayStr;
-                let combinedEvents = [];
-                joinees.forEach(x => {
-                    if(x.interviewDate === dStr) combinedEvents.push({ ...x, eventType: 'INT' });
-                    if(x.joinDate === dStr && (x.status === 'JOINED' || x.status === 'SELECTED')) combinedEvents.push({ ...x, eventType: 'JOIN' });
-                });
-                
-                const limit = window.innerWidth < 768 ? 2 : 3;
-                let eventsHtml = combinedEvents.slice(0, limit).map(ev => {
-                    if (ev.eventType === 'INT') {
-                        let stClass = 'bg-amber-100 text-amber-700 border border-amber-200';
-                        if(ev.status==='SELECTED') stClass = 'bg-emerald-100 text-emerald-700 border border-emerald-200';
-                        if(ev.status==='JOINED') stClass = 'bg-[#0054A6] text-white border border-[#003366]';
-                        if(ev.status==='REJECTED') stClass = 'bg-red-100 text-red-700 border border-red-200';
-                        return `<div onclick="viewCandidate(${ev.id})" class="calendar-event ${stClass} shadow-sm"><i class="fas fa-calendar-alt opacity-70 mr-1"></i> INT: ${ev.name.split(' ')[0]}</div>`;
-                    } else {
-                        return `<div onclick="viewCandidate(${ev.id})" class="calendar-event bg-[#0054A6] text-white border border-[#003366] shadow-sm"><i class="fas fa-flag-checkered opacity-70 mr-1"></i> JOIN: ${ev.name.split(' ')[0]}</div>`;
-                    }
-                }).join('');
-                
-                if(combinedEvents.length > limit) eventsHtml += `<div class="text-[8px] font-black text-center mt-1 text-[var(--text-secondary)] uppercase tracking-widest">+${combinedEvents.length-limit} MORE</div>`;
-
-                grid.innerHTML += `
-                    <div class="calendar-day ${isToday?'today':''}">
-                        <span class="text-[10px] font-black mb-1.5 ${isToday?'text-sarathy-blue':''}">${i}</span>
-                        <div class="flex-1 flex flex-col gap-1.5 overflow-hidden custom-scroll">${eventsHtml}</div>
-                    </div>`;
-            }
-        };
-        const changeCalendarMonth = (dir) => { calendarDate.setMonth(calendarDate.getMonth() + dir); renderCalendar(); };
-
-        // --- CHARTS ---
-        const initCharts = () => {
-            const ctx1 = document.getElementById('statusChart')?.getContext('2d');
-            const ctx2 = document.getElementById('sourceChart')?.getContext('2d');
-            const ctx3 = document.getElementById('sourceAnalyticsChart')?.getContext('2d');
-            const ctx4 = document.getElementById('rejectionChart')?.getContext('2d');
-            if(!ctx1) return;
-            
-            const isDark = document.documentElement.classList.contains('dark');
-            const textColor = isDark ? '#f8fafc' : '#0f172a';
-            const gridColor = isDark ? '#334155' : '#e2e8f0';
-
-            const monthFilter = document.getElementById('chartMonthFilter')?.value || '';
-            let statusCounts = { SELECTED: 0, PENDING: 0, REJECTED: 0, JOINED: 0 };
-            let categories = {};
-            let sourceCounts = {};
-            let rejectionCounts = {};
-
-            joinees.forEach(t => {
-                if (monthFilter && !t.interviewDate.startsWith(monthFilter)) return;
-                
-                if (statusCounts[t.status] !== undefined) statusCounts[t.status]++;
-                
-                const deptName = t.dept ? t.dept.trim().toUpperCase() : '';
-                if(deptName) categories[deptName] = (categories[deptName] || 0) + 1;
-                
-                const src = t.source || 'Walk-in/Direct';
-                sourceCounts[src] = (sourceCounts[src] || 0) + 1;
-
-                if(t.status === 'REJECTED') {
-                    const rsn = t.rejectionReason || 'Unspecified';
-                    rejectionCounts[rsn] = (rejectionCounts[rsn] || 0) + 1;
-                }
-            });
-
-            Chart.defaults.font.family = "'Outfit', sans-serif";
-
-            if(chartStatus) chartStatus.destroy();
-            chartStatus = new Chart(ctx1, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Selected', 'Pending', 'Rejected', 'Joined'],
-                    datasets: [{ data: [statusCounts.SELECTED, statusCounts.PENDING, statusCounts.REJECTED, statusCounts.JOINED], backgroundColor: ['#10b981', '#f59e0b', '#ef4444', '#0054A6'], borderWidth: 0 }]
-                },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { color: textColor, font: { weight: 'bold'} } } }, cutout: '75%' }
-            });
-
-            const sortedCats = Object.entries(categories).sort((a,b) => b[1] - a[1]);
-            if(chartSource) chartSource.destroy();
-            chartSource = new Chart(ctx2, {
-                type: 'bar',
-                data: {
-                    labels: sortedCats.map(c => c[0]),
-                    datasets: [{ label: 'Candidates', data: sortedCats.map(c => c[1]), backgroundColor: '#38bdf8', borderRadius: 8 }]
-                },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { ticks:{color: textColor, stepSize: 1}, grid:{color: gridColor} }, x: { ticks:{color: textColor}, grid:{display:false} } } }
-            });
-
-            const sortedSources = Object.entries(sourceCounts).sort((a,b) => b[1] - a[1]);
-            if(chartSourcePie) chartSourcePie.destroy();
-            if(ctx3) {
-                chartSourcePie = new Chart(ctx3, {
-                    type: 'pie',
-                    data: {
-                        labels: sortedSources.map(c => c[0]),
-                        datasets: [{ data: sortedSources.map(c => c[1]), backgroundColor: ['#8b5cf6', '#0ea5e9', '#10b981', '#f59e0b', '#f43f5e', '#64748b'], borderWidth: 0 }]
-                    },
-                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { color: textColor, font: { weight: 'bold'} } } } }
-                });
-            }
-
-            const sortedRejections = Object.entries(rejectionCounts).sort((a,b) => b[1] - a[1]);
-            if(chartRejection) chartRejection.destroy();
-            if(ctx4) {
-                chartRejection = new Chart(ctx4, {
-                    type: 'doughnut',
-                    data: {
-                        labels: sortedRejections.map(c => c[0]),
-                        datasets: [{ data: sortedRejections.map(c => c[1]), backgroundColor: ['#ef4444', '#f87171', '#fca5a5', '#fef2f2', '#7f1d1d'], borderWidth: 0 }]
-                    },
-                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { color: textColor, font: { weight: 'bold'} } } }, cutout: '60%' }
-                });
-            }
-        };
-
-        // --- TARGETS ---
-        const openReqModal = () => {
-            if(!isAdmin()) return showToast("Admin Access Required", "error");
-            renderReqEntries();
-            document.getElementById('reqModal')?.classList.remove('hidden');
-        };
-        const closeReqModal = () => document.getElementById('reqModal')?.classList.add('hidden');
-        
-        const renderReqEntries = () => {
-            const container = document.getElementById('reqEntriesContainer');
-            if(!container) return;
-            container.innerHTML = reqList.map((req, idx) => `
-                <div class="p-6 bg-[var(--bg-secondary)] rounded-2xl border border-[var(--border-color)] relative group shadow-sm">
-                    <button onclick="removeReqRow(${idx})" class="absolute top-4 right-4 w-8 h-8 rounded-xl text-slate-400 hover:bg-red-50 hover:text-red-600 transition-colors"><i class="fas fa-trash-alt"></i></button>
-                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 md:pr-10">
-                        <div><label class="text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-widest">Department</label><input type="text" value="${req.dept}" onchange="reqList[${idx}].dept=this.value.trim().toUpperCase()" class="w-full p-3 mt-1 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl font-bold text-xs uppercase outline-none focus:border-sarathy-blue dark:text-white transition-colors"></div>
-                        <div class="relative"><label class="text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-widest">Entity</label><select onchange="reqList[${idx}].company=this.value" class="w-full p-3 mt-1 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl font-bold text-xs uppercase outline-none focus:border-sarathy-blue dark:text-white appearance-none cursor-pointer"><option value="ALL" ${(!req.company || req.company === 'ALL') ? 'selected' : ''}>ALL ENTITIES</option><option value="SARATHY MOTORS" ${req.company === 'SARATHY MOTORS' ? 'selected' : ''}>SARATHY MOTORS</option><option value="SARATHY BIKES PVT LTD" ${req.company === 'SARATHY BIKES PVT LTD' ? 'selected' : ''}>SARATHY BIKES</option><option value="SARATHY ELECTRIC PVT LTD" ${req.company === 'SARATHY ELECTRIC PVT LTD' ? 'selected' : ''}>SARATHY ELECTRIC</option><option value="SARATHY AUTOCARS" ${req.company === 'SARATHY AUTOCARS' ? 'selected' : ''}>SARATHY AUTOCARS</option><option value="SARATHY CARS PVT LTD" ${req.company === 'SARATHY CARS PVT LTD' ? 'selected' : ''}>SARATHY CARS</option></select><i class="fas fa-chevron-down absolute right-4 bottom-4 text-slate-400 pointer-events-none text-[10px]"></i></div>
-                        <div><label class="text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-widest">Location</label><input type="text" value="${req.location || 'ALL'}" onchange="reqList[${idx}].location=this.value.trim().toUpperCase()" class="w-full p-3 mt-1 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl font-bold text-xs uppercase outline-none focus:border-sarathy-blue dark:text-white transition-colors"></div>
-                        <div><label class="text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-widest">Target Count</label><input type="number" value="${req.target}" onchange="reqList[${idx}].target=parseInt(this.value)||0" min="0" class="w-full p-3 mt-1 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl font-black text-xs outline-none focus:border-sarathy-blue dark:text-white transition-colors"></div>
-                    </div>
-                </div>`).join('') || '<div class="flex flex-col items-center justify-center h-40 opacity-50"><i class="fas fa-box-open text-4xl text-slate-400 mb-3"></i><p class="text-xs font-black uppercase tracking-widest text-[var(--text-secondary)]">No targets defined.</p></div>';
-        };
-        const addReqRow = () => { reqList.push({ dept: 'NEW DEPARTMENT', company: 'ALL', location: 'ALL', target: 5 }); renderReqEntries(); };
-        const removeReqRow = (idx) => { reqList.splice(idx, 1); renderReqEntries(); };
-        const saveRequirements = () => { localStorage.setItem(CURRENT_BUDGET_VERSION, JSON.stringify(reqList)); showToast("Targets Updated!"); closeReqModal(); renderDashboard(); };
-
-        // --- NOTIFICATIONS ---
-        const toggleNotifications = () => document.getElementById('notificationModal')?.classList.toggle('hidden');
-        const checkNotifications = () => {
-            const today = new Date().toISOString().slice(0,10);
-            const todayTxns = joinees.filter(x => x.interviewDate === today || x.joinDate === today);
-            const badge = document.getElementById('notificationBadge');
-            if(badge) badge.style.display = todayTxns.length > 0 ? 'block' : 'none';
-            let html = '';
-            if(todayTxns.length > 0) {
-                html += `<div class="mb-4 text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-[var(--border-color)] pb-2">Today's Activity</div>`;
-                html += todayTxns.map(a => {
-                    const isJoin = a.joinDate === today;
-                    return `
-                    <div class="p-4 mb-3 ${isJoin ? 'bg-blue-50 border-blue-100' : 'bg-emerald-50 border-emerald-100'} rounded-2xl border flex items-center gap-4 hover:scale-[1.02] transition-all cursor-pointer" onclick="viewCandidate(${a.id})">
-                        <div class="w-10 h-10 rounded-xl flex items-center justify-center font-black ${isJoin ? 'bg-sarathy-blue text-white' : 'bg-emerald-100 text-emerald-600'}"><i class="fas ${isJoin ? 'fa-user-check' : 'fa-clock'}"></i></div>
-                        <div>
-                            <span class="font-black block uppercase tracking-wide truncate text-[var(--text-primary)] text-sm">${a.name}</span>
-                            <span class="font-bold text-[var(--text-secondary)] text-[9px] uppercase tracking-widest mt-0.5">${a.dept} • ${isJoin ? 'JOINING TODAY' : 'INTERVIEW TODAY'}</span>
-                        </div>
-                    </div>`}).join('');
-            } else { html = '<div class="text-center py-10 opacity-50"><i class="fas fa-bell-slash text-4xl mb-4 text-slate-400"></i><p class="text-[10px] font-black uppercase tracking-widest text-[var(--text-secondary)]">No activity today</p></div>'; }
-            const dynNotif = document.getElementById('dynamicNotifications');
-            if(dynNotif) dynNotif.innerHTML = html;
-        };
-
-        // --- SUMMARY REPORT ---
-        const generateHiringSummary = () => {
-            const total = joinees.length;
-            const sel = joinees.filter(x => x.status === 'SELECTED').length;
-            const joined = joinees.filter(x => x.status === 'JOINED').length;
-            const pend = joinees.filter(x => x.status === 'PENDING').length;
-            const today = new Date().toISOString().slice(0, 10);
-            const selectedJoiners = joinees.filter(x => (x.status === 'SELECTED' || x.status === 'JOINED') && x.joinDate).sort((a,b) => a.joinDate.localeCompare(b.joinDate));
-            
-            let plainText = `📊 SARATHY GROUP - HR REPORT\nDate: ${new Date().toLocaleDateString()}\n\n👥 Total Candidates: ${total}\n🤝 Joined: ${joined}\n✅ Selected: ${sel}\n⏳ Pending: ${pend}\n\n📅 JOINING SCHEDULE:\n`;
-            let html = `
-                <div class="mb-8 grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <div class="p-5 bg-slate-50 dark:bg-slate-800 rounded-2xl border border-[var(--border-color)] text-center shadow-sm"><span class="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Total</span><span class="text-3xl font-black text-[var(--text-primary)]">${total}</span></div>
-                    <div class="p-5 bg-blue-50 dark:bg-blue-900/20 rounded-2xl border border-blue-100 text-center shadow-sm"><span class="block text-[10px] font-black text-sarathy-blue uppercase tracking-widest mb-1">Joined</span><span class="text-3xl font-black text-sarathy-blue">${joined}</span></div>
-                    <div class="p-5 bg-emerald-50 dark:bg-emerald-900/20 rounded-2xl border border-emerald-100 text-center shadow-sm"><span class="block text-[10px] font-black text-emerald-600 uppercase tracking-widest mb-1">Selected</span><span class="text-3xl font-black text-emerald-600">${sel}</span></div>
-                    <div class="p-5 bg-amber-50 dark:bg-amber-900/20 rounded-2xl border border-amber-100 text-center shadow-sm"><span class="block text-[10px] font-black text-amber-600 uppercase tracking-widest mb-1">Pending</span><span class="text-3xl font-black text-amber-600">${pend}</span></div>
-                </div>
-                <h4 class="text-[11px] font-black text-sarathy-blue uppercase tracking-widest mb-4 flex items-center gap-2"><div class="w-1.5 h-4 bg-sarathy-blue rounded-full"></div> Joining Schedule</h4>
-                <div class="overflow-x-auto mb-8 border border-[var(--border-color)] rounded-2xl shadow-sm"><table class="summary-table mb-0 min-w-full"><thead><tr><th class="py-4 px-5">Name</th><th class="py-4 px-5">Date Of Join</th><th class="py-4 px-5">Designation</th><th class="py-4 px-5">Dept</th></tr></thead><tbody>`;
-            
-            if(selectedJoiners.length > 0) {
-                selectedJoiners.forEach(j => {
-                    const statusIcon = j.status === 'JOINED' ? '🤝' : (j.joinDate < today ? '⚠️' : '🔜');
-                    html += `<tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"><td class="font-bold uppercase text-xs py-4 px-5 text-black dark:text-white">${j.name}</td><td class="whitespace-nowrap font-black text-xs py-4 px-5 ${j.status === 'JOINED' ? 'text-sarathy-blue' : 'text-black dark:text-white'}">${formatDateString(j.joinDate)}</td><td class="uppercase text-[10px] tracking-widest font-black text-gray-900 dark:text-gray-100 py-4 px-5">${j.designation || '-'}</td><td class="uppercase text-[10px] tracking-widest font-black py-4 px-5 text-black dark:text-white">${j.dept}</td></tr>`;
-                    plainText += `${statusIcon} ${j.name} | ${formatDateString(j.joinDate)} | ${j.designation} | ${j.dept}\n`;
-                });
-            } else { html += `<tr><td colspan="4" class="text-center py-8 text-[var(--text-secondary)] uppercase font-black text-[10px] tracking-widest opacity-50">No schedule available</td></tr>`; }
-            html += `</tbody></table></div>`;
-
-            const summaryText = document.getElementById('summaryText');
-            if(summaryText) summaryText.innerHTML = html;
-            const summaryModal = document.getElementById('summaryModal');
-            if(summaryModal) {
-                summaryModal.setAttribute('data-plain-text', plainText);
-                summaryModal.classList.remove('hidden');
-            }
-        };
-
-        const copySummary = () => {
-            const text = document.getElementById('summaryModal').getAttribute('data-plain-text');
-            const el = document.createElement('textarea');
-            el.value = text; document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el);
-            showToast("Report Copied!");
-        };
-
-        // --- EXCEL & IMPORT ---
-        const exportToExcel = () => {
-            if (joinees.length === 0) return showToast("No data to export", "error");
-            try {
-                const exportData = joinees.map((j, index) => ({
-                    "SL NO": index + 1, "Emp ID": j.empId, "Full Name": j.name, "Phone": j.phone, "Email": j.email,
-                    "Source": j.source, "Department": j.dept, "Entity": j.company, "Current Status": j.status,
-                    "Interview Date": formatDateString(j.interviewDate), "Join Date": j.joinDate ? formatDateString(j.joinDate) : '',
-                    "Experience": j.experience, "Location": j.location, "Designation": j.designation, "Remarks": j.remarks, "Rejection Reason": j.rejectionReason || '', "Rating": j.rating || 0
-                }));
-                const worksheet = XLSX.utils.json_to_sheet(exportData);
-                const workbook = XLSX.utils.book_new();
-                XLSX.utils.book_append_sheet(workbook, worksheet, "Candidates");
-                XLSX.writeFile(workbook, `HR_Export_${new Date().toISOString().slice(0, 10)}.xlsx`);
-                showToast("Excel Downloaded!");
-            } catch (error) { showToast("Failed to export Excel", "error"); }
-        };
-
-        const importBackup = (event) => {
-            const file = event.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                try {
-                    const data = JSON.parse(e.target.result);
-                    if (data.candidates && Array.isArray(data.candidates)) {
-                        joinees = data.candidates; localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees));
-                    }
-                    if (data.targets && Array.isArray(data.targets)) {
-                        reqList = data.targets; localStorage.setItem(CURRENT_BUDGET_VERSION, JSON.stringify(reqList));
-                    }
-                    showToast("Database Restored!");
-                    renderTable(); renderDashboard(); renderCalendar(); if(currentTab === 'analytics') initCharts();
-                } catch (error) { showToast("Invalid Backup File", "error"); }
-            };
-            reader.readAsText(file);
-        };
-
-        // --- DRAG AND DROP KANBAN ---
-        let dragId = null;
-        const dragStart = (e, id) => { dragId = id; e.dataTransfer.effectAllowed = 'move'; };
-        const dragEnd = (e) => { dragId = null; document.querySelectorAll('.kanban-col').forEach(c=>c.classList.remove('drag-over')); };
-        const allowDrop = (e) => { e.preventDefault(); e.currentTarget.classList.add('drag-over'); };
-        const dragLeave = (e) => { e.currentTarget.classList.remove('drag-over'); };
-        const drop = (e, st) => {
-            e.preventDefault(); e.currentTarget.classList.remove('drag-over');
-            if(dragId) {
-                const idx = joinees.findIndex(x=> String(x.id) === String(dragId));
-                joinees[idx].status = st;
-                if(st === 'JOINED' && !joinees[idx].joinDate) joinees[idx].joinDate = new Date().toISOString().slice(0, 10);
-                if(st !== 'REJECTED') joinees[idx].rejectionReason = '';
-                localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees));
-                renderTable(); renderDashboard(); renderCalendar(); checkNotifications(); renderOnboarding();
-                if(st==='SELECTED' || st==='JOINED') confetti();
-            }
-        };
     </script>
 </body>
 </html>
