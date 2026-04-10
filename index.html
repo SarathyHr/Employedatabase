@@ -16,6 +16,8 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <!-- SheetJS for Excel Export -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <!-- HTML2PDF for Offer Letter & ID Card -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -118,9 +120,9 @@
         .dark .gradient-text { background: linear-gradient(135deg, #60a5fa, #38bdf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         
         /* Floating Buttons */
-        .fab { position: fixed; bottom: 100px; right: 20px; md:bottom: 30px; md:right: 30px; width: 60px; height: 60px; md:width: 64px; md:height: 64px; border-radius: 50%; background: linear-gradient(135deg, #0054A6, #003366); color: white; display: flex; justify-content: center; align-items: center; box-shadow: 0 12px 25px rgba(0, 84, 166, 0.5); z-index: 50; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .fab { position: fixed; bottom: 30px; right: 30px; width: 64px; height: 64px; border-radius: 50%; background: linear-gradient(135deg, #0054A6, #003366); color: white; display: flex; justify-content: center; align-items: center; box-shadow: 0 12px 25px rgba(0, 84, 166, 0.5); z-index: 50; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
         .fab:hover { transform: scale(1.1) rotate(90deg); box-shadow: 0 15px 30px rgba(0, 84, 166, 0.6); }
-        .fab-notes { position: fixed; bottom: 175px; right: 25px; md:bottom: 110px; md:right: 30px; width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(135deg, #f59e0b, #d97706); color: white; display: flex; justify-content: center; align-items: center; box-shadow: 0 10px 20px rgba(245, 158, 11, 0.4); z-index: 50; cursor: pointer; transition: all 0.3s; }
+        .fab-notes { position: fixed; bottom: 110px; right: 30px; width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(135deg, #f59e0b, #d97706); color: white; display: flex; justify-content: center; align-items: center; box-shadow: 0 10px 20px rgba(245, 158, 11, 0.4); z-index: 50; cursor: pointer; transition: all 0.3s; }
         .fab-notes:hover { transform: scale(1.15); }
         
         /* Summary Table */
@@ -130,18 +132,33 @@
         .dark .summary-table td { color: #fff; }
         .summary-table tr:hover td { background: rgba(0, 84, 166, 0.05); }
         
-        /* Pro Data Table */
+        /* Pro Data Table & Blue Banner Headers */
         .data-table-container { background: var(--bg-secondary); border-radius: 1.25rem; border: 1px solid var(--border-color); overflow: hidden; box-shadow: 0 8px 20px -4px rgba(0,0,0,0.08); max-height: calc(100vh - 260px); overflow-y: auto; }
         .data-table { width: 100%; border-collapse: collapse; }
-        .data-table th { background: var(--bg-primary); color: var(--text-secondary); font-size: 0.75rem; font-weight: 900; text-transform: uppercase; text-align: left; padding: 18px 24px; letter-spacing: 0.05em; border-bottom: 2px solid var(--border-color); position: sticky; top: 0; z-index: 10; }
         
-        /* HIGHLIGHT: Text color fully black in light mode */
+        /* Highlight Header with Blue Banner */
+        .data-table th { 
+            background: linear-gradient(135deg, #0054A6, #0072ff); 
+            color: #ffffff; 
+            font-size: 0.75rem; 
+            font-weight: 900; 
+            text-transform: uppercase; 
+            text-align: left; 
+            padding: 18px 24px; 
+            letter-spacing: 0.05em; 
+            position: sticky; 
+            top: 0; 
+            z-index: 10; 
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+        
+        /* Pure Black text in Light Mode for high contrast */
         .data-table td { padding: 18px 24px; font-size: 0.9rem; border-bottom: 1px solid var(--border-color); vertical-align: middle; color: #000000; font-weight: 700; }
         .dark .data-table td { color: #ffffff; border-bottom: 1px solid var(--border-color); }
         .data-table tr:last-child td { border-bottom: none; }
         .data-table tr { transition: all 0.2s ease; }
-        .data-table tr:hover td { background: rgba(0, 84, 166, 0.04); }
-        .dark .data-table tr:hover td { background: rgba(255, 255, 255, 0.04); }
+        .data-table tr:hover td { background: rgba(0, 84, 166, 0.06); }
+        .dark .data-table tr:hover td { background: rgba(255, 255, 255, 0.06); }
         
         /* Checkbox styling */
         .custom-checkbox { width: 20px; height: 20px; cursor: pointer; accent-color: #0054A6; border-radius: 4px; }
@@ -183,6 +200,10 @@
         .timeline-step.active::before { border-color: #0054A6; background: #0054A6; box-shadow: 0 0 0 3px rgba(0,84,166,0.2); }
         .timeline-step.rejected { border-left-color: #ef4444; }
         .timeline-step.rejected::before { border-color: #ef4444; background: #ef4444; box-shadow: 0 0 0 3px rgba(239,68,68,0.2); }
+        
+        /* Star Rating */
+        .star-rating i { transition: color 0.2s; }
+        .star-rating i:hover { transform: scale(1.1); }
     </style>
 </head>
 <body class="antialiased">
@@ -389,6 +410,7 @@
                                 <h3 class="text-4xl md:text-5xl font-black text-[#0054A6] dark:text-sky-400 tracking-tight" id="statJoined">0</h3>
                             </div>
                         </div>
+                        <!-- FIXED REJECTED COUNT -->
                         <div class="modern-card p-6 md:p-8 flex flex-col relative overflow-hidden group/stat border-b-4 border-b-red-500 stagger-4">
                             <div class="absolute -top-4 -right-4 w-28 h-28 bg-red-50 dark:bg-red-900/20 rounded-full flex items-center justify-center transition-transform duration-500 group-hover/stat:scale-[1.8] group-hover:bg-red-100 dark:group-hover:bg-red-800/30">
                                 <i class="fas fa-times text-red-500 text-4xl opacity-40"></i>
@@ -471,7 +493,7 @@
                             </div>
                         </div>
                         
-                        <!-- Quick Chips (Added Rejected Filter) -->
+                        <!-- Quick Chips -->
                         <div class="flex gap-3 overflow-x-auto custom-scroll pb-2 whitespace-nowrap items-center">
                             <button onclick="setQuickFilter('All')" class="px-6 py-2.5 rounded-xl text-xs font-black tracking-widest border-2 border-[var(--border-color)] bg-[var(--bg-secondary)] text-[var(--text-primary)] transition-all hover:border-sarathy-blue active:scale-95 shrink-0" id="chip-All">ALL</button>
                             <button onclick="setQuickFilter('Pending')" class="px-6 py-2.5 rounded-xl text-xs font-black tracking-widest border-2 border-[var(--border-color)] bg-[var(--bg-secondary)] text-[var(--text-primary)] transition-all hover:border-sarathy-blue active:scale-95 shrink-0" id="chip-Pending">PENDING</button>
@@ -510,6 +532,7 @@
                             <div class="overflow-x-auto">
                                 <table class="data-table min-w-[1000px]">
                                     <thead>
+                                        <!-- PRO FEATURE: Blue Banner Table Headings -->
                                         <tr>
                                             <th class="w-16 text-center whitespace-nowrap">
                                                 <input type="checkbox" id="selectAllCb" onclick="toggleSelectAll()" class="custom-checkbox">
@@ -603,7 +626,6 @@
                             <h3 class="font-black text-sm md:text-base uppercase tracking-widest text-[var(--text-primary)] mb-6 w-full border-b border-[var(--border-color)] pb-4 flex items-center gap-2"><i class="fas fa-bullhorn text-purple-500"></i> Application Sources</h3>
                             <div class="w-full h-[280px] md:h-[350px] relative"><canvas id="sourceAnalyticsChart"></canvas></div>
                         </div>
-                        <!-- New Pro Feature: Rejection Reason Chart -->
                         <div class="modern-card p-6 md:p-8 flex flex-col items-center border-t-4 border-t-red-500 shadow-lg hover:shadow-xl">
                             <h3 class="font-black text-sm md:text-base uppercase tracking-widest text-[var(--text-primary)] mb-6 w-full border-b border-[var(--border-color)] pb-4 flex items-center gap-2"><i class="fas fa-chart-bar text-red-500"></i> Rejection Analysis</h3>
                             <div class="w-full h-[280px] md:h-[350px] relative"><canvas id="rejectionChart"></canvas></div>
@@ -673,7 +695,7 @@
         </main>
     </div>
 
-    <!-- HR MODAL (FIXED EDITING LOGIC & ADDED REJECTION REASON) -->
+    <!-- HR MODAL -->
     <div id="addModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[110] hidden flex justify-end items-end md:items-stretch transition-opacity duration-300 no-print">
         <div id="modalContent" class="bg-[var(--bg-secondary)] w-full md:w-3/4 lg:w-[60%] xl:w-[50%] h-[95vh] md:h-full rounded-t-[2rem] md:rounded-none shadow-2xl flex flex-col transform translate-y-full md:translate-y-0 md:translate-x-full transition-transform duration-400 ease-out border-l border-[var(--border-color)]">
             <div class="p-6 md:p-8 border-b border-[var(--border-color)] flex justify-between items-center bg-[var(--bg-secondary)] z-10 rounded-t-[2rem] md:rounded-none">
@@ -692,6 +714,7 @@
                     <input type="hidden" id="editId">
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6 flex-1">
+                        <!-- EMP ID & STATUS -->
                         <div class="p-5 bg-blue-50 dark:bg-blue-900/20 rounded-2xl border border-blue-100 dark:border-blue-900/50 flex flex-col justify-center">
                             <label class="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-2">Emp Id</label>
                             <input type="text" id="empId" readonly class="w-full bg-transparent font-black text-sarathy-blue dark:text-sky-400 text-xl outline-none">
@@ -707,7 +730,7 @@
                             <i class="fas fa-chevron-down absolute right-6 bottom-6 text-slate-400 pointer-events-none text-sm"></i>
                         </div>
                         
-                        <!-- NEW PRO FEATURE: Rejection Reason (Hidden by default) -->
+                        <!-- Rejection Reason (Hidden by default) -->
                         <div id="rejectionReasonContainer" class="hidden flex flex-col justify-end relative col-span-1 md:col-span-2">
                             <label class="text-[10px] font-black text-red-500 uppercase tracking-widest mb-2 ml-2">Reason for Rejection</label>
                             <select id="rejectionReason" class="w-full p-4 bg-white dark:bg-slate-800 border-2 border-red-200 dark:border-red-900/50 rounded-xl font-black text-sm uppercase outline-none focus:border-red-500 transition-colors appearance-none shadow-sm cursor-pointer text-red-600 dark:text-red-400">
@@ -720,6 +743,19 @@
                                 <option value="Other">Other</option>
                             </select>
                             <i class="fas fa-chevron-down absolute right-5 bottom-6 text-red-400 pointer-events-none text-xs"></i>
+                        </div>
+
+                        <!-- NEW PRO FEATURE: STAR RATING -->
+                        <div class="col-span-1 md:col-span-2 flex flex-col justify-end p-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-sm">
+                            <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-3 text-center">Interview Performance Rating</label>
+                            <div class="flex justify-center gap-3" id="starSelector">
+                                <i class="fas fa-star text-3xl text-slate-300 cursor-pointer hover:text-amber-400 transition-colors" data-rating="1"></i>
+                                <i class="fas fa-star text-3xl text-slate-300 cursor-pointer hover:text-amber-400 transition-colors" data-rating="2"></i>
+                                <i class="fas fa-star text-3xl text-slate-300 cursor-pointer hover:text-amber-400 transition-colors" data-rating="3"></i>
+                                <i class="fas fa-star text-3xl text-slate-300 cursor-pointer hover:text-amber-400 transition-colors" data-rating="4"></i>
+                                <i class="fas fa-star text-3xl text-slate-300 cursor-pointer hover:text-amber-400 transition-colors" data-rating="5"></i>
+                            </div>
+                            <input type="hidden" id="empRating" value="0">
                         </div>
 
                         <div class="flex flex-col justify-end">
@@ -848,11 +884,6 @@
                 </div>
             </div>
             
-            <div class="hidden print:block text-center pt-8 pb-4 border-b-2 border-black mb-6">
-                <h1 class="text-4xl font-black uppercase tracking-widest">SARATHY GROUP</h1>
-                <p class="text-sm font-bold uppercase tracking-widest mt-1">Candidate Profile Report</p>
-            </div>
-
             <div class="p-6 md:p-10 custom-scroll max-h-[75vh] overflow-y-auto bg-[var(--bg-primary)]">
                 <div id="viewModalContent"></div>
             </div>
@@ -902,10 +933,8 @@
         let chartStatus, chartSource, chartSourcePie, chartRejection;
         let calendarDate = new Date();
 
-        // Bulk Selection Array
         let selectedCandidates = [];
 
-        // Load Notes
         document.addEventListener("DOMContentLoaded", () => {
             const savedNotes = localStorage.getItem('hr_quick_notes');
             if(savedNotes) {
@@ -958,7 +987,6 @@
 
         const isAdmin = () => currentUser?.user === 'ADMIN';
 
-        // --- PRINT UTILITY ---
         const printNative = (containerId) => {
             const content = document.getElementById(containerId).innerHTML;
             const printArea = document.getElementById('printArea');
@@ -1103,11 +1131,10 @@
             }
         };
 
-        // --- QUICK NOTES ---
         const toggleNotesPanel = () => document.getElementById('notesPanel')?.classList.toggle('open');
         const saveNotes = (val) => localStorage.setItem('hr_quick_notes', val);
 
-        // --- FORM LOGIC (REJECTION REASON ADDED) ---
+        // --- STATUS REJECTION DROPDOWN LOGIC ---
         document.getElementById('status')?.addEventListener('change', function() {
             const rejCont = document.getElementById('rejectionReasonContainer');
             if(this.value === 'REJECTED') {
@@ -1116,6 +1143,27 @@
                 rejCont.classList.add('hidden');
                 document.getElementById('rejectionReason').value = '';
             }
+        });
+
+        // --- STAR RATING LOGIC ---
+        const updateStarUI = (rating) => {
+            document.querySelectorAll('#starSelector i').forEach(star => {
+                if(parseInt(star.getAttribute('data-rating')) <= rating) {
+                    star.classList.remove('text-slate-300');
+                    star.classList.add('text-amber-400');
+                } else {
+                    star.classList.add('text-slate-300');
+                    star.classList.remove('text-amber-400');
+                }
+            });
+        };
+        
+        document.querySelectorAll('#starSelector i').forEach(star => {
+            star.addEventListener('click', (e) => {
+                const rating = parseInt(e.target.getAttribute('data-rating'));
+                document.getElementById('empRating').value = rating;
+                updateStarUI(rating);
+            });
         });
 
         // --- SETTINGS LOGIC ---
@@ -1153,8 +1201,12 @@
             if(statSelected) statSelected.innerText = joinees.filter(x=>x.status==='SELECTED').length;
             const statJoined = document.getElementById('statJoined');
             if(statJoined) statJoined.innerText = joinees.filter(x=>x.status==='JOINED').length;
+            
+            // FIXED: Rejected Count Logic
             const statPending = document.getElementById('statPending');
             if(statPending) statPending.innerText = joinees.filter(x=>x.status==='PENDING').length;
+            const statRejected = document.getElementById('statRejected');
+            if(statRejected) statRejected.innerText = joinees.filter(x=>x.status==='REJECTED').length;
 
             const progContainer = document.getElementById('progContainer');
             if(progContainer) {
@@ -1195,7 +1247,6 @@
                 }
             }
 
-            // Recent Candidates List
             const recentBody = document.getElementById('recentCandidatesBody');
             if(recentBody) {
                 const recent = [...joinees].sort((a,b) => b.id - a.id).slice(0, 5);
@@ -1279,7 +1330,7 @@
                         j.joinDate = new Date().toISOString().slice(0, 10);
                     }
                     if(newStatus !== 'REJECTED') {
-                        j.rejectionReason = ''; // Clear rejection reason if status changed
+                        j.rejectionReason = ''; 
                     }
                 }
             });
@@ -1422,11 +1473,14 @@
             const deptColor = getDeptColor(x.dept);
             const isChecked = selectedCandidates.includes(String(x.id)) ? 'checked' : '';
 
+            // Pro Feature: Display Stars in table
+            const ratingStars = Array(5).fill(0).map((_,i) => `<i class="fas fa-star ${i < (x.rating||0) ? 'text-amber-400' : 'text-slate-300'}"></i>`).join('');
+
             let actionBtns = `
-                <button onclick="viewCandidate(${x.id})" title="View" class="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 text-blue-600 dark:text-sky-400 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-all shadow-sm active:scale-95"><i class="fas fa-eye"></i></button>
+                <button onclick="viewCandidate(${x.id})" title="View Profile" class="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 text-blue-600 dark:text-sky-400 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-all shadow-sm active:scale-95"><i class="fas fa-eye text-sm"></i></button>
             `;
             if (x.status === 'SELECTED') {
-                actionBtns = `<button onclick="markAsJoined(${x.id}); event.stopPropagation();" title="Mark Joined" class="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-900/30 border border-emerald-200 dark:border-emerald-800 text-emerald-600 dark:text-emerald-400 flex items-center justify-center hover:bg-emerald-500 hover:text-white transition-all shadow-sm active:scale-95"><i class="fas fa-check"></i></button>` + actionBtns;
+                actionBtns = `<button onclick="markAsJoined(${x.id}); event.stopPropagation();" title="Mark Joined" class="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-900/30 border border-emerald-200 dark:border-emerald-800 text-emerald-600 dark:text-emerald-400 flex items-center justify-center hover:bg-emerald-500 hover:text-white transition-all shadow-sm active:scale-95"><i class="fas fa-check text-sm"></i></button>` + actionBtns;
             }
 
             let rejReasonBadge = '';
@@ -1453,6 +1507,9 @@
                     </td>
                     <td>
                         <p class="font-black text-black dark:text-white text-xs uppercase tracking-widest truncate">${x.designation || '-'}</p>
+                        <div class="flex items-center gap-1.5 mt-1 text-[10px]">
+                            ${ratingStars}
+                        </div>
                         <div class="flex items-center gap-2 mt-1.5">
                             <p class="text-[10px] ${deptColor} font-black uppercase tracking-widest">${x.dept}</p>
                             <span class="text-[10px] text-slate-300">•</span>
@@ -1497,6 +1554,8 @@
             if(x.status === 'REJECTED' && x.rejectionReason) {
                 rejReasonBadge = `<p class="text-[8px] font-black text-red-500 uppercase tracking-widest mt-1"><i class="fas fa-ban"></i> ${x.rejectionReason}</p>`;
             }
+            
+            const ratingStars = Array(5).fill(0).map((_,i) => `<i class="fas fa-star ${i < (x.rating||0) ? 'text-amber-400' : 'text-slate-300'}"></i>`).join('');
 
             return `
             <div class="modern-card p-5 relative flex flex-col gap-4 group bg-[var(--bg-secondary)] border-2 hover:border-sarathy-blue transition-all" draggable="true" ondragstart="dragStart(event, ${x.id})" ondragend="dragEnd(event)">
@@ -1504,7 +1563,10 @@
                     <div class="w-12 h-12 rounded-xl border flex items-center justify-center font-black text-xl shrink-0 ${avatarClass}">${x.name[0]}</div>
                     <div class="min-w-0 flex-1 flex flex-col items-start">
                         <h4 class="font-black text-sm truncate text-[var(--text-primary)] uppercase tracking-wide w-full">${x.name}</h4>
-                        <p class="text-[9px] font-bold uppercase tracking-widest mb-2 mt-1"><span class="text-slate-400">${x.empId} • </span><span class="${deptColor}">${x.dept}</span></p>
+                        <div class="flex items-center gap-1 mt-1 text-[8px]">
+                            ${ratingStars}
+                        </div>
+                        <p class="text-[9px] font-bold uppercase tracking-widest mb-2 mt-1.5"><span class="text-slate-400">${x.empId} • </span><span class="${deptColor}">${x.dept}</span></p>
                         <span class="inline-block px-2 py-1 rounded-md text-[8px] font-black bg-[#0054A6] text-white border border-[#003366] uppercase tracking-widest truncate max-w-full shadow-sm">${x.company}</span>
                         ${rejReasonBadge}
                     </div>
@@ -1534,7 +1596,9 @@
             document.getElementById('editId').value = ''; 
             document.getElementById('empId').value = 'SG-' + (joinees.length+1).toString().padStart(3,'0');
             document.getElementById('modalTitle').innerText = "Register Personnel";
-            document.getElementById('rejectionReasonContainer').classList.add('hidden'); // Hide rejection reason
+            document.getElementById('rejectionReasonContainer').classList.add('hidden');
+            document.getElementById('empRating').value = 0;
+            updateStarUI(0);
             document.getElementById('addModal')?.classList.remove('hidden');
             setTimeout(()=>document.getElementById('modalContent').style.transform = 'translateX(0)', 10);
         };
@@ -1550,7 +1614,6 @@
             const r = joinees.find(x => String(x.id) === String(id));
             if(!r) return;
             
-            // Populate form
             document.getElementById('editId').value = r.id; 
             document.getElementById('empId').value = r.empId;
             document.getElementById('status').value = r.status;
@@ -1567,8 +1630,11 @@
             document.getElementById('designation').value = r.designation || '';
             document.getElementById('resumeLink').value = r.resumeLink || '';
             document.getElementById('remarks').value = r.remarks || '';
+            
+            // Rating Load
+            document.getElementById('empRating').value = r.rating || 0;
+            updateStarUI(r.rating || 0);
 
-            // Pro Feature: Rejection Reason handling
             const rejCont = document.getElementById('rejectionReasonContainer');
             const rejSelect = document.getElementById('rejectionReason');
             if(r.status === 'REJECTED') {
@@ -1606,7 +1672,8 @@
                 designation: document.getElementById('designation').value.trim().toUpperCase(),
                 resumeLink: document.getElementById('resumeLink').value.trim(),
                 remarks: document.getElementById('remarks').value.trim(),
-                rejectionReason: currentStatus === 'REJECTED' ? document.getElementById('rejectionReason').value : ''
+                rejectionReason: currentStatus === 'REJECTED' ? document.getElementById('rejectionReason').value : '',
+                rating: parseInt(document.getElementById('empRating').value) || 0
             };
             
             if(data.status === 'JOINED' && !data.joinDate) {
@@ -1657,31 +1724,8 @@
             else if(r.status === 'PENDING') statusClass = 'bg-amber-50 text-amber-600 border-amber-200';
             else statusClass = 'bg-red-50 text-red-600 border-red-200';
 
-            // Document Vault UI Feature
-            let docsHtml = `
-                <div class="col-span-2 mt-4 no-print">
-                    <span class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3">Document Verification</span>
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-                        <div class="bg-white dark:bg-slate-800 p-3 rounded-xl border border-[var(--border-color)] flex items-center justify-between shadow-sm cursor-pointer hover:border-sarathy-blue transition-colors group">
-                            <div class="flex items-center gap-2"><i class="fas fa-id-card text-slate-400 group-hover:text-sarathy-blue transition-colors text-lg"></i> <span class="text-[10px] font-black text-[var(--text-primary)] uppercase">Aadhaar</span></div>
-                            <i class="fas fa-check-circle text-emerald-500"></i>
-                        </div>
-                        <div class="bg-white dark:bg-slate-800 p-3 rounded-xl border border-[var(--border-color)] flex items-center justify-between shadow-sm cursor-pointer hover:border-sarathy-blue transition-colors group">
-                            <div class="flex items-center gap-2"><i class="fas fa-credit-card text-slate-400 group-hover:text-sarathy-blue transition-colors text-lg"></i> <span class="text-[10px] font-black text-[var(--text-primary)] uppercase">PAN Card</span></div>
-                            <i class="fas fa-check-circle text-emerald-500"></i>
-                        </div>
-                        <div class="bg-white dark:bg-slate-800 p-3 rounded-xl border border-[var(--border-color)] flex items-center justify-between shadow-sm cursor-pointer hover:border-sarathy-blue transition-colors group">
-                            <div class="flex items-center gap-2"><i class="fas fa-graduation-cap text-slate-400 group-hover:text-sarathy-blue transition-colors text-lg"></i> <span class="text-[10px] font-black text-[var(--text-primary)] uppercase">Education</span></div>
-                            <i class="fas fa-clock text-amber-500"></i>
-                        </div>
-                        <div class="bg-white dark:bg-slate-800 p-3 rounded-xl border border-dashed border-[var(--border-color)] flex items-center justify-center shadow-sm cursor-pointer hover:border-sarathy-blue hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors">
-                            <span class="text-[10px] font-black text-sarathy-blue uppercase"><i class="fas fa-upload mr-1"></i> Attach More</span>
-                        </div>
-                    </div>
-                </div>
-            `;
+            const ratingStars = Array(5).fill(0).map((_,i) => `<i class="fas fa-star ${i < (r.rating||0) ? 'text-amber-400' : 'text-slate-300'}"></i>`).join('');
 
-            // Pro Feature: Activity Timeline (Updated for Rejection Reason)
             let rejectionReasonText = '';
             if(r.status === 'REJECTED' && r.rejectionReason) {
                 rejectionReasonText = `<p class="text-[10px] font-bold text-red-400 uppercase tracking-widest mt-1">Reason: ${r.rejectionReason}</p>`;
@@ -1720,7 +1764,10 @@
                     </div>
                     <div class="flex-1 min-w-0 text-center md:text-left">
                         <h3 class="font-black text-2xl md:text-4xl text-[var(--text-primary)] mb-2 uppercase tracking-tight truncate">${r.name}</h3>
-                        <p class="text-xs md:text-sm font-bold text-[var(--text-secondary)] uppercase tracking-widest truncate mb-4">${r.empId} • ${r.company}</p>
+                        <p class="text-xs md:text-sm font-bold text-[var(--text-secondary)] uppercase tracking-widest truncate mb-3">${r.empId} • ${r.company}</p>
+                        <div class="flex items-center justify-center md:justify-start gap-1 mb-4 text-xs md:text-sm">
+                            ${ratingStars}
+                        </div>
                         <div class="flex flex-wrap justify-center md:justify-start items-center gap-3 no-print">
                             <span class="px-4 py-2 rounded-xl text-[10px] md:text-xs font-black uppercase tracking-widest shadow-sm border ${statusClass}">
                                 ${r.status}
@@ -1744,8 +1791,6 @@
                     <div class="p-4 bg-emerald-50 dark:bg-emerald-900/20 rounded-2xl border border-emerald-100 dark:border-emerald-900/50"><span class="block text-[10px] font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-widest mb-2">Join Date</span><span class="font-black text-base text-[var(--text-primary)]">${formatDateString(r.joinDate) || 'N/A'}</span></div>
                     
                     ${r.remarks ? `<div class="col-span-2 mt-2"><span class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3">Remarks / Feedback</span><div class="p-5 bg-[var(--bg-primary)] rounded-2xl border border-[var(--border-color)] text-sm font-bold text-[var(--text-primary)] italic shadow-inner leading-relaxed">" ${r.remarks} "</div></div>` : ''}
-                    
-                    ${docsHtml}
                 </div>
                 
                 ${timelineHtml}
