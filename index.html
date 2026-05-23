@@ -1,21 +1,23 @@
-<!DOCTYPE html><html lang="en"><head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>SARATHY GROUP - HR PORTAL PRO</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
     <!-- Google Fonts for Modern Look -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <!-- Chart.js for Visual Analytics -->
+    
+    <!-- External Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Confetti Animation Library -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <!-- SheetJS for Excel Export/Import -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-    <!-- HTML2PDF for Offer Letter & ID Card -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -29,6 +31,7 @@
             }
         }
     </script>
+    
     <style>
         :root {
             --bg-primary: #f1f5f9;
@@ -47,6 +50,7 @@
             --text-secondary: #94a3b8;
             --border-color: #334155;
         }
+        
         body {
             font-family: 'Outfit', sans-serif;
             background-color: var(--bg-primary);
@@ -54,6 +58,7 @@
             overflow: hidden; 
             transition: background-color 0.3s, color 0.3s;
         }
+        
         /* Glassmorphism & Cards */
         .glass-panel {
             background: var(--bg-glass);
@@ -74,15 +79,18 @@
             box-shadow: 0 12px 20px -3px rgba(0, 84, 166, 0.1);
             border-color: rgba(0, 84, 166, 0.4);
         }
+        
         /* Custom Scrollbar */
         .custom-scroll::-webkit-scrollbar { width: 8px; height: 8px; }
         .custom-scroll::-webkit-scrollbar-track { background: transparent; }
         .custom-scroll::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 10px; }
         .dark .custom-scroll::-webkit-scrollbar-thumb { background: #475569; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
+        
         /* Animations */
         @keyframes slideUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
         .animate-up { animation: slideUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+        
         /* Sidebar Nav */
         .nav-link {
             display: flex; align-items: center; gap: 14px; padding: 14px 18px; border-radius: 14px;
@@ -130,42 +138,20 @@
         .dark .summary-table td { color: #fff; }
         .summary-table tr:hover td { background: rgba(0, 84, 166, 0.05); }
         
-        /* Pro Data Table & Blue Banner Headers */
+        /* Data Table */
         .data-table-container { background: var(--bg-secondary); border-radius: 1.25rem; border: 1px solid var(--border-color); overflow: hidden; box-shadow: 0 8px 20px -4px rgba(0,0,0,0.08); max-height: calc(100vh - 260px); overflow-y: auto; }
         .data-table { width: 100%; border-collapse: collapse; }
-        
-        /* Highlight Header with Blue Banner */
-        .data-table th { 
-            background: linear-gradient(135deg, #0054A6, #0072ff); 
-            color: #ffffff; 
-            font-size: 0.75rem; 
-            font-weight: 900; 
-            text-transform: uppercase; 
-            text-align: left; 
-            padding: 18px 24px; 
-            letter-spacing: 0.05em; 
-            position: sticky; 
-            top: 0; 
-            z-index: 10; 
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
-        }
-        
-        /* Pure Black text in Light Mode for high contrast */
+        .data-table th { background: linear-gradient(135deg, #0054A6, #0072ff); color: #ffffff; font-size: 0.75rem; font-weight: 900; text-transform: uppercase; text-align: left; padding: 18px 24px; letter-spacing: 0.05em; position: sticky; top: 0; z-index: 10; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
         .data-table td { padding: 18px 24px; font-size: 0.9rem; border-bottom: 1px solid var(--border-color); vertical-align: middle; color: #000000; font-weight: 700; }
         .dark .data-table td { color: #ffffff; border-bottom: 1px solid var(--border-color); }
-        .data-table tr:last-child td { border-bottom: none; }
         .data-table tr { transition: all 0.2s ease; }
         .data-table tr:hover td { background: rgba(0, 84, 166, 0.04); }
         .dark .data-table tr:hover td { background: rgba(255, 255, 255, 0.04); }
-        
-        /* Checkbox styling */
         .custom-checkbox { width: 20px; height: 20px; cursor: pointer; accent-color: #0054A6; border-radius: 4px; }
         
-        /* Bulk Action Bar */
         #bulkActionBar { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); transform: translateY(100%); opacity: 0; }
         #bulkActionBar.active { transform: translateY(0); opacity: 1; }
-
-        /* Modern Status Badges */
+        
         .status-badge-md { padding: 8px 14px; border-radius: 8px; font-size: 0.75rem; font-weight: 900; display: inline-flex; align-items: center; justify-content: center; text-transform: uppercase; letter-spacing: 0.05em; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
         .badge-selected { background: #d1fae5; color: #059669; border: 1px solid #a7f3d0; }
         .badge-pending { background: #fef3c7; color: #d97706; border: 1px solid #fde68a; }
@@ -176,11 +162,9 @@
         .dark .badge-rejected { background: rgba(239, 68, 68, 0.15); color: #f87171; border-color: rgba(239, 68, 68, 0.3); }
         .dark .badge-joined { background: rgba(14, 165, 233, 0.15); color: #38bdf8; border-color: rgba(14, 165, 233, 0.3); }
         
-        /* Notes Panel */
         #notesPanel { transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); border-top-left-radius: 1.5rem; border-bottom-left-radius: 1.5rem; }
         #notesPanel.open { transform: translateX(0); }
         
-        /* Bulletproof Print Media Styles for Native Printing */
         @media print {
             body * { visibility: hidden; }
             #printArea, #printArea * { visibility: visible; }
@@ -188,9 +172,6 @@
             * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
         }
         
-        .id-card-bg { background: url('https://www.transparenttextures.com/patterns/cubes.png'); }
-
-        /* Timeline in Profile View */
         .timeline-step { position: relative; padding-left: 28px; padding-bottom: 20px; border-left: 3px solid var(--border-color); }
         .timeline-step:last-child { border-left: 3px solid transparent; padding-bottom: 0; }
         .timeline-step::before { content: ''; position: absolute; left: -8px; top: 0; width: 14px; height: 14px; border-radius: 50%; background: var(--bg-secondary); border: 3px solid var(--border-color); transition: all 0.3s; }
@@ -199,7 +180,6 @@
         .timeline-step.rejected { border-left-color: #ef4444; }
         .timeline-step.rejected::before { border-color: #ef4444; background: #ef4444; box-shadow: 0 0 0 3px rgba(239,68,68,0.2); }
         
-        /* Star Rating */
         .star-rating i { transition: color 0.2s; }
         .star-rating i:hover { transform: scale(1.1); }
     </style>
@@ -217,8 +197,7 @@
         <div class="w-full max-w-[420px] animate-up relative z-10">
             <div class="bg-white dark:bg-slate-800 p-8 md:p-10 rounded-[2rem] shadow-2xl border border-slate-100 dark:border-slate-700">
                 <div class="mb-8 text-center">
-                    <img src="Sarathy2.png.png" alt="SR Logo" class="h-24 w-auto object-contain mx-auto mb-4 drop-shadow-lg transition-all duration-300 rounded-2xl mix-blend-multiply dark:mix-blend-normal bg-transparent dark:bg-white/90 p-2" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                    <div class="hidden w-20 h-20 bg-gradient-to-tr from-sarathy-blue to-blue-400 rounded-2xl mx-auto flex items-center justify-center text-white text-3xl font-black mb-4 shadow-lg shadow-blue-500/30">SR</div>
+                    <div class="w-20 h-20 bg-gradient-to-tr from-sarathy-blue to-blue-400 rounded-2xl mx-auto flex items-center justify-center text-white text-3xl font-black mb-4 shadow-lg shadow-blue-500/30">SR</div>
                     <h2 class="text-2xl font-black text-slate-800 dark:text-white tracking-tight mt-2">Welcome Back</h2>
                     <p class="text-xs font-bold text-slate-500 dark:text-slate-400 mt-2 uppercase tracking-widest">HR Management System</p>
                 </div>
@@ -244,12 +223,6 @@
                         <span>Authenticate</span> <i class="fas fa-arrow-right ml-1 transition-transform group-hover:translate-x-1"></i>
                     </button>
                 </form>
-                <div class="mt-6 pt-6 border-t border-slate-100 dark:border-slate-700">
-                    <button type="button" onclick="handleBiometricLogin()" id="biometricBtn" class="w-full flex items-center justify-center p-4 bg-slate-50 dark:bg-slate-800/50 border-2 border-slate-200 dark:border-slate-700 rounded-2xl text-slate-600 dark:text-slate-300 hover:bg-blue-50 hover:border-blue-200 dark:hover:bg-blue-900/20 dark:hover:border-blue-800 transition-all duration-300 text-xs font-black uppercase tracking-widest group shadow-sm active:scale-[0.98]">
-                        <i id="bioIcon" class="fas fa-fingerprint text-2xl text-slate-400 group-hover:text-sarathy-blue mr-3 transition-colors"></i> 
-                        <span id="bioText">Biometric Login</span>
-                    </button>
-                </div>
             </div>
         </div>
     </div>
@@ -262,10 +235,9 @@
         <!-- HOVER EXPANDABLE SIDEBAR -->
         <aside id="sidebar" class="fixed md:static inset-y-0 left-0 w-[var(--sidebar-width)] md:w-[85px] hover:md:w-[var(--sidebar-width)] h-[100dvh] glass-panel flex flex-col shrink-0 z-[100] border-r border-[var(--border-color)] transform -translate-x-full md:translate-x-0 transition-all duration-300 ease-in-out bg-[var(--bg-secondary)] md:bg-transparent overflow-x-hidden group shadow-2xl md:shadow-none pb-16 md:pb-0">
             <div class="h-16 md:h-20 px-4 flex items-center gap-3 border-b border-[var(--border-color)] shrink-0 overflow-hidden">
-                <img src="Sarathy2.png.png" alt="Sarathy Group Logo" class="h-12 w-auto object-contain shrink-0 rounded-lg shadow-sm mix-blend-multiply dark:mix-blend-normal bg-transparent dark:bg-white/90 p-1" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                <div class="hidden w-12 h-12 bg-gradient-to-tr from-sarathy-blue to-sky-400 rounded-xl flex items-center justify-center text-white text-lg font-black shrink-0 shadow-md">SR</div>
+                <div class="w-10 h-10 bg-gradient-to-tr from-sarathy-blue to-sky-400 rounded-xl flex items-center justify-center text-white text-lg font-black shrink-0 shadow-md">SR</div>
                 <div class="transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap overflow-hidden flex-1 ml-1">
-                    <h1 class="font-black text-sm md:text-base tracking-tight gradient-text">HR PORTAL</h1>
+                    <h1 class="font-black text-sm md:text-base tracking-tight gradient-text">HR PORTAL PRO</h1>
                 </div>
                 <button class="md:hidden text-[var(--text-secondary)] hover:text-red-500 shrink-0 ml-auto p-2" onclick="toggleSidebar()">
                     <i class="fas fa-times text-lg"></i>
@@ -274,56 +246,49 @@
 
             <!-- Nav Links -->
             <div class="flex flex-col px-4 py-8 flex-1 custom-scroll overflow-y-auto overflow-x-hidden">
-                <div class="text-[11px] font-black text-sarathy-blue dark:text-blue-400 uppercase tracking-widest mb-4 px-2 transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap overflow-hidden flex items-center gap-2">
-                    <div class="w-2 h-2 bg-sarathy-red rounded-full shadow-sm"></div> MENU
-                </div>
+                <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 px-2 transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100">CORE HR</div>
                 <a onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-link active">
-                    <i class="fas fa-home w-6 text-center shrink-0 text-lg"></i> 
-                    <span class="transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap font-bold tracking-wide">Overview</span>
+                    <i class="fas fa-home w-6 text-center shrink-0 text-lg"></i> <span class="transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 font-bold tracking-wide">Overview</span>
                 </a>
                 <a onclick="switchTab('candidates')" id="nav-candidates" class="nav-link">
-                    <i class="fas fa-user-friends w-6 text-center shrink-0 text-lg"></i> 
-                    <span class="transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap font-bold tracking-wide">Candidates</span>
+                    <i class="fas fa-user-friends w-6 text-center shrink-0 text-lg"></i> <span class="transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 font-bold tracking-wide">Candidates</span>
                 </a>
                 <a onclick="switchTab('directory')" id="nav-directory" class="nav-link text-indigo-600 dark:text-indigo-400">
-                    <i class="fas fa-address-book w-6 text-center shrink-0 text-lg"></i> 
-                    <span class="transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap font-bold tracking-wide">Directory</span>
+                    <i class="fas fa-address-book w-6 text-center shrink-0 text-lg"></i> <span class="transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 font-bold tracking-wide">Directory</span>
                 </a>
                 <a onclick="switchTab('onboarding')" id="nav-onboarding" class="nav-link text-emerald-600 dark:text-emerald-400">
-                    <i class="fas fa-tasks w-6 text-center shrink-0 text-lg"></i> 
-                    <span class="transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap font-bold tracking-wide">Onboarding</span>
-                </a>
-                <a onclick="switchTab('leaves')" id="nav-leaves" class="nav-link text-rose-600 dark:text-rose-400">
-                    <i class="fas fa-calendar-minus w-6 text-center shrink-0 text-lg"></i> 
-                    <span class="transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap font-bold tracking-wide">Leave Mgmt</span>
-                </a>
-                <a onclick="switchTab('payroll')" id="nav-payroll" class="nav-link text-amber-600 dark:text-amber-500">
-                    <i class="fas fa-file-invoice-dollar w-6 text-center shrink-0 text-lg"></i> 
-                    <span class="transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap font-bold tracking-wide">Payroll</span>
-                </a>
-                <a onclick="switchTab('calendar')" id="nav-calendar" class="nav-link">
-                    <i class="fas fa-calendar-alt w-6 text-center shrink-0 text-lg"></i> 
-                    <span class="transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap font-bold tracking-wide">Schedules</span>
-                </a>
-                <a onclick="switchTab('analytics')" id="nav-analytics" class="nav-link">
-                    <i class="fas fa-chart-pie w-6 text-center shrink-0 text-lg"></i> 
-                    <span class="transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap font-bold tracking-wide">Analytics</span>
+                    <i class="fas fa-tasks w-6 text-center shrink-0 text-lg"></i> <span class="transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 font-bold tracking-wide">Onboarding</span>
                 </a>
                 
-                <div class="text-[11px] font-black text-sarathy-blue dark:text-blue-400 uppercase tracking-widest mb-4 mt-12 px-2 transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap overflow-hidden flex items-center gap-2">
-                    <div class="w-2 h-2 bg-sarathy-red rounded-full shadow-sm"></div> MANAGEMENT
-                </div>
+                <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 mt-8 px-2 transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100">OPERATIONS</div>
+                <a onclick="switchTab('attendance')" id="nav-attendance" class="nav-link text-cyan-600 dark:text-cyan-400">
+                    <i class="fas fa-user-clock w-6 text-center shrink-0 text-lg"></i> <span class="transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 font-bold tracking-wide">Attendance</span>
+                </a>
+                <a onclick="switchTab('leaves')" id="nav-leaves" class="nav-link text-rose-600 dark:text-rose-400">
+                    <i class="fas fa-calendar-minus w-6 text-center shrink-0 text-lg"></i> <span class="transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 font-bold tracking-wide">Leaves</span>
+                </a>
+                <a onclick="switchTab('expenses')" id="nav-expenses" class="nav-link text-fuchsia-600 dark:text-fuchsia-400">
+                    <i class="fas fa-receipt w-6 text-center shrink-0 text-lg"></i> <span class="transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 font-bold tracking-wide">Claims & Exp.</span>
+                </a>
+                <a onclick="switchTab('payroll')" id="nav-payroll" class="nav-link text-amber-600 dark:text-amber-500">
+                    <i class="fas fa-file-invoice-dollar w-6 text-center shrink-0 text-lg"></i> <span class="transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 font-bold tracking-wide">Payroll</span>
+                </a>
+                
+                <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 mt-8 px-2 transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100">MANAGEMENT</div>
+                <a onclick="switchTab('calendar')" id="nav-calendar" class="nav-link">
+                    <i class="fas fa-calendar-alt w-6 text-center shrink-0 text-lg"></i> <span class="transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 font-bold tracking-wide">Schedules</span>
+                </a>
+                <a onclick="switchTab('analytics')" id="nav-analytics" class="nav-link">
+                    <i class="fas fa-chart-pie w-6 text-center shrink-0 text-lg"></i> <span class="transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 font-bold tracking-wide">Analytics</span>
+                </a>
                 <a onclick="openReqModal()" class="nav-link">
-                    <i class="fas fa-bullseye w-6 text-center shrink-0 text-lg"></i> 
-                    <span class="transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap font-bold tracking-wide">Targets</span>
+                    <i class="fas fa-bullseye w-6 text-center shrink-0 text-lg"></i> <span class="transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 font-bold tracking-wide">Targets</span>
                 </a>
                 <a onclick="exportToExcel()" class="nav-link text-emerald-600 dark:text-emerald-400 hover:text-emerald-700">
-                    <i class="fas fa-file-excel w-6 text-center shrink-0 text-lg"></i> 
-                    <span class="transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap font-bold tracking-wide">Export Excel</span>
+                    <i class="fas fa-file-excel w-6 text-center shrink-0 text-lg"></i> <span class="transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 font-bold tracking-wide">Export Excel</span>
                 </a>
                 <a onclick="switchTab('settings')" id="nav-settings" class="nav-link text-slate-600 dark:text-slate-400 hover:text-slate-800">
-                    <i class="fas fa-cog w-6 text-center shrink-0 text-lg"></i> 
-                    <span class="transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap font-bold tracking-wide">Settings</span>
+                    <i class="fas fa-cog w-6 text-center shrink-0 text-lg"></i> <span class="transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 font-bold tracking-wide">Settings</span>
                 </a>
                 <input type="file" id="importFile" accept=".json" class="hidden" onchange="importBackup(event)">
             </div>
@@ -373,7 +338,6 @@
                     <!-- Welcome Banner -->
                     <div class="modern-card p-6 md:p-10 bg-gradient-to-r from-sarathy-blue via-blue-700 to-sky-600 text-white relative overflow-hidden border-none shadow-xl animate-up">
                         <i class="fas fa-shield-alt absolute -right-4 -bottom-4 md:-right-10 md:-bottom-10 text-[8rem] md:text-[12rem] opacity-10"></i>
-                        <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
                         <div class="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                             <div>
                                 <h2 id="welcomeGreeting" class="text-2xl md:text-4xl font-black mb-2 flex items-center gap-3"><i class="fas fa-hand-sparkles text-amber-300"></i> Good Morning, HR</h2>
@@ -386,12 +350,14 @@
                                 <input type="file" id="bulkUploadExcel" accept=".xlsx, .xls, .csv" class="hidden" onchange="handleBulkExcelUpload(event)">
                             </div>
                             
-                            <!-- Notice Board -->
-                            <div class="w-full md:w-80 bg-white/10 backdrop-blur-md border border-white/20 p-4 rounded-2xl">
-                                <h3 class="font-black text-[10px] uppercase tracking-widest mb-3 flex items-center gap-2"><i class="fas fa-bullhorn text-amber-300"></i> Notice Board</h3>
-                                <div class="space-y-2">
-                                    <div class="bg-black/20 p-2.5 rounded-lg text-xs font-medium border-l-2 border-amber-300">New interview drives scheduled for Kollam branch next week.</div>
-                                    <div class="bg-black/20 p-2.5 rounded-lg text-xs font-medium border-l-2 border-emerald-300">Salary processing deadline: 25th of this month.</div>
+                            <!-- Notice Board (NOW DYNAMIC) -->
+                            <div class="w-full md:w-80 bg-white/10 backdrop-blur-md border border-white/20 p-4 rounded-2xl flex flex-col h-48">
+                                <div class="flex justify-between items-center mb-3">
+                                    <h3 class="font-black text-[10px] uppercase tracking-widest flex items-center gap-2"><i class="fas fa-bullhorn text-amber-300"></i> Notice Board</h3>
+                                    <button onclick="addNotice()" class="text-[10px] bg-white/20 hover:bg-white/40 px-2 py-1 rounded transition-colors"><i class="fas fa-plus"></i></button>
+                                </div>
+                                <div id="noticeBoardContent" class="space-y-2 overflow-y-auto custom-scroll flex-1 pr-2">
+                                    <!-- Populated by JS -->
                                 </div>
                             </div>
                         </div>
@@ -400,45 +366,35 @@
                     <!-- Stats Grid -->
                     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6 animate-up" style="animation-delay: 0.1s;">
                         <div class="modern-card p-6 md:p-8 flex flex-col relative overflow-hidden group/stat border-b-4 border-b-slate-400">
-                            <div class="absolute -top-4 -right-4 w-28 h-28 bg-slate-50 dark:bg-slate-800 rounded-full flex items-center justify-center transition-transform duration-500 group-hover/stat:scale-[1.8] group-hover:bg-slate-100 dark:group-hover:bg-slate-700">
-                                <i class="fas fa-users text-slate-500 text-4xl opacity-40"></i>
-                            </div>
+                            <div class="absolute -top-4 -right-4 w-28 h-28 bg-slate-50 dark:bg-slate-800 rounded-full flex items-center justify-center transition-transform duration-500 group-hover/stat:scale-[1.8]"></div>
                             <div class="relative z-10">
                                 <span class="text-[11px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-1.5 block">Total Candidates</span>
                                 <h3 class="text-4xl md:text-5xl font-black text-black dark:text-white tracking-tight" id="statTotal">0</h3>
                             </div>
                         </div>
                         <div class="modern-card p-6 md:p-8 flex flex-col relative overflow-hidden group/stat border-b-4 border-b-amber-500 stagger-1">
-                            <div class="absolute -top-4 -right-4 w-28 h-28 bg-amber-50 dark:bg-amber-900/20 rounded-full flex items-center justify-center transition-transform duration-500 group-hover/stat:scale-[1.8] group-hover:bg-amber-100 dark:group-hover:bg-amber-800/30">
-                                <i class="fas fa-clock text-amber-500 text-4xl opacity-40"></i>
-                            </div>
+                            <div class="absolute -top-4 -right-4 w-28 h-28 bg-amber-50 dark:bg-amber-900/20 rounded-full flex items-center justify-center transition-transform duration-500 group-hover/stat:scale-[1.8]"></div>
                             <div class="relative z-10">
                                 <span class="text-[11px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-1.5 block">Pending Review</span>
                                 <h3 class="text-4xl md:text-5xl font-black text-amber-500 tracking-tight" id="statPending">0</h3>
                             </div>
                         </div>
                         <div class="modern-card p-6 md:p-8 flex flex-col relative overflow-hidden group/stat border-b-4 border-b-emerald-500 stagger-2">
-                            <div class="absolute -top-4 -right-4 w-28 h-28 bg-emerald-50 dark:bg-emerald-900/20 rounded-full flex items-center justify-center transition-transform duration-500 group-hover/stat:scale-[1.8] group-hover:bg-emerald-100 dark:group-hover:bg-emerald-800/30">
-                                <i class="fas fa-check text-emerald-500 text-4xl opacity-40"></i>
-                            </div>
+                            <div class="absolute -top-4 -right-4 w-28 h-28 bg-emerald-50 dark:bg-emerald-900/20 rounded-full flex items-center justify-center transition-transform duration-500 group-hover/stat:scale-[1.8]"></div>
                             <div class="relative z-10">
                                 <span class="text-[11px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-1.5 block">Selected</span>
                                 <h3 class="text-4xl md:text-5xl font-black text-emerald-500 tracking-tight" id="statSelected">0</h3>
                             </div>
                         </div>
                         <div class="modern-card p-6 md:p-8 flex flex-col relative overflow-hidden group/stat border-b-4 border-b-[#0054A6] stagger-3">
-                            <div class="absolute -top-4 -right-4 w-28 h-28 bg-blue-50 dark:bg-blue-900/20 rounded-full flex items-center justify-center transition-transform duration-500 group-hover/stat:scale-[1.8] group-hover:bg-blue-100 dark:group-hover:bg-blue-800/30">
-                                <i class="fas fa-user-check text-[#0054A6] text-4xl opacity-40"></i>
-                            </div>
+                            <div class="absolute -top-4 -right-4 w-28 h-28 bg-blue-50 dark:bg-blue-900/20 rounded-full flex items-center justify-center transition-transform duration-500 group-hover/stat:scale-[1.8]"></div>
                             <div class="relative z-10">
                                 <span class="text-[11px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-1.5 block">Joined</span>
                                 <h3 class="text-4xl md:text-5xl font-black text-[#0054A6] dark:text-sky-400 tracking-tight" id="statJoined">0</h3>
                             </div>
                         </div>
                         <div class="modern-card p-6 md:p-8 flex flex-col relative overflow-hidden group/stat border-b-4 border-b-red-500 stagger-4">
-                            <div class="absolute -top-4 -right-4 w-28 h-28 bg-red-50 dark:bg-red-900/20 rounded-full flex items-center justify-center transition-transform duration-500 group-hover/stat:scale-[1.8] group-hover:bg-red-100 dark:group-hover:bg-red-800/30">
-                                <i class="fas fa-times text-red-500 text-4xl opacity-40"></i>
-                            </div>
+                            <div class="absolute -top-4 -right-4 w-28 h-28 bg-red-50 dark:bg-red-900/20 rounded-full flex items-center justify-center transition-transform duration-500 group-hover/stat:scale-[1.8]"></div>
                             <div class="relative z-10">
                                 <span class="text-[11px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-1.5 block">Rejected</span>
                                 <h3 class="text-4xl md:text-5xl font-black text-red-500 tracking-tight" id="statRejected">0</h3>
@@ -446,7 +402,6 @@
                         </div>
                     </div>
 
-                    <!-- Layout for Progress -->
                     <div class="grid grid-cols-1 gap-6 animate-up" style="animation-delay: 0.3s;">
                         <div class="modern-card p-6 md:p-10">
                             <div class="flex justify-between items-center mb-8 pb-4 border-b border-[var(--border-color)]">
@@ -482,10 +437,9 @@
                         <div class="flex flex-col lg:flex-row gap-4 mb-6">
                             <div class="relative flex-[2] group">
                                 <i class="fas fa-search absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-sarathy-blue text-lg transition-colors"></i>
-                                <input type="text" id="searchInput" onkeyup="renderTable()" placeholder="Search candidates by name, ID, phone or email..." class="w-full pl-12 pr-4 py-4 bg-[var(--bg-secondary)] border-2 border-[var(--border-color)] rounded-xl font-bold text-sm focus:border-sarathy-blue outline-none transition-all dark:text-white shadow-sm">
+                                <input type="text" id="searchInput" onkeyup="renderTable()" placeholder="Search candidates by name, ID, phone..." class="w-full pl-12 pr-4 py-4 bg-[var(--bg-secondary)] border-2 border-[var(--border-color)] rounded-xl font-bold text-sm focus:border-sarathy-blue outline-none transition-all dark:text-white shadow-sm">
                             </div>
                             <div class="flex gap-4 flex-1 overflow-x-auto custom-scroll pb-2 lg:pb-0">
-                                <!-- Department Filter -->
                                 <div class="relative min-w-[150px] flex-1">
                                     <select id="filterDept" onchange="renderTable()" class="w-full pl-11 pr-8 py-4 bg-[var(--bg-secondary)] border-2 border-[var(--border-color)] rounded-xl font-black text-xs outline-none focus:border-sarathy-blue dark:text-white shadow-sm uppercase tracking-widest text-[var(--text-primary)] cursor-pointer appearance-none">
                                         <option value="ALL">All Depts</option>
@@ -495,9 +449,7 @@
                                         <option value="SPARE">Spare</option>
                                     </select>
                                     <i class="fas fa-briefcase absolute left-4 top-1/2 -translate-y-1/2 text-sarathy-blue pointer-events-none"></i>
-                                    <i class="fas fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-xs"></i>
                                 </div>
-                                <!-- Company Filter -->
                                 <div class="relative min-w-[180px] flex-1">
                                     <select id="filterCompany" onchange="renderTable()" class="w-full pl-11 pr-8 py-4 bg-[var(--bg-secondary)] border-2 border-[var(--border-color)] rounded-xl font-black text-xs outline-none focus:border-sarathy-blue dark:text-white shadow-sm uppercase tracking-widest text-[var(--text-primary)] cursor-pointer appearance-none">
                                         <option value="ALL">All Entities</option>
@@ -508,16 +460,10 @@
                                         <option value="SARATHY CARS PVT LTD">Cars</option>
                                     </select>
                                     <i class="fas fa-building absolute left-4 top-1/2 -translate-y-1/2 text-emerald-600 pointer-events-none"></i>
-                                    <i class="fas fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-xs"></i>
-                                </div>
-                                <div class="relative min-w-[150px] flex-1">
-                                    <input type="month" id="monthFilter" onchange="renderTable()" class="w-full pl-11 pr-4 py-4 bg-[var(--bg-secondary)] border-2 border-[var(--border-color)] rounded-xl font-black text-xs outline-none focus:border-sarathy-blue dark:text-white shadow-sm uppercase tracking-widest text-[var(--text-primary)] cursor-pointer">
-                                    <i class="fas fa-calendar-alt absolute left-4 top-1/2 -translate-y-1/2 text-amber-500 pointer-events-none"></i>
                                 </div>
                             </div>
                         </div>
                         
-                        <!-- Quick Chips -->
                         <div class="flex gap-3 overflow-x-auto custom-scroll pb-2 whitespace-nowrap items-center">
                             <button onclick="setQuickFilter('All')" class="px-6 py-2.5 rounded-xl text-xs font-black tracking-widest border-2 border-[var(--border-color)] bg-[var(--bg-secondary)] text-[var(--text-primary)] transition-all hover:border-sarathy-blue active:scale-95 shrink-0" id="chip-All">ALL</button>
                             <button onclick="setQuickFilter('Pending')" class="px-6 py-2.5 rounded-xl text-xs font-black tracking-widest border-2 border-[var(--border-color)] bg-[var(--bg-secondary)] text-[var(--text-primary)] transition-all hover:border-sarathy-blue active:scale-95 shrink-0" id="chip-Pending">PENDING</button>
@@ -540,14 +486,9 @@
                         </div>
                         <div class="flex items-center gap-3 overflow-x-auto custom-scroll pb-2 md:pb-0">
                             <button onclick="copyBulkPhones()" class="px-4 py-2.5 bg-green-50 text-green-600 border border-green-200 rounded-xl text-[10px] md:text-xs font-black uppercase tracking-widest hover:bg-green-600 hover:text-white transition-all shadow-sm whitespace-nowrap"><i class="fab fa-whatsapp mr-1 text-sm"></i> Copy Phones</button>
-                            
-                            <div class="w-px h-8 bg-[var(--border-color)] mx-1"></div>
-                            <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest mr-1 hidden md:inline">Change Status:</span>
                             <button onclick="bulkUpdateStatus('PENDING')" class="px-4 py-2.5 bg-amber-50 text-amber-600 border border-amber-200 rounded-xl text-[10px] md:text-xs font-black uppercase tracking-widest hover:bg-amber-500 hover:text-white transition-all shadow-sm whitespace-nowrap"><i class="fas fa-clock mr-1"></i> Pending</button>
                             <button onclick="bulkUpdateStatus('SELECTED')" class="px-4 py-2.5 bg-emerald-50 text-emerald-600 border border-emerald-200 rounded-xl text-[10px] md:text-xs font-black uppercase tracking-widest hover:bg-emerald-500 hover:text-white transition-all shadow-sm whitespace-nowrap"><i class="fas fa-check mr-1"></i> Selected</button>
                             <button onclick="bulkUpdateStatus('JOINED')" class="px-4 py-2.5 bg-blue-50 text-blue-600 border border-blue-200 rounded-xl text-[10px] md:text-xs font-black uppercase tracking-widest hover:bg-[#0054A6] hover:text-white transition-all shadow-sm whitespace-nowrap"><i class="fas fa-user-check mr-1"></i> Joined</button>
-                            
-                            <div class="w-px h-8 bg-[var(--border-color)] mx-1"></div>
                             <button onclick="bulkDelete()" class="px-4 py-2.5 bg-red-50 text-red-500 border border-red-200 rounded-xl text-[10px] md:text-xs font-black uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all shadow-sm whitespace-nowrap"><i class="fas fa-trash-alt mr-1"></i> Delete</button>
                             <button onclick="clearBulkSelection()" class="w-10 h-10 bg-slate-100 text-slate-500 rounded-xl text-lg hover:bg-slate-200 hover:text-slate-800 dark:bg-slate-700 dark:hover:bg-slate-600 dark:text-white transition-all flex justify-center items-center ml-2"><i class="fas fa-times"></i></button>
                         </div>
@@ -560,9 +501,7 @@
                                 <table class="data-table min-w-[1000px]">
                                     <thead>
                                         <tr>
-                                            <th class="w-16 text-center whitespace-nowrap">
-                                                <input type="checkbox" id="selectAllCb" onclick="toggleSelectAll()" class="custom-checkbox">
-                                            </th>
+                                            <th class="w-16 text-center whitespace-nowrap"><input type="checkbox" id="selectAllCb" onclick="toggleSelectAll()" class="custom-checkbox"></th>
                                             <th>Personnel Profile</th>
                                             <th>Department & Source</th>
                                             <th>Location</th>
@@ -577,7 +516,7 @@
                         </div>
                     </div>
                     
-                    <!-- KANBAN BOARD VIEW -->
+                    <!-- BOARD VIEW -->
                     <div id="boardView" class="hidden grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 animate-up">
                         <div class="kanban-col border-t-4 border-t-amber-500 shadow-sm" ondragover="allowDrop(event)" ondragleave="dragLeave(event)" ondrop="drop(event, 'PENDING')">
                             <h3 class="font-black text-amber-500 mb-6 flex justify-between items-center uppercase text-sm tracking-widest border-b border-[var(--border-color)] pb-3"><span class="flex items-center gap-2"><i class="fas fa-clock"></i> Pending</span> <span id="countBoardPending" class="bg-amber-100 text-amber-700 px-3 py-1 rounded-lg">0</span></h3>
@@ -598,7 +537,60 @@
                     </div>
                 </div>
 
-                <!-- NEW PRO FEATURE: LEAVES TAB -->
+                <!-- TAB: EMPLOYEE DIRECTORY -->
+                <div id="tab-directory" class="tab-content p-4 md:p-8 max-w-[1600px] mx-auto">
+                    <div class="mb-8 flex flex-col md:flex-row justify-between items-center bg-[var(--bg-secondary)] p-6 md:p-8 rounded-[2rem] border border-[var(--border-color)] shadow-lg gap-6 animate-up">
+                        <div class="flex items-center gap-5">
+                            <div class="w-16 h-16 rounded-2xl bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 flex items-center justify-center text-2xl shadow-inner border border-indigo-100"><i class="fas fa-address-book"></i></div>
+                            <div>
+                                <h2 class="text-2xl font-black uppercase text-[var(--text-primary)] tracking-wide">Employee Directory</h2>
+                                <p class="text-[11px] font-bold uppercase tracking-widest text-slate-400 mt-1.5">View all active employees in the organization</p>
+                            </div>
+                        </div>
+                        <div class="relative w-full md:w-auto">
+                            <i class="fas fa-search absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 text-lg"></i>
+                            <input type="text" id="dirSearchInput" onkeyup="renderDirectory()" placeholder="Search active employees..." class="w-full md:w-80 pl-12 pr-4 py-4 bg-[var(--bg-primary)] border-2 border-[var(--border-color)] rounded-xl font-bold text-sm focus:border-sarathy-blue outline-none transition-all dark:text-white shadow-sm">
+                        </div>
+                    </div>
+                    <div id="directoryContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 animate-up" style="animation-delay: 0.1s;"></div>
+                </div>
+
+                
+                <!-- NEW TAB: ATTENDANCE & SHIFTS -->
+                <div id="tab-attendance" class="tab-content p-4 md:p-8 max-w-[1600px] mx-auto">
+                    <div class="mb-8 flex flex-col md:flex-row justify-between items-center bg-[var(--bg-secondary)] p-6 md:p-8 rounded-[2rem] border border-[var(--border-color)] shadow-lg gap-6 animate-up">
+                        <div class="flex items-center gap-5">
+                            <div class="w-16 h-16 rounded-2xl bg-cyan-50 dark:bg-cyan-900/30 text-cyan-600 flex items-center justify-center text-2xl shadow-inner border border-cyan-100"><i class="fas fa-user-clock"></i></div>
+                            <div>
+                                <h2 class="text-2xl font-black uppercase text-[var(--text-primary)] tracking-wide">Daily Attendance</h2>
+                                <p class="text-[11px] font-bold uppercase tracking-widest text-slate-400 mt-1.5">Track shifts and daily presence</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4 w-full md:w-auto">
+                            <input type="date" id="attendanceDate" onchange="renderAttendance()" class="flex-1 md:w-auto px-4 py-4 bg-[var(--bg-primary)] border-2 border-[var(--border-color)] rounded-xl font-black text-sm outline-none focus:border-sarathy-blue dark:text-white dark:[color-scheme:dark] shadow-sm uppercase tracking-widest text-[var(--text-primary)] cursor-pointer">
+                            <button onclick="markAllPresent()" class="bg-emerald-50 text-emerald-600 border border-emerald-200 px-6 py-4 rounded-xl font-black text-xs uppercase tracking-widest shadow-sm hover:bg-emerald-500 hover:text-white transition-colors active:scale-95 whitespace-nowrap"><i class="fas fa-check-double mr-2"></i> All Present</button>
+                        </div>
+                    </div>
+                    <div class="data-table-container animate-up" style="animation-delay: 0.1s;">
+                        <div class="overflow-x-auto">
+                            <table class="data-table min-w-[1000px]">
+                                <thead>
+                                    <tr>
+                                        <th class="w-16 text-center">SL NO</th>
+                                        <th>Employee Profile</th>
+                                        <th>Department</th>
+                                        <th>Assigned Shift</th>
+                                        <th class="text-center">Status</th>
+                                        <th class="text-right">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="attendanceTableBody" class="divide-y divide-[var(--border-color)] bg-[var(--bg-secondary)]"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB: LEAVES -->
                 <div id="tab-leaves" class="tab-content custom-scroll p-4 md:p-8 max-w-[1600px] mx-auto">
                     <div class="mb-8 flex flex-col md:flex-row justify-between items-center bg-[var(--bg-secondary)] p-6 md:p-8 rounded-[2rem] border border-[var(--border-color)] shadow-lg gap-6 animate-up">
                         <div class="flex items-center gap-5">
@@ -610,7 +602,6 @@
                         </div>
                         <button onclick="openLeaveModal()" class="px-6 py-3 bg-rose-600 text-white rounded-xl font-black text-xs uppercase tracking-widest hover:bg-rose-700 transition-colors shadow-sm active:scale-95 flex items-center gap-2"><i class="fas fa-plus"></i> Request Leave</button>
                     </div>
-
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 animate-up" style="animation-delay: 0.1s;">
                         <div class="modern-card p-6 border-b-4 border-b-amber-500">
                             <span class="text-[10px] font-black text-slate-500 uppercase tracking-widest block mb-2">Pending Requests</span>
@@ -625,7 +616,6 @@
                             <h3 class="text-4xl font-black text-red-500" id="leaveStatRejected">0</h3>
                         </div>
                     </div>
-
                     <div class="data-table-container animate-up" style="animation-delay: 0.2s;">
                         <div class="overflow-x-auto">
                             <table class="data-table min-w-[1000px]">
@@ -645,42 +635,51 @@
                     </div>
                 </div>
 
-                <!-- NEW TAB: EMPLOYEE DIRECTORY -->
-                <div id="tab-directory" class="tab-content p-4 md:p-8 max-w-[1600px] mx-auto">
+                <!-- NEW TAB: EXPENSES & CLAIMS -->
+                <div id="tab-expenses" class="tab-content p-4 md:p-8 max-w-[1600px] mx-auto">
                     <div class="mb-8 flex flex-col md:flex-row justify-between items-center bg-[var(--bg-secondary)] p-6 md:p-8 rounded-[2rem] border border-[var(--border-color)] shadow-lg gap-6 animate-up">
                         <div class="flex items-center gap-5">
-                            <div class="w-16 h-16 rounded-2xl bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 flex items-center justify-center text-2xl shadow-inner border border-indigo-100"><i class="fas fa-address-book"></i></div>
+                            <div class="w-16 h-16 rounded-2xl bg-fuchsia-50 dark:bg-fuchsia-900/30 text-fuchsia-600 flex items-center justify-center text-2xl shadow-inner border border-fuchsia-100"><i class="fas fa-receipt"></i></div>
                             <div>
-                                <h2 class="text-2xl font-black uppercase text-[var(--text-primary)] tracking-wide">Employee Directory</h2>
-                                <p class="text-[11px] font-bold uppercase tracking-widest text-slate-400 mt-1.5">View all active employees in the organization</p>
+                                <h2 class="text-2xl font-black uppercase text-[var(--text-primary)] tracking-wide">Expense Claims</h2>
+                                <p class="text-[11px] font-bold uppercase tracking-widest text-slate-400 mt-1.5">Manage travel & reimbursement requests</p>
                             </div>
                         </div>
-                        <div class="relative w-full md:w-auto">
-                            <i class="fas fa-search absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 text-lg"></i>
-                            <input type="text" id="dirSearchInput" onkeyup="renderDirectory()" placeholder="Search active employees..." class="w-full md:w-80 pl-12 pr-4 py-4 bg-[var(--bg-primary)] border-2 border-[var(--border-color)] rounded-xl font-bold text-sm focus:border-sarathy-blue outline-none transition-all dark:text-white shadow-sm">
-                        </div>
+                        <button onclick="openExpenseModal()" class="px-6 py-3 bg-fuchsia-600 text-white rounded-xl font-black text-xs uppercase tracking-widest hover:bg-fuchsia-700 transition-colors shadow-sm active:scale-95 flex items-center gap-2"><i class="fas fa-plus"></i> New Claim</button>
                     </div>
-                    
-                    <div id="directoryContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 animate-up" style="animation-delay: 0.1s;">
-                        <!-- Populated by JS -->
+                    <div class="data-table-container animate-up" style="animation-delay: 0.1s;">
+                        <div class="overflow-x-auto">
+                            <table class="data-table min-w-[1000px]">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Employee Details</th>
+                                        <th>Category & Amount</th>
+                                        <th>Description</th>
+                                        <th class="text-center">Status</th>
+                                        <th class="text-right">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="expensesTableBody" class="divide-y divide-[var(--border-color)] bg-[var(--bg-secondary)]"></tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
 
-                <!-- NEW TAB: PAYROLL MANAGEMENT -->
+                <!-- TAB: PAYROLL -->
                 <div id="tab-payroll" class="tab-content p-4 md:p-8 max-w-[1600px] mx-auto">
                     <div class="mb-8 flex flex-col md:flex-row justify-between items-center bg-[var(--bg-secondary)] p-6 md:p-8 rounded-[2rem] border border-[var(--border-color)] shadow-lg gap-6 animate-up">
                         <div class="flex items-center gap-5">
                             <div class="w-16 h-16 rounded-2xl bg-amber-50 dark:bg-amber-900/30 text-amber-600 flex items-center justify-center text-2xl shadow-inner border border-amber-100"><i class="fas fa-file-invoice-dollar"></i></div>
                             <div>
                                 <h2 class="text-2xl font-black uppercase text-[var(--text-primary)] tracking-wide">Payroll & Payslips</h2>
-                                <p class="text-[11px] font-bold uppercase tracking-widest text-slate-400 mt-1.5">Generate salary slips for active employees</p>
+                                <p class="text-[11px] font-bold uppercase tracking-widest text-slate-400 mt-1.5">Generate dynamic salary slips</p>
                             </div>
                         </div>
-                        <div class="flex gap-3"> 
-                            <input type="month" id="payrollMonthFilter" onchange="renderPayroll()" class="w-full md:w-auto px-4 py-4 bg-[var(--bg-primary)] border-2 border-[var(--border-color)] rounded-xl font-black text-sm outline-none focus:border-sarathy-blue dark:text-white dark:[color-scheme:dark] shadow-sm uppercase tracking-widest text-[var(--text-primary)] cursor-pointer">
+                        <div class="flex gap-3">
+                             <input type="month" id="payrollMonthFilter" onchange="renderPayroll()" class="w-full md:w-auto px-4 py-4 bg-[var(--bg-primary)] border-2 border-[var(--border-color)] rounded-xl font-black text-sm outline-none focus:border-sarathy-blue dark:text-white dark:[color-scheme:dark] shadow-sm uppercase tracking-widest text-[var(--text-primary)] cursor-pointer">
                         </div>
                     </div>
-                    
                     <div class="data-table-container animate-up" style="animation-delay: 0.1s;">
                         <div class="overflow-x-auto">
                             <table class="data-table min-w-[1000px]">
@@ -688,7 +687,7 @@
                                     <tr>
                                         <th class="w-16 text-center">SL NO</th>
                                         <th>Employee Details</th>
-                                        <th>Role & Entity</th>
+                                        <th>Role & Base Salary</th>
                                         <th>Status</th>
                                         <th class="text-right">Action</th>
                                     </tr>
@@ -711,13 +710,10 @@
                         </div>
                         <button onclick="renderOnboarding()" class="px-6 py-3 bg-white dark:bg-slate-700 border border-[var(--border-color)] rounded-xl font-black text-xs uppercase tracking-widest hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors shadow-sm active:scale-95"><i class="fas fa-sync-alt mr-2 text-sarathy-blue"></i> Refresh List</button>
                     </div>
-                    
-                    <div id="onboardingContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 animate-up" style="animation-delay: 0.1s;">
-                        <!-- Populated by JS -->
-                    </div>
+                    <div id="onboardingContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 animate-up" style="animation-delay: 0.1s;"></div>
                 </div>
 
-                <!-- TAB 3: CALENDAR -->
+                <!-- TAB: CALENDAR -->
                 <div id="tab-calendar" class="tab-content custom-scroll p-4 md:p-8 max-w-[1600px] mx-auto">
                     <div class="modern-card p-6 md:p-10 h-full flex flex-col min-h-[700px] shadow-xl">
                         <div class="flex justify-between items-center mb-8 pb-6 border-b border-[var(--border-color)]">
@@ -743,7 +739,7 @@
                     </div>
                 </div>
 
-                <!-- TAB 4: ANALYTICS -->
+                <!-- TAB: ANALYTICS -->
                 <div id="tab-analytics" class="tab-content custom-scroll p-4 md:p-8 max-w-[1600px] mx-auto">
                     <div class="mb-8 flex flex-col md:flex-row justify-between items-center bg-[var(--bg-secondary)] p-6 md:p-8 rounded-[2rem] border border-[var(--border-color)] shadow-lg gap-6 animate-up">
                         <div class="flex items-center gap-5">
@@ -778,7 +774,7 @@
                     </div>
                 </div>
 
-                <!-- TAB 5: SETTINGS -->
+                <!-- TAB: SETTINGS -->
                 <div id="tab-settings" class="tab-content custom-scroll p-4 md:p-8 max-w-[1600px] mx-auto">
                     <div class="mb-8 flex items-center gap-5 bg-[var(--bg-secondary)] p-6 md:p-8 rounded-[2rem] border border-[var(--border-color)] shadow-lg animate-up">
                         <div class="w-16 h-16 rounded-2xl bg-slate-100 dark:bg-slate-800 text-slate-500 flex items-center justify-center text-2xl shadow-inner border border-slate-200 dark:border-slate-700"><i class="fas fa-cog"></i></div>
@@ -787,7 +783,6 @@
                             <p class="text-[11px] font-bold uppercase tracking-widest text-slate-400 mt-1.5">Manage Portal Preferences</p>
                         </div>
                     </div>
-                    
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 animate-up" style="animation-delay: 0.1s;">
                         <div class="modern-card p-6 md:p-8">
                             <h3 class="font-black text-lg uppercase tracking-widest mb-6 border-b border-[var(--border-color)] pb-4"><i class="fas fa-shield-alt text-sarathy-blue mr-2"></i> Security</h3>
@@ -799,7 +794,6 @@
                                 <button type="submit" class="w-full bg-sarathy-blue text-white font-black py-4 rounded-xl uppercase tracking-widest text-xs hover:bg-[#004080] transition-colors shadow-md active:scale-95">Update PIN</button>
                             </form>
                         </div>
-                        
                         <div class="modern-card p-6 md:p-8">
                             <h3 class="font-black text-lg uppercase tracking-widest mb-6 border-b border-[var(--border-color)] pb-4"><i class="fas fa-database text-emerald-500 mr-2"></i> Data Management</h3>
                             <div class="space-y-4">
@@ -812,15 +806,6 @@
                 </div>
             </div>
             
-            <!-- Mobile Bottom Nav -->
-            <nav class="md:hidden fixed bottom-0 left-0 w-full bg-[var(--bg-secondary)] border-t border-[var(--border-color)] flex justify-around items-center z-[90] pb-safe shadow-[0_-10px_30px_rgba(0,0,0,0.05)]">
-                <a onclick="switchTab('dashboard')" id="bottom-nav-dashboard" class="flex flex-col items-center p-3 text-[var(--text-secondary)] bottom-nav-link active"><i class="fas fa-home text-xl mb-1"></i><span class="text-[9px] font-black uppercase tracking-widest">Home</span></a>
-                <a onclick="switchTab('candidates')" id="bottom-nav-candidates" class="flex flex-col items-center p-3 text-[var(--text-secondary)] bottom-nav-link"><i class="fas fa-users text-xl mb-1"></i><span class="text-[9px] font-black uppercase tracking-widest">Users</span></a>
-                <a onclick="switchTab('directory')" id="bottom-nav-directory" class="flex flex-col items-center p-3 text-[var(--text-secondary)] bottom-nav-link"><i class="fas fa-address-book text-xl mb-1"></i><span class="text-[9px] font-black uppercase tracking-widest">Directory</span></a>
-                <a onclick="switchTab('leaves')" id="bottom-nav-leaves" class="flex flex-col items-center p-3 text-[var(--text-secondary)] bottom-nav-link"><i class="fas fa-calendar-minus text-xl mb-1"></i><span class="text-[9px] font-black uppercase tracking-widest">Leaves</span></a>
-                <a onclick="switchTab('payroll')" id="bottom-nav-payroll" class="flex flex-col items-center p-3 text-[var(--text-secondary)] bottom-nav-link"><i class="fas fa-file-invoice-dollar text-xl mb-1"></i><span class="text-[9px] font-black uppercase tracking-widest">Payroll</span></a>
-            </nav>
-
             <button id="addBtn" onclick="openModal()" class="fab hidden md:flex" title="Add New Candidate"><i class="fas fa-plus text-xl"></i></button>
             <button id="notesBtn" onclick="toggleNotesPanel()" class="fab-notes hidden md:flex" title="Quick Notes"><i class="fas fa-sticky-note text-lg"></i></button>
             
@@ -841,6 +826,7 @@
         </main>
     </div>
 
+    
     <!-- LEAVE REQUEST MODAL -->
     <div id="leaveModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[120] hidden flex items-center justify-center p-4 transition-opacity no-print">
         <div class="bg-[var(--bg-secondary)] w-full max-w-md rounded-3xl shadow-2xl overflow-hidden border border-[var(--border-color)] animate-up">
@@ -852,9 +838,7 @@
                 <form id="leaveForm" class="space-y-4">
                     <div>
                         <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-1.5 block">Select Employee</label>
-                        <select id="leaveEmpId" required class="w-full p-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl font-bold text-sm outline-none focus:border-rose-500 text-[var(--text-primary)] cursor-pointer">
-                            <!-- Populated dynamically -->
-                        </select>
+                        <select id="leaveEmpId" required class="w-full p-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl font-bold text-sm outline-none focus:border-rose-500 text-[var(--text-primary)] cursor-pointer"></select>
                     </div>
                     <div>
                         <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-1.5 block">Leave Type</label>
@@ -862,7 +846,6 @@
                             <option value="Sick Leave">Sick Leave (SL)</option>
                             <option value="Casual Leave">Casual Leave (CL)</option>
                             <option value="Earned Leave">Earned Leave (EL)</option>
-                            <option value="Maternity/Paternity">Maternity/Paternity</option>
                             <option value="Loss of Pay">Loss of Pay (LOP)</option>
                         </select>
                     </div>
@@ -881,6 +864,48 @@
                         <textarea id="leaveReason" required rows="2" class="w-full p-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl font-bold text-sm outline-none focus:border-rose-500 text-[var(--text-primary)]" placeholder="Brief reason for leave"></textarea>
                     </div>
                     <button type="submit" class="w-full bg-rose-600 hover:bg-rose-700 text-white font-black py-4 rounded-xl shadow-lg mt-4 transition-all uppercase tracking-widest text-xs active:scale-95">Submit Request</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- EXPENSE CLAIM MODAL -->
+    <div id="expenseModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[120] hidden flex items-center justify-center p-4 transition-opacity no-print">
+        <div class="bg-[var(--bg-secondary)] w-full max-w-md rounded-3xl shadow-2xl overflow-hidden border border-[var(--border-color)] animate-up">
+            <div class="p-6 border-b border-[var(--border-color)] flex justify-between items-center bg-fuchsia-50 dark:bg-fuchsia-900/20">
+                <h3 class="font-black text-base uppercase tracking-widest flex items-center gap-2 text-fuchsia-600"><i class="fas fa-receipt"></i> Submit Expense</h3>
+                <button onclick="closeExpenseModal()" class="w-8 h-8 rounded-full bg-white dark:bg-slate-800 text-slate-400 hover:text-red-500 shadow-sm flex items-center justify-center transition-colors"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="p-6">
+                <form id="expenseForm" class="space-y-4">
+                    <div>
+                        <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-1.5 block">Select Employee</label>
+                        <select id="expEmpId" required class="w-full p-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl font-bold text-sm outline-none focus:border-fuchsia-500 text-[var(--text-primary)] cursor-pointer"></select>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-1.5 block">Category</label>
+                            <select id="expCategory" required class="w-full p-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl font-bold text-sm outline-none focus:border-fuchsia-500 text-[var(--text-primary)] cursor-pointer">
+                                <option value="Travel">Travel</option>
+                                <option value="Fuel">Fuel</option>
+                                <option value="Food">Food/Client Mtg</option>
+                                <option value="Supplies">Supplies</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-1.5 block">Amount (₹)</label>
+                            <input type="number" id="expAmount" required min="1" class="w-full p-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl font-black text-sm outline-none focus:border-fuchsia-500 text-[var(--text-primary)]">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-1.5 block">Description / Reason</label>
+                        <textarea id="expReason" required rows="2" class="w-full p-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl font-bold text-sm outline-none focus:border-fuchsia-500 text-[var(--text-primary)]" placeholder="E.g. Travel to Kollam branch"></textarea>
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-1.5 block">Date Incurred</label>
+                        <input type="date" id="expDate" required class="w-full p-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl font-bold text-sm outline-none focus:border-fuchsia-500 text-[var(--text-primary)] cursor-pointer dark:[color-scheme:dark]">
+                    </div>
+                    <button type="submit" class="w-full bg-fuchsia-600 hover:bg-fuchsia-700 text-white font-black py-4 rounded-xl shadow-lg mt-4 transition-all uppercase tracking-widest text-xs active:scale-95">Submit Claim</button>
                 </form>
             </div>
         </div>
@@ -931,7 +956,6 @@
                                 <option value="Declined Offer">Declined Offer</option>
                                 <option value="Other">Other</option>
                             </select>
-                            <i class="fas fa-chevron-down absolute right-5 bottom-6 text-red-400 pointer-events-none text-xs"></i>
                         </div>
 
                         <div class="col-span-1 md:col-span-2 flex flex-col justify-end p-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-sm">
@@ -946,6 +970,7 @@
                             <input type="hidden" id="empRating" value="0">
                         </div>
 
+                        <!-- Basic Details -->
                         <div class="flex flex-col justify-end">
                             <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-2 ml-2">Full Name</label>
                             <input type="text" id="empName" required class="w-full p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl font-black text-sm uppercase outline-none focus:border-sarathy-blue transition-colors dark:text-white shadow-sm" placeholder="ENTER FULL NAME">
@@ -966,12 +991,10 @@
                                 <option value="LinkedIn">LinkedIn</option>
                                 <option value="Naukri">Naukri / Job Portal</option>
                                 <option value="Referral">Employee Referral</option>
-                                <option value="Consultant">Consultant / Agency</option>
-                                <option value="Other">Other Source</option>
                             </select>
-                            <i class="fas fa-chevron-down absolute right-5 bottom-6 text-slate-400 pointer-events-none text-xs"></i>
                         </div>
 
+                        <!-- Role & Pay -->
                         <div class="flex flex-col justify-end">
                             <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-2 ml-2">Department</label>
                             <input type="text" id="dept" required oninput="this.value = this.value.toUpperCase()" class="w-full p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl font-black text-sm uppercase outline-none focus:border-sarathy-blue transition-colors dark:text-white shadow-sm" placeholder="E.G. SALES, SERVICE">
@@ -981,11 +1004,23 @@
                             <select id="company" required class="w-full p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl font-black text-sm uppercase outline-none focus:border-sarathy-blue transition-colors appearance-none shadow-sm cursor-pointer">
                                 <option value="SARATHY MOTORS">SARATHY MOTORS</option>
                                 <option value="SARATHY BIKES PVT LTD">SARATHY BIKES PVT LTD</option>
-                                <option value="SARATHY ELECTRIC PVT LTD">SARATHY ELECTRIC PVT LTD</option>
+                                <option value="SARATHY ELECTRIC PVT LTD">SARATHY ELECTRIC</option>
                                 <option value="SARATHY AUTOCARS">SARATHY AUTOCARS</option>
-                                <option value="SARATHY CARS PVT LTD">SARATHY CARS PVT LTD</option>
+                                <option value="SARATHY CARS PVT LTD">SARATHY CARS</option>
                             </select>
-                            <i class="fas fa-chevron-down absolute right-5 bottom-6 text-slate-400 pointer-events-none text-xs"></i>
+                        </div>
+
+                        <div class="flex flex-col justify-end">
+                            <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-2 ml-2">Base Salary (₹)</label>
+                            <input type="number" id="empSalary" class="w-full p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl font-black text-sm outline-none focus:border-sarathy-blue transition-colors dark:text-white shadow-sm" placeholder="15000">
+                        </div>
+                        <div class="flex flex-col justify-end relative">
+                            <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-2 ml-2">Assigned Shift</label>
+                            <select id="empShift" class="w-full p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl font-black text-sm uppercase outline-none focus:border-sarathy-blue transition-colors appearance-none shadow-sm cursor-pointer">
+                                <option value="General">General (09:00 - 06:00)</option>
+                                <option value="Morning">Morning (07:00 - 03:00)</option>
+                                <option value="Evening">Evening (02:00 - 10:00)</option>
+                            </select>
                         </div>
 
                         <div class="flex flex-col justify-end">
@@ -1008,10 +1043,6 @@
                         <div class="col-span-1 md:col-span-2 flex flex-col justify-end">
                             <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-2 ml-2">Designation</label>
                             <input type="text" id="designation" required class="w-full p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl font-black text-sm uppercase outline-none focus:border-sarathy-blue transition-colors dark:text-white shadow-sm" placeholder="DESIGNATION">
-                        </div>
-                        <div class="col-span-1 md:col-span-2 flex flex-col justify-end">
-                            <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-2 ml-2 flex items-center gap-2"><i class="fas fa-link text-sarathy-blue"></i> Resume Link (Drive/Dropbox)</label>
-                            <input type="url" id="resumeLink" class="w-full p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl font-bold text-sm outline-none focus:border-sarathy-blue transition-colors text-blue-500 shadow-sm" placeholder="https://drive.google.com/...">
                         </div>
                         <div class="col-span-1 md:col-span-2 flex flex-col justify-end">
                             <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-2 ml-2">Remarks</label>
@@ -1074,32 +1105,12 @@
             
             <div class="hidden print:block text-center pt-8 pb-4 border-b-2 border-black mb-6">
                 <h1 class="text-4xl font-black uppercase tracking-widest">SARATHY GROUP</h1>
-                <p class="text-sm font-bold uppercase tracking-widest mt-1">Candidate Profile Report</p>
+                <p class="text-sm font-bold uppercase tracking-widest mt-1">Personnel Profile & KYC</p>
             </div>
 
             <div class="p-6 md:p-10 custom-scroll max-h-[75vh] overflow-y-auto bg-[var(--bg-primary)]">
                 <div id="viewModalContent"></div>
             </div>
-        </div>
-    </div>
-
-    <!-- ID CARD MODAL -->
-    <div id="idCardModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[150] hidden flex items-center justify-center p-4 transition-opacity no-print">
-        <div class="w-full max-w-md rounded-3xl shadow-2xl overflow-hidden relative">
-            <button onclick="document.getElementById('idCardModal').classList.add('hidden')" class="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full bg-white/20 text-white hover:bg-white/40 transition-colors z-20"><i class="fas fa-times text-lg"></i></button>
-            <div id="idCardContainer" class="bg-white relative overflow-hidden id-card-bg text-black"></div>
-            <div class="bg-slate-800 p-6">
-                <button onclick="printNative('idCardContainer')" class="w-full bg-white text-slate-900 hover:bg-slate-200 font-black py-4 rounded-xl shadow-lg active:scale-95 transition-all uppercase tracking-widest text-sm flex items-center justify-center gap-2">
-                    <i class="fas fa-print text-lg"></i> Print ID Card
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- HIDDEN PAYSLIP CONTAINER FOR PDF EXPORT -->
-    <div id="payslipModal" class="hidden">
-        <div id="payslipContainer" class="bg-white text-black p-10">
-            <!-- Injected by JS -->
         </div>
     </div>
 
@@ -1125,6 +1136,9 @@
         const CURRENT_DB_VERSION = 'sarathy_db_v13'; 
         const CURRENT_BUDGET_VERSION = 'sarathy_req_v13'; 
         const LEAVES_DB_VERSION = 'sarathy_leaves_v13';
+        const EXPENSES_DB_VERSION = 'sarathy_exp_v1';
+        const ATTENDANCE_DB_VERSION = 'sarathy_att_v1';
+        const NOTICES_DB_VERSION = 'sarathy_notices_v1';
         
         let localUsers = JSON.parse(localStorage.getItem('sarathy_users_v13'));
         if (!localUsers) {
@@ -1140,6 +1154,11 @@
             {dept: 'SERVICE', company: 'ALL', location: 'ALL', target: 3}
         ];
         let leavesList = JSON.parse(localStorage.getItem(LEAVES_DB_VERSION)) || [];
+        let expensesList = JSON.parse(localStorage.getItem(EXPENSES_DB_VERSION)) || [];
+        let attendanceDB = JSON.parse(localStorage.getItem(ATTENDANCE_DB_VERSION)) || {};
+        let noticesList = JSON.parse(localStorage.getItem(NOTICES_DB_VERSION)) || [
+            { id: 1, text: "Welcome to the new HR Portal Pro! Explore the new features.", type: "info" }
+        ];
         
         let currentTab = 'dashboard';
         let tabHistory = []; 
@@ -1222,10 +1241,11 @@
             renderDirectory();
             renderPayroll();
             renderLeaves();
+            renderExpenses();
+            renderAttendance();
             if(currentTab === 'analytics') initCharts();
         };
 
-        // --- THEME ---
         const toggleDarkMode = () => {
             document.documentElement.classList.toggle('dark');
             const isDark = document.documentElement.classList.contains('dark');
@@ -1238,7 +1258,6 @@
             if(localStorage.getItem('theme') === 'dark') toggleDarkMode();
         };
 
-        // --- AUTH ---
         document.getElementById('loginForm')?.addEventListener('submit', (e) => {
             e.preventDefault();
             const u = document.getElementById('username')?.value.trim().toUpperCase();
@@ -1249,25 +1268,6 @@
                 document.getElementById('loginError')?.classList.remove('hidden');
             }
         });
-
-        const handleBiometricLogin = () => {
-            const icon = document.getElementById('bioIcon');
-            const text = document.getElementById('bioText');
-            if(icon) {
-                icon.classList.remove('text-slate-400');
-                icon.classList.add('text-sarathy-blue', 'animate-pulse');
-            }
-            if(text) text.innerText = "Scanning...";
-            setTimeout(() => {
-                if(icon) {
-                    icon.classList.remove('fa-fingerprint', 'animate-pulse');
-                    icon.classList.add('fa-check-circle');
-                }
-                if(text) text.innerText = "Verified";
-                showToast("Biometric Verified!");
-                setTimeout(() => { currentUser=USERS[0]; showApp(); }, 500);
-            }, 1500);
-        };
 
         const showApp = () => {
             document.getElementById('loginPage')?.classList.add('hidden');
@@ -1282,22 +1282,16 @@
             const chartMonthFilter = document.getElementById('chartMonthFilter');
             if(chartMonthFilter) chartMonthFilter.value = new Date().toISOString().slice(0, 7);
             
+            document.getElementById('attendanceDate').value = new Date().toISOString().slice(0, 10);
+
             if(isAdmin()) {
                 document.getElementById('addBtn')?.classList.remove('hidden');
                 document.getElementById('notesBtn')?.classList.remove('hidden');
                 document.getElementById('addBtn')?.classList.add('flex');
                 document.getElementById('notesBtn')?.classList.add('flex');
             }
-            
-            tabHistory = [];
-            const backBtn = document.getElementById('backBtn');
-            const headerBackBtn = document.getElementById('headerBackBtn');
-            if(backBtn) backBtn.classList.add('hidden');
-            if(headerBackBtn) headerBackBtn.classList.add('hidden');
-
             refreshAllViews();
         };
-        const logout = () => location.reload();
 
         // --- NAVIGATION ---
         const toggleSidebar = () => {
@@ -1306,12 +1300,7 @@
         };
 
         const switchTab = (tab, isBack = false) => {
-            if (tab === 'dashboard') {
-                tabHistory = []; 
-            } else if (!isBack && currentTab !== tab) {
-                tabHistory.push(currentTab);
-            }
-            
+            if (tab === 'dashboard') { tabHistory = []; } else if (!isBack && currentTab !== tab) { tabHistory.push(currentTab); }
             currentTab = tab;
             
             document.querySelectorAll('.nav-link').forEach(el => {
@@ -1319,39 +1308,20 @@
                 if(el.id === `nav-${tab}`) el.classList.add('active');
             });
             
-            document.querySelectorAll('.bottom-nav-link').forEach(el => {
-                el.classList.remove('text-sarathy-blue', 'dark:text-sky-400', 'active', 'text-rose-600', 'dark:text-rose-400');
-                el.classList.add('text-[var(--text-secondary)]');
-                if(el.id === `bottom-nav-${tab}`) {
-                    el.classList.remove('text-[var(--text-secondary)]');
-                    if(tab === 'leaves') {
-                        el.classList.add('text-rose-600', 'dark:text-rose-400', 'active');
-                    } else {
-                        el.classList.add('text-sarathy-blue', 'dark:text-sky-400', 'active');
-                    }
-                }
-            });
-            
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
             document.getElementById(`tab-${tab}`)?.classList.add('active');
             
             const titles = { 
-                dashboard: 'HR Overview', 
-                candidates: 'Candidate Directory', 
-                directory: 'Employee Directory',
-                leaves: 'Leave Management',
-                payroll: 'Payroll Management',
-                calendar: 'Interview Schedule', 
-                analytics: 'Data Analytics', 
-                settings: 'System Settings', 
-                onboarding: 'Onboarding Checklist' 
+                dashboard: 'HR Overview', candidates: 'Candidate Directory', directory: 'Employee Directory',
+                leaves: 'Leave Management', payroll: 'Payroll Management', calendar: 'Interview Schedule', 
+                analytics: 'Data Analytics', settings: 'System Settings', onboarding: 'Onboarding Checklist',
+                attendance: 'Daily Attendance', expenses: 'Expense Claims'
             };
             const pageTitle = document.getElementById('pageTitle');
             if(pageTitle) pageTitle.innerText = titles[tab] || 'HR Overview';
 
             const backBtn = document.getElementById('backBtn');
             const headerBackBtn = document.getElementById('headerBackBtn');
-            
             if (tabHistory.length > 0) {
                 if(backBtn) backBtn.classList.remove('hidden');
                 if(headerBackBtn) headerBackBtn.classList.remove('hidden');
@@ -1365,101 +1335,75 @@
                 document.getElementById('mobileOverlay')?.classList.add('hidden');
             }
             if(tab === 'analytics') initCharts();
-            if(tab === 'onboarding') renderOnboarding();
-            if(tab === 'directory') renderDirectory();
-            if(tab === 'payroll') renderPayroll();
-            if(tab === 'leaves') renderLeaves();
         };
         
         const goBack = () => {
-            if (tabHistory.length > 0) {
-                 const prevTab = tabHistory.pop();
-                 switchTab(prevTab, true); 
-             }
+            if (tabHistory.length > 0) { const prevTab = tabHistory.pop(); switchTab(prevTab, true); }
         };
 
         const toggleNotesPanel = () => document.getElementById('notesPanel')?.classList.toggle('open');
         const saveNotes = (val) => localStorage.setItem('hr_quick_notes', val);
 
-        // --- STATUS REJECTION DROPDOWN LOGIC ---
         document.getElementById('status')?.addEventListener('change', function() {
             const rejCont = document.getElementById('rejectionReasonContainer');
-            if(this.value === 'REJECTED') {
-                rejCont.classList.remove('hidden');
-            } else {
-                rejCont.classList.add('hidden');
-                document.getElementById('rejectionReason').value = '';
-            }
+            if(this.value === 'REJECTED') rejCont.classList.remove('hidden');
+            else { rejCont.classList.add('hidden'); document.getElementById('rejectionReason').value = ''; }
         });
 
-        // --- STAR RATING LOGIC ---
         const updateStarUI = (rating) => {
             document.querySelectorAll('#starSelector i').forEach(star => {
                 if(parseInt(star.getAttribute('data-rating')) <= rating) {
-                    star.classList.remove('text-slate-300');
-                    star.classList.add('text-amber-400');
+                    star.classList.remove('text-slate-300'); star.classList.add('text-amber-400');
                 } else {
-                    star.classList.add('text-slate-300');
-                    star.classList.remove('text-amber-400');
+                    star.classList.add('text-slate-300'); star.classList.remove('text-amber-400');
                 }
             });
         };
-        
         document.querySelectorAll('#starSelector i').forEach(star => {
             star.addEventListener('click', (e) => {
                 const rating = parseInt(e.target.getAttribute('data-rating'));
-                document.getElementById('empRating').value = rating;
-                updateStarUI(rating);
+                document.getElementById('empRating').value = rating; updateStarUI(rating);
             });
         });
 
-        // --- SETTINGS LOGIC ---
-        document.getElementById('changePinForm')?.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const newPin = document.getElementById('newAdminPin').value;
-            if(newPin.length < 4) return showToast("PIN must be at least 4 characters", "error");
+        const renderNotices = () => {
+            const container = document.getElementById('noticeBoardContent');
+            if(!container) return;
             
-            let users = JSON.parse(localStorage.getItem('sarathy_users_v13')) || USERS;
-            users[0].pass = newPin;
-            localStorage.setItem('sarathy_users_v13', JSON.stringify(users));
-            USERS = users;
-            showToast("Admin PIN Updated Successfully!");
-            document.getElementById('changePinForm').reset();
-        });
-
-        const exportJSONBackup = () => {
-            const data = {
-                candidates: joinees,
-                targets: reqList,
-                leaves: leavesList
-            };
-            const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `Sarathy_HR_Backup_${new Date().toISOString().slice(0,10)}.json`;
-            a.click();
-            URL.revokeObjectURL(url);
-            showToast("Backup Downloaded!");
+            if(noticesList.length === 0) {
+                container.innerHTML = '<p class="text-[10px] text-slate-400 text-center font-bold mt-4 uppercase">No current notices</p>';
+                return;
+            }
+            
+            container.innerHTML = noticesList.map((n, idx) => {
+                const color = n.type === 'urgent' ? 'border-red-400 bg-red-900/30' : 'border-amber-300 bg-black/20';
+                return `
+                <div class="relative group p-2.5 rounded-lg text-xs font-medium border-l-2 ${color}">
+                    ${n.text}
+                    <button onclick="deleteNotice(${idx})" class="absolute right-2 top-2 opacity-0 group-hover:opacity-100 text-red-300 hover:text-red-500 transition-opacity"><i class="fas fa-trash-alt"></i></button>
+                </div>`;
+            }).join('');
         };
-
-        const clearAllData = () => {
-            if(prompt("WARNING: This will delete ALL candidates, leaves and targets. Type 'CONFIRM' to proceed.") === "CONFIRM") {
-                joinees = [];
-                reqList = [];
-                leavesList = [];
-                localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees));
-                localStorage.setItem(CURRENT_BUDGET_VERSION, JSON.stringify(reqList));
-                localStorage.setItem(LEAVES_DB_VERSION, JSON.stringify(leavesList));
-                showToast("All data cleared successfully", "success");
-                refreshAllViews();
-            } else {
-                showToast("Action Cancelled", "error");
+        
+        const addNotice = () => {
+            const text = prompt("Enter notice message:");
+            if(text) {
+                const type = confirm("Mark as Urgent? (OK for Urgent, Cancel for Normal)") ? "urgent" : "info";
+                noticesList.unshift({ id: Date.now(), text, type, date: new Date().toISOString() });
+                localStorage.setItem(NOTICES_DB_VERSION, JSON.stringify(noticesList));
+                renderNotices();
             }
         };
+        
+        const deleteNotice = (idx) => {
+            noticesList.splice(idx, 1);
+            localStorage.setItem(NOTICES_DB_VERSION, JSON.stringify(noticesList));
+            renderNotices();
+        };
 
-        // --- DASHBOARD LOGIC ---
         const renderDashboard = () => {
+            renderNotices();
+            
             const statTotal = document.getElementById('statTotal');
             if(statTotal) statTotal.innerText = joinees.length;
             const statSelected = document.getElementById('statSelected');
@@ -1505,9 +1449,6 @@
                         </div>
                     `;
                 });
-                if(reqList.length === 0) {
-                    progContainer.innerHTML = `<div class="col-span-1 md:col-span-4 p-8 border-2 border-dashed border-[var(--border-color)] rounded-2xl text-center text-slate-400 font-bold uppercase tracking-widest text-sm">No targets configured</div>`;
-                }
             }
 
             const recentBody = document.getElementById('recentCandidatesBody');
@@ -1535,224 +1476,21 @@
                             <span class="status-badge-md shadow-sm ${stClass}">${x.status}</span>
                         </td>
                     </tr>
-                `}).join('') : '<tr><td colspan="2" class="text-center py-8 text-[var(--text-secondary)] font-black uppercase tracking-widest opacity-50">No recent candidates</td></tr>';
+                `}).join('') : '';
             }
         };
 
-        // --- BULK ACTIONS ---
-        const toggleSelectAll = () => {
-            const selectAllCb = document.getElementById('selectAllCb');
-            const checkboxes = document.querySelectorAll('.candidate-cb');
-            
-            if(selectAllCb.checked) {
-                checkboxes.forEach(cb => {
-                    cb.checked = true;
-                    if(!selectedCandidates.includes(cb.value)) selectedCandidates.push(cb.value);
-                });
-            } else {
-                checkboxes.forEach(cb => cb.checked = false);
-                selectedCandidates = [];
-            }
-            updateBulkActionBar();
-        };
-
-        const updateBulkSelection = (id, checked) => {
-            if(checked) {
-                if(!selectedCandidates.includes(String(id))) selectedCandidates.push(String(id));
-            } else {
-                selectedCandidates = selectedCandidates.filter(val => val !== String(id));
-                document.getElementById('selectAllCb').checked = false;
-            }
-            updateBulkActionBar();
-        };
-
-        const clearBulkSelection = () => {
-            selectedCandidates = [];
-            document.querySelectorAll('.candidate-cb').forEach(cb => cb.checked = false);
-            document.getElementById('selectAllCb').checked = false;
-            updateBulkActionBar();
-        };
-
-        const updateBulkActionBar = () => {
-            const bar = document.getElementById('bulkActionBar');
-            const countSpan = document.getElementById('bulkCount');
-            if(selectedCandidates.length > 0) {
-                bar.classList.add('active');
-                countSpan.innerText = selectedCandidates.length;
-            } else {
-                bar.classList.remove('active');
-            }
-        };
-
-        const copyBulkPhones = () => {
-            if(selectedCandidates.length === 0) return;
-            const phones = joinees.filter(j => selectedCandidates.includes(String(j.id)) && j.phone).map(j => j.phone).join(', ');
-            
-            if(!phones) return showToast("No valid phone numbers found", "error");
-            
-            navigator.clipboard.writeText(phones).then(() => {
-                showToast(`Copied ${selectedCandidates.length} numbers for WhatsApp!`);
-                clearBulkSelection();
-            }).catch(err => {
-                showToast("Failed to copy", "error");
-            });
-        };
-
-        const bulkUpdateStatus = (newStatus) => {
-            if(selectedCandidates.length === 0) return;
-            joinees.forEach(j => {
-                if(selectedCandidates.includes(String(j.id))) {
-                    j.status = newStatus;
-                    if(newStatus === 'JOINED' && !j.joinDate) {
-                        j.joinDate = new Date().toISOString().slice(0, 10);
-                    }
-                    if(newStatus !== 'REJECTED') {
-                        j.rejectionReason = ''; 
-                    }
-                }
-            });
-            localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees));
-            clearBulkSelection();
-            refreshAllViews();
-            showToast(`Marked ${selectedCandidates.length} candidates as ${newStatus}`);
-            if(newStatus === 'SELECTED' || newStatus === 'JOINED') confetti({particleCount: 150, spread: 80, origin: { y: 0.6 }});
-        };
-
-        const bulkDelete = () => {
-            if(selectedCandidates.length === 0) return;
-            if(confirm(`Are you sure you want to permanently delete ${selectedCandidates.length} selected candidates?`)) {
-                joinees = joinees.filter(j => !selectedCandidates.includes(String(j.id)));
-                localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees));
-                
-                leavesList = leavesList.filter(l => !selectedCandidates.includes(String(l.empRefId)));
-                localStorage.setItem(LEAVES_DB_VERSION, JSON.stringify(leavesList));
-                
-                clearBulkSelection();
-                refreshAllViews();
-                showToast("Candidates Deleted", "error");
-            }
-        };
-
-        // --- EXCEL BULK UPLOAD PARSER LOGIC ---
-        const handleBulkExcelUpload = (event) => {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                try {
-                    const data = new Uint8Array(e.target.result);
-                    const workbook = XLSX.read(data, { type: 'array' });
-                    const firstSheetName = workbook.SheetNames[0];
-                    const worksheet = workbook.Sheets[firstSheetName];
-                    const jsonData = XLSX.utils.sheet_to_json(worksheet, { raw: false }); // raw:false parses excel formatted strings
-
-                    let addedCount = 0;
-                    let skippedCount = 0;
-
-                    const parseExcelDate = (d) => {
-                        if (!d) return '';
-                        if (!isNaN(d) && typeof d === 'number') {
-                            const date = new Date(Math.round((d - 25569) * 86400 * 1000));
-                            return date.toISOString().slice(0,10);
-                        }
-                        const strDate = String(d).trim();
-                        const parts = strDate.split(/[-/]/);
-                        if(parts.length === 3) {
-                            if(parts[0].length <= 2 && parts[2].length === 4) return `${parts[2]}-${parts[1].padStart(2,'0')}-${parts[0].padStart(2,'0')}`;
-                            if(parts[0].length === 4) return `${parts[0]}-${parts[1].padStart(2,'0')}-${parts[2].padStart(2,'0')}`;
-                        }
-                        const parsed = new Date(strDate);
-                        if(!isNaN(parsed)) return parsed.toISOString().slice(0,10);
-                        return '';
-                    };
-
-                    jsonData.forEach((row, idx) => {
-                        const name = (row['Full Name'] || row['Name'] || '').trim().toUpperCase();
-                        const phoneRaw = String(row['Phone'] || row['Mobile'] || row['Phone Number'] || '');
-                        const phone = phoneRaw.replace(/\D/g, '').substring(0, 10);
-
-                        // Basic Validation
-                        if (!name || phone.length < 10) {
-                            skippedCount++;
-                            return; 
-                        }
-
-                        // Prevent duplicates based on phone
-                        if (joinees.some(x => x.phone === phone)) {
-                            skippedCount++;
-                            return;
-                        }
-
-                        let statusVal = (row['Current Status'] || row['Status'] || 'PENDING').trim().toUpperCase();
-                        if (!['PENDING', 'SELECTED', 'JOINED', 'REJECTED'].includes(statusVal)) statusVal = 'PENDING';
-
-                        const newCandidate = {
-                            id: Date.now() + idx, 
-                            empId: row['Emp ID'] || row['Emp Id'] || 'SG-' + (joinees.length + 1 + addedCount).toString().padStart(3, '0'),
-                            name: name,
-                            phone: phone,
-                            email: row['Email'] || '',
-                            source: row['Source'] || 'Direct/Walk-in',
-                            dept: (row['Department'] || row['Dept'] || 'GENERAL').trim().toUpperCase(),
-                            company: (row['Entity'] || row['Company'] || 'SARATHY MOTORS').toUpperCase(),
-                            status: statusVal,
-                            interviewDate: parseExcelDate(row['Interview Date'] || row['Interview']),
-                            joinDate: parseExcelDate(row['Join Date'] || row['Joining']),
-                            experience: parseFloat(row['Experience']) || 0,
-                            location: (row['Location'] || '').trim().toUpperCase(),
-                            designation: (row['Designation'] || '').trim().toUpperCase(),
-                            resumeLink: '',
-                            remarks: row['Remarks'] || '',
-                            rejectionReason: row['Rejection Reason'] || row['Reason'] || '',
-                            rating: parseInt(row['Rating']) || 0
-                        };
-
-                        joinees.push(newCandidate);
-                        addedCount++;
-                    });
-
-                    localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees));
-                    refreshAllViews();
-                    event.target.value = ''; // reset file input
-
-                    if (addedCount > 0) {
-                        showToast(`Successfully uploaded ${addedCount} candidates! (Skipped ${skippedCount})`, "success");
-                        confetti({particleCount: 150, spread: 80, origin: { y: 0.6 }});
-                    } else {
-                        showToast(`No new candidates added. Skiped duplicates/invalid: ${skippedCount}`, "error");
-                    }
-
-                } catch (error) {
-                    console.error("Excel parse error:", error);
-                    showToast("Error reading Excel file. Check format.", "error");
-                }
-            };
-            reader.readAsArrayBuffer(file);
-        };
-
-        // --- CANDIDATES VIEW ---
         const setQuickFilter = (f) => {
             activeFilter = f;
             document.querySelectorAll('[id^="chip-"]').forEach(c => c.classList.remove('border-sarathy-blue', 'text-sarathy-blue', 'dark:text-sky-400', 'border-red-500', 'text-red-500'));
             const chip = document.getElementById(`chip-${f}`);
-            if(chip) {
-                if(f === 'Rejected') {
-                    chip.classList.add('border-red-500', 'text-red-500');
-                } else {
-                    chip.classList.add('border-sarathy-blue', 'text-sarathy-blue', 'dark:text-sky-400');
-                }
-            }
+            if(chip) chip.classList.add(f === 'Rejected' ? 'border-red-500' : 'border-sarathy-blue', f === 'Rejected' ? 'text-red-500' : 'text-sarathy-blue');
             renderTable();
         };
 
         const setView = (v) => {
             currentView = v;
             renderTable();
-            const btnList = document.getElementById('btnViewList');
-            const btnBoard = document.getElementById('btnViewBoard');
-            if(btnList) btnList.className = v==='list'?'px-5 py-2 rounded-lg font-black text-sm bg-white dark:bg-slate-700 shadow-sm transition-all':'px-5 py-2 rounded-lg font-black text-sm text-[var(--text-secondary)] hover:bg-[var(--bg-secondary)] transition-all';
-            if(btnBoard) btnBoard.className = v==='board'?'px-5 py-2 rounded-lg font-black text-sm bg-white dark:bg-slate-700 shadow-sm transition-all':'px-5 py-2 rounded-lg font-black text-sm text-[var(--text-secondary)] hover:bg-[var(--bg-secondary)] transition-all';
         };
 
         const renderTable = () => {
@@ -1760,7 +1498,6 @@
             const month = document.getElementById('monthFilter')?.value || '';
             const deptFilter = document.getElementById('filterDept')?.value || 'ALL';
             const compFilter = document.getElementById('filterCompany')?.value || 'ALL';
-            const todayStr = new Date().toISOString().slice(0, 10);
             
             let filtered = joinees.filter(x => {
                 const searchMatch = x.name.includes(term) || x.empId.includes(term) || (x.phone && x.phone.includes(term));
@@ -1773,8 +1510,6 @@
                 if(activeFilter==='Selected') qMatch = x.status === 'SELECTED';
                 if(activeFilter==='Joined') qMatch = x.status === 'JOINED'; 
                 if(activeFilter==='Rejected') qMatch = x.status === 'REJECTED'; 
-                if(activeFilter==='InductionPending') qMatch = (x.status === 'SELECTED' && !x.joinDate);
-                
                 return searchMatch && dateMatch && deptMatch && compMatch && qMatch;
             });
 
@@ -1788,9 +1523,6 @@
                 
                 const tableBody = document.getElementById('candidatesTableBody');
                 if(tableBody) {
-                    const selectAllCb = document.getElementById('selectAllCb');
-                    if(selectAllCb) selectAllCb.checked = filtered.length > 0 && filtered.every(x => selectedCandidates.includes(String(x.id)));
-
                     if(filtered.length === 0) {
                         tableBody.innerHTML = '<tr><td colspan="7" class="text-center py-16 text-[var(--text-secondary)] font-black uppercase tracking-widest opacity-60"><i class="fas fa-box-open text-4xl mb-4 block opacity-50"></i> No candidates found</td></tr>';
                     } else {
@@ -1812,9 +1544,6 @@
                                             <h3 class="font-black text-sm md:text-base text-sarathy-blue dark:text-sky-400 uppercase tracking-widest flex items-center gap-2">
                                                 <i class="fas fa-building"></i> ${company}
                                             </h3>
-                                            <span class="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 py-1 px-3 rounded-lg text-[10px] font-black tracking-widest uppercase shadow-sm">
-                                                ${candidatesList.length} Candidates
-                                            </span>
                                         </div>
                                     </td>
                                 </tr>
@@ -1827,15 +1556,6 @@
             } else {
                 if(listView) listView.classList.add('hidden');
                 if(boardView) boardView.classList.remove('hidden');
-                ['PENDING', 'SELECTED', 'JOINED', 'REJECTED'].forEach(s => {
-                    const arr = filtered.filter(x=>x.status===s);
-                    const countEl = document.getElementById(`countBoard${s.charAt(0)+s.slice(1).toLowerCase()}`);
-                    const boardEl = document.getElementById(`board${s.charAt(0)+s.slice(1).toLowerCase()}`);
-                    if(countEl && boardEl) {
-                        countEl.innerText = arr.length;
-                        boardEl.innerHTML = arr.map(x=>generateCard(x)).join('');
-                    }
-                });
             }
         };
 
@@ -1851,20 +1571,7 @@
             const avatarClass = getAvatarColor(x.name);
             const deptColor = getDeptColor(x.dept);
             const isChecked = selectedCandidates.includes(String(x.id)) ? 'checked' : '';
-
             const ratingStars = Array(5).fill(0).map((_,i) => `<i class="fas fa-star ${i < (x.rating||0) ? 'text-amber-400' : 'text-slate-300'}"></i>`).join('');
-
-            let actionBtns = `
-                <button onclick="viewCandidate(${x.id})" title="View Profile" class="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 text-blue-600 dark:text-sky-400 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-all shadow-sm active:scale-95"><i class="fas fa-eye text-sm"></i></button>
-            `;
-            if (x.status === 'SELECTED' || x.status === 'JOINED') {
-                actionBtns = `<button onclick="markAsJoined(${x.id}); event.stopPropagation();" title="Mark Joined" class="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-900/30 border border-emerald-200 dark:border-emerald-800 text-emerald-600 dark:text-emerald-400 flex items-center justify-center hover:bg-emerald-500 hover:text-white transition-all shadow-sm active:scale-95 mr-2"><i class="fas fa-check text-sm"></i></button>` + actionBtns;
-            }
-
-            let rejReasonBadge = '';
-            if(x.status === 'REJECTED' && x.rejectionReason) {
-                rejReasonBadge = `<span class="block mt-1.5 text-[8px] font-black text-red-500 uppercase tracking-widest"><i class="fas fa-ban"></i> ${x.rejectionReason}</span>`;
-            }
 
             return `
                 <tr class="group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors cursor-pointer" onclick="viewCandidate(${x.id})">
@@ -1885,13 +1592,9 @@
                     </td>
                     <td>
                         <p class="font-black text-black dark:text-white text-xs uppercase tracking-widest truncate">${x.designation || '-'}</p>
-                        <div class="flex items-center gap-1.5 mt-1 text-[10px]">
-                            ${ratingStars}
-                        </div>
+                        <div class="flex items-center gap-1.5 mt-1 text-[10px]">${ratingStars}</div>
                         <div class="flex items-center gap-2 mt-1.5">
                             <p class="text-[10px] ${deptColor} font-black uppercase tracking-widest">${x.dept}</p>
-                            <span class="text-[10px] text-slate-300">•</span>
-                            <p class="text-[10px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-widest truncate">${x.source || 'Walk-in'}</p>
                         </div>
                     </td>
                     <td>
@@ -1899,61 +1602,35 @@
                     </td>
                     <td class="text-center">
                         <span class="status-badge-md shadow-sm ${statusClass}">${x.status}</span>
-                        ${rejReasonBadge}
                     </td>
                     <td>
                         <div class="text-[10px] leading-relaxed space-y-2">
                             <div>
-                                <p class="text-slate-500 dark:text-slate-400 font-bold uppercase tracking-widest mb-0.5">INTERVIEW DATE :</p>
-                                <span class="text-black dark:text-white font-black text-xs bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded-md border border-slate-200 dark:border-slate-700 inline-block shadow-sm">${intDate}</span>
+                                <span class="text-black dark:text-white font-black text-xs bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded-md border border-slate-200 dark:border-slate-700 inline-block shadow-sm">INT: ${intDate}</span>
                             </div>
-                            ${x.joinDate ? `
-                            <div>
-                                <p class="text-emerald-600 dark:text-emerald-400 font-bold uppercase tracking-widest mb-0.5 mt-1">JOIN DATE :</p>
-                                <span class="text-emerald-700 dark:text-emerald-300 font-black text-xs bg-emerald-50 dark:bg-emerald-900/30 px-2 py-1 rounded-md border border-emerald-200 dark:border-emerald-800 inline-block shadow-sm">${joinDate}</span>
-                            </div>` : ''}
                         </div>
                     </td>
                     <td class="text-right" onclick="event.stopPropagation()">
                         <div class="flex justify-end opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
-                            ${actionBtns}
+                            <button onclick="viewCandidate(${x.id})" class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-all shadow-sm"><i class="fas fa-eye text-sm"></i></button>
                         </div>
                     </td>
                 </tr>
             `;
         };
 
-        const generateCard = (x) => {
-            const intDate = formatDateString(x.interviewDate);
-            const avatarClass = getAvatarColor(x.name);
-            const deptColor = getDeptColor(x.dept);
+        const updateBulkSelection = (id, checked) => {
+            if(checked) { if(!selectedCandidates.includes(String(id))) selectedCandidates.push(String(id)); } 
+            else { selectedCandidates = selectedCandidates.filter(val => val !== String(id)); document.getElementById('selectAllCb').checked = false; }
+            updateBulkActionBar();
+        };
 
-            let rejReasonBadge = '';
-            if(x.status === 'REJECTED' && x.rejectionReason) {
-                rejReasonBadge = `<p class="text-[8px] font-black text-red-500 uppercase tracking-widest mt-1"><i class="fas fa-ban"></i> ${x.rejectionReason}</p>`;
-            }
-            
-            const ratingStars = Array(5).fill(0).map((_,i) => `<i class="fas fa-star ${i < (x.rating||0) ? 'text-amber-400' : 'text-slate-300'}"></i>`).join('');
-
-            return `
-            <div class="modern-card p-5 relative flex flex-col gap-4 group bg-[var(--bg-secondary)] border-2 hover:border-sarathy-blue transition-all" draggable="true" ondragstart="dragStart(event, ${x.id})" ondragend="dragEnd(event)">
-                <div class="flex items-center gap-3">
-                    <div class="w-12 h-12 rounded-xl border flex items-center justify-center font-black text-xl shrink-0 ${avatarClass}">${x.name[0]}</div>
-                    <div class="min-w-0 flex-1 flex flex-col items-start">
-                        <h4 class="font-black text-sm truncate text-[var(--text-primary)] uppercase tracking-wide w-full">${x.name}</h4>
-                        <div class="flex items-center gap-1 mt-1 text-[8px]">
-                            ${ratingStars}
-                        </div>
-                        <p class="text-[9px] font-bold uppercase tracking-widest mb-2 mt-1.5"><span class="text-slate-400">${x.empId} • </span><span class="${deptColor}">${x.dept}</span></p>
-                        <span class="inline-block px-2 py-1 rounded-md text-[8px] font-black bg-[#0054A6] text-white border border-[#003366] uppercase tracking-widest truncate max-w-full shadow-sm">${x.company}</span>
-                        ${rejReasonBadge}
-                    </div>
-                </div>
-                <div class="flex justify-between items-center pt-4 border-t border-[var(--border-color)]">
-                    <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest"><i class="fas fa-calendar mr-1 text-sarathy-blue"></i> INT: ${intDate}</span>
-                    <button onclick="viewCandidate(${x.id})" class="text-[10px] font-black text-sarathy-blue uppercase tracking-widest hover:underline bg-blue-50 dark:bg-blue-900/30 px-3 py-1.5 rounded-lg border border-blue-100 dark:border-blue-900/50">Details</button>
-                </div>
-            </div>`;
+        const updateBulkActionBar = () => {
+            const bar = document.getElementById('bulkActionBar');
+            const countSpan = document.getElementById('bulkCount');
+            if(selectedCandidates.length > 0) {
+                bar.classList.add('active'); countSpan.innerText = selectedCandidates.length;
+            } else { bar.classList.remove('active'); }
         };
 
         const markAsJoined = (id) => {
@@ -1968,15 +1645,13 @@
             }
         };
 
-        // --- FULL EDITING FIX ---
         const openModal = () => {
             document.getElementById('joineeForm')?.reset();
             document.getElementById('editId').value = ''; 
             document.getElementById('empId').value = 'SG-' + (joinees.length+1).toString().padStart(3,'0');
             document.getElementById('modalTitle').innerText = "Register Personnel";
             document.getElementById('rejectionReasonContainer').classList.add('hidden');
-            document.getElementById('empRating').value = 0;
-            updateStarUI(0);
+            document.getElementById('empRating').value = 0; updateStarUI(0);
             document.getElementById('addModal')?.classList.remove('hidden');
             setTimeout(()=>document.getElementById('modalContent').style.transform = 'translateX(0)', 10);
         };
@@ -2006,21 +1681,16 @@
             document.getElementById('experience').value = r.experience || 0;
             document.getElementById('location').value = r.location || '';
             document.getElementById('designation').value = r.designation || '';
-            document.getElementById('resumeLink').value = r.resumeLink || '';
             document.getElementById('remarks').value = r.remarks || '';
+            document.getElementById('empSalary').value = r.salary || '';
+            document.getElementById('empShift').value = r.shift || 'General';
             
             document.getElementById('empRating').value = r.rating || 0;
             updateStarUI(r.rating || 0);
 
             const rejCont = document.getElementById('rejectionReasonContainer');
-            const rejSelect = document.getElementById('rejectionReason');
-            if(r.status === 'REJECTED') {
-                rejCont.classList.remove('hidden');
-                rejSelect.value = r.rejectionReason || '';
-            } else {
-                rejCont.classList.add('hidden');
-                rejSelect.value = '';
-            }
+            if(r.status === 'REJECTED') { rejCont.classList.remove('hidden'); document.getElementById('rejectionReason').value = r.rejectionReason || ''; } 
+            else { rejCont.classList.add('hidden'); }
 
             document.getElementById('modalTitle').innerText = "Edit Personnel Details";
             document.getElementById('addModal')?.classList.remove('hidden');
@@ -2047,49 +1717,35 @@
                 experience: parseFloat(document.getElementById('experience').value)||0,
                 location: document.getElementById('location').value.trim().toUpperCase(),
                 designation: document.getElementById('designation').value.trim().toUpperCase(),
-                resumeLink: document.getElementById('resumeLink').value.trim(),
                 remarks: document.getElementById('remarks').value.trim(),
                 rejectionReason: currentStatus === 'REJECTED' ? document.getElementById('rejectionReason').value : '',
-                rating: parseInt(document.getElementById('empRating').value) || 0
+                rating: parseInt(document.getElementById('empRating').value) || 0,
+                salary: parseFloat(document.getElementById('empSalary').value) || 0,
+                shift: document.getElementById('empShift').value || 'General',
+                documents: editIdVal ? (joinees.find(x=>x.id==editIdVal).documents || {}) : { aadhaar: false, pan: false, bank: false, dl: false }
             };
             
-            if(data.status === 'JOINED' && !data.joinDate) {
-                data.joinDate = new Date().toISOString().slice(0, 10);
-            }
-
-            const existingCandidate = joinees.find(x => x.phone === data.phone && String(x.id) !== String(data.id));
-            if (existingCandidate) {
-                showToast("Candidate with this Phone Number already exists!", "error");
-                return;
-            }
+            if(data.status === 'JOINED' && !data.joinDate) { data.joinDate = new Date().toISOString().slice(0, 10); }
 
             if(editIdVal) {
                 const idx = joinees.findIndex(x => String(x.id) === String(editIdVal));
-                if(idx > -1) {
-                    joinees[idx] = data;
-                    showToast("Candidate Record Updated!");
-                }
+                if(idx > -1) { joinees[idx] = data; showToast("Candidate Record Updated!"); }
             } else {
-                joinees.push(data);
-                showToast("Candidate Record Saved!");
+                joinees.push(data); showToast("Candidate Record Saved!");
                 if(data.status==='SELECTED' || data.status==='JOINED') confetti({particleCount: 120, spread: 80, origin: { y: 0.6 }});
             }
 
             localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees));
-            closeModal(); 
-            refreshAllViews();
+            closeModal(); refreshAllViews();
         });
 
-        const deleteCandidate = (id) => {
-            if(confirm("Are you sure you want to delete this candidate permanently?")) {
-                joinees = joinees.filter(x => String(x.id) !== String(id));
+        const toggleDocument = (id, docKey, isChecked) => {
+            const idx = joinees.findIndex(x => String(x.id) === String(id));
+            if(idx > -1) {
+                if(!joinees[idx].documents) joinees[idx].documents = { aadhaar: false, pan: false, bank: false, dl: false };
+                joinees[idx].documents[docKey] = isChecked;
                 localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees));
-                
-                leavesList = leavesList.filter(l => String(l.empRefId) !== String(id));
-                localStorage.setItem(LEAVES_DB_VERSION, JSON.stringify(leavesList));
-
-                refreshAllViews();
-                showToast("Candidate Entry Deleted!", "error");
+                showToast("Document Status Updated!");
             }
         };
 
@@ -2104,36 +1760,7 @@
             else if(r.status === 'PENDING') statusClass = 'bg-amber-50 text-amber-600 border-amber-200';
             else statusClass = 'bg-red-50 text-red-600 border-red-200';
 
-            let rejectionReasonText = '';
-            if(r.status === 'REJECTED' && r.rejectionReason) {
-                rejectionReasonText = `<p class="text-[10px] font-bold text-red-400 uppercase tracking-widest mt-1">Reason: ${r.rejectionReason}</p>`;
-            }
-
-            let timelineHtml = `
-                <div class="mt-8 pt-8 border-t border-[var(--border-color)]">
-                    <h4 class="text-xs font-black text-sarathy-blue uppercase tracking-widest mb-6 flex items-center gap-2"><div class="w-1.5 h-4 bg-sarathy-blue rounded-full"></div> Candidate Journey</h4>
-                    <div class="ml-4 md:ml-6">
-                        <div class="timeline-step active">
-                            <p class="text-sm font-black text-[var(--text-primary)] uppercase">Application Received</p>
-                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Source: ${r.source || 'Portal'}</p>
-                        </div>
-                        <div class="timeline-step ${r.status !== 'PENDING' ? 'active' : ''}">
-                            <p class="text-sm font-black text-[var(--text-primary)] uppercase">Interview Scheduled</p>
-                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Date: ${formatDateString(r.interviewDate)}</p>
-                        </div>
-                        ${(r.status === 'SELECTED' || r.status === 'JOINED') ? `
-                        <div class="timeline-step ${r.status === 'JOINED' ? 'active' : ''}">
-                            <p class="text-sm font-black text-[var(--text-primary)] uppercase">${r.status === 'JOINED' ? 'Successfully Joined' : 'Candidate Selected'}</p>
-                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Date: ${r.joinDate ? formatDateString(r.joinDate) : 'Pending Confirmation'}</p>
-                        </div>` : ''}
-                        ${r.status === 'REJECTED' ? `
-                        <div class="timeline-step rejected" style="border-left-color: transparent;">
-                            <p class="text-sm font-black text-red-500 uppercase">Application Rejected</p>
-                            ${rejectionReasonText}
-                        </div>` : ''}
-                    </div>
-                </div>
-            `;
+            const docs = r.documents || { aadhaar: false, pan: false, bank: false, dl: false };
 
             const content = `
                 <div class="flex flex-col md:flex-row items-center md:items-start gap-6 mb-8 border-b border-[var(--border-color)] pb-8 relative">
@@ -2150,35 +1777,287 @@
                         </div>
                     </div>
                 </div>
-                <div class="grid grid-cols-2 gap-y-6 gap-x-4 bg-[var(--bg-secondary)] p-6 md:p-8 rounded-[2rem] border border-[var(--border-color)] shadow-sm">
+                
+                <div class="grid grid-cols-2 gap-y-6 gap-x-4 bg-[var(--bg-secondary)] p-6 md:p-8 rounded-[2rem] border border-[var(--border-color)] shadow-sm mb-8">
                     <div><span class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Phone Number</span><span class="font-black text-sm md:text-base text-[var(--text-primary)] tracking-wide">${r.phone || 'N/A'}</span></div>
                     <div><span class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Email Address</span><span class="font-black text-sm md:text-base text-[var(--text-primary)] tracking-wide lowercase truncate block pr-2">${r.email || 'N/A'}</span></div>
                     
-                    <div><span class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Experience</span><span class="font-black text-sm md:text-base text-[var(--text-primary)] tracking-wide">${r.experience} Yrs</span></div>
-                    <div><span class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Source</span><span class="font-black text-sm md:text-base text-[var(--text-primary)] tracking-wide uppercase">${r.source || 'Walk-in'}</span></div>
-
                     <div><span class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Designation</span><span class="font-black text-sm md:text-base text-[var(--text-primary)] uppercase tracking-wide truncate block">${r.designation || 'N/A'}</span></div>
                     <div><span class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Department</span><span class="font-black text-sm md:text-base text-[var(--text-primary)] uppercase tracking-wide truncate block ${getDeptColor(r.dept)}">${r.dept}</span></div>
                     
-                    <div class="col-span-2"><span class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Location</span><span class="font-black text-sm md:text-base text-[var(--text-primary)] uppercase tracking-wide">${r.location || 'N/A'}</span></div>
-                    
-                    <div class="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-2xl border border-blue-100 dark:border-blue-900/50"><span class="block text-[10px] font-black text-sarathy-blue dark:text-sky-400 uppercase tracking-widest mb-2">Interview Date</span><span class="font-black text-base text-[var(--text-primary)]">${formatDateString(r.interviewDate)}</span></div>
-                    <div class="p-4 bg-emerald-50 dark:bg-emerald-900/20 rounded-2xl border border-emerald-100 dark:border-emerald-900/50"><span class="block text-[10px] font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-widest mb-2">Join Date</span><span class="font-black text-base text-[var(--text-primary)]">${formatDateString(r.joinDate) || 'N/A'}</span></div>
-                    
-                    ${r.remarks ? `<div class="col-span-2 mt-2"><span class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3">Remarks / Feedback</span><div class="p-5 bg-[var(--bg-primary)] rounded-2xl border border-[var(--border-color)] text-sm font-bold text-[var(--text-primary)] italic shadow-inner leading-relaxed">" ${r.remarks} "</div></div>` : ''}
+                    <div><span class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Base Salary</span><span class="font-black text-sm md:text-base text-[var(--text-primary)] tracking-wide">₹${r.salary || 0}</span></div>
+                    <div><span class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Assigned Shift</span><span class="font-black text-sm md:text-base text-[var(--text-primary)] tracking-wide uppercase">${r.shift || 'General'}</span></div>
                 </div>
-                
-                ${timelineHtml}
+
+                ${(r.status === 'JOINED' || r.status === 'SELECTED') ? `
+                <div class="mb-8">
+                    <h4 class="text-xs font-black text-sarathy-blue uppercase tracking-widest mb-4 flex items-center gap-2"><i class="fas fa-folder-open"></i> KYC Document Vault</h4>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <label class="flex items-center gap-3 p-4 border border-[var(--border-color)] rounded-xl cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                            <input type="checkbox" ${docs.aadhaar ? 'checked' : ''} onchange="toggleDocument(${r.id}, 'aadhaar', this.checked)" class="custom-checkbox">
+                            <span class="text-[10px] font-black uppercase tracking-widest">Aadhaar Card</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-4 border border-[var(--border-color)] rounded-xl cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                            <input type="checkbox" ${docs.pan ? 'checked' : ''} onchange="toggleDocument(${r.id}, 'pan', this.checked)" class="custom-checkbox">
+                            <span class="text-[10px] font-black uppercase tracking-widest">PAN Card</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-4 border border-[var(--border-color)] rounded-xl cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                            <input type="checkbox" ${docs.bank ? 'checked' : ''} onchange="toggleDocument(${r.id}, 'bank', this.checked)" class="custom-checkbox">
+                            <span class="text-[10px] font-black uppercase tracking-widest">Bank Details</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-4 border border-[var(--border-color)] rounded-xl cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                            <input type="checkbox" ${docs.dl ? 'checked' : ''} onchange="toggleDocument(${r.id}, 'dl', this.checked)" class="custom-checkbox">
+                            <span class="text-[10px] font-black uppercase tracking-widest">Driving License</span>
+                        </label>
+                    </div>
+                </div>` : ''}
 
                 <div class="mt-8 flex flex-wrap gap-3 no-print">
                     <button onclick="editRecord(${r.id})" class="flex-1 py-3 md:py-4 bg-sarathy-blue hover:bg-[#004080] text-white rounded-xl md:rounded-2xl font-black text-[10px] md:text-xs uppercase tracking-widest transition-all shadow-md active:scale-95 flex items-center justify-center gap-2"><i class="fas fa-edit"></i> Edit</button>
                     ${r.status === 'SELECTED' ? `<button onclick="markAsJoined(${r.id}); closeViewModal();" class="flex-1 py-3 md:py-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl md:rounded-2xl font-black text-[10px] md:text-xs uppercase tracking-widest transition-all shadow-md active:scale-95 flex items-center justify-center gap-2"><i class="fas fa-user-check"></i> Join</button>` : ''}
-                    <button onclick="deleteCandidate(${r.id}); closeViewModal();" class="w-12 h-12 md:w-auto md:flex-1 py-3 md:py-4 bg-red-50 hover:bg-red-600 text-red-500 hover:text-white rounded-xl md:rounded-2xl font-black text-[10px] md:text-xs uppercase tracking-widest transition-all border border-red-200 active:scale-95 flex items-center justify-center gap-2"><i class="fas fa-trash-alt"></i> <span class="hidden md:inline">Delete</span></button>
                 </div>
             `;
             const viewContent = document.getElementById('viewModalContent');
             if(viewContent) viewContent.innerHTML = content;
             document.getElementById('viewModal')?.classList.remove('hidden');
+        };
+
+        const renderAttendance = () => {
+            const tableBody = document.getElementById('attendanceTableBody');
+            const targetDate = document.getElementById('attendanceDate')?.value || new Date().toISOString().slice(0, 10);
+            if(!tableBody) return;
+
+            const activeEmployees = joinees.filter(x => x.status === 'JOINED');
+            
+            if(!attendanceDB[targetDate]) attendanceDB[targetDate] = {};
+
+            if(activeEmployees.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="6" class="text-center py-16 text-[var(--text-secondary)] font-black uppercase tracking-widest opacity-60">No Active Employees</td></tr>';
+                return;
+            }
+
+            tableBody.innerHTML = activeEmployees.map((x, index) => {
+                const status = attendanceDB[targetDate][x.id] || 'UNMARKED';
+                let stClass = 'bg-slate-100 text-slate-500';
+                if(status === 'PRESENT') stClass = 'bg-emerald-100 text-emerald-700';
+                if(status === 'ABSENT') stClass = 'bg-red-100 text-red-700';
+                if(status === 'HALF-DAY') stClass = 'bg-amber-100 text-amber-700';
+
+                return `
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                    <td class="text-center font-black text-[10px]">${index + 1}</td>
+                    <td>
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 rounded-xl flex items-center justify-center font-black text-sm shrink-0 shadow-sm ${getAvatarColor(x.name)}">${x.name[0]}</div>
+                            <div>
+                                <p class="font-black text-black dark:text-white text-sm uppercase tracking-wide truncate leading-tight">${x.name}</p>
+                                <span class="inline-block px-2 py-0.5 mt-1.5 rounded-md text-[9px] font-black bg-slate-100 text-slate-500 uppercase tracking-widest">${x.empId}</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td><p class="text-[10px] ${getDeptColor(x.dept)} font-black uppercase tracking-widest">${x.dept}</p></td>
+                    <td><span class="text-[10px] font-black uppercase tracking-widest">${x.shift || 'General'}</span></td>
+                    <td class="text-center"><span class="px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest ${stClass}">${status}</span></td>
+                    <td class="text-right">
+                        <select onchange="updateAttendance(${x.id}, this.value, '${targetDate}')" class="p-2 text-[10px] font-black uppercase rounded-lg border outline-none cursor-pointer">
+                            <option value="UNMARKED" ${status==='UNMARKED'?'selected':''}>Mark...</option>
+                            <option value="PRESENT" ${status==='PRESENT'?'selected':''}>Present</option>
+                            <option value="HALF-DAY" ${status==='HALF-DAY'?'selected':''}>Half-Day</option>
+                            <option value="ABSENT" ${status==='ABSENT'?'selected':''}>Absent</option>
+                        </select>
+                    </td>
+                </tr>`;
+            }).join('');
+        };
+
+        const updateAttendance = (empId, status, date) => {
+            if(!attendanceDB[date]) attendanceDB[date] = {};
+            attendanceDB[date][empId] = status;
+            localStorage.setItem(ATTENDANCE_DB_VERSION, JSON.stringify(attendanceDB));
+            renderAttendance();
+        };
+
+        const markAllPresent = () => {
+            const targetDate = document.getElementById('attendanceDate')?.value;
+            if(!targetDate) return;
+            const activeEmployees = joinees.filter(x => x.status === 'JOINED');
+            if(!attendanceDB[targetDate]) attendanceDB[targetDate] = {};
+            
+            activeEmployees.forEach(emp => { attendanceDB[targetDate][emp.id] = 'PRESENT'; });
+            localStorage.setItem(ATTENDANCE_DB_VERSION, JSON.stringify(attendanceDB));
+            renderAttendance();
+            showToast("All active employees marked as Present!");
+            confetti();
+        };
+
+        const openExpenseModal = () => {
+            document.getElementById('expenseForm').reset();
+            const select = document.getElementById('expEmpId');
+            const joinedEmployees = joinees.filter(x => x.status === 'JOINED');
+            select.innerHTML = '<option value="" disabled selected>Select an employee</option>' + 
+                joinedEmployees.map(e => `<option value="${e.id}">${e.name} (${e.empId})</option>`).join('');
+            document.getElementById('expenseModal').classList.remove('hidden');
+        };
+        const closeExpenseModal = () => { document.getElementById('expenseModal').classList.add('hidden'); };
+
+        document.getElementById('expenseForm')?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const empIdRef = document.getElementById('expEmpId').value;
+            const emp = joinees.find(x => String(x.id) === String(empIdRef));
+            if(!emp) return;
+
+            const newExp = {
+                id: Date.now(), empId: emp.empId, empName: emp.name,
+                category: document.getElementById('expCategory').value,
+                amount: parseFloat(document.getElementById('expAmount').value),
+                reason: document.getElementById('expReason').value,
+                date: document.getElementById('expDate').value,
+                status: 'PENDING'
+            };
+
+            expensesList.push(newExp);
+            localStorage.setItem(EXPENSES_DB_VERSION, JSON.stringify(expensesList));
+            closeExpenseModal(); renderExpenses(); showToast("Expense Claim Submitted!");
+        });
+
+        const renderExpenses = () => {
+            const tableBody = document.getElementById('expensesTableBody');
+            if(!tableBody) return;
+
+            if(expensesList.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="6" class="text-center py-16 text-[var(--text-secondary)] font-black uppercase tracking-widest opacity-60">No Expense Claims found</td></tr>';
+                return;
+            }
+
+            tableBody.innerHTML = [...expensesList].sort((a,b) => b.id - a.id).map((e) => {
+                let stClass = 'bg-amber-50 text-amber-600 border-amber-200';
+                if(e.status === 'APPROVED') stClass = 'bg-emerald-50 text-emerald-600 border-emerald-200';
+                if(e.status === 'REJECTED') stClass = 'bg-red-50 text-red-600 border-red-200';
+
+                return `
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                    <td class="font-black text-[10px] uppercase">${formatDateString(e.date)}</td>
+                    <td><p class="font-black text-sm uppercase">${e.empName}</p><span class="text-[9px] text-slate-500 uppercase font-black">${e.empId}</span></td>
+                    <td><p class="font-black text-fuchsia-600 uppercase text-xs">${e.category}</p><p class="text-sm font-black mt-1 text-black dark:text-white">₹${e.amount}</p></td>
+                    <td><p class="text-[10px] font-bold max-w-xs truncate" title="${e.reason}">${e.reason}</p></td>
+                    <td class="text-center"><span class="px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest border ${stClass}">${e.status}</span></td>
+                    <td class="text-right">
+                        ${e.status === 'PENDING' ? `
+                        <div class="flex justify-end gap-2">
+                            <button onclick="updateExpense(${e.id}, 'APPROVED')" class="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 hover:bg-emerald-500 hover:text-white transition-colors active:scale-95"><i class="fas fa-check"></i></button>
+                            <button onclick="updateExpense(${e.id}, 'REJECTED')" class="w-8 h-8 rounded-xl bg-red-50 text-red-600 hover:bg-red-500 hover:text-white transition-colors active:scale-95"><i class="fas fa-times"></i></button>
+                        </div>
+                        ` : `<button onclick="deleteExpense(${e.id})" class="w-8 h-8 rounded-xl bg-slate-100 text-slate-400 hover:text-red-500 transition-colors active:scale-95"><i class="fas fa-trash-alt"></i></button>`}
+                    </td>
+                </tr>`;
+            }).join('');
+        };
+
+        const updateExpense = (id, newStatus) => {
+            const idx = expensesList.findIndex(e => String(e.id) === String(id));
+            if(idx > -1) {
+                expensesList[idx].status = newStatus;
+                localStorage.setItem(EXPENSES_DB_VERSION, JSON.stringify(expensesList));
+                renderExpenses(); showToast(`Expense ${newStatus}!`);
+            }
+        };
+        const deleteExpense = (id) => {
+            expensesList = expensesList.filter(e => String(e.id) !== String(id));
+            localStorage.setItem(EXPENSES_DB_VERSION, JSON.stringify(expensesList));
+            renderExpenses(); showToast("Claim Deleted");
+        };
+
+        const openReqModal = () => {
+            if(!isAdmin()) return showToast("Admin Access Required", "error");
+            renderReqEntries(); document.getElementById('reqModal')?.classList.remove('hidden');
+        };
+        const closeReqModal = () => document.getElementById('reqModal')?.classList.add('hidden');
+        
+        const renderReqEntries = () => {
+            const container = document.getElementById('reqEntriesContainer');
+            if(!container) return;
+            container.innerHTML = reqList.map((req, idx) => `
+                <div class="p-6 bg-[var(--bg-secondary)] rounded-2xl border border-[var(--border-color)] relative group shadow-sm">
+                    <button onclick="removeReqRow(${idx})" class="absolute top-4 right-4 w-8 h-8 rounded-xl text-slate-400 hover:bg-red-50 hover:text-red-600 transition-colors"><i class="fas fa-trash-alt"></i></button>
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 md:pr-10">
+                        <div><label class="text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-widest">Department</label><input type="text" value="${req.dept}" onchange="reqList[${idx}].dept=this.value.trim().toUpperCase()" class="w-full p-3 mt-1 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl font-bold text-xs uppercase outline-none focus:border-sarathy-blue dark:text-white transition-colors"></div>
+                        <div class="relative"><label class="text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-widest">Entity</label><select onchange="reqList[${idx}].company=this.value" class="w-full p-3 mt-1 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl font-bold text-xs uppercase outline-none focus:border-sarathy-blue dark:text-white appearance-none cursor-pointer"><option value="ALL">ALL ENTITIES</option><option value="SARATHY MOTORS">SARATHY MOTORS</option></select></div>
+                        <div><label class="text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-widest">Location</label><input type="text" value="${req.location || 'ALL'}" onchange="reqList[${idx}].location=this.value.trim().toUpperCase()" class="w-full p-3 mt-1 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl font-bold text-xs uppercase outline-none focus:border-sarathy-blue dark:text-white transition-colors"></div>
+                        <div><label class="text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-widest">Target Count</label><input type="number" value="${req.target}" onchange="reqList[${idx}].target=parseInt(this.value)||0" min="0" class="w-full p-3 mt-1 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl font-black text-xs outline-none focus:border-sarathy-blue dark:text-white transition-colors"></div>
+                    </div>
+                </div>`).join('');
+        };
+        const addReqRow = () => { reqList.push({ dept: 'NEW DEPT', company: 'ALL', location: 'ALL', target: 5 }); renderReqEntries(); };
+        const removeReqRow = (idx) => { reqList.splice(idx, 1); renderReqEntries(); };
+        const saveRequirements = () => { localStorage.setItem(CURRENT_BUDGET_VERSION, JSON.stringify(reqList)); showToast("Targets Updated!"); closeReqModal(); renderDashboard(); };
+
+        const exportToExcel = () => {
+            if (joinees.length === 0) return showToast("No data to export", "error");
+            try {
+                const exportData = joinees.map((j, index) => ({
+                    "SL NO": index + 1, "Emp ID": j.empId, "Full Name": j.name, "Phone": j.phone,
+                    "Source": j.source, "Department": j.dept, "Entity": j.company, "Current Status": j.status,
+                    "Interview Date": formatDateString(j.interviewDate), "Join Date": j.joinDate ? formatDateString(j.joinDate) : '',
+                    "Experience": j.experience, "Location": j.location, "Designation": j.designation, "Salary": j.salary || 0
+                }));
+                const worksheet = XLSX.utils.json_to_sheet(exportData);
+                const workbook = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(workbook, worksheet, "Candidates");
+                XLSX.writeFile(workbook, `HR_Export_${new Date().toISOString().slice(0, 10)}.xlsx`);
+                showToast("Excel Downloaded!");
+            } catch (error) { showToast("Failed to export Excel", "error"); }
+        };
+
+        const renderDirectory = () => {
+            const container = document.getElementById('directoryContainer');
+            if(!container) return;
+            const term = document.getElementById('dirSearchInput')?.value.toUpperCase() || '';
+            const activeEmployees = joinees.filter(x => x.status === 'JOINED' && (x.name.includes(term) || x.empId.includes(term) || x.dept.includes(term)));
+            
+            if(activeEmployees.length === 0) {
+                container.innerHTML = '<div class="col-span-full text-center py-20 opacity-50"><h3 class="text-lg font-black uppercase tracking-widest text-[var(--text-secondary)]">No Active Employees</h3></div>';
+                return;
+            }
+            container.innerHTML = activeEmployees.map(c => `<div class="modern-card p-6 border-t-4 border-t-indigo-500 text-center hover:shadow-xl cursor-pointer group" onclick="viewCandidate(${c.id})"><div class="w-20 h-20 mx-auto rounded-[1.5rem] border-2 flex items-center justify-center font-black text-3xl shadow-sm mb-4 transition-transform group-hover:scale-110 ${getAvatarColor(c.name)}">${c.name[0]}</div><h4 class="font-black text-base uppercase truncate">${c.name}</h4><p class="text-[10px] font-bold uppercase tracking-widest mt-1 mb-4 truncate">${c.designation || 'EMPLOYEE'}</p></div>`).join('');
+        };
+        
+        const renderPayroll = () => {
+            const tableBody = document.getElementById('payrollTableBody');
+            if(!tableBody) return;
+            const activeEmployees = joinees.filter(x => x.status === 'JOINED');
+            if(activeEmployees.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="5" class="text-center py-16 text-[var(--text-secondary)] font-black uppercase tracking-widest opacity-60">No Active Employees</td></tr>';
+                return;
+            }
+            tableBody.innerHTML = activeEmployees.map((x, index) => `<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors"><td class="text-center font-black text-[10px]">${index + 1}</td><td><div class="flex items-center gap-4"><div class="w-10 h-10 rounded-xl flex items-center justify-center font-black text-sm shrink-0 shadow-sm ${getAvatarColor(x.name)}">${x.name[0]}</div><div><p class="font-black text-sm uppercase tracking-wide truncate leading-tight">${x.name}</p></div></div></td><td><p class="font-black text-[11px] uppercase tracking-widest truncate">${x.designation || '-'}</p><p class="text-[10px] font-bold uppercase text-slate-500 mt-1">₹${x.salary || 0}</p></td><td><span class="status-badge-md shadow-sm badge-joined">ACTIVE</span></td><td class="text-right"><button class="px-4 py-2 bg-amber-50 text-amber-600 rounded-xl text-[10px] font-black uppercase hover:bg-amber-500 hover:text-white transition-all shadow-sm"><i class="fas fa-print mr-1"></i> Payslip</button></td></tr>`).join('');
+        };
+
+        const renderOnboarding = () => {
+            const container = document.getElementById('onboardingContainer');
+            if(!container) return;
+            const joinedCandidates = joinees.filter(x => x.status === 'JOINED');
+            if(joinedCandidates.length === 0) {
+                container.innerHTML = '<div class="col-span-full text-center py-20 opacity-50"><h3 class="text-lg font-black uppercase tracking-widest text-[var(--text-secondary)]">No Joined Candidates</h3></div>';
+                return;
+            }
+            container.innerHTML = joinedCandidates.map(c => {
+                if(!c.onboarding) c.onboarding = { idCard: false, bank: false, pf: false, training: false };
+                const tasks = [{ key: 'idCard', label: 'ID Card & Assets' }, { key: 'bank', label: 'Bank Details' }, { key: 'pf', label: 'PF & ESI Reg' }, { key: 'training', label: 'Orientation' }];
+                const completedCount = tasks.filter(t => c.onboarding[t.key]).length;
+                const perc = (completedCount / tasks.length) * 100;
+                return `<div class="modern-card p-6 border-t-4 border-emerald-500"><div class="flex items-center gap-3 mb-4"><div class="w-12 h-12 rounded-xl flex items-center justify-center font-black text-xl shrink-0 shadow-sm ${getAvatarColor(c.name)}">${c.name[0]}</div><div class="cursor-pointer" onclick="viewCandidate(${c.id})"><h4 class="font-black text-sm uppercase hover:text-sarathy-blue transition-colors">${c.name}</h4></div></div><div class="mb-5"><div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden"><div class="h-full bg-emerald-500 transition-all duration-500" style="width: ${perc}%"></div></div></div><div class="space-y-3">${tasks.map(t => `<label class="flex items-center gap-3 p-2 rounded-lg cursor-pointer transition-colors hover:bg-slate-50"><input type="checkbox" ${c.onboarding[t.key] ? 'checked' : ''} onchange="toggleOnboardingTask(${c.id}, '${t.key}', this.checked)" class="w-4 h-4 accent-emerald-500"><span class="text-xs font-bold uppercase tracking-widest ${c.onboarding[t.key] ? 'line-through opacity-50' : ''}">${t.label}</span></label>`).join('')}</div></div>`;
+            }).join('');
+        };
+
+        const toggleOnboardingTask = (id, taskKey, isChecked) => {
+            const idx = joinees.findIndex(x => String(x.id) === String(id));
+            if(idx > -1) {
+                if(!joinees[idx].onboarding) joinees[idx].onboarding = {};
+                joinees[idx].onboarding[taskKey] = isChecked;
+                localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees));
+                renderOnboarding(); 
+                if(isChecked) { showToast("Task Completed!", "success"); }
+            }
         };
 
         // --- CALENDAR ---
@@ -2314,32 +2193,6 @@
             }
         };
 
-        // --- TARGETS ---
-        const openReqModal = () => {
-            if(!isAdmin()) return showToast("Admin Access Required", "error");
-            renderReqEntries();
-            document.getElementById('reqModal')?.classList.remove('hidden');
-        };
-        const closeReqModal = () => document.getElementById('reqModal')?.classList.add('hidden');
-        
-        const renderReqEntries = () => {
-            const container = document.getElementById('reqEntriesContainer');
-            if(!container) return;
-            container.innerHTML = reqList.map((req, idx) => `
-                <div class="p-6 bg-[var(--bg-secondary)] rounded-2xl border border-[var(--border-color)] relative group shadow-sm">
-                    <button onclick="removeReqRow(${idx})" class="absolute top-4 right-4 w-8 h-8 rounded-xl text-slate-400 hover:bg-red-50 hover:text-red-600 transition-colors"><i class="fas fa-trash-alt"></i></button>
-                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 md:pr-10">
-                        <div><label class="text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-widest">Department</label><input type="text" value="${req.dept}" onchange="reqList[${idx}].dept=this.value.trim().toUpperCase()" class="w-full p-3 mt-1 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl font-bold text-xs uppercase outline-none focus:border-sarathy-blue dark:text-white transition-colors"></div>
-                        <div class="relative"><label class="text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-widest">Entity</label><select onchange="reqList[${idx}].company=this.value" class="w-full p-3 mt-1 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl font-bold text-xs uppercase outline-none focus:border-sarathy-blue dark:text-white appearance-none cursor-pointer"><option value="ALL" ${(!req.company || req.company === 'ALL') ? 'selected' : ''}>ALL ENTITIES</option><option value="SARATHY MOTORS" ${req.company === 'SARATHY MOTORS' ? 'selected' : ''}>SARATHY MOTORS</option><option value="SARATHY BIKES PVT LTD" ${req.company === 'SARATHY BIKES PVT LTD' ? 'selected' : ''}>SARATHY BIKES</option><option value="SARATHY ELECTRIC PVT LTD" ${req.company === 'SARATHY ELECTRIC PVT LTD' ? 'selected' : ''}>SARATHY ELECTRIC</option><option value="SARATHY AUTOCARS" ${req.company === 'SARATHY AUTOCARS' ? 'selected' : ''}>SARATHY AUTOCARS</option><option value="SARATHY CARS PVT LTD" ${req.company === 'SARATHY CARS PVT LTD' ? 'selected' : ''}>SARATHY CARS</option></select><i class="fas fa-chevron-down absolute right-4 bottom-4 text-slate-400 pointer-events-none text-[10px]"></i></div>
-                        <div><label class="text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-widest">Location</label><input type="text" value="${req.location || 'ALL'}" onchange="reqList[${idx}].location=this.value.trim().toUpperCase()" class="w-full p-3 mt-1 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl font-bold text-xs uppercase outline-none focus:border-sarathy-blue dark:text-white transition-colors"></div>
-                        <div><label class="text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-widest">Target Count</label><input type="number" value="${req.target}" onchange="reqList[${idx}].target=parseInt(this.value)||0" min="0" class="w-full p-3 mt-1 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl font-black text-xs outline-none focus:border-sarathy-blue dark:text-white transition-colors"></div>
-                    </div>
-                </div>`).join('') || '<div class="flex flex-col items-center justify-center h-40 opacity-50"><i class="fas fa-box-open text-4xl text-slate-400 mb-3"></i><p class="text-xs font-black uppercase tracking-widest text-[var(--text-secondary)]">No targets defined.</p></div>';
-        };
-        const addReqRow = () => { reqList.push({ dept: 'NEW DEPARTMENT', company: 'ALL', location: 'ALL', target: 5 }); renderReqEntries(); };
-        const removeReqRow = (idx) => { reqList.splice(idx, 1); renderReqEntries(); };
-        const saveRequirements = () => { localStorage.setItem(CURRENT_BUDGET_VERSION, JSON.stringify(reqList)); showToast("Targets Updated!"); closeReqModal(); renderDashboard(); };
-
         // --- NOTIFICATIONS ---
         const toggleNotifications = () => document.getElementById('notificationModal')?.classList.toggle('hidden');
         const checkNotifications = () => {
@@ -2410,22 +2263,99 @@
             showToast("Report Copied!");
         };
 
-        // --- EXCEL & IMPORT ---
-        const exportToExcel = () => {
-            if (joinees.length === 0) return showToast("No data to export", "error");
-            try {
-                const exportData = joinees.map((j, index) => ({
-                    "SL NO": index + 1, "Emp ID": j.empId, "Full Name": j.name, "Phone": j.phone, "Email": j.email,
-                    "Source": j.source, "Department": j.dept, "Entity": j.company, "Current Status": j.status,
-                    "Interview Date": formatDateString(j.interviewDate), "Join Date": j.joinDate ? formatDateString(j.joinDate) : '',
-                    "Experience": j.experience, "Location": j.location, "Designation": j.designation, "Remarks": j.remarks, "Rejection Reason": j.rejectionReason || '', "Rating": j.rating || 0
-                }));
-                const worksheet = XLSX.utils.json_to_sheet(exportData);
-                const workbook = XLSX.utils.book_new();
-                XLSX.utils.book_append_sheet(workbook, worksheet, "Candidates");
-                XLSX.writeFile(workbook, `HR_Export_${new Date().toISOString().slice(0, 10)}.xlsx`);
-                showToast("Excel Downloaded!");
-            } catch (error) { showToast("Failed to export Excel", "error"); }
+        // --- EXCEL & BACKUP UPLOAD ---
+        const handleBulkExcelUpload = (event) => {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const data = new Uint8Array(e.target.result);
+                    const workbook = XLSX.read(data, { type: 'array' });
+                    const firstSheetName = workbook.SheetNames[0];
+                    const worksheet = workbook.Sheets[firstSheetName];
+                    const jsonData = XLSX.utils.sheet_to_json(worksheet, { raw: false });
+                    let addedCount = 0;
+                    let skippedCount = 0;
+
+                    const parseExcelDate = (d) => {
+                        if (!d) return '';
+                        if (!isNaN(d) && typeof d === 'number') {
+                            const date = new Date(Math.round((d - 25569) * 86400 * 1000));
+                            return date.toISOString().slice(0,10);
+                        }
+                        const strDate = String(d).trim();
+                        const parts = strDate.split(/[-/]/);
+                        if(parts.length === 3) {
+                            if(parts[0].length <= 2 && parts[2].length === 4) return `${parts[2]}-${parts[1].padStart(2,'0')}-${parts[0].padStart(2,'0')}`;
+                            if(parts[0].length === 4) return `${parts[0]}-${parts[1].padStart(2,'0')}-${parts[2].padStart(2,'0')}`;
+                        }
+                        const parsed = new Date(strDate);
+                        if(!isNaN(parsed)) return parsed.toISOString().slice(0,10);
+                        return '';
+                    };
+
+                    jsonData.forEach((row, idx) => {
+                        const name = (row['Full Name'] || row['Name'] || '').trim().toUpperCase();
+                        const phoneRaw = String(row['Phone'] || row['Mobile'] || row['Phone Number'] || '');
+                        const phone = phoneRaw.replace(/\D/g, '').substring(0, 10);
+
+                        if (!name || phone.length < 10) {
+                            skippedCount++;
+                            return; 
+                        }
+
+                        if (joinees.some(x => x.phone === phone)) {
+                            skippedCount++;
+                            return;
+                        }
+
+                        let statusVal = (row['Current Status'] || row['Status'] || 'PENDING').trim().toUpperCase();
+                        if (!['PENDING', 'SELECTED', 'JOINED', 'REJECTED'].includes(statusVal)) statusVal = 'PENDING';
+
+                        const newCandidate = {
+                            id: Date.now() + idx, 
+                            empId: row['Emp ID'] || row['Emp Id'] || 'SG-' + (joinees.length + 1 + addedCount).toString().padStart(3, '0'),
+                            name: name,
+                            phone: phone,
+                            email: row['Email'] || '',
+                            source: row['Source'] || 'Direct/Walk-in',
+                            dept: (row['Department'] || row['Dept'] || 'GENERAL').trim().toUpperCase(),
+                            company: (row['Entity'] || row['Company'] || 'SARATHY MOTORS').toUpperCase(),
+                            status: statusVal,
+                            interviewDate: parseExcelDate(row['Interview Date'] || row['Interview']),
+                            joinDate: parseExcelDate(row['Join Date'] || row['Joining']),
+                            experience: parseFloat(row['Experience']) || 0,
+                            location: (row['Location'] || '').trim().toUpperCase(),
+                            designation: (row['Designation'] || '').trim().toUpperCase(),
+                            resumeLink: '',
+                            remarks: row['Remarks'] || '',
+                            rejectionReason: row['Rejection Reason'] || row['Reason'] || '',
+                            rating: parseInt(row['Rating']) || 0
+                        };
+
+                        joinees.push(newCandidate);
+                        addedCount++;
+                    });
+
+                    localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees));
+                    refreshAllViews();
+                    event.target.value = '';
+
+                    if (addedCount > 0) {
+                        showToast(`Successfully uploaded ${addedCount} candidates! (Skipped ${skippedCount})`, "success");
+                        confetti({particleCount: 150, spread: 80, origin: { y: 0.6 }});
+                    } else {
+                        showToast(`No new candidates added. Skiped duplicates/invalid: ${skippedCount}`, "error");
+                    }
+
+                } catch (error) {
+                    console.error("Excel parse error:", error);
+                    showToast("Error reading Excel file. Check format.", "error");
+                }
+            };
+            reader.readAsArrayBuffer(file);
         };
 
         const importBackup = (event) => {
@@ -2449,308 +2379,6 @@
                 } catch (error) { showToast("Invalid Backup File", "error"); }
             };
             reader.readAsText(file);
-        };
-
-        // --- NEW PRO FEATURE: LEAVE MANAGEMENT ---
-        const renderLeaves = () => {
-            const tableBody = document.getElementById('leavesTableBody');
-            if(!tableBody) return;
-
-            const currentMonth = new Date().toISOString().slice(0, 7);
-            
-            const pendingCount = leavesList.filter(l => l.status === 'PENDING').length;
-            const approvedCount = leavesList.filter(l => l.status === 'APPROVED' && l.fromDate.startsWith(currentMonth)).length;
-            const rejectedCount = leavesList.filter(l => l.status === 'REJECTED' && l.fromDate.startsWith(currentMonth)).length;
-
-            if(document.getElementById('leaveStatPending')) document.getElementById('leaveStatPending').innerText = pendingCount;
-            if(document.getElementById('leaveStatApproved')) document.getElementById('leaveStatApproved').innerText = approvedCount;
-            if(document.getElementById('leaveStatRejected')) document.getElementById('leaveStatRejected').innerText = rejectedCount;
-
-            if(leavesList.length === 0) {
-                tableBody.innerHTML = '<tr><td colspan="6" class="text-center py-16 text-[var(--text-secondary)] font-black uppercase tracking-widest opacity-60"><i class="fas fa-calendar-minus text-4xl mb-4 block opacity-50"></i> No Leave Requests</td></tr>';
-                return;
-            }
-
-            tableBody.innerHTML = [...leavesList].sort((a,b) => b.id - a.id).map((l, index) => {
-                let statusClass = 'bg-amber-50 text-amber-600 border-amber-200';
-                if(l.status === 'APPROVED') statusClass = 'bg-emerald-50 text-emerald-600 border-emerald-200';
-                if(l.status === 'REJECTED') statusClass = 'bg-red-50 text-red-600 border-red-200';
-
-                return `
-                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
-                    <td class="text-center font-black text-[10px]">${index + 1}</td>
-                    <td>
-                        <div class="flex items-center gap-4">
-                            <div class="w-10 h-10 rounded-xl flex items-center justify-center font-black text-sm shrink-0 shadow-sm ${getAvatarColor(l.empName)}">${l.empName[0]}</div>
-                            <div>
-                                <p class="font-black text-black dark:text-white text-sm uppercase tracking-wide truncate leading-tight">${l.empName}</p>
-                                <span class="inline-block px-2 py-0.5 mt-1.5 rounded-md text-[9px] font-black bg-slate-100 text-slate-500 dark:bg-slate-700 dark:text-slate-300 uppercase tracking-widest border border-slate-200 dark:border-slate-600">${l.empId}</span>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <p class="font-black text-black dark:text-white text-xs uppercase tracking-widest">${l.leaveType}</p>
-                        <p class="text-[10px] font-medium mt-1 truncate max-w-[200px]" title="${l.reason}">${l.reason}</p>
-                    </td>
-                    <td>
-                        <div class="text-[10px] leading-relaxed space-y-2">
-                            <div><span class="text-slate-500 font-bold uppercase mr-1">FROM:</span> <span class="text-black dark:text-white font-black">${formatDateString(l.fromDate)}</span></div>
-                            <div><span class="text-slate-500 font-bold uppercase mr-1">TO:</span> <span class="text-black dark:text-white font-black">${formatDateString(l.toDate)}</span></div>
-                        </div>
-                    </td>
-                    <td class="text-center">
-                        <span class="status-badge-md shadow-sm border ${statusClass}">${l.status}</span>
-                    </td>
-                    <td class="text-right">
-                        ${l.status === 'PENDING' ? `
-                        <div class="flex justify-end gap-2">
-                            <button onclick="updateLeaveStatus(${l.id}, 'APPROVED')" class="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 border border-emerald-200 hover:bg-emerald-500 hover:text-white transition-colors active:scale-95"><i class="fas fa-check"></i></button>
-                            <button onclick="updateLeaveStatus(${l.id}, 'REJECTED')" class="w-8 h-8 rounded-xl bg-red-50 text-red-600 border border-red-200 hover:bg-red-500 hover:text-white transition-colors active:scale-95"><i class="fas fa-times"></i></button>
-                        </div>
-                        ` : `
-                        <button onclick="deleteLeave(${l.id})" class="w-8 h-8 rounded-xl bg-slate-100 text-slate-400 hover:text-red-500 transition-colors active:scale-95"><i class="fas fa-trash-alt"></i></button>
-                        `}
-                    </td>
-                </tr>
-            `}).join('');
-        };
-
-        const openLeaveModal = () => {
-            document.getElementById('leaveForm').reset();
-            const select = document.getElementById('leaveEmpId');
-            const joinedEmployees = joinees.filter(x => x.status === 'JOINED');
-            select.innerHTML = '<option value="" disabled selected>Select an employee</option>' + 
-                joinedEmployees.map(e => `<option value="${e.id}">${e.name} (${e.empId})</option>`).join('');
-            document.getElementById('leaveModal').classList.remove('hidden');
-        };
-
-        const closeLeaveModal = () => { document.getElementById('leaveModal').classList.add('hidden'); };
-
-        document.getElementById('leaveForm')?.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const empIdRef = document.getElementById('leaveEmpId').value;
-            const emp = joinees.find(x => String(x.id) === String(empIdRef));
-            if(!emp) return;
-
-            const newLeave = {
-                id: Date.now(), empRefId: emp.id, empId: emp.empId, empName: emp.name,
-                leaveType: document.getElementById('leaveType').value,
-                fromDate: document.getElementById('leaveFrom').value,
-                toDate: document.getElementById('leaveTo').value,
-                reason: document.getElementById('leaveReason').value,
-                status: 'PENDING'
-            };
-
-            leavesList.push(newLeave);
-            localStorage.setItem(LEAVES_DB_VERSION, JSON.stringify(leavesList));
-            closeLeaveModal(); renderLeaves(); showToast("Leave Request Submitted!", "success"); checkNotifications();
-        });
-
-        const updateLeaveStatus = (id, newStatus) => {
-            const idx = leavesList.findIndex(l => String(l.id) === String(id));
-            if(idx > -1) {
-                leavesList[idx].status = newStatus;
-                localStorage.setItem(LEAVES_DB_VERSION, JSON.stringify(leavesList));
-                renderLeaves(); showToast(`Leave ${newStatus}!`, newStatus === 'APPROVED' ? 'success' : 'error');
-                if(newStatus === 'APPROVED') confetti();
-            }
-        };
-
-        const deleteLeave = (id) => {
-            if(confirm("Delete this leave record?")) {
-                leavesList = leavesList.filter(l => String(l.id) !== String(id));
-                localStorage.setItem(LEAVES_DB_VERSION, JSON.stringify(leavesList));
-                renderLeaves(); showToast("Record Deleted", "error");
-            }
-        };
-
-        // --- NEW PRO FEATURE: EMPLOYEE DIRECTORY ---
-        const renderDirectory = () => {
-            const container = document.getElementById('directoryContainer');
-            if(!container) return;
-
-            const term = document.getElementById('dirSearchInput')?.value.toUpperCase() || '';
-            const activeEmployees = joinees.filter(x => x.status === 'JOINED' && (x.name.includes(term) || x.empId.includes(term) || x.dept.includes(term)));
-
-            if(activeEmployees.length === 0) {
-                container.innerHTML = '<div class="col-span-full text-center py-20 opacity-50"><i class="fas fa-address-book text-5xl mb-4 text-slate-400"></i><h3 class="text-lg font-black uppercase tracking-widest text-[var(--text-secondary)]">No Active Employees Found</h3></div>';
-                return;
-            }
-
-            container.innerHTML = activeEmployees.map(c => {
-                const avatarClass = getAvatarColor(c.name);
-                return `
-                    <div class="modern-card p-6 border-t-4 border-t-indigo-500 text-center relative hover:shadow-xl transition-all cursor-pointer group" onclick="viewCandidate(${c.id})">
-                        <div class="w-20 h-20 mx-auto rounded-[1.5rem] border-2 flex items-center justify-center font-black text-3xl shadow-sm mb-4 transition-transform group-hover:scale-110 ${avatarClass}">${c.name[0]}</div>
-                        <h4 class="font-black text-base uppercase text-[var(--text-primary)] truncate">${c.name}</h4>
-                        <p class="text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-widest mt-1 mb-4 truncate">${c.designation || 'EMPLOYEE'}</p>
-                        
-                        <div class="bg-slate-50 dark:bg-slate-800 rounded-xl p-3 border border-[var(--border-color)]">
-                            <p class="text-[9px] font-black text-[var(--text-primary)] uppercase tracking-widest flex items-center justify-center gap-2 mb-1.5"><i class="fas fa-building text-slate-400"></i> ${c.dept}</p>
-                            <p class="text-[9px] font-black text-[var(--text-primary)] uppercase tracking-widest flex items-center justify-center gap-2"><i class="fas fa-phone text-slate-400"></i> ${c.phone || 'N/A'}</p>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        };
-
-        // --- NEW PRO FEATURE: PAYROLL MANAGEMENT ---
-        const renderPayroll = () => {
-            const tableBody = document.getElementById('payrollTableBody');
-            if(!tableBody) return;
-
-            const activeEmployees = joinees.filter(x => x.status === 'JOINED');
-
-            if(activeEmployees.length === 0) {
-                tableBody.innerHTML = '<tr><td colspan="5" class="text-center py-16 text-[var(--text-secondary)] font-black uppercase tracking-widest opacity-60"><i class="fas fa-file-invoice-dollar text-4xl mb-4 block opacity-50"></i> No Active Employees to Generate Payslip</td></tr>';
-                return;
-            }
-
-            tableBody.innerHTML = activeEmployees.map((x, index) => `
-                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
-                    <td class="text-center font-black text-[10px]">${index + 1}</td>
-                    <td>
-                        <div class="flex items-center gap-4">
-                            <div class="w-10 h-10 rounded-xl flex items-center justify-center font-black text-sm shrink-0 shadow-sm ${getAvatarColor(x.name)}">${x.name[0]}</div>
-                            <div>
-                                <p class="font-black text-black dark:text-white text-sm uppercase tracking-wide truncate leading-tight">${x.name}</p>
-                                <span class="inline-block px-2 py-0.5 mt-1.5 rounded-md text-[9px] font-black bg-slate-100 text-slate-500 dark:bg-slate-700 dark:text-slate-300 uppercase tracking-widest border border-slate-200 dark:border-slate-600">${x.empId}</span>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <p class="font-black text-black dark:text-white text-[11px] uppercase tracking-widest truncate">${x.designation || '-'}</p>
-                        <div class="flex items-center gap-2 mt-1.5">
-                            <p class="text-[10px] ${getDeptColor(x.dept)} font-black uppercase tracking-widest">${x.dept}</p>
-                        </div>
-                    </td>
-                    <td><span class="status-badge-md shadow-sm badge-joined">ACTIVE</span></td>
-                    <td class="text-right">
-                        <button onclick="generatePayslip(${x.id})" class="px-4 py-2 bg-amber-50 text-amber-600 border border-amber-200 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-amber-500 hover:text-white transition-all shadow-sm"><i class="fas fa-print mr-1"></i> Payslip</button>
-                    </td>
-                </tr>
-            `).join('');
-        };
-
-        const generatePayslip = (id) => {
-            const r = joinees.find(x => String(x.id) === String(id));
-            if(!r) return;
-
-            const monthStr = document.getElementById('payrollMonthFilter')?.value || new Date().toISOString().slice(0, 7);
-            const displayMonth = new Date(monthStr + '-01').toLocaleString('en-IN', { month: 'long', year: 'numeric' });
-
-            const html = `
-                <div style="font-family: Arial, sans-serif; padding: 30px; color: #000; background: #fff; line-height: 1.6; max-width: 800px; margin: 0 auto; text-align: left; border: 1px solid #ccc;">
-                    <div style="text-align: center; border-bottom: 2px solid #0054A6; padding-bottom: 15px; margin-bottom: 25px;">
-                        <img src="Sarathy2.png.png" alt="Sarathy Group" style="height: 50px; margin-bottom: 10px;" onerror="this.style.display='none'">
-                        <h1 style="color: #0054A6; margin: 0; font-size: 22px; text-transform: uppercase; font-weight: 900;">${r.company}</h1>
-                        <p style="margin: 5px 0 0; font-size: 14px; font-weight: bold; color: #333;">PAYSLIP FOR THE MONTH OF ${displayMonth.toUpperCase()}</p>
-                    </div>
-                    
-                    <table style="width: 100%; border-collapse: collapse; margin-bottom: 30px; font-size: 14px;">
-                        <tr><td style="padding: 8px; border: 1px solid #ccc; width: 25%;"><strong>Employee Name:</strong></td><td style="padding: 8px; border: 1px solid #ccc; width: 25%; font-weight: bold;">${r.name}</td><td style="padding: 8px; border: 1px solid #ccc; width: 25%;"><strong>Employee ID:</strong></td><td style="padding: 8px; border: 1px solid #ccc; width: 25%; font-weight: bold;">${r.empId}</td></tr>
-                        <tr><td style="padding: 8px; border: 1px solid #ccc;"><strong>Designation:</strong></td><td style="padding: 8px; border: 1px solid #ccc;">${r.designation || 'N/A'}</td><td style="padding: 8px; border: 1px solid #ccc;"><strong>Department:</strong></td><td style="padding: 8px; border: 1px solid #ccc;">${r.dept}</td></tr>
-                        <tr><td style="padding: 8px; border: 1px solid #ccc;"><strong>Date of Joining:</strong></td><td style="padding: 8px; border: 1px solid #ccc;">${formatDateString(r.joinDate)}</td><td style="padding: 8px; border: 1px solid #ccc;"><strong>Location:</strong></td><td style="padding: 8px; border: 1px solid #ccc;">${r.location || 'N/A'}</td></tr>
-                    </table>
-
-                    <table style="width: 100%; border-collapse: collapse; margin-bottom: 30px; font-size: 14px;">
-                        <tr style="background: #f1f5f9;"><th style="padding: 12px; border: 1px solid #ccc; text-align: left; width: 50%;">EARNINGS</th><th style="padding: 12px; border: 1px solid #ccc; text-align: right; width: 50%;">AMOUNT (Rs)</th></tr>
-                        <tr><td style="padding: 10px; border: 1px solid #ccc;">Basic Salary</td><td style="padding: 10px; border: 1px solid #ccc; text-align: right;">15,000.00</td></tr>
-                        <tr><td style="padding: 10px; border: 1px solid #ccc;">House Rent Allowance (HRA)</td><td style="padding: 10px; border: 1px solid #ccc; text-align: right;">5,000.00</td></tr>
-                        <tr><td style="padding: 10px; border: 1px solid #ccc;">Special Allowance</td><td style="padding: 10px; border: 1px solid #ccc; text-align: right;">3,500.00</td></tr>
-                        <tr><td style="padding: 10px; border: 1px solid #ccc;">Incentives</td><td style="padding: 10px; border: 1px solid #ccc; text-align: right;">1,500.00</td></tr>
-                        <tr style="background: #e2e8f0; font-weight: bold;"><td style="padding: 12px; border: 1px solid #ccc;">GROSS EARNINGS</td><td style="padding: 12px; border: 1px solid #ccc; text-align: right; color: #0054A6;">25,000.00</td></tr>
-                    </table>
-
-                    <div style="margin-top: 60px; display: flex; justify-content: space-between; font-size: 14px;">
-                        <div style="text-align: center;"><p style="margin-bottom:40px;">_______________________</p><p style="margin:0;"><strong>Employer Signature</strong></p></div>
-                        <div style="text-align: center;"><p style="margin-bottom:40px;">_______________________</p><p style="margin:0;"><strong>Employee Signature</strong></p></div>
-                    </div>
-                    <p style="text-align: center; font-size: 10px; color: #94a3b8; margin-top: 40px;">* This is a system-generated document and does not require a physical signature for validity.</p>
-                </div>
-            `;
-            
-            const printArea = document.getElementById('printArea');
-            if(printArea) {
-                printArea.innerHTML = html;
-                showToast(`Printing Payslip for ${r.name}...`, "success");
-                setTimeout(() => { window.print(); }, 100);
-            }
-        };
-
-        // --- ONBOARDING SYSTEM ---
-        const renderOnboarding = () => {
-            const container = document.getElementById('onboardingContainer');
-            if(!container) return;
-
-            const joinedCandidates = joinees.filter(x => x.status === 'JOINED');
-            
-            if(joinedCandidates.length === 0) {
-                container.innerHTML = '<div class="col-span-full text-center py-20 opacity-50"><i class="fas fa-box-open text-5xl mb-4 text-slate-400"></i><h3 class="text-lg font-black uppercase tracking-widest text-[var(--text-secondary)]">No Joined Candidates</h3><p class="text-xs font-bold text-slate-400 uppercase tracking-widest mt-2">Mark candidates as JOINED to start onboarding</p></div>';
-                return;
-            }
-
-            container.innerHTML = joinedCandidates.map(c => {
-                if(!c.onboarding) c.onboarding = { idCard: false, bank: false, pf: false, training: false };
-                
-                const tasks = [
-                    { key: 'idCard', label: 'ID Card & Assets' },
-                    { key: 'bank', label: 'Bank Details' },
-                    { key: 'pf', label: 'PF & ESI Reg' },
-                    { key: 'training', label: 'Orientation' }
-                ];
-                
-                const completedCount = tasks.filter(t => c.onboarding[t.key]).length;
-                const perc = (completedCount / tasks.length) * 100;
-                
-                return `
-                    <div class="modern-card p-6 border-t-4 border-emerald-500 hover:border-emerald-600">
-                        <div class="flex justify-between items-start mb-4">
-                            <div class="flex items-center gap-3">
-                                <div class="w-12 h-12 rounded-xl flex items-center justify-center font-black text-xl shrink-0 shadow-sm ${getAvatarColor(c.name)}">${c.name[0]}</div>
-                                <div class="cursor-pointer" onclick="viewCandidate(${c.id})">
-                                    <h4 class="font-black text-sm uppercase text-[var(--text-primary)] hover:text-sarathy-blue transition-colors">${c.name}</h4>
-                                    <p class="text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-widest mt-1">${c.empId} • ${c.dept}</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="mb-5">
-                            <div class="flex justify-between text-[10px] font-black uppercase tracking-widest mb-2 text-[var(--text-secondary)]">
-                                <span>Progress</span>
-                                <span class="text-emerald-600">${perc}%</span>
-                            </div>
-                            <div class="w-full h-2 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
-                                <div class="h-full bg-emerald-500 transition-all duration-500" style="width: ${perc}%"></div>
-                            </div>
-                        </div>
-
-                        <div class="space-y-3">
-                            ${tasks.map(t => `
-                                <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer transition-colors border border-transparent hover:border-[var(--border-color)]">
-                                    <input type="checkbox" ${c.onboarding[t.key] ? 'checked' : ''} onchange="toggleOnboardingTask(${c.id}, '${t.key}', this.checked)" class="w-4 h-4 accent-emerald-500 rounded cursor-pointer">
-                                    <span class="text-xs font-bold text-[var(--text-primary)] uppercase tracking-widest ${c.onboarding[t.key] ? 'line-through opacity-50' : ''}">${t.label}</span>
-                                </label>
-                            `).join('')}
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        };
-        
-        const toggleOnboardingTask = (id, taskKey, isChecked) => {
-            const idx = joinees.findIndex(x => String(x.id) === String(id));
-            if(idx > -1) {
-                if(!joinees[idx].onboarding) joinees[idx].onboarding = {};
-                joinees[idx].onboarding[taskKey] = isChecked;
-                localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees));
-                renderOnboarding(); 
-                if(isChecked) {
-                    showToast("Task Completed!", "success");
-                    const isAllDone = Object.values(joinees[idx].onboarding).filter(Boolean).length === 4;
-                    if(isAllDone) confetti({particleCount: 100, spread: 60, origin: { y: 0.6 }});
-                }
-            }
         };
     </script>
 </body>
