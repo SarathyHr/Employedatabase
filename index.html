@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>SARATHY GROUP - HR PORTAL PRO</title>
+    <!-- STREAMING_CHUNK:Loading Tailwind & Fonts -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     
@@ -18,6 +19,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     
+    <!-- STREAMING_CHUNK:Configuring Tailwind -->
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -32,6 +34,7 @@
         }
     </script>
     
+    <!-- STREAMING_CHUNK:Styling the Application -->
     <style>
         :root {
             --bg-primary: #f1f5f9;
@@ -131,13 +134,6 @@
         .fab-notes { position: fixed; bottom: 175px; right: 25px; md:bottom: 110px; md:right: 30px; width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(135deg, #f59e0b, #d97706); color: white; display: flex; justify-content: center; align-items: center; box-shadow: 0 10px 20px rgba(245, 158, 11, 0.4); z-index: 50; cursor: pointer; transition: all 0.3s; }
         .fab-notes:hover { transform: scale(1.15); }
         
-        /* Summary Table */
-        .summary-table { width: 100%; border-collapse: separate; border-spacing: 0; margin-bottom: 1.5rem; font-size: 0.8rem; }
-        .summary-table th { background: var(--bg-primary); color: var(--text-secondary); font-weight: 800; text-transform: uppercase; text-align: left; padding: 14px 18px; position: sticky; top: 0; z-index: 10; border-bottom: 2px solid var(--border-color); }
-        .summary-table td { padding: 14px 18px; border-bottom: 1px solid var(--border-color); color: #000; font-weight: 700; }
-        .dark .summary-table td { color: #fff; }
-        .summary-table tr:hover td { background: rgba(0, 84, 166, 0.05); }
-        
         /* Data Table */
         .data-table-container { background: var(--bg-secondary); border-radius: 1.25rem; border: 1px solid var(--border-color); overflow: hidden; box-shadow: 0 8px 20px -4px rgba(0,0,0,0.08); max-height: calc(100vh - 260px); overflow-y: auto; }
         .data-table { width: 100%; border-collapse: collapse; }
@@ -182,13 +178,19 @@
         
         .star-rating i { transition: color 0.2s; }
         .star-rating i:hover { transform: scale(1.1); }
+        
+        /* Sliders for OKRs */
+        .progress-slider { -webkit-appearance: none; width: 100%; height: 10px; border-radius: 5px; background: #e2e8f0; outline: none; }
+        .dark .progress-slider { background: #334155; }
+        .progress-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 22px; height: 22px; border-radius: 50%; background: #0054A6; cursor: pointer; transition: transform 0.1s; }
+        .progress-slider::-webkit-slider-thumb:hover { transform: scale(1.2); }
     </style>
 </head>
 <body class="antialiased">
-    <!-- DEDICATED PRINT AREA FOR PDF EXPORTS -->
+    <!-- STREAMING_CHUNK:Initializing Print Area -->
     <div id="printArea" class="hidden print:block z-[9999] bg-white text-black"></div>
 
-    <!-- LOGIN PAGE -->
+    <!-- STREAMING_CHUNK:Building Login Page -->
     <div id="loginPage" class="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-6 bg-slate-50 dark:bg-slate-900 transition-opacity duration-500">
         <div class="absolute inset-0 overflow-hidden pointer-events-none">
             <div class="absolute -top-[20%] -right-[10%] w-[60%] h-[60%] rounded-full bg-blue-200/40 dark:bg-blue-900/20 blur-3xl"></div>
@@ -227,7 +229,7 @@
         </div>
     </div>
 
-    <!-- MAIN APP LAYOUT -->
+    <!-- STREAMING_CHUNK:Building Main Layout & Sidebar -->
     <div id="appLayout" class="hidden h-[100dvh] w-full flex bg-[var(--bg-primary)]">
         <!-- MOBILE OVERLAY -->
         <div id="mobileOverlay" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[90] hidden md:hidden transition-opacity duration-300" onclick="toggleSidebar()"></div>
@@ -260,18 +262,16 @@
                     <i class="fas fa-tasks w-6 text-center shrink-0 text-lg"></i> <span class="transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 font-bold tracking-wide">Onboarding</span>
                 </a>
                 
-                <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 mt-8 px-2 transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100">OPERATIONS</div>
-                <a onclick="switchTab('attendance')" id="nav-attendance" class="nav-link text-cyan-600 dark:text-cyan-400">
-                    <i class="fas fa-user-clock w-6 text-center shrink-0 text-lg"></i> <span class="transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 font-bold tracking-wide">Attendance</span>
+                <!-- NEW SECTION: TALENT & GROWTH -->
+                <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 mt-8 px-2 transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100">TALENT & GROWTH</div>
+                <a onclick="switchTab('jobs')" id="nav-jobs" class="nav-link text-sky-600 dark:text-sky-400">
+                    <i class="fas fa-briefcase w-6 text-center shrink-0 text-lg"></i> <span class="transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 font-bold tracking-wide">Job Postings</span>
                 </a>
-                <a onclick="switchTab('leaves')" id="nav-leaves" class="nav-link text-rose-600 dark:text-rose-400">
-                    <i class="fas fa-calendar-minus w-6 text-center shrink-0 text-lg"></i> <span class="transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 font-bold tracking-wide">Leaves</span>
+                <a onclick="switchTab('training')" id="nav-training" class="nav-link text-fuchsia-600 dark:text-fuchsia-400">
+                    <i class="fas fa-graduation-cap w-6 text-center shrink-0 text-lg"></i> <span class="transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 font-bold tracking-wide">Training Hub</span>
                 </a>
-                <a onclick="switchTab('expenses')" id="nav-expenses" class="nav-link text-fuchsia-600 dark:text-fuchsia-400">
-                    <i class="fas fa-receipt w-6 text-center shrink-0 text-lg"></i> <span class="transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 font-bold tracking-wide">Claims & Exp.</span>
-                </a>
-                <a onclick="switchTab('payroll')" id="nav-payroll" class="nav-link text-amber-600 dark:text-amber-500">
-                    <i class="fas fa-file-invoice-dollar w-6 text-center shrink-0 text-lg"></i> <span class="transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 font-bold tracking-wide">Payroll</span>
+                <a onclick="switchTab('okrs')" id="nav-okrs" class="nav-link text-orange-600 dark:text-orange-500">
+                    <i class="fas fa-bullseye w-6 text-center shrink-0 text-lg"></i> <span class="transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 font-bold tracking-wide">Performance OKRs</span>
                 </a>
                 
                 <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 mt-8 px-2 transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100">MANAGEMENT</div>
@@ -281,8 +281,8 @@
                 <a onclick="switchTab('analytics')" id="nav-analytics" class="nav-link">
                     <i class="fas fa-chart-pie w-6 text-center shrink-0 text-lg"></i> <span class="transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 font-bold tracking-wide">Analytics</span>
                 </a>
-                <a onclick="openReqModal()" class="nav-link">
-                    <i class="fas fa-bullseye w-6 text-center shrink-0 text-lg"></i> <span class="transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 font-bold tracking-wide">Targets</span>
+                <a onclick="openReqModal()" class="nav-link text-rose-500">
+                    <i class="fas fa-bullhorn w-6 text-center shrink-0 text-lg"></i> <span class="transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 font-bold tracking-wide">Hiring Targets</span>
                 </a>
                 <a onclick="exportToExcel()" class="nav-link text-emerald-600 dark:text-emerald-400 hover:text-emerald-700">
                     <i class="fas fa-file-excel w-6 text-center shrink-0 text-lg"></i> <span class="transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 font-bold tracking-wide">Export Excel</span>
@@ -294,15 +294,13 @@
             </div>
         </aside>
 
-        <!-- MAIN CONTENT AREA -->
+        <!-- STREAMING_CHUNK:Building Header & Common UI -->
         <main class="flex-1 flex flex-col h-[100dvh] overflow-hidden relative min-w-0 bg-[var(--bg-primary)]">
-            <!-- Top Header Area -->
             <header class="h-16 md:h-20 glass-panel flex justify-between items-center px-4 md:px-8 shrink-0 z-30 sticky top-0 shadow-sm">
                 <div class="flex items-center gap-2 md:gap-4">
                     <button onclick="toggleSidebar()" class="md:hidden w-10 h-10 rounded-xl bg-[var(--bg-secondary)] text-[var(--text-secondary)] flex items-center justify-center shadow-sm border border-[var(--border-color)] hover:text-sarathy-blue transition-colors">
                         <i class="fas fa-bars"></i>
                     </button>
-                    <!-- Mobile Back Button -->
                     <button id="headerBackBtn" onclick="goBack()" class="hidden w-10 h-10 rounded-xl bg-[var(--bg-secondary)] text-[var(--text-primary)] items-center justify-center shadow-sm border border-[var(--border-color)] hover:text-sarathy-blue transition-colors md:hidden">
                         <i class="fas fa-arrow-left"></i>
                     </button>
@@ -331,7 +329,7 @@
                 </div>
             </header>
 
-            <!-- CONTENT TABS -->
+            <!-- STREAMING_CHUNK:Building Core Tabs -->
             <div class="flex-1 relative overflow-y-auto overflow-x-hidden custom-scroll scroll-smooth pb-24 md:pb-8">
                 <!-- TAB 1: DASHBOARD -->
                 <div id="tab-dashboard" class="tab-content active p-4 md:p-8 space-y-6 md:space-y-8 max-w-[1600px] mx-auto">
@@ -350,15 +348,13 @@
                                 <input type="file" id="bulkUploadExcel" accept=".xlsx, .xls, .csv" class="hidden" onchange="handleBulkExcelUpload(event)">
                             </div>
                             
-                            <!-- Notice Board (NOW DYNAMIC) -->
+                            <!-- Notice Board -->
                             <div class="w-full md:w-80 bg-white/10 backdrop-blur-md border border-white/20 p-4 rounded-2xl flex flex-col h-48">
                                 <div class="flex justify-between items-center mb-3">
                                     <h3 class="font-black text-[10px] uppercase tracking-widest flex items-center gap-2"><i class="fas fa-bullhorn text-amber-300"></i> Notice Board</h3>
                                     <button onclick="addNotice()" class="text-[10px] bg-white/20 hover:bg-white/40 px-2 py-1 rounded transition-colors"><i class="fas fa-plus"></i></button>
                                 </div>
-                                <div id="noticeBoardContent" class="space-y-2 overflow-y-auto custom-scroll flex-1 pr-2">
-                                    <!-- Populated by JS -->
-                                </div>
+                                <div id="noticeBoardContent" class="space-y-2 overflow-y-auto custom-scroll flex-1 pr-2"></div>
                             </div>
                         </div>
                     </div>
@@ -413,7 +409,6 @@
                             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-8" id="progContainer"></div>
                         </div>
                         
-                        <!-- Recent Candidates -->
                         <div class="modern-card p-6 md:p-10 mt-2">
                             <div class="flex justify-between items-center mb-6 pb-4 border-b border-[var(--border-color)]">
                                 <h3 class="font-black text-lg md:text-xl uppercase tracking-widest text-[var(--text-primary)] flex items-center gap-3">
@@ -432,7 +427,6 @@
 
                 <!-- TAB 2: CANDIDATES -->
                 <div id="tab-candidates" class="tab-content p-4 md:p-8 max-w-[1600px] mx-auto">
-                    <!-- Filters & Search -->
                     <div class="glass-panel relative z-10 p-5 md:p-8 rounded-2xl mb-8 shadow-lg sticky top-0">
                         <div class="flex flex-col lg:flex-row gap-4 mb-6">
                             <div class="relative flex-[2] group">
@@ -478,7 +472,6 @@
                         </div>
                     </div>
 
-                    <!-- Bulk Actions Bar -->
                     <div id="bulkActionBar" class="fixed bottom-[70px] md:bottom-0 left-0 w-full bg-white dark:bg-slate-800 border-t-4 border-sarathy-blue shadow-[0_-10px_30px_rgba(0,0,0,0.15)] p-4 md:p-6 flex items-center justify-between z-[80]">
                         <div class="font-black text-sm md:text-base text-[var(--text-primary)] flex items-center gap-3">
                             <span id="bulkCount" class="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center text-white bg-sarathy-blue rounded-lg shadow-md">0</span> 
@@ -494,7 +487,6 @@
                         </div>
                     </div>
 
-                    <!-- LIST VIEW -->
                     <div id="listView" class="animate-up">
                         <div class="data-table-container">
                             <div class="overflow-x-auto">
@@ -516,7 +508,6 @@
                         </div>
                     </div>
                     
-                    <!-- BOARD VIEW -->
                     <div id="boardView" class="hidden grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 animate-up">
                         <div class="kanban-col border-t-4 border-t-amber-500 shadow-sm" ondragover="allowDrop(event)" ondragleave="dragLeave(event)" ondrop="drop(event, 'PENDING')">
                             <h3 class="font-black text-amber-500 mb-6 flex justify-between items-center uppercase text-sm tracking-widest border-b border-[var(--border-color)] pb-3"><span class="flex items-center gap-2"><i class="fas fa-clock"></i> Pending</span> <span id="countBoardPending" class="bg-amber-100 text-amber-700 px-3 py-1 rounded-lg">0</span></h3>
@@ -537,7 +528,7 @@
                     </div>
                 </div>
 
-                <!-- TAB: EMPLOYEE DIRECTORY -->
+                <!-- STREAMING_CHUNK:Building Employee Directory & Onboarding -->
                 <div id="tab-directory" class="tab-content p-4 md:p-8 max-w-[1600px] mx-auto">
                     <div class="mb-8 flex flex-col md:flex-row justify-between items-center bg-[var(--bg-secondary)] p-6 md:p-8 rounded-[2rem] border border-[var(--border-color)] shadow-lg gap-6 animate-up">
                         <div class="flex items-center gap-5">
@@ -555,150 +546,6 @@
                     <div id="directoryContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 animate-up" style="animation-delay: 0.1s;"></div>
                 </div>
 
-                
-                <!-- NEW TAB: ATTENDANCE & SHIFTS -->
-                <div id="tab-attendance" class="tab-content p-4 md:p-8 max-w-[1600px] mx-auto">
-                    <div class="mb-8 flex flex-col md:flex-row justify-between items-center bg-[var(--bg-secondary)] p-6 md:p-8 rounded-[2rem] border border-[var(--border-color)] shadow-lg gap-6 animate-up">
-                        <div class="flex items-center gap-5">
-                            <div class="w-16 h-16 rounded-2xl bg-cyan-50 dark:bg-cyan-900/30 text-cyan-600 flex items-center justify-center text-2xl shadow-inner border border-cyan-100"><i class="fas fa-user-clock"></i></div>
-                            <div>
-                                <h2 class="text-2xl font-black uppercase text-[var(--text-primary)] tracking-wide">Daily Attendance</h2>
-                                <p class="text-[11px] font-bold uppercase tracking-widest text-slate-400 mt-1.5">Track shifts and daily presence</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-4 w-full md:w-auto">
-                            <input type="date" id="attendanceDate" onchange="renderAttendance()" class="flex-1 md:w-auto px-4 py-4 bg-[var(--bg-primary)] border-2 border-[var(--border-color)] rounded-xl font-black text-sm outline-none focus:border-sarathy-blue dark:text-white dark:[color-scheme:dark] shadow-sm uppercase tracking-widest text-[var(--text-primary)] cursor-pointer">
-                            <button onclick="markAllPresent()" class="bg-emerald-50 text-emerald-600 border border-emerald-200 px-6 py-4 rounded-xl font-black text-xs uppercase tracking-widest shadow-sm hover:bg-emerald-500 hover:text-white transition-colors active:scale-95 whitespace-nowrap"><i class="fas fa-check-double mr-2"></i> All Present</button>
-                        </div>
-                    </div>
-                    <div class="data-table-container animate-up" style="animation-delay: 0.1s;">
-                        <div class="overflow-x-auto">
-                            <table class="data-table min-w-[1000px]">
-                                <thead>
-                                    <tr>
-                                        <th class="w-16 text-center">SL NO</th>
-                                        <th>Employee Profile</th>
-                                        <th>Department</th>
-                                        <th>Assigned Shift</th>
-                                        <th class="text-center">Status</th>
-                                        <th class="text-right">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="attendanceTableBody" class="divide-y divide-[var(--border-color)] bg-[var(--bg-secondary)]"></tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- TAB: LEAVES -->
-                <div id="tab-leaves" class="tab-content custom-scroll p-4 md:p-8 max-w-[1600px] mx-auto">
-                    <div class="mb-8 flex flex-col md:flex-row justify-between items-center bg-[var(--bg-secondary)] p-6 md:p-8 rounded-[2rem] border border-[var(--border-color)] shadow-lg gap-6 animate-up">
-                        <div class="flex items-center gap-5">
-                            <div class="w-16 h-16 rounded-2xl bg-rose-50 dark:bg-rose-900/30 text-rose-600 flex items-center justify-center text-2xl shadow-inner border border-rose-100"><i class="fas fa-calendar-minus"></i></div>
-                            <div>
-                                <h2 class="text-2xl font-black uppercase text-[var(--text-primary)] tracking-wide">Leave Management</h2>
-                                <p class="text-[11px] font-bold uppercase tracking-widest text-slate-400 mt-1.5">Track & Approve Employee Time-Off</p>
-                            </div>
-                        </div>
-                        <button onclick="openLeaveModal()" class="px-6 py-3 bg-rose-600 text-white rounded-xl font-black text-xs uppercase tracking-widest hover:bg-rose-700 transition-colors shadow-sm active:scale-95 flex items-center gap-2"><i class="fas fa-plus"></i> Request Leave</button>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 animate-up" style="animation-delay: 0.1s;">
-                        <div class="modern-card p-6 border-b-4 border-b-amber-500">
-                            <span class="text-[10px] font-black text-slate-500 uppercase tracking-widest block mb-2">Pending Requests</span>
-                            <h3 class="text-4xl font-black text-amber-500" id="leaveStatPending">0</h3>
-                        </div>
-                        <div class="modern-card p-6 border-b-4 border-b-emerald-500">
-                            <span class="text-[10px] font-black text-slate-500 uppercase tracking-widest block mb-2">Approved (This Month)</span>
-                            <h3 class="text-4xl font-black text-emerald-500" id="leaveStatApproved">0</h3>
-                        </div>
-                        <div class="modern-card p-6 border-b-4 border-b-red-500">
-                            <span class="text-[10px] font-black text-slate-500 uppercase tracking-widest block mb-2">Rejected (This Month)</span>
-                            <h3 class="text-4xl font-black text-red-500" id="leaveStatRejected">0</h3>
-                        </div>
-                    </div>
-                    <div class="data-table-container animate-up" style="animation-delay: 0.2s;">
-                        <div class="overflow-x-auto">
-                            <table class="data-table min-w-[1000px]">
-                                <thead>
-                                    <tr>
-                                        <th class="w-16 text-center">SL NO</th>
-                                        <th>Employee Name</th>
-                                        <th>Leave Info</th>
-                                        <th>Dates</th>
-                                        <th class="text-center">Status</th>
-                                        <th class="text-right">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="leavesTableBody" class="divide-y divide-[var(--border-color)] bg-[var(--bg-secondary)]"></tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- NEW TAB: EXPENSES & CLAIMS -->
-                <div id="tab-expenses" class="tab-content p-4 md:p-8 max-w-[1600px] mx-auto">
-                    <div class="mb-8 flex flex-col md:flex-row justify-between items-center bg-[var(--bg-secondary)] p-6 md:p-8 rounded-[2rem] border border-[var(--border-color)] shadow-lg gap-6 animate-up">
-                        <div class="flex items-center gap-5">
-                            <div class="w-16 h-16 rounded-2xl bg-fuchsia-50 dark:bg-fuchsia-900/30 text-fuchsia-600 flex items-center justify-center text-2xl shadow-inner border border-fuchsia-100"><i class="fas fa-receipt"></i></div>
-                            <div>
-                                <h2 class="text-2xl font-black uppercase text-[var(--text-primary)] tracking-wide">Expense Claims</h2>
-                                <p class="text-[11px] font-bold uppercase tracking-widest text-slate-400 mt-1.5">Manage travel & reimbursement requests</p>
-                            </div>
-                        </div>
-                        <button onclick="openExpenseModal()" class="px-6 py-3 bg-fuchsia-600 text-white rounded-xl font-black text-xs uppercase tracking-widest hover:bg-fuchsia-700 transition-colors shadow-sm active:scale-95 flex items-center gap-2"><i class="fas fa-plus"></i> New Claim</button>
-                    </div>
-                    <div class="data-table-container animate-up" style="animation-delay: 0.1s;">
-                        <div class="overflow-x-auto">
-                            <table class="data-table min-w-[1000px]">
-                                <thead>
-                                    <tr>
-                                        <th>Date</th>
-                                        <th>Employee Details</th>
-                                        <th>Category & Amount</th>
-                                        <th>Description</th>
-                                        <th class="text-center">Status</th>
-                                        <th class="text-right">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="expensesTableBody" class="divide-y divide-[var(--border-color)] bg-[var(--bg-secondary)]"></tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- TAB: PAYROLL -->
-                <div id="tab-payroll" class="tab-content p-4 md:p-8 max-w-[1600px] mx-auto">
-                    <div class="mb-8 flex flex-col md:flex-row justify-between items-center bg-[var(--bg-secondary)] p-6 md:p-8 rounded-[2rem] border border-[var(--border-color)] shadow-lg gap-6 animate-up">
-                        <div class="flex items-center gap-5">
-                            <div class="w-16 h-16 rounded-2xl bg-amber-50 dark:bg-amber-900/30 text-amber-600 flex items-center justify-center text-2xl shadow-inner border border-amber-100"><i class="fas fa-file-invoice-dollar"></i></div>
-                            <div>
-                                <h2 class="text-2xl font-black uppercase text-[var(--text-primary)] tracking-wide">Payroll & Payslips</h2>
-                                <p class="text-[11px] font-bold uppercase tracking-widest text-slate-400 mt-1.5">Generate dynamic salary slips</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-3">
-                             <input type="month" id="payrollMonthFilter" onchange="renderPayroll()" class="w-full md:w-auto px-4 py-4 bg-[var(--bg-primary)] border-2 border-[var(--border-color)] rounded-xl font-black text-sm outline-none focus:border-sarathy-blue dark:text-white dark:[color-scheme:dark] shadow-sm uppercase tracking-widest text-[var(--text-primary)] cursor-pointer">
-                        </div>
-                    </div>
-                    <div class="data-table-container animate-up" style="animation-delay: 0.1s;">
-                        <div class="overflow-x-auto">
-                            <table class="data-table min-w-[1000px]">
-                                <thead>
-                                    <tr>
-                                        <th class="w-16 text-center">SL NO</th>
-                                        <th>Employee Details</th>
-                                        <th>Role & Base Salary</th>
-                                        <th>Status</th>
-                                        <th class="text-right">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="payrollTableBody" class="divide-y divide-[var(--border-color)] bg-[var(--bg-secondary)]"></tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- TAB: ONBOARDING -->
                 <div id="tab-onboarding" class="tab-content p-4 md:p-8 max-w-[1600px] mx-auto">
                     <div class="mb-8 flex flex-col md:flex-row justify-between items-center bg-[var(--bg-secondary)] p-6 md:p-8 rounded-[2rem] border border-[var(--border-color)] shadow-lg gap-6 animate-up">
                         <div class="flex items-center gap-5">
@@ -713,7 +560,68 @@
                     <div id="onboardingContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 animate-up" style="animation-delay: 0.1s;"></div>
                 </div>
 
-                <!-- TAB: CALENDAR -->
+                <!-- STREAMING_CHUNK:Building New Strategic Modules (Jobs, Training, OKRs) -->
+                <!-- NEW TAB: JOB POSTINGS -->
+                <div id="tab-jobs" class="tab-content p-4 md:p-8 max-w-[1600px] mx-auto">
+                    <div class="mb-8 flex flex-col md:flex-row justify-between items-center bg-[var(--bg-secondary)] p-6 md:p-8 rounded-[2rem] border border-[var(--border-color)] shadow-lg gap-6 animate-up">
+                        <div class="flex items-center gap-5">
+                            <div class="w-16 h-16 rounded-2xl bg-sky-50 dark:bg-sky-900/30 text-sky-600 flex items-center justify-center text-2xl shadow-inner border border-sky-100"><i class="fas fa-briefcase"></i></div>
+                            <div>
+                                <h2 class="text-2xl font-black uppercase text-[var(--text-primary)] tracking-wide">Job Postings Hub</h2>
+                                <p class="text-[11px] font-bold uppercase tracking-widest text-slate-400 mt-1.5">Manage active openings and descriptions</p>
+                            </div>
+                        </div>
+                        <button onclick="openJobModal()" class="px-6 py-3 bg-sky-600 text-white rounded-xl font-black text-xs uppercase tracking-widest hover:bg-sky-700 transition-colors shadow-sm active:scale-95 flex items-center gap-2"><i class="fas fa-plus"></i> Create Job</button>
+                    </div>
+                    <div id="jobsContainer" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 animate-up" style="animation-delay: 0.1s;"></div>
+                </div>
+
+                <!-- NEW TAB: TRAINING HUB -->
+                <div id="tab-training" class="tab-content p-4 md:p-8 max-w-[1600px] mx-auto">
+                    <div class="mb-8 flex flex-col md:flex-row justify-between items-center bg-[var(--bg-secondary)] p-6 md:p-8 rounded-[2rem] border border-[var(--border-color)] shadow-lg gap-6 animate-up">
+                        <div class="flex items-center gap-5">
+                            <div class="w-16 h-16 rounded-2xl bg-fuchsia-50 dark:bg-fuchsia-900/30 text-fuchsia-600 flex items-center justify-center text-2xl shadow-inner border border-fuchsia-100"><i class="fas fa-graduation-cap"></i></div>
+                            <div>
+                                <h2 class="text-2xl font-black uppercase text-[var(--text-primary)] tracking-wide">Training & Development</h2>
+                                <p class="text-[11px] font-bold uppercase tracking-widest text-slate-400 mt-1.5">Assign courses & track completion</p>
+                            </div>
+                        </div>
+                        <button onclick="openTrainingModal()" class="px-6 py-3 bg-fuchsia-600 text-white rounded-xl font-black text-xs uppercase tracking-widest hover:bg-fuchsia-700 transition-colors shadow-sm active:scale-95 flex items-center gap-2"><i class="fas fa-plus"></i> Assign Training</button>
+                    </div>
+                    <div class="data-table-container animate-up" style="animation-delay: 0.1s;">
+                        <div class="overflow-x-auto">
+                            <table class="data-table min-w-[1000px]">
+                                <thead>
+                                    <tr>
+                                        <th>Employee Details</th>
+                                        <th>Training Course / Module</th>
+                                        <th>Deadline</th>
+                                        <th class="text-center">Status</th>
+                                        <th class="text-right">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="trainingTableBody" class="divide-y divide-[var(--border-color)] bg-[var(--bg-secondary)]"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NEW TAB: PERFORMANCE OKRS -->
+                <div id="tab-okrs" class="tab-content p-4 md:p-8 max-w-[1600px] mx-auto">
+                    <div class="mb-8 flex flex-col md:flex-row justify-between items-center bg-[var(--bg-secondary)] p-6 md:p-8 rounded-[2rem] border border-[var(--border-color)] shadow-lg gap-6 animate-up">
+                        <div class="flex items-center gap-5">
+                            <div class="w-16 h-16 rounded-2xl bg-orange-50 dark:bg-orange-900/30 text-orange-600 flex items-center justify-center text-2xl shadow-inner border border-orange-100"><i class="fas fa-bullseye"></i></div>
+                            <div>
+                                <h2 class="text-2xl font-black uppercase text-[var(--text-primary)] tracking-wide">Performance OKRs</h2>
+                                <p class="text-[11px] font-bold uppercase tracking-widest text-slate-400 mt-1.5">Objectives & Key Results Tracker</p>
+                            </div>
+                        </div>
+                        <button onclick="openOkrModal()" class="px-6 py-3 bg-orange-600 text-white rounded-xl font-black text-xs uppercase tracking-widest hover:bg-orange-700 transition-colors shadow-sm active:scale-95 flex items-center gap-2"><i class="fas fa-plus"></i> Set New Goal</button>
+                    </div>
+                    <div id="okrContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-up" style="animation-delay: 0.1s;"></div>
+                </div>
+
+                <!-- STREAMING_CHUNK:Building Analytics & Settings Tabs -->
                 <div id="tab-calendar" class="tab-content custom-scroll p-4 md:p-8 max-w-[1600px] mx-auto">
                     <div class="modern-card p-6 md:p-10 h-full flex flex-col min-h-[700px] shadow-xl">
                         <div class="flex justify-between items-center mb-8 pb-6 border-b border-[var(--border-color)]">
@@ -739,7 +647,6 @@
                     </div>
                 </div>
 
-                <!-- TAB: ANALYTICS -->
                 <div id="tab-analytics" class="tab-content custom-scroll p-4 md:p-8 max-w-[1600px] mx-auto">
                     <div class="mb-8 flex flex-col md:flex-row justify-between items-center bg-[var(--bg-secondary)] p-6 md:p-8 rounded-[2rem] border border-[var(--border-color)] shadow-lg gap-6 animate-up">
                         <div class="flex items-center gap-5">
@@ -774,7 +681,6 @@
                     </div>
                 </div>
 
-                <!-- TAB: SETTINGS -->
                 <div id="tab-settings" class="tab-content custom-scroll p-4 md:p-8 max-w-[1600px] mx-auto">
                     <div class="mb-8 flex items-center gap-5 bg-[var(--bg-secondary)] p-6 md:p-8 rounded-[2rem] border border-[var(--border-color)] shadow-lg animate-up">
                         <div class="w-16 h-16 rounded-2xl bg-slate-100 dark:bg-slate-800 text-slate-500 flex items-center justify-center text-2xl shadow-inner border border-slate-200 dark:border-slate-700"><i class="fas fa-cog"></i></div>
@@ -809,7 +715,6 @@
             <button id="addBtn" onclick="openModal()" class="fab hidden md:flex" title="Add New Candidate"><i class="fas fa-plus text-xl"></i></button>
             <button id="notesBtn" onclick="toggleNotesPanel()" class="fab-notes hidden md:flex" title="Quick Notes"><i class="fas fa-sticky-note text-lg"></i></button>
             
-            <!-- Quick Notes Panel -->
             <div id="notesPanel" class="fixed inset-y-0 right-0 w-80 md:w-96 bg-[var(--bg-secondary)] shadow-[rgba(0,0,0,0.3)_0px_0px_40px] border-l border-[var(--border-color)] z-[105] flex flex-col no-print">
                 <div class="p-6 border-b border-[var(--border-color)] flex justify-between items-center bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/30 dark:to-orange-900/20">
                     <h3 class="font-black text-amber-600 uppercase tracking-widest flex items-center gap-3"><i class="fas fa-sticky-note text-lg"></i> Quick Notes</h3>
@@ -826,91 +731,7 @@
         </main>
     </div>
 
-    
-    <!-- LEAVE REQUEST MODAL -->
-    <div id="leaveModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[120] hidden flex items-center justify-center p-4 transition-opacity no-print">
-        <div class="bg-[var(--bg-secondary)] w-full max-w-md rounded-3xl shadow-2xl overflow-hidden border border-[var(--border-color)] animate-up">
-            <div class="p-6 border-b border-[var(--border-color)] flex justify-between items-center bg-rose-50 dark:bg-rose-900/20">
-                <h3 class="font-black text-base uppercase tracking-widest flex items-center gap-2 text-rose-600"><i class="fas fa-calendar-plus"></i> New Leave Request</h3>
-                <button onclick="closeLeaveModal()" class="w-8 h-8 rounded-full bg-white dark:bg-slate-800 text-slate-400 hover:text-red-500 shadow-sm flex items-center justify-center transition-colors"><i class="fas fa-times"></i></button>
-            </div>
-            <div class="p-6">
-                <form id="leaveForm" class="space-y-4">
-                    <div>
-                        <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-1.5 block">Select Employee</label>
-                        <select id="leaveEmpId" required class="w-full p-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl font-bold text-sm outline-none focus:border-rose-500 text-[var(--text-primary)] cursor-pointer"></select>
-                    </div>
-                    <div>
-                        <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-1.5 block">Leave Type</label>
-                        <select id="leaveType" required class="w-full p-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl font-bold text-sm outline-none focus:border-rose-500 text-[var(--text-primary)] cursor-pointer">
-                            <option value="Sick Leave">Sick Leave (SL)</option>
-                            <option value="Casual Leave">Casual Leave (CL)</option>
-                            <option value="Earned Leave">Earned Leave (EL)</option>
-                            <option value="Loss of Pay">Loss of Pay (LOP)</option>
-                        </select>
-                    </div>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-1.5 block">From Date</label>
-                            <input type="date" id="leaveFrom" required class="w-full p-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl font-bold text-sm outline-none focus:border-rose-500 text-[var(--text-primary)] cursor-pointer dark:[color-scheme:dark]">
-                        </div>
-                        <div>
-                            <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-1.5 block">To Date</label>
-                            <input type="date" id="leaveTo" required class="w-full p-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl font-bold text-sm outline-none focus:border-rose-500 text-[var(--text-primary)] cursor-pointer dark:[color-scheme:dark]">
-                        </div>
-                    </div>
-                    <div>
-                        <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-1.5 block">Reason</label>
-                        <textarea id="leaveReason" required rows="2" class="w-full p-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl font-bold text-sm outline-none focus:border-rose-500 text-[var(--text-primary)]" placeholder="Brief reason for leave"></textarea>
-                    </div>
-                    <button type="submit" class="w-full bg-rose-600 hover:bg-rose-700 text-white font-black py-4 rounded-xl shadow-lg mt-4 transition-all uppercase tracking-widest text-xs active:scale-95">Submit Request</button>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- EXPENSE CLAIM MODAL -->
-    <div id="expenseModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[120] hidden flex items-center justify-center p-4 transition-opacity no-print">
-        <div class="bg-[var(--bg-secondary)] w-full max-w-md rounded-3xl shadow-2xl overflow-hidden border border-[var(--border-color)] animate-up">
-            <div class="p-6 border-b border-[var(--border-color)] flex justify-between items-center bg-fuchsia-50 dark:bg-fuchsia-900/20">
-                <h3 class="font-black text-base uppercase tracking-widest flex items-center gap-2 text-fuchsia-600"><i class="fas fa-receipt"></i> Submit Expense</h3>
-                <button onclick="closeExpenseModal()" class="w-8 h-8 rounded-full bg-white dark:bg-slate-800 text-slate-400 hover:text-red-500 shadow-sm flex items-center justify-center transition-colors"><i class="fas fa-times"></i></button>
-            </div>
-            <div class="p-6">
-                <form id="expenseForm" class="space-y-4">
-                    <div>
-                        <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-1.5 block">Select Employee</label>
-                        <select id="expEmpId" required class="w-full p-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl font-bold text-sm outline-none focus:border-fuchsia-500 text-[var(--text-primary)] cursor-pointer"></select>
-                    </div>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-1.5 block">Category</label>
-                            <select id="expCategory" required class="w-full p-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl font-bold text-sm outline-none focus:border-fuchsia-500 text-[var(--text-primary)] cursor-pointer">
-                                <option value="Travel">Travel</option>
-                                <option value="Fuel">Fuel</option>
-                                <option value="Food">Food/Client Mtg</option>
-                                <option value="Supplies">Supplies</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-1.5 block">Amount (₹)</label>
-                            <input type="number" id="expAmount" required min="1" class="w-full p-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl font-black text-sm outline-none focus:border-fuchsia-500 text-[var(--text-primary)]">
-                        </div>
-                    </div>
-                    <div>
-                        <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-1.5 block">Description / Reason</label>
-                        <textarea id="expReason" required rows="2" class="w-full p-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl font-bold text-sm outline-none focus:border-fuchsia-500 text-[var(--text-primary)]" placeholder="E.g. Travel to Kollam branch"></textarea>
-                    </div>
-                    <div>
-                        <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-1.5 block">Date Incurred</label>
-                        <input type="date" id="expDate" required class="w-full p-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl font-bold text-sm outline-none focus:border-fuchsia-500 text-[var(--text-primary)] cursor-pointer dark:[color-scheme:dark]">
-                    </div>
-                    <button type="submit" class="w-full bg-fuchsia-600 hover:bg-fuchsia-700 text-white font-black py-4 rounded-xl shadow-lg mt-4 transition-all uppercase tracking-widest text-xs active:scale-95">Submit Claim</button>
-                </form>
-            </div>
-        </div>
-    </div>
-
+    <!-- STREAMING_CHUNK:Building Modals (Candidate & Targets) -->
     <!-- HR MODAL -->
     <div id="addModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[110] hidden flex justify-end items-end md:items-stretch transition-opacity duration-300 no-print">
         <div id="modalContent" class="bg-[var(--bg-secondary)] w-full md:w-3/4 lg:w-[60%] xl:w-[50%] h-[95vh] md:h-full rounded-t-[2rem] md:rounded-none shadow-2xl flex flex-col transform translate-y-full md:translate-y-0 md:translate-x-full transition-transform duration-400 ease-out border-l border-[var(--border-color)]">
@@ -958,19 +779,6 @@
                             </select>
                         </div>
 
-                        <div class="col-span-1 md:col-span-2 flex flex-col justify-end p-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-sm">
-                            <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-3 text-center">Interview Performance Rating</label>
-                            <div class="flex justify-center gap-3" id="starSelector">
-                                <i class="fas fa-star text-3xl text-slate-300 cursor-pointer hover:text-amber-400 transition-colors" data-rating="1"></i>
-                                <i class="fas fa-star text-3xl text-slate-300 cursor-pointer hover:text-amber-400 transition-colors" data-rating="2"></i>
-                                <i class="fas fa-star text-3xl text-slate-300 cursor-pointer hover:text-amber-400 transition-colors" data-rating="3"></i>
-                                <i class="fas fa-star text-3xl text-slate-300 cursor-pointer hover:text-amber-400 transition-colors" data-rating="4"></i>
-                                <i class="fas fa-star text-3xl text-slate-300 cursor-pointer hover:text-amber-400 transition-colors" data-rating="5"></i>
-                            </div>
-                            <input type="hidden" id="empRating" value="0">
-                        </div>
-
-                        <!-- Basic Details -->
                         <div class="flex flex-col justify-end">
                             <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-2 ml-2">Full Name</label>
                             <input type="text" id="empName" required class="w-full p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl font-black text-sm uppercase outline-none focus:border-sarathy-blue transition-colors dark:text-white shadow-sm" placeholder="ENTER FULL NAME">
@@ -994,7 +802,6 @@
                             </select>
                         </div>
 
-                        <!-- Role & Pay -->
                         <div class="flex flex-col justify-end">
                             <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-2 ml-2">Department</label>
                             <input type="text" id="dept" required oninput="this.value = this.value.toUpperCase()" class="w-full p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl font-black text-sm uppercase outline-none focus:border-sarathy-blue transition-colors dark:text-white shadow-sm" placeholder="E.G. SALES, SERVICE">
@@ -1011,19 +818,6 @@
                         </div>
 
                         <div class="flex flex-col justify-end">
-                            <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-2 ml-2">Base Salary (₹)</label>
-                            <input type="number" id="empSalary" class="w-full p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl font-black text-sm outline-none focus:border-sarathy-blue transition-colors dark:text-white shadow-sm" placeholder="15000">
-                        </div>
-                        <div class="flex flex-col justify-end relative">
-                            <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-2 ml-2">Assigned Shift</label>
-                            <select id="empShift" class="w-full p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl font-black text-sm uppercase outline-none focus:border-sarathy-blue transition-colors appearance-none shadow-sm cursor-pointer">
-                                <option value="General">General (09:00 - 06:00)</option>
-                                <option value="Morning">Morning (07:00 - 03:00)</option>
-                                <option value="Evening">Evening (02:00 - 10:00)</option>
-                            </select>
-                        </div>
-
-                        <div class="flex flex-col justify-end">
                             <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-2 ml-2">Interview Date</label>
                             <input type="date" id="interviewDate" required class="w-full p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl font-black text-sm outline-none focus:border-sarathy-blue transition-colors dark:text-white shadow-sm cursor-pointer">
                         </div>
@@ -1033,20 +827,12 @@
                         </div>
 
                         <div class="flex flex-col justify-end">
-                            <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-2 ml-2">Experience (Yrs)</label>
-                            <input type="number" id="experience" step="0.5" class="w-full p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl font-black text-sm outline-none focus:border-sarathy-blue transition-colors dark:text-white shadow-sm" value="0">
-                        </div>
-                        <div class="flex flex-col justify-end">
                             <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-2 ml-2">Location</label>
                             <input type="text" id="location" required class="w-full p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl font-black text-sm uppercase outline-none focus:border-sarathy-blue transition-colors dark:text-white shadow-sm" placeholder="LOCATION">
                         </div>
-                        <div class="col-span-1 md:col-span-2 flex flex-col justify-end">
+                        <div class="flex flex-col justify-end">
                             <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-2 ml-2">Designation</label>
                             <input type="text" id="designation" required class="w-full p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl font-black text-sm uppercase outline-none focus:border-sarathy-blue transition-colors dark:text-white shadow-sm" placeholder="DESIGNATION">
-                        </div>
-                        <div class="col-span-1 md:col-span-2 flex flex-col justify-end">
-                            <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-2 ml-2">Remarks</label>
-                            <textarea id="remarks" rows="2" class="w-full p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl font-black text-sm uppercase outline-none focus:border-sarathy-blue transition-colors dark:text-white shadow-sm" placeholder="Feedback..."></textarea>
                         </div>
                     </div>
 
@@ -1078,7 +864,91 @@
         </div>
     </div>
 
-    <!-- SUMMARY MODAL -->
+    <!-- STREAMING_CHUNK:Building New Strategy Modals (Jobs, Training, OKRs) -->
+    <!-- JOB MODAL -->
+    <div id="jobModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[120] hidden flex items-center justify-center p-4 transition-opacity no-print">
+        <div class="bg-[var(--bg-secondary)] w-full max-w-md rounded-3xl shadow-2xl overflow-hidden border border-[var(--border-color)] animate-up">
+            <div class="p-6 border-b border-[var(--border-color)] flex justify-between items-center bg-sky-50 dark:bg-sky-900/20">
+                <h3 class="font-black text-base uppercase tracking-widest flex items-center gap-2 text-sky-600"><i class="fas fa-briefcase"></i> Create Job Posting</h3>
+                <button onclick="closeJobModal()" class="w-8 h-8 rounded-full bg-white dark:bg-slate-800 text-slate-400 hover:text-red-500 shadow-sm flex items-center justify-center transition-colors"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="p-6">
+                <form id="jobForm" class="space-y-4">
+                    <div>
+                        <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-1.5 block">Job Title</label>
+                        <input type="text" id="jobTitle" required placeholder="E.g. Senior Sales Exec" class="w-full p-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl font-bold text-sm outline-none focus:border-sky-500 text-[var(--text-primary)]">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-1.5 block">Department</label>
+                            <input type="text" id="jobDept" required class="w-full p-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl font-bold text-sm outline-none focus:border-sky-500 text-[var(--text-primary)] uppercase">
+                        </div>
+                        <div>
+                            <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-1.5 block">Location</label>
+                            <input type="text" id="jobLoc" required class="w-full p-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl font-bold text-sm outline-none focus:border-sky-500 text-[var(--text-primary)] uppercase">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-1.5 block">Requirements / JD</label>
+                        <textarea id="jobReq" required rows="3" class="w-full p-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl font-bold text-sm outline-none focus:border-sky-500 text-[var(--text-primary)]" placeholder="Minimum 3 years experience, good communication..."></textarea>
+                    </div>
+                    <button type="submit" class="w-full bg-sky-600 hover:bg-sky-700 text-white font-black py-4 rounded-xl shadow-lg mt-4 transition-all uppercase tracking-widest text-xs active:scale-95">Post Job</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- TRAINING MODAL -->
+    <div id="trainingModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[120] hidden flex items-center justify-center p-4 transition-opacity no-print">
+        <div class="bg-[var(--bg-secondary)] w-full max-w-md rounded-3xl shadow-2xl overflow-hidden border border-[var(--border-color)] animate-up">
+            <div class="p-6 border-b border-[var(--border-color)] flex justify-between items-center bg-fuchsia-50 dark:bg-fuchsia-900/20">
+                <h3 class="font-black text-base uppercase tracking-widest flex items-center gap-2 text-fuchsia-600"><i class="fas fa-graduation-cap"></i> Assign Training</h3>
+                <button onclick="closeTrainingModal()" class="w-8 h-8 rounded-full bg-white dark:bg-slate-800 text-slate-400 hover:text-red-500 shadow-sm flex items-center justify-center transition-colors"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="p-6">
+                <form id="trainingForm" class="space-y-4">
+                    <div>
+                        <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-1.5 block">Select Employee</label>
+                        <select id="trainEmpId" required class="w-full p-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl font-bold text-sm outline-none focus:border-fuchsia-500 text-[var(--text-primary)] cursor-pointer"></select>
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-1.5 block">Course / Module Name</label>
+                        <input type="text" id="trainCourse" required placeholder="E.g. Product Knowledge Level 1" class="w-full p-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl font-bold text-sm outline-none focus:border-fuchsia-500 text-[var(--text-primary)]">
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-1.5 block">Completion Deadline</label>
+                        <input type="date" id="trainDeadline" required class="w-full p-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl font-bold text-sm outline-none focus:border-fuchsia-500 text-[var(--text-primary)] cursor-pointer dark:[color-scheme:dark]">
+                    </div>
+                    <button type="submit" class="w-full bg-fuchsia-600 hover:bg-fuchsia-700 text-white font-black py-4 rounded-xl shadow-lg mt-4 transition-all uppercase tracking-widest text-xs active:scale-95">Assign Course</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- OKR MODAL -->
+    <div id="okrModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[120] hidden flex items-center justify-center p-4 transition-opacity no-print">
+        <div class="bg-[var(--bg-secondary)] w-full max-w-md rounded-3xl shadow-2xl overflow-hidden border border-[var(--border-color)] animate-up">
+            <div class="p-6 border-b border-[var(--border-color)] flex justify-between items-center bg-orange-50 dark:bg-orange-900/20">
+                <h3 class="font-black text-base uppercase tracking-widest flex items-center gap-2 text-orange-600"><i class="fas fa-bullseye"></i> Set Performance OKR</h3>
+                <button onclick="closeOkrModal()" class="w-8 h-8 rounded-full bg-white dark:bg-slate-800 text-slate-400 hover:text-red-500 shadow-sm flex items-center justify-center transition-colors"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="p-6">
+                <form id="okrForm" class="space-y-4">
+                    <div>
+                        <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-1.5 block">Select Employee</label>
+                        <select id="okrEmpId" required class="w-full p-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl font-bold text-sm outline-none focus:border-orange-500 text-[var(--text-primary)] cursor-pointer"></select>
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-1.5 block">Objective (Goal)</label>
+                        <input type="text" id="okrObj" required placeholder="E.g. Increase Monthly Sales by 20%" class="w-full p-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl font-bold text-sm outline-none focus:border-orange-500 text-[var(--text-primary)]">
+                    </div>
+                    <button type="submit" class="w-full bg-orange-600 hover:bg-orange-700 text-white font-black py-4 rounded-xl shadow-lg mt-4 transition-all uppercase tracking-widest text-xs active:scale-95">Save Goal</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- SUMMARY MODAL & VIEW MODAL -->
     <div id="summaryModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[115] hidden flex items-center justify-center p-4 transition-opacity no-print">
         <div class="bg-[var(--bg-secondary)] w-full max-w-4xl rounded-3xl shadow-2xl overflow-hidden border border-[var(--border-color)]">
             <div class="p-6 md:p-8 bg-gradient-to-r from-sarathy-blue to-blue-600 text-white flex justify-between items-center">
@@ -1092,7 +962,6 @@
         </div>
     </div>
 
-    <!-- VIEW PROFILE MODAL -->
     <div id="viewModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[115] hidden flex items-center justify-center p-4 transition-opacity">
         <div class="bg-[var(--bg-secondary)] w-full max-w-3xl rounded-[2rem] shadow-2xl overflow-hidden border border-[var(--border-color)] relative">
             <div class="p-6 md:p-8 bg-gradient-to-r from-sarathy-blue to-blue-600 text-white flex justify-between items-center no-print">
@@ -1105,7 +974,7 @@
             
             <div class="hidden print:block text-center pt-8 pb-4 border-b-2 border-black mb-6">
                 <h1 class="text-4xl font-black uppercase tracking-widest">SARATHY GROUP</h1>
-                <p class="text-sm font-bold uppercase tracking-widest mt-1">Personnel Profile & KYC</p>
+                <p class="text-sm font-bold uppercase tracking-widest mt-1">Personnel Profile & Details</p>
             </div>
 
             <div class="p-6 md:p-10 custom-scroll max-h-[75vh] overflow-y-auto bg-[var(--bg-primary)]">
@@ -1114,7 +983,7 @@
         </div>
     </div>
 
-    <!-- NOTIFICATION MODAL -->
+    <!-- NOTIFICATION MODAL & TOAST -->
     <div id="notificationModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[120] hidden flex items-start justify-center md:justify-end p-4 md:pr-8 md:pt-24 no-print">
         <div class="bg-[var(--bg-secondary)] w-full max-w-sm rounded-[2rem] shadow-2xl overflow-hidden border border-[var(--border-color)] animate-up">
             <div class="p-6 border-b border-[var(--border-color)] flex justify-between items-center bg-[var(--bg-primary)]">
@@ -1125,20 +994,22 @@
         </div>
     </div>
 
-    <!-- Toast -->
     <div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 translate-y-40 opacity-0 bg-slate-800 text-white px-8 py-4 rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.3)] transition-all duration-400 z-[200] flex items-center gap-4 text-xs md:text-sm font-black tracking-widest uppercase whitespace-nowrap no-print border border-slate-700">
         <i id="toastIcon" class="fas fa-check-circle text-emerald-400 text-xl"></i>
         <span id="toastMessage">Success</span>
     </div>
 
+    <!-- STREAMING_CHUNK:Javascript Logic & Data Setup -->
     <script>
         // --- DATA STATE ---
         const CURRENT_DB_VERSION = 'sarathy_db_v13'; 
         const CURRENT_BUDGET_VERSION = 'sarathy_req_v13'; 
-        const LEAVES_DB_VERSION = 'sarathy_leaves_v13';
-        const EXPENSES_DB_VERSION = 'sarathy_exp_v1';
-        const ATTENDANCE_DB_VERSION = 'sarathy_att_v1';
         const NOTICES_DB_VERSION = 'sarathy_notices_v1';
+        
+        // New Strategy Modules DB Keys
+        const JOBS_DB_VERSION = 'sarathy_jobs_v1';
+        const TRAINING_DB_VERSION = 'sarathy_training_v1';
+        const OKR_DB_VERSION = 'sarathy_okr_v1';
         
         let localUsers = JSON.parse(localStorage.getItem('sarathy_users_v13'));
         if (!localUsers) {
@@ -1149,16 +1020,13 @@
         let currentUser = null;
         
         let joinees = JSON.parse(localStorage.getItem(CURRENT_DB_VERSION)) || [];
-        let reqList = JSON.parse(localStorage.getItem(CURRENT_BUDGET_VERSION)) || [
-            {dept: 'SALES', company: 'ALL', location: 'ALL', target: 5}, 
-            {dept: 'SERVICE', company: 'ALL', location: 'ALL', target: 3}
-        ];
-        let leavesList = JSON.parse(localStorage.getItem(LEAVES_DB_VERSION)) || [];
-        let expensesList = JSON.parse(localStorage.getItem(EXPENSES_DB_VERSION)) || [];
-        let attendanceDB = JSON.parse(localStorage.getItem(ATTENDANCE_DB_VERSION)) || {};
-        let noticesList = JSON.parse(localStorage.getItem(NOTICES_DB_VERSION)) || [
-            { id: 1, text: "Welcome to the new HR Portal Pro! Explore the new features.", type: "info" }
-        ];
+        let reqList = JSON.parse(localStorage.getItem(CURRENT_BUDGET_VERSION)) || [{dept: 'SALES', company: 'ALL', location: 'ALL', target: 5}, {dept: 'SERVICE', company: 'ALL', location: 'ALL', target: 3}];
+        let noticesList = JSON.parse(localStorage.getItem(NOTICES_DB_VERSION)) || [{ id: 1, text: "Welcome to the updated HR Portal!", type: "info" }];
+        
+        // New Strategy Data Lists
+        let jobsList = JSON.parse(localStorage.getItem(JOBS_DB_VERSION)) || [];
+        let trainingList = JSON.parse(localStorage.getItem(TRAINING_DB_VERSION)) || [];
+        let okrList = JSON.parse(localStorage.getItem(OKR_DB_VERSION)) || [];
         
         let currentTab = 'dashboard';
         let tabHistory = []; 
@@ -1166,15 +1034,11 @@
         let activeFilter = 'All';
         let chartStatus, chartSource, chartSourcePie, chartRejection;
         let calendarDate = new Date();
-
         let selectedCandidates = [];
 
         document.addEventListener("DOMContentLoaded", () => {
             const savedNotes = localStorage.getItem('hr_quick_notes');
-            if(savedNotes) {
-                const el = document.getElementById('quickNotesArea');
-                if(el) el.value = savedNotes;
-            }
+            if(savedNotes) { const el = document.getElementById('quickNotesArea'); if(el) el.value = savedNotes; }
         });
 
         // --- UTILITIES ---
@@ -1189,22 +1053,12 @@
         };
 
         const formatDateString = (d) => {
-            if(!d) return '';
-            const parts = d.split('-');
-            if (parts.length !== 3) return d;
-            return `${parts[2]}-${parts[1]}-${parts[0]}`;
+            if(!d) return ''; const parts = d.split('-'); if (parts.length !== 3) return d; return `${parts[2]}-${parts[1]}-${parts[0]}`;
         };
 
         const getAvatarColor = (name) => {
-            const colors = [
-                'bg-blue-100 text-blue-700 border-blue-200', 
-                'bg-emerald-100 text-emerald-700 border-emerald-200', 
-                'bg-amber-100 text-amber-700 border-amber-200', 
-                'bg-purple-100 text-purple-700 border-purple-200', 
-                'bg-pink-100 text-pink-700 border-pink-200'
-            ];
-            let hash = 0;
-            if (!name || name.length === 0) return colors[0];
+            const colors = ['bg-blue-100 text-blue-700 border-blue-200', 'bg-emerald-100 text-emerald-700 border-emerald-200', 'bg-amber-100 text-amber-700 border-amber-200', 'bg-purple-100 text-purple-700 border-purple-200', 'bg-pink-100 text-pink-700 border-pink-200'];
+            let hash = 0; if (!name || name.length === 0) return colors[0];
             for (let i = 0; i < name.length; i++) hash = name.charCodeAt(i) + ((hash << 5) - hash);
             return colors[Math.abs(hash) % colors.length];
         };
@@ -1224,11 +1078,7 @@
         const printNative = (containerId) => {
             const content = document.getElementById(containerId).innerHTML;
             const printArea = document.getElementById('printArea');
-            printArea.innerHTML = `
-                <div style="width: 100%; max-width: 800px; margin: 0 auto; background: white; color: black; padding: 20px;">
-                    ${content}
-                </div>
-            `;
+            printArea.innerHTML = `<div style="width: 100%; max-width: 800px; margin: 0 auto; background: white; color: black; padding: 20px;">${content}</div>`;
             setTimeout(() => { window.print(); }, 100);
         };
 
@@ -1239,10 +1089,9 @@
             checkNotifications(); 
             renderOnboarding();
             renderDirectory();
-            renderPayroll();
-            renderLeaves();
-            renderExpenses();
-            renderAttendance();
+            renderJobs();
+            renderTraining();
+            renderOKRs();
             if(currentTab === 'analytics') initCharts();
         };
 
@@ -1254,9 +1103,7 @@
             localStorage.setItem('theme', isDark ? 'dark' : 'light');
             if(chartStatus) { chartStatus.update(); chartSource.update(); if(chartSourcePie) chartSourcePie.update(); if(chartRejection) chartRejection.update(); }
         };
-        window.onload = () => {
-            if(localStorage.getItem('theme') === 'dark') toggleDarkMode();
-        };
+        window.onload = () => { if(localStorage.getItem('theme') === 'dark') toggleDarkMode(); };
 
         document.getElementById('loginForm')?.addEventListener('submit', (e) => {
             e.preventDefault();
@@ -1264,26 +1111,17 @@
             const p = document.getElementById('password')?.value;
             if(USERS.find(x => x.user === u && x.pass === p) || (u === 'ADMIN' && p === 'SARATHY@26')) {
                 currentUser = USERS[0]; showApp();
-            } else {
-                document.getElementById('loginError')?.classList.remove('hidden');
-            }
+            } else { document.getElementById('loginError')?.classList.remove('hidden'); }
         });
 
         const showApp = () => {
             document.getElementById('loginPage')?.classList.add('hidden');
             document.getElementById('appLayout')?.classList.remove('hidden');
-            
             const userNameDisplay = document.getElementById('userNameDisplay');
             if(userNameDisplay) userNameDisplay.innerText = currentUser?.user || 'ADMIN';
-            
-            const monthFilter = document.getElementById('monthFilter');
-            if(monthFilter) monthFilter.value = new Date().toISOString().slice(0, 7);
-            
             const chartMonthFilter = document.getElementById('chartMonthFilter');
             if(chartMonthFilter) chartMonthFilter.value = new Date().toISOString().slice(0, 7);
             
-            document.getElementById('attendanceDate').value = new Date().toISOString().slice(0, 10);
-
             if(isAdmin()) {
                 document.getElementById('addBtn')?.classList.remove('hidden');
                 document.getElementById('notesBtn')?.classList.remove('hidden');
@@ -1303,19 +1141,14 @@
             if (tab === 'dashboard') { tabHistory = []; } else if (!isBack && currentTab !== tab) { tabHistory.push(currentTab); }
             currentTab = tab;
             
-            document.querySelectorAll('.nav-link').forEach(el => {
-                el.classList.remove('active');
-                if(el.id === `nav-${tab}`) el.classList.add('active');
-            });
-            
+            document.querySelectorAll('.nav-link').forEach(el => { el.classList.remove('active'); if(el.id === `nav-${tab}`) el.classList.add('active'); });
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
             document.getElementById(`tab-${tab}`)?.classList.add('active');
             
             const titles = { 
                 dashboard: 'HR Overview', candidates: 'Candidate Directory', directory: 'Employee Directory',
-                leaves: 'Leave Management', payroll: 'Payroll Management', calendar: 'Interview Schedule', 
-                analytics: 'Data Analytics', settings: 'System Settings', onboarding: 'Onboarding Checklist',
-                attendance: 'Daily Attendance', expenses: 'Expense Claims'
+                jobs: 'Job Postings Hub', training: 'Training Hub', okrs: 'Performance OKRs', calendar: 'Interview Schedule', 
+                analytics: 'Data Analytics', settings: 'System Settings', onboarding: 'Onboarding Checklist'
             };
             const pageTitle = document.getElementById('pageTitle');
             if(pageTitle) pageTitle.innerText = titles[tab] || 'HR Overview';
@@ -1323,131 +1156,67 @@
             const backBtn = document.getElementById('backBtn');
             const headerBackBtn = document.getElementById('headerBackBtn');
             if (tabHistory.length > 0) {
-                if(backBtn) backBtn.classList.remove('hidden');
-                if(headerBackBtn) headerBackBtn.classList.remove('hidden');
+                if(backBtn) backBtn.classList.remove('hidden'); if(headerBackBtn) headerBackBtn.classList.remove('hidden');
             } else {
-                if(backBtn) backBtn.classList.add('hidden');
-                if(headerBackBtn) headerBackBtn.classList.add('hidden');
+                if(backBtn) backBtn.classList.add('hidden'); if(headerBackBtn) headerBackBtn.classList.add('hidden');
             }
             
-            if (window.innerWidth < 768) {
-                document.getElementById('sidebar')?.classList.add('-translate-x-full');
-                document.getElementById('mobileOverlay')?.classList.add('hidden');
-            }
+            if (window.innerWidth < 768) { document.getElementById('sidebar')?.classList.add('-translate-x-full'); document.getElementById('mobileOverlay')?.classList.add('hidden'); }
             if(tab === 'analytics') initCharts();
         };
         
-        const goBack = () => {
-            if (tabHistory.length > 0) { const prevTab = tabHistory.pop(); switchTab(prevTab, true); }
-        };
+        const goBack = () => { if (tabHistory.length > 0) switchTab(tabHistory.pop(), true); };
 
         const toggleNotesPanel = () => document.getElementById('notesPanel')?.classList.toggle('open');
         const saveNotes = (val) => localStorage.setItem('hr_quick_notes', val);
 
         document.getElementById('status')?.addEventListener('change', function() {
             const rejCont = document.getElementById('rejectionReasonContainer');
-            if(this.value === 'REJECTED') rejCont.classList.remove('hidden');
-            else { rejCont.classList.add('hidden'); document.getElementById('rejectionReason').value = ''; }
+            if(this.value === 'REJECTED') rejCont.classList.remove('hidden'); else { rejCont.classList.add('hidden'); document.getElementById('rejectionReason').value = ''; }
         });
 
         const updateStarUI = (rating) => {
             document.querySelectorAll('#starSelector i').forEach(star => {
-                if(parseInt(star.getAttribute('data-rating')) <= rating) {
-                    star.classList.remove('text-slate-300'); star.classList.add('text-amber-400');
-                } else {
-                    star.classList.add('text-slate-300'); star.classList.remove('text-amber-400');
-                }
+                if(parseInt(star.getAttribute('data-rating')) <= rating) { star.classList.remove('text-slate-300'); star.classList.add('text-amber-400'); } 
+                else { star.classList.add('text-slate-300'); star.classList.remove('text-amber-400'); }
             });
         };
         document.querySelectorAll('#starSelector i').forEach(star => {
-            star.addEventListener('click', (e) => {
-                const rating = parseInt(e.target.getAttribute('data-rating'));
-                document.getElementById('empRating').value = rating; updateStarUI(rating);
-            });
+            star.addEventListener('click', (e) => { const rating = parseInt(e.target.getAttribute('data-rating')); document.getElementById('empRating').value = rating; updateStarUI(rating); });
         });
 
+        // --- DASHBOARD & NOTICES ---
         const renderNotices = () => {
             const container = document.getElementById('noticeBoardContent');
             if(!container) return;
-            
-            if(noticesList.length === 0) {
-                container.innerHTML = '<p class="text-[10px] text-slate-400 text-center font-bold mt-4 uppercase">No current notices</p>';
-                return;
-            }
-            
+            if(noticesList.length === 0) { container.innerHTML = '<p class="text-[10px] text-slate-400 text-center font-bold mt-4 uppercase">No current notices</p>'; return; }
             container.innerHTML = noticesList.map((n, idx) => {
                 const color = n.type === 'urgent' ? 'border-red-400 bg-red-900/30' : 'border-amber-300 bg-black/20';
-                return `
-                <div class="relative group p-2.5 rounded-lg text-xs font-medium border-l-2 ${color}">
-                    ${n.text}
-                    <button onclick="deleteNotice(${idx})" class="absolute right-2 top-2 opacity-0 group-hover:opacity-100 text-red-300 hover:text-red-500 transition-opacity"><i class="fas fa-trash-alt"></i></button>
-                </div>`;
+                return `<div class="relative group p-2.5 rounded-lg text-xs font-medium border-l-2 ${color}">${n.text}<button onclick="deleteNotice(${idx})" class="absolute right-2 top-2 opacity-0 group-hover:opacity-100 text-red-300 hover:text-red-500 transition-opacity"><i class="fas fa-trash-alt"></i></button></div>`;
             }).join('');
         };
-        
         const addNotice = () => {
             const text = prompt("Enter notice message:");
-            if(text) {
-                const type = confirm("Mark as Urgent? (OK for Urgent, Cancel for Normal)") ? "urgent" : "info";
-                noticesList.unshift({ id: Date.now(), text, type, date: new Date().toISOString() });
-                localStorage.setItem(NOTICES_DB_VERSION, JSON.stringify(noticesList));
-                renderNotices();
-            }
+            if(text) { const type = confirm("Mark as Urgent? (OK for Urgent, Cancel for Normal)") ? "urgent" : "info"; noticesList.unshift({ id: Date.now(), text, type, date: new Date().toISOString() }); localStorage.setItem(NOTICES_DB_VERSION, JSON.stringify(noticesList)); renderNotices(); }
         };
-        
-        const deleteNotice = (idx) => {
-            noticesList.splice(idx, 1);
-            localStorage.setItem(NOTICES_DB_VERSION, JSON.stringify(noticesList));
-            renderNotices();
-        };
+        const deleteNotice = (idx) => { noticesList.splice(idx, 1); localStorage.setItem(NOTICES_DB_VERSION, JSON.stringify(noticesList)); renderNotices(); };
 
         const renderDashboard = () => {
             renderNotices();
-            
-            const statTotal = document.getElementById('statTotal');
-            if(statTotal) statTotal.innerText = joinees.length;
-            const statSelected = document.getElementById('statSelected');
-            if(statSelected) statSelected.innerText = joinees.filter(x=>x.status==='SELECTED').length;
-            const statJoined = document.getElementById('statJoined');
-            if(statJoined) statJoined.innerText = joinees.filter(x=>x.status==='JOINED').length;
-            const statPending = document.getElementById('statPending');
-            if(statPending) statPending.innerText = joinees.filter(x=>x.status==='PENDING').length;
-            const statRejected = document.getElementById('statRejected');
-            if(statRejected) statRejected.innerText = joinees.filter(x=>x.status==='REJECTED').length;
+            const statTotal = document.getElementById('statTotal'); if(statTotal) statTotal.innerText = joinees.length;
+            const statSelected = document.getElementById('statSelected'); if(statSelected) statSelected.innerText = joinees.filter(x=>x.status==='SELECTED').length;
+            const statJoined = document.getElementById('statJoined'); if(statJoined) statJoined.innerText = joinees.filter(x=>x.status==='JOINED').length;
+            const statPending = document.getElementById('statPending'); if(statPending) statPending.innerText = joinees.filter(x=>x.status==='PENDING').length;
+            const statRejected = document.getElementById('statRejected'); if(statRejected) statRejected.innerText = joinees.filter(x=>x.status==='REJECTED').length;
 
             const progContainer = document.getElementById('progContainer');
             if(progContainer) {
                 progContainer.innerHTML = '';
                 reqList.forEach(req => {
-                    const reqDept = req.dept.trim().toUpperCase();
-                    const reqCompany = (req.company || 'ALL').trim().toUpperCase();
-                    const reqLocation = (req.location || 'ALL').trim().toUpperCase();
-
-                    const count = joinees.filter(x => {
-                        const deptMatch = x.dept && x.dept.trim().toUpperCase() === reqDept;
-                        const compMatch = reqCompany === 'ALL' || (x.company && x.company.trim().toUpperCase() === reqCompany);
-                        const locMatch = reqLocation === 'ALL' || (x.location && x.location.trim().toUpperCase() === reqLocation);
-                        const statusMatch = x.status === 'SELECTED' || x.status === 'JOINED';
-                        return deptMatch && compMatch && locMatch && statusMatch;
-                    }).length;
-
-                    const target = parseInt(req.target) || 0;
-                    const perc = target > 0 ? Math.min((count/target)*100, 100) : 0;
-                    const companyLabel = reqCompany === 'ALL' ? 'ALL ENTITIES' : req.company;
-                    const locationLabel = reqLocation === 'ALL' ? 'ALL LOCATIONS' : reqLocation;
-                    
-                    progContainer.innerHTML += `
-                        <div class="modern-card p-5 md:p-6 shadow-sm relative transition-all rounded-2xl border-t-4 border-t-[#0054A6]">
-                            <span class="absolute top-0 right-0 text-[9px] font-black bg-[#0054A6] text-white px-3 py-1.5 rounded-bl-xl rounded-tr-2xl uppercase tracking-widest">${companyLabel} • ${locationLabel}</span>
-                            <div class="flex justify-between items-end text-xs font-black mb-3 mt-6 uppercase tracking-widest text-[var(--text-secondary)]">
-                                <span class="truncate pr-2 text-sm">${req.dept}</span>
-                                <span class="text-sarathy-blue whitespace-nowrap text-lg">${count}/${target}</span>
-                            </div>
-                            <div class="w-full h-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-full overflow-hidden shadow-inner">
-                                <div class="h-full bg-gradient-to-r from-sarathy-blue to-sky-400 transition-all duration-1000" style="width:${perc}%"></div>
-                            </div>
-                        </div>
-                    `;
+                    const reqDept = req.dept.trim().toUpperCase(); const reqCompany = (req.company || 'ALL').trim().toUpperCase(); const reqLocation = (req.location || 'ALL').trim().toUpperCase();
+                    const count = joinees.filter(x => { return (x.dept && x.dept.trim().toUpperCase() === reqDept) && (reqCompany === 'ALL' || (x.company && x.company.trim().toUpperCase() === reqCompany)) && (reqLocation === 'ALL' || (x.location && x.location.trim().toUpperCase() === reqLocation)) && (x.status === 'SELECTED' || x.status === 'JOINED'); }).length;
+                    const target = parseInt(req.target) || 0; const perc = target > 0 ? Math.min((count/target)*100, 100) : 0;
+                    progContainer.innerHTML += `<div class="modern-card p-5 md:p-6 shadow-sm relative transition-all rounded-2xl border-t-4 border-t-[#0054A6]"><span class="absolute top-0 right-0 text-[9px] font-black bg-[#0054A6] text-white px-3 py-1.5 rounded-bl-xl rounded-tr-2xl uppercase tracking-widest">${reqCompany === 'ALL' ? 'ALL ENTITIES' : req.company} • ${reqLocation === 'ALL' ? 'ALL LOCATIONS' : reqLocation}</span><div class="flex justify-between items-end text-xs font-black mb-3 mt-6 uppercase tracking-widest text-[var(--text-secondary)]"><span class="truncate pr-2 text-sm">${req.dept}</span><span class="text-sarathy-blue whitespace-nowrap text-lg">${count}/${target}</span></div><div class="w-full h-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-full overflow-hidden shadow-inner"><div class="h-full bg-gradient-to-r from-sarathy-blue to-sky-400 transition-all duration-1000" style="width:${perc}%"></div></div></div>`;
                 });
             }
 
@@ -1455,31 +1224,134 @@
             if(recentBody) {
                 const recent = [...joinees].sort((a,b) => b.id - a.id).slice(0, 5);
                 recentBody.innerHTML = recent.length ? recent.map(x => {
-                    let stClass = '';
-                    if(x.status === 'SELECTED') stClass = 'badge-selected';
-                    else if(x.status === 'JOINED') stClass = 'badge-joined'; 
-                    else if(x.status === 'PENDING') stClass = 'badge-pending';
-                    else stClass = 'badge-rejected';
-                    
-                    return `
-                    <tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors cursor-pointer" onclick="viewCandidate(${x.id})">
-                        <td class="py-4">
-                            <div class="flex items-center gap-4">
-                                <div class="w-10 h-10 rounded-xl flex items-center justify-center font-black text-sm shrink-0 shadow-sm ${getAvatarColor(x.name)}">${x.name[0]}</div>
-                                <div>
-                                    <p class="font-black text-[var(--text-primary)] text-sm uppercase tracking-wide">${x.name}</p>
-                                    <span class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">${x.dept} • ${x.company}</span>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="py-4 text-right">
-                            <span class="status-badge-md shadow-sm ${stClass}">${x.status}</span>
-                        </td>
-                    </tr>
-                `}).join('') : '';
+                    let stClass = x.status === 'SELECTED' ? 'badge-selected' : x.status === 'JOINED' ? 'badge-joined' : x.status === 'PENDING' ? 'badge-pending' : 'badge-rejected';
+                    return `<tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors cursor-pointer" onclick="viewCandidate(${x.id})"><td class="py-4"><div class="flex items-center gap-4"><div class="w-10 h-10 rounded-xl flex items-center justify-center font-black text-sm shrink-0 shadow-sm ${getAvatarColor(x.name)}">${x.name[0]}</div><div><p class="font-black text-[var(--text-primary)] text-sm uppercase tracking-wide">${x.name}</p><span class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">${x.dept} • ${x.company}</span></div></div></td><td class="py-4 text-right"><span class="status-badge-md shadow-sm ${stClass}">${x.status}</span></td></tr>`
+                }).join('') : '';
             }
         };
 
+        // --- STREAMING_CHUNK:Strategic Logic (Jobs, Training, OKRs) ---
+        
+        // JOB POSTINGS LOGIC
+        const openJobModal = () => { document.getElementById('jobForm').reset(); document.getElementById('jobModal').classList.remove('hidden'); };
+        const closeJobModal = () => document.getElementById('jobModal').classList.add('hidden');
+        document.getElementById('jobForm')?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const newJob = { id: Date.now(), title: document.getElementById('jobTitle').value, dept: document.getElementById('jobDept').value, location: document.getElementById('jobLoc').value, reqs: document.getElementById('jobReq').value, status: 'ACTIVE', date: new Date().toISOString().slice(0,10) };
+            jobsList.push(newJob); localStorage.setItem(JOBS_DB_VERSION, JSON.stringify(jobsList));
+            closeJobModal(); renderJobs(); showToast("Job Posting Created!");
+        });
+        const toggleJobStatus = (id) => {
+            const idx = jobsList.findIndex(j => String(j.id) === String(id));
+            if(idx > -1) { jobsList[idx].status = jobsList[idx].status === 'ACTIVE' ? 'CLOSED' : 'ACTIVE'; localStorage.setItem(JOBS_DB_VERSION, JSON.stringify(jobsList)); renderJobs(); }
+        };
+        const deleteJob = (id) => { jobsList = jobsList.filter(j => String(j.id) !== String(id)); localStorage.setItem(JOBS_DB_VERSION, JSON.stringify(jobsList)); renderJobs(); showToast("Job Removed", "error"); };
+        const copyJob = (id) => {
+            const j = jobsList.find(x => String(x.id) === String(id)); if(!j) return;
+            const text = `📢 WE ARE HIRING!\n\nRole: ${j.title}\nDept: ${j.dept}\nLocation: ${j.location}\n\nRequirements:\n${j.reqs}\n\nApply now at Sarathy Group!`;
+            const el = document.createElement('textarea'); el.value = text; document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el);
+            showToast("Job Description Copied!");
+        };
+        const renderJobs = () => {
+            const container = document.getElementById('jobsContainer'); if(!container) return;
+            if(jobsList.length === 0) { container.innerHTML = '<div class="col-span-full text-center py-16 opacity-50"><i class="fas fa-briefcase text-4xl mb-3 text-slate-400"></i><p class="text-xs font-black uppercase tracking-widest text-[var(--text-secondary)]">No Job Postings</p></div>'; return; }
+            container.innerHTML = [...jobsList].sort((a,b)=>b.id-a.id).map(j => `
+                <div class="modern-card p-6 border-t-4 ${j.status === 'ACTIVE' ? 'border-sky-500' : 'border-slate-300'} flex flex-col h-full opacity-${j.status === 'ACTIVE' ? '100' : '70'}">
+                    <div class="flex justify-between items-start mb-4">
+                        <div><span class="px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 text-[9px] font-black uppercase tracking-widest text-slate-500 mb-2 inline-block">${j.date}</span><h3 class="font-black text-lg text-[var(--text-primary)] uppercase leading-tight">${j.title}</h3><p class="text-[10px] font-bold text-sky-600 uppercase tracking-widest mt-1">${j.dept} • ${j.location}</p></div>
+                        <span class="px-2 py-1 rounded-md text-[9px] font-black uppercase tracking-widest ${j.status === 'ACTIVE' ? 'bg-sky-100 text-sky-700' : 'bg-slate-100 text-slate-500'} cursor-pointer" onclick="toggleJobStatus(${j.id})">${j.status}</span>
+                    </div>
+                    <p class="text-xs text-[var(--text-secondary)] font-medium mb-6 line-clamp-3 flex-1">${j.reqs}</p>
+                    <div class="flex gap-2 mt-auto">
+                        <button onclick="copyJob(${j.id})" class="flex-1 py-2.5 bg-slate-100 dark:bg-slate-800 hover:bg-sky-50 text-[var(--text-primary)] hover:text-sky-600 rounded-xl font-black text-[10px] uppercase tracking-widest transition-all"><i class="fas fa-copy mr-1"></i> Copy JD</button>
+                        <button onclick="deleteJob(${j.id})" class="w-10 h-10 bg-red-50 text-red-500 hover:bg-red-500 hover:text-white rounded-xl flex items-center justify-center transition-colors shrink-0"><i class="fas fa-trash-alt"></i></button>
+                    </div>
+                </div>
+            `).join('');
+        };
+
+        // TRAINING LOGIC
+        const openTrainingModal = () => { 
+            document.getElementById('trainingForm').reset();
+            const select = document.getElementById('trainEmpId');
+            select.innerHTML = '<option value="" disabled selected>Select an employee</option>' + joinees.filter(x => x.status === 'JOINED').map(e => `<option value="${e.empId}">${e.name} (${e.empId})</option>`).join('');
+            document.getElementById('trainingModal').classList.remove('hidden'); 
+        };
+        const closeTrainingModal = () => document.getElementById('trainingModal').classList.add('hidden');
+        document.getElementById('trainingForm')?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const empId = document.getElementById('trainEmpId').value;
+            const emp = joinees.find(x => x.empId === empId); if(!emp) return;
+            const newTrain = { id: Date.now(), empId: emp.empId, name: emp.name, course: document.getElementById('trainCourse').value, deadline: document.getElementById('trainDeadline').value, status: 'PENDING' };
+            trainingList.push(newTrain); localStorage.setItem(TRAINING_DB_VERSION, JSON.stringify(trainingList));
+            closeTrainingModal(); renderTraining(); showToast("Training Assigned!");
+        });
+        const updateTraining = (id) => {
+            const idx = trainingList.findIndex(t => String(t.id) === String(id));
+            if(idx > -1) { trainingList[idx].status = 'COMPLETED'; localStorage.setItem(TRAINING_DB_VERSION, JSON.stringify(trainingList)); renderTraining(); showToast("Training Marked Completed!", "success"); confetti(); }
+        };
+        const deleteTraining = (id) => { trainingList = trainingList.filter(t => String(t.id) !== String(id)); localStorage.setItem(TRAINING_DB_VERSION, JSON.stringify(trainingList)); renderTraining(); showToast("Training Removed", "error"); };
+        const renderTraining = () => {
+            const tableBody = document.getElementById('trainingTableBody'); if(!tableBody) return;
+            if(trainingList.length === 0) { tableBody.innerHTML = '<tr><td colspan="5" class="text-center py-16 opacity-60"><i class="fas fa-graduation-cap text-3xl mb-3 text-slate-400"></i><p class="text-xs font-black uppercase tracking-widest text-[var(--text-secondary)]">No Training Assigned</p></td></tr>'; return; }
+            tableBody.innerHTML = [...trainingList].sort((a,b)=>b.id-a.id).map(t => `
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                    <td><div class="flex items-center gap-3"><div class="w-8 h-8 rounded-lg flex items-center justify-center font-black text-xs ${getAvatarColor(t.name)}">${t.name[0]}</div><div><p class="font-black text-sm uppercase">${t.name}</p><span class="text-[9px] font-bold text-slate-500 uppercase">${t.empId}</span></div></div></td>
+                    <td><p class="font-black text-fuchsia-600 uppercase text-xs">${t.course}</p></td>
+                    <td><span class="text-xs font-black">${formatDateString(t.deadline)}</span></td>
+                    <td class="text-center"><span class="px-2 py-1 rounded-md text-[9px] font-black uppercase tracking-widest ${t.status === 'COMPLETED' ? 'bg-emerald-100 text-emerald-700 border border-emerald-200' : 'bg-amber-100 text-amber-700 border border-amber-200'}">${t.status}</span></td>
+                    <td class="text-right">
+                        ${t.status === 'PENDING' ? `<button onclick="updateTraining(${t.id})" class="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 hover:bg-emerald-500 hover:text-white transition-colors mr-1" title="Mark Complete"><i class="fas fa-check"></i></button>` : ''}
+                        <button onclick="deleteTraining(${t.id})" class="w-8 h-8 rounded-xl bg-red-50 text-red-500 hover:bg-red-500 hover:text-white transition-colors" title="Delete"><i class="fas fa-trash-alt"></i></button>
+                    </td>
+                </tr>
+            `).join('');
+        };
+
+        // OKR LOGIC
+        const openOkrModal = () => { 
+            document.getElementById('okrForm').reset();
+            const select = document.getElementById('okrEmpId');
+            select.innerHTML = '<option value="" disabled selected>Select an employee</option>' + joinees.filter(x => x.status === 'JOINED').map(e => `<option value="${e.empId}">${e.name} (${e.empId})</option>`).join('');
+            document.getElementById('okrModal').classList.remove('hidden'); 
+        };
+        const closeOkrModal = () => document.getElementById('okrModal').classList.add('hidden');
+        document.getElementById('okrForm')?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const empId = document.getElementById('okrEmpId').value;
+            const emp = joinees.find(x => x.empId === empId); if(!emp) return;
+            const newOkr = { id: Date.now(), empId: emp.empId, name: emp.name, obj: document.getElementById('okrObj').value, progress: 0 };
+            okrList.push(newOkr); localStorage.setItem(OKR_DB_VERSION, JSON.stringify(okrList));
+            closeOkrModal(); renderOKRs(); showToast("OKR Created!");
+        });
+        const updateOkrProgress = (id, val) => {
+            const idx = okrList.findIndex(o => String(o.id) === String(id));
+            if(idx > -1) { 
+                okrList[idx].progress = parseInt(val); 
+                document.getElementById(`okrVal-${id}`).innerText = val + '%';
+                localStorage.setItem(OKR_DB_VERSION, JSON.stringify(okrList)); 
+            }
+        };
+        const deleteOkr = (id) => { okrList = okrList.filter(o => String(o.id) !== String(id)); localStorage.setItem(OKR_DB_VERSION, JSON.stringify(okrList)); renderOKRs(); showToast("OKR Removed", "error"); };
+        const renderOKRs = () => {
+            const container = document.getElementById('okrContainer'); if(!container) return;
+            if(okrList.length === 0) { container.innerHTML = '<div class="col-span-full text-center py-16 opacity-50"><i class="fas fa-bullseye text-4xl mb-3 text-slate-400"></i><p class="text-xs font-black uppercase tracking-widest text-[var(--text-secondary)]">No OKRs Set</p></div>'; return; }
+            container.innerHTML = [...okrList].sort((a,b)=>b.id-a.id).map(o => `
+                <div class="modern-card p-6 border-t-4 border-orange-500 flex flex-col">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="flex items-center gap-3"><div class="w-10 h-10 rounded-xl flex items-center justify-center font-black text-sm ${getAvatarColor(o.name)}">${o.name[0]}</div><div><p class="font-black text-sm uppercase leading-tight">${o.name}</p><span class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">${o.empId}</span></div></div>
+                        <button onclick="deleteOkr(${o.id})" class="text-red-400 hover:text-red-600 transition-colors"><i class="fas fa-trash-alt"></i></button>
+                    </div>
+                    <p class="text-xs font-bold text-[var(--text-primary)] mb-5 bg-orange-50 dark:bg-orange-900/20 p-3 rounded-xl border border-orange-100 dark:border-orange-900/50">🎯 ${o.obj}</p>
+                    <div class="mt-auto">
+                        <div class="flex justify-between items-center mb-2"><span class="text-[10px] font-black uppercase tracking-widest text-slate-500">Progress</span><span id="okrVal-${o.id}" class="text-xs font-black ${o.progress == 100 ? 'text-emerald-500' : 'text-orange-500'}">${o.progress}%</span></div>
+                        <input type="range" min="0" max="100" value="${o.progress}" class="progress-slider" oninput="updateOkrProgress(${o.id}, this.value)" onchange="if(this.value == 100) confetti()">
+                    </div>
+                </div>
+            `).join('');
+        };
+
+        // --- STREAMING_CHUNK:Candidates & General Tables ---
         const setQuickFilter = (f) => {
             activeFilter = f;
             document.querySelectorAll('[id^="chip-"]').forEach(c => c.classList.remove('border-sarathy-blue', 'text-sarathy-blue', 'dark:text-sky-400', 'border-red-500', 'text-red-500'));
@@ -1488,29 +1360,23 @@
             renderTable();
         };
 
-        const setView = (v) => {
-            currentView = v;
-            renderTable();
-        };
+        const setView = (v) => { currentView = v; renderTable(); };
 
         const renderTable = () => {
             const term = document.getElementById('searchInput')?.value.toUpperCase() || '';
-            const month = document.getElementById('monthFilter')?.value || '';
             const deptFilter = document.getElementById('filterDept')?.value || 'ALL';
             const compFilter = document.getElementById('filterCompany')?.value || 'ALL';
             
             let filtered = joinees.filter(x => {
                 const searchMatch = x.name.includes(term) || x.empId.includes(term) || (x.phone && x.phone.includes(term));
-                const dateMatch = !month || (x.interviewDate||'').startsWith(month);
                 const deptMatch = deptFilter === 'ALL' || (x.dept && x.dept.includes(deptFilter));
                 const compMatch = compFilter === 'ALL' || (x.company && x.company.includes(compFilter));
-
                 let qMatch = true;
                 if(activeFilter==='Pending') qMatch = x.status === 'PENDING';
                 if(activeFilter==='Selected') qMatch = x.status === 'SELECTED';
                 if(activeFilter==='Joined') qMatch = x.status === 'JOINED'; 
                 if(activeFilter==='Rejected') qMatch = x.status === 'REJECTED'; 
-                return searchMatch && dateMatch && deptMatch && compMatch && qMatch;
+                return searchMatch && deptMatch && compMatch && qMatch;
             });
 
             filtered.sort((a,b) => b.id - a.id);
@@ -1533,21 +1399,9 @@
                             groupedByCompany[comp].push(candidate);
                         });
 
-                        let tableHtml = '';
-                        let globalIndex = 1;
-
+                        let tableHtml = ''; let globalIndex = 1;
                         for(const [company, candidatesList] of Object.entries(groupedByCompany)) {
-                            tableHtml += `
-                                <tr class="bg-gradient-to-r from-slate-100 to-slate-50 dark:from-slate-800 dark:to-slate-800/50 border-y-2 border-slate-200 dark:border-slate-700">
-                                    <td colspan="7" class="px-6 py-3">
-                                        <div class="flex justify-between items-center">
-                                            <h3 class="font-black text-sm md:text-base text-sarathy-blue dark:text-sky-400 uppercase tracking-widest flex items-center gap-2">
-                                                <i class="fas fa-building"></i> ${company}
-                                            </h3>
-                                        </div>
-                                    </td>
-                                </tr>
-                            `;
+                            tableHtml += `<tr class="bg-gradient-to-r from-slate-100 to-slate-50 dark:from-slate-800 dark:to-slate-800/50 border-y-2 border-slate-200 dark:border-slate-700"><td colspan="7" class="px-6 py-3"><div class="flex justify-between items-center"><h3 class="font-black text-sm md:text-base text-sarathy-blue dark:text-sky-400 uppercase tracking-widest flex items-center gap-2"><i class="fas fa-building"></i> ${company}</h3></div></td></tr>`;
                             candidatesList.forEach(x => { tableHtml += generateRow(x, globalIndex++); });
                         }
                         tableBody.innerHTML = tableHtml;
@@ -1556,67 +1410,46 @@
             } else {
                 if(listView) listView.classList.add('hidden');
                 if(boardView) boardView.classList.remove('hidden');
+                ['PENDING','SELECTED','JOINED','REJECTED'].forEach(s => {
+                    const el = document.getElementById(`board${s.charAt(0)+s.slice(1).toLowerCase()}`);
+                    const cEl = document.getElementById(`countBoard${s.charAt(0)+s.slice(1).toLowerCase()}`);
+                    if(el && cEl) {
+                        const arr = filtered.filter(x=>x.status===s);
+                        cEl.innerText = arr.length;
+                        el.innerHTML = arr.map(x => {
+                            return `<div class="modern-card p-4 border bg-white dark:bg-slate-800 cursor-pointer hover:border-sarathy-blue transition-colors" onclick="viewCandidate(${x.id})"><div class="flex gap-3"><div class="w-10 h-10 rounded-lg flex items-center justify-center font-black text-sm ${getAvatarColor(x.name)}">${x.name[0]}</div><div><p class="font-black text-xs uppercase text-[var(--text-primary)]">${x.name}</p><p class="text-[9px] font-bold text-slate-500 uppercase mt-0.5">${x.empId} • ${x.dept}</p></div></div></div>`;
+                        }).join('');
+                    }
+                });
             }
         };
 
         const generateRow = (x, index) => {
             const intDate = formatDateString(x.interviewDate) || 'N/A';
-            const joinDate = formatDateString(x.joinDate) || 'N/A';
-            let statusClass = '';
-            if(x.status === 'SELECTED') statusClass = 'badge-selected';
-            else if(x.status === 'JOINED') statusClass = 'badge-joined'; 
-            else if(x.status === 'PENDING') statusClass = 'badge-pending';
-            else statusClass = 'badge-rejected';
-
-            const avatarClass = getAvatarColor(x.name);
-            const deptColor = getDeptColor(x.dept);
+            let statusClass = x.status === 'SELECTED' ? 'badge-selected' : x.status === 'JOINED' ? 'badge-joined' : x.status === 'PENDING' ? 'badge-pending' : 'badge-rejected';
+            const avatarClass = getAvatarColor(x.name); const deptColor = getDeptColor(x.dept);
             const isChecked = selectedCandidates.includes(String(x.id)) ? 'checked' : '';
-            const ratingStars = Array(5).fill(0).map((_,i) => `<i class="fas fa-star ${i < (x.rating||0) ? 'text-amber-400' : 'text-slate-300'}"></i>`).join('');
-
             return `
                 <tr class="group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors cursor-pointer" onclick="viewCandidate(${x.id})">
                     <td class="text-center" onclick="event.stopPropagation()">
-                        <div class="flex flex-col items-center justify-center gap-2">
-                            <span class="text-[10px] font-black text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 w-6 h-6 rounded-full flex items-center justify-center shadow-sm">${index}</span>
-                            <input type="checkbox" class="candidate-cb custom-checkbox" value="${x.id}" ${isChecked} onclick="updateBulkSelection(${x.id}, this.checked)">
-                        </div>
+                        <div class="flex flex-col items-center justify-center gap-2"><span class="text-[10px] font-black text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 w-6 h-6 rounded-full flex items-center justify-center shadow-sm">${index}</span><input type="checkbox" class="candidate-cb custom-checkbox" value="${x.id}" ${isChecked} onclick="updateBulkSelection(${x.id}, this.checked)"></div>
                     </td>
-                    <td>
-                        <div class="flex items-center gap-4">
-                            <div class="w-12 h-12 rounded-xl flex items-center justify-center font-black text-lg shrink-0 shadow-sm ${avatarClass}">${x.name[0]}</div>
-                            <div>
-                                <p class="font-black text-black dark:text-white text-sm uppercase tracking-wide truncate leading-tight">${x.name}</p>
-                                <span class="inline-block px-2 py-0.5 mt-1.5 rounded-md text-[9px] font-black bg-slate-100 text-slate-500 dark:bg-slate-700 dark:text-slate-300 uppercase tracking-widest border border-slate-200 dark:border-slate-600">${x.empId}</span>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <p class="font-black text-black dark:text-white text-xs uppercase tracking-widest truncate">${x.designation || '-'}</p>
-                        <div class="flex items-center gap-1.5 mt-1 text-[10px]">${ratingStars}</div>
-                        <div class="flex items-center gap-2 mt-1.5">
-                            <p class="text-[10px] ${deptColor} font-black uppercase tracking-widest">${x.dept}</p>
-                        </div>
-                    </td>
-                    <td>
-                        <p class="text-xs font-black text-black dark:text-white uppercase tracking-widest truncate">${x.location || '-'}</p>
-                    </td>
-                    <td class="text-center">
-                        <span class="status-badge-md shadow-sm ${statusClass}">${x.status}</span>
-                    </td>
-                    <td>
-                        <div class="text-[10px] leading-relaxed space-y-2">
-                            <div>
-                                <span class="text-black dark:text-white font-black text-xs bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded-md border border-slate-200 dark:border-slate-700 inline-block shadow-sm">INT: ${intDate}</span>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="text-right" onclick="event.stopPropagation()">
-                        <div class="flex justify-end opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
-                            <button onclick="viewCandidate(${x.id})" class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-all shadow-sm"><i class="fas fa-eye text-sm"></i></button>
-                        </div>
-                    </td>
+                    <td><div class="flex items-center gap-4"><div class="w-12 h-12 rounded-xl flex items-center justify-center font-black text-lg shrink-0 shadow-sm ${avatarClass}">${x.name[0]}</div><div><p class="font-black text-black dark:text-white text-sm uppercase tracking-wide truncate leading-tight">${x.name}</p><span class="inline-block px-2 py-0.5 mt-1.5 rounded-md text-[9px] font-black bg-slate-100 text-slate-500 dark:bg-slate-700 dark:text-slate-300 uppercase tracking-widest border border-slate-200 dark:border-slate-600">${x.empId}</span></div></div></td>
+                    <td><p class="font-black text-black dark:text-white text-xs uppercase tracking-widest truncate">${x.designation || '-'}</p><div class="flex items-center gap-2 mt-1.5"><p class="text-[10px] ${deptColor} font-black uppercase tracking-widest">${x.dept}</p></div></td>
+                    <td><p class="text-xs font-black text-black dark:text-white uppercase tracking-widest truncate">${x.location || '-'}</p></td>
+                    <td class="text-center"><span class="status-badge-md shadow-sm ${statusClass}">${x.status}</span></td>
+                    <td><div class="text-[10px] leading-relaxed space-y-2"><div><span class="text-black dark:text-white font-black text-xs bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded-md border border-slate-200 dark:border-slate-700 inline-block shadow-sm">INT: ${intDate}</span></div></div></td>
+                    <td class="text-right" onclick="event.stopPropagation()"><div class="flex justify-end opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity"><button onclick="viewCandidate(${x.id})" class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-all shadow-sm"><i class="fas fa-eye text-sm"></i></button></div></td>
                 </tr>
             `;
+        };
+
+        const toggleSelectAll = () => {
+            const selectAllCb = document.getElementById('selectAllCb');
+            const checkboxes = document.querySelectorAll('.candidate-cb');
+            if(selectAllCb.checked) { checkboxes.forEach(cb => { cb.checked = true; if(!selectedCandidates.includes(cb.value)) selectedCandidates.push(cb.value); }); } 
+            else { checkboxes.forEach(cb => cb.checked = false); selectedCandidates = []; }
+            updateBulkActionBar();
         };
 
         const updateBulkSelection = (id, checked) => {
@@ -1625,26 +1458,52 @@
             updateBulkActionBar();
         };
 
+        const clearBulkSelection = () => {
+            selectedCandidates = []; document.querySelectorAll('.candidate-cb').forEach(cb => cb.checked = false);
+            const selectAll = document.getElementById('selectAllCb'); if(selectAll) selectAll.checked = false;
+            updateBulkActionBar();
+        };
+
         const updateBulkActionBar = () => {
-            const bar = document.getElementById('bulkActionBar');
-            const countSpan = document.getElementById('bulkCount');
-            if(selectedCandidates.length > 0) {
-                bar.classList.add('active'); countSpan.innerText = selectedCandidates.length;
-            } else { bar.classList.remove('active'); }
+            const bar = document.getElementById('bulkActionBar'); const countSpan = document.getElementById('bulkCount');
+            if(selectedCandidates.length > 0) { bar.classList.add('active'); countSpan.innerText = selectedCandidates.length; } 
+            else { bar.classList.remove('active'); }
+        };
+
+        const copyBulkPhones = () => {
+            if(selectedCandidates.length === 0) return;
+            const phones = joinees.filter(j => selectedCandidates.includes(String(j.id)) && j.phone).map(j => j.phone).join(', ');
+            if(!phones) return showToast("No valid phone numbers found", "error");
+            navigator.clipboard.writeText(phones).then(() => { showToast(`Copied ${selectedCandidates.length} numbers for WhatsApp!`); clearBulkSelection(); }).catch(err => { showToast("Failed to copy", "error"); });
+        };
+
+        const bulkUpdateStatus = (newStatus) => {
+            if(selectedCandidates.length === 0) return;
+            joinees.forEach(j => {
+                if(selectedCandidates.includes(String(j.id))) { j.status = newStatus; if(newStatus === 'JOINED' && !j.joinDate) { j.joinDate = new Date().toISOString().slice(0, 10); } if(newStatus !== 'REJECTED') { j.rejectionReason = ''; } }
+            });
+            localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees)); clearBulkSelection(); refreshAllViews();
+            showToast(`Marked ${selectedCandidates.length} candidates as ${newStatus}`);
+            if(newStatus === 'SELECTED' || newStatus === 'JOINED') confetti({particleCount: 150, spread: 80, origin: { y: 0.6 }});
+        };
+
+        const bulkDelete = () => {
+            if(selectedCandidates.length === 0) return;
+            if(confirm(`Are you sure you want to permanently delete ${selectedCandidates.length} selected candidates?`)) {
+                joinees = joinees.filter(j => !selectedCandidates.includes(String(j.id)));
+                localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees)); clearBulkSelection(); refreshAllViews(); showToast("Candidates Deleted", "error");
+            }
         };
 
         const markAsJoined = (id) => {
             const idx = joinees.findIndex(x => String(x.id) === String(id));
             if(idx > -1) {
-                joinees[idx].status = 'JOINED';
-                if(!joinees[idx].joinDate) joinees[idx].joinDate = new Date().toISOString().slice(0, 10);
-                localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees));
-                refreshAllViews();
-                showToast("Candidate Marked as Joined!", "success");
-                confetti({particleCount: 150, spread: 80, origin: { y: 0.6 }});
+                joinees[idx].status = 'JOINED'; if(!joinees[idx].joinDate) joinees[idx].joinDate = new Date().toISOString().slice(0, 10);
+                localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees)); refreshAllViews(); showToast("Candidate Marked as Joined!", "success"); confetti({particleCount: 150, spread: 80, origin: { y: 0.6 }});
             }
         };
 
+        // --- STREAMING_CHUNK:Candidate Modal Logic ---
         const openModal = () => {
             document.getElementById('joineeForm')?.reset();
             document.getElementById('editId').value = ''; 
@@ -1664,9 +1523,7 @@
 
         const editRecord = (id) => {
             closeViewModal();
-            const r = joinees.find(x => String(x.id) === String(id));
-            if(!r) return;
-            
+            const r = joinees.find(x => String(x.id) === String(id)); if(!r) return;
             document.getElementById('editId').value = r.id; 
             document.getElementById('empId').value = r.empId;
             document.getElementById('status').value = r.status;
@@ -1681,16 +1538,12 @@
             document.getElementById('experience').value = r.experience || 0;
             document.getElementById('location').value = r.location || '';
             document.getElementById('designation').value = r.designation || '';
-            document.getElementById('remarks').value = r.remarks || '';
-            document.getElementById('empSalary').value = r.salary || '';
-            document.getElementById('empShift').value = r.shift || 'General';
             
-            document.getElementById('empRating').value = r.rating || 0;
-            updateStarUI(r.rating || 0);
+            document.getElementById('empRating').value = r.rating || 0; updateStarUI(r.rating || 0);
 
             const rejCont = document.getElementById('rejectionReasonContainer');
             if(r.status === 'REJECTED') { rejCont.classList.remove('hidden'); document.getElementById('rejectionReason').value = r.rejectionReason || ''; } 
-            else { rejCont.classList.add('hidden'); }
+            else { rejCont.classList.add('hidden'); document.getElementById('rejectionReason').value = ''; }
 
             document.getElementById('modalTitle').innerText = "Edit Personnel Details";
             document.getElementById('addModal')?.classList.remove('hidden');
@@ -1704,278 +1557,60 @@
             
             const data = {
                 id: editIdVal ? parseInt(editIdVal) : Date.now(), 
-                empId: document.getElementById('empId').value,
-                name: document.getElementById('empName').value.trim().toUpperCase(),
-                phone: document.getElementById('empPhone').value,
-                email: document.getElementById('empEmail').value.trim(),
-                source: document.getElementById('empSource').value,
-                dept: document.getElementById('dept').value.trim().toUpperCase(),
-                company: document.getElementById('company').value,
-                status: currentStatus,
-                interviewDate: document.getElementById('interviewDate').value,
-                joinDate: document.getElementById('joinDate').value,
-                experience: parseFloat(document.getElementById('experience').value)||0,
-                location: document.getElementById('location').value.trim().toUpperCase(),
-                designation: document.getElementById('designation').value.trim().toUpperCase(),
-                remarks: document.getElementById('remarks').value.trim(),
-                rejectionReason: currentStatus === 'REJECTED' ? document.getElementById('rejectionReason').value : '',
+                empId: document.getElementById('empId').value, name: document.getElementById('empName').value.trim().toUpperCase(),
+                phone: document.getElementById('empPhone').value, email: document.getElementById('empEmail').value.trim(),
+                source: document.getElementById('empSource').value, dept: document.getElementById('dept').value.trim().toUpperCase(),
+                company: document.getElementById('company').value, status: currentStatus,
+                interviewDate: document.getElementById('interviewDate').value, joinDate: document.getElementById('joinDate').value,
+                experience: parseFloat(document.getElementById('experience').value)||0, location: document.getElementById('location').value.trim().toUpperCase(),
+                designation: document.getElementById('designation').value.trim().toUpperCase(), rejectionReason: currentStatus === 'REJECTED' ? document.getElementById('rejectionReason').value : '',
                 rating: parseInt(document.getElementById('empRating').value) || 0,
-                salary: parseFloat(document.getElementById('empSalary').value) || 0,
-                shift: document.getElementById('empShift').value || 'General',
-                documents: editIdVal ? (joinees.find(x=>x.id==editIdVal).documents || {}) : { aadhaar: false, pan: false, bank: false, dl: false }
+                onboarding: editIdVal ? (joinees.find(x=>x.id==editIdVal).onboarding || {}) : { idCard: false, bank: false, pf: false, training: false }
             };
             
             if(data.status === 'JOINED' && !data.joinDate) { data.joinDate = new Date().toISOString().slice(0, 10); }
 
-            if(editIdVal) {
-                const idx = joinees.findIndex(x => String(x.id) === String(editIdVal));
-                if(idx > -1) { joinees[idx] = data; showToast("Candidate Record Updated!"); }
-            } else {
-                joinees.push(data); showToast("Candidate Record Saved!");
-                if(data.status==='SELECTED' || data.status==='JOINED') confetti({particleCount: 120, spread: 80, origin: { y: 0.6 }});
-            }
+            if(editIdVal) { const idx = joinees.findIndex(x => String(x.id) === String(editIdVal)); if(idx > -1) { joinees[idx] = data; showToast("Candidate Record Updated!"); } } 
+            else { joinees.push(data); showToast("Candidate Record Saved!"); if(data.status==='SELECTED' || data.status==='JOINED') confetti({particleCount: 120, spread: 80, origin: { y: 0.6 }}); }
 
-            localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees));
-            closeModal(); refreshAllViews();
+            localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees)); closeModal(); refreshAllViews();
         });
 
-        const toggleDocument = (id, docKey, isChecked) => {
-            const idx = joinees.findIndex(x => String(x.id) === String(id));
-            if(idx > -1) {
-                if(!joinees[idx].documents) joinees[idx].documents = { aadhaar: false, pan: false, bank: false, dl: false };
-                joinees[idx].documents[docKey] = isChecked;
-                localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees));
-                showToast("Document Status Updated!");
-            }
-        };
-
         const viewCandidate = (id) => {
-            const r = joinees.find(x=> String(x.id) === String(id));
-            if(!r) return;
-            
+            const r = joinees.find(x=> String(x.id) === String(id)); if(!r) return;
             const avatarClass = getAvatarColor(r.name);
-            let statusClass = '';
-            if(r.status === 'SELECTED') statusClass = 'bg-emerald-50 text-emerald-600 border-emerald-200';
-            else if(r.status === 'JOINED') statusClass = 'bg-[#0054A6] text-white border-[#003366]';
-            else if(r.status === 'PENDING') statusClass = 'bg-amber-50 text-amber-600 border-amber-200';
-            else statusClass = 'bg-red-50 text-red-600 border-red-200';
-
-            const docs = r.documents || { aadhaar: false, pan: false, bank: false, dl: false };
+            let statusClass = r.status === 'SELECTED' ? 'bg-emerald-50 text-emerald-600 border-emerald-200' : r.status === 'JOINED' ? 'bg-[#0054A6] text-white border-[#003366]' : r.status === 'PENDING' ? 'bg-amber-50 text-amber-600 border-amber-200' : 'bg-red-50 text-red-600 border-red-200';
 
             const content = `
                 <div class="flex flex-col md:flex-row items-center md:items-start gap-6 mb-8 border-b border-[var(--border-color)] pb-8 relative">
-                    <div class="w-24 h-24 md:w-32 md:h-32 rounded-[2rem] border flex items-center justify-center font-black text-4xl md:text-5xl shadow-md shrink-0 ${avatarClass}">
-                        ${r.name[0]}
-                    </div>
+                    <div class="w-24 h-24 md:w-32 md:h-32 rounded-[2rem] border flex items-center justify-center font-black text-4xl md:text-5xl shadow-md shrink-0 ${avatarClass}">${r.name[0]}</div>
                     <div class="flex-1 min-w-0 text-center md:text-left">
                         <h3 class="font-black text-2xl md:text-4xl text-[var(--text-primary)] mb-2 uppercase tracking-tight truncate">${r.name}</h3>
                         <p class="text-xs md:text-sm font-bold text-[var(--text-secondary)] uppercase tracking-widest truncate mb-4">${r.empId} • ${r.company}</p>
-                        <div class="flex flex-wrap justify-center md:justify-start items-center gap-3 no-print">
-                            <span class="px-4 py-2 rounded-xl text-[10px] md:text-xs font-black uppercase tracking-widest shadow-sm border ${statusClass}">
-                                ${r.status}
-                            </span>
-                        </div>
+                        <div class="flex flex-wrap justify-center md:justify-start items-center gap-3 no-print"><span class="px-4 py-2 rounded-xl text-[10px] md:text-xs font-black uppercase tracking-widest shadow-sm border ${statusClass}">${r.status}</span></div>
                     </div>
                 </div>
-                
                 <div class="grid grid-cols-2 gap-y-6 gap-x-4 bg-[var(--bg-secondary)] p-6 md:p-8 rounded-[2rem] border border-[var(--border-color)] shadow-sm mb-8">
                     <div><span class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Phone Number</span><span class="font-black text-sm md:text-base text-[var(--text-primary)] tracking-wide">${r.phone || 'N/A'}</span></div>
                     <div><span class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Email Address</span><span class="font-black text-sm md:text-base text-[var(--text-primary)] tracking-wide lowercase truncate block pr-2">${r.email || 'N/A'}</span></div>
-                    
                     <div><span class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Designation</span><span class="font-black text-sm md:text-base text-[var(--text-primary)] uppercase tracking-wide truncate block">${r.designation || 'N/A'}</span></div>
                     <div><span class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Department</span><span class="font-black text-sm md:text-base text-[var(--text-primary)] uppercase tracking-wide truncate block ${getDeptColor(r.dept)}">${r.dept}</span></div>
-                    
-                    <div><span class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Base Salary</span><span class="font-black text-sm md:text-base text-[var(--text-primary)] tracking-wide">₹${r.salary || 0}</span></div>
-                    <div><span class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Assigned Shift</span><span class="font-black text-sm md:text-base text-[var(--text-primary)] tracking-wide uppercase">${r.shift || 'General'}</span></div>
+                    <div><span class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Interview Date</span><span class="font-black text-sm md:text-base text-[var(--text-primary)] tracking-wide">${formatDateString(r.interviewDate)}</span></div>
+                    <div><span class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Join Date</span><span class="font-black text-sm md:text-base text-[var(--text-primary)] tracking-wide">${r.joinDate ? formatDateString(r.joinDate) : 'N/A'}</span></div>
                 </div>
-
-                ${(r.status === 'JOINED' || r.status === 'SELECTED') ? `
-                <div class="mb-8">
-                    <h4 class="text-xs font-black text-sarathy-blue uppercase tracking-widest mb-4 flex items-center gap-2"><i class="fas fa-folder-open"></i> KYC Document Vault</h4>
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        <label class="flex items-center gap-3 p-4 border border-[var(--border-color)] rounded-xl cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-                            <input type="checkbox" ${docs.aadhaar ? 'checked' : ''} onchange="toggleDocument(${r.id}, 'aadhaar', this.checked)" class="custom-checkbox">
-                            <span class="text-[10px] font-black uppercase tracking-widest">Aadhaar Card</span>
-                        </label>
-                        <label class="flex items-center gap-3 p-4 border border-[var(--border-color)] rounded-xl cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-                            <input type="checkbox" ${docs.pan ? 'checked' : ''} onchange="toggleDocument(${r.id}, 'pan', this.checked)" class="custom-checkbox">
-                            <span class="text-[10px] font-black uppercase tracking-widest">PAN Card</span>
-                        </label>
-                        <label class="flex items-center gap-3 p-4 border border-[var(--border-color)] rounded-xl cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-                            <input type="checkbox" ${docs.bank ? 'checked' : ''} onchange="toggleDocument(${r.id}, 'bank', this.checked)" class="custom-checkbox">
-                            <span class="text-[10px] font-black uppercase tracking-widest">Bank Details</span>
-                        </label>
-                        <label class="flex items-center gap-3 p-4 border border-[var(--border-color)] rounded-xl cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-                            <input type="checkbox" ${docs.dl ? 'checked' : ''} onchange="toggleDocument(${r.id}, 'dl', this.checked)" class="custom-checkbox">
-                            <span class="text-[10px] font-black uppercase tracking-widest">Driving License</span>
-                        </label>
-                    </div>
-                </div>` : ''}
-
                 <div class="mt-8 flex flex-wrap gap-3 no-print">
                     <button onclick="editRecord(${r.id})" class="flex-1 py-3 md:py-4 bg-sarathy-blue hover:bg-[#004080] text-white rounded-xl md:rounded-2xl font-black text-[10px] md:text-xs uppercase tracking-widest transition-all shadow-md active:scale-95 flex items-center justify-center gap-2"><i class="fas fa-edit"></i> Edit</button>
                     ${r.status === 'SELECTED' ? `<button onclick="markAsJoined(${r.id}); closeViewModal();" class="flex-1 py-3 md:py-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl md:rounded-2xl font-black text-[10px] md:text-xs uppercase tracking-widest transition-all shadow-md active:scale-95 flex items-center justify-center gap-2"><i class="fas fa-user-check"></i> Join</button>` : ''}
                 </div>
             `;
-            const viewContent = document.getElementById('viewModalContent');
-            if(viewContent) viewContent.innerHTML = content;
-            document.getElementById('viewModal')?.classList.remove('hidden');
+            const viewContent = document.getElementById('viewModalContent'); if(viewContent) viewContent.innerHTML = content; document.getElementById('viewModal')?.classList.remove('hidden');
         };
 
-        const renderAttendance = () => {
-            const tableBody = document.getElementById('attendanceTableBody');
-            const targetDate = document.getElementById('attendanceDate')?.value || new Date().toISOString().slice(0, 10);
-            if(!tableBody) return;
-
-            const activeEmployees = joinees.filter(x => x.status === 'JOINED');
-            
-            if(!attendanceDB[targetDate]) attendanceDB[targetDate] = {};
-
-            if(activeEmployees.length === 0) {
-                tableBody.innerHTML = '<tr><td colspan="6" class="text-center py-16 text-[var(--text-secondary)] font-black uppercase tracking-widest opacity-60">No Active Employees</td></tr>';
-                return;
-            }
-
-            tableBody.innerHTML = activeEmployees.map((x, index) => {
-                const status = attendanceDB[targetDate][x.id] || 'UNMARKED';
-                let stClass = 'bg-slate-100 text-slate-500';
-                if(status === 'PRESENT') stClass = 'bg-emerald-100 text-emerald-700';
-                if(status === 'ABSENT') stClass = 'bg-red-100 text-red-700';
-                if(status === 'HALF-DAY') stClass = 'bg-amber-100 text-amber-700';
-
-                return `
-                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
-                    <td class="text-center font-black text-[10px]">${index + 1}</td>
-                    <td>
-                        <div class="flex items-center gap-4">
-                            <div class="w-10 h-10 rounded-xl flex items-center justify-center font-black text-sm shrink-0 shadow-sm ${getAvatarColor(x.name)}">${x.name[0]}</div>
-                            <div>
-                                <p class="font-black text-black dark:text-white text-sm uppercase tracking-wide truncate leading-tight">${x.name}</p>
-                                <span class="inline-block px-2 py-0.5 mt-1.5 rounded-md text-[9px] font-black bg-slate-100 text-slate-500 uppercase tracking-widest">${x.empId}</span>
-                            </div>
-                        </div>
-                    </td>
-                    <td><p class="text-[10px] ${getDeptColor(x.dept)} font-black uppercase tracking-widest">${x.dept}</p></td>
-                    <td><span class="text-[10px] font-black uppercase tracking-widest">${x.shift || 'General'}</span></td>
-                    <td class="text-center"><span class="px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest ${stClass}">${status}</span></td>
-                    <td class="text-right">
-                        <select onchange="updateAttendance(${x.id}, this.value, '${targetDate}')" class="p-2 text-[10px] font-black uppercase rounded-lg border outline-none cursor-pointer">
-                            <option value="UNMARKED" ${status==='UNMARKED'?'selected':''}>Mark...</option>
-                            <option value="PRESENT" ${status==='PRESENT'?'selected':''}>Present</option>
-                            <option value="HALF-DAY" ${status==='HALF-DAY'?'selected':''}>Half-Day</option>
-                            <option value="ABSENT" ${status==='ABSENT'?'selected':''}>Absent</option>
-                        </select>
-                    </td>
-                </tr>`;
-            }).join('');
-        };
-
-        const updateAttendance = (empId, status, date) => {
-            if(!attendanceDB[date]) attendanceDB[date] = {};
-            attendanceDB[date][empId] = status;
-            localStorage.setItem(ATTENDANCE_DB_VERSION, JSON.stringify(attendanceDB));
-            renderAttendance();
-        };
-
-        const markAllPresent = () => {
-            const targetDate = document.getElementById('attendanceDate')?.value;
-            if(!targetDate) return;
-            const activeEmployees = joinees.filter(x => x.status === 'JOINED');
-            if(!attendanceDB[targetDate]) attendanceDB[targetDate] = {};
-            
-            activeEmployees.forEach(emp => { attendanceDB[targetDate][emp.id] = 'PRESENT'; });
-            localStorage.setItem(ATTENDANCE_DB_VERSION, JSON.stringify(attendanceDB));
-            renderAttendance();
-            showToast("All active employees marked as Present!");
-            confetti();
-        };
-
-        const openExpenseModal = () => {
-            document.getElementById('expenseForm').reset();
-            const select = document.getElementById('expEmpId');
-            const joinedEmployees = joinees.filter(x => x.status === 'JOINED');
-            select.innerHTML = '<option value="" disabled selected>Select an employee</option>' + 
-                joinedEmployees.map(e => `<option value="${e.id}">${e.name} (${e.empId})</option>`).join('');
-            document.getElementById('expenseModal').classList.remove('hidden');
-        };
-        const closeExpenseModal = () => { document.getElementById('expenseModal').classList.add('hidden'); };
-
-        document.getElementById('expenseForm')?.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const empIdRef = document.getElementById('expEmpId').value;
-            const emp = joinees.find(x => String(x.id) === String(empIdRef));
-            if(!emp) return;
-
-            const newExp = {
-                id: Date.now(), empId: emp.empId, empName: emp.name,
-                category: document.getElementById('expCategory').value,
-                amount: parseFloat(document.getElementById('expAmount').value),
-                reason: document.getElementById('expReason').value,
-                date: document.getElementById('expDate').value,
-                status: 'PENDING'
-            };
-
-            expensesList.push(newExp);
-            localStorage.setItem(EXPENSES_DB_VERSION, JSON.stringify(expensesList));
-            closeExpenseModal(); renderExpenses(); showToast("Expense Claim Submitted!");
-        });
-
-        const renderExpenses = () => {
-            const tableBody = document.getElementById('expensesTableBody');
-            if(!tableBody) return;
-
-            if(expensesList.length === 0) {
-                tableBody.innerHTML = '<tr><td colspan="6" class="text-center py-16 text-[var(--text-secondary)] font-black uppercase tracking-widest opacity-60">No Expense Claims found</td></tr>';
-                return;
-            }
-
-            tableBody.innerHTML = [...expensesList].sort((a,b) => b.id - a.id).map((e) => {
-                let stClass = 'bg-amber-50 text-amber-600 border-amber-200';
-                if(e.status === 'APPROVED') stClass = 'bg-emerald-50 text-emerald-600 border-emerald-200';
-                if(e.status === 'REJECTED') stClass = 'bg-red-50 text-red-600 border-red-200';
-
-                return `
-                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
-                    <td class="font-black text-[10px] uppercase">${formatDateString(e.date)}</td>
-                    <td><p class="font-black text-sm uppercase">${e.empName}</p><span class="text-[9px] text-slate-500 uppercase font-black">${e.empId}</span></td>
-                    <td><p class="font-black text-fuchsia-600 uppercase text-xs">${e.category}</p><p class="text-sm font-black mt-1 text-black dark:text-white">₹${e.amount}</p></td>
-                    <td><p class="text-[10px] font-bold max-w-xs truncate" title="${e.reason}">${e.reason}</p></td>
-                    <td class="text-center"><span class="px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest border ${stClass}">${e.status}</span></td>
-                    <td class="text-right">
-                        ${e.status === 'PENDING' ? `
-                        <div class="flex justify-end gap-2">
-                            <button onclick="updateExpense(${e.id}, 'APPROVED')" class="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 hover:bg-emerald-500 hover:text-white transition-colors active:scale-95"><i class="fas fa-check"></i></button>
-                            <button onclick="updateExpense(${e.id}, 'REJECTED')" class="w-8 h-8 rounded-xl bg-red-50 text-red-600 hover:bg-red-500 hover:text-white transition-colors active:scale-95"><i class="fas fa-times"></i></button>
-                        </div>
-                        ` : `<button onclick="deleteExpense(${e.id})" class="w-8 h-8 rounded-xl bg-slate-100 text-slate-400 hover:text-red-500 transition-colors active:scale-95"><i class="fas fa-trash-alt"></i></button>`}
-                    </td>
-                </tr>`;
-            }).join('');
-        };
-
-        const updateExpense = (id, newStatus) => {
-            const idx = expensesList.findIndex(e => String(e.id) === String(id));
-            if(idx > -1) {
-                expensesList[idx].status = newStatus;
-                localStorage.setItem(EXPENSES_DB_VERSION, JSON.stringify(expensesList));
-                renderExpenses(); showToast(`Expense ${newStatus}!`);
-            }
-        };
-        const deleteExpense = (id) => {
-            expensesList = expensesList.filter(e => String(e.id) !== String(id));
-            localStorage.setItem(EXPENSES_DB_VERSION, JSON.stringify(expensesList));
-            renderExpenses(); showToast("Claim Deleted");
-        };
-
-        const openReqModal = () => {
-            if(!isAdmin()) return showToast("Admin Access Required", "error");
-            renderReqEntries(); document.getElementById('reqModal')?.classList.remove('hidden');
-        };
+        // --- STREAMING_CHUNK:Additional Features Logic ---
+        const openReqModal = () => { if(!isAdmin()) return showToast("Admin Access Required", "error"); renderReqEntries(); document.getElementById('reqModal')?.classList.remove('hidden'); };
         const closeReqModal = () => document.getElementById('reqModal')?.classList.add('hidden');
-        
         const renderReqEntries = () => {
-            const container = document.getElementById('reqEntriesContainer');
-            if(!container) return;
+            const container = document.getElementById('reqEntriesContainer'); if(!container) return;
             container.innerHTML = reqList.map((req, idx) => `
                 <div class="p-6 bg-[var(--bg-secondary)] rounded-2xl border border-[var(--border-color)] relative group shadow-sm">
                     <button onclick="removeReqRow(${idx})" class="absolute top-4 right-4 w-8 h-8 rounded-xl text-slate-400 hover:bg-red-50 hover:text-red-600 transition-colors"><i class="fas fa-trash-alt"></i></button>
@@ -1991,253 +1626,89 @@
         const removeReqRow = (idx) => { reqList.splice(idx, 1); renderReqEntries(); };
         const saveRequirements = () => { localStorage.setItem(CURRENT_BUDGET_VERSION, JSON.stringify(reqList)); showToast("Targets Updated!"); closeReqModal(); renderDashboard(); };
 
-        const exportToExcel = () => {
-            if (joinees.length === 0) return showToast("No data to export", "error");
-            try {
-                const exportData = joinees.map((j, index) => ({
-                    "SL NO": index + 1, "Emp ID": j.empId, "Full Name": j.name, "Phone": j.phone,
-                    "Source": j.source, "Department": j.dept, "Entity": j.company, "Current Status": j.status,
-                    "Interview Date": formatDateString(j.interviewDate), "Join Date": j.joinDate ? formatDateString(j.joinDate) : '',
-                    "Experience": j.experience, "Location": j.location, "Designation": j.designation, "Salary": j.salary || 0
-                }));
-                const worksheet = XLSX.utils.json_to_sheet(exportData);
-                const workbook = XLSX.utils.book_new();
-                XLSX.utils.book_append_sheet(workbook, worksheet, "Candidates");
-                XLSX.writeFile(workbook, `HR_Export_${new Date().toISOString().slice(0, 10)}.xlsx`);
-                showToast("Excel Downloaded!");
-            } catch (error) { showToast("Failed to export Excel", "error"); }
-        };
-
         const renderDirectory = () => {
-            const container = document.getElementById('directoryContainer');
-            if(!container) return;
+            const container = document.getElementById('directoryContainer'); if(!container) return;
             const term = document.getElementById('dirSearchInput')?.value.toUpperCase() || '';
             const activeEmployees = joinees.filter(x => x.status === 'JOINED' && (x.name.includes(term) || x.empId.includes(term) || x.dept.includes(term)));
-            
-            if(activeEmployees.length === 0) {
-                container.innerHTML = '<div class="col-span-full text-center py-20 opacity-50"><h3 class="text-lg font-black uppercase tracking-widest text-[var(--text-secondary)]">No Active Employees</h3></div>';
-                return;
-            }
+            if(activeEmployees.length === 0) { container.innerHTML = '<div class="col-span-full text-center py-20 opacity-50"><h3 class="text-lg font-black uppercase tracking-widest text-[var(--text-secondary)]">No Active Employees</h3></div>'; return; }
             container.innerHTML = activeEmployees.map(c => `<div class="modern-card p-6 border-t-4 border-t-indigo-500 text-center hover:shadow-xl cursor-pointer group" onclick="viewCandidate(${c.id})"><div class="w-20 h-20 mx-auto rounded-[1.5rem] border-2 flex items-center justify-center font-black text-3xl shadow-sm mb-4 transition-transform group-hover:scale-110 ${getAvatarColor(c.name)}">${c.name[0]}</div><h4 class="font-black text-base uppercase truncate">${c.name}</h4><p class="text-[10px] font-bold uppercase tracking-widest mt-1 mb-4 truncate">${c.designation || 'EMPLOYEE'}</p></div>`).join('');
-        };
-        
-        const renderPayroll = () => {
-            const tableBody = document.getElementById('payrollTableBody');
-            if(!tableBody) return;
-            const activeEmployees = joinees.filter(x => x.status === 'JOINED');
-            if(activeEmployees.length === 0) {
-                tableBody.innerHTML = '<tr><td colspan="5" class="text-center py-16 text-[var(--text-secondary)] font-black uppercase tracking-widest opacity-60">No Active Employees</td></tr>';
-                return;
-            }
-            tableBody.innerHTML = activeEmployees.map((x, index) => `<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors"><td class="text-center font-black text-[10px]">${index + 1}</td><td><div class="flex items-center gap-4"><div class="w-10 h-10 rounded-xl flex items-center justify-center font-black text-sm shrink-0 shadow-sm ${getAvatarColor(x.name)}">${x.name[0]}</div><div><p class="font-black text-sm uppercase tracking-wide truncate leading-tight">${x.name}</p></div></div></td><td><p class="font-black text-[11px] uppercase tracking-widest truncate">${x.designation || '-'}</p><p class="text-[10px] font-bold uppercase text-slate-500 mt-1">₹${x.salary || 0}</p></td><td><span class="status-badge-md shadow-sm badge-joined">ACTIVE</span></td><td class="text-right"><button class="px-4 py-2 bg-amber-50 text-amber-600 rounded-xl text-[10px] font-black uppercase hover:bg-amber-500 hover:text-white transition-all shadow-sm"><i class="fas fa-print mr-1"></i> Payslip</button></td></tr>`).join('');
         };
 
         const renderOnboarding = () => {
-            const container = document.getElementById('onboardingContainer');
-            if(!container) return;
+            const container = document.getElementById('onboardingContainer'); if(!container) return;
             const joinedCandidates = joinees.filter(x => x.status === 'JOINED');
-            if(joinedCandidates.length === 0) {
-                container.innerHTML = '<div class="col-span-full text-center py-20 opacity-50"><h3 class="text-lg font-black uppercase tracking-widest text-[var(--text-secondary)]">No Joined Candidates</h3></div>';
-                return;
-            }
+            if(joinedCandidates.length === 0) { container.innerHTML = '<div class="col-span-full text-center py-20 opacity-50"><h3 class="text-lg font-black uppercase tracking-widest text-[var(--text-secondary)]">No Joined Candidates</h3></div>'; return; }
             container.innerHTML = joinedCandidates.map(c => {
                 if(!c.onboarding) c.onboarding = { idCard: false, bank: false, pf: false, training: false };
                 const tasks = [{ key: 'idCard', label: 'ID Card & Assets' }, { key: 'bank', label: 'Bank Details' }, { key: 'pf', label: 'PF & ESI Reg' }, { key: 'training', label: 'Orientation' }];
-                const completedCount = tasks.filter(t => c.onboarding[t.key]).length;
-                const perc = (completedCount / tasks.length) * 100;
+                const completedCount = tasks.filter(t => c.onboarding[t.key]).length; const perc = (completedCount / tasks.length) * 100;
                 return `<div class="modern-card p-6 border-t-4 border-emerald-500"><div class="flex items-center gap-3 mb-4"><div class="w-12 h-12 rounded-xl flex items-center justify-center font-black text-xl shrink-0 shadow-sm ${getAvatarColor(c.name)}">${c.name[0]}</div><div class="cursor-pointer" onclick="viewCandidate(${c.id})"><h4 class="font-black text-sm uppercase hover:text-sarathy-blue transition-colors">${c.name}</h4></div></div><div class="mb-5"><div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden"><div class="h-full bg-emerald-500 transition-all duration-500" style="width: ${perc}%"></div></div></div><div class="space-y-3">${tasks.map(t => `<label class="flex items-center gap-3 p-2 rounded-lg cursor-pointer transition-colors hover:bg-slate-50"><input type="checkbox" ${c.onboarding[t.key] ? 'checked' : ''} onchange="toggleOnboardingTask(${c.id}, '${t.key}', this.checked)" class="w-4 h-4 accent-emerald-500"><span class="text-xs font-bold uppercase tracking-widest ${c.onboarding[t.key] ? 'line-through opacity-50' : ''}">${t.label}</span></label>`).join('')}</div></div>`;
             }).join('');
         };
-
         const toggleOnboardingTask = (id, taskKey, isChecked) => {
             const idx = joinees.findIndex(x => String(x.id) === String(id));
-            if(idx > -1) {
-                if(!joinees[idx].onboarding) joinees[idx].onboarding = {};
-                joinees[idx].onboarding[taskKey] = isChecked;
-                localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees));
-                renderOnboarding(); 
-                if(isChecked) { showToast("Task Completed!", "success"); }
-            }
+            if(idx > -1) { if(!joinees[idx].onboarding) joinees[idx].onboarding = {}; joinees[idx].onboarding[taskKey] = isChecked; localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees)); renderOnboarding(); if(isChecked) { showToast("Task Completed!", "success"); } }
         };
 
-        // --- CALENDAR ---
         const renderCalendar = () => {
-            const grid = document.getElementById('calendarGrid');
-            if(!grid) return;
-            grid.innerHTML = '';
+            const grid = document.getElementById('calendarGrid'); if(!grid) return; grid.innerHTML = '';
             const y = calendarDate.getFullYear(), m = calendarDate.getMonth();
-            const calLabel = document.getElementById('calendarMonthLabel');
-            if(calLabel) calLabel.innerText = new Date(y, m).toLocaleString('default', { month: 'long', year: 'numeric' });
-            
-            const firstDay = new Date(y, m, 1).getDay();
-            const daysInMonth = new Date(y, m+1, 0).getDate();
-            const todayStr = new Date().toISOString().slice(0, 10);
-
+            const calLabel = document.getElementById('calendarMonthLabel'); if(calLabel) calLabel.innerText = new Date(y, m).toLocaleString('default', { month: 'long', year: 'numeric' });
+            const firstDay = new Date(y, m, 1).getDay(); const daysInMonth = new Date(y, m+1, 0).getDate(); const todayStr = new Date().toISOString().slice(0, 10);
             for(let i=0; i<firstDay; i++) grid.innerHTML += `<div class="calendar-day border-transparent bg-transparent opacity-0"></div>`;
-            
             for(let i=1; i<=daysInMonth; i++) {
-                const dStr = `${y}-${(m+1).toString().padStart(2,'0')}-${i.toString().padStart(2,'0')}`;
-                const isToday = dStr === todayStr;
-                let combinedEvents = [];
-                joinees.forEach(x => {
-                    if(x.interviewDate === dStr) combinedEvents.push({ ...x, eventType: 'INT' });
-                    if(x.joinDate === dStr && (x.status === 'JOINED' || x.status === 'SELECTED')) combinedEvents.push({ ...x, eventType: 'JOIN' });
-                });
-                
+                const dStr = `${y}-${(m+1).toString().padStart(2,'0')}-${i.toString().padStart(2,'0')}`; const isToday = dStr === todayStr; let combinedEvents = [];
+                joinees.forEach(x => { if(x.interviewDate === dStr) combinedEvents.push({ ...x, eventType: 'INT' }); if(x.joinDate === dStr && (x.status === 'JOINED' || x.status === 'SELECTED')) combinedEvents.push({ ...x, eventType: 'JOIN' }); });
                 const limit = window.innerWidth < 768 ? 2 : 3;
-                let eventsHtml = combinedEvents.slice(0, limit).map(ev => {
-                    if (ev.eventType === 'INT') {
-                        let stClass = 'bg-amber-100 text-amber-700 border border-amber-200';
-                        if(ev.status==='SELECTED') stClass = 'bg-emerald-100 text-emerald-700 border border-emerald-200';
-                        if(ev.status==='JOINED') stClass = 'bg-[#0054A6] text-white border border-[#003366]';
-                        if(ev.status==='REJECTED') stClass = 'bg-red-100 text-red-700 border border-red-200';
-                        return `<div onclick="viewCandidate(${ev.id})" class="calendar-event ${stClass} shadow-sm"><i class="fas fa-calendar-alt opacity-70 mr-1"></i> INT: ${ev.name.split(' ')[0]}</div>`;
-                    } else {
-                        return `<div onclick="viewCandidate(${ev.id})" class="calendar-event bg-[#0054A6] text-white border border-[#003366] shadow-sm"><i class="fas fa-flag-checkered opacity-70 mr-1"></i> JOIN: ${ev.name.split(' ')[0]}</div>`;
-                    }
-                }).join('');
-                
+                let eventsHtml = combinedEvents.slice(0, limit).map(ev => { if (ev.eventType === 'INT') { let stClass = 'bg-amber-100 text-amber-700 border border-amber-200'; if(ev.status==='SELECTED') stClass = 'bg-emerald-100 text-emerald-700 border border-emerald-200'; if(ev.status==='JOINED') stClass = 'bg-[#0054A6] text-white border border-[#003366]'; if(ev.status==='REJECTED') stClass = 'bg-red-100 text-red-700 border border-red-200'; return `<div onclick="viewCandidate(${ev.id})" class="calendar-event ${stClass} shadow-sm"><i class="fas fa-calendar-alt opacity-70 mr-1"></i> INT: ${ev.name.split(' ')[0]}</div>`; } else { return `<div onclick="viewCandidate(${ev.id})" class="calendar-event bg-[#0054A6] text-white border border-[#003366] shadow-sm"><i class="fas fa-flag-checkered opacity-70 mr-1"></i> JOIN: ${ev.name.split(' ')[0]}</div>`; } }).join('');
                 if(combinedEvents.length > limit) eventsHtml += `<div class="text-[8px] font-black text-center mt-1 text-[var(--text-secondary)] uppercase tracking-widest">+${combinedEvents.length-limit} MORE</div>`;
-
-                grid.innerHTML += `
-                    <div class="calendar-day ${isToday?'today':''}">
-                        <span class="text-[10px] font-black mb-1.5 ${isToday?'text-sarathy-blue':''}">${i}</span>
-                        <div class="flex-1 flex flex-col gap-1.5 overflow-hidden custom-scroll">${eventsHtml}</div>
-                    </div>`;
+                grid.innerHTML += `<div class="calendar-day ${isToday?'today':''}"><span class="text-[10px] font-black mb-1.5 ${isToday?'text-sarathy-blue':''}">${i}</span><div class="flex-1 flex flex-col gap-1.5 overflow-hidden custom-scroll">${eventsHtml}</div></div>`;
             }
         };
         const changeCalendarMonth = (dir) => { calendarDate.setMonth(calendarDate.getMonth() + dir); renderCalendar(); };
 
-        // --- CHARTS ---
         const initCharts = () => {
-            const ctx1 = document.getElementById('statusChart')?.getContext('2d');
-            const ctx2 = document.getElementById('sourceChart')?.getContext('2d');
-            const ctx3 = document.getElementById('sourceAnalyticsChart')?.getContext('2d');
-            const ctx4 = document.getElementById('rejectionChart')?.getContext('2d');
+            const ctx1 = document.getElementById('statusChart')?.getContext('2d'); const ctx2 = document.getElementById('sourceChart')?.getContext('2d'); const ctx3 = document.getElementById('sourceAnalyticsChart')?.getContext('2d'); const ctx4 = document.getElementById('rejectionChart')?.getContext('2d');
             if(!ctx1) return;
-            
-            const isDark = document.documentElement.classList.contains('dark');
-            const textColor = isDark ? '#f8fafc' : '#0f172a';
-            const gridColor = isDark ? '#334155' : '#e2e8f0';
-
+            const isDark = document.documentElement.classList.contains('dark'); const textColor = isDark ? '#f8fafc' : '#0f172a'; const gridColor = isDark ? '#334155' : '#e2e8f0';
             const monthFilter = document.getElementById('chartMonthFilter')?.value || '';
-            let statusCounts = { SELECTED: 0, PENDING: 0, REJECTED: 0, JOINED: 0 };
-            let categories = {};
-            let sourceCounts = {};
-            let rejectionCounts = {};
-
+            let statusCounts = { SELECTED: 0, PENDING: 0, REJECTED: 0, JOINED: 0 }; let categories = {}; let sourceCounts = {}; let rejectionCounts = {};
             joinees.forEach(t => {
                 if (monthFilter && !t.interviewDate.startsWith(monthFilter)) return;
-                
                 if (statusCounts[t.status] !== undefined) statusCounts[t.status]++;
-                
-                const deptName = t.dept ? t.dept.trim().toUpperCase() : '';
-                if(deptName) categories[deptName] = (categories[deptName] || 0) + 1;
-                
-                const src = t.source || 'Walk-in/Direct';
-                sourceCounts[src] = (sourceCounts[src] || 0) + 1;
-
-                if(t.status === 'REJECTED') {
-                    const rsn = t.rejectionReason || 'Unspecified';
-                    rejectionCounts[rsn] = (rejectionCounts[rsn] || 0) + 1;
-                }
+                const deptName = t.dept ? t.dept.trim().toUpperCase() : ''; if(deptName) categories[deptName] = (categories[deptName] || 0) + 1;
+                const src = t.source || 'Walk-in/Direct'; sourceCounts[src] = (sourceCounts[src] || 0) + 1;
+                if(t.status === 'REJECTED') { const rsn = t.rejectionReason || 'Unspecified'; rejectionCounts[rsn] = (rejectionCounts[rsn] || 0) + 1; }
             });
-
             Chart.defaults.font.family = "'Outfit', sans-serif";
-
             if(chartStatus) chartStatus.destroy();
-            chartStatus = new Chart(ctx1, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Selected', 'Pending', 'Rejected', 'Joined'],
-                    datasets: [{ data: [statusCounts.SELECTED, statusCounts.PENDING, statusCounts.REJECTED, statusCounts.JOINED], backgroundColor: ['#10b981', '#f59e0b', '#ef4444', '#0054A6'], borderWidth: 0 }]
-                },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { color: textColor, font: { weight: 'bold'} } } }, cutout: '75%' }
-            });
-
+            chartStatus = new Chart(ctx1, { type: 'doughnut', data: { labels: ['Selected', 'Pending', 'Rejected', 'Joined'], datasets: [{ data: [statusCounts.SELECTED, statusCounts.PENDING, statusCounts.REJECTED, statusCounts.JOINED], backgroundColor: ['#10b981', '#f59e0b', '#ef4444', '#0054A6'], borderWidth: 0 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { color: textColor, font: { weight: 'bold'} } } }, cutout: '75%' } });
             const sortedCats = Object.entries(categories).sort((a,b) => b[1] - a[1]);
             if(chartSource) chartSource.destroy();
-            chartSource = new Chart(ctx2, {
-                type: 'bar',
-                data: {
-                    labels: sortedCats.map(c => c[0]),
-                    datasets: [{ label: 'Candidates', data: sortedCats.map(c => c[1]), backgroundColor: '#38bdf8', borderRadius: 8 }]
-                },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { ticks:{color: textColor, stepSize: 1}, grid:{color: gridColor} }, x: { ticks:{color: textColor}, grid:{display:false} } } }
-            });
-
+            chartSource = new Chart(ctx2, { type: 'bar', data: { labels: sortedCats.map(c => c[0]), datasets: [{ label: 'Candidates', data: sortedCats.map(c => c[1]), backgroundColor: '#38bdf8', borderRadius: 8 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { ticks:{color: textColor, stepSize: 1}, grid:{color: gridColor} }, x: { ticks:{color: textColor}, grid:{display:false} } } } });
             const sortedSources = Object.entries(sourceCounts).sort((a,b) => b[1] - a[1]);
             if(chartSourcePie) chartSourcePie.destroy();
-            if(ctx3) {
-                chartSourcePie = new Chart(ctx3, {
-                    type: 'pie',
-                    data: {
-                        labels: sortedSources.map(c => c[0]),
-                        datasets: [{ data: sortedSources.map(c => c[1]), backgroundColor: ['#8b5cf6', '#0ea5e9', '#10b981', '#f59e0b', '#f43f5e', '#64748b'], borderWidth: 0 }]
-                    },
-                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { color: textColor, font: { weight: 'bold'} } } } }
-                });
-            }
-
+            if(ctx3) { chartSourcePie = new Chart(ctx3, { type: 'pie', data: { labels: sortedSources.map(c => c[0]), datasets: [{ data: sortedSources.map(c => c[1]), backgroundColor: ['#8b5cf6', '#0ea5e9', '#10b981', '#f59e0b', '#f43f5e', '#64748b'], borderWidth: 0 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { color: textColor, font: { weight: 'bold'} } } } } }); }
             const sortedRejections = Object.entries(rejectionCounts).sort((a,b) => b[1] - a[1]);
             if(chartRejection) chartRejection.destroy();
-            if(ctx4) {
-                chartRejection = new Chart(ctx4, {
-                    type: 'doughnut',
-                    data: {
-                        labels: sortedRejections.map(c => c[0]),
-                        datasets: [{ data: sortedRejections.map(c => c[1]), backgroundColor: ['#ef4444', '#f87171', '#fca5a5', '#fef2f2', '#7f1d1d'], borderWidth: 0 }]
-                    },
-                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { color: textColor, font: { weight: 'bold'} } } }, cutout: '60%' }
-                });
-            }
+            if(ctx4) { chartRejection = new Chart(ctx4, { type: 'doughnut', data: { labels: sortedRejections.map(c => c[0]), datasets: [{ data: sortedRejections.map(c => c[1]), backgroundColor: ['#ef4444', '#f87171', '#fca5a5', '#fef2f2', '#7f1d1d'], borderWidth: 0 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { color: textColor, font: { weight: 'bold'} } } }, cutout: '60%' } }); }
         };
 
-        // --- NOTIFICATIONS ---
         const toggleNotifications = () => document.getElementById('notificationModal')?.classList.toggle('hidden');
         const checkNotifications = () => {
-            const today = new Date().toISOString().slice(0,10);
-            const todayTxns = joinees.filter(x => x.interviewDate === today || x.joinDate === today);
-            const badge = document.getElementById('notificationBadge');
-            if(badge) badge.style.display = todayTxns.length > 0 ? 'block' : 'none';
+            const today = new Date().toISOString().slice(0,10); const todayTxns = joinees.filter(x => x.interviewDate === today || x.joinDate === today);
+            const badge = document.getElementById('notificationBadge'); if(badge) badge.style.display = todayTxns.length > 0 ? 'block' : 'none';
             let html = '';
-            if(todayTxns.length > 0) {
-                html += `<div class="mb-4 text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-[var(--border-color)] pb-2">Today's Activity</div>`;
-                html += todayTxns.map(a => {
-                    const isJoin = a.joinDate === today;
-                    return `
-                    <div class="p-4 mb-3 ${isJoin ? 'bg-blue-50 border-blue-100' : 'bg-emerald-50 border-emerald-100'} rounded-2xl border flex items-center gap-4 hover:scale-[1.02] transition-all cursor-pointer" onclick="viewCandidate(${a.id})">
-                        <div class="w-10 h-10 rounded-xl flex items-center justify-center font-black ${isJoin ? 'bg-sarathy-blue text-white' : 'bg-emerald-100 text-emerald-600'}"><i class="fas ${isJoin ? 'fa-user-check' : 'fa-clock'}"></i></div>
-                        <div>
-                            <span class="font-black block uppercase tracking-wide truncate text-[var(--text-primary)] text-sm">${a.name}</span>
-                            <span class="font-bold text-[var(--text-secondary)] text-[9px] uppercase tracking-widest mt-0.5">${a.dept} • ${isJoin ? 'JOINING TODAY' : 'INTERVIEW TODAY'}</span>
-                        </div>
-                    </div>`}).join('');
-            } else { html = '<div class="text-center py-10 opacity-50"><i class="fas fa-bell-slash text-4xl mb-4 text-slate-400"></i><p class="text-[10px] font-black uppercase tracking-widest text-[var(--text-secondary)]">No activity today</p></div>'; }
-            const dynNotif = document.getElementById('dynamicNotifications');
-            if(dynNotif) dynNotif.innerHTML = html;
+            if(todayTxns.length > 0) { html += `<div class="mb-4 text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-[var(--border-color)] pb-2">Today's Activity</div>`; html += todayTxns.map(a => { const isJoin = a.joinDate === today; return `<div class="p-4 mb-3 ${isJoin ? 'bg-blue-50 border-blue-100' : 'bg-emerald-50 border-emerald-100'} rounded-2xl border flex items-center gap-4 hover:scale-[1.02] transition-all cursor-pointer" onclick="viewCandidate(${a.id})"><div class="w-10 h-10 rounded-xl flex items-center justify-center font-black ${isJoin ? 'bg-sarathy-blue text-white' : 'bg-emerald-100 text-emerald-600'}"><i class="fas ${isJoin ? 'fa-user-check' : 'fa-clock'}"></i></div><div><span class="font-black block uppercase tracking-wide truncate text-[var(--text-primary)] text-sm">${a.name}</span><span class="font-bold text-[var(--text-secondary)] text-[9px] uppercase tracking-widest mt-0.5">${a.dept} • ${isJoin ? 'JOINING TODAY' : 'INTERVIEW TODAY'}</span></div></div>`}).join(''); } 
+            else { html = '<div class="text-center py-10 opacity-50"><i class="fas fa-bell-slash text-4xl mb-4 text-slate-400"></i><p class="text-[10px] font-black uppercase tracking-widest text-[var(--text-secondary)]">No activity today</p></div>'; }
+            const dynNotif = document.getElementById('dynamicNotifications'); if(dynNotif) dynNotif.innerHTML = html;
         };
 
-        // --- SUMMARY REPORT ---
         const generateHiringSummary = () => {
-            const total = joinees.length;
-            const sel = joinees.filter(x => x.status === 'SELECTED').length;
-            const joined = joinees.filter(x => x.status === 'JOINED').length;
-            const pend = joinees.filter(x => x.status === 'PENDING').length;
-            const today = new Date().toISOString().slice(0, 10);
-            const selectedJoiners = joinees.filter(x => (x.status === 'SELECTED' || x.status === 'JOINED') && x.joinDate).sort((a,b) => a.joinDate.localeCompare(b.joinDate));
-            
+            const total = joinees.length; const sel = joinees.filter(x => x.status === 'SELECTED').length; const joined = joinees.filter(x => x.status === 'JOINED').length; const pend = joinees.filter(x => x.status === 'PENDING').length;
+            const today = new Date().toISOString().slice(0, 10); const selectedJoiners = joinees.filter(x => (x.status === 'SELECTED' || x.status === 'JOINED') && x.joinDate).sort((a,b) => a.joinDate.localeCompare(b.joinDate));
             let plainText = `📊 SARATHY GROUP - HR REPORT\nDate: ${new Date().toLocaleDateString()}\n\n👥 Total Candidates: ${total}\n🤝 Joined: ${joined}\n✅ Selected: ${sel}\n⏳ Pending: ${pend}\n\n📅 JOINING SCHEDULE:\n`;
-            let html = `
-                <div class="mb-8 grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <div class="p-5 bg-slate-50 dark:bg-slate-800 rounded-2xl border border-[var(--border-color)] text-center shadow-sm"><span class="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Total</span><span class="text-3xl font-black text-[var(--text-primary)]">${total}</span></div>
-                    <div class="p-5 bg-blue-50 dark:bg-blue-900/20 rounded-2xl border border-blue-100 text-center shadow-sm"><span class="block text-[10px] font-black text-sarathy-blue uppercase tracking-widest mb-1">Joined</span><span class="text-3xl font-black text-sarathy-blue">${joined}</span></div>
-                    <div class="p-5 bg-emerald-50 dark:bg-emerald-900/20 rounded-2xl border border-emerald-100 text-center shadow-sm"><span class="block text-[10px] font-black text-emerald-600 uppercase tracking-widest mb-1">Selected</span><span class="text-3xl font-black text-emerald-600">${sel}</span></div>
-                    <div class="p-5 bg-amber-50 dark:bg-amber-900/20 rounded-2xl border border-amber-100 text-center shadow-sm"><span class="block text-[10px] font-black text-amber-600 uppercase tracking-widest mb-1">Pending</span><span class="text-3xl font-black text-amber-600">${pend}</span></div>
-                </div>
-                <h4 class="text-[11px] font-black text-sarathy-blue uppercase tracking-widest mb-4 flex items-center gap-2"><div class="w-1.5 h-4 bg-sarathy-blue rounded-full"></div> Joining Schedule</h4>
-                <div class="overflow-x-auto mb-8 border border-[var(--border-color)] rounded-2xl shadow-sm"><table class="summary-table mb-0 min-w-full"><thead><tr><th class="py-4 px-5">Name</th><th class="py-4 px-5">Date Of Join</th><th class="py-4 px-5">Designation</th><th class="py-4 px-5">Dept</th></tr></thead><tbody>`;
-            
+            let html = `<div class="mb-8 grid grid-cols-2 md:grid-cols-4 gap-4"><div class="p-5 bg-slate-50 dark:bg-slate-800 rounded-2xl border border-[var(--border-color)] text-center shadow-sm"><span class="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Total</span><span class="text-3xl font-black text-[var(--text-primary)]">${total}</span></div><div class="p-5 bg-blue-50 dark:bg-blue-900/20 rounded-2xl border border-blue-100 text-center shadow-sm"><span class="block text-[10px] font-black text-sarathy-blue uppercase tracking-widest mb-1">Joined</span><span class="text-3xl font-black text-sarathy-blue">${joined}</span></div><div class="p-5 bg-emerald-50 dark:bg-emerald-900/20 rounded-2xl border border-emerald-100 text-center shadow-sm"><span class="block text-[10px] font-black text-emerald-600 uppercase tracking-widest mb-1">Selected</span><span class="text-3xl font-black text-emerald-600">${sel}</span></div><div class="p-5 bg-amber-50 dark:bg-amber-900/20 rounded-2xl border border-amber-100 text-center shadow-sm"><span class="block text-[10px] font-black text-amber-600 uppercase tracking-widest mb-1">Pending</span><span class="text-3xl font-black text-amber-600">${pend}</span></div></div><h4 class="text-[11px] font-black text-sarathy-blue uppercase tracking-widest mb-4 flex items-center gap-2"><div class="w-1.5 h-4 bg-sarathy-blue rounded-full"></div> Joining Schedule</h4><div class="overflow-x-auto mb-8 border border-[var(--border-color)] rounded-2xl shadow-sm"><table class="summary-table mb-0 min-w-full"><thead><tr><th class="py-4 px-5">Name</th><th class="py-4 px-5">Date Of Join</th><th class="py-4 px-5">Designation</th><th class="py-4 px-5">Dept</th></tr></thead><tbody>`;
             if(selectedJoiners.length > 0) {
                 selectedJoiners.forEach(j => {
                     const statusIcon = j.status === 'JOINED' ? '🤝' : (j.joinDate < today ? '⚠️' : '🔜');
@@ -2246,140 +1717,97 @@
                 });
             } else { html += `<tr><td colspan="4" class="text-center py-8 text-[var(--text-secondary)] uppercase font-black text-[10px] tracking-widest opacity-50">No schedule available</td></tr>`; }
             html += `</tbody></table></div>`;
-
-            const summaryText = document.getElementById('summaryText');
-            if(summaryText) summaryText.innerHTML = html;
-            const summaryModal = document.getElementById('summaryModal');
-            if(summaryModal) {
-                summaryModal.setAttribute('data-plain-text', plainText);
-                summaryModal.classList.remove('hidden');
-            }
+            const summaryText = document.getElementById('summaryText'); if(summaryText) summaryText.innerHTML = html;
+            const summaryModal = document.getElementById('summaryModal'); if(summaryModal) { summaryModal.setAttribute('data-plain-text', plainText); summaryModal.classList.remove('hidden'); }
         };
 
         const copySummary = () => {
             const text = document.getElementById('summaryModal').getAttribute('data-plain-text');
-            const el = document.createElement('textarea');
-            el.value = text; document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el);
-            showToast("Report Copied!");
+            const el = document.createElement('textarea'); el.value = text; document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el); showToast("Report Copied!");
         };
 
-        // --- EXCEL & BACKUP UPLOAD ---
         const handleBulkExcelUpload = (event) => {
-            const file = event.target.files[0];
-            if (!file) return;
-
+            const file = event.target.files[0]; if (!file) return;
             const reader = new FileReader();
             reader.onload = (e) => {
                 try {
-                    const data = new Uint8Array(e.target.result);
-                    const workbook = XLSX.read(data, { type: 'array' });
-                    const firstSheetName = workbook.SheetNames[0];
-                    const worksheet = workbook.Sheets[firstSheetName];
-                    const jsonData = XLSX.utils.sheet_to_json(worksheet, { raw: false });
-                    let addedCount = 0;
-                    let skippedCount = 0;
-
+                    const data = new Uint8Array(e.target.result); const workbook = XLSX.read(data, { type: 'array' }); const firstSheetName = workbook.SheetNames[0]; const worksheet = workbook.Sheets[firstSheetName]; const jsonData = XLSX.utils.sheet_to_json(worksheet, { raw: false });
+                    let addedCount = 0; let skippedCount = 0;
                     const parseExcelDate = (d) => {
-                        if (!d) return '';
-                        if (!isNaN(d) && typeof d === 'number') {
-                            const date = new Date(Math.round((d - 25569) * 86400 * 1000));
-                            return date.toISOString().slice(0,10);
-                        }
-                        const strDate = String(d).trim();
-                        const parts = strDate.split(/[-/]/);
-                        if(parts.length === 3) {
-                            if(parts[0].length <= 2 && parts[2].length === 4) return `${parts[2]}-${parts[1].padStart(2,'0')}-${parts[0].padStart(2,'0')}`;
-                            if(parts[0].length === 4) return `${parts[0]}-${parts[1].padStart(2,'0')}-${parts[2].padStart(2,'0')}`;
-                        }
-                        const parsed = new Date(strDate);
-                        if(!isNaN(parsed)) return parsed.toISOString().slice(0,10);
-                        return '';
+                        if (!d) return ''; if (!isNaN(d) && typeof d === 'number') { const date = new Date(Math.round((d - 25569) * 86400 * 1000)); return date.toISOString().slice(0,10); }
+                        const strDate = String(d).trim(); const parts = strDate.split(/[-/]/); if(parts.length === 3) { if(parts[0].length <= 2 && parts[2].length === 4) return `${parts[2]}-${parts[1].padStart(2,'0')}-${parts[0].padStart(2,'0')}`; if(parts[0].length === 4) return `${parts[0]}-${parts[1].padStart(2,'0')}-${parts[2].padStart(2,'0')}`; }
+                        const parsed = new Date(strDate); if(!isNaN(parsed)) return parsed.toISOString().slice(0,10); return '';
                     };
-
                     jsonData.forEach((row, idx) => {
-                        const name = (row['Full Name'] || row['Name'] || '').trim().toUpperCase();
-                        const phoneRaw = String(row['Phone'] || row['Mobile'] || row['Phone Number'] || '');
-                        const phone = phoneRaw.replace(/\D/g, '').substring(0, 10);
-
-                        if (!name || phone.length < 10) {
-                            skippedCount++;
-                            return; 
-                        }
-
-                        if (joinees.some(x => x.phone === phone)) {
-                            skippedCount++;
-                            return;
-                        }
-
-                        let statusVal = (row['Current Status'] || row['Status'] || 'PENDING').trim().toUpperCase();
-                        if (!['PENDING', 'SELECTED', 'JOINED', 'REJECTED'].includes(statusVal)) statusVal = 'PENDING';
-
+                        const name = (row['Full Name'] || row['Name'] || '').trim().toUpperCase(); const phoneRaw = String(row['Phone'] || row['Mobile'] || row['Phone Number'] || ''); const phone = phoneRaw.replace(/\D/g, '').substring(0, 10);
+                        if (!name || phone.length < 10) { skippedCount++; return; }
+                        if (joinees.some(x => x.phone === phone)) { skippedCount++; return; }
+                        let statusVal = (row['Current Status'] || row['Status'] || 'PENDING').trim().toUpperCase(); if (!['PENDING', 'SELECTED', 'JOINED', 'REJECTED'].includes(statusVal)) statusVal = 'PENDING';
                         const newCandidate = {
-                            id: Date.now() + idx, 
-                            empId: row['Emp ID'] || row['Emp Id'] || 'SG-' + (joinees.length + 1 + addedCount).toString().padStart(3, '0'),
-                            name: name,
-                            phone: phone,
-                            email: row['Email'] || '',
-                            source: row['Source'] || 'Direct/Walk-in',
-                            dept: (row['Department'] || row['Dept'] || 'GENERAL').trim().toUpperCase(),
-                            company: (row['Entity'] || row['Company'] || 'SARATHY MOTORS').toUpperCase(),
-                            status: statusVal,
-                            interviewDate: parseExcelDate(row['Interview Date'] || row['Interview']),
-                            joinDate: parseExcelDate(row['Join Date'] || row['Joining']),
-                            experience: parseFloat(row['Experience']) || 0,
-                            location: (row['Location'] || '').trim().toUpperCase(),
-                            designation: (row['Designation'] || '').trim().toUpperCase(),
-                            resumeLink: '',
-                            remarks: row['Remarks'] || '',
-                            rejectionReason: row['Rejection Reason'] || row['Reason'] || '',
-                            rating: parseInt(row['Rating']) || 0
+                            id: Date.now() + idx, empId: row['Emp ID'] || row['Emp Id'] || 'SG-' + (joinees.length + 1 + addedCount).toString().padStart(3, '0'),
+                            name: name, phone: phone, email: row['Email'] || '', source: row['Source'] || 'Direct/Walk-in',
+                            dept: (row['Department'] || row['Dept'] || 'GENERAL').trim().toUpperCase(), company: (row['Entity'] || row['Company'] || 'SARATHY MOTORS').toUpperCase(),
+                            status: statusVal, interviewDate: parseExcelDate(row['Interview Date'] || row['Interview']), joinDate: parseExcelDate(row['Join Date'] || row['Joining']),
+                            experience: parseFloat(row['Experience']) || 0, location: (row['Location'] || '').trim().toUpperCase(), designation: (row['Designation'] || '').trim().toUpperCase(),
+                            resumeLink: '', remarks: row['Remarks'] || '', rejectionReason: row['Rejection Reason'] || row['Reason'] || '', rating: parseInt(row['Rating']) || 0
                         };
-
-                        joinees.push(newCandidate);
-                        addedCount++;
+                        joinees.push(newCandidate); addedCount++;
                     });
-
-                    localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees));
-                    refreshAllViews();
-                    event.target.value = '';
-
-                    if (addedCount > 0) {
-                        showToast(`Successfully uploaded ${addedCount} candidates! (Skipped ${skippedCount})`, "success");
-                        confetti({particleCount: 150, spread: 80, origin: { y: 0.6 }});
-                    } else {
-                        showToast(`No new candidates added. Skiped duplicates/invalid: ${skippedCount}`, "error");
-                    }
-
-                } catch (error) {
-                    console.error("Excel parse error:", error);
-                    showToast("Error reading Excel file. Check format.", "error");
-                }
+                    localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees)); refreshAllViews(); event.target.value = '';
+                    if (addedCount > 0) { showToast(`Successfully uploaded ${addedCount} candidates! (Skipped ${skippedCount})`, "success"); confetti({particleCount: 150, spread: 80, origin: { y: 0.6 }}); } else { showToast(`No new candidates added. Skiped duplicates/invalid: ${skippedCount}`, "error"); }
+                } catch (error) { showToast("Error reading Excel file. Check format.", "error"); }
             };
             reader.readAsArrayBuffer(file);
         };
 
+        const exportToExcel = () => {
+            if (joinees.length === 0) return showToast("No data to export", "error");
+            try {
+                const exportData = joinees.map((j, index) => ({ "SL NO": index + 1, "Emp ID": j.empId, "Full Name": j.name, "Phone": j.phone, "Source": j.source, "Department": j.dept, "Entity": j.company, "Current Status": j.status, "Interview Date": formatDateString(j.interviewDate), "Join Date": j.joinDate ? formatDateString(j.joinDate) : '', "Experience": j.experience, "Location": j.location, "Designation": j.designation, "Salary": j.salary || 0 }));
+                const worksheet = XLSX.utils.json_to_sheet(exportData); const workbook = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(workbook, worksheet, "Candidates"); XLSX.writeFile(workbook, `HR_Export_${new Date().toISOString().slice(0, 10)}.xlsx`); showToast("Excel Downloaded!");
+            } catch (error) { showToast("Failed to export Excel", "error"); }
+        };
+
         const importBackup = (event) => {
-            const file = event.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
+            const file = event.target.files[0]; if (!file) return; const reader = new FileReader();
             reader.onload = (e) => {
                 try {
                     const data = JSON.parse(e.target.result);
-                    if (data.candidates && Array.isArray(data.candidates)) {
-                        joinees = data.candidates; localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees));
-                    }
-                    if (data.targets && Array.isArray(data.targets)) {
-                        reqList = data.targets; localStorage.setItem(CURRENT_BUDGET_VERSION, JSON.stringify(reqList));
-                    }
-                    if (data.leaves && Array.isArray(data.leaves)) {
-                        leavesList = data.leaves; localStorage.setItem(LEAVES_DB_VERSION, JSON.stringify(leavesList));
-                    }
-                    showToast("Database Restored!");
-                    refreshAllViews();
+                    if (data.candidates && Array.isArray(data.candidates)) { joinees = data.candidates; localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees)); }
+                    if (data.targets && Array.isArray(data.targets)) { reqList = data.targets; localStorage.setItem(CURRENT_BUDGET_VERSION, JSON.stringify(reqList)); }
+                    if (data.jobs && Array.isArray(data.jobs)) { jobsList = data.jobs; localStorage.setItem(JOBS_DB_VERSION, JSON.stringify(jobsList)); }
+                    if (data.training && Array.isArray(data.training)) { trainingList = data.training; localStorage.setItem(TRAINING_DB_VERSION, JSON.stringify(trainingList)); }
+                    if (data.okrs && Array.isArray(data.okrs)) { okrList = data.okrs; localStorage.setItem(OKR_DB_VERSION, JSON.stringify(okrList)); }
+                    showToast("Database Restored!"); refreshAllViews();
                 } catch (error) { showToast("Invalid Backup File", "error"); }
             };
             reader.readAsText(file);
         };
+        
+        const exportJSONBackup = () => {
+            const data = { candidates: joinees, targets: reqList, jobs: jobsList, training: trainingList, okrs: okrList };
+            const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'}); const url = URL.createObjectURL(blob);
+            const a = document.createElement('a'); a.href = url; a.download = `Sarathy_HR_Backup_${new Date().toISOString().slice(0,10)}.json`; a.click(); URL.revokeObjectURL(url); showToast("Backup Downloaded!");
+        };
+
+        const clearAllData = () => {
+            if(prompt("WARNING: This will delete ALL data. Type 'CONFIRM' to proceed.") === "CONFIRM") {
+                joinees = []; reqList = []; jobsList = []; trainingList = []; okrList = [];
+                localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees)); localStorage.setItem(CURRENT_BUDGET_VERSION, JSON.stringify(reqList)); localStorage.setItem(JOBS_DB_VERSION, JSON.stringify(jobsList)); localStorage.setItem(TRAINING_DB_VERSION, JSON.stringify(trainingList)); localStorage.setItem(OKR_DB_VERSION, JSON.stringify(okrList));
+                showToast("All data cleared successfully", "success"); refreshAllViews();
+            } else { showToast("Action Cancelled", "error"); }
+        };
+        
+        document.getElementById('changePinForm')?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const newPin = document.getElementById('newAdminPin').value;
+            if(newPin.length < 4) return showToast("PIN must be at least 4 characters", "error");
+            let users = JSON.parse(localStorage.getItem('sarathy_users_v13')) || USERS;
+            users[0].pass = newPin; localStorage.setItem('sarathy_users_v13', JSON.stringify(users)); USERS = users;
+            showToast("Admin PIN Updated Successfully!"); document.getElementById('changePinForm').reset();
+        });
+
     </script>
 </body>
 </html>
+```eof
