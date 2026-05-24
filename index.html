@@ -160,7 +160,7 @@
             <div class="bg-white dark:bg-slate-800 p-8 md:p-10 rounded-[2rem] shadow-2xl border border-slate-100 dark:border-slate-700">
                 <div class="mb-8 text-center">
                     <div class="bg-white p-3 rounded-2xl inline-block shadow-lg mb-5 shadow-blue-500/10 border border-slate-100">
-                        <img src="image_135b0c.png" alt="Sarathy Logo" class="h-16 object-contain mx-auto">
+                        <img src="Sarathy2.png.png alt="Sarathy Logo" class="h-16 object-contain mx-auto">
                     </div>
                     <h2 class="text-2xl font-black text-slate-800 dark:text-white tracking-tight mt-2">Welcome Back</h2>
                     <p class="text-xs font-bold text-slate-500 dark:text-slate-400 mt-2 uppercase tracking-widest">HR Management System</p>
@@ -1203,7 +1203,38 @@
         const generateHiringSummary = () => { const total = joinees.length; const sel = joinees.filter(x => x.status === 'SELECTED').length; const joined = joinees.filter(x => x.status === 'JOINED').length; const pend = joinees.filter(x => x.status === 'PENDING').length; document.getElementById('summaryText').innerHTML = `<p class="font-bold">Total: ${total} | Joined: ${joined} | Selected: ${sel} | Pending: ${pend}</p>`; document.getElementById('summaryModal').classList.remove('hidden'); };
         const copySummary = () => { navigator.clipboard.writeText(document.getElementById('summaryText').innerText); showToast("Copied!"); };
 
-        const exportToExcel = () => { try { const exportData = joinees.map((j, index) => ({ "Emp ID": j.empId, "Full Name": j.name, "Phone": j.phone, "Department": j.dept, "Entity": j.company, "Location": j.location, "Current Status": j.status })); const worksheet = XLSX.utils.json_to_sheet(exportData); const workbook = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(workbook, worksheet, "Candidates"); XLSX.writeFile(workbook, `HR_Export_${new Date().toISOString().slice(0, 10)}.xlsx`); showToast("Excel Downloaded!"); } catch (error) { showToast("Failed to export Excel", "error"); } };
+        const exportToExcel = () => { 
+            try { 
+                const exportData = joinees.map((j, index) => ({ 
+                    "S.No": index + 1,
+                    "Emp ID": j.empId, 
+                    "Full Name": j.name, 
+                    "Age": j.age || '-',
+                    "Qualification": j.qualification || '-',
+                    "Phone": j.phone, 
+                    "Email": j.email || '-',
+                    "Source": j.source || '-',
+                    "Department": j.dept, 
+                    "Entity": j.company, 
+                    "Location": j.location || '-', 
+                    "Designation": j.designation || '-',
+                    "Experience (Yrs)": j.experience || 0,
+                    "Current Status": j.status,
+                    "Interview Date": j.interviewDate ? formatDateString(j.interviewDate) : '-',
+                    "Joining Date": j.joinDate ? formatDateString(j.joinDate) : '-',
+                    "Rating": j.rating || 0,
+                    "Rejection Reason": j.rejectionReason || '-',
+                    "Remarks": j.remarks || '-'
+                })); 
+                const worksheet = XLSX.utils.json_to_sheet(exportData); 
+                const workbook = XLSX.utils.book_new(); 
+                XLSX.utils.book_append_sheet(workbook, worksheet, "Candidates"); 
+                XLSX.writeFile(workbook, `HR_Full_Report_${new Date().toISOString().slice(0, 10)}.xlsx`); 
+                showToast("Full Excel Report Downloaded!"); 
+            } catch (error) { 
+                showToast("Failed to export Excel", "error"); 
+            } 
+        };
         const exportJSONBackup = () => { const blob = new Blob([JSON.stringify({ candidates: joinees, targets: reqList, jobs: jobsList, training: trainingList, okrs: okrList })], {type: 'application/json'}); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `HR_Backup.json`; a.click(); showToast("Backup Downloaded!"); };
         const clearAllData = () => { if(prompt("Type 'CONFIRM' to clear all data") === "CONFIRM") { joinees = []; localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees)); refreshAllViews(); showToast("Data cleared"); } };
         
