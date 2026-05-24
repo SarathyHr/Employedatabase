@@ -462,6 +462,17 @@
 
                 <!-- TAB: ANALYTICS -->
                 <div id="tab-analytics" class="tab-content custom-scroll p-4 md:p-8 max-w-[1600px] mx-auto">
+                    <div class="mb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-[var(--bg-secondary)] p-6 rounded-[2rem] border shadow-sm animate-up">
+                        <div>
+                            <h2 class="text-2xl font-black uppercase flex items-center gap-3"><i class="fas fa-chart-line text-sarathy-blue"></i> Analytics Overview</h2>
+                            <p class="text-[11px] font-bold text-slate-400 uppercase">Interactive Hiring Metrics</p>
+                        </div>
+                        <div class="flex items-center gap-3 bg-[var(--bg-primary)] p-2 rounded-xl border">
+                            <label class="text-[10px] font-black uppercase text-slate-500 pl-2">Filter Month:</label>
+                            <input type="month" id="chartMonthFilter" onchange="initCharts()" class="p-2 bg-transparent font-bold text-sm outline-none cursor-pointer text-sarathy-blue">
+                        </div>
+                    </div>
+                    
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 animate-up">
                         <div class="modern-card p-6 flex flex-col items-center"><h3 class="font-black text-sm uppercase mb-4 w-full border-b pb-2">Hiring Status</h3><div class="w-full h-[280px] relative"><canvas id="statusChart"></canvas></div></div>
                         <div class="modern-card p-6 flex flex-col items-center"><h3 class="font-black text-sm uppercase mb-4 w-full border-b pb-2">Department Stats</h3><div class="w-full h-[280px] relative"><canvas id="sourceChart"></canvas></div></div>
@@ -644,6 +655,44 @@
 
     <div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 translate-y-40 opacity-0 bg-slate-800 text-white px-8 py-4 rounded-2xl shadow-xl transition-all z-[200] flex items-center gap-4 text-sm font-black uppercase whitespace-nowrap"><i id="toastIcon" class="fas fa-check-circle text-emerald-400 text-xl"></i><span id="toastMessage">Success</span></div>
 
+    <!-- HIDDEN OFFER LETTER TEMPLATE FOR PDF GENERATION -->
+    <div id="offerLetterTemplateContainer" class="hidden absolute top-[-9999px] left-[-9999px]">
+        <div id="offerLetterContent" style="padding: 60px; font-family: 'Times New Roman', serif; color: #000; background: #fff; width: 800px; min-height: 1000px; box-sizing: border-box;">
+            <div style="text-align: center; border-bottom: 3px solid #0054A6; padding-bottom: 20px; margin-bottom: 40px;">
+                <h1 style="color: #0054A6; margin: 0; font-size: 32px; font-weight: 900; text-transform: uppercase;">SARATHY GROUP</h1>
+                <p style="margin: 5px 0 0 0; font-size: 16px; font-weight: bold; color: #555; text-transform: uppercase;" id="olCompany">Sarathy Motors</p>
+            </div>
+            <div style="text-align: right; margin-bottom: 40px; font-size: 14px;">
+                <p><strong>Date:</strong> <span id="olDate"></span></p>
+                <p><strong>Ref:</strong> <span id="olRef"></span></p>
+            </div>
+            <div style="margin-bottom: 40px; font-size: 16px;">
+                <p><strong>To,</strong></p>
+                <p><strong id="olName" style="font-size: 20px; text-transform: uppercase;"></strong></p>
+                <p>Candidate ID: <span id="olEmpId"></span></p>
+            </div>
+            <div style="line-height: 1.8; margin-bottom: 50px; font-size: 16px; text-align: justify;">
+                <p>Dear <strong><span id="olNamePrefix"></span></strong>,</p>
+                <p>Following our recent discussions, we are delighted to offer you the position of <strong id="olDesignation" style="text-transform: uppercase;"></strong> within the <strong id="olDept"></strong> department at <strong><span id="olCompanyBody"></span></strong>. Your initial place of posting will be our <strong id="olLocation"></strong> branch.</p>
+                <p>Your expected date of joining the organization is <strong id="olJoinDate"></strong>. Please report to the HR Department at 9:30 AM on your joining date. You are requested to bring all original educational certificates, experience letters, and identity proofs for verification purposes.</p>
+                <p>A detailed appointment letter outlining your compensation structure, benefits, and the terms and conditions of your employment will be issued to you upon your formal joining.</p>
+                <p>We are excited about the prospect of you joining our team and look forward to a mutually rewarding professional association.</p>
+            </div>
+            <div style="margin-top: 80px; font-size: 16px;">
+                <p>Sincerely,</p>
+                <div style="margin-top: 60px; border-top: 1px solid #ccc; width: 250px; padding-top: 10px;">
+                    <p style="margin: 0;"><strong>Human Resources Department</strong></p>
+                    <p style="margin: 0; color: #555;">Sarathy Group</p>
+                </div>
+            </div>
+            <div style="margin-top: 80px; padding-top: 20px; border-top: 1px dashed #ccc; font-size: 14px;">
+                <p><strong>Candidate Acceptance:</strong></p>
+                <p>I accept the terms and conditions of this offer letter.</p>
+                <p style="margin-top: 40px;">Signature: ______________________ &nbsp;&nbsp;&nbsp;&nbsp; Date: ___________________</p>
+            </div>
+        </div>
+    </div>
+
     <!-- JAVASCRIPT LOGIC -->
     <script>
         const CURRENT_DB_VERSION = 'sarathy_db_v15'; const CURRENT_BUDGET_VERSION = 'sarathy_req_v15'; const NOTICES_DB_VERSION = 'sarathy_notices_v2';
@@ -686,7 +735,11 @@
         const showApp = () => {
             document.getElementById('loginPage')?.classList.add('hidden'); document.getElementById('appLayout')?.classList.remove('hidden');
             const userNameDisplay = document.getElementById('userNameDisplay'); if(userNameDisplay) userNameDisplay.innerText = currentUser?.user || 'ADMIN';
-            const chartMonthFilter = document.getElementById('chartMonthFilter'); if(chartMonthFilter) chartMonthFilter.value = new Date().toISOString().slice(0, 7);
+            
+            // Set default month filter to current month
+            const chartMonthFilter = document.getElementById('chartMonthFilter'); 
+            if(chartMonthFilter) chartMonthFilter.value = new Date().toISOString().slice(0, 7);
+            
             if(isAdmin()) { document.getElementById('addBtn')?.classList.remove('hidden'); document.getElementById('addBtn')?.classList.add('flex'); }
             refreshAllViews();
         };
@@ -945,11 +998,48 @@
                 </div>
             `;
 
-            const content = `<div class="flex items-center gap-6 mb-8 border-b pb-8"><div class="w-24 h-24 rounded-2xl flex items-center justify-center font-black text-4xl shadow-md ${avatarClass}">${r.name[0]}</div><div><h3 class="font-black text-3xl mb-2 uppercase">${r.name}</h3><p class="text-xs font-bold text-[var(--text-secondary)] uppercase mb-4">${r.empId} • ${r.company}</p><span class="px-4 py-2 rounded-xl text-xs font-black uppercase shadow-sm border ${statusClass}">${r.status}</span></div></div><div class="grid grid-cols-2 gap-y-6 gap-x-4 bg-slate-50 dark:bg-slate-800 p-6 rounded-2xl shadow-sm mb-8"><div><span class="block text-[10px] font-black uppercase mb-1 text-slate-500">Phone</span><span class="font-black text-sm">${r.phone || 'N/A'}</span></div><div><span class="block text-[10px] font-black uppercase mb-1 text-slate-500">Dept</span><span class="font-black text-sm uppercase">${r.dept}</span></div><div><span class="block text-[10px] font-black uppercase mb-1 text-slate-500">Interview</span><span class="font-black text-sm">${formatDateString(r.interviewDate)}</span></div><div><span class="block text-[10px] font-black uppercase mb-1 text-slate-500">Join Date</span><span class="font-black text-sm">${r.joinDate ? formatDateString(r.joinDate) : 'N/A'}</span></div><div><span class="block text-[10px] font-black uppercase mb-1 text-slate-500">Location</span><span class="font-black text-sm uppercase">${r.location || 'N/A'}</span></div></div> ${timelineHtml} <div class="mt-8 flex gap-3 no-print"><button onclick="editRecord(${r.id})" class="flex-1 py-3 bg-sarathy-blue text-white rounded-xl font-black text-xs uppercase shadow-md"><i class="fas fa-edit"></i> Edit</button>${r.status === 'SELECTED' ? `<button onclick="markAsJoined(${r.id}); closeViewModal();" class="flex-1 py-3 bg-emerald-600 text-white rounded-xl font-black text-xs uppercase shadow-md"><i class="fas fa-user-check"></i> Join</button>` : ''}</div>`;
+            const content = `<div class="flex items-center gap-6 mb-8 border-b pb-8"><div class="w-24 h-24 rounded-2xl flex items-center justify-center font-black text-4xl shadow-md ${avatarClass}">${r.name[0]}</div><div><h3 class="font-black text-3xl mb-2 uppercase">${r.name}</h3><p class="text-xs font-bold text-[var(--text-secondary)] uppercase mb-4">${r.empId} • ${r.company}</p><span class="px-4 py-2 rounded-xl text-xs font-black uppercase shadow-sm border ${statusClass}">${r.status}</span></div></div><div class="grid grid-cols-2 gap-y-6 gap-x-4 bg-slate-50 dark:bg-slate-800 p-6 rounded-2xl shadow-sm mb-8"><div><span class="block text-[10px] font-black uppercase mb-1 text-slate-500">Phone</span><span class="font-black text-sm">${r.phone || 'N/A'}</span></div><div><span class="block text-[10px] font-black uppercase mb-1 text-slate-500">Dept</span><span class="font-black text-sm uppercase">${r.dept}</span></div><div><span class="block text-[10px] font-black uppercase mb-1 text-slate-500">Interview</span><span class="font-black text-sm">${formatDateString(r.interviewDate)}</span></div><div><span class="block text-[10px] font-black uppercase mb-1 text-slate-500">Join Date</span><span class="font-black text-sm">${r.joinDate ? formatDateString(r.joinDate) : 'N/A'}</span></div><div><span class="block text-[10px] font-black uppercase mb-1 text-slate-500">Location</span><span class="font-black text-sm uppercase">${r.location || 'N/A'}</span></div><div><span class="block text-[10px] font-black uppercase mb-1 text-slate-500">Designation</span><span class="font-black text-sm uppercase">${r.designation || 'TBD'}</span></div></div> ${timelineHtml} <div class="mt-8 flex flex-wrap gap-3 no-print"><button onclick="editRecord(${r.id})" class="flex-1 py-3 bg-sarathy-blue text-white rounded-xl font-black text-xs uppercase shadow-md"><i class="fas fa-edit"></i> Edit</button>${r.status === 'SELECTED' ? `<button onclick="generateOfferLetter(${r.id})" class="flex-1 py-3 bg-indigo-600 text-white rounded-xl font-black text-xs uppercase shadow-md"><i class="fas fa-file-pdf"></i> Offer Letter</button><button onclick="markAsJoined(${r.id}); closeViewModal();" class="flex-1 py-3 bg-emerald-600 text-white rounded-xl font-black text-xs uppercase shadow-md"><i class="fas fa-user-check"></i> Join</button>` : ''}</div>`;
             const viewContent = document.getElementById('viewModalContent'); if(viewContent) viewContent.innerHTML = content; document.getElementById('viewModal')?.classList.remove('hidden');
         };
 
         const markAsJoined = (id) => { const idx = joinees.findIndex(x => String(x.id) === String(id)); if(idx > -1) { joinees[idx].status = 'JOINED'; if(!joinees[idx].joinDate) joinees[idx].joinDate = new Date().toISOString().slice(0, 10); localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees)); refreshAllViews(); showToast("Marked as Joined!", "success"); confetti({particleCount: 150, spread: 80, origin: { y: 0.6 }}); } };
+
+        // New Feature: PDF Offer Letter Generation
+        const generateOfferLetter = (id) => {
+            const r = joinees.find(x => String(x.id) === String(id)); if(!r) return;
+            showToast("Generating PDF...", "success");
+            
+            // Populate hidden template
+            document.getElementById('olCompany').innerText = r.company || 'SARATHY MOTORS';
+            document.getElementById('olDate').innerText = new Date().toLocaleDateString('en-GB');
+            document.getElementById('olRef').innerText = `HR/OFFER/${new Date().getFullYear()}/${r.empId.split('-')[1] || '000'}`;
+            document.getElementById('olName').innerText = r.name;
+            document.getElementById('olNamePrefix').innerText = r.name.split(' ')[0];
+            document.getElementById('olEmpId').innerText = r.empId;
+            document.getElementById('olDesignation').innerText = r.designation || 'Executive';
+            document.getElementById('olDept').innerText = r.dept || 'Operations';
+            document.getElementById('olCompanyBody').innerText = r.company || 'Sarathy Motors';
+            document.getElementById('olLocation').innerText = r.location || 'Head Office';
+            document.getElementById('olJoinDate').innerText = r.joinDate ? formatDateString(r.joinDate) : 'Immediate';
+
+            // Generate PDF
+            const element = document.getElementById('offerLetterContent');
+            const opt = {
+                margin:       [0, 0, 0, 0],
+                filename:     `Offer_Letter_${r.name.replace(/\s+/g, '_')}.pdf`,
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2, useCORS: true },
+                jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+            };
+            
+            // Un-hide temporarily to capture, then hide again
+            const container = document.getElementById('offerLetterTemplateContainer');
+            container.classList.remove('hidden');
+            html2pdf().set(opt).from(element).save().then(() => {
+                container.classList.add('hidden');
+                showToast("Offer Letter Downloaded!");
+            });
+        };
 
         const openReqModal = () => { if(!isAdmin()) return showToast("Admin Access Required", "error"); renderReqEntries(); document.getElementById('reqModal')?.classList.remove('hidden'); };
         const closeReqModal = () => document.getElementById('reqModal')?.classList.add('hidden');
@@ -1006,7 +1096,54 @@
         const renderCalendar = () => { const grid = document.getElementById('calendarGrid'); if(!grid) return; grid.innerHTML = ''; const y = calendarDate.getFullYear(), m = calendarDate.getMonth(); document.getElementById('calendarMonthLabel').innerText = new Date(y, m).toLocaleString('default', { month: 'long', year: 'numeric' }); const firstDay = new Date(y, m, 1).getDay(); const daysInMonth = new Date(y, m+1, 0).getDate(); const todayStr = new Date().toISOString().slice(0, 10); for(let i=0; i<firstDay; i++) grid.innerHTML += `<div class="calendar-day bg-transparent border-transparent"></div>`; for(let i=1; i<=daysInMonth; i++) { const dStr = `${y}-${(m+1).toString().padStart(2,'0')}-${i.toString().padStart(2,'0')}`; const isToday = dStr === todayStr; let combinedEvents = []; joinees.forEach(x => { if(x.interviewDate === dStr) combinedEvents.push({ ...x, eventType: 'INT' }); if(x.joinDate === dStr && (x.status === 'JOINED' || x.status === 'SELECTED')) combinedEvents.push({ ...x, eventType: 'JOIN' }); }); let eventsHtml = combinedEvents.slice(0, 3).map(ev => `<div onclick="viewCandidate(${ev.id})" class="calendar-event ${ev.eventType === 'INT' ? 'bg-amber-100 text-amber-700' : 'bg-blue-600 text-white'} shadow-sm">${ev.eventType}: ${ev.name.split(' ')[0]}</div>`).join(''); grid.innerHTML += `<div class="calendar-day ${isToday?'border-sarathy-blue border-2':''}"><span class="text-[10px] font-black">${i}</span><div class="flex-1 flex flex-col gap-1 overflow-hidden">${eventsHtml}</div></div>`; } };
         const changeCalendarMonth = (dir) => { calendarDate.setMonth(calendarDate.getMonth() + dir); renderCalendar(); };
 
-        const initCharts = () => { const ctx1 = document.getElementById('statusChart')?.getContext('2d'); if(!ctx1) return; let statusCounts = { SELECTED: 0, PENDING: 0, REJECTED: 0, JOINED: 0 }; joinees.forEach(t => { if (statusCounts[t.status] !== undefined) statusCounts[t.status]++; }); if(chartStatus) chartStatus.destroy(); chartStatus = new Chart(ctx1, { type: 'doughnut', data: { labels: ['Selected', 'Pending', 'Rejected', 'Joined'], datasets: [{ data: [statusCounts.SELECTED, statusCounts.PENDING, statusCounts.REJECTED, statusCounts.JOINED], backgroundColor: ['#10b981', '#f59e0b', '#ef4444', '#0054A6'], borderWidth: 0 }] }, options: { responsive: true, maintainAspectRatio: false, cutout: '75%' } }); };
+        const initCharts = () => { 
+            const monthFilter = document.getElementById('chartMonthFilter')?.value;
+            let dataToChart = joinees;
+            
+            // Apply month filter to chart data if a month is selected
+            if (monthFilter) {
+                dataToChart = joinees.filter(j => 
+                    (j.interviewDate && j.interviewDate.startsWith(monthFilter)) || 
+                    (j.joinDate && j.joinDate.startsWith(monthFilter))
+                );
+            }
+
+            // 1. Status Chart (Doughnut)
+            const ctx1 = document.getElementById('statusChart')?.getContext('2d'); 
+            if(ctx1) {
+                let statusCounts = { SELECTED: 0, PENDING: 0, REJECTED: 0, JOINED: 0 }; 
+                dataToChart.forEach(t => { if (statusCounts[t.status] !== undefined) statusCounts[t.status]++; }); 
+                if(chartStatus) chartStatus.destroy(); 
+                chartStatus = new Chart(ctx1, { type: 'doughnut', data: { labels: ['Selected', 'Pending', 'Rejected', 'Joined'], datasets: [{ data: [statusCounts.SELECTED, statusCounts.PENDING, statusCounts.REJECTED, statusCounts.JOINED], backgroundColor: ['#10b981', '#f59e0b', '#ef4444', '#0054A6'], borderWidth: 0 }] }, options: { responsive: true, maintainAspectRatio: false, cutout: '75%', plugins: { legend: { position: 'bottom', labels: { color: document.documentElement.classList.contains('dark') ? '#fff' : '#000' } } } } }); 
+            }
+
+            // 2. Department Stats Chart (Bar)
+            const ctx2 = document.getElementById('sourceChart')?.getContext('2d');
+            if(ctx2) {
+                let deptCounts = {};
+                dataToChart.forEach(t => { const d = t.dept || 'OTHER'; deptCounts[d] = (deptCounts[d] || 0) + 1; });
+                if(chartSource) chartSource.destroy();
+                chartSource = new Chart(ctx2, { type: 'bar', data: { labels: Object.keys(deptCounts), datasets: [{ label: 'Candidates', data: Object.values(deptCounts), backgroundColor: '#38bdf8', borderRadius: 6 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { stepSize: 1, color: document.documentElement.classList.contains('dark') ? '#cbd5e1' : '#475569' } }, x: { ticks: { color: document.documentElement.classList.contains('dark') ? '#cbd5e1' : '#475569' } } } } });
+            }
+
+            // 3. Source Analytics (Pie)
+            const ctx3 = document.getElementById('sourceAnalyticsChart')?.getContext('2d');
+            if(ctx3) {
+                let srcCounts = {};
+                dataToChart.forEach(t => { const s = t.source || 'Other'; srcCounts[s] = (srcCounts[s] || 0) + 1; });
+                if(chartSourcePie) chartSourcePie.destroy();
+                chartSourcePie = new Chart(ctx3, { type: 'pie', data: { labels: Object.keys(srcCounts), datasets: [{ data: Object.values(srcCounts), backgroundColor: ['#8b5cf6', '#ec4899', '#f59e0b', '#14b8a6', '#64748b'], borderWidth: 0 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { color: document.documentElement.classList.contains('dark') ? '#fff' : '#000' } } } } });
+            }
+
+            // 4. Rejection Reasons (Polar Area)
+            const ctx4 = document.getElementById('rejectionChart')?.getContext('2d');
+            if(ctx4) {
+                let rejCounts = {};
+                dataToChart.filter(x => x.status === 'REJECTED').forEach(t => { const r = t.rejectionReason || 'Unspecified'; rejCounts[r] = (rejCounts[r] || 0) + 1; });
+                if(chartRejection) chartRejection.destroy();
+                chartRejection = new Chart(ctx4, { type: 'polarArea', data: { labels: Object.keys(rejCounts).length > 0 ? Object.keys(rejCounts) : ['No Rejections'], datasets: [{ data: Object.keys(rejCounts).length > 0 ? Object.values(rejCounts) : [1], backgroundColor: Object.keys(rejCounts).length > 0 ? ['rgba(239, 68, 68, 0.7)', 'rgba(249, 115, 22, 0.7)', 'rgba(234, 179, 8, 0.7)', 'rgba(168, 85, 247, 0.7)'] : ['rgba(148, 163, 184, 0.2)'] }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { color: document.documentElement.classList.contains('dark') ? '#fff' : '#000' } } } } });
+            }
+        };
 
         const toggleNotifications = () => document.getElementById('notificationModal')?.classList.toggle('hidden');
         const checkNotifications = () => { const today = new Date().toISOString().slice(0,10); const todayTxns = joinees.filter(x => x.interviewDate === today || x.joinDate === today); document.getElementById('notificationBadge').style.display = todayTxns.length > 0 ? 'block' : 'none'; document.getElementById('dynamicNotifications').innerHTML = todayTxns.length > 0 ? todayTxns.map(a => `<div class="p-4 mb-3 border rounded-xl" onclick="viewCandidate(${a.id})"><span class="font-black uppercase">${a.name}</span><p class="text-[10px] uppercase text-slate-500">${a.joinDate === today ? 'JOINING' : 'INTERVIEW'} TODAY</p></div>`).join('') : '<p class="text-center text-slate-400 font-bold">No activity</p>'; };
