@@ -125,6 +125,9 @@
         .dark .progress-slider { background: #334155; }
         .progress-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 22px; height: 22px; border-radius: 50%; background: #0054A6; cursor: pointer; transition: transform 0.1s; }
         .progress-slider::-webkit-slider-thumb:hover { transform: scale(1.2); }
+
+        /* Custom dragging styles */
+        .dragging { opacity: 0.5; transform: scale(0.95); cursor: grabbing !important; }
     </style>
 </head>
 <body class="antialiased">
@@ -280,8 +283,38 @@
                     <div class="glass-panel p-5 md:p-8 rounded-2xl mb-8 shadow-lg sticky top-0 z-10">
                         <div class="flex flex-col lg:flex-row gap-4 mb-6">
                             <input type="text" id="searchInput" onkeyup="renderTable()" placeholder="Search candidates..." class="flex-[2] p-4 bg-[var(--bg-secondary)] border-2 rounded-xl font-bold text-sm outline-none focus:border-sarathy-blue">
-                            <select id="filterDept" onchange="renderTable()" class="flex-1 p-4 bg-[var(--bg-secondary)] border-2 rounded-xl font-black text-xs uppercase outline-none focus:border-sarathy-blue"><option value="ALL">All Depts</option><option value="SALES">Sales</option><option value="SERVICE">Service</option></select>
-                            <select id="filterCompany" onchange="renderTable()" class="flex-1 p-4 bg-[var(--bg-secondary)] border-2 rounded-xl font-black text-xs uppercase outline-none focus:border-sarathy-blue"><option value="ALL">All Entities</option><option value="SARATHY MOTORS">Motors</option><option value="SARATHY BIKES PVT LTD">Bikes</option></select>
+                            
+                            <!-- Updated Departments -->
+                            <select id="filterDept" onchange="renderTable()" class="flex-1 p-4 bg-[var(--bg-secondary)] border-2 rounded-xl font-black text-xs uppercase outline-none focus:border-sarathy-blue">
+                                <option value="ALL">All Depts</option>
+                                <option value="SALES">Sales</option>
+                                <option value="SERVICE">Service</option>
+                                <option value="SPARE">Spare</option>
+                            </select>
+
+                            <!-- Updated Companies/Entities -->
+                            <select id="filterCompany" onchange="renderTable()" class="flex-1 p-4 bg-[var(--bg-secondary)] border-2 rounded-xl font-black text-xs uppercase outline-none focus:border-sarathy-blue">
+                                <option value="ALL">All Entities</option>
+                                <option value="SARATHY MOTORS">Sarathy Motors</option>
+                                <option value="SARATHY BIKES PVT LTD">Sarathy Bikes Pvt Ltd</option>
+                                <option value="SARATHY ELECTRIC BIKES PVT LTD">Sarathy Electric Bikes Pvt Ltd</option>
+                                <option value="SARATHY AUTOCARS">Sarathy Autocars (Arena)</option>
+                                <option value="SARATHY CARS PVT LTD">Sarathy Cars Pvt Ltd (Nexa)</option>
+                                <option value="SARATHY AUTODRIVES PVT LTD">Sarathy Autodrives Pvt Ltd</option>
+                            </select>
+
+                            <!-- New Locations -->
+                            <select id="filterLocation" onchange="renderTable()" class="flex-1 p-4 bg-[var(--bg-secondary)] border-2 rounded-xl font-black text-xs uppercase outline-none focus:border-sarathy-blue">
+                                <option value="ALL">All Locations</option>
+                                <option value="KOLLAM">Kollam</option>
+                                <option value="KOTTIYAM">Kottiyam</option>
+                                <option value="CHATHANNOOR">Chathannoor</option>
+                                <option value="PARIPPALLY">Parippally</option>
+                                <option value="KALLAMBALAM">Kallambalam</option>
+                                <option value="ATTINGAL">Attingal</option>
+                                <option value="KAZHAKOOTAM">Kazhakootam</option>
+                                <option value="TRIVANDRUM">Trivandrum</option>
+                            </select>
                         </div>
                         <div class="flex gap-3 overflow-x-auto whitespace-nowrap items-center pb-2">
                             <button onclick="setQuickFilter('All')" class="px-6 py-2 rounded-xl text-xs font-black uppercase border-2 bg-[var(--bg-secondary)] border-sarathy-blue text-sarathy-blue" id="chip-All">ALL</button>
@@ -328,11 +361,24 @@
                         </div>
                     </div>
                     
+                    <!-- Drag and Drop Interactive Board -->
                     <div id="boardView" class="hidden grid-cols-1 md:grid-cols-4 gap-6 animate-up">
-                        <div class="kanban-col border-t-4 border-t-amber-500 shadow-sm"><h3 class="font-black text-amber-500 mb-6 flex justify-between items-center uppercase text-sm border-b pb-3">Pending <span id="countBoardPending" class="bg-amber-100 text-amber-700 px-3 py-1 rounded-lg">0</span></h3><div id="boardPending" class="space-y-4"></div></div>
-                        <div class="kanban-col border-t-4 border-t-emerald-500 shadow-sm"><h3 class="font-black text-emerald-500 mb-6 flex justify-between items-center uppercase text-sm border-b pb-3">Selected <span id="countBoardSelected" class="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-lg">0</span></h3><div id="boardSelected" class="space-y-4"></div></div>
-                        <div class="kanban-col border-t-4 border-t-[#0054A6] shadow-sm"><h3 class="font-black text-[#0054A6] mb-6 flex justify-between items-center uppercase text-sm border-b pb-3">Joined <span id="countBoardJoined" class="bg-blue-100 text-blue-700 px-3 py-1 rounded-lg">0</span></h3><div id="boardJoined" class="space-y-4"></div></div>
-                        <div class="kanban-col border-t-4 border-t-red-500 shadow-sm"><h3 class="font-black text-red-500 mb-6 flex justify-between items-center uppercase text-sm border-b pb-3">Rejected <span id="countBoardRejected" class="bg-red-100 text-red-700 px-3 py-1 rounded-lg">0</span></h3><div id="boardRejected" class="space-y-4"></div></div>
+                        <div class="kanban-col border-t-4 border-t-amber-500 shadow-sm" ondrop="dropToBoard(event, 'PENDING')" ondragover="allowBoardDrop(event)">
+                            <h3 class="font-black text-amber-500 mb-6 flex justify-between items-center uppercase text-sm border-b pb-3 pointer-events-none">Pending <span id="countBoardPending" class="bg-amber-100 text-amber-700 px-3 py-1 rounded-lg">0</span></h3>
+                            <div id="boardPending" class="space-y-4 min-h-[50px]"></div>
+                        </div>
+                        <div class="kanban-col border-t-4 border-t-emerald-500 shadow-sm" ondrop="dropToBoard(event, 'SELECTED')" ondragover="allowBoardDrop(event)">
+                            <h3 class="font-black text-emerald-500 mb-6 flex justify-between items-center uppercase text-sm border-b pb-3 pointer-events-none">Selected <span id="countBoardSelected" class="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-lg">0</span></h3>
+                            <div id="boardSelected" class="space-y-4 min-h-[50px]"></div>
+                        </div>
+                        <div class="kanban-col border-t-4 border-t-[#0054A6] shadow-sm" ondrop="dropToBoard(event, 'JOINED')" ondragover="allowBoardDrop(event)">
+                            <h3 class="font-black text-[#0054A6] mb-6 flex justify-between items-center uppercase text-sm border-b pb-3 pointer-events-none">Joined <span id="countBoardJoined" class="bg-blue-100 text-blue-700 px-3 py-1 rounded-lg">0</span></h3>
+                            <div id="boardJoined" class="space-y-4 min-h-[50px]"></div>
+                        </div>
+                        <div class="kanban-col border-t-4 border-t-red-500 shadow-sm" ondrop="dropToBoard(event, 'REJECTED')" ondragover="allowBoardDrop(event)">
+                            <h3 class="font-black text-red-500 mb-6 flex justify-between items-center uppercase text-sm border-b pb-3 pointer-events-none">Rejected <span id="countBoardRejected" class="bg-red-100 text-red-700 px-3 py-1 rounded-lg">0</span></h3>
+                            <div id="boardRejected" class="space-y-4 min-h-[50px]"></div>
+                        </div>
                     </div>
                 </div>
 
@@ -472,11 +518,43 @@
                         <div class="flex flex-col"><label class="text-[10px] font-black uppercase mb-1">Phone Number</label><input type="tel" id="empPhone" required pattern="[0-9]{10}" class="w-full p-4 border rounded-xl font-bold uppercase outline-none focus:border-sarathy-blue"></div>
                         <div class="flex flex-col"><label class="text-[10px] font-black uppercase mb-1">Email Address</label><input type="email" id="empEmail" class="w-full p-4 border rounded-xl font-bold outline-none focus:border-sarathy-blue"></div>
                         <div class="flex flex-col"><label class="text-[10px] font-black uppercase mb-1">Source</label><select id="empSource" class="w-full p-4 border rounded-xl font-bold uppercase outline-none"><option value="Direct/Walk-in">Direct / Walk-in</option><option value="LinkedIn">LinkedIn</option><option value="Naukri">Naukri / Job Portal</option><option value="Referral">Employee Referral</option></select></div>
-                        <div class="flex flex-col"><label class="text-[10px] font-black uppercase mb-1">Department</label><input type="text" id="dept" required oninput="this.value = this.value.toUpperCase()" class="w-full p-4 border rounded-xl font-bold uppercase outline-none focus:border-sarathy-blue"></div>
-                        <div class="flex flex-col"><label class="text-[10px] font-black uppercase mb-1">Company</label><select id="company" class="w-full p-4 border rounded-xl font-bold uppercase outline-none focus:border-sarathy-blue"><option value="SARATHY MOTORS">SARATHY MOTORS</option><option value="SARATHY BIKES PVT LTD">SARATHY BIKES</option><option value="SARATHY ELECTRIC PVT LTD">SARATHY ELECTRIC</option></select></div>
+                        <div class="flex flex-col"><label class="text-[10px] font-black uppercase mb-1">Department</label>
+                            <select id="dept" required class="w-full p-4 border rounded-xl font-bold uppercase outline-none focus:border-sarathy-blue">
+                                <option value="SALES">Sales</option>
+                                <option value="SERVICE">Service</option>
+                                <option value="SPARE">Spare</option>
+                                <option value="HR">HR</option>
+                                <option value="ADMIN">Admin</option>
+                                <option value="FINANCE">Finance</option>
+                                <option value="OTHER">Other</option>
+                            </select>
+                        </div>
+                        <div class="flex flex-col"><label class="text-[10px] font-black uppercase mb-1">Company</label>
+                            <select id="company" class="w-full p-4 border rounded-xl font-bold uppercase outline-none focus:border-sarathy-blue">
+                                <option value="SARATHY MOTORS">Sarathy Motors</option>
+                                <option value="SARATHY BIKES PVT LTD">Sarathy Bikes Pvt Ltd</option>
+                                <option value="SARATHY ELECTRIC BIKES PVT LTD">Sarathy Electric Bikes Pvt Ltd</option>
+                                <option value="SARATHY AUTOCARS">Sarathy Autocars (Arena)</option>
+                                <option value="SARATHY CARS PVT LTD">Sarathy Cars Pvt Ltd (Nexa)</option>
+                                <option value="SARATHY AUTODRIVES PVT LTD">Sarathy Autodrives Pvt Ltd</option>
+                            </select>
+                        </div>
                         <div class="flex flex-col"><label class="text-[10px] font-black uppercase mb-1">Interview Date</label><input type="date" id="interviewDate" required class="w-full p-4 border rounded-xl font-bold outline-none focus:border-sarathy-blue"></div>
                         <div class="flex flex-col"><label class="text-[10px] font-black uppercase mb-1">Join Date</label><input type="date" id="joinDate" class="w-full p-4 border rounded-xl font-bold outline-none focus:border-sarathy-blue"></div>
-                        <div class="flex flex-col"><label class="text-[10px] font-black uppercase mb-1">Location</label><input type="text" id="location" class="w-full p-4 border rounded-xl font-bold uppercase outline-none focus:border-sarathy-blue"></div>
+                        <div class="flex flex-col"><label class="text-[10px] font-black uppercase mb-1">Location</label>
+                            <select id="location" class="w-full p-4 border rounded-xl font-bold uppercase outline-none focus:border-sarathy-blue">
+                                <option value="">Select Location</option>
+                                <option value="KOLLAM">Kollam</option>
+                                <option value="KOTTIYAM">Kottiyam</option>
+                                <option value="CHATHANNOOR">Chathannoor</option>
+                                <option value="PARIPPALLY">Parippally</option>
+                                <option value="KALLAMBALAM">Kallambalam</option>
+                                <option value="ATTINGAL">Attingal</option>
+                                <option value="KAZHAKOOTAM">Kazhakootam</option>
+                                <option value="TRIVANDRUM">Trivandrum</option>
+                                <option value="OTHER">Other</option>
+                            </select>
+                        </div>
                         <div class="flex flex-col"><label class="text-[10px] font-black uppercase mb-1">Experience (Yrs)</label><input type="number" id="experience" step="0.5" class="w-full p-4 border rounded-xl font-bold outline-none focus:border-sarathy-blue"></div>
                         <div class="col-span-1 md:col-span-2 flex flex-col"><label class="text-[10px] font-black uppercase mb-1">Designation</label><input type="text" id="designation" class="w-full p-4 border rounded-xl font-bold uppercase outline-none focus:border-sarathy-blue"></div>
                     </div>
@@ -568,7 +646,7 @@
 
     <!-- JAVASCRIPT LOGIC -->
     <script>
-        const CURRENT_DB_VERSION = 'sarathy_db_v14'; const CURRENT_BUDGET_VERSION = 'sarathy_req_v14'; const NOTICES_DB_VERSION = 'sarathy_notices_v2';
+        const CURRENT_DB_VERSION = 'sarathy_db_v15'; const CURRENT_BUDGET_VERSION = 'sarathy_req_v15'; const NOTICES_DB_VERSION = 'sarathy_notices_v2';
         const JOBS_DB_VERSION = 'sarathy_jobs_v2'; const TRAINING_DB_VERSION = 'sarathy_training_v2'; const OKR_DB_VERSION = 'sarathy_okr_v2';
         
         let localUsers = JSON.parse(localStorage.getItem('sarathy_users_v13'));
@@ -576,18 +654,21 @@
         let USERS = localUsers; let currentUser = null;
         
         let joinees = JSON.parse(localStorage.getItem(CURRENT_DB_VERSION)) || [];
-        let reqList = JSON.parse(localStorage.getItem(CURRENT_BUDGET_VERSION)) || [{dept: 'SALES', company: 'ALL', location: 'ALL', target: 5}, {dept: 'SERVICE', company: 'ALL', location: 'ALL', target: 3}];
+        
+        // Initializing default requirements array using proper full names from your list
+        let reqList = JSON.parse(localStorage.getItem(CURRENT_BUDGET_VERSION)) || [{dept: 'SALES', company: 'SARATHY MOTORS', location: 'KOLLAM', target: 5}, {dept: 'SERVICE', company: 'SARATHY BIKES PVT LTD', location: 'TRIVANDRUM', target: 3}];
         let noticesList = JSON.parse(localStorage.getItem(NOTICES_DB_VERSION)) || [{ id: 1, text: "Welcome to the updated HR Portal!", type: "info" }];
         let jobsList = JSON.parse(localStorage.getItem(JOBS_DB_VERSION)) || [];
         let trainingList = JSON.parse(localStorage.getItem(TRAINING_DB_VERSION)) || [];
         let okrList = JSON.parse(localStorage.getItem(OKR_DB_VERSION)) || [];
         
         let currentTab = 'dashboard'; let tabHistory = []; let currentView = 'list'; let activeFilter = 'All'; let chartStatus, chartSource, chartSourcePie, chartRejection; let calendarDate = new Date(); let selectedCandidates = [];
+        let draggedCandidateId = null; // Used for Drag & Drop Board
 
         const showToast = (msg, type='success') => { const t = document.getElementById('toast'); if(t) { document.getElementById('toastMessage').innerText = msg; document.getElementById('toastIcon').className = type==='success'?'fas fa-check-circle text-emerald-400 text-xl':'fas fa-exclamation-circle text-red-400 text-xl'; t.classList.remove('opacity-0', 'translate-y-40'); setTimeout(()=>t.classList.add('opacity-0', 'translate-y-40'), 3000); } };
         const formatDateString = (d) => { if(!d) return ''; const parts = d.split('-'); if (parts.length !== 3) return d; return `${parts[2]}-${parts[1]}-${parts[0]}`; };
         const getAvatarColor = (name) => { const colors = ['bg-blue-100 text-blue-700 border-blue-200', 'bg-emerald-100 text-emerald-700 border-emerald-200', 'bg-amber-100 text-amber-700 border-amber-200', 'bg-purple-100 text-purple-700 border-purple-200', 'bg-pink-100 text-pink-700 border-pink-200']; let hash = 0; if (!name || name.length === 0) return colors[0]; for (let i = 0; i < name.length; i++) hash = name.charCodeAt(i) + ((hash << 5) - hash); return colors[Math.abs(hash) % colors.length]; };
-        const getDeptColor = (dept) => { switch(dept?.trim().toUpperCase()) { case 'SALES': return 'text-blue-600 dark:text-blue-400'; case 'SERVICE': return 'text-orange-500 dark:text-orange-400'; default: return 'text-slate-600 dark:text-slate-400'; } };
+        const getDeptColor = (dept) => { switch(dept?.trim().toUpperCase()) { case 'SALES': return 'text-blue-600 dark:text-blue-400'; case 'SERVICE': return 'text-orange-500 dark:text-orange-400'; case 'SPARE': return 'text-emerald-600 dark:text-emerald-400'; default: return 'text-slate-600 dark:text-slate-400'; } };
         const isAdmin = () => currentUser?.user === 'ADMIN';
 
         const printNative = (containerId) => { const content = document.getElementById(containerId).innerHTML; const printArea = document.getElementById('printArea'); printArea.innerHTML = `<div style="width: 100%; max-width: 800px; margin: 0 auto; background: white; color: black; padding: 20px;">${content}</div>`; setTimeout(() => { window.print(); }, 100); };
@@ -659,7 +740,12 @@
                     const reqDept = req.dept.trim().toUpperCase(); const reqCompany = (req.company || 'ALL').trim().toUpperCase(); const reqLocation = (req.location || 'ALL').trim().toUpperCase();
                     const count = joinees.filter(x => { return (x.dept && x.dept.trim().toUpperCase() === reqDept) && (reqCompany === 'ALL' || (x.company && x.company.trim().toUpperCase() === reqCompany)) && (reqLocation === 'ALL' || (x.location && x.location.trim().toUpperCase() === reqLocation)) && (x.status === 'SELECTED' || x.status === 'JOINED'); }).length;
                     const target = parseInt(req.target) || 0; const perc = target > 0 ? Math.min((count/target)*100, 100) : 0;
-                    progContainer.innerHTML += `<div class="modern-card p-5 shadow-sm border-t-4 border-t-[#0054A6]"><div class="flex justify-between items-end text-xs font-black mb-3 uppercase text-[var(--text-secondary)]"><span class="truncate pr-2">${req.dept}</span><span class="text-sarathy-blue text-lg">${count}/${target}</span></div><div class="w-full h-3 bg-slate-100 rounded-full overflow-hidden"><div class="h-full bg-blue-500" style="width:${perc}%"></div></div></div>`;
+                    
+                    let subText = [];
+                    if(reqCompany !== 'ALL') subText.push(reqCompany);
+                    if(reqLocation !== 'ALL') subText.push(reqLocation);
+                    
+                    progContainer.innerHTML += `<div class="modern-card p-5 shadow-sm border-t-4 border-t-[#0054A6]"><div class="flex justify-between items-end text-xs font-black mb-1 uppercase text-[var(--text-secondary)]"><span class="truncate pr-2">${req.dept}</span><span class="text-sarathy-blue text-lg">${count}/${target}</span></div><div class="text-[9px] font-bold text-slate-400 uppercase mb-3 truncate" title="${subText.join(' - ')}">${subText.join(' - ') || 'All Entities & Locations'}</div><div class="w-full h-3 bg-slate-100 rounded-full overflow-hidden"><div class="h-full bg-blue-500" style="width:${perc}%"></div></div></div>`;
                 });
             }
 
@@ -691,12 +777,64 @@
         const deleteOkr = (id) => { okrList = okrList.filter(o => String(o.id) !== String(id)); localStorage.setItem(OKR_DB_VERSION, JSON.stringify(okrList)); renderOKRs(); };
         const renderOKRs = () => { const container = document.getElementById('okrContainer'); if(!container) return; if(okrList.length === 0) { container.innerHTML = '<div class="col-span-full text-center py-16 opacity-50"><i class="fas fa-bullseye text-4xl mb-3 text-slate-400"></i><p class="text-xs font-black uppercase tracking-widest text-[var(--text-secondary)]">No OKRs Set</p></div>'; return; } container.innerHTML = [...okrList].sort((a,b)=>b.id-a.id).map(o => `<div class="modern-card p-6 border-t-4 border-orange-500 flex flex-col"><div class="flex justify-between items-start mb-4"><div class="flex items-center gap-3"><div class="w-10 h-10 rounded-xl flex items-center justify-center font-black text-sm ${getAvatarColor(o.name)}">${o.name[0]}</div><div><p class="font-black text-sm uppercase leading-tight">${o.name}</p><span class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">${o.empId}</span></div></div><button onclick="deleteOkr(${o.id})" class="text-red-400"><i class="fas fa-trash-alt"></i></button></div><p class="text-xs font-bold mb-5 bg-orange-50 p-3 rounded-xl">🎯 ${o.obj}</p><div class="mt-auto"><div class="flex justify-between items-center mb-2"><span class="text-[10px] font-black uppercase text-slate-500">Progress</span><span id="okrVal-${o.id}" class="text-xs font-black ${o.progress == 100 ? 'text-emerald-500' : 'text-orange-500'}">${o.progress}%</span></div><input type="range" min="0" max="100" value="${o.progress}" class="progress-slider" oninput="updateOkrProgress(${o.id}, this.value)" onchange="if(this.value == 100) confetti()"></div></div>`).join(''); };
 
+        // Drag and Drop Logic
+        const dragStart = (ev, id) => {
+            draggedCandidateId = id;
+            ev.target.classList.add('dragging');
+        };
+        const allowBoardDrop = (ev) => {
+            ev.preventDefault();
+            ev.currentTarget.classList.add('drag-over');
+        };
+        const dropToBoard = (ev, newStatus) => {
+            ev.preventDefault();
+            document.querySelectorAll('.kanban-col').forEach(col => col.classList.remove('drag-over'));
+            document.querySelectorAll('.dragging').forEach(el => el.classList.remove('dragging'));
+
+            if(draggedCandidateId) {
+                const idx = joinees.findIndex(j => String(j.id) === String(draggedCandidateId));
+                if(idx > -1 && joinees[idx].status !== newStatus) {
+                    joinees[idx].status = newStatus;
+                    if(newStatus === 'JOINED' && !joinees[idx].joinDate) {
+                        joinees[idx].joinDate = new Date().toISOString().slice(0, 10);
+                    }
+                    if(newStatus !== 'REJECTED') {
+                        joinees[idx].rejectionReason = '';
+                    }
+                    localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees));
+                    refreshAllViews();
+                    showToast(`Moved to ${newStatus}`);
+                    if(newStatus === 'SELECTED' || newStatus === 'JOINED') confetti();
+                }
+            }
+            draggedCandidateId = null;
+        };
+
         const setQuickFilter = (f) => { activeFilter = f; document.querySelectorAll('[id^="chip-"]').forEach(c => c.classList.remove('border-sarathy-blue', 'text-sarathy-blue')); const chip = document.getElementById(`chip-${f}`); if(chip) chip.classList.add('border-sarathy-blue', 'text-sarathy-blue'); renderTable(); };
         const setView = (v) => { currentView = v; renderTable(); };
         const renderTable = () => {
             const term = document.getElementById('searchInput')?.value.toUpperCase() || '';
-            let filtered = joinees.filter(x => { const searchMatch = x.name.includes(term) || x.empId.includes(term); let qMatch = true; if(activeFilter==='Pending') qMatch = x.status === 'PENDING'; if(activeFilter==='Selected') qMatch = x.status === 'SELECTED'; if(activeFilter==='Joined') qMatch = x.status === 'JOINED'; if(activeFilter==='Rejected') qMatch = x.status === 'REJECTED'; return searchMatch && qMatch; });
+            const deptFilter = document.getElementById('filterDept')?.value.toUpperCase() || 'ALL';
+            const companyFilter = document.getElementById('filterCompany')?.value.toUpperCase() || 'ALL';
+            const locationFilter = document.getElementById('filterLocation')?.value.toUpperCase() || 'ALL';
+            
+            let filtered = joinees.filter(x => { 
+                const searchMatch = x.name.includes(term) || x.empId.includes(term) || x.phone?.includes(term); 
+                let qMatch = true; 
+                if(activeFilter==='Pending') qMatch = x.status === 'PENDING'; 
+                if(activeFilter==='Selected') qMatch = x.status === 'SELECTED'; 
+                if(activeFilter==='Joined') qMatch = x.status === 'JOINED'; 
+                if(activeFilter==='Rejected') qMatch = x.status === 'REJECTED'; 
+                
+                let dMatch = deptFilter === 'ALL' || x.dept === deptFilter;
+                let cMatch = companyFilter === 'ALL' || x.company === companyFilter;
+                let lMatch = locationFilter === 'ALL' || (x.location && x.location.toUpperCase() === locationFilter);
+                
+                return searchMatch && qMatch && dMatch && cMatch && lMatch; 
+            });
+            
             filtered.sort((a,b) => b.id - a.id);
+            
             const listView = document.getElementById('listView'); const boardView = document.getElementById('boardView');
             if(currentView === 'list') {
                 if(listView) listView.classList.remove('hidden'); if(boardView) boardView.classList.add('hidden');
@@ -705,12 +843,25 @@
                     if(filtered.length === 0) tableBody.innerHTML = '<tr><td colspan="7" class="text-center py-16 opacity-60">No candidates found</td></tr>';
                     else tableBody.innerHTML = filtered.map((x, i) => {
                         let stClass = x.status === 'SELECTED' ? 'badge-selected' : x.status === 'JOINED' ? 'badge-joined' : x.status === 'PENDING' ? 'badge-pending' : 'badge-rejected';
-                        return `<tr class="hover:bg-slate-50 cursor-pointer" onclick="viewCandidate(${x.id})"><td class="text-center"><input type="checkbox" class="candidate-cb custom-checkbox" value="${x.id}" onclick="updateBulkSelection(${x.id}, this.checked); event.stopPropagation()"></td><td><div class="flex items-center gap-4"><div class="w-10 h-10 rounded-xl flex items-center justify-center font-black ${getAvatarColor(x.name)}">${x.name[0]}</div><div><p class="font-black text-sm uppercase">${x.name}</p><span class="text-[9px] font-black bg-slate-100 text-slate-500 uppercase px-1 rounded">${x.empId}</span></div></div></td><td><p class="text-[10px] font-black uppercase">${x.dept}</p></td><td><p class="text-xs font-black uppercase">${x.location || '-'}</p></td><td class="text-center"><span class="status-badge-md ${stClass}">${x.status}</span></td><td><span class="font-black text-[10px] uppercase">INT: ${formatDateString(x.interviewDate)}</span></td><td class="text-right"><button class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600"><i class="fas fa-eye text-xs"></i></button></td></tr>`;
+                        return `<tr class="hover:bg-slate-50 cursor-pointer" onclick="viewCandidate(${x.id})"><td class="text-center"><input type="checkbox" class="candidate-cb custom-checkbox" value="${x.id}" onclick="updateBulkSelection(${x.id}, this.checked); event.stopPropagation()"></td><td><div class="flex items-center gap-4"><div class="w-10 h-10 rounded-xl flex items-center justify-center font-black ${getAvatarColor(x.name)}">${x.name[0]}</div><div><p class="font-black text-sm uppercase">${x.name}</p><span class="text-[9px] font-black bg-slate-100 text-slate-500 uppercase px-1 rounded">${x.empId}</span></div></div></td><td><p class="text-[10px] font-black uppercase text-sarathy-blue">${x.dept}</p><p class="text-[9px] font-bold text-slate-400 uppercase mt-0.5">${x.company}</p></td><td><p class="text-xs font-black uppercase">${x.location || '-'}</p></td><td class="text-center"><span class="status-badge-md ${stClass}">${x.status}</span></td><td><span class="font-black text-[10px] uppercase text-slate-500">INT:</span> <span class="font-black text-[10px] uppercase">${formatDateString(x.interviewDate)}</span></td><td class="text-right"><button class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600"><i class="fas fa-eye text-xs"></i></button></td></tr>`;
                     }).join('');
                 }
             } else {
                 if(listView) listView.classList.add('hidden'); if(boardView) boardView.classList.remove('hidden');
-                ['PENDING','SELECTED','JOINED','REJECTED'].forEach(s => { const arr = filtered.filter(x=>x.status===s); const el = document.getElementById(`board${s.charAt(0)+s.slice(1).toLowerCase()}`); const cEl = document.getElementById(`countBoard${s.charAt(0)+s.slice(1).toLowerCase()}`); if(el && cEl) { cEl.innerText = arr.length; el.innerHTML = arr.map(x => `<div class="modern-card p-4 border cursor-pointer hover:border-sarathy-blue" onclick="viewCandidate(${x.id})"><div class="flex gap-3"><div class="w-10 h-10 rounded-lg flex items-center justify-center font-black text-sm ${getAvatarColor(x.name)}">${x.name[0]}</div><div><p class="font-black text-xs uppercase">${x.name}</p><p class="text-[9px] font-bold text-slate-500 uppercase mt-0.5">${x.empId} • ${x.dept}</p></div></div></div>`).join(''); } });
+                ['PENDING','SELECTED','JOINED','REJECTED'].forEach(s => { 
+                    const arr = filtered.filter(x=>x.status===s); 
+                    const el = document.getElementById(`board${s.charAt(0)+s.slice(1).toLowerCase()}`); 
+                    const cEl = document.getElementById(`countBoard${s.charAt(0)+s.slice(1).toLowerCase()}`); 
+                    if(el && cEl) { 
+                        cEl.innerText = arr.length; 
+                        el.innerHTML = arr.map(x => `<div class="modern-card p-4 border cursor-pointer hover:border-sarathy-blue active:cursor-grabbing transition-transform bg-white dark:bg-slate-800" draggable="true" ondragstart="dragStart(event, ${x.id})" ondragend="this.classList.remove('dragging')" onclick="viewCandidate(${x.id})"><div class="flex gap-3"><div class="w-10 h-10 rounded-lg flex items-center justify-center font-black text-sm shrink-0 ${getAvatarColor(x.name)}">${x.name[0]}</div><div class="overflow-hidden"><p class="font-black text-xs uppercase truncate">${x.name}</p><p class="text-[9px] font-bold text-slate-500 uppercase mt-0.5 truncate">${x.empId} • ${x.dept}</p><p class="text-[8px] font-bold text-slate-400 uppercase mt-1 truncate"><i class="fas fa-building mr-1"></i>${x.company}</p></div></div></div>`).join(''); 
+                    } 
+                });
+                
+                // Add event listeners for resetting drag-over visual
+                document.querySelectorAll('.kanban-col').forEach(col => {
+                    col.addEventListener('dragleave', (e) => e.currentTarget.classList.remove('drag-over'));
+                });
             }
         };
 
@@ -748,7 +899,7 @@
 
         const editRecord = (id) => {
             closeViewModal(); const r = joinees.find(x => String(x.id) === String(id)); if(!r) return;
-            document.getElementById('editId').value = r.id; document.getElementById('empId').value = r.empId; document.getElementById('status').value = r.status; document.getElementById('empName').value = r.name; document.getElementById('empPhone').value = r.phone; document.getElementById('empEmail').value = r.email || ''; document.getElementById('empSource').value = r.source || 'Direct/Walk-in'; document.getElementById('dept').value = r.dept; document.getElementById('company').value = r.company; document.getElementById('interviewDate').value = r.interviewDate || ''; document.getElementById('joinDate').value = r.joinDate || ''; document.getElementById('experience').value = r.experience || 0; document.getElementById('location').value = r.location || ''; document.getElementById('designation').value = r.designation || ''; document.getElementById('empRating').value = r.rating || 0; updateStarUI(r.rating || 0);
+            document.getElementById('editId').value = r.id; document.getElementById('empId').value = r.empId; document.getElementById('status').value = r.status; document.getElementById('empName').value = r.name; document.getElementById('empPhone').value = r.phone; document.getElementById('empEmail').value = r.email || ''; document.getElementById('empSource').value = r.source || 'Direct/Walk-in'; document.getElementById('dept').value = r.dept || 'OTHER'; document.getElementById('company').value = r.company || 'SARATHY MOTORS'; document.getElementById('interviewDate').value = r.interviewDate || ''; document.getElementById('joinDate').value = r.joinDate || ''; document.getElementById('experience').value = r.experience || 0; document.getElementById('location').value = r.location || ''; document.getElementById('designation').value = r.designation || ''; document.getElementById('empRating').value = r.rating || 0; updateStarUI(r.rating || 0);
             const rejCont = document.getElementById('rejectionReasonContainer');
             if(r.status === 'REJECTED') { if(rejCont){rejCont.classList.remove('hidden'); rejCont.classList.add('flex');} document.getElementById('rejectionReason').value = r.rejectionReason || ''; } else { if(rejCont){rejCont.classList.add('hidden'); rejCont.classList.remove('flex');} document.getElementById('rejectionReason').value = ''; }
             document.getElementById('modalTitle').innerText = "Edit Details"; document.getElementById('addModal')?.classList.remove('hidden'); setTimeout(()=>document.getElementById('modalContent').style.transform = 'translateX(0)', 10);
@@ -766,7 +917,35 @@
             const r = joinees.find(x=> String(x.id) === String(id)); if(!r) return;
             const avatarClass = getAvatarColor(r.name);
             let statusClass = r.status === 'SELECTED' ? 'bg-emerald-50 text-emerald-600' : r.status === 'JOINED' ? 'bg-[#0054A6] text-white' : r.status === 'PENDING' ? 'bg-amber-50 text-amber-600' : 'bg-red-50 text-red-600';
-            const content = `<div class="flex items-center gap-6 mb-8 border-b pb-8"><div class="w-24 h-24 rounded-2xl flex items-center justify-center font-black text-4xl shadow-md ${avatarClass}">${r.name[0]}</div><div><h3 class="font-black text-3xl mb-2 uppercase">${r.name}</h3><p class="text-xs font-bold text-[var(--text-secondary)] uppercase mb-4">${r.empId} • ${r.company}</p><span class="px-4 py-2 rounded-xl text-xs font-black uppercase shadow-sm border ${statusClass}">${r.status}</span></div></div><div class="grid grid-cols-2 gap-y-6 gap-x-4 bg-slate-50 p-6 rounded-2xl shadow-sm mb-8"><div><span class="block text-[10px] font-black uppercase mb-1 text-slate-500">Phone</span><span class="font-black text-sm">${r.phone || 'N/A'}</span></div><div><span class="block text-[10px] font-black uppercase mb-1 text-slate-500">Dept</span><span class="font-black text-sm uppercase">${r.dept}</span></div><div><span class="block text-[10px] font-black uppercase mb-1 text-slate-500">Interview</span><span class="font-black text-sm">${formatDateString(r.interviewDate)}</span></div><div><span class="block text-[10px] font-black uppercase mb-1 text-slate-500">Join Date</span><span class="font-black text-sm">${r.joinDate ? formatDateString(r.joinDate) : 'N/A'}</span></div></div><div class="mt-8 flex gap-3 no-print"><button onclick="editRecord(${r.id})" class="flex-1 py-3 bg-sarathy-blue text-white rounded-xl font-black text-xs uppercase shadow-md"><i class="fas fa-edit"></i> Edit</button>${r.status === 'SELECTED' ? `<button onclick="markAsJoined(${r.id}); closeViewModal();" class="flex-1 py-3 bg-emerald-600 text-white rounded-xl font-black text-xs uppercase shadow-md"><i class="fas fa-user-check"></i> Join</button>` : ''}</div>`;
+            
+            // Build the dynamic journey timeline UI (New Feature)
+            let timelineHtml = `
+                <div class="mt-8 pt-8 border-t border-[var(--border-color)] no-print">
+                    <h4 class="text-[10px] font-black uppercase text-slate-400 mb-5 tracking-widest"><i class="fas fa-route mr-2"></i> Candidate Journey</h4>
+                    <div class="flex flex-col sm:flex-row gap-4 sm:gap-2">
+                        <div class="flex-1 border-l-4 sm:border-l-0 sm:border-t-4 sm:pt-4 pl-4 sm:pl-0 border-blue-500 relative">
+                            <div class="hidden sm:block absolute -top-3 -translate-y-1/2 left-0 w-3 h-3 rounded-full bg-blue-500"></div>
+                            <div class="sm:hidden absolute top-0 -left-[10px] w-4 h-4 rounded-full bg-[var(--bg-secondary)] border-4 border-blue-500"></div>
+                            <p class="text-[9px] text-slate-400 font-bold uppercase mb-1">Interviewed</p>
+                            <p class="text-xs font-black">${r.interviewDate ? formatDateString(r.interviewDate) : 'N/A'}</p>
+                        </div>
+                        <div class="flex-1 border-l-4 sm:border-l-0 sm:border-t-4 sm:pt-4 pl-4 sm:pl-0 relative ${(r.status==='SELECTED'||r.status==='JOINED') ? 'border-emerald-400' : 'border-slate-200'}">
+                            <div class="hidden sm:block absolute -top-3 -translate-y-1/2 left-0 w-3 h-3 rounded-full ${(r.status==='SELECTED'||r.status==='JOINED') ? 'bg-emerald-400' : 'bg-slate-200'}"></div>
+                            <div class="sm:hidden absolute top-0 -left-[10px] w-4 h-4 rounded-full bg-[var(--bg-secondary)] border-4 ${(r.status==='SELECTED'||r.status==='JOINED') ? 'border-emerald-400' : 'border-slate-200'}"></div>
+                            <p class="text-[9px] text-slate-400 font-bold uppercase mb-1">Selected</p>
+                            <p class="text-xs font-black ${(r.status==='SELECTED'||r.status==='JOINED') ? 'text-[var(--text-primary)]' : 'text-slate-400'}">${(r.status==='SELECTED'||r.status==='JOINED') ? 'Completed' : (r.status==='REJECTED' ? 'Skipped' : 'Pending')}</p>
+                        </div>
+                        <div class="flex-1 border-l-4 sm:border-l-0 sm:border-t-4 sm:pt-4 pl-4 sm:pl-0 relative ${r.status==='JOINED' ? 'border-[#0054A6]' : 'border-slate-200'}">
+                            <div class="hidden sm:block absolute -top-3 -translate-y-1/2 left-0 w-3 h-3 rounded-full ${r.status==='JOINED' ? 'bg-[#0054A6]' : 'bg-slate-200'}"></div>
+                            <div class="sm:hidden absolute top-0 -left-[10px] w-4 h-4 rounded-full bg-[var(--bg-secondary)] border-4 ${r.status==='JOINED' ? 'border-[#0054A6]' : 'border-slate-200'}"></div>
+                            <p class="text-[9px] text-slate-400 font-bold uppercase mb-1">Joined</p>
+                            <p class="text-xs font-black ${r.status==='JOINED' ? 'text-sarathy-blue' : 'text-slate-400'}">${r.joinDate ? formatDateString(r.joinDate) : (r.status==='REJECTED' ? 'Skipped' : 'Waiting')}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            const content = `<div class="flex items-center gap-6 mb-8 border-b pb-8"><div class="w-24 h-24 rounded-2xl flex items-center justify-center font-black text-4xl shadow-md ${avatarClass}">${r.name[0]}</div><div><h3 class="font-black text-3xl mb-2 uppercase">${r.name}</h3><p class="text-xs font-bold text-[var(--text-secondary)] uppercase mb-4">${r.empId} • ${r.company}</p><span class="px-4 py-2 rounded-xl text-xs font-black uppercase shadow-sm border ${statusClass}">${r.status}</span></div></div><div class="grid grid-cols-2 gap-y-6 gap-x-4 bg-slate-50 dark:bg-slate-800 p-6 rounded-2xl shadow-sm mb-8"><div><span class="block text-[10px] font-black uppercase mb-1 text-slate-500">Phone</span><span class="font-black text-sm">${r.phone || 'N/A'}</span></div><div><span class="block text-[10px] font-black uppercase mb-1 text-slate-500">Dept</span><span class="font-black text-sm uppercase">${r.dept}</span></div><div><span class="block text-[10px] font-black uppercase mb-1 text-slate-500">Interview</span><span class="font-black text-sm">${formatDateString(r.interviewDate)}</span></div><div><span class="block text-[10px] font-black uppercase mb-1 text-slate-500">Join Date</span><span class="font-black text-sm">${r.joinDate ? formatDateString(r.joinDate) : 'N/A'}</span></div><div><span class="block text-[10px] font-black uppercase mb-1 text-slate-500">Location</span><span class="font-black text-sm uppercase">${r.location || 'N/A'}</span></div></div> ${timelineHtml} <div class="mt-8 flex gap-3 no-print"><button onclick="editRecord(${r.id})" class="flex-1 py-3 bg-sarathy-blue text-white rounded-xl font-black text-xs uppercase shadow-md"><i class="fas fa-edit"></i> Edit</button>${r.status === 'SELECTED' ? `<button onclick="markAsJoined(${r.id}); closeViewModal();" class="flex-1 py-3 bg-emerald-600 text-white rounded-xl font-black text-xs uppercase shadow-md"><i class="fas fa-user-check"></i> Join</button>` : ''}</div>`;
             const viewContent = document.getElementById('viewModalContent'); if(viewContent) viewContent.innerHTML = content; document.getElementById('viewModal')?.classList.remove('hidden');
         };
 
@@ -774,12 +953,52 @@
 
         const openReqModal = () => { if(!isAdmin()) return showToast("Admin Access Required", "error"); renderReqEntries(); document.getElementById('reqModal')?.classList.remove('hidden'); };
         const closeReqModal = () => document.getElementById('reqModal')?.classList.add('hidden');
-        const renderReqEntries = () => { const container = document.getElementById('reqEntriesContainer'); if(!container) return; container.innerHTML = reqList.map((req, idx) => `<div class="p-6 bg-[var(--bg-secondary)] rounded-2xl border relative"><button onclick="removeReqRow(${idx})" class="absolute top-4 right-4 text-red-500"><i class="fas fa-trash-alt"></i></button><div class="grid grid-cols-4 gap-4"><input type="text" value="${req.dept}" onchange="reqList[${idx}].dept=this.value.trim().toUpperCase()" class="p-3 border rounded-xl font-bold text-xs uppercase outline-none"><select onchange="reqList[${idx}].company=this.value" class="p-3 border rounded-xl font-bold text-xs uppercase outline-none"><option value="ALL">ALL ENTITIES</option><option value="SARATHY MOTORS">SARATHY MOTORS</option></select><input type="text" value="${req.location || 'ALL'}" onchange="reqList[${idx}].location=this.value.trim().toUpperCase()" class="p-3 border rounded-xl font-bold text-xs uppercase outline-none"><input type="number" value="${req.target}" onchange="reqList[${idx}].target=parseInt(this.value)||0" class="p-3 border rounded-xl font-black text-xs outline-none"></div></div>`).join(''); };
-        const addReqRow = () => { reqList.push({ dept: 'NEW DEPT', company: 'ALL', location: 'ALL', target: 5 }); renderReqEntries(); };
+        const renderReqEntries = () => { 
+            const container = document.getElementById('reqEntriesContainer'); 
+            if(!container) return; 
+            container.innerHTML = reqList.map((req, idx) => `
+                <div class="p-6 bg-[var(--bg-secondary)] rounded-2xl border relative">
+                    <button onclick="removeReqRow(${idx})" class="absolute top-4 right-4 text-red-500 hover:text-red-700 transition"><i class="fas fa-trash-alt"></i></button>
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <select onchange="reqList[${idx}].dept=this.value" class="p-3 border rounded-xl font-bold text-xs uppercase outline-none focus:border-sarathy-blue bg-[var(--bg-primary)]">
+                            <option value="SALES" ${req.dept === 'SALES' ? 'selected' : ''}>Sales</option>
+                            <option value="SERVICE" ${req.dept === 'SERVICE' ? 'selected' : ''}>Service</option>
+                            <option value="SPARE" ${req.dept === 'SPARE' ? 'selected' : ''}>Spare</option>
+                            <option value="HR" ${req.dept === 'HR' ? 'selected' : ''}>HR</option>
+                            <option value="ADMIN" ${req.dept === 'ADMIN' ? 'selected' : ''}>Admin</option>
+                            <option value="FINANCE" ${req.dept === 'FINANCE' ? 'selected' : ''}>Finance</option>
+                            <option value="OTHER" ${req.dept === 'OTHER' ? 'selected' : ''}>Other</option>
+                        </select>
+                        <select onchange="reqList[${idx}].company=this.value" class="p-3 border rounded-xl font-bold text-xs uppercase outline-none focus:border-sarathy-blue bg-[var(--bg-primary)]">
+                            <option value="ALL" ${req.company === 'ALL' ? 'selected' : ''}>ALL ENTITIES</option>
+                            <option value="SARATHY MOTORS" ${req.company === 'SARATHY MOTORS' ? 'selected' : ''}>Sarathy Motors</option>
+                            <option value="SARATHY BIKES PVT LTD" ${req.company === 'SARATHY BIKES PVT LTD' ? 'selected' : ''}>Sarathy Bikes Pvt Ltd</option>
+                            <option value="SARATHY ELECTRIC BIKES PVT LTD" ${req.company === 'SARATHY ELECTRIC BIKES PVT LTD' ? 'selected' : ''}>Sarathy Electric Bikes Pvt Ltd</option>
+                            <option value="SARATHY AUTOCARS" ${req.company === 'SARATHY AUTOCARS' ? 'selected' : ''}>Sarathy Autocars (Arena)</option>
+                            <option value="SARATHY CARS PVT LTD" ${req.company === 'SARATHY CARS PVT LTD' ? 'selected' : ''}>Sarathy Cars Pvt Ltd (Nexa)</option>
+                            <option value="SARATHY AUTODRIVES PVT LTD" ${req.company === 'SARATHY AUTODRIVES PVT LTD' ? 'selected' : ''}>Sarathy Autodrives Pvt Ltd</option>
+                        </select>
+                        <select onchange="reqList[${idx}].location=this.value" class="p-3 border rounded-xl font-bold text-xs uppercase outline-none focus:border-sarathy-blue bg-[var(--bg-primary)]">
+                            <option value="ALL" ${req.location === 'ALL' ? 'selected' : ''}>ALL LOCATIONS</option>
+                            <option value="KOLLAM" ${req.location === 'KOLLAM' ? 'selected' : ''}>Kollam</option>
+                            <option value="KOTTIYAM" ${req.location === 'KOTTIYAM' ? 'selected' : ''}>Kottiyam</option>
+                            <option value="CHATHANNOOR" ${req.location === 'CHATHANNOOR' ? 'selected' : ''}>Chathannoor</option>
+                            <option value="PARIPPALLY" ${req.location === 'PARIPPALLY' ? 'selected' : ''}>Parippally</option>
+                            <option value="KALLAMBALAM" ${req.location === 'KALLAMBALAM' ? 'selected' : ''}>Kallambalam</option>
+                            <option value="ATTINGAL" ${req.location === 'ATTINGAL' ? 'selected' : ''}>Attingal</option>
+                            <option value="KAZHAKOOTAM" ${req.location === 'KAZHAKOOTAM' ? 'selected' : ''}>Kazhakootam</option>
+                            <option value="TRIVANDRUM" ${req.location === 'TRIVANDRUM' ? 'selected' : ''}>Trivandrum</option>
+                            <option value="OTHER" ${req.location === 'OTHER' ? 'selected' : ''}>Other</option>
+                        </select>
+                        <input type="number" value="${req.target}" onchange="reqList[${idx}].target=parseInt(this.value)||0" placeholder="Target count" class="p-3 border rounded-xl font-black text-xs outline-none focus:border-sarathy-blue bg-[var(--bg-primary)]">
+                    </div>
+                </div>`).join(''); 
+        };
+        const addReqRow = () => { reqList.push({ dept: 'SALES', company: 'ALL', location: 'ALL', target: 5 }); renderReqEntries(); };
         const removeReqRow = (idx) => { reqList.splice(idx, 1); renderReqEntries(); };
         const saveRequirements = () => { localStorage.setItem(CURRENT_BUDGET_VERSION, JSON.stringify(reqList)); showToast("Targets Updated!"); closeReqModal(); renderDashboard(); };
 
-        const renderDirectory = () => { const container = document.getElementById('directoryContainer'); if(!container) return; const term = document.getElementById('dirSearchInput')?.value.toUpperCase() || ''; const activeEmployees = joinees.filter(x => x.status === 'JOINED' && (x.name.includes(term) || x.empId.includes(term) || x.dept.includes(term))); if(activeEmployees.length === 0) { container.innerHTML = '<div class="col-span-full text-center py-20 opacity-50"><h3 class="text-lg font-black uppercase">No Active Employees</h3></div>'; return; } container.innerHTML = activeEmployees.map(c => `<div class="modern-card p-6 border-t-4 border-t-indigo-500 text-center cursor-pointer" onclick="viewCandidate(${c.id})"><div class="w-20 h-20 mx-auto rounded-2xl border-2 flex items-center justify-center font-black text-3xl mb-4 ${getAvatarColor(c.name)}">${c.name[0]}</div><h4 class="font-black text-base uppercase truncate">${c.name}</h4><p class="text-[10px] font-bold uppercase mt-1 mb-4 truncate">${c.designation || 'EMPLOYEE'}</p></div>`).join(''); };
+        const renderDirectory = () => { const container = document.getElementById('directoryContainer'); if(!container) return; const term = document.getElementById('dirSearchInput')?.value.toUpperCase() || ''; const activeEmployees = joinees.filter(x => x.status === 'JOINED' && (x.name.includes(term) || x.empId.includes(term) || x.dept.includes(term))); if(activeEmployees.length === 0) { container.innerHTML = '<div class="col-span-full text-center py-20 opacity-50"><h3 class="text-lg font-black uppercase">No Active Employees</h3></div>'; return; } container.innerHTML = activeEmployees.map(c => `<div class="modern-card p-6 border-t-4 border-t-indigo-500 text-center cursor-pointer" onclick="viewCandidate(${c.id})"><div class="w-20 h-20 mx-auto rounded-2xl border-2 flex items-center justify-center font-black text-3xl mb-4 ${getAvatarColor(c.name)}">${c.name[0]}</div><h4 class="font-black text-base uppercase truncate">${c.name}</h4><p class="text-[10px] font-bold uppercase mt-1 mb-4 truncate">${c.designation || 'EMPLOYEE'} • ${c.company}</p></div>`).join(''); };
 
         const renderOnboarding = () => { const container = document.getElementById('onboardingContainer'); if(!container) return; const joinedCandidates = joinees.filter(x => x.status === 'JOINED'); if(joinedCandidates.length === 0) { container.innerHTML = '<div class="col-span-full text-center py-20 opacity-50"><h3 class="text-lg font-black uppercase">No Joined Candidates</h3></div>'; return; } container.innerHTML = joinedCandidates.map(c => { if(!c.onboarding) c.onboarding = { idCard: false, bank: false, pf: false, training: false }; const tasks = [{ key: 'idCard', label: 'ID Card & Assets' }, { key: 'bank', label: 'Bank Details' }, { key: 'pf', label: 'PF & ESI Reg' }, { key: 'training', label: 'Orientation' }]; const completedCount = tasks.filter(t => c.onboarding[t.key]).length; const perc = (completedCount / tasks.length) * 100; return `<div class="modern-card p-6 border-t-4 border-emerald-500"><div class="flex items-center gap-3 mb-4"><div class="w-12 h-12 rounded-xl flex items-center justify-center font-black text-xl ${getAvatarColor(c.name)}">${c.name[0]}</div><div class="cursor-pointer" onclick="viewCandidate(${c.id})"><h4 class="font-black text-sm uppercase">${c.name}</h4></div></div><div class="mb-5"><div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden"><div class="h-full bg-emerald-500 transition-all duration-500" style="width: ${perc}%"></div></div></div><div class="space-y-3">${tasks.map(t => `<label class="flex items-center gap-3 p-2 rounded-lg cursor-pointer hover:bg-slate-50"><input type="checkbox" ${c.onboarding[t.key] ? 'checked' : ''} onchange="toggleOnboardingTask(${c.id}, '${t.key}', this.checked)" class="w-4 h-4 accent-emerald-500"><span class="text-xs font-bold uppercase ${c.onboarding[t.key] ? 'line-through opacity-50' : ''}">${t.label}</span></label>`).join('')}</div></div>`; }).join(''); };
         const toggleOnboardingTask = (id, taskKey, isChecked) => { const idx = joinees.findIndex(x => String(x.id) === String(id)); if(idx > -1) { if(!joinees[idx].onboarding) joinees[idx].onboarding = {}; joinees[idx].onboarding[taskKey] = isChecked; localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees)); renderOnboarding(); if(isChecked) { showToast("Task Completed!", "success"); } } };
@@ -795,7 +1014,7 @@
         const generateHiringSummary = () => { const total = joinees.length; const sel = joinees.filter(x => x.status === 'SELECTED').length; const joined = joinees.filter(x => x.status === 'JOINED').length; const pend = joinees.filter(x => x.status === 'PENDING').length; document.getElementById('summaryText').innerHTML = `<p class="font-bold">Total: ${total} | Joined: ${joined} | Selected: ${sel} | Pending: ${pend}</p>`; document.getElementById('summaryModal').classList.remove('hidden'); };
         const copySummary = () => { navigator.clipboard.writeText(document.getElementById('summaryText').innerText); showToast("Copied!"); };
 
-        const exportToExcel = () => { try { const exportData = joinees.map((j, index) => ({ "Emp ID": j.empId, "Full Name": j.name, "Phone": j.phone, "Department": j.dept, "Entity": j.company, "Current Status": j.status })); const worksheet = XLSX.utils.json_to_sheet(exportData); const workbook = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(workbook, worksheet, "Candidates"); XLSX.writeFile(workbook, `HR_Export_${new Date().toISOString().slice(0, 10)}.xlsx`); showToast("Excel Downloaded!"); } catch (error) { showToast("Failed to export Excel", "error"); } };
+        const exportToExcel = () => { try { const exportData = joinees.map((j, index) => ({ "Emp ID": j.empId, "Full Name": j.name, "Phone": j.phone, "Department": j.dept, "Entity": j.company, "Location": j.location, "Current Status": j.status })); const worksheet = XLSX.utils.json_to_sheet(exportData); const workbook = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(workbook, worksheet, "Candidates"); XLSX.writeFile(workbook, `HR_Export_${new Date().toISOString().slice(0, 10)}.xlsx`); showToast("Excel Downloaded!"); } catch (error) { showToast("Failed to export Excel", "error"); } };
         const exportJSONBackup = () => { const blob = new Blob([JSON.stringify({ candidates: joinees, targets: reqList, jobs: jobsList, training: trainingList, okrs: okrList })], {type: 'application/json'}); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `HR_Backup.json`; a.click(); showToast("Backup Downloaded!"); };
         const clearAllData = () => { if(prompt("Type 'CONFIRM' to clear all data") === "CONFIRM") { joinees = []; localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees)); refreshAllViews(); showToast("Data cleared"); } };
         
@@ -809,7 +1028,7 @@
                 jsonData.forEach((row, idx) => {
                     const phone = String(row['Phone'] || '').replace(/\D/g, '').substring(0, 10);
                     if (phone.length === 10 && !joinees.some(x => x.phone === phone)) {
-                        joinees.push({ id: Date.now() + idx, empId: 'SG-' + (joinees.length + 1).toString().padStart(3, '0'), name: (row['Name'] || '').toUpperCase(), phone: phone, dept: (row['Department'] || 'GENERAL').toUpperCase(), company: (row['Company'] || 'SARATHY MOTORS').toUpperCase(), status: 'PENDING' });
+                        joinees.push({ id: Date.now() + idx, empId: 'SG-' + (joinees.length + 1).toString().padStart(3, '0'), name: (row['Name'] || '').toUpperCase(), phone: phone, dept: (row['Department'] || 'GENERAL').toUpperCase(), company: (row['Company'] || 'SARATHY MOTORS').toUpperCase(), location: (row['Location'] || '').toUpperCase(), status: 'PENDING' });
                     }
                 });
                 localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees)); refreshAllViews(); event.target.value = ''; showToast("Upload complete!");
