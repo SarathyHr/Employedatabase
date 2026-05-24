@@ -88,7 +88,7 @@
         
         .data-table-container { background: var(--bg-secondary); border-radius: 1.25rem; border: 1px solid var(--border-color); overflow: hidden; box-shadow: 0 8px 20px -4px rgba(0,0,0,0.08); max-height: calc(100vh - 260px); overflow-y: auto; }
         .data-table { width: 100%; border-collapse: collapse; }
-        .data-table th { background: linear-gradient(135deg, #f97316, #ea580c); color: #000000; font-size: 0.85rem; font-weight: 900; text-transform: uppercase; text-align: left; padding: 18px 24px; position: sticky; top: 0; z-index: 10; border: 1px solid var(--border-color); }
+        .data-table th { background: linear-gradient(135deg, #f97316, #ea580c); color: #ffffff; font-size: 0.85rem; font-weight: 900; text-transform: uppercase; text-align: left; padding: 18px 24px; position: sticky; top: 0; z-index: 10; border: 1px solid var(--border-color); }
         .data-table td { padding: 18px 24px; font-size: 1rem; border: 1px solid var(--border-color); vertical-align: middle; color: #000000; font-weight: 800; }
         .dark .data-table td { color: #ffffff; border: 1px solid var(--border-color); }
         .data-table tr:hover td { background: rgba(0, 84, 166, 0.04); }
@@ -363,18 +363,17 @@
                             <table class="data-table min-w-[1400px]">
                                 <thead>
                                     <tr>
-                                        <th class="w-16 text-center whitespace-nowrap"><input type="checkbox" id="selectAllCb" onclick="toggleSelectAll()" class="custom-checkbox"></th>
-                                        <th class="whitespace-nowrap">S.NO</th>
-                                        <th class="whitespace-nowrap">NAME</th>
-                                        <th class="whitespace-nowrap">AGE</th>
-                                        <th class="whitespace-nowrap">QUALIFICATION</th>
-                                        <th class="whitespace-nowrap">LOCATION</th>
-                                        <th class="whitespace-nowrap">DEPARTMENT</th>
-                                        <th class="text-center whitespace-nowrap">CURRENT STATUS</th>
-                                        <th class="whitespace-nowrap">INTERVIEW DATE</th>
-                                        <th class="whitespace-nowrap">JOINING DATE</th>
-                                        <th class="whitespace-nowrap">REMARKS</th>
-                                        <th class="text-right whitespace-nowrap">ACTION</th>
+                                        <th class="whitespace-nowrap border border-[var(--border-color)]">S.NO</th>
+                                        <th class="whitespace-nowrap border border-[var(--border-color)]">NAME</th>
+                                        <th class="whitespace-nowrap border border-[var(--border-color)]">AGE</th>
+                                        <th class="whitespace-nowrap border border-[var(--border-color)]">QUALIFICATION</th>
+                                        <th class="whitespace-nowrap border border-[var(--border-color)]">LOCATION</th>
+                                        <th class="whitespace-nowrap border border-[var(--border-color)]">DEPARTMENT</th>
+                                        <th class="text-center whitespace-nowrap border border-[var(--border-color)]">CURRENT STATUS</th>
+                                        <th class="whitespace-nowrap border border-[var(--border-color)]">INTERVIEW DATE</th>
+                                        <th class="whitespace-nowrap border border-[var(--border-color)]">JOINING DATE</th>
+                                        <th class="whitespace-nowrap border border-[var(--border-color)]">REMARKS</th>
+                                        <th class="text-right whitespace-nowrap border border-[var(--border-color)]">ACTION</th>
                                     </tr>
                                 </thead>
                                 <tbody id="candidatesTableBody" class="divide-y divide-[var(--border-color)] bg-[var(--bg-secondary)]"></tbody>
@@ -942,10 +941,10 @@
                 if(listView) listView.classList.remove('hidden'); if(boardView) boardView.classList.add('hidden');
                 const tableBody = document.getElementById('candidatesTableBody');
                 if(tableBody) {
-                    if(filtered.length === 0) tableBody.innerHTML = '<tr><td colspan="12" class="text-center py-16 opacity-60">No candidates found</td></tr>';
+                    if(filtered.length === 0) tableBody.innerHTML = '<tr><td colspan="11" class="text-center py-16 opacity-60">No candidates found</td></tr>';
                     else tableBody.innerHTML = filtered.map((x, i) => {
                         let stClass = x.status === 'SELECTED' ? 'badge-selected' : x.status === 'JOINED' ? 'badge-joined' : x.status === 'PENDING' ? 'badge-pending' : 'badge-rejected';
-                        return `<tr class="hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer" onclick="viewCandidate(${x.id})"><td class="text-center"><input type="checkbox" class="candidate-cb custom-checkbox" value="${x.id}" onclick="updateBulkSelection(${x.id}, this.checked); event.stopPropagation()"></td><td class="font-black text-sm text-black dark:text-white whitespace-nowrap text-center">${i + 1}</td><td class="whitespace-nowrap"><div><p class="font-black text-sm uppercase text-black dark:text-white">${x.name}</p><span class="text-[10px] font-black bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 uppercase px-1.5 py-0.5 rounded mt-1 inline-block">${x.empId}</span></div></td><td class="font-black text-sm text-black dark:text-white whitespace-nowrap text-center">${x.age || '-'}</td><td class="font-black text-sm uppercase text-black dark:text-white whitespace-nowrap">${x.qualification || '-'}</td><td class="font-black text-sm uppercase text-black dark:text-white whitespace-nowrap">${x.location || '-'}</td><td class="whitespace-nowrap"><p class="text-[11px] font-black uppercase text-black dark:text-white">${x.dept}</p><p class="text-[9px] font-bold text-slate-600 dark:text-slate-400 uppercase mt-0.5">${x.company}</p></td><td class="text-center whitespace-nowrap"><span class="status-badge-md ${stClass}">${x.status}</span></td><td class="font-black text-xs uppercase text-black dark:text-white whitespace-nowrap">${formatDateString(x.interviewDate)}</td><td class="font-black text-xs uppercase text-black dark:text-white whitespace-nowrap">${x.joinDate ? formatDateString(x.joinDate) : '-'}</td><td class="font-bold text-sm text-black dark:text-white truncate max-w-[200px]" title="${x.remarks || ''}">${x.remarks || '-'}</td><td class="text-center whitespace-nowrap"><button class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors"><i class="fas fa-eye"></i></button></td></tr>`;
+                        return `<tr class="hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer" onclick="viewCandidate(${x.id})"><td class="font-black text-sm text-black dark:text-white whitespace-nowrap text-center border border-[var(--border-color)]">${i + 1}</td><td class="whitespace-nowrap border border-[var(--border-color)]"><div><p class="font-black text-sm uppercase text-black dark:text-white">${x.name}</p><span class="text-[10px] font-black bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 uppercase px-1.5 py-0.5 rounded mt-1 inline-block">${x.empId}</span></div></td><td class="font-black text-sm text-black dark:text-white whitespace-nowrap text-center border border-[var(--border-color)]">${x.age || '-'}</td><td class="font-black text-sm uppercase text-black dark:text-white whitespace-nowrap border border-[var(--border-color)]">${x.qualification || '-'}</td><td class="font-black text-sm uppercase text-black dark:text-white whitespace-nowrap border border-[var(--border-color)]">${x.location || '-'}</td><td class="whitespace-nowrap border border-[var(--border-color)]"><p class="text-[11px] font-black uppercase text-black dark:text-white">${x.dept}</p><p class="text-[9px] font-bold text-slate-600 dark:text-slate-400 uppercase mt-0.5">${x.company}</p></td><td class="text-center whitespace-nowrap border border-[var(--border-color)]"><span class="status-badge-md ${stClass}">${x.status}</span></td><td class="font-black text-xs uppercase text-black dark:text-white whitespace-nowrap border border-[var(--border-color)]">${formatDateString(x.interviewDate)}</td><td class="font-black text-xs uppercase text-black dark:text-white whitespace-nowrap border border-[var(--border-color)]">${x.joinDate ? formatDateString(x.joinDate) : '-'}</td><td class="font-bold text-sm text-black dark:text-white truncate max-w-[200px] border border-[var(--border-color)]" title="${x.remarks || ''}">${x.remarks || '-'}</td><td class="text-center whitespace-nowrap border border-[var(--border-color)]"><button class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors"><i class="fas fa-eye"></i></button></td></tr>`;
                     }).join('');
                 }
             } else {
