@@ -365,22 +365,22 @@
                     <div id="listView" class="animate-up">
                         <div class="data-table-container overflow-x-auto">
                             <table class="data-table min-w-[1400px]">
-                                <thead>
-                                    <tr>
-                                        <th class="whitespace-nowrap border border-[var(--border-color)]">S.NO</th>
-                                        <th class="whitespace-nowrap border border-[var(--border-color)]">NAME</th>
-                                        <th class="whitespace-nowrap border border-[var(--border-color)]">AGE</th>
-                                        <th class="whitespace-nowrap border border-[var(--border-color)]">QUALIFICATION</th>
-                                        <th class="whitespace-nowrap border border-[var(--border-color)]">LOCATION</th>
-                                        <th class="whitespace-nowrap border border-[var(--border-color)]">DEPARTMENT</th>
-                                        <th class="whitespace-nowrap border border-[var(--border-color)]">COMPANY</th>
-                                        <th class="text-center whitespace-nowrap border border-[var(--border-color)]">CURRENT STATUS</th>
-                                        <th class="whitespace-nowrap border border-[var(--border-color)]">INTERVIEW DATE</th>
-                                        <th class="whitespace-nowrap border border-[var(--border-color)]">JOINING DATE</th>
-                                        <th class="whitespace-nowrap border border-[var(--border-color)]">REMARKS</th>
-                                        <th class="text-right whitespace-nowrap border border-[var(--border-color)]">ACTION</th>
-                                    </tr>
-                                </thead>
+                                <<thead>
+    <tr>
+        <th class="whitespace-nowrap border border-[var(--border-color)]">S.NO</th>
+        <th class="whitespace-nowrap border border-[var(--border-color)]">NAME</th>
+        <th class="whitespace-nowrap border border-[var(--border-color)]">AGE</th>
+        <th class="whitespace-nowrap border border-[var(--border-color)]">QUALIFICATION</th>
+        <th class="whitespace-nowrap border border-[var(--border-color)]">LOCATION</th>
+        <th class="whitespace-nowrap border border-[var(--border-color)]">DEPARTMENT</th>
+        <th class="whitespace-nowrap border border-[var(--border-color)]">COMPANY</th>
+        <th class="text-center whitespace-nowrap border border-[var(--border-color)]">CURRENT STATUS</th>
+        <th class="whitespace-nowrap border border-[var(--border-color)]">INTERVIEW DATE</th>
+        <th class="whitespace-nowrap border border-[var(--border-color)]">JOINING DATE</th>
+        <th class="whitespace-nowrap border border-[var(--border-color)]">REMARKS</th>
+        <th class="text-right whitespace-nowrap border border-[var(--border-color)]">ACTION</th>
+    </tr>
+</thead>
                                 <tbody id="candidatesTableBody" class="divide-y divide-[var(--border-color)] bg-[var(--bg-secondary)]"></tbody>
                             </table>
                         </div>
@@ -947,77 +947,29 @@
                 const tableBody = document.getElementById('candidatesTableBody');
                 if(tableBody) {
                     if(filtered.length === 0) tableBody.innerHTML = '<tr><td colspan="11" class="text-center py-16 opacity-60">No candidates found</td></tr>';
-                    else tableBody.innerHTML = filtered.map((x, i) => {
-                        let stClass = x.status === 'SELECTED' ? 'badge-selected' : x.status === 'JOINED' ? 'badge-joined' : x.status === 'PENDING' ? 'badge-pending' : 'badge-rejected';
-                        return `<tr class="hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer" onclick="viewCandidate(${x.id})"><td class="font-black text-sm text-black dark:text-white whitespace-nowrap text-center border border-[var(--border-color)]">${i + 1}</td><td class="whitespace-nowrap border border-[var(--border-color)]"><div><p class="font-black text-sm uppercase text-black dark:text-white">${x.name}</p><span class="text-[10px] font-black bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 uppercase px-1.5 py-0.5 rounded mt-1 inline-block">${x.empId}</span></div></td><td class="font-black text-sm text-black dark:text-white whitespace-nowrap text-center border border-[var(--border-color)]">${x.age || '-'}</td><td class="font-black text-sm uppercase text-black dark:text-white whitespace-nowrap border border-[var(--border-color)]">${x.qualification || '-'}</td><td class="font-black text-sm uppercase text-black dark:text-white whitespace-nowrap border border-[var(--border-color)]">${x.location || '-'}</td><td class="whitespace-nowrap border border-[var(--border-color)]"><p class="text-[11px] font-black uppercase text-black dark:text-white">${x.dept}</p><p class="text-[9px] font-bold text-slate-600 dark:text-slate-400 uppercase mt-0.5">${x.company}</p></td><td class="text-center whitespace-nowrap border border-[var(--border-color)]"><span class="status-badge-md ${stClass}">${x.status}</span></td><td class="font-black text-xs uppercase text-black dark:text-white whitespace-nowrap border border-[var(--border-color)]">${formatDateString(x.interviewDate)}</td><td class="font-black text-xs uppercase text-black dark:text-white whitespace-nowrap border border-[var(--border-color)]">${x.joinDate ? formatDateString(x.joinDate) : '-'}</td><td class="font-bold text-sm text-black dark:text-white truncate max-w-[200px] border border-[var(--border-color)]" title="${x.remarks || ''}">${x.remarks || '-'}</td><td class="text-center whitespace-nowrap border border-[var(--border-color)]"><button class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors"><i class="fas fa-eye"></i></button></td></tr>`;
-                    }).join('');
-                }
-            } else {
-                if(listView) listView.classList.add('hidden'); if(boardView) boardView.classList.remove('hidden');
-                ['PENDING','SELECTED','JOINED','REJECTED'].forEach(s => { 
-                    const arr = filtered.filter(x=>x.status===s); 
-                    const el = document.getElementById(`board${s.charAt(0)+s.slice(1).toLowerCase()}`); 
-                    const cEl = document.getElementById(`countBoard${s.charAt(0)+s.slice(1).toLowerCase()}`); 
-                    if(el && cEl) { 
-                        cEl.innerText = arr.length; 
-                        el.innerHTML = arr.map(x => `<div class="modern-card p-4 border cursor-pointer hover:border-sarathy-blue active:cursor-grabbing transition-transform bg-white dark:bg-slate-800" draggable="true" ondragstart="dragStart(event, ${x.id})" ondragend="this.classList.remove('dragging')" onclick="viewCandidate(${x.id})"><div class="flex gap-3"><div class="w-10 h-10 rounded-lg flex items-center justify-center font-black text-sm shrink-0 ${getAvatarColor(x.name)}">${x.name[0]}</div><div class="overflow-hidden"><p class="font-black text-xs uppercase truncate">${x.name}</p><p class="text-[9px] font-bold text-slate-500 uppercase mt-0.5 truncate">${x.empId} • ${x.dept}</p><p class="text-[8px] font-bold text-slate-400 uppercase mt-1 truncate"><i class="fas fa-building mr-1"></i>${x.company}</p></div></div></div>`).join(''); 
-                    } 
-                });
-                
-                // Add event listeners for resetting drag-over visual
-                document.querySelectorAll('.kanban-col').forEach(col => {
-                    col.addEventListener('dragleave', (e) => e.currentTarget.classList.remove('drag-over'));
-                });
-            }
-        };
-
-        const toggleSelectAll = () => { const selectAllCb = document.getElementById('selectAllCb'); const checkboxes = document.querySelectorAll('.candidate-cb'); if(selectAllCb.checked) { checkboxes.forEach(cb => { cb.checked = true; if(!selectedCandidates.includes(cb.value)) selectedCandidates.push(cb.value); }); } else { checkboxes.forEach(cb => cb.checked = false); selectedCandidates = []; } updateBulkActionBar(); };
-        const updateBulkSelection = (id, checked) => { if(checked) { if(!selectedCandidates.includes(String(id))) selectedCandidates.push(String(id)); } else { selectedCandidates = selectedCandidates.filter(val => val !== String(id)); document.getElementById('selectAllCb').checked = false; } updateBulkActionBar(); };
-        const clearBulkSelection = () => { selectedCandidates = []; document.querySelectorAll('.candidate-cb').forEach(cb => cb.checked = false); document.getElementById('selectAllCb').checked = false; updateBulkActionBar(); };
-        const updateBulkActionBar = () => { const bar = document.getElementById('bulkActionBar'); const countSpan = document.getElementById('bulkCount'); if(selectedCandidates.length > 0) { bar.classList.add('active'); countSpan.innerText = selectedCandidates.length; } else { bar.classList.remove('active'); } };
-        const copyBulkPhones = () => { if(selectedCandidates.length === 0) return; const phones = joinees.filter(j => selectedCandidates.includes(String(j.id)) && j.phone).map(j => j.phone).join(', '); if(!phones) return showToast("No valid phone numbers found", "error"); navigator.clipboard.writeText(phones).then(() => { showToast(`Copied ${selectedCandidates.length} numbers`); clearBulkSelection(); }); };
-        const bulkUpdateStatus = (newStatus) => { if(selectedCandidates.length === 0) return; joinees.forEach(j => { if(selectedCandidates.includes(String(j.id))) { j.status = newStatus; if(newStatus === 'JOINED' && !j.joinDate) { j.joinDate = new Date().toISOString().slice(0, 10); } if(newStatus !== 'REJECTED') { j.rejectionReason = ''; } } }); localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees)); clearBulkSelection(); refreshAllViews(); showToast(`Marked ${selectedCandidates.length} candidates as ${newStatus}`); if(newStatus === 'SELECTED' || newStatus === 'JOINED') confetti(); };
-        const bulkDelete = () => { if(selectedCandidates.length === 0) return; if(confirm(`Delete ${selectedCandidates.length} candidates?`)) { joinees = joinees.filter(j => !selectedCandidates.includes(String(j.id))); localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees)); clearBulkSelection(); refreshAllViews(); showToast("Deleted", "error"); } };
-
-        const openModal = () => { 
-            const form = document.getElementById('joineeForm');
-            if(form) form.reset(); 
-            document.getElementById('editId').value = ''; 
-            document.getElementById('empId').value = 'SG-' + (joinees.length+1).toString().padStart(3,'0'); 
-            document.getElementById('modalTitle').innerText = "Register Personnel";
-            const rejCont = document.getElementById('rejectionReasonContainer');
-            if(rejCont) { rejCont.classList.add('hidden'); rejCont.classList.remove('flex'); }
-            const empRating = document.getElementById('empRating');
-            if(empRating) empRating.value = 0; 
-            updateStarUI(0); 
-            document.getElementById('addModal')?.classList.remove('hidden'); 
-            setTimeout(()=>{
-                const mc = document.getElementById('modalContent');
-                if(mc) mc.style.transform = 'translateX(0)';
-            }, 10); 
-        };
-        const closeModal = () => { 
-            const mc = document.getElementById('modalContent');
-            if(mc) mc.style.transform = 'translateX(100%)'; 
-            setTimeout(()=>document.getElementById('addModal')?.classList.add('hidden'), 400); 
-        };
-        const closeViewModal = () => { document.getElementById('viewModal').classList.add('hidden'); };
-
-        const editRecord = (id) => {
-            closeViewModal(); const r = joinees.find(x => String(x.id) === String(id)); if(!r) return;
-            document.getElementById('editId').value = r.id; document.getElementById('empId').value = r.empId; document.getElementById('status').value = r.status; document.getElementById('empName').value = r.name; document.getElementById('empAge').value = r.age || ''; document.getElementById('empQual').value = r.qualification || ''; document.getElementById('empPhone').value = r.phone; document.getElementById('empEmail').value = r.email || ''; document.getElementById('empSource').value = r.source || 'Direct/Walk-in'; document.getElementById('dept').value = r.dept || 'OTHER'; document.getElementById('company').value = r.company || 'SARATHY MOTORS'; document.getElementById('interviewDate').value = r.interviewDate || ''; document.getElementById('joinDate').value = r.joinDate || ''; document.getElementById('experience').value = r.experience || 0; document.getElementById('location').value = r.location || ''; document.getElementById('designation').value = r.designation || ''; document.getElementById('empRemarks').value = r.remarks || ''; document.getElementById('empRating').value = r.rating || 0; updateStarUI(r.rating || 0);
-            const rejCont = document.getElementById('rejectionReasonContainer');
-            if(r.status === 'REJECTED') { if(rejCont){rejCont.classList.remove('hidden'); rejCont.classList.add('flex');} document.getElementById('rejectionReason').value = r.rejectionReason || ''; } else { if(rejCont){rejCont.classList.add('hidden'); rejCont.classList.remove('flex');} document.getElementById('rejectionReason').value = ''; }
-            document.getElementById('modalTitle').innerText = "Edit Details"; document.getElementById('addModal')?.classList.remove('hidden'); setTimeout(()=>document.getElementById('modalContent').style.transform = 'translateX(0)', 10);
-        };
-
-        document.getElementById('joineeForm')?.addEventListener('submit', (e) => {
-            e.preventDefault(); const editIdVal = document.getElementById('editId').value; const currentStatus = document.getElementById('status').value;
-            const data = { id: editIdVal ? parseInt(editIdVal) : Date.now(), empId: document.getElementById('empId').value, name: document.getElementById('empName').value.trim().toUpperCase(), age: document.getElementById('empAge').value, qualification: document.getElementById('empQual').value.trim().toUpperCase(), phone: document.getElementById('empPhone').value, email: document.getElementById('empEmail').value.trim(), source: document.getElementById('empSource').value, dept: document.getElementById('dept').value.trim().toUpperCase(), company: document.getElementById('company').value, status: currentStatus, interviewDate: document.getElementById('interviewDate').value, joinDate: document.getElementById('joinDate').value, experience: parseFloat(document.getElementById('experience').value)||0, location: document.getElementById('location').value.trim().toUpperCase(), designation: document.getElementById('designation').value.trim().toUpperCase(), remarks: document.getElementById('empRemarks').value.trim(), rejectionReason: currentStatus === 'REJECTED' ? document.getElementById('rejectionReason').value : '', rating: parseInt(document.getElementById('empRating').value) || 0, onboarding: editIdVal ? (joinees.find(x=>x.id==editIdVal).onboarding || {}) : { idCard: false, bank: false, pf: false, training: false } };
-            if(data.status === 'JOINED' && !data.joinDate) { data.joinDate = new Date().toISOString().slice(0, 10); }
-            if(editIdVal) { const idx = joinees.findIndex(x => String(x.id) === String(editIdVal)); if(idx > -1) { joinees[idx] = data; showToast("Record Updated!"); } } else { joinees.push(data); showToast("Record Saved!"); if(data.status==='SELECTED' || data.status==='JOINED') confetti(); }
-            localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees)); closeModal(); refreshAllViews();
-        });
+                   else tableBody.innerHTML = filtered.map((x, i) => {
+    let stClass = x.status === 'SELECTED' ? 'badge-selected' : x.status === 'JOINED' ? 'badge-joined' : x.status === 'PENDING' ? 'badge-pending' : 'badge-rejected';
+    
+    return `<tr class="hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer" onclick="viewCandidate(${x.id})">
+        <td class="font-black text-sm text-black dark:text-white whitespace-nowrap text-center border border-[var(--border-color)]">${i + 1}</td>
+        <td class="whitespace-nowrap border border-[var(--border-color)]">
+            <div>
+                <p class="font-black text-sm uppercase text-black dark:text-white">${x.name}</p>
+                <span class="text-[10px] font-black bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 uppercase px-1.5 py-0.5 rounded mt-1 inline-block">${x.empId}</span>
+            </div>
+        </td>
+        <td class="font-black text-sm text-black dark:text-white whitespace-nowrap text-center border border-[var(--border-color)]">${x.age || '-'}</td>
+        <td class="font-black text-sm uppercase text-black dark:text-white whitespace-nowrap border border-[var(--border-color)]">${x.qualification || '-'}</td>
+        <td class="font-black text-sm uppercase text-black dark:text-white whitespace-nowrap border border-[var(--border-color)]">${x.location || '-'}</td>
+        <td class="font-black text-sm uppercase text-black dark:text-white whitespace-nowrap border border-[var(--border-color)]">${x.dept || '-'}</td>
+        <td class="font-black text-sm uppercase text-black dark:text-white whitespace-nowrap border border-[var(--border-color)]">${x.company || '-'}</td>
+        <td class="text-center whitespace-nowrap border border-[var(--border-color)]"><span class="status-badge-md ${stClass}">${x.status}</span></td>
+        <td class="font-black text-xs uppercase text-black dark:text-white whitespace-nowrap border border-[var(--border-color)]">${formatDateString(x.interviewDate)}</td>
+        <td class="font-black text-xs uppercase text-black dark:text-white whitespace-nowrap border border-[var(--border-color)]">${x.joinDate ? formatDateString(x.joinDate) : '-'}</td>
+        <td class="font-bold text-sm text-black dark:text-white truncate max-w-[200px] border border-[var(--border-color)]" title="${x.remarks || ''}">${x.remarks || '-'}</td>
+        <td class="text-center whitespace-nowrap border border-[var(--border-color)]"><button class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors"><i class="fas fa-eye"></i></button></td>
+    </tr>`;
+}).join('');
 
         const viewCandidate = (id) => {
             const r = joinees.find(x=> String(x.id) === String(id)); if(!r) return;
