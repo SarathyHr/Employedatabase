@@ -222,7 +222,7 @@
     <!-- PRINT AREA -->
     <div id="printArea" class="hidden print:block z-[9999] bg-white text-black"></div>
 
-    <!-- PUBLIC APPLICATION PAGE (Responsive & Modernized) -->
+    <!-- PUBLIC APPLICATION PAGE (Responsive & Modernized like Google Form) -->
     <div id="applicationPage" class="fixed inset-0 z-[200] hidden items-center justify-center p-4 md:p-8 bg-slate-50 dark:bg-slate-900 overflow-y-auto custom-scroll transition-opacity duration-500">
         <div class="bg-shapes">
             <div class="shape-1"></div>
@@ -1050,7 +1050,6 @@
     <!-- HIDDEN OFFER LETTER TEMPLATE -->
     <div id="offerLetterTemplateContainer" class="hidden absolute top-[-9999px] left-[-9999px]">
         <div id="offerLetterContent" style="padding: 60px; font-family: 'Times New Roman', serif; color: #000; background: #fff; width: 800px; min-height: 1000px; box-sizing: border-box;">
-            <!-- Content matches original code for PDF generation -->
             <div style="text-align: center; border-bottom: 3px solid #0054A6; padding-bottom: 20px; margin-bottom: 40px;">
                 <h1 style="color: #0054A6; margin: 0; font-size: 32px; font-weight: 900; text-transform: uppercase;">SARATHY GROUP</h1>
                 <p style="margin: 5px 0 0 0; font-size: 16px; font-weight: bold; color: #555; text-transform: uppercase;" id="olCompany">Sarathy Motors</p>
@@ -1110,6 +1109,7 @@
         let draggedCandidateId = null;
 
         const urlParams = new URLSearchParams(window.location.search);
+        // Is Apply View (Google Form Mode) Check
         const isApplyView = urlParams.get('view') === 'apply';
 
         let db = null;
@@ -1218,7 +1218,6 @@
             const syncCollection = (collectionName, onUpdate, defaultData) => {
                 const colRef = collection(db, 'artifacts', appId, 'public', 'data', collectionName);
                 
-                // Seed database on the first run ever if it's completely empty
                 getDocs(colRef).then((qSnap) => {
                     if (qSnap.empty && defaultData && defaultData.length > 0) {
                         defaultData.forEach(item => {
@@ -1281,7 +1280,7 @@
             const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
             if (!firebaseConfig) {
                 console.log("No cloud configuration found. Running in local state fallback mode.");
-                refreshAllViews();
+                if(!isApplyView) refreshAllViews();
                 return;
             }
             
@@ -1292,7 +1291,7 @@
                 
                 let user = null;
                 const customToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
-                if (customToken) {
+                if (customToken && !isApplyView) {
                     const credentials = await signInWithCustomToken(auth, customToken);
                     user = credentials.user;
                 } else {
@@ -1302,13 +1301,18 @@
                 
                 if (user) {
                     console.log("Authenticated successfully with Cloud service.");
-                    setupRealtimeSync();
+                    if(isApplyView) {
+                        // For Google Form mode, DO NOT load all candidates. Keep it secure!
+                        console.log("Apply Form Mode: Sync blocked for security.");
+                    } else {
+                        setupRealtimeSync();
+                    }
                 } else {
-                    refreshAllViews();
+                    if(!isApplyView) refreshAllViews();
                 }
             } catch (err) {
                 console.error("Cloud synchronization init failed, fallback mode enabled.", err);
-                refreshAllViews();
+                if(!isApplyView) refreshAllViews();
             }
         }
 
@@ -1874,18 +1878,52 @@
             localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees)); closeModal(); refreshAllViews();
         });
 
-        // PUBLIC APPLICATION FORM SUBMISSION LOGIC
+        // PUBLIC APPLICATION FORM SUBMISSION LOGIC (Google Form Alternative)
         document.getElementById('publicApplyForm')?.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const nextEmpId = 'SG-' + (joinees.length + 1).toString().padStart(3, '0');
+            const tempEmpId = 'APP-' + Math.floor(Math.random() * 10000).toString(); // Temporary ID generated
+            const candidateId = Date.now();
+
             const newCandidate = {
-                id: Date.now(), empId: nextEmpId, name: document.getElementById('pubName').value.trim().toUpperCase(), age: document.getElementById('pubAge').value, phone: document.getElementById('pubPhone').value, email: document.getElementById('pubEmail').value.trim(), qualification: document.getElementById('pubQual').value.trim().toUpperCase(), experience: parseFloat(document.getElementById('pubExp').value) || 0, dept: document.getElementById('pubDept').value, location: document.getElementById('pubLocation').value, source: 'Online Portal', company: 'ALL', status: 'PENDING', interviewDate: '', joinDate: '', designation: '', remarks: 'Applied Online', rejectionReason: '', rating: 0, onboarding: { idCard: false, bank: false, pf: false, training: false }
+                id: candidateId, 
+                empId: tempEmpId, 
+                name: document.getElementById('pubName').value.trim().toUpperCase(), 
+                age: document.getElementById('pubAge').value, 
+                phone: document.getElementById('pubPhone').value, 
+                email: document.getElementById('pubEmail').value.trim(), 
+                qualification: document.getElementById('pubQual').value.trim().toUpperCase(), 
+                experience: parseFloat(document.getElementById('pubExp').value) || 0, 
+                dept: document.getElementById('pubDept').value, 
+                location: document.getElementById('pubLocation').value, 
+                source: 'Online Portal', 
+                company: 'ALL', 
+                status: 'PENDING', 
+                interviewDate: '', 
+                joinDate: '', 
+                designation: '', 
+                remarks: 'Applied Online via Public Form', 
+                rejectionReason: '', 
+                rating: 0, 
+                onboarding: { idCard: false, bank: false, pf: false, training: false }
             };
-            joinees.push(newCandidate); 
-            await writeToCloud('candidates', newCandidate.id, newCandidate);
-            localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees));
+
+            if (db && auth && auth.currentUser) {
+                // Direct feed to Cloud Database (Doesn't download the whole database)
+                try {
+                    await writeToCloud('candidates', newCandidate.id, newCandidate);
+                } catch(err) {
+                    console.error("Submission failed", err);
+                    await showDialogModal('alert', 'Error', 'Failed to submit application. Please try again.');
+                    return;
+                }
+            } else {
+                // Fallback to local storage
+                joinees.push(newCandidate); 
+                localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees));
+            }
+            
             confetti({particleCount: 150, spread: 80, origin: { y: 0.6 }});
-            await showDialogModal('alert', 'Success!', `Thank you ${newCandidate.name}. Your application has been submitted successfully.`);
+            await showDialogModal('alert', 'Success!', `Thank you ${newCandidate.name}. Your application has been submitted successfully to HR Database.`);
             document.getElementById('publicApplyForm').reset();
         });
 
@@ -1893,6 +1931,44 @@
             const applyLink = window.location.origin + window.location.pathname + '?view=apply';
             const el = document.createElement('textarea'); el.value = applyLink; document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el);
             showToast("Form Link Copied!");
+        };
+
+        // Added functionality for generating PDF Offer Letter
+        const generateOfferLetter = (id) => {
+            const r = joinees.find(x => String(x.id) === String(id));
+            if(!r) return;
+            
+            document.getElementById('olCompany').innerText = r.company || 'SARATHY GROUP';
+            document.getElementById('olDate').innerText = new Date().toISOString().slice(0, 10);
+            document.getElementById('olRef').innerText = 'OL/' + new Date().getFullYear() + '/' + r.empId;
+            document.getElementById('olName').innerText = r.name;
+            document.getElementById('olEmpId').innerText = r.empId;
+            document.getElementById('olNamePrefix').innerText = r.name.split(' ')[0];
+            document.getElementById('olDesignation').innerText = r.designation || 'EMPLOYEE';
+            document.getElementById('olDept').innerText = r.dept;
+            document.getElementById('olCompanyBody').innerText = r.company || 'Sarathy Group';
+            document.getElementById('olLocation').innerText = r.location || 'our branch';
+            document.getElementById('olJoinDate').innerText = r.joinDate ? formatDateString(r.joinDate) : 'TBD';
+
+            const element = document.getElementById('offerLetterContent');
+            const opt = {
+                margin: 0.5,
+                filename: `Offer_Letter_${r.name.replace(/\s+/g, '_')}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+            };
+            
+            document.getElementById('offerLetterTemplateContainer').classList.remove('hidden');
+            document.getElementById('offerLetterTemplateContainer').style.top = '0';
+            document.getElementById('offerLetterTemplateContainer').style.left = '0';
+            document.getElementById('offerLetterTemplateContainer').style.zIndex = '-1';
+            
+            html2pdf().set(opt).from(element).save().then(() => {
+                document.getElementById('offerLetterTemplateContainer').classList.add('hidden');
+                document.getElementById('offerLetterTemplateContainer').style.top = '-9999px';
+            });
+            showToast('Generating Offer Letter PDF...');
         };
 
         const viewCandidate = (id) => {
