@@ -143,17 +143,13 @@
             font-size: 0.95rem; transition: all 0.2s ease; margin-bottom: 4px; 
             cursor: pointer; position: relative; overflow: hidden;
         }
-        .nav-link:hover { background: rgba(0, 84, 166, 0.05); color: #0054A6; }
-        .dark .nav-link:hover { background: rgba(255, 255, 255, 0.05); color: #fff; }
-        
+        .nav-link:hover { background: var(--bg-primary); color: var(--text-primary); }
         .nav-link.active { 
-            background: rgba(0, 84, 166, 0.12) !important; 
-            color: #0054A6 !important; 
-            box-shadow: none !important; 
+            background: transparent; 
+            color: #0054A6; 
         }
         .dark .nav-link.active {
-            background: rgba(96, 165, 250, 0.15) !important;
-            color: #60a5fa !important;
+            color: #3b82f6;
         }
         
         .tab-content { display: none; opacity: 0; transition: opacity 0.3s ease; height: 100%; overflow-y: auto; padding-bottom: 120px; }
@@ -575,24 +571,6 @@
                             </div>
                         </div>
                     </div>
-                    
-                    <!-- Bulk Action Bar -->
-                    <div id="bulkActionBar" class="fixed bottom-20 md:bottom-6 left-1/2 -translate-x-1/2 bg-slate-900 text-white px-4 md:px-6 py-3 rounded-2xl shadow-2xl flex items-center justify-between gap-6 z-[80] transform translate-y-[150%] transition-transform duration-300 w-[90%] md:w-auto">
-                        <div class="flex items-center gap-3">
-                            <span id="bulkCount" class="w-8 h-8 flex items-center justify-center bg-blue-600 rounded-full font-bold text-sm">0</span>
-                            <span class="text-xs font-medium opacity-80 hidden md:inline">selected</span>
-                        </div>
-                        <div class="flex gap-2 overflow-x-auto no-scrollbar">
-                            <button onclick="copyBulkPhones()" class="px-3 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-xs font-bold whitespace-nowrap transition-colors"><i class="fab fa-whatsapp mr-1 text-green-400"></i> Phones</button>
-                            <div class="w-px h-6 bg-white/20 self-center mx-1"></div>
-                            <button onclick="bulkUpdateStatus('PENDING')" class="px-3 py-2 bg-white/10 hover:bg-amber-500/20 text-amber-300 rounded-lg text-xs font-bold transition-colors">Pending</button>
-                            <button onclick="bulkUpdateStatus('SELECTED')" class="px-3 py-2 bg-white/10 hover:bg-emerald-500/20 text-emerald-300 rounded-lg text-xs font-bold transition-colors">Select</button>
-                            <button onclick="bulkUpdateStatus('JOINED')" class="px-3 py-2 bg-white/10 hover:bg-blue-500/20 text-blue-300 rounded-lg text-xs font-bold transition-colors">Join</button>
-                            <div class="w-px h-6 bg-white/20 self-center mx-1"></div>
-                            <button onclick="bulkDelete()" class="px-3 py-2 bg-red-500/20 hover:bg-red-500/40 text-red-300 rounded-lg text-xs font-bold transition-colors"><i class="fas fa-trash"></i></button>
-                        </div>
-                        <button onclick="clearBulkSelection()" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex justify-center items-center shrink-0"><i class="fas fa-times"></i></button>
-                    </div>
 
                     <!-- List View -->
                     <div id="listView" class="animate-up">
@@ -600,7 +578,6 @@
                             <table class="data-table min-w-[1200px]">
                                 <thead>
                                     <tr>
-                                        <th class="w-12 text-center"><input type="checkbox" id="selectAllCb" onchange="toggleSelectAll()" class="custom-checkbox"></th>
                                         <th>Candidate Info</th>
                                         <th>Details</th>
                                         <th>Position</th>
@@ -1111,7 +1088,7 @@
         let trainingList = JSON.parse(localStorage.getItem(TRAINING_DB_VERSION)) || [];
         let okrList = JSON.parse(localStorage.getItem(OKR_DB_VERSION)) || [];
         
-        let currentTab = 'dashboard'; let tabHistory = []; let currentView = 'list'; let activeFilter = 'All'; let chartStatus, chartSource, chartSourcePie, chartRejection; let calendarDate = new Date(); let selectedCandidates = [];
+        let currentTab = 'dashboard'; let tabHistory = []; let currentView = 'list'; let activeFilter = 'All'; let chartStatus, chartSource, chartSourcePie, chartRejection; let calendarDate = new Date();
         let draggedCandidateId = null;
 
         const urlParams = new URLSearchParams(window.location.search);
@@ -1707,14 +1684,11 @@
                 if(listView) listView.classList.remove('hidden'); if(boardView) boardView.classList.add('hidden');
                 const tableBody = document.getElementById('candidatesTableBody');
                 if(tableBody) {
-                    if(filtered.length === 0) tableBody.innerHTML = '<tr><td colspan="7" class="text-center py-16 text-slate-500 font-medium">No candidates found matching criteria</td></tr>';
+                    if(filtered.length === 0) tableBody.innerHTML = '<tr><td colspan="6" class="text-center py-16 text-slate-500 font-medium">No candidates found matching criteria</td></tr>';
                     else tableBody.innerHTML = filtered.map(x => {
                         let stClass = x.status === 'SELECTED' ? 'badge-selected' : x.status === 'JOINED' ? 'badge-joined' : x.status === 'PENDING' ? 'badge-pending' : 'badge-rejected';
                         return `
                         <tr class="hover:bg-[var(--bg-primary)] transition-colors cursor-pointer group">
-                            <td class="text-center" onclick="event.stopPropagation()">
-                                <input type="checkbox" value="${x.id}" onchange="updateBulkSelection(${x.id}, this.checked)" class="candidate-cb custom-checkbox" ${selectedCandidates.includes(String(x.id)) ? 'checked' : ''}>
-                            </td>
                             <td onclick="viewCandidate(${x.id})">
                                 <div class="flex items-center gap-3">
                                     <div class="w-10 h-10 rounded-full flex items-center justify-center font-black text-sm shrink-0 ${getAvatarColor(x.name)}">${x.name[0]}</div>
@@ -1771,65 +1745,6 @@
                 
                 document.querySelectorAll('.kanban-col').forEach(col => { col.addEventListener('dragleave', (e) => e.currentTarget.classList.remove('drag-over')); });
             }
-        };
-
-        const toggleSelectAll = () => { 
-            const selectAllCb = document.getElementById('selectAllCb'); const checkboxes = document.querySelectorAll('.candidate-cb'); 
-            if(selectAllCb && selectAllCb.checked) { 
-                checkboxes.forEach(cb => { cb.checked = true; if(!selectedCandidates.includes(String(cb.value))) selectedCandidates.push(String(cb.value)); }); 
-            } else { 
-                checkboxes.forEach(cb => cb.checked = false); selectedCandidates = []; 
-            } 
-            updateBulkActionBar(); 
-        };
-        const updateBulkSelection = (id, checked) => { 
-            if(checked) { if(!selectedCandidates.includes(String(id))) selectedCandidates.push(String(id)); } 
-            else { selectedCandidates = selectedCandidates.filter(val => val !== String(id)); const selectAllCb = document.getElementById('selectAllCb'); if (selectAllCb) selectAllCb.checked = false; } 
-            updateBulkActionBar(); 
-        };
-        const clearBulkSelection = () => { selectedCandidates = []; document.querySelectorAll('.candidate-cb').forEach(cb => cb.checked = false); const selectAllCb = document.getElementById('selectAllCb'); if(selectAllCb) selectAllCb.checked = false; updateBulkActionBar(); };
-        
-        const updateBulkActionBar = () => { 
-            const bar = document.getElementById('bulkActionBar'); const countSpan = document.getElementById('bulkCount'); 
-            if(selectedCandidates.length > 0) { 
-                bar.classList.remove('translate-y-[150%]');
-                countSpan.innerText = selectedCandidates.length; 
-            } else { 
-                bar.classList.add('translate-y-[150%]');
-            } 
-        };
-        
-        const copyBulkPhones = () => { 
-            if(selectedCandidates.length === 0) return; 
-            const phones = joinees.filter(j => selectedCandidates.includes(String(j.id)) && j.phone).map(j => j.phone).join(', '); 
-            if(!phones) return showToast("No valid phone numbers found", "error"); 
-            const el = document.createElement('textarea'); el.value = phones; document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el);
-            showToast(`Copied ${selectedCandidates.length} numbers`); clearBulkSelection(); 
-        };
-
-        const bulkUpdateStatus = async (newStatus) => { 
-            if(selectedCandidates.length === 0) return; 
-            const updates = [];
-            joinees.forEach(j => { 
-                if(selectedCandidates.includes(String(j.id))) { 
-                    j.status = newStatus; 
-                    if(newStatus === 'JOINED' && !j.joinDate) j.joinDate = new Date().toISOString().slice(0, 10); 
-                    if(newStatus !== 'REJECTED') j.rejectionReason = ''; 
-                    updates.push(writeToCloud('candidates', j.id, j));
-                } 
-            }); 
-            await Promise.all(updates);
-            localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees)); clearBulkSelection(); refreshAllViews(); showToast(`Marked as ${newStatus}`); if(newStatus === 'SELECTED' || newStatus === 'JOINED') confetti(); 
-        };
-        const bulkDelete = async () => { 
-            if(selectedCandidates.length === 0) return; 
-            const confirmDelete = await showDialogModal('confirm', 'Delete Candidates', `Delete ${selectedCandidates.length} selected candidate(s)?`);
-            if(confirmDelete) { 
-                const deletes = selectedCandidates.map(id => removeFromCloud('candidates', id));
-                await Promise.all(deletes);
-                joinees = joinees.filter(j => !selectedCandidates.includes(String(j.id))); 
-                localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees)); clearBulkSelection(); refreshAllViews(); showToast("Deleted successfully", "error"); 
-            } 
         };
 
         const openModal = () => { 
@@ -2356,12 +2271,6 @@
         window.dragStart = dragStart;
         window.setQuickFilter = setQuickFilter;
         window.setView = setView;
-        window.toggleSelectAll = toggleSelectAll;
-        window.updateBulkSelection = updateBulkSelection;
-        window.clearBulkSelection = clearBulkSelection;
-        window.copyBulkPhones = copyBulkPhones;
-        window.bulkUpdateStatus = bulkUpdateStatus;
-        window.bulkDelete = bulkDelete;
         window.printNative = printNative;
         window.toggleDarkMode = toggleDarkMode;
         window.exportJSONBackup = exportJSONBackup;
