@@ -108,7 +108,7 @@
             appearance: none;
         }
         .input-base:focus {
-            border-color: theme('colors.sarathy.blue');
+            border-color: #0054A6;
             box-shadow: 0 0 0 4px rgba(0, 84, 166, 0.1);
         }
         .dark .input-base:focus {
@@ -143,11 +143,17 @@
             font-size: 0.95rem; transition: all 0.2s ease; margin-bottom: 4px; 
             cursor: pointer; position: relative; overflow: hidden;
         }
-        .nav-link:hover { background: var(--bg-primary); color: var(--text-primary); }
+        .nav-link:hover { background: rgba(0, 84, 166, 0.05); color: #0054A6; }
+        .dark .nav-link:hover { background: rgba(255, 255, 255, 0.05); color: #fff; }
+        
         .nav-link.active { 
-            background: theme('colors.sarathy.blue'); 
-            color: white; 
-            box-shadow: 0 4px 14px 0 rgba(0, 84, 166, 0.39); 
+            background: rgba(0, 84, 166, 0.12) !important; 
+            color: #0054A6 !important; 
+            box-shadow: none !important; 
+        }
+        .dark .nav-link.active {
+            background: rgba(96, 165, 250, 0.15) !important;
+            color: #60a5fa !important;
         }
         
         .tab-content { display: none; opacity: 0; transition: opacity 0.3s ease; height: 100%; overflow-y: auto; padding-bottom: 120px; }
@@ -155,19 +161,19 @@
         
         /* Kanban Board */
         .kanban-col { background: var(--bg-primary); border-radius: 1.5rem; padding: 1rem; min-height: 50vh; transition: all 0.2s; display: flex; flex-direction: column; }
-        .kanban-col.drag-over { background: rgba(0, 84, 166, 0.03); border: 2px dashed theme('colors.sarathy.blue'); transform: scale(1.01); }
+        .kanban-col.drag-over { background: rgba(0, 84, 166, 0.03); border: 2px dashed #0054A6; transform: scale(1.01); }
         
         /* Calendar */
         .calendar-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
         .calendar-day { min-height: 80px; border-radius: 12px; border: 1px solid var(--border-color); padding: 8px; display: flex; flex-direction: column; background: var(--bg-secondary); transition: all 0.2s; }
-        .calendar-day.today { background: rgba(0, 84, 166, 0.05); border: 2px solid theme('colors.sarathy.blue'); }
+        .calendar-day.today { background: rgba(0, 84, 166, 0.05); border: 2px solid #0054A6; }
         .calendar-event { font-size: 0.7rem; padding: 4px 6px; border-radius: 6px; margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 700; cursor: pointer; transition: transform 0.2s; }
         
         /* Utilities */
         .gradient-text { background: linear-gradient(135deg, #0054A6, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .dark .gradient-text { background: linear-gradient(135deg, #60a5fa, #93c5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         
-        .fab { position: fixed; bottom: 24px; right: 24px; width: 60px; height: 60px; border-radius: 1rem; background: theme('colors.sarathy.blue'); color: white; display: flex; justify-content: center; align-items: center; box-shadow: 0 10px 25px -5px rgba(0, 84, 166, 0.5); z-index: 50; cursor: pointer; transition: all 0.3s; }
+        .fab { position: fixed; bottom: 24px; right: 24px; width: 60px; height: 60px; border-radius: 1rem; background: #0054A6; color: white; display: flex; justify-content: center; align-items: center; box-shadow: 0 10px 25px -5px rgba(0, 84, 166, 0.5); z-index: 50; cursor: pointer; transition: all 0.3s; }
         .fab:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0, 84, 166, 0.5); }
         
         /* Data Tables */
@@ -178,7 +184,7 @@
         .data-table tr:last-child td { border-bottom: none; }
         .data-table tr:hover td { background: var(--bg-primary); }
         
-        .custom-checkbox { width: 22px; height: 22px; cursor: pointer; accent-color: theme('colors.sarathy.blue'); border-radius: 6px; }
+        .custom-checkbox { width: 22px; height: 22px; cursor: pointer; accent-color: #0054A6; border-radius: 6px; }
         
         /* Badges */
         .status-badge { padding: 6px 12px; border-radius: 9999px; font-size: 0.7rem; font-weight: 800; display: inline-flex; align-items: center; justify-content: center; text-transform: uppercase; letter-spacing: 0.05em; }
@@ -193,7 +199,7 @@
         
         /* Progress Slider */
         .progress-slider { -webkit-appearance: none; width: 100%; height: 8px; border-radius: 4px; background: var(--border-color); outline: none; }
-        .progress-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 20px; height: 20px; border-radius: 50%; background: theme('colors.sarathy.blue'); cursor: pointer; transition: transform 0.1s; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        .progress-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 20px; height: 20px; border-radius: 50%; background: #0054A6; cursor: pointer; transition: transform 0.1s; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
         .progress-slider::-webkit-slider-thumb:hover { transform: scale(1.2); }
 
         .dragging { opacity: 0.5; transform: scale(0.95); cursor: grabbing !important; }
