@@ -78,8 +78,6 @@
         
         .fab { position: fixed; bottom: 30px; right: 30px; width: 64px; height: 64px; border-radius: 50%; background: linear-gradient(135deg, #0054A6, #003366); color: white; display: flex; justify-content: center; align-items: center; box-shadow: 0 12px 25px rgba(0, 84, 166, 0.5); z-index: 50; cursor: pointer; transition: all 0.3s; }
         .fab:hover { transform: scale(1.1) rotate(90deg); box-shadow: 0 15px 30px rgba(0, 84, 166, 0.6); }
-        .fab-notes { position: fixed; bottom: 110px; right: 30px; width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(135deg, #f59e0b, #d97706); color: white; display: flex; justify-content: center; align-items: center; box-shadow: 0 10px 20px rgba(245, 158, 11, 0.4); z-index: 50; cursor: pointer; transition: all 0.3s; }
-        .fab-notes:hover { transform: scale(1.15); }
         
         .summary-table { width: 100%; border-collapse: separate; border-spacing: 0; margin-bottom: 1.5rem; font-size: 0.8rem; }
         .summary-table th { background: var(--bg-primary); color: var(--text-secondary); font-weight: 800; text-transform: uppercase; text-align: left; padding: 14px 18px; position: sticky; top: 0; z-index: 10; border-bottom: 2px solid var(--border-color); }
@@ -150,6 +148,68 @@
     <!-- PRINT AREA -->
     <div id="printArea" class="hidden print:block z-[9999] bg-white text-black"></div>
 
+    <!-- PUBLIC APPLICATION PAGE -->
+    <div id="applicationPage" class="fixed inset-0 z-[200] hidden items-center justify-center p-4 md:p-6 bg-slate-50 dark:bg-slate-900 overflow-y-auto custom-scroll transition-opacity duration-500">
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            <div class="absolute -top-[20%] -right-[10%] w-[60%] h-[60%] rounded-full bg-blue-200/40 dark:bg-blue-900/20 blur-3xl"></div>
+            <div class="absolute -bottom-[20%] -left-[10%] w-[60%] h-[60%] rounded-full bg-indigo-100/40 dark:bg-indigo-900/20 blur-3xl"></div>
+        </div>
+        <div class="w-full max-w-3xl animate-up relative z-10 my-auto">
+            <div class="bg-white dark:bg-slate-800 p-8 md:p-10 rounded-[2rem] shadow-2xl border border-slate-100 dark:border-slate-700">
+                <div class="mb-8 text-center border-b pb-6 border-slate-200 dark:border-slate-700">
+                    <div class="bg-white p-3 rounded-2xl inline-block shadow-lg mb-5 shadow-blue-500/10 border border-slate-100">
+                        <img src="sarathy-group-logo.png" alt="Sarathy Logo" class="h-16 object-contain mx-auto" onerror="this.style.display='none'; document.getElementById('logoFallbackApply').classList.remove('hidden')">
+                        <div id="logoFallbackApply" class="hidden text-sarathy-blue font-black text-3xl px-6 py-2">SARATHY</div>
+                    </div>
+                    <h2 class="text-3xl font-black text-slate-800 dark:text-white tracking-tight mt-2 uppercase">Career Application</h2>
+                    <p class="text-sm font-bold text-slate-500 dark:text-slate-400 mt-2">Join the Sarathy Group team. Fill out the details below.</p>
+                </div>
+                
+                <form id="publicApplyForm" class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div class="flex flex-col"><label class="text-[10px] font-black uppercase mb-1 text-slate-500 dark:text-slate-400">Full Name *</label><input type="text" id="pubName" required placeholder="John Doe" class="w-full p-4 border rounded-xl font-bold uppercase outline-none focus:border-sarathy-blue bg-slate-50 dark:bg-slate-900 dark:border-slate-700 dark:text-white"></div>
+                        <div class="flex flex-col"><label class="text-[10px] font-black uppercase mb-1 text-slate-500 dark:text-slate-400">Age *</label><input type="number" id="pubAge" required placeholder="25" class="w-full p-4 border rounded-xl font-bold outline-none focus:border-sarathy-blue bg-slate-50 dark:bg-slate-900 dark:border-slate-700 dark:text-white"></div>
+                        <div class="flex flex-col"><label class="text-[10px] font-black uppercase mb-1 text-slate-500 dark:text-slate-400">Phone Number *</label><input type="tel" id="pubPhone" required pattern="[0-9]{10}" placeholder="10 Digit Mobile No" class="w-full p-4 border rounded-xl font-bold outline-none focus:border-sarathy-blue bg-slate-50 dark:bg-slate-900 dark:border-slate-700 dark:text-white"></div>
+                        <div class="flex flex-col"><label class="text-[10px] font-black uppercase mb-1 text-slate-500 dark:text-slate-400">Email Address</label><input type="email" id="pubEmail" placeholder="john@example.com" class="w-full p-4 border rounded-xl font-bold outline-none focus:border-sarathy-blue bg-slate-50 dark:bg-slate-900 dark:border-slate-700 dark:text-white"></div>
+                        <div class="flex flex-col"><label class="text-[10px] font-black uppercase mb-1 text-slate-500 dark:text-slate-400">Highest Qualification *</label><input type="text" id="pubQual" required placeholder="B.Tech, MBA, etc." class="w-full p-4 border rounded-xl font-bold uppercase outline-none focus:border-sarathy-blue bg-slate-50 dark:bg-slate-900 dark:border-slate-700 dark:text-white"></div>
+                        <div class="flex flex-col"><label class="text-[10px] font-black uppercase mb-1 text-slate-500 dark:text-slate-400">Total Experience (Years) *</label><input type="number" step="0.5" id="pubExp" required placeholder="e.g. 2.5" class="w-full p-4 border rounded-xl font-bold outline-none focus:border-sarathy-blue bg-slate-50 dark:bg-slate-900 dark:border-slate-700 dark:text-white"></div>
+                        
+                        <div class="flex flex-col"><label class="text-[10px] font-black uppercase mb-1 text-slate-500 dark:text-slate-400">Department Applying For *</label>
+                            <select id="pubDept" required class="w-full p-4 border rounded-xl font-bold uppercase outline-none focus:border-sarathy-blue bg-slate-50 dark:bg-slate-900 dark:border-slate-700 dark:text-white">
+                                <option value="" disabled selected>Select Department</option>
+                                <option value="SALES">Sales</option>
+                                <option value="SERVICE">Service</option>
+                                <option value="SPARE">Spare</option>
+                                <option value="HR">HR</option>
+                                <option value="ADMIN">Admin</option>
+                                <option value="FINANCE">Finance</option>
+                                <option value="OTHER">Other</option>
+                            </select>
+                        </div>
+                        <div class="flex flex-col"><label class="text-[10px] font-black uppercase mb-1 text-slate-500 dark:text-slate-400">Preferred Location *</label>
+                            <select id="pubLocation" required class="w-full p-4 border rounded-xl font-bold uppercase outline-none focus:border-sarathy-blue bg-slate-50 dark:bg-slate-900 dark:border-slate-700 dark:text-white">
+                                <option value="" disabled selected>Select Location</option>
+                                <option value="KOLLAM">Kollam</option>
+                                <option value="KOTTIYAM">Kottiyam</option>
+                                <option value="CHATHANNOOR">Chathannoor</option>
+                                <option value="PARIPPALLY">Parippally</option>
+                                <option value="KALLAMBALAM">Kallambalam</option>
+                                <option value="ATTINGAL">Attingal</option>
+                                <option value="KAZHAKOOTAM">Kazhakootam</option>
+                                <option value="TRIVANDRUM">Trivandrum</option>
+                                <option value="ANY">Any Location</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="w-full bg-gradient-to-r from-sarathy-blue to-blue-600 text-white font-black py-5 rounded-2xl shadow-lg mt-8 uppercase tracking-widest flex items-center justify-center gap-2 hover:scale-[1.02] transition-transform">
+                        <i class="fas fa-paper-plane text-xl"></i> Submit Application
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <!-- LOGIN PAGE -->
     <div id="loginPage" class="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-6 bg-slate-50 dark:bg-slate-900 transition-opacity duration-500">
         <div class="absolute inset-0 overflow-hidden pointer-events-none">
@@ -160,7 +220,8 @@
             <div class="bg-white dark:bg-slate-800 p-8 md:p-10 rounded-[2rem] shadow-2xl border border-slate-100 dark:border-slate-700">
                 <div class="mb-8 text-center">
                     <div class="bg-white p-3 rounded-2xl inline-block shadow-lg mb-5 shadow-blue-500/10 border border-slate-100">
-                        <img src="sarathy-group-logo.png"Sarathy Logo" class="h-16 object-contain mx-auto">
+                        <img src="sarathy-group-logo.png" alt="Sarathy Logo" class="h-16 object-contain mx-auto" onerror="this.style.display='none'; document.getElementById('logoFallbackLogin').classList.remove('hidden')">
+                        <div id="logoFallbackLogin" class="hidden text-sarathy-blue font-black text-3xl px-6 py-2">SARATHY</div>
                     </div>
                     <h2 class="text-2xl font-black text-slate-800 dark:text-white tracking-tight mt-2">Welcome Back</h2>
                     <p class="text-xs font-bold text-slate-500 dark:text-slate-400 mt-2 uppercase tracking-widest">HR Management System</p>
@@ -196,11 +257,12 @@
         <!-- SIDEBAR -->
         <aside id="sidebar" class="fixed md:static inset-y-0 left-0 w-[var(--sidebar-width)] md:w-[85px] hover:md:w-[var(--sidebar-width)] h-[100dvh] glass-panel flex flex-col shrink-0 z-[100] border-r transform -translate-x-full md:translate-x-0 transition-all bg-[var(--bg-secondary)] overflow-x-hidden group pb-16 md:pb-0">
             <div class="h-16 md:h-20 px-4 flex items-center gap-3 border-b border-[var(--border-color)] shrink-0 overflow-hidden">
-                <div class="w-15 h-20 bg-white rounded-xl flex items-center justify-center shrink-0 p-1 border shadow-sm">
-                    <img src="sarathy-group-logo.png" alt="SR" class="w-full h-full object-contain">
+                <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center shrink-0 p-1 border shadow-sm">
+                    <img id="sidebarLogo" src="sarathy-group-logo.png" alt="SR" class="w-full h-full object-contain" onerror="this.style.display='none'; document.getElementById('logoFallbackSidebar').classList.remove('hidden')">
+                    <div id="logoFallbackSidebar" class="hidden text-sarathy-blue font-black text-xl">S</div>
                 </div>
                 <div class="transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 whitespace-nowrap overflow-hidden flex-1 ml-1">
-                    <h1 class="font-black text-sm md:text-base tracking-tight gradient-text"></h1>
+                    <h1 class="font-black text-sm md:text-base tracking-tight gradient-text">SARATHY GROUP</h1>
                 </div>
                 <button class="md:hidden text-[var(--text-secondary)] hover:text-red-500 shrink-0 ml-auto p-2" onclick="toggleSidebar()"><i class="fas fa-times text-lg"></i></button>
             </div>
@@ -257,6 +319,7 @@
                                 <p class="text-blue-100 font-bold mb-6">Overview & Quick Access Operations</p>
                                 <div class="flex flex-wrap gap-3">
                                     <button onclick="openModal()" class="bg-white text-sarathy-blue px-6 py-3 rounded-xl font-black text-xs uppercase shadow-lg"><i class="fas fa-user-plus mr-2"></i> Add Candidate</button>
+                                    <button onclick="copyApplicationLink()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-6 py-3 rounded-xl font-black text-xs uppercase shadow-lg border border-indigo-400 transition-colors"><i class="fas fa-link mr-2"></i> Form Link</button>
                                     <button onclick="document.getElementById('bulkUploadExcel').click()" class="bg-emerald-500/90 text-white border-2 border-emerald-300/30 px-6 py-3 rounded-xl font-black text-xs uppercase shadow-lg"><i class="fas fa-file-excel mr-2"></i> Bulk Upload</button>
                                     <button onclick="generateHiringSummary()" class="bg-blue-800/40 text-white px-6 py-3 rounded-xl font-black text-xs uppercase backdrop-blur-md"><i class="fas fa-magic mr-2"></i> Auto Summary</button>
                                 </div>
@@ -312,6 +375,10 @@
                                 <option value="SALES">Sales</option>
                                 <option value="SERVICE">Service</option>
                                 <option value="SPARE">Spare</option>
+                                <option value="HR">HR</option>
+                                <option value="ADMIN">Admin</option>
+                                <option value="FINANCE">Finance</option>
+                                <option value="OTHER">Other</option>
                             </select>
 
                             <select id="filterCompany" onchange="renderTable()" class="p-4 bg-[var(--bg-secondary)] border-2 rounded-xl font-black text-xs uppercase outline-none focus:border-sarathy-blue">
@@ -367,7 +434,9 @@
                             <table class="data-table min-w-[1400px]">
                                 <thead>
                                     <tr>
-                                        <th class="whitespace-nowrap border border-[var(--border-color)]">S.NO</th>
+                                        <th class="whitespace-nowrap border border-[var(--border-color)] text-center p-3">
+                                            <input type="checkbox" id="selectAllCb" onchange="toggleSelectAll()" class="custom-checkbox">
+                                        </th>
                                         <th class="whitespace-nowrap border border-[var(--border-color)]">NAME</th>
                                         <th class="whitespace-nowrap border border-[var(--border-color)]">AGE</th>
                                         <th class="whitespace-nowrap border border-[var(--border-color)]">QUALIFICATION</th>
@@ -672,6 +741,24 @@
         </div>
     </div>
 
+    <!-- PREMIUM CUSTOM DIALOG MODAL (REPLACES BROWSER CONFIRM/PROMPT) -->
+    <div id="customDialogModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[250] hidden flex items-center justify-center p-4 transition-opacity no-print">
+        <div class="bg-[var(--bg-secondary)] w-full max-w-md rounded-3xl shadow-2xl border border-[var(--border-color)] overflow-hidden">
+            <div class="p-6 border-b flex justify-between items-center bg-slate-50 dark:bg-slate-800">
+                <h3 id="dialogTitle" class="font-black text-base uppercase text-sarathy-blue">System Notification</h3>
+                <button onclick="closeDialog(false)" class="w-8 h-8 rounded-full bg-transparent text-slate-400 hover:text-red-500"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="p-6">
+                <p id="dialogMessage" class="text-sm font-bold text-[var(--text-primary)] mb-4 leading-relaxed"></p>
+                <input type="text" id="dialogInput" class="w-full p-4 border rounded-xl font-bold text-sm outline-none focus:border-sarathy-blue mb-4 bg-[var(--bg-primary)] dark:bg-slate-900 hidden">
+                <div class="flex gap-3">
+                    <button id="dialogCancelBtn" onclick="closeDialog(false)" class="flex-1 py-3 border rounded-xl font-black text-xs uppercase hover:bg-slate-100 dark:hover:bg-slate-700">Cancel</button>
+                    <button onclick="closeDialog(true)" class="flex-1 py-3 bg-sarathy-blue text-white rounded-xl font-black text-xs uppercase shadow-lg">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- NOTIFICATION MODAL & TOAST -->
     <div id="notificationModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[120] hidden flex items-start justify-center md:justify-end p-4 md:pr-8 md:pt-24 no-print">
         <div class="bg-[var(--bg-secondary)] w-full max-w-sm rounded-[2rem] shadow-2xl overflow-hidden border">
@@ -741,6 +828,57 @@
         let currentTab = 'dashboard'; let tabHistory = []; let currentView = 'list'; let activeFilter = 'All'; let chartStatus, chartSource, chartSourcePie, chartRejection; let calendarDate = new Date(); let selectedCandidates = [];
         let draggedCandidateId = null; // Used for Drag & Drop Board
 
+        // URL Parameters logic for Public Application View
+        const urlParams = new URLSearchParams(window.location.search);
+        const isApplyView = urlParams.get('view') === 'apply';
+
+        // Premium Custom Dialog Helper Function (Returns Promise)
+        let dialogResolve = null;
+        const showDialogModal = (type, title, message, placeholder = '') => {
+            return new Promise((resolve) => {
+                dialogResolve = resolve;
+                const modal = document.getElementById('customDialogModal');
+                document.getElementById('dialogTitle').innerText = title;
+                const msgEl = document.getElementById('dialogMessage');
+                const inputEl = document.getElementById('dialogInput');
+                
+                if (type === 'alert') {
+                    msgEl.innerText = message;
+                    msgEl.classList.remove('hidden');
+                    inputEl.classList.add('hidden');
+                    document.getElementById('dialogCancelBtn').classList.add('hidden');
+                } else if (type === 'confirm') {
+                    msgEl.innerText = message;
+                    msgEl.classList.remove('hidden');
+                    inputEl.classList.add('hidden');
+                    document.getElementById('dialogCancelBtn').classList.remove('hidden');
+                } else if (type === 'prompt') {
+                    msgEl.classList.add('hidden');
+                    inputEl.classList.remove('hidden');
+                    inputEl.value = '';
+                    inputEl.placeholder = placeholder;
+                    document.getElementById('dialogCancelBtn').classList.remove('hidden');
+                }
+                modal.classList.remove('hidden');
+            });
+        };
+
+        const closeDialog = (approved) => {
+            document.getElementById('customDialogModal').classList.add('hidden');
+            if (dialogResolve) {
+                if (approved) {
+                    const inputEl = document.getElementById('dialogInput');
+                    if (!inputEl.classList.contains('hidden')) {
+                        dialogResolve(inputEl.value);
+                    } else {
+                        dialogResolve(true);
+                    }
+                } else {
+                    dialogResolve(null);
+                }
+            }
+        };
+
         const showToast = (msg, type='success') => { const t = document.getElementById('toast'); if(t) { document.getElementById('toastMessage').innerText = msg; document.getElementById('toastIcon').className = type==='success'?'fas fa-check-circle text-emerald-400 text-xl':'fas fa-exclamation-circle text-red-400 text-xl'; t.classList.remove('opacity-0', 'translate-y-40'); setTimeout(()=>t.classList.add('opacity-0', 'translate-y-40'), 3000); } };
         const formatDateString = (d) => { if(!d) return ''; const parts = d.split('-'); if (parts.length !== 3) return d; return `${parts[2]}-${parts[1]}-${parts[0]}`; };
         const getAvatarColor = (name) => { const colors = ['bg-blue-100 text-blue-700 border-blue-200', 'bg-emerald-100 text-emerald-700 border-emerald-200', 'bg-amber-100 text-amber-700 border-amber-200', 'bg-purple-100 text-purple-700 border-purple-200', 'bg-pink-100 text-pink-700 border-pink-200']; let hash = 0; if (!name || name.length === 0) return colors[0]; for (let i = 0; i < name.length; i++) hash = name.charCodeAt(i) + ((hash << 5) - hash); return colors[Math.abs(hash) % colors.length]; };
@@ -752,7 +890,18 @@
         const refreshAllViews = () => { updateLocationFilterOptions(); renderDashboard(); renderTable(); renderCalendar(); renderOnboarding(); renderDirectory(); renderJobs(); renderTraining(); renderOKRs(); if(currentTab === 'analytics') initCharts(); };
 
         const toggleDarkMode = () => { document.documentElement.classList.toggle('dark'); const isDark = document.documentElement.classList.contains('dark'); const icon = document.getElementById('darkModeIcon'); if(icon) icon.className = isDark ? 'fas fa-sun text-lg' : 'fas fa-moon text-lg'; localStorage.setItem('theme', isDark ? 'dark' : 'light'); if(chartStatus) { chartStatus.update(); chartSource.update(); if(chartSourcePie) chartSourcePie.update(); if(chartRejection) chartRejection.update(); } };
-        window.onload = () => { if(localStorage.getItem('theme') === 'dark') toggleDarkMode(); };
+        
+        window.onload = () => { 
+            if(localStorage.getItem('theme') === 'dark') toggleDarkMode(); 
+            
+            // Check if we need to show the Public Application Form
+            if(isApplyView) {
+                document.getElementById('loginPage').classList.add('hidden');
+                document.getElementById('appLayout').classList.add('hidden');
+                document.getElementById('applicationPage').classList.remove('hidden');
+                document.getElementById('applicationPage').classList.add('flex');
+            }
+        };
 
         document.getElementById('loginForm')?.addEventListener('submit', (e) => {
             e.preventDefault(); const u = document.getElementById('username')?.value.trim().toUpperCase(); const p = document.getElementById('password')?.value;
@@ -804,8 +953,17 @@
             if(noticesList.length === 0) { container.innerHTML = '<p class="text-[10px] text-slate-400 text-center font-bold mt-4 uppercase">No notices</p>'; return; }
             container.innerHTML = noticesList.map((n, idx) => `<div class="relative group p-2.5 rounded-lg text-xs font-medium border-l-2 ${n.type === 'urgent' ? 'border-red-400 bg-red-900/30' : 'border-amber-300 bg-black/20'}">${n.text}<button onclick="deleteNotice(${idx})" class="absolute right-2 top-2 opacity-0 group-hover:opacity-100 text-red-300"><i class="fas fa-trash-alt"></i></button></div>`).join('');
         };
-        const addNotice = () => { const text = prompt("Enter notice message:"); if(text) { noticesList.unshift({ id: Date.now(), text, type: confirm("Urgent?") ? "urgent" : "info", date: new Date().toISOString() }); localStorage.setItem(NOTICES_DB_VERSION, JSON.stringify(noticesList)); renderNotices(); } };
-        const deleteNotice = (idx) => { noticesList.splice(idx, 1); localStorage.setItem(NOTICES_DB_VERSION, JSON.stringify(noticesList)); renderNotices(); };
+        const addNotice = async () => { 
+            const text = await showDialogModal('prompt', 'Create Notice', 'Enter your announcement or message details:', 'Enter notice message...'); 
+            if(text && text.trim() !== '') { 
+                const urgent = await showDialogModal('confirm', 'Notice Importance', 'Mark this announcement as high priority / Urgent?');
+                noticesList.unshift({ id: Date.now(), text, type: urgent ? "urgent" : "info", date: new Date().toISOString() }); 
+                localStorage.setItem(NOTICES_DB_VERSION, JSON.stringify(noticesList)); 
+                renderNotices(); 
+                showToast("Notice posted successfully");
+            } 
+        };
+        const deleteNotice = (idx) => { noticesList.splice(idx, 1); localStorage.setItem(NOTICES_DB_VERSION, JSON.stringify(noticesList)); renderNotices(); showToast("Announcement deleted"); };
 
         const renderDashboard = () => {
             renderNotices();
@@ -839,23 +997,57 @@
         const closeJobModal = () => document.getElementById('jobModal').classList.add('hidden');
         document.getElementById('jobForm')?.addEventListener('submit', (e) => { e.preventDefault(); jobsList.push({ id: Date.now(), title: document.getElementById('jobTitle').value, dept: document.getElementById('jobDept').value, location: document.getElementById('jobLoc').value, reqs: document.getElementById('jobReq').value, status: 'ACTIVE', date: new Date().toISOString().slice(0,10) }); localStorage.setItem(JOBS_DB_VERSION, JSON.stringify(jobsList)); closeJobModal(); renderJobs(); showToast("Job Posted!"); });
         const toggleJobStatus = (id) => { const idx = jobsList.findIndex(j => String(j.id) === String(id)); if(idx > -1) { jobsList[idx].status = jobsList[idx].status === 'ACTIVE' ? 'CLOSED' : 'ACTIVE'; localStorage.setItem(JOBS_DB_VERSION, JSON.stringify(jobsList)); renderJobs(); } };
-        const deleteJob = (id) => { jobsList = jobsList.filter(j => String(j.id) !== String(id)); localStorage.setItem(JOBS_DB_VERSION, JSON.stringify(jobsList)); renderJobs(); showToast("Job Removed", "error"); };
-        const copyJob = (id) => { const j = jobsList.find(x => String(x.id) === String(id)); if(!j) return; const text = `📢 WE ARE HIRING!\n\nRole: ${j.title}\nDept: ${j.dept}\nLocation: ${j.location}\n\nRequirements:\n${j.reqs}\n\nApply now at Sarathy Group!`; const el = document.createElement('textarea'); el.value = text; document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el); showToast("Job Description Copied!"); };
+        const deleteJob = async (id) => { 
+            const yes = await showDialogModal('confirm', 'Remove Job', 'Are you sure you want to delete this job posting?');
+            if(yes) {
+                jobsList = jobsList.filter(j => String(j.id) !== String(id)); 
+                localStorage.setItem(JOBS_DB_VERSION, JSON.stringify(jobsList)); 
+                renderJobs(); 
+                showToast("Job Removed", "error"); 
+            }
+        };
+        const copyJob = (id) => { 
+            const j = jobsList.find(x => String(x.id) === String(id)); if(!j) return; 
+            const text = `📢 WE ARE HIRING!\n\nRole: ${j.title}\nDept: ${j.dept}\nLocation: ${j.location}\n\nRequirements:\n${j.reqs}\n\nApply now at Sarathy Group!`; 
+            const el = document.createElement('textarea'); 
+            el.value = text; 
+            document.body.appendChild(el); 
+            el.select(); 
+            document.execCommand('copy'); 
+            document.body.removeChild(el); 
+            showToast("Job Description Copied!"); 
+        };
         const renderJobs = () => { const container = document.getElementById('jobsContainer'); if(!container) return; if(jobsList.length === 0) { container.innerHTML = '<div class="col-span-full text-center py-16 opacity-50"><i class="fas fa-briefcase text-4xl mb-3 text-slate-400"></i><p class="text-xs font-black uppercase tracking-widest text-[var(--text-secondary)]">No Job Postings</p></div>'; return; } container.innerHTML = [...jobsList].sort((a,b)=>b.id-a.id).map(j => `<div class="modern-card p-6 border-t-4 ${j.status === 'ACTIVE' ? 'border-sky-500' : 'border-slate-300'}"><div class="flex justify-between items-start mb-4"><div><h3 class="font-black text-lg uppercase leading-tight">${j.title}</h3><p class="text-[10px] font-bold text-sky-600 uppercase mt-1">${j.dept} • ${j.location}</p></div><span class="px-2 py-1 rounded-md text-[9px] font-black uppercase ${j.status === 'ACTIVE' ? 'bg-sky-100 text-sky-700' : 'bg-slate-100 text-slate-500'} cursor-pointer" onclick="toggleJobStatus(${j.id})">${j.status}</span></div><p class="text-xs font-medium mb-6 line-clamp-3 flex-1">${j.reqs}</p><div class="flex gap-2 mt-auto"><button onclick="copyJob(${j.id})" class="flex-1 py-2.5 bg-slate-100 hover:bg-sky-50 text-[var(--text-primary)] rounded-xl font-black text-[10px] uppercase transition-all"><i class="fas fa-copy"></i> Copy JD</button><button onclick="deleteJob(${j.id})" class="w-10 h-10 bg-red-50 text-red-500 rounded-xl flex items-center justify-center"><i class="fas fa-trash-alt"></i></button></div></div>`).join(''); };
 
         const openTrainingModal = () => { document.getElementById('trainingForm').reset(); document.getElementById('trainEmpId').innerHTML = '<option value="" disabled selected>Select employee</option>' + joinees.filter(x => x.status === 'JOINED').map(e => `<option value="${e.empId}">${e.name}</option>`).join(''); document.getElementById('trainingModal').classList.remove('hidden'); };
         const closeTrainingModal = () => document.getElementById('trainingModal').classList.add('hidden');
         document.getElementById('trainingForm')?.addEventListener('submit', (e) => { e.preventDefault(); const empId = document.getElementById('trainEmpId').value; const emp = joinees.find(x => x.empId === empId); if(!emp) return; trainingList.push({ id: Date.now(), empId: emp.empId, name: emp.name, course: document.getElementById('trainCourse').value, deadline: document.getElementById('trainDeadline').value, status: 'PENDING' }); localStorage.setItem(TRAINING_DB_VERSION, JSON.stringify(trainingList)); closeTrainingModal(); renderTraining(); showToast("Training Assigned!"); });
         const updateTraining = (id) => { const idx = trainingList.findIndex(t => String(t.id) === String(id)); if(idx > -1) { trainingList[idx].status = 'COMPLETED'; localStorage.setItem(TRAINING_DB_VERSION, JSON.stringify(trainingList)); renderTraining(); showToast("Completed!"); confetti(); } };
-        const deleteTraining = (id) => { trainingList = trainingList.filter(t => String(t.id) !== String(id)); localStorage.setItem(TRAINING_DB_VERSION, JSON.stringify(trainingList)); renderTraining(); };
+        const deleteTraining = async (id) => { 
+            const yes = await showDialogModal('confirm', 'Revoke Training', 'Delete this training assignment?');
+            if(yes) {
+                trainingList = trainingList.filter(t => String(t.id) !== String(id)); 
+                localStorage.setItem(TRAINING_DB_VERSION, JSON.stringify(trainingList)); 
+                renderTraining(); 
+                showToast("Training Assignment Revoked", "error");
+            }
+        };
         const renderTraining = () => { const tb = document.getElementById('trainingTableBody'); if(!tb) return; tb.innerHTML = trainingList.map(t => `<tr><td><div class="flex items-center gap-3"><div class="w-8 h-8 rounded-lg flex items-center justify-center font-black text-xs ${getAvatarColor(t.name)}">${t.name[0]}</div><div><p class="font-black text-sm uppercase">${t.name}</p><span class="text-[9px] font-bold text-slate-500 uppercase">${t.empId}</span></div></div></td><td><p class="font-black text-fuchsia-600 uppercase text-xs">${t.course}</p></td><td><span class="text-xs font-black">${formatDateString(t.deadline)}</span></td><td class="text-center"><span class="px-2 py-1 rounded-md text-[9px] font-black uppercase ${t.status === 'COMPLETED' ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'}">${t.status}</span></td><td class="text-right">${t.status === 'PENDING' ? `<button onclick="updateTraining(${t.id})" class="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 mr-1"><i class="fas fa-check"></i></button>` : ''}<button onclick="deleteTraining(${t.id})" class="w-8 h-8 rounded-xl bg-red-50 text-red-500"><i class="fas fa-trash-alt"></i></button></td></tr>`).join(''); };
 
         const openOkrModal = () => { document.getElementById('okrForm').reset(); document.getElementById('okrEmpId').innerHTML = '<option value="" disabled selected>Select employee</option>' + joinees.filter(x => x.status === 'JOINED').map(e => `<option value="${e.empId}">${e.name}</option>`).join(''); document.getElementById('okrModal').classList.remove('hidden'); };
         const closeOkrModal = () => document.getElementById('okrModal').classList.add('hidden');
         document.getElementById('okrForm')?.addEventListener('submit', (e) => { e.preventDefault(); const empId = document.getElementById('okrEmpId').value; const emp = joinees.find(x => x.empId === empId); if(!emp) return; okrList.push({ id: Date.now(), empId: emp.empId, name: emp.name, obj: document.getElementById('okrObj').value, progress: 0 }); localStorage.setItem(OKR_DB_VERSION, JSON.stringify(okrList)); closeOkrModal(); renderOKRs(); showToast("OKR Created!"); });
         const updateOkrProgress = (id, val) => { const idx = okrList.findIndex(o => String(o.id) === String(id)); if(idx > -1) { okrList[idx].progress = parseInt(val); document.getElementById(`okrVal-${id}`).innerText = val + '%'; localStorage.setItem(OKR_DB_VERSION, JSON.stringify(okrList)); } };
-        const deleteOkr = (id) => { okrList = okrList.filter(o => String(o.id) !== String(id)); localStorage.setItem(OKR_DB_VERSION, JSON.stringify(okrList)); renderOKRs(); };
-        const renderOKRs = () => { const container = document.getElementById('okrContainer'); if(!container) return; if(okrList.length === 0) { container.innerHTML = '<div class="col-span-full text-center py-16 opacity-50"><i class="fas fa-bullseye text-4xl mb-3 text-slate-400"></i><p class="text-xs font-black uppercase tracking-widest text-[var(--text-secondary)]">No OKRs Set</p></div>'; return; } container.innerHTML = [...okrList].sort((a,b)=>b.id-a.id).map(o => `<div class="modern-card p-6 border-t-4 border-orange-500 flex flex-col"><div class="flex justify-between items-start mb-4"><div class="flex items-center gap-3"><div class="w-10 h-10 rounded-xl flex items-center justify-center font-black text-sm ${getAvatarColor(o.name)}">${o.name[0]}</div><div><p class="font-black text-sm uppercase leading-tight">${o.name}</p><span class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">${o.empId}</span></div></div><button onclick="deleteOkr(${o.id})" class="text-red-400"><i class="fas fa-trash-alt"></i></button></div><p class="text-xs font-bold mb-5 bg-orange-50 p-3 rounded-xl">🎯 ${o.obj}</p><div class="mt-auto"><div class="flex justify-between items-center mb-2"><span class="text-[10px] font-black uppercase text-slate-500">Progress</span><span id="okrVal-${o.id}" class="text-xs font-black ${o.progress == 100 ? 'text-emerald-500' : 'text-orange-500'}">${o.progress}%</span></div><input type="range" min="0" max="100" value="${o.progress}" class="progress-slider" oninput="updateOkrProgress(${o.id}, this.value)" onchange="if(this.value == 100) confetti()"></div></div>`).join(''); };
+        const deleteOkr = async (id) => { 
+            const yes = await showDialogModal('confirm', 'Delete OKR', 'Delete this Performance Objective / Goal?');
+            if(yes) {
+                okrList = okrList.filter(o => String(o.id) !== String(id)); 
+                localStorage.setItem(OKR_DB_VERSION, JSON.stringify(okrList)); 
+                renderOKRs(); 
+                showToast("Goal objective removed");
+            }
+        };
+        const renderOKRs = () => { const container = document.getElementById('okrContainer'); if(!container) return; if(okrList.length === 0) { container.innerHTML = '<div class="col-span-full text-center py-16 opacity-50"><i class="fas fa-bullseye text-4xl mb-3 text-slate-400"></i><p class="text-xs font-black uppercase tracking-widest text-[var(--text-secondary)]">No OKRs Set</p></div>'; return; } container.innerHTML = [...okrList].sort((a,b)=>b.id-a.id).map(o => `<div class="modern-card p-6 border-t-4 border-orange-500 flex flex-col"><div class="flex justify-between items-start mb-4"><div class="flex items-center gap-3"><div class="w-10 h-10 rounded-xl flex items-center justify-center font-black text-sm ${getAvatarColor(o.name)}">${o.name[0]}</div><div><p class="font-black text-sm uppercase leading-tight">${o.name}</p><span class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">${o.empId}</span></div></div><button onclick="deleteOkr(${o.id})" class="text-red-400"><i class="fas fa-trash-alt"></i></button></div><p class="text-xs font-bold mb-5 bg-orange-50 p-3 rounded-xl">🎯 ${o.obj}</p><div class="mt-auto"><div class="flex justify-between items-center mb-2"><span class="text-[10px] font-black uppercase text-slate-500">Progress</span><span id="okrVal-${o.id}" class="text-xs font-black ${o.progress == 100 ? 'text-emerald-500' : 'text-orange-500'}">${o.progress}%</span></div><input type="range" min="0" max="100" value="${o.progress}" class="progress-slider" oninput="updateOkrProgress(${o.id}, this.value)" onchange="if(this.value == 100) { confetti(); showToast('Goal Achieved!', 'success'); }"></div></div>`).join(''); };
 
         // Drag and Drop Logic
         const dragStart = (ev, id) => {
@@ -948,7 +1140,7 @@
                     if(filtered.length === 0) tableBody.innerHTML = '<tr><td colspan="11" class="text-center py-16 opacity-60">No candidates found</td></tr>';
                     else tableBody.innerHTML = filtered.map((x, i) => {
                         let stClass = x.status === 'SELECTED' ? 'badge-selected' : x.status === 'JOINED' ? 'badge-joined' : x.status === 'PENDING' ? 'badge-pending' : 'badge-rejected';
-                        return `<tr class="hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer" onclick="viewCandidate(${x.id})"><td class="font-black text-sm text-black dark:text-white whitespace-nowrap text-center border border-[var(--border-color)]">${i + 1}</td><td class="whitespace-nowrap border border-[var(--border-color)]"><div><p class="font-black text-sm uppercase text-black dark:text-white">${x.name}</p><span class="text-[10px] font-black bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 uppercase px-1.5 py-0.5 rounded mt-1 inline-block">${x.empId}</span></div></td><td class="font-black text-sm text-black dark:text-white whitespace-nowrap text-center border border-[var(--border-color)]">${x.age || '-'}</td><td class="font-black text-sm uppercase text-black dark:text-white whitespace-nowrap border border-[var(--border-color)]">${x.qualification || '-'}</td><td class="font-black text-sm uppercase text-black dark:text-white whitespace-nowrap border border-[var(--border-color)]">${x.location || '-'}</td><td class="whitespace-nowrap border border-[var(--border-color)]"><p class="text-[11px] font-black uppercase text-black dark:text-white">${x.dept}</p><p class="text-[9px] font-bold text-slate-600 dark:text-slate-400 uppercase mt-0.5">${x.company}</p></td><td class="text-center whitespace-nowrap border border-[var(--border-color)]"><span class="status-badge-md ${stClass}">${x.status}</span></td><td class="font-black text-xs uppercase text-black dark:text-white whitespace-nowrap border border-[var(--border-color)]">${formatDateString(x.interviewDate)}</td><td class="font-black text-xs uppercase text-black dark:text-white whitespace-nowrap border border-[var(--border-color)]">${x.joinDate ? formatDateString(x.joinDate) : '-'}</td><td class="font-bold text-sm text-black dark:text-white truncate max-w-[200px] border border-[var(--border-color)]" title="${x.remarks || ''}">${x.remarks || '-'}</td><td class="text-center whitespace-nowrap border border-[var(--border-color)]"><button class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors"><i class="fas fa-eye"></i></button></td></tr>`;
+                        return `<tr class="hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer"><td class="text-center border border-[var(--border-color)] p-3" onclick="event.stopPropagation()"><input type="checkbox" value="${x.id}" onchange="updateBulkSelection(${x.id}, this.checked)" class="candidate-cb custom-checkbox" ${selectedCandidates.includes(String(x.id)) ? 'checked' : ''}></td><td onclick="viewCandidate(${x.id})" class="whitespace-nowrap border border-[var(--border-color)]"><div><p class="font-black text-sm uppercase text-black dark:text-white">${x.name}</p><span class="text-[10px] font-black bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 uppercase px-1.5 py-0.5 rounded mt-1 inline-block">${x.empId}</span></div></td><td onclick="viewCandidate(${x.id})" class="font-black text-sm text-black dark:text-white whitespace-nowrap text-center border border-[var(--border-color)]">${x.age || '-'}</td><td onclick="viewCandidate(${x.id})" class="font-black text-sm uppercase text-black dark:text-white whitespace-nowrap border border-[var(--border-color)]">${x.qualification || '-'}</td><td onclick="viewCandidate(${x.id})" class="font-black text-sm uppercase text-black dark:text-white whitespace-nowrap border border-[var(--border-color)]">${x.location || '-'}</td><td onclick="viewCandidate(${x.id})" class="whitespace-nowrap border border-[var(--border-color)]"><p class="text-[11px] font-black uppercase text-black dark:text-white">${x.dept}</p><p class="text-[9px] font-bold text-slate-600 dark:text-slate-400 uppercase mt-0.5">${x.company}</p></td><td onclick="viewCandidate(${x.id})" class="text-center whitespace-nowrap border border-[var(--border-color)]"><span class="status-badge-md ${stClass}">${x.status}</span></td><td onclick="viewCandidate(${x.id})" class="font-black text-xs uppercase text-black dark:text-white whitespace-nowrap border border-[var(--border-color)]">${formatDateString(x.interviewDate)}</td><td onclick="viewCandidate(${x.id})" class="font-black text-xs uppercase text-black dark:text-white whitespace-nowrap border border-[var(--border-color)]">${x.joinDate ? formatDateString(x.joinDate) : '-'}</td><td onclick="viewCandidate(${x.id})" class="font-bold text-sm text-black dark:text-white truncate max-w-[200px] border border-[var(--border-color)]" title="${x.remarks || ''}">${x.remarks || '-'}</td><td class="text-center whitespace-nowrap border border-[var(--border-color)]"><button onclick="viewCandidate(${x.id})" class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors"><i class="fas fa-eye"></i></button></td></tr>`;
                     }).join('');
                 }
             } else {
@@ -970,13 +1162,80 @@
             }
         };
 
-        const toggleSelectAll = () => { const selectAllCb = document.getElementById('selectAllCb'); const checkboxes = document.querySelectorAll('.candidate-cb'); if(selectAllCb.checked) { checkboxes.forEach(cb => { cb.checked = true; if(!selectedCandidates.includes(cb.value)) selectedCandidates.push(cb.value); }); } else { checkboxes.forEach(cb => cb.checked = false); selectedCandidates = []; } updateBulkActionBar(); };
-        const updateBulkSelection = (id, checked) => { if(checked) { if(!selectedCandidates.includes(String(id))) selectedCandidates.push(String(id)); } else { selectedCandidates = selectedCandidates.filter(val => val !== String(id)); document.getElementById('selectAllCb').checked = false; } updateBulkActionBar(); };
-        const clearBulkSelection = () => { selectedCandidates = []; document.querySelectorAll('.candidate-cb').forEach(cb => cb.checked = false); document.getElementById('selectAllCb').checked = false; updateBulkActionBar(); };
+        const toggleSelectAll = () => { 
+            const selectAllCb = document.getElementById('selectAllCb'); 
+            const checkboxes = document.querySelectorAll('.candidate-cb'); 
+            if(selectAllCb && selectAllCb.checked) { 
+                checkboxes.forEach(cb => { 
+                    cb.checked = true; 
+                    if(!selectedCandidates.includes(String(cb.value))) selectedCandidates.push(String(cb.value)); 
+                }); 
+            } else { 
+                checkboxes.forEach(cb => cb.checked = false); 
+                selectedCandidates = []; 
+            } 
+            updateBulkActionBar(); 
+        };
+        const updateBulkSelection = (id, checked) => { 
+            if(checked) { 
+                if(!selectedCandidates.includes(String(id))) selectedCandidates.push(String(id)); 
+            } else { 
+                selectedCandidates = selectedCandidates.filter(val => val !== String(id)); 
+                const selectAllCb = document.getElementById('selectAllCb');
+                if (selectAllCb) selectAllCb.checked = false; 
+            } 
+            updateBulkActionBar(); 
+        };
+        const clearBulkSelection = () => { selectedCandidates = []; document.querySelectorAll('.candidate-cb').forEach(cb => cb.checked = false); const selectAllCb = document.getElementById('selectAllCb'); if(selectAllCb) selectAllCb.checked = false; updateBulkActionBar(); };
         const updateBulkActionBar = () => { const bar = document.getElementById('bulkActionBar'); const countSpan = document.getElementById('bulkCount'); if(selectedCandidates.length > 0) { bar.classList.add('active'); countSpan.innerText = selectedCandidates.length; } else { bar.classList.remove('active'); } };
-        const copyBulkPhones = () => { if(selectedCandidates.length === 0) return; const phones = joinees.filter(j => selectedCandidates.includes(String(j.id)) && j.phone).map(j => j.phone).join(', '); if(!phones) return showToast("No valid phone numbers found", "error"); navigator.clipboard.writeText(phones).then(() => { showToast(`Copied ${selectedCandidates.length} numbers`); clearBulkSelection(); }); };
-        const bulkUpdateStatus = (newStatus) => { if(selectedCandidates.length === 0) return; joinees.forEach(j => { if(selectedCandidates.includes(String(j.id))) { j.status = newStatus; if(newStatus === 'JOINED' && !j.joinDate) { j.joinDate = new Date().toISOString().slice(0, 10); } if(newStatus !== 'REJECTED') { j.rejectionReason = ''; } } }); localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees)); clearBulkSelection(); refreshAllViews(); showToast(`Marked ${selectedCandidates.length} candidates as ${newStatus}`); if(newStatus === 'SELECTED' || newStatus === 'JOINED') confetti(); };
-        const bulkDelete = () => { if(selectedCandidates.length === 0) return; if(confirm(`Delete ${selectedCandidates.length} candidates?`)) { joinees = joinees.filter(j => !selectedCandidates.includes(String(j.id))); localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees)); clearBulkSelection(); refreshAllViews(); showToast("Deleted", "error"); } };
+        
+        const copyBulkPhones = () => { 
+            if(selectedCandidates.length === 0) return; 
+            const phones = joinees.filter(j => selectedCandidates.includes(String(j.id)) && j.phone).map(j => j.phone).join(', '); 
+            if(!phones) return showToast("No valid phone numbers found", "error"); 
+            
+            // Clipboard custom logic as requested
+            const el = document.createElement('textarea');
+            el.value = phones;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+
+            showToast(`Copied ${selectedCandidates.length} numbers to clipboard`); 
+            clearBulkSelection(); 
+        };
+
+        const bulkUpdateStatus = (newStatus) => { 
+            if(selectedCandidates.length === 0) return; 
+            joinees.forEach(j => { 
+                if(selectedCandidates.includes(String(j.id))) { 
+                    j.status = newStatus; 
+                    if(newStatus === 'JOINED' && !j.joinDate) { 
+                        j.joinDate = new Date().toISOString().slice(0, 10); 
+                    } 
+                    if(newStatus !== 'REJECTED') { 
+                        j.rejectionReason = ''; 
+                    } 
+                } 
+            }); 
+            localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees)); 
+            clearBulkSelection(); 
+            refreshAllViews(); 
+            showToast(`Marked ${selectedCandidates.length} candidates as ${newStatus}`); 
+            if(newStatus === 'SELECTED' || newStatus === 'JOINED') confetti(); 
+        };
+        const bulkDelete = async () => { 
+            if(selectedCandidates.length === 0) return; 
+            const confirmDelete = await showDialogModal('confirm', 'Bulk Delete Candidates', `Are you absolutely sure you want to delete ${selectedCandidates.length} selected candidate(s)?`);
+            if(confirmDelete) { 
+                joinees = joinees.filter(j => !selectedCandidates.includes(String(j.id))); 
+                localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees)); 
+                clearBulkSelection(); 
+                refreshAllViews(); 
+                showToast("Deleted", "error"); 
+            } 
+        };
 
         const openModal = () => { 
             const form = document.getElementById('joineeForm');
@@ -1010,13 +1269,81 @@
             document.getElementById('modalTitle').innerText = "Edit Details"; document.getElementById('addModal')?.classList.remove('hidden'); setTimeout(()=>document.getElementById('modalContent').style.transform = 'translateX(0)', 10);
         };
 
+        const deleteSingleRecord = async (id) => {
+            const r = joinees.find(x => String(x.id) === String(id));
+            if(!r) return;
+            const yes = await showDialogModal('confirm', 'Delete Candidate', `Are you sure you want to permanently delete Candidate ${r.name}?`);
+            if (yes) {
+                joinees = joinees.filter(x => String(x.id) !== String(id));
+                localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees));
+                closeViewModal();
+                refreshAllViews();
+                showToast("Candidate deleted successfully", "error");
+            }
+        };
+
         document.getElementById('joineeForm')?.addEventListener('submit', (e) => {
             e.preventDefault(); const editIdVal = document.getElementById('editId').value; const currentStatus = document.getElementById('status').value;
-            const data = { id: editIdVal ? parseInt(editIdVal) : Date.now(), empId: document.getElementById('empId').value, name: document.getElementById('empName').value.trim().toUpperCase(), age: document.getElementById('empAge').value, qualification: document.getElementById('empQual').value.trim().toUpperCase(), phone: document.getElementById('empPhone').value, email: document.getElementById('empEmail').value.trim(), source: document.getElementById('empSource').value, dept: document.getElementById('dept').value.trim().toUpperCase(), company: document.getElementById('company').value, status: currentStatus, interviewDate: document.getElementById('interviewDate').value, joinDate: document.getElementById('joinDate').value, experience: parseFloat(document.getElementById('experience').value)||0, location: document.getElementById('location').value.trim().toUpperCase(), designation: document.getElementById('designation').value.trim().toUpperCase(), remarks: document.getElementById('empRemarks').value.trim(), rejectionReason: currentStatus === 'REJECTED' ? document.getElementById('rejectionReason').value : '', rating: parseInt(document.getElementById('empRating').value) || 0, onboarding: editIdVal ? (joinees.find(x=>x.id==editIdVal).onboarding || {}) : { idCard: false, bank: false, pf: false, training: false } };
+            const data = { id: editIdVal ? parseInt(editIdVal) : Date.now(), empId: document.getElementById('empId').value, name: document.getElementById('empName').value.trim().toUpperCase(), age: document.getElementById('empAge').value, qualification: document.getElementById('empQual').value.trim().toUpperCase(), phone: document.getElementById('empPhone').value, email: document.getElementById('empEmail').value.trim(), source: document.getElementById('empSource').value, dept: document.getElementById('dept').value.trim().toUpperCase(), company: document.getElementById('company').value, status: currentStatus, interviewDate: document.getElementById('interviewDate').value, joinDate: document.getElementById('joinDate').value, experience: parseFloat(document.getElementById('experience').value)||0, location: document.getElementById('location').value.trim().toUpperCase(), designation: document.getElementById('designation').value.trim().toUpperCase(), remarks: document.getElementById('empRemarks').value.trim(), rejectionReason: currentStatus === 'REJECTED' ? document.getElementById('rejectionReason').value : '', rating: parseInt(document.getElementById('empRating').value) || 0, onboarding: editIdVal ? (joinees.find(x=>String(x.id)===String(editIdVal))?.onboarding || { idCard: false, bank: false, pf: false, training: false }) : { idCard: false, bank: false, pf: false, training: false } };
             if(data.status === 'JOINED' && !data.joinDate) { data.joinDate = new Date().toISOString().slice(0, 10); }
             if(editIdVal) { const idx = joinees.findIndex(x => String(x.id) === String(editIdVal)); if(idx > -1) { joinees[idx] = data; showToast("Record Updated!"); } } else { joinees.push(data); showToast("Record Saved!"); if(data.status==='SELECTED' || data.status==='JOINED') confetti(); }
             localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees)); closeModal(); refreshAllViews();
         });
+
+        // PUBLIC APPLICATION FORM SUBMISSION LOGIC
+        document.getElementById('publicApplyForm')?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const nextEmpId = 'SG-' + (joinees.length + 1).toString().padStart(3, '0');
+            
+            const newCandidate = {
+                id: Date.now(),
+                empId: nextEmpId,
+                name: document.getElementById('pubName').value.trim().toUpperCase(),
+                age: document.getElementById('pubAge').value,
+                phone: document.getElementById('pubPhone').value,
+                email: document.getElementById('pubEmail').value.trim(),
+                qualification: document.getElementById('pubQual').value.trim().toUpperCase(),
+                experience: parseFloat(document.getElementById('pubExp').value) || 0,
+                dept: document.getElementById('pubDept').value,
+                location: document.getElementById('pubLocation').value,
+                source: 'Online Portal',
+                company: 'ALL', // Will be decided by HR later
+                status: 'PENDING',
+                interviewDate: '',
+                joinDate: '',
+                designation: '',
+                remarks: 'Applied Online',
+                rejectionReason: '',
+                rating: 0,
+                onboarding: { idCard: false, bank: false, pf: false, training: false }
+            };
+
+            joinees.push(newCandidate);
+            localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees));
+            
+            confetti({particleCount: 100, spread: 70, origin: { y: 0.6 }});
+            await showDialogModal('alert', 'Application Submitted', `Thank you ${newCandidate.name}! Your application has been successfully submitted. Our HR team will reach out to you shortly.`);
+            
+            // Clear form
+            document.getElementById('publicApplyForm').reset();
+        });
+
+        // COPY APPLICATION LINK TO SHARE WITH CANDIDATES
+        const copyApplicationLink = () => {
+            // Strip any existing query parameters to ensure clean URL
+            const baseUrl = window.location.origin + window.location.pathname;
+            const applyLink = baseUrl + '?view=apply';
+            
+            const el = document.createElement('textarea');
+            el.value = applyLink;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+            
+            showToast("Application Link Copied!");
+        };
 
         const viewCandidate = (id) => {
             const r = joinees.find(x=> String(x.id) === String(id)); if(!r) return;
@@ -1050,7 +1377,7 @@
                 </div>
             `;
 
-            const content = `<div class="flex items-center gap-6 mb-8 border-b pb-8"><div class="w-24 h-24 rounded-2xl flex items-center justify-center font-black text-4xl shadow-md ${avatarClass}">${r.name[0]}</div><div><h3 class="font-black text-3xl mb-2 uppercase">${r.name}</h3><p class="text-xs font-bold text-[var(--text-secondary)] uppercase mb-4">${r.empId} • ${r.company}</p><span class="px-4 py-2 rounded-xl text-xs font-black uppercase shadow-sm border ${statusClass}">${r.status}</span></div></div><div class="grid grid-cols-2 gap-y-6 gap-x-4 bg-slate-50 dark:bg-slate-800 p-6 rounded-2xl shadow-sm mb-8"><div><span class="block text-[10px] font-black uppercase mb-1 text-slate-500">Phone</span><span class="font-black text-sm">${r.phone || 'N/A'}</span></div><div><span class="block text-[10px] font-black uppercase mb-1 text-slate-500">Dept</span><span class="font-black text-sm uppercase">${r.dept}</span></div><div><span class="block text-[10px] font-black uppercase mb-1 text-slate-500">Age</span><span class="font-black text-sm">${r.age || 'N/A'}</span></div><div><span class="block text-[10px] font-black uppercase mb-1 text-slate-500">Qualification</span><span class="font-black text-sm uppercase">${r.qualification || 'N/A'}</span></div><div><span class="block text-[10px] font-black uppercase mb-1 text-slate-500">Interview</span><span class="font-black text-sm">${formatDateString(r.interviewDate)}</span></div><div><span class="block text-[10px] font-black uppercase mb-1 text-slate-500">Join Date</span><span class="font-black text-sm">${r.joinDate ? formatDateString(r.joinDate) : 'N/A'}</span></div><div><span class="block text-[10px] font-black uppercase mb-1 text-slate-500">Location</span><span class="font-black text-sm uppercase">${r.location || 'N/A'}</span></div><div><span class="block text-[10px] font-black uppercase mb-1 text-slate-500">Designation</span><span class="font-black text-sm uppercase">${r.designation || 'TBD'}</span></div><div class="col-span-2"><span class="block text-[10px] font-black uppercase mb-1 text-slate-500">Remarks</span><span class="font-bold text-sm text-slate-600">${r.remarks || 'None'}</span></div></div> ${timelineHtml} <div class="mt-8 flex flex-wrap gap-3 no-print"><button onclick="editRecord(${r.id})" class="flex-1 py-3 bg-sarathy-blue text-white rounded-xl font-black text-xs uppercase shadow-md"><i class="fas fa-edit"></i> Edit</button>${r.status === 'SELECTED' ? `<button onclick="generateOfferLetter(${r.id})" class="flex-1 py-3 bg-indigo-600 text-white rounded-xl font-black text-xs uppercase shadow-md"><i class="fas fa-file-pdf"></i> Offer Letter</button><button onclick="markAsJoined(${r.id}); closeViewModal();" class="flex-1 py-3 bg-emerald-600 text-white rounded-xl font-black text-xs uppercase shadow-md"><i class="fas fa-user-check"></i> Join</button>` : ''}</div>`;
+            const content = `<div class="flex items-center gap-6 mb-8 border-b pb-8"><div class="w-24 h-24 rounded-2xl flex items-center justify-center font-black text-4xl shadow-md ${avatarClass}">${r.name[0]}</div><div><h3 class="font-black text-3xl mb-2 uppercase">${r.name}</h3><p class="text-xs font-bold text-[var(--text-secondary)] uppercase mb-4">${r.empId} • ${r.company}</p><span class="px-4 py-2 rounded-xl text-xs font-black uppercase shadow-sm border ${statusClass}">${r.status}</span></div></div><div class="grid grid-cols-2 gap-y-6 gap-x-4 bg-slate-50 dark:bg-slate-800 p-6 rounded-2xl shadow-sm mb-8"><div><span class="block text-[10px] font-black uppercase mb-1 text-slate-500">Phone</span><span class="font-black text-sm">${r.phone || 'N/A'}</span></div><div><span class="block text-[10px] font-black uppercase mb-1 text-slate-500">Dept</span><span class="font-black text-sm uppercase">${r.dept}</span></div><div><span class="block text-[10px] font-black uppercase mb-1 text-slate-500">Age</span><span class="font-black text-sm">${r.age || 'N/A'}</span></div><div><span class="block text-[10px] font-black uppercase mb-1 text-slate-500">Qualification</span><span class="font-black text-sm uppercase">${r.qualification || 'N/A'}</span></div><div><span class="block text-[10px] font-black uppercase mb-1 text-slate-500">Interview</span><span class="font-black text-sm">${formatDateString(r.interviewDate)}</span></div><div><span class="block text-[10px] font-black uppercase mb-1 text-slate-500">Join Date</span><span class="font-black text-sm">${r.joinDate ? formatDateString(r.joinDate) : 'N/A'}</span></div><div><span class="block text-[10px] font-black uppercase mb-1 text-slate-500">Location</span><span class="font-black text-sm uppercase">${r.location || 'N/A'}</span></div><div><span class="block text-[10px] font-black uppercase mb-1 text-slate-500">Designation</span><span class="font-black text-sm uppercase">${r.designation || 'TBD'}</span></div><div class="col-span-2"><span class="block text-[10px] font-black uppercase mb-1 text-slate-500">Remarks</span><span class="font-bold text-sm text-slate-600">${r.remarks || 'None'}</span></div></div> ${timelineHtml} <div class="mt-8 flex flex-wrap gap-3 no-print"><button onclick="editRecord(${r.id})" class="flex-1 py-3 bg-sarathy-blue text-white rounded-xl font-black text-xs uppercase shadow-md"><i class="fas fa-edit"></i> Edit</button>${r.status === 'SELECTED' ? `<button onclick="generateOfferLetter(${r.id})" class="flex-1 py-3 bg-indigo-600 text-white rounded-xl font-black text-xs uppercase shadow-md"><i class="fas fa-file-pdf"></i> Offer Letter</button><button onclick="markAsJoined(${r.id}); closeViewModal();" class="flex-1 py-3 bg-emerald-600 text-white rounded-xl font-black text-xs uppercase shadow-md"><i class="fas fa-user-check"></i> Join</button>` : ''}<button onclick="deleteSingleRecord(${r.id})" class="flex-1 py-3 bg-red-50 text-red-500 rounded-xl font-black text-xs uppercase shadow-md hover:bg-red-500 hover:text-white transition-all"><i class="fas fa-trash-alt"></i> Delete</button></div>`;
             const viewContent = document.getElementById('viewModalContent'); if(viewContent) viewContent.innerHTML = content; document.getElementById('viewModal')?.classList.remove('hidden');
         };
 
@@ -1201,7 +1528,16 @@
         const checkNotifications = () => { const today = new Date().toISOString().slice(0,10); const todayTxns = joinees.filter(x => x.interviewDate === today || x.joinDate === today); document.getElementById('notificationBadge').style.display = todayTxns.length > 0 ? 'block' : 'none'; document.getElementById('dynamicNotifications').innerHTML = todayTxns.length > 0 ? todayTxns.map(a => `<div class="p-4 mb-3 border rounded-xl" onclick="viewCandidate(${a.id})"><span class="font-black uppercase">${a.name}</span><p class="text-[10px] uppercase text-slate-500">${a.joinDate === today ? 'JOINING' : 'INTERVIEW'} TODAY</p></div>`).join('') : '<p class="text-center text-slate-400 font-bold">No activity</p>'; };
 
         const generateHiringSummary = () => { const total = joinees.length; const sel = joinees.filter(x => x.status === 'SELECTED').length; const joined = joinees.filter(x => x.status === 'JOINED').length; const pend = joinees.filter(x => x.status === 'PENDING').length; document.getElementById('summaryText').innerHTML = `<p class="font-bold">Total: ${total} | Joined: ${joined} | Selected: ${sel} | Pending: ${pend}</p>`; document.getElementById('summaryModal').classList.remove('hidden'); };
-        const copySummary = () => { navigator.clipboard.writeText(document.getElementById('summaryText').innerText); showToast("Copied!"); };
+        const copySummary = () => { 
+            const text = document.getElementById('summaryText').innerText;
+            const el = document.createElement('textarea');
+            el.value = text;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+            showToast("Summary copied to clipboard!"); 
+        };
 
         const exportToExcel = () => { 
             try { 
@@ -1236,7 +1572,63 @@
             } 
         };
         const exportJSONBackup = () => { const blob = new Blob([JSON.stringify({ candidates: joinees, targets: reqList, jobs: jobsList, training: trainingList, okrs: okrList })], {type: 'application/json'}); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `HR_Backup.json`; a.click(); showToast("Backup Downloaded!"); };
-        const clearAllData = () => { if(prompt("Type 'CONFIRM' to clear all data") === "CONFIRM") { joinees = []; localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees)); refreshAllViews(); showToast("Data cleared"); } };
+        
+        // Implemented JSON Restoration Backup Functionality 
+        const importBackup = (event) => {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    if (data.candidates) {
+                        joinees = data.candidates;
+                        localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees));
+                    }
+                    if (data.targets) {
+                        reqList = data.targets;
+                        localStorage.setItem(CURRENT_BUDGET_VERSION, JSON.stringify(reqList));
+                    }
+                    if (data.jobs) {
+                        jobsList = data.jobs;
+                        localStorage.setItem(JOBS_DB_VERSION, JSON.stringify(jobsList));
+                    }
+                    if (data.training) {
+                        trainingList = data.training;
+                        localStorage.setItem(TRAINING_DB_VERSION, JSON.stringify(trainingList));
+                    }
+                    if (data.okrs) {
+                        okrList = data.okrs;
+                        localStorage.setItem(OKR_DB_VERSION, JSON.stringify(okrList));
+                    }
+                    refreshAllViews();
+                    showToast("Database Restored Successfully!", "success");
+                } catch (err) {
+                    showToast("Failed to restore: Invalid backup file structure", "error");
+                }
+            };
+            reader.readAsText(file);
+        };
+
+        const clearAllData = async () => { 
+            const verify = await showDialogModal('prompt', 'System Format', 'This action will wipe out all local candidate details, objectives, and training. Type "CONFIRM" below to agree:', 'Type CONFIRM');
+            if(verify === "CONFIRM") { 
+                joinees = []; 
+                reqList = [];
+                jobsList = [];
+                trainingList = [];
+                okrList = [];
+                localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees)); 
+                localStorage.setItem(CURRENT_BUDGET_VERSION, JSON.stringify(reqList)); 
+                localStorage.setItem(JOBS_DB_VERSION, JSON.stringify(jobsList)); 
+                localStorage.setItem(TRAINING_DB_VERSION, JSON.stringify(trainingList)); 
+                localStorage.setItem(OKR_DB_VERSION, JSON.stringify(okrList)); 
+                refreshAllViews(); 
+                showToast("All system records formatted", "error"); 
+            } else if (verify !== null) {
+                showToast("Verification failed. Data safe.", "error");
+            }
+        };
         
         document.getElementById('changePinForm')?.addEventListener('submit', (e) => { e.preventDefault(); let users = JSON.parse(localStorage.getItem('sarathy_users_v13')) || USERS; users[0].pass = document.getElementById('newAdminPin').value; localStorage.setItem('sarathy_users_v13', JSON.stringify(users)); USERS = users; showToast("PIN Updated"); document.getElementById('changePinForm').reset(); });
 
