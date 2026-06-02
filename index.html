@@ -1647,6 +1647,17 @@
             };
             reader.readAsArrayBuffer(file);
         };
+        
+        // Listen for changes from other tabs (e.g., candidate submitting public form)
+        window.addEventListener('storage', (event) => {
+            if (event.key === CURRENT_DB_VERSION) {
+                joinees = JSON.parse(event.newValue || '[]');
+                if (!isApplyView && currentUser) {
+                    refreshAllViews();
+                    showToast("New Application Received!", "success");
+                }
+            }
+        });
     </script>
 </body>
 </html>
