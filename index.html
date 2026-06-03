@@ -1468,10 +1468,6 @@
             }
         };
 
-        // Jobs Logic
-        const openJobModal = () => { document.getElementById('jobForm').reset(); document.getElementById('jobModal').classList.remove('hidden'); };
-        const closeJobModal = () => document.getElementById('jobModal').classList.add('hidden');
-        
         // Image Compression Helper
         const compressImage = (file) => {
             return new Promise((resolve) => {
@@ -1499,19 +1495,22 @@
             document.getElementById('imageViewerModal').classList.remove('hidden');
         };
 
+        // Jobs Logic
+        const openJobModal = () => { document.getElementById('jobForm').reset(); document.getElementById('jobModal').classList.remove('hidden'); };
+        const closeJobModal = () => document.getElementById('jobModal').classList.add('hidden');
         document.getElementById('jobForm')?.addEventListener('submit', async (e) => { 
             e.preventDefault(); 
             
-            const files = document.getElementById('jobImages').files;
+            const files = document.getElementById('jobImages')?.files;
             let base64Images = [];
-            if(files.length > 0) {
+            if(files && files.length > 0) {
                 showToast("Compressing & Saving Ad Images...");
                 for(let i=0; i<files.length; i++) {
                     base64Images.push(await compressImage(files[i]));
                 }
             }
 
-            const weeks = parseInt(document.getElementById('jobDuration').value) || 2;
+            const weeks = parseInt(document.getElementById('jobDuration')?.value) || 2;
             const expiry = new Date();
             expiry.setDate(expiry.getDate() + (weeks * 7));
 
@@ -1528,6 +1527,7 @@
                 date: new Date().toISOString().slice(0,10) 
             };
             jobsList.push(job); 
+            localStorage.setItem(JOBS_DB_VERSION, JSON.stringify(jobsList)); // FIX for disappearing jobs
             await writeToCloud('jobs', job.id, job);
             closeJobModal(); renderJobs(); showToast("Job Campaign Published!"); 
         });
@@ -1535,6 +1535,7 @@
             const idx = jobsList.findIndex(j => String(j.id) === String(id)); 
             if(idx > -1) { 
                 jobsList[idx].status = jobsList[idx].status === 'ACTIVE' ? 'CLOSED' : 'ACTIVE'; 
+                localStorage.setItem(JOBS_DB_VERSION, JSON.stringify(jobsList)); // FIX for disappearing jobs
                 await writeToCloud('jobs', jobsList[idx].id, jobsList[idx]);
                 renderJobs(); 
             } 
@@ -1544,6 +1545,7 @@
             if(yes) { 
                 await removeFromCloud('jobs', id);
                 jobsList = jobsList.filter(j => String(j.id) !== String(id)); 
+                localStorage.setItem(JOBS_DB_VERSION, JSON.stringify(jobsList)); // FIX for disappearing jobs
                 renderJobs(); showToast("Job Removed", "error"); 
             }
         };
@@ -1575,7 +1577,7 @@
                     </div>`;
                 }
 
-                const isExpired = j.status === 'ACTIVE' && new Date(j.expiryDate) <= new Date();
+                const isExpired = j.status === 'ACTIVE' && j.expiryDate && new Date(j.expiryDate) <= new Date();
                 const expiryBadge = isExpired 
                     ? `<span class="text-[10px] font-bold text-red-500 bg-red-50 dark:bg-red-900/20 px-2 py-1 rounded-md"><i class="fas fa-exclamation-triangle"></i> Ad Expired</span>` 
                     : (j.expiryDate ? `<span class="text-[10px] font-bold text-slate-500"><i class="fas fa-clock"></i> Exp: ${formatDateString(j.expiryDate)}</span>` : '');
@@ -1608,6 +1610,7 @@
             e.preventDefault(); const empId = document.getElementById('trainEmpId').value; const emp = joinees.find(x => x.empId === empId); if(!emp) return; 
             const training = { id: Date.now(), empId: emp.empId, name: emp.name, course: document.getElementById('trainCourse').value, deadline: document.getElementById('trainDeadline').value, status: 'PENDING' };
             trainingList.push(training); 
+            localStorage.setItem(TRAINING_DB_VERSION, JSON.stringify(trainingList)); // FIX for disappearing data
             await writeToCloud('training', training.id, training);
             closeTrainingModal(); renderTraining(); showToast("Training Assigned!"); 
         });
@@ -1615,6 +1618,7 @@
             const idx = trainingList.findIndex(t => String(t.id) === String(id)); 
             if(idx > -1) { 
                 trainingList[idx].status = 'COMPLETED'; 
+                localStorage.setItem(TRAINING_DB_VERSION, JSON.stringify(trainingList)); // FIX for disappearing data
                 await writeToCloud('training', trainingList[idx].id, trainingList[idx]);
                 renderTraining(); showToast("Completed!"); confetti(); 
             } 
@@ -1624,6 +1628,7 @@
             if(yes) { 
                 await removeFromCloud('training', id);
                 trainingList = trainingList.filter(t => String(t.id) !== String(id)); 
+                localStorage.setItem(TRAINING_DB_VERSION, JSON.stringify(trainingList)); // FIX for disappearing data
                 renderTraining(); showToast("Training Revoked", "error"); 
             } 
         };
@@ -1658,6 +1663,7 @@
             e.preventDefault(); const empId = document.getElementById('okrEmpId').value; const emp = joinees.find(x => x.empId === empId); if(!emp) return; 
             const okr = { id: Date.now(), empId: emp.empId, name: emp.name, obj: document.getElementById('okrObj').value, progress: 0 };
             okrList.push(okr); 
+            localStorage.setItem(OKR_DB_VERSION, JSON.stringify(okrList)); // FIX for disappearing data
             await writeToCloud('okrs', okr.id, okr);
             closeOkrModal(); renderOKRs(); showToast("OKR Created!"); 
         });
@@ -1666,6 +1672,7 @@
             if(idx > -1) { 
                 okrList[idx].progress = parseInt(val); 
                 document.getElementById(`okrVal-${id}`).innerText = val + '%'; 
+                localStorage.setItem(OKR_DB_VERSION, JSON.stringify(okrList)); // FIX for disappearing data
                 await writeToCloud('okrs', okrList[idx].id, okrList[idx]);
             } 
         };
@@ -1674,6 +1681,7 @@
             if(yes) { 
                 await removeFromCloud('okrs', id);
                 okrList = okrList.filter(o => String(o.id) !== String(id)); 
+                localStorage.setItem(OKR_DB_VERSION, JSON.stringify(okrList)); // FIX for disappearing data
                 renderOKRs(); showToast("Goal removed"); 
             } 
         };
