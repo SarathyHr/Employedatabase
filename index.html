@@ -775,7 +775,7 @@
             
             <!-- Global Floating Buttons (Mobile & Desktop) -->
             <button id="floatingBackBtn" onclick="goBack()" class="hidden fixed bottom-6 left-4 md:left-8 bg-white/90 dark:bg-slate-800/90 backdrop-blur-md text-[var(--text-primary)] px-5 py-3 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.2)] border border-[var(--border-color)] rounded-full z-[90] items-center gap-3 font-black text-sm uppercase tracking-widest transition-transform active:scale-95">
-                <span class="w-7 h-7 rounded-full bg-blue-100 dark:bg-blue-900/40 text-sarathy-blue dark:text-blue-400 flex items-center justify-center text-xs"><i class="fas fa-arrow-left"></i></span> Back
+                <span class="w-7 h-7 rounded-full bg-blue-100 dark:bg-blue-900/40 text-sarathy-blue dark:text-blue-400 flex items-center justify-center text-xs"><i class="fas fa-arrow-left"></i></span> BACK
             </button>
             <button id="addBtn" onclick="openModal()" class="fab md:hidden"><i class="fas fa-plus text-xl"></i></button>
         </main>
@@ -946,17 +946,36 @@
         </div>
     </div>
 
+    <!-- IMAGE VIEWER MODAL (For Job Ads) -->
+    <div id="imageViewerModal" class="fixed inset-0 bg-slate-900/90 backdrop-blur-md z-[300] hidden flex items-center justify-center p-4 transition-opacity no-print" onclick="this.classList.add('hidden')">
+        <button class="absolute top-6 right-6 w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full text-white text-xl flex items-center justify-center backdrop-blur-md transition-colors"><i class="fas fa-times"></i></button>
+        <img id="viewerImageSrc" src="" class="max-w-full max-h-[90vh] object-contain rounded-xl shadow-2xl border border-white/10" onclick="event.stopPropagation()">
+    </div>
+
     <!-- JOB MODAL -->
     <div id="jobModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-[120] hidden flex items-center justify-center p-4 transition-opacity no-print">
         <div class="bg-[var(--bg-secondary)] w-full max-w-md rounded-3xl shadow-2xl border border-[var(--border-color)]">
             <div class="p-6 border-b border-[var(--border-color)] flex justify-between items-center"><h3 class="font-black text-lg uppercase text-[var(--text-primary)]">Post a Job</h3><button onclick="closeJobModal()" class="text-slate-400 hover:text-slate-600"><i class="fas fa-times text-xl"></i></button></div>
-            <div class="p-6">
+            <div class="p-6 overflow-y-auto max-h-[70vh] custom-scroll">
                 <form id="jobForm" class="space-y-4">
                     <input type="text" id="jobTitle" required placeholder="Job Title" class="input-base">
                     <input type="text" id="jobDept" required placeholder="Department" class="input-base uppercase">
                     <input type="text" id="jobLoc" required placeholder="Location" class="input-base uppercase">
                     <textarea id="jobReq" required rows="3" placeholder="Job Requirements..." class="input-base resize-none"></textarea>
-                    <button type="submit" class="w-full bg-sarathy-blue text-white font-black py-4 rounded-xl uppercase">Publish Job</button>
+                    
+                    <div class="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl border border-[var(--border-color)] space-y-3 mt-2">
+                        <div>
+                            <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest block mb-2">Creative Ad Images</label>
+                            <input type="file" id="jobImages" multiple accept="image/*" class="input-base text-sm py-2">
+                            <p class="text-[9px] font-medium text-slate-400 mt-1">Upload multiple creatives. Will be compressed automatically.</p>
+                        </div>
+                        <div>
+                            <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest block mb-2">Campaign Duration (Weeks)</label>
+                            <input type="number" id="jobDuration" value="2" min="1" max="12" required class="input-base py-2">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full bg-sarathy-blue text-white font-black py-4 rounded-xl uppercase shadow-md mt-2">Publish Job</button>
                 </form>
             </div>
         </div>
@@ -1309,6 +1328,10 @@
                 document.getElementById('appLayout').classList.add('hidden');
                 document.getElementById('applicationPage').classList.remove('hidden');
                 document.getElementById('applicationPage').classList.add('flex');
+                
+                // Track Job ID from URL for Lead Generation
+                const urlJobId = urlParams.get('jobId');
+                if(urlJobId) document.getElementById('publicApplyForm').dataset.jobId = urlJobId;
             }
             
             startCloudSync();
@@ -1448,12 +1471,65 @@
         // Jobs Logic
         const openJobModal = () => { document.getElementById('jobForm').reset(); document.getElementById('jobModal').classList.remove('hidden'); };
         const closeJobModal = () => document.getElementById('jobModal').classList.add('hidden');
+        
+        // Image Compression Helper
+        const compressImage = (file) => {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = (event) => {
+                    const img = new Image();
+                    img.src = event.target.result;
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        const MAX_WIDTH = 600; 
+                        const scaleSize = MAX_WIDTH / img.width;
+                        canvas.width = MAX_WIDTH;
+                        canvas.height = img.height * scaleSize;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                        resolve(canvas.toDataURL('image/jpeg', 0.6));
+                    }
+                };
+            });
+        };
+
+        window.viewAdImage = (src) => {
+            document.getElementById('viewerImageSrc').src = src;
+            document.getElementById('imageViewerModal').classList.remove('hidden');
+        };
+
         document.getElementById('jobForm')?.addEventListener('submit', async (e) => { 
             e.preventDefault(); 
-            const job = { id: Date.now(), title: document.getElementById('jobTitle').value, dept: document.getElementById('jobDept').value, location: document.getElementById('jobLoc').value, reqs: document.getElementById('jobReq').value, status: 'ACTIVE', date: new Date().toISOString().slice(0,10) };
+            
+            const files = document.getElementById('jobImages').files;
+            let base64Images = [];
+            if(files.length > 0) {
+                showToast("Compressing & Saving Ad Images...");
+                for(let i=0; i<files.length; i++) {
+                    base64Images.push(await compressImage(files[i]));
+                }
+            }
+
+            const weeks = parseInt(document.getElementById('jobDuration').value) || 2;
+            const expiry = new Date();
+            expiry.setDate(expiry.getDate() + (weeks * 7));
+
+            const job = { 
+                id: Date.now(), 
+                title: document.getElementById('jobTitle').value, 
+                dept: document.getElementById('jobDept').value, 
+                location: document.getElementById('jobLoc').value, 
+                reqs: document.getElementById('jobReq').value, 
+                images: base64Images,
+                durationWeeks: weeks,
+                expiryDate: expiry.toISOString().slice(0,10),
+                status: 'ACTIVE', 
+                date: new Date().toISOString().slice(0,10) 
+            };
             jobsList.push(job); 
             await writeToCloud('jobs', job.id, job);
-            closeJobModal(); renderJobs(); showToast("Job Posted!"); 
+            closeJobModal(); renderJobs(); showToast("Job Campaign Published!"); 
         });
         const toggleJobStatus = async (id) => { 
             const idx = jobsList.findIndex(j => String(j.id) === String(id)); 
@@ -1473,27 +1549,56 @@
         };
         const copyJob = (id) => { 
             const j = jobsList.find(x => String(x.id) === String(id)); if(!j) return; 
-            const text = `📢 WE ARE HIRING!\n\nRole: ${j.title}\nDept: ${j.dept}\nLocation: ${j.location}\n\nRequirements:\n${j.reqs}\n\nApply now at Sarathy Group!`; 
-            const el = document.createElement('textarea'); el.value = text; document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el); showToast("Job Description Copied!"); 
+            const applyLink = window.location.origin + window.location.pathname + '?view=apply&jobId=' + j.id;
+            const text = `📢 WE ARE HIRING!\n\nRole: ${j.title}\nDept: ${j.dept}\nLocation: ${j.location}\n\nRequirements:\n${j.reqs}\n\nApply securely here: ${applyLink}`; 
+            const el = document.createElement('textarea'); el.value = text; document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el); showToast("Job Campaign Link Copied!"); 
         };
+        
+        window.viewJobLeads = (jobId) => {
+            switchTab('candidates');
+            const searchInput = document.getElementById('searchInput');
+            if(searchInput) {
+                searchInput.value = 'JOB-' + jobId;
+                renderTable();
+                showToast("Showing Leads for Campaign", "success");
+            }
+        };
+
         const renderJobs = () => { 
             const container = document.getElementById('jobsContainer'); if(!container) return; 
             if(jobsList.length === 0) { container.innerHTML = '<div class="col-span-full text-center py-16 opacity-50"><i class="fas fa-briefcase text-4xl mb-3 text-slate-400"></i><p class="text-sm font-bold text-slate-500">No active job postings</p></div>'; return; } 
-            container.innerHTML = [...jobsList].sort((a,b)=>b.id-a.id).map(j => `
+            container.innerHTML = [...jobsList].sort((a,b)=>b.id-a.id).map(j => {
+                let imagesHtml = '';
+                if(j.images && j.images.length > 0) {
+                    imagesHtml = `<div class="flex gap-3 overflow-x-auto custom-scroll mb-4 pb-2 snap-x">
+                        ${j.images.map(img => `<img src="${img}" class="h-28 w-auto object-cover rounded-xl border border-[var(--border-color)] snap-center cursor-pointer shadow-sm hover:opacity-80 transition-opacity" onclick="viewAdImage('${img}')">`).join('')}
+                    </div>`;
+                }
+
+                const isExpired = j.status === 'ACTIVE' && new Date(j.expiryDate) <= new Date();
+                const expiryBadge = isExpired 
+                    ? `<span class="text-[10px] font-bold text-red-500 bg-red-50 dark:bg-red-900/20 px-2 py-1 rounded-md"><i class="fas fa-exclamation-triangle"></i> Ad Expired</span>` 
+                    : (j.expiryDate ? `<span class="text-[10px] font-bold text-slate-500"><i class="fas fa-clock"></i> Exp: ${formatDateString(j.expiryDate)}</span>` : '');
+
+                return `
                 <div class="modern-card p-6 flex flex-col border-t-4 ${j.status === 'ACTIVE' ? 'border-sky-500' : 'border-slate-300 dark:border-slate-600'}">
                     <div class="flex justify-between items-start mb-4">
                         <div class="pr-2">
                             <h3 class="font-black text-base uppercase leading-tight text-[var(--text-primary)]">${j.title}</h3>
                             <p class="text-[11px] font-bold text-slate-500 uppercase mt-1">${j.dept} • ${j.location}</p>
+                            <div class="mt-2">${expiryBadge}</div>
                         </div>
                         <span class="px-2 py-1 rounded-md text-[10px] font-black uppercase ${j.status === 'ACTIVE' ? 'bg-sky-100 text-sky-700 dark:bg-sky-900/30 dark:text-sky-400' : 'bg-slate-100 text-slate-500 dark:bg-slate-800'} cursor-pointer shrink-0" onclick="toggleJobStatus(${j.id})">${j.status}</span>
                     </div>
+                    ${imagesHtml}
                     <p class="text-sm font-medium mb-6 line-clamp-3 text-[var(--text-secondary)] flex-1">${j.reqs}</p>
-                    <div class="flex gap-2 mt-auto">
-                        <button onclick="copyJob(${j.id})" class="flex-1 py-2 bg-[var(--bg-primary)] hover:bg-sky-50 dark:hover:bg-sky-900/20 text-[var(--text-primary)] rounded-lg font-bold text-xs uppercase border border-[var(--border-color)] transition-colors"><i class="fas fa-copy"></i> Copy JD</button>
-                        <button onclick="deleteJob(${j.id})" class="w-10 h-10 bg-red-50 dark:bg-red-900/20 text-red-500 rounded-lg flex items-center justify-center hover:bg-red-100 dark:hover:bg-red-900/40 transition-colors"><i class="fas fa-trash-alt"></i></button>
+                    <div class="flex flex-wrap gap-2 mt-auto">
+                        <button onclick="copyJob(${j.id})" class="flex-1 py-2.5 bg-[var(--bg-primary)] hover:bg-sky-50 dark:hover:bg-sky-900/20 text-[var(--text-primary)] rounded-lg font-bold text-xs uppercase border border-[var(--border-color)] transition-colors"><i class="fas fa-link text-sky-500"></i> Link</button>
+                        <button onclick="viewJobLeads(${j.id})" class="flex-1 py-2.5 bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 rounded-lg font-bold text-xs uppercase border border-emerald-100 dark:border-emerald-900/30 transition-colors"><i class="fas fa-users"></i> Leads</button>
+                        <button onclick="deleteJob(${j.id})" class="w-10 h-10 shrink-0 bg-red-50 dark:bg-red-900/20 text-red-500 rounded-lg flex items-center justify-center hover:bg-red-100 dark:hover:bg-red-900/40 transition-colors"><i class="fas fa-trash-alt"></i></button>
                     </div>
-                </div>`).join(''); 
+                </div>`;
+            }).join(''); 
         };
 
         // Training Logic
@@ -1670,7 +1775,7 @@
             const monthFilter = document.getElementById('filterMonth')?.value;
             
             let filtered = joinees.filter(x => { 
-                const searchMatch = x.name.includes(term) || x.empId.includes(term) || x.phone?.includes(term); 
+                const searchMatch = x.name.includes(term) || x.empId.includes(term) || x.phone?.includes(term) || x.source?.includes(term); 
                 let qMatch = true; 
                 if(activeFilter==='Pending') qMatch = x.status === 'PENDING'; 
                 if(activeFilter==='Selected') qMatch = x.status === 'SELECTED'; 
@@ -1810,6 +1915,10 @@
             e.preventDefault();
             const tempEmpId = 'APP-' + Math.floor(Math.random() * 10000).toString(); // Temporary ID generated
             const candidateId = Date.now();
+            
+            // Link Lead to Specific Job if JobID exists
+            const appliedJobId = document.getElementById('publicApplyForm').dataset.jobId;
+            const applicationSource = appliedJobId ? `Online Portal (JOB-${appliedJobId})` : 'Online Portal';
 
             const newCandidate = {
                 id: candidateId, 
@@ -1822,7 +1931,7 @@
                 experience: parseFloat(document.getElementById('pubExp').value) || 0, 
                 dept: document.getElementById('pubDept').value, 
                 location: document.getElementById('pubLocation').value, 
-                source: 'Online Portal', 
+                source: applicationSource, 
                 company: 'ALL', 
                 status: 'PENDING', 
                 interviewDate: '', 
@@ -2153,7 +2262,26 @@
         };
 
         const toggleNotifications = () => document.getElementById('notificationModal')?.classList.toggle('hidden');
-        const checkNotifications = () => { const today = new Date().toISOString().slice(0,10); const todayTxns = joinees.filter(x => x.interviewDate === today || x.joinDate === today); document.getElementById('notificationBadge').style.display = todayTxns.length > 0 ? 'block' : 'none'; document.getElementById('dynamicNotifications').innerHTML = todayTxns.length > 0 ? todayTxns.map(a => `<div class="p-4 mb-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl cursor-pointer hover:border-sarathy-blue transition-colors" onclick="viewCandidate(${a.id})"><span class="font-bold text-sm uppercase text-[var(--text-primary)]">${a.name}</span><p class="text-xs font-medium text-slate-500 mt-1">${a.joinDate === today ? '<i class="fas fa-check-circle text-blue-500 mr-1"></i> Joining' : '<i class="fas fa-calendar-check text-amber-500 mr-1"></i> Interview'} Today</p></div>`).join('') : '<p class="text-center text-slate-400 font-medium py-10">No upcoming activities today</p>'; };
+        const checkNotifications = () => { 
+            const today = new Date().toISOString().slice(0,10); 
+            const todayTxns = joinees.filter(x => x.interviewDate === today || x.joinDate === today); 
+            
+            // Check for Expired Ad Campaigns
+            const expiredJobs = jobsList.filter(j => j.status === 'ACTIVE' && j.expiryDate && j.expiryDate <= today);
+
+            let notifsHTML = '';
+            
+            if(expiredJobs.length > 0) {
+                notifsHTML += expiredJobs.map(j => `<div class="p-4 mb-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-900/30 rounded-xl cursor-pointer hover:border-red-400 transition-colors" onclick="switchTab('jobs')"><span class="font-bold text-sm uppercase text-red-600 dark:text-red-400">${j.title}</span><p class="text-xs font-medium text-red-500 mt-1"><i class="fas fa-exclamation-triangle mr-1"></i> Ad Campaign Completed (${j.durationWeeks} Weeks)</p></div>`).join('');
+            }
+
+            if(todayTxns.length > 0) {
+                notifsHTML += todayTxns.map(a => `<div class="p-4 mb-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl cursor-pointer hover:border-sarathy-blue transition-colors" onclick="viewCandidate(${a.id})"><span class="font-bold text-sm uppercase text-[var(--text-primary)]">${a.name}</span><p class="text-xs font-medium text-slate-500 mt-1">${a.joinDate === today ? '<i class="fas fa-check-circle text-blue-500 mr-1"></i> Joining' : '<i class="fas fa-calendar-check text-amber-500 mr-1"></i> Interview'} Today</p></div>`).join('');
+            }
+
+            document.getElementById('notificationBadge').style.display = (todayTxns.length > 0 || expiredJobs.length > 0) ? 'block' : 'none'; 
+            document.getElementById('dynamicNotifications').innerHTML = notifsHTML !== '' ? notifsHTML : '<p class="text-center text-slate-400 font-medium py-10">No upcoming activities today</p>'; 
+        };
 
         const exportToExcel = () => { 
             try { 
@@ -2264,6 +2392,8 @@
         window.toggleJobStatus = toggleJobStatus;
         window.deleteJob = deleteJob;
         window.copyJob = copyJob;
+        window.viewJobLeads = viewJobLeads;
+        window.viewAdImage = window.viewAdImage;
         window.openTrainingModal = openTrainingModal;
         window.closeTrainingModal = closeTrainingModal;
         window.updateTraining = updateTraining;
