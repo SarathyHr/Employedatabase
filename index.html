@@ -421,7 +421,6 @@
             <header class="h-16 lg:h-20 glass-panel flex justify-between items-center px-4 lg:px-8 shrink-0 z-30 sticky top-0 shadow-sm">
                 <div class="flex items-center gap-4">
                     <button onclick="toggleSidebar()" class="lg:hidden w-10 h-10 rounded-xl bg-white dark:bg-slate-800 flex items-center justify-center shadow-sm border border-[var(--border-color)] text-[var(--text-primary)]"><i class="fas fa-bars"></i></button>
-                    <button id="headerBackBtn" onclick="goBack()" class="hidden w-10 h-10 rounded-xl bg-white dark:bg-slate-800 text-[var(--text-primary)] items-center justify-center shadow-sm border border-[var(--border-color)] lg:hidden"><i class="fas fa-arrow-left"></i></button>
                     <h2 id="pageTitle" class="text-lg md:text-xl font-black uppercase tracking-wide text-[var(--text-primary)]">HR Overview</h2>
                 </div>
                 <div class="flex items-center gap-2 md:gap-4 shrink-0">
@@ -774,7 +773,10 @@
                 </div>
             </div>
             
-            <!-- Global Floating Add Button (Mobile) -->
+            <!-- Global Floating Buttons (Mobile & Desktop) -->
+            <button id="floatingBackBtn" onclick="goBack()" class="hidden fixed bottom-6 left-4 md:left-8 bg-white/90 dark:bg-slate-800/90 backdrop-blur-md text-[var(--text-primary)] px-5 py-3 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.2)] border border-[var(--border-color)] rounded-full z-[90] items-center gap-3 font-black text-sm uppercase tracking-widest transition-transform active:scale-95">
+                <span class="w-7 h-7 rounded-full bg-blue-100 dark:bg-blue-900/40 text-sarathy-blue dark:text-blue-400 flex items-center justify-center text-xs"><i class="fas fa-arrow-left"></i></span> Back
+            </button>
             <button id="addBtn" onclick="openModal()" class="fab md:hidden"><i class="fas fa-plus text-xl"></i></button>
         </main>
     </div>
@@ -1346,8 +1348,12 @@
             const titles = { dashboard: 'HR Overview', candidates: 'Candidates', directory: 'Directory', jobs: 'Job Postings', training: 'Training', okrs: 'Performance', calendar: 'Schedules', analytics: 'Analytics', settings: 'Settings', onboarding: 'Onboarding' };
             const pageTitle = document.getElementById('pageTitle'); if(pageTitle) pageTitle.innerText = titles[tab] || 'HR Overview';
             
-            const headerBackBtn = document.getElementById('headerBackBtn');
-            if (tabHistory.length > 0) { if(headerBackBtn) headerBackBtn.classList.remove('hidden'); } else { if(headerBackBtn) headerBackBtn.classList.add('hidden'); }
+            const floatingBackBtn = document.getElementById('floatingBackBtn');
+            if (tabHistory.length > 0) { 
+                if(floatingBackBtn) { floatingBackBtn.classList.remove('hidden'); floatingBackBtn.classList.add('flex'); } 
+            } else { 
+                if(floatingBackBtn) { floatingBackBtn.classList.add('hidden'); floatingBackBtn.classList.remove('flex'); } 
+            }
             
             if (window.innerWidth < 1024) { document.getElementById('sidebar')?.classList.add('-translate-x-full'); document.getElementById('mobileOverlay')?.classList.add('hidden'); }
             if(tab === 'analytics') initCharts();
