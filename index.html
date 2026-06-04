@@ -34,7 +34,6 @@
                     },
                     boxShadow: {
                         'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.07)',
-                        'neumorph': '20px 20px 60px #d1d5db, -20px -20px 60px #ffffff',
                     }
                 }
             }
@@ -69,16 +68,13 @@
             -webkit-tap-highlight-color: transparent;
         }
         
-        /* Modern UI Elements */
         .glass-panel { 
             background: var(--bg-glass); 
             backdrop-filter: blur(20px); 
             -webkit-backdrop-filter: blur(20px); 
             border: 1px solid rgba(255,255,255,0.1);
         }
-        .dark .glass-panel {
-            border: 1px solid rgba(255,255,255,0.05);
-        }
+        .dark .glass-panel { border: 1px solid rgba(255,255,255,0.05); }
         
         .modern-card { 
             background: var(--bg-secondary); 
@@ -93,7 +89,6 @@
             border-color: var(--border-color); 
         }
 
-        /* Improved Inputs for Mobile */
         .input-base {
             width: 100%;
             padding: 1rem 1.25rem;
@@ -102,7 +97,7 @@
             background-color: var(--bg-primary);
             color: var(--text-primary);
             font-weight: 600;
-            font-size: 16px; /* Prevents iOS Zoom */
+            font-size: 16px; 
             outline: none;
             transition: all 0.2s;
             appearance: none;
@@ -122,21 +117,18 @@
             padding-right: 2.5rem;
         }
         
-        /* Scrollbars */
         .custom-scroll::-webkit-scrollbar { width: 6px; height: 6px; }
         .custom-scroll::-webkit-scrollbar-track { background: transparent; }
         .custom-scroll::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 10px; }
         .custom-scroll:hover::-webkit-scrollbar-thumb { background: #94a3b8; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         
-        /* Animations */
         @keyframes slideUpFade { 
             from { opacity: 0; transform: translateY(20px) scale(0.98); } 
             to { opacity: 1; transform: translateY(0) scale(1); } 
         }
         .animate-up { animation: slideUpFade 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         
-        /* Navigation */
         .nav-link { 
             display: flex; align-items: center; gap: 14px; padding: 12px 16px; 
             border-radius: 12px; color: var(--text-secondary); font-weight: 600; 
@@ -144,35 +136,26 @@
             cursor: pointer; position: relative; overflow: hidden;
         }
         .nav-link:hover { background: var(--bg-primary); color: var(--text-primary); }
-        .nav-link.active { 
-            background: transparent; 
-            color: #0054A6; 
-        }
-        .dark .nav-link.active {
-            color: #3b82f6;
-        }
+        .nav-link.active { background: transparent; color: #0054A6; }
+        .dark .nav-link.active { color: #3b82f6; }
         
         .tab-content { display: none; opacity: 0; transition: opacity 0.3s ease; height: 100%; overflow-y: auto; padding-bottom: 120px; }
         .tab-content.active { display: block; opacity: 1; }
         
-        /* Kanban Board */
         .kanban-col { background: var(--bg-primary); border-radius: 1.5rem; padding: 1rem; min-height: 50vh; transition: all 0.2s; display: flex; flex-direction: column; }
         .kanban-col.drag-over { background: rgba(0, 84, 166, 0.03); border: 2px dashed #0054A6; transform: scale(1.01); }
         
-        /* Calendar */
         .calendar-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
         .calendar-day { min-height: 80px; border-radius: 12px; border: 1px solid var(--border-color); padding: 8px; display: flex; flex-direction: column; background: var(--bg-secondary); transition: all 0.2s; }
         .calendar-day.today { background: rgba(0, 84, 166, 0.05); border: 2px solid #0054A6; }
         .calendar-event { font-size: 0.7rem; padding: 4px 6px; border-radius: 6px; margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 700; cursor: pointer; transition: transform 0.2s; }
         
-        /* Utilities */
         .gradient-text { background: linear-gradient(135deg, #0054A6, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .dark .gradient-text { background: linear-gradient(135deg, #60a5fa, #93c5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         
         .fab { position: fixed; bottom: 24px; right: 24px; width: 60px; height: 60px; border-radius: 1rem; background: #0054A6; color: white; display: flex; justify-content: center; align-items: center; box-shadow: 0 10px 25px -5px rgba(0, 84, 166, 0.5); z-index: 50; cursor: pointer; transition: all 0.3s; }
         .fab:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0, 84, 166, 0.5); }
         
-        /* Data Tables */
         .data-table-container { background: var(--bg-secondary); border-radius: 1.5rem; border: 1px solid var(--border-color); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02); max-height: calc(100vh - 280px); overflow-y: auto; }
         .data-table { width: 100%; border-collapse: separate; border-spacing: 0; }
         .data-table th { background: var(--bg-primary); color: var(--text-secondary); font-size: 0.75rem; font-weight: 800; text-transform: uppercase; text-align: left; padding: 16px 24px; position: sticky; top: 0; z-index: 10; letter-spacing: 0.05em; border-bottom: 1px solid var(--border-color); }
@@ -182,7 +165,6 @@
         
         .custom-checkbox { width: 22px; height: 22px; cursor: pointer; accent-color: #0054A6; border-radius: 6px; }
         
-        /* Badges */
         .status-badge { padding: 6px 12px; border-radius: 9999px; font-size: 0.7rem; font-weight: 800; display: inline-flex; align-items: center; justify-content: center; text-transform: uppercase; letter-spacing: 0.05em; }
         .badge-selected { background: #dcfce7; color: #166534; }
         .badge-pending { background: #fef9c3; color: #854d0e; }
@@ -193,14 +175,12 @@
         .dark .badge-rejected { background: rgba(220, 38, 38, 0.2); color: #f87171; }
         .dark .badge-joined { background: rgba(37, 99, 235, 0.2); color: #60a5fa; }
         
-        /* Progress Slider */
         .progress-slider { -webkit-appearance: none; width: 100%; height: 8px; border-radius: 4px; background: var(--border-color); outline: none; }
         .progress-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 20px; height: 20px; border-radius: 50%; background: #0054A6; cursor: pointer; transition: transform 0.1s; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
         .progress-slider::-webkit-slider-thumb:hover { transform: scale(1.2); }
 
         .dragging { opacity: 0.5; transform: scale(0.95); cursor: grabbing !important; }
 
-        /* Print Styles */
         @media print {
             body * { visibility: hidden; }
             #printArea, #printArea * { visibility: visible; }
@@ -208,7 +188,6 @@
             * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
         }
         
-        /* Background decorative elements for public forms */
         .bg-shapes {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -224,7 +203,7 @@
     <!-- PRINT AREA -->
     <div id="printArea" class="hidden print:block z-[9999] bg-white text-black"></div>
 
-    <!-- PUBLIC APPLICATION PAGE (Responsive & Modernized like Google Form) -->
+    <!-- PUBLIC APPLICATION PAGE -->
     <div id="applicationPage" class="fixed inset-0 z-[200] hidden items-center justify-center p-4 md:p-8 bg-slate-50 dark:bg-slate-900 overflow-y-auto custom-scroll transition-opacity duration-500">
         <div class="bg-shapes">
             <div class="shape-1"></div>
@@ -233,8 +212,6 @@
         
         <div class="w-full max-w-4xl animate-up relative z-10 my-auto py-8">
             <div class="bg-white/80 dark:bg-slate-800/80 backdrop-blur-2xl p-6 md:p-12 rounded-[2rem] md:rounded-[3rem] shadow-2xl border border-white/40 dark:border-slate-700/50">
-                
-                <!-- Header -->
                 <div class="text-center mb-10">
                     <div class="inline-flex items-center justify-center w-20 h-20 bg-white rounded-2xl shadow-lg mb-6 border border-slate-100 p-2">
                         <img src="sarathy-group-logo.png" alt="Logo" class="w-full h-full object-contain" onerror="this.style.display='none'; document.getElementById('logoFallbackApply').classList.remove('hidden')">
@@ -244,11 +221,8 @@
                     <p class="text-base font-medium text-slate-500 dark:text-slate-400 max-w-lg mx-auto">Take the next step in your career with Sarathy Group. Please fill out the application form below.</p>
                 </div>
                 
-                <!-- Form -->
                 <form id="publicApplyForm" class="space-y-6">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-                        
-                        <!-- Personal Details -->
                         <div class="space-y-6 md:col-span-2 bg-slate-50/50 dark:bg-slate-900/30 p-6 md:p-8 rounded-3xl border border-slate-100 dark:border-slate-800">
                             <h3 class="text-sm font-black uppercase tracking-widest text-sarathy-blue mb-2 flex items-center gap-2"><i class="fas fa-user-circle"></i> Personal Information</h3>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -271,7 +245,6 @@
                             </div>
                         </div>
 
-                        <!-- Professional Details -->
                         <div class="space-y-6 md:col-span-2 bg-slate-50/50 dark:bg-slate-900/30 p-6 md:p-8 rounded-3xl border border-slate-100 dark:border-slate-800">
                             <h3 class="text-sm font-black uppercase tracking-widest text-sarathy-blue mb-2 flex items-center gap-2"><i class="fas fa-briefcase"></i> Professional Details</h3>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -320,7 +293,6 @@
                             Submit Application <i class="fas fa-arrow-right"></i>
                         </button>
                     </div>
-                    
                     <div class="text-center mt-6">
                         <button type="button" onclick="window.location.href = window.location.pathname" class="text-sm font-bold text-slate-400 hover:text-sarathy-blue transition-colors">Admin Login</button>
                     </div>
@@ -367,7 +339,6 @@
                     </div>
                     <button type="submit" class="w-full bg-sarathy-blue hover:bg-blue-700 text-white font-black py-4 rounded-xl shadow-lg mt-6 uppercase tracking-widest text-sm transition-all active:scale-[0.98]">Authenticate</button>
                 </form>
-                
                 <div class="mt-8 pt-6 border-t border-slate-100 dark:border-slate-700 text-center">
                     <button onclick="window.location.search = '?view=apply'" class="text-sm font-bold text-sarathy-blue hover:text-blue-800 dark:text-blue-400 transition-colors flex items-center justify-center w-full gap-2">
                         <i class="fas fa-external-link-alt"></i> Go to Public Apply Form
@@ -417,7 +388,6 @@
 
         <!-- MAIN CONTENT AREA -->
         <main class="flex-1 flex flex-col h-[100dvh] overflow-hidden relative min-w-0">
-            <!-- Header -->
             <header class="h-16 lg:h-20 glass-panel flex justify-between items-center px-4 lg:px-8 shrink-0 z-30 sticky top-0 shadow-sm">
                 <div class="flex items-center gap-4">
                     <button onclick="toggleSidebar()" class="lg:hidden w-10 h-10 rounded-xl bg-white dark:bg-slate-800 flex items-center justify-center shadow-sm border border-[var(--border-color)] text-[var(--text-primary)]"><i class="fas fa-bars"></i></button>
@@ -439,16 +409,13 @@
                 </div>
             </header>
 
-            <!-- Scrollable Content -->
             <div class="flex-1 relative overflow-y-auto overflow-x-hidden custom-scroll scroll-smooth pb-24 md:pb-8">
                 
                 <!-- TAB 1: DASHBOARD -->
                 <div id="tab-dashboard" class="tab-content active p-4 md:p-6 lg:p-8 space-y-6 max-w-[1600px] mx-auto">
-                    <!-- Hero Section -->
                     <div class="bg-gradient-to-r from-[#0054A6] to-[#0ea5e9] rounded-3xl p-6 md:p-10 text-white relative overflow-hidden shadow-lg animate-up">
                         <div class="absolute top-0 right-0 w-64 h-64 bg-white opacity-5 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2"></div>
                         <div class="absolute bottom-0 right-20 w-40 h-40 bg-blue-300 opacity-20 rounded-full blur-2xl"></div>
-                        
                         <div class="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
                             <div class="flex-1">
                                 <h2 class="text-3xl md:text-4xl font-black mb-2 flex items-center gap-3 tracking-tight">Good Morning, HR <i class="fas fa-coffee text-blue-200 text-2xl"></i></h2>
@@ -460,8 +427,6 @@
                                     <input type="file" id="bulkUploadExcel" accept=".xlsx, .xls, .csv" class="hidden" onchange="handleBulkExcelUpload(event)">
                                 </div>
                             </div>
-                            
-                            <!-- Notice Board Card -->
                             <div class="w-full md:w-80 bg-white/10 backdrop-blur-md border border-white/20 p-5 rounded-2xl flex flex-col h-48 shadow-inner shrink-0">
                                 <div class="flex justify-between items-center mb-4 pb-2 border-b border-white/20">
                                     <h3 class="font-bold text-xs uppercase tracking-widest text-white flex items-center gap-2"><i class="fas fa-bullhorn text-amber-300"></i> Notice Board</h3>
@@ -473,9 +438,8 @@
                     </div>
 
                     <!-- Key Stats Grid -->
-                    <div class="grid grid-cols-2 md:grid-cols-5 gap-3 md:gap-4 animate-up" style="animation-delay: 0.1s;">
+                    <div class="grid grid-cols-2 md:grid-cols-6 gap-3 md:gap-4 animate-up" style="animation-delay: 0.1s;">
                         <div class="modern-card p-4 md:p-6 flex flex-col justify-center relative overflow-hidden group">
-                            <div class="absolute right-[-10px] bottom-[-10px] opacity-5 text-6xl group-hover:scale-110 transition-transform"><i class="fas fa-users"></i></div>
                             <span class="text-[10px] md:text-xs font-black text-slate-500 uppercase tracking-wider mb-1">Total Apps</span>
                             <h3 class="text-3xl md:text-4xl font-black text-slate-800 dark:text-white" id="statTotal">0</h3>
                         </div>
@@ -495,10 +459,14 @@
                             <span class="text-[10px] md:text-xs font-black text-slate-500 uppercase tracking-wider mb-1">Rejected</span>
                             <h3 class="text-3xl md:text-4xl font-black text-red-500" id="statRejected">0</h3>
                         </div>
+                        <!-- NEW: Time to Hire Stat -->
+                        <div class="modern-card p-4 md:p-6 flex flex-col justify-center relative overflow-hidden group border-b-4 border-indigo-500 bg-indigo-50/30 dark:bg-indigo-900/10">
+                            <span class="text-[10px] md:text-xs font-black text-indigo-500 uppercase tracking-wider mb-1">Avg. Time to Hire</span>
+                            <h3 class="text-3xl md:text-4xl font-black text-indigo-600" id="statHiringTime">0 <span class="text-sm">Days</span></h3>
+                        </div>
                     </div>
 
                     <div class="grid grid-cols-1 xl:grid-cols-3 gap-6 animate-up" style="animation-delay: 0.2s;">
-                        <!-- Recent Activity -->
                         <div class="xl:col-span-2 modern-card p-6">
                             <div class="flex justify-between items-center mb-6">
                                 <h3 class="font-black text-base uppercase text-[var(--text-primary)]">Recent Registrations</h3>
@@ -511,22 +479,18 @@
                             </div>
                         </div>
                         
-                        <!-- Targets -->
                         <div class="modern-card p-6 flex flex-col">
                             <div class="flex justify-between items-center mb-6">
                                 <h3 class="font-black text-base uppercase text-[var(--text-primary)]">Hiring Targets</h3>
                                 <button onclick="openReqModal()" class="w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-sarathy-blue flex items-center justify-center"><i class="fas fa-edit"></i></button>
                             </div>
-                            <div class="flex-1 overflow-y-auto custom-scroll pr-2 space-y-4" id="progContainer">
-                                <!-- Targets injected here -->
-                            </div>
+                            <div class="flex-1 overflow-y-auto custom-scroll pr-2 space-y-4" id="progContainer"></div>
                         </div>
                     </div>
                 </div>
 
                 <!-- TAB 2: CANDIDATES -->
                 <div id="tab-candidates" class="tab-content p-4 md:p-6 lg:p-8 max-w-[1600px] mx-auto">
-                    <!-- Advanced Filter Bar -->
                     <div class="modern-card p-4 mb-6 shadow-sm sticky top-0 z-20">
                         <div class="flex flex-col md:flex-row gap-4 mb-4">
                             <div class="relative flex-1">
@@ -555,7 +519,6 @@
                                 </select>
                             </div>
                         </div>
-                        
                         <div class="flex flex-wrap items-center justify-between gap-4">
                             <div class="flex gap-2 overflow-x-auto no-scrollbar pb-1">
                                 <button onclick="setQuickFilter('All')" class="px-5 py-2 rounded-lg text-xs font-bold transition-colors bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400" id="chip-All">All</button>
@@ -571,7 +534,6 @@
                         </div>
                     </div>
 
-                    <!-- List View -->
                     <div id="listView" class="animate-up">
                         <div class="data-table-container">
                             <table class="data-table min-w-[1200px]">
@@ -580,6 +542,7 @@
                                         <th>Candidate Info</th>
                                         <th>Details</th>
                                         <th>Position</th>
+                                        <th>AI Match Score</th>
                                         <th>Status</th>
                                         <th>Dates</th>
                                         <th class="text-right">Action</th>
@@ -590,7 +553,6 @@
                         </div>
                     </div>
                     
-                    <!-- Board View -->
                     <div id="boardView" class="hidden grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 animate-up">
                         <div class="kanban-col" ondrop="dropToBoard(event, 'PENDING')" ondragover="allowBoardDrop(event)">
                             <div class="flex justify-between items-center mb-4 px-2">
@@ -725,7 +687,6 @@
                             <input type="month" id="chartMonthFilter" onchange="initCharts()" class="p-1 bg-transparent font-bold text-sm outline-none cursor-pointer text-sarathy-blue border-none">
                         </div>
                     </div>
-                    
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 animate-up" style="animation-delay: 0.1s;">
                         <div class="modern-card p-6 flex flex-col items-center">
                             <h3 class="font-bold text-sm uppercase text-slate-500 mb-6 w-full text-left">Hiring Status Breakdown</h3>
@@ -764,6 +725,7 @@
                             <div class="space-y-3">
                                 <button onclick="exportJSONBackup()" class="w-full bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-[var(--text-primary)] font-bold py-3 rounded-xl transition-colors flex items-center justify-center gap-2"><i class="fas fa-download"></i> Backup System Data</button>
                                 <button onclick="document.getElementById('importFile').click()" class="w-full bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-[var(--text-primary)] font-bold py-3 rounded-xl transition-colors flex items-center justify-center gap-2"><i class="fas fa-upload"></i> Restore from Backup</button>
+                                <input type="file" id="importFile" accept=".json" class="hidden" onchange="importBackup(event)">
                                 <div class="pt-4 mt-4 border-t border-[var(--border-color)]">
                                     <button onclick="clearAllData()" class="w-full bg-red-50 hover:bg-red-100 dark:bg-red-900/20 dark:hover:bg-red-900/40 text-red-600 dark:text-red-400 font-bold py-3 rounded-xl transition-colors flex items-center justify-center gap-2"><i class="fas fa-exclamation-triangle"></i> Factory Reset Data</button>
                                 </div>
@@ -773,7 +735,6 @@
                 </div>
             </div>
             
-            <!-- Global Floating Buttons (Mobile & Desktop) -->
             <button id="floatingBackBtn" onclick="goBack()" class="hidden fixed bottom-6 left-4 md:left-8 bg-white/90 dark:bg-slate-800/90 backdrop-blur-md text-[var(--text-primary)] px-5 py-3 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.2)] border border-[var(--border-color)] rounded-full z-[90] items-center gap-3 font-black text-sm uppercase tracking-widest transition-transform active:scale-95">
                 <span class="w-7 h-7 rounded-full bg-blue-100 dark:bg-blue-900/40 text-sarathy-blue dark:text-blue-400 flex items-center justify-center text-xs"><i class="fas fa-arrow-left"></i></span> BACK
             </button>
@@ -792,7 +753,6 @@
             <div class="flex-1 overflow-y-auto custom-scroll p-6">
                 <form id="joineeForm" class="space-y-6">
                     <input type="hidden" id="editId">
-                    
                     <div class="bg-slate-50 dark:bg-slate-800/50 p-5 rounded-2xl border border-[var(--border-color)] space-y-4">
                         <div class="grid grid-cols-2 gap-4">
                             <div>
@@ -809,7 +769,6 @@
                                 </select>
                             </div>
                         </div>
-                        
                         <div id="rejectionReasonContainer" class="hidden flex-col">
                             <label class="text-xs font-bold text-red-500 uppercase mb-1.5 block">Rejection Reason</label>
                             <select id="rejectionReason" class="input-base border-red-300 focus:border-red-500">
@@ -820,7 +779,6 @@
                                 <option value="Other">Other</option>
                             </select>
                         </div>
-                        
                         <div>
                             <label class="text-xs font-bold text-slate-500 uppercase mb-2 block">Interview Rating</label>
                             <div class="flex gap-2" id="starSelector">
@@ -923,7 +881,6 @@
                     </div>
                 </form>
             </div>
-            
             <div class="p-6 border-t border-[var(--border-color)] bg-[var(--bg-secondary)] shrink-0">
                 <button type="button" onclick="document.getElementById('joineeForm').dispatchEvent(new Event('submit'))" class="w-full bg-sarathy-blue hover:bg-blue-700 text-white font-black py-4 rounded-xl shadow-lg uppercase transition-all">Save Candidate Record</button>
             </div>
@@ -940,13 +897,11 @@
                     <button onclick="closeViewModal()" class="w-10 h-10 rounded-full bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 shadow-sm border border-[var(--border-color)] hover:text-red-500"><i class="fas fa-times"></i></button>
                 </div>
             </div>
-            <div class="p-6 md:p-8 overflow-y-auto custom-scroll flex-1" id="viewModalContent">
-                <!-- Content injected via JS -->
-            </div>
+            <div class="p-6 md:p-8 overflow-y-auto custom-scroll flex-1" id="viewModalContent"></div>
         </div>
     </div>
 
-    <!-- IMAGE VIEWER MODAL (For Job Ads) -->
+    <!-- IMAGE VIEWER MODAL -->
     <div id="imageViewerModal" class="fixed inset-0 bg-slate-900/90 backdrop-blur-md z-[300] hidden flex items-center justify-center p-4 transition-opacity no-print" onclick="this.classList.add('hidden')">
         <button class="absolute top-6 right-6 w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full text-white text-xl flex items-center justify-center backdrop-blur-md transition-colors"><i class="fas fa-times"></i></button>
         <img id="viewerImageSrc" src="" class="max-w-full max-h-[90vh] object-contain rounded-xl shadow-2xl border border-white/10" onclick="event.stopPropagation()">
@@ -962,7 +917,6 @@
                     <input type="text" id="jobDept" required placeholder="Department" class="input-base uppercase">
                     <input type="text" id="jobLoc" required placeholder="Location" class="input-base uppercase">
                     <textarea id="jobReq" required rows="3" placeholder="Job Requirements..." class="input-base resize-none"></textarea>
-                    
                     <div class="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl border border-[var(--border-color)] space-y-3 mt-2">
                         <div>
                             <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest block mb-2">Creative Ad Images</label>
@@ -974,7 +928,6 @@
                             <input type="number" id="jobDuration" value="2" min="1" max="12" required class="input-base py-2">
                         </div>
                     </div>
-
                     <button type="submit" class="w-full bg-sarathy-blue text-white font-black py-4 rounded-xl uppercase shadow-md mt-2">Publish Job</button>
                 </form>
             </div>
@@ -1089,18 +1042,23 @@
         </div>
     </div>
 
-    <!-- JAVASCRIPT LOGIC (Firebase Module Migration for Cloud Syncing) -->
+    <!-- JAVASCRIPT LOGIC (Firebase Module + Application Logic) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInWithCustomToken, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, setDoc, getDocs, deleteDoc, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        const CURRENT_DB_VERSION = 'sarathy_db_v15'; const CURRENT_BUDGET_VERSION = 'sarathy_req_v15'; const NOTICES_DB_VERSION = 'sarathy_notices_v2';
-        const JOBS_DB_VERSION = 'sarathy_jobs_v2'; const TRAINING_DB_VERSION = 'sarathy_training_v2'; const OKR_DB_VERSION = 'sarathy_okr_v2';
+        const CURRENT_DB_VERSION = 'sarathy_db_v15'; 
+        const CURRENT_BUDGET_VERSION = 'sarathy_req_v15'; 
+        const NOTICES_DB_VERSION = 'sarathy_notices_v2';
+        const JOBS_DB_VERSION = 'sarathy_jobs_v2'; 
+        const TRAINING_DB_VERSION = 'sarathy_training_v2'; 
+        const OKR_DB_VERSION = 'sarathy_okr_v2';
         
         let localUsers = JSON.parse(localStorage.getItem('sarathy_users_v13'));
         if (!localUsers) { localUsers = [{ user: 'ADMIN', pass: 'SARATHY@26', role: 'Administrator' }]; localStorage.setItem('sarathy_users_v13', JSON.stringify(localUsers)); }
-        let USERS = localUsers; let currentUser = null;
+        let USERS = localUsers; 
+        let currentUser = null;
         
         let joinees = JSON.parse(localStorage.getItem(CURRENT_DB_VERSION)) || [];
         let reqList = JSON.parse(localStorage.getItem(CURRENT_BUDGET_VERSION)) || [{dept: 'SALES', company: 'SARATHY MOTORS', location: 'KOLLAM', target: 5}, {dept: 'SERVICE', company: 'SARATHY BIKES PVT LTD', location: 'TRIVANDRUM', target: 3}];
@@ -1109,18 +1067,22 @@
         let trainingList = JSON.parse(localStorage.getItem(TRAINING_DB_VERSION)) || [];
         let okrList = JSON.parse(localStorage.getItem(OKR_DB_VERSION)) || [];
         
-        let currentTab = 'dashboard'; let tabHistory = []; let currentView = 'list'; let activeFilter = 'All'; let chartStatus, chartSource, chartSourcePie, chartRejection; let calendarDate = new Date();
+        let currentTab = 'dashboard'; 
+        let tabHistory = []; 
+        let currentView = 'list'; 
+        let activeFilter = 'All'; 
+        let chartStatus, chartSource, chartSourcePie, chartRejection; 
+        let calendarDate = new Date();
         let draggedCandidateId = null;
 
         const urlParams = new URLSearchParams(window.location.search);
-        // Is Apply View (Google Form Mode) Check
         const isApplyView = urlParams.get('view') === 'apply';
 
         let db = null;
         let auth = null;
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'sarathy-hr-portal-v15';
 
-        // Custom Dialog Helper
+        // --- Custom Dialog & UI Helpers ---
         let dialogResolve = null;
         const showDialogModal = (type, title, message, placeholder = '') => {
             return new Promise((resolve) => {
@@ -1184,9 +1146,25 @@
             setTimeout(() => window.print(), 100); 
         };
 
-        const refreshAllViews = () => { 
-            updateLocationFilterOptions(); renderDashboard(); renderTable(); renderOnboarding(); renderDirectory(); renderJobs(); renderTraining(); renderOKRs(); renderCalendar(); checkNotifications();
-            if(currentTab === 'analytics') initCharts(); 
+        const compressImage = (file) => {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = (event) => {
+                    const img = new Image();
+                    img.src = event.target.result;
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        const MAX_WIDTH = 600; 
+                        const scaleSize = MAX_WIDTH / img.width;
+                        canvas.width = MAX_WIDTH;
+                        canvas.height = img.height * scaleSize;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                        resolve(canvas.toDataURL('image/jpeg', 0.6));
+                    }
+                };
+            });
         };
 
         const toggleDarkMode = () => { 
@@ -1198,6 +1176,47 @@
             if(chartStatus) { chartStatus.update(); chartSource.update(); if(chartSourcePie) chartSourcePie.update(); if(chartRejection) chartRejection.update(); } 
         };
 
+        // --- ADVANCED FEATURES (Pro) ---
+        const calculateMatchScore = (candidate) => {
+            let score = 0;
+            const exp = parseFloat(candidate.experience) || 0;
+            if(exp >= 2 && exp <= 5) score += 40;
+            else if(exp > 0) score += 20;
+            
+            if(candidate.qualification && (candidate.qualification.includes('MBA') || candidate.qualification.includes('B.TECH') || candidate.qualification.includes('DEGREE'))) {
+                score += 30;
+            }
+            score += (candidate.rating * 6); 
+            return Math.min(score, 100);
+        };
+
+        const calculateAverageHiringTime = () => {
+            const joined = joinees.filter(x => x.status === 'JOINED' && x.interviewDate && x.joinDate);
+            if(joined.length === 0) return 0;
+            const totalDays = joined.reduce((acc, curr) => {
+                const start = new Date(curr.interviewDate);
+                const end = new Date(curr.joinDate);
+                return acc + (end - start);
+            }, 0);
+            return Math.round((totalDays / (1000 * 60 * 60 * 24)) / joined.length);
+        };
+
+        const generateCommMessage = (id, type) => {
+            const r = joinees.find(x => String(x.id) === String(id));
+            if(!r) return;
+            let message = "";
+            if(type === 'interview') {
+                message = `🌟 *INTERVIEW INVITE - SARATHY GROUP* 🌟\n\nDear ${r.name},\n\nWe are impressed with your profile and would like to invite you for an interview for the ${r.dept} position.\n\n📅 Date: [Enter Date]\n⏰ Time: [Enter Time]\n📍 Location: ${r.location}\n\nPlease confirm your availability.`;
+            } else if(type === 'welcome') {
+                message = `🎉 *WELCOME TO THE TEAM!* 🎉\n\nDear ${r.name},\n\nCongratulations! We are thrilled to have you join Sarathy Group as our new ${r.designation || 'Team Member'}.\n\nYour joining date is ${formatDateString(r.joinDate)}. We look forward to seeing you!`;
+            }
+            const encodedMsg = encodeURIComponent(message);
+            window.open(`https://wa.me/${r.phone}?text=${encodedMsg}`, '_blank');
+            showToast("Opening WhatsApp...");
+        };
+        // ---------------------------
+
+        // --- Firebase Integration ---
         async function writeToCloud(collectionName, id, data) {
             if (!db || !auth || !auth.currentUser) return;
             try {
@@ -1221,7 +1240,6 @@
         function setupRealtimeSync() {
             const syncCollection = (collectionName, onUpdate, defaultData) => {
                 const colRef = collection(db, 'artifacts', appId, 'public', 'data', collectionName);
-                
                 getDocs(colRef).then((qSnap) => {
                     if (qSnap.empty && defaultData && defaultData.length > 0) {
                         defaultData.forEach(item => {
@@ -1233,66 +1251,29 @@
 
                 onSnapshot(colRef, (snapshot) => {
                     const list = [];
-                    snapshot.forEach(docSnap => {
-                        list.push(docSnap.data());
-                    });
+                    snapshot.forEach(docSnap => { list.push(docSnap.data()); });
                     onUpdate(list);
-                }, (err) => {
-                    console.error(`Sync error for ${collectionName}:`, err);
-                });
+                }, (err) => { console.error(`Sync error for ${collectionName}:`, err); });
             };
 
-            // Sync Core Lists
-            syncCollection('candidates', (list) => {
-                joinees = list;
-                localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees));
-                refreshAllViews();
-            }, joinees);
-
-            syncCollection('targets', (list) => {
-                reqList = list;
-                localStorage.setItem(CURRENT_BUDGET_VERSION, JSON.stringify(reqList));
-                refreshAllViews();
-            }, reqList);
-
-            syncCollection('notices', (list) => {
-                noticesList = list;
-                localStorage.setItem(NOTICES_DB_VERSION, JSON.stringify(noticesList));
-                renderNotices();
-            }, noticesList);
-
-            syncCollection('jobs', (list) => {
-                jobsList = list;
-                localStorage.setItem(JOBS_DB_VERSION, JSON.stringify(jobsList));
-                renderJobs();
-            }, jobsList);
-
-            syncCollection('training', (list) => {
-                trainingList = list;
-                localStorage.setItem(TRAINING_DB_VERSION, JSON.stringify(trainingList));
-                renderTraining();
-            }, trainingList);
-
-            syncCollection('okrs', (list) => {
-                okrList = list;
-                localStorage.setItem(OKR_DB_VERSION, JSON.stringify(okrList));
-                renderOKRs();
-            }, okrList);
+            syncCollection('candidates', (list) => { joinees = list; localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees)); refreshAllViews(); }, joinees);
+            syncCollection('targets', (list) => { reqList = list; localStorage.setItem(CURRENT_BUDGET_VERSION, JSON.stringify(reqList)); refreshAllViews(); }, reqList);
+            syncCollection('notices', (list) => { noticesList = list; localStorage.setItem(NOTICES_DB_VERSION, JSON.stringify(noticesList)); renderNotices(); }, noticesList);
+            syncCollection('jobs', (list) => { jobsList = list; localStorage.setItem(JOBS_DB_VERSION, JSON.stringify(jobsList)); renderJobs(); }, jobsList);
+            syncCollection('training', (list) => { trainingList = list; localStorage.setItem(TRAINING_DB_VERSION, JSON.stringify(trainingList)); renderTraining(); }, trainingList);
+            syncCollection('okrs', (list) => { okrList = list; localStorage.setItem(OKR_DB_VERSION, JSON.stringify(okrList)); renderOKRs(); }, okrList);
         }
 
         async function startCloudSync() {
             const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
             if (!firebaseConfig) {
-                console.log("No cloud configuration found. Running in local state fallback mode.");
                 if(!isApplyView) refreshAllViews();
                 return;
             }
-            
             try {
                 const app = initializeApp(firebaseConfig);
                 db = getFirestore(app);
                 auth = getAuth(app);
-                
                 let user = null;
                 const customToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
                 if (customToken && !isApplyView) {
@@ -1302,41 +1283,30 @@
                     const credentials = await signInAnonymously(auth);
                     user = credentials.user;
                 }
-                
                 if (user) {
-                    console.log("Authenticated successfully with Cloud service.");
-                    if(isApplyView) {
-                        // For Google Form mode, DO NOT load all candidates. Keep it secure!
-                        console.log("Apply Form Mode: Sync blocked for security.");
-                    } else {
-                        setupRealtimeSync();
-                    }
+                    if(!isApplyView) setupRealtimeSync();
                 } else {
                     if(!isApplyView) refreshAllViews();
                 }
             } catch (err) {
-                console.error("Cloud synchronization init failed, fallback mode enabled.", err);
                 if(!isApplyView) refreshAllViews();
             }
         }
 
         window.addEventListener('load', () => { 
             if(localStorage.getItem('theme') === 'dark') toggleDarkMode(); 
-            
-            if(isApplyView) {
+            if (isApplyView) {
                 document.getElementById('loginPage').classList.add('hidden');
                 document.getElementById('appLayout').classList.add('hidden');
                 document.getElementById('applicationPage').classList.remove('hidden');
                 document.getElementById('applicationPage').classList.add('flex');
-                
-                // Track Job ID from URL for Lead Generation
                 const urlJobId = urlParams.get('jobId');
                 if(urlJobId) document.getElementById('publicApplyForm').dataset.jobId = urlJobId;
             }
-            
             startCloudSync();
         });
 
+        // --- Auth Logic ---
         document.getElementById('loginForm')?.addEventListener('submit', (e) => {
             e.preventDefault(); const u = document.getElementById('username')?.value.trim().toUpperCase(); const p = document.getElementById('password')?.value;
             if(USERS.find(x => x.user === u && x.pass === p) || (u === 'ADMIN' && p === 'SARATHY@26')) { currentUser = USERS[0]; showApp(); } 
@@ -1348,10 +1318,8 @@
             document.getElementById('appLayout')?.classList.remove('hidden');
             const userNameDisplay = document.getElementById('userNameDisplay'); 
             if(userNameDisplay) userNameDisplay.innerText = currentUser?.user || 'ADMIN';
-            
             const chartMonthFilter = document.getElementById('chartMonthFilter'); 
             if(chartMonthFilter) chartMonthFilter.value = new Date().toISOString().slice(0, 7);
-            
             if(isAdmin()) { document.getElementById('addBtn')?.classList.remove('hidden'); }
             refreshAllViews();
         };
@@ -1367,30 +1335,34 @@
             document.querySelectorAll('.nav-link').forEach(el => { el.classList.remove('active'); if(el.id === `nav-${tab}`) el.classList.add('active'); });
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
             document.getElementById(`tab-${tab}`)?.classList.add('active');
-            
             const titles = { dashboard: 'HR Overview', candidates: 'Candidates', directory: 'Directory', jobs: 'Job Postings', training: 'Training', okrs: 'Performance', calendar: 'Schedules', analytics: 'Analytics', settings: 'Settings', onboarding: 'Onboarding' };
             const pageTitle = document.getElementById('pageTitle'); if(pageTitle) pageTitle.innerText = titles[tab] || 'HR Overview';
-            
             const floatingBackBtn = document.getElementById('floatingBackBtn');
             if (tabHistory.length > 0) { 
                 if(floatingBackBtn) { floatingBackBtn.classList.remove('hidden'); floatingBackBtn.classList.add('flex'); } 
             } else { 
                 if(floatingBackBtn) { floatingBackBtn.classList.add('hidden'); floatingBackBtn.classList.remove('flex'); } 
             }
-            
             if (window.innerWidth < 1024) { document.getElementById('sidebar')?.classList.add('-translate-x-full'); document.getElementById('mobileOverlay')?.classList.add('hidden'); }
             if(tab === 'analytics') initCharts();
         };
         const goBack = () => { if (tabHistory.length > 0) switchTab(tabHistory.pop(), true); };
 
+        const refreshAllViews = () => { 
+            updateLocationFilterOptions(); renderDashboard(); renderTable(); renderOnboarding(); renderDirectory(); renderJobs(); renderTraining(); renderOKRs(); renderCalendar(); checkNotifications();
+            if(currentTab === 'analytics') initCharts(); 
+        };
+
+        // --- General Listeners ---
         document.getElementById('status')?.addEventListener('change', function() {
             const rejCont = document.getElementById('rejectionReasonContainer');
             if(this.value === 'REJECTED') { rejCont.classList.remove('hidden'); rejCont.classList.add('flex'); } else { rejCont.classList.add('hidden'); rejCont.classList.remove('flex'); document.getElementById('rejectionReason').value = ''; }
         });
-
+        
         const updateStarUI = (rating) => { document.querySelectorAll('#starSelector i').forEach(star => { if(parseInt(star.getAttribute('data-rating')) <= rating) { star.classList.remove('text-slate-300'); star.classList.add('text-amber-400'); } else { star.classList.add('text-slate-300'); star.classList.remove('text-amber-400'); } }); };
         document.querySelectorAll('#starSelector i').forEach(star => { star.addEventListener('click', (e) => { const rating = parseInt(e.target.getAttribute('data-rating')); document.getElementById('empRating').value = rating; updateStarUI(rating); }); });
 
+        // --- Render Functions ---
         const renderNotices = () => {
             const container = document.getElementById('noticeBoardContent'); if(!container) return;
             if(noticesList.length === 0) { container.innerHTML = '<p class="text-xs text-slate-400 text-center font-medium mt-4">No new notices</p>'; return; }
@@ -1422,6 +1394,8 @@
             document.getElementById('statJoined').innerText = joinees.filter(x=>x.status==='JOINED').length; 
             document.getElementById('statPending').innerText = joinees.filter(x=>x.status==='PENDING').length;
             document.getElementById('statRejected').innerText = joinees.filter(x=>x.status==='REJECTED').length;
+            
+            document.getElementById('statHiringTime').innerHTML = `${calculateAverageHiringTime()} <span class="text-sm">Days</span>`;
 
             const progContainer = document.getElementById('progContainer');
             if(progContainer) {
@@ -1431,11 +1405,8 @@
                     const reqDept = req.dept.trim().toUpperCase(); const reqCompany = (req.company || 'ALL').trim().toUpperCase(); const reqLocation = (req.location || 'ALL').trim().toUpperCase();
                     const count = joinees.filter(x => { return (x.dept && x.dept.trim().toUpperCase() === reqDept) && (reqCompany === 'ALL' || (x.company && x.company.trim().toUpperCase() === reqCompany)) && (reqLocation === 'ALL' || (x.location && x.location.trim().toUpperCase() === reqLocation)) && (x.status === 'SELECTED' || x.status === 'JOINED'); }).length;
                     const target = parseInt(req.target) || 0; const perc = target > 0 ? Math.min((count/target)*100, 100) : 0;
-                    
                     let subText = []; if(reqCompany !== 'ALL') subText.push(reqCompany); if(reqLocation !== 'ALL') subText.push(reqLocation);
-                    
-                    progContainer.innerHTML += `
-                    <div class="p-4 border border-[var(--border-color)] rounded-2xl bg-[var(--bg-primary)]">
+                    progContainer.innerHTML += `<div class="p-4 border border-[var(--border-color)] rounded-2xl bg-[var(--bg-primary)]">
                         <div class="flex justify-between items-end mb-1">
                             <span class="font-bold text-sm text-[var(--text-primary)] uppercase truncate pr-2">${req.dept}</span>
                             <span class="font-black text-sarathy-blue text-sm">${count}/${target}</span>
@@ -1468,74 +1439,36 @@
             }
         };
 
-        // Image Compression Helper
-        const compressImage = (file) => {
-            return new Promise((resolve) => {
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = (event) => {
-                    const img = new Image();
-                    img.src = event.target.result;
-                    img.onload = () => {
-                        const canvas = document.createElement('canvas');
-                        const MAX_WIDTH = 600; 
-                        const scaleSize = MAX_WIDTH / img.width;
-                        canvas.width = MAX_WIDTH;
-                        canvas.height = img.height * scaleSize;
-                        const ctx = canvas.getContext('2d');
-                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-                        resolve(canvas.toDataURL('image/jpeg', 0.6));
-                    }
-                };
-            });
-        };
-
-        window.viewAdImage = (src) => {
+        const viewAdImage = (src) => {
             document.getElementById('viewerImageSrc').src = src;
             document.getElementById('imageViewerModal').classList.remove('hidden');
         };
 
-        // Jobs Logic
         const openJobModal = () => { document.getElementById('jobForm').reset(); document.getElementById('jobModal').classList.remove('hidden'); };
         const closeJobModal = () => document.getElementById('jobModal').classList.add('hidden');
         document.getElementById('jobForm')?.addEventListener('submit', async (e) => { 
             e.preventDefault(); 
-            
             const files = document.getElementById('jobImages')?.files;
             let base64Images = [];
             if(files && files.length > 0) {
                 showToast("Compressing & Saving Ad Images...");
-                for(let i=0; i<files.length; i++) {
-                    base64Images.push(await compressImage(files[i]));
-                }
+                for(let i=0; i<files.length; i++) { base64Images.push(await compressImage(files[i])); }
             }
-
             const weeks = parseInt(document.getElementById('jobDuration')?.value) || 2;
             const expiry = new Date();
             expiry.setDate(expiry.getDate() + (weeks * 7));
-
-            const job = { 
-                id: Date.now(), 
-                title: document.getElementById('jobTitle').value, 
-                dept: document.getElementById('jobDept').value, 
-                location: document.getElementById('jobLoc').value, 
-                reqs: document.getElementById('jobReq').value, 
-                images: base64Images,
-                durationWeeks: weeks,
-                expiryDate: expiry.toISOString().slice(0,10),
-                status: 'ACTIVE', 
-                date: new Date().toISOString().slice(0,10) 
-            };
+            const job = { id: Date.now(), title: document.getElementById('jobTitle').value, dept: document.getElementById('jobDept').value, location: document.getElementById('jobLoc').value, reqs: document.getElementById('jobReq').value, images: base64Images, durationWeeks: weeks, expiryDate: expiry.toISOString().slice(0,10), status: 'ACTIVE', date: new Date().toISOString().slice(0,10) };
             jobsList.push(job); 
-            localStorage.setItem(JOBS_DB_VERSION, JSON.stringify(jobsList)); // FIX for disappearing jobs
+            localStorage.setItem(JOBS_DB_VERSION, JSON.stringify(jobsList));
             await writeToCloud('jobs', job.id, job);
             closeJobModal(); renderJobs(); showToast("Job Campaign Published!"); 
         });
+        
         const toggleJobStatus = async (id) => { 
             const idx = jobsList.findIndex(j => String(j.id) === String(id)); 
             if(idx > -1) { 
                 jobsList[idx].status = jobsList[idx].status === 'ACTIVE' ? 'CLOSED' : 'ACTIVE'; 
-                localStorage.setItem(JOBS_DB_VERSION, JSON.stringify(jobsList)); // FIX for disappearing jobs
+                localStorage.setItem(JOBS_DB_VERSION, JSON.stringify(jobsList));
                 await writeToCloud('jobs', jobsList[idx].id, jobsList[idx]);
                 renderJobs(); 
             } 
@@ -1545,7 +1478,7 @@
             if(yes) { 
                 await removeFromCloud('jobs', id);
                 jobsList = jobsList.filter(j => String(j.id) !== String(id)); 
-                localStorage.setItem(JOBS_DB_VERSION, JSON.stringify(jobsList)); // FIX for disappearing jobs
+                localStorage.setItem(JOBS_DB_VERSION, JSON.stringify(jobsList));
                 renderJobs(); showToast("Job Removed", "error"); 
             }
         };
@@ -1555,35 +1488,23 @@
             const text = `📢 WE ARE HIRING!\n\nRole: ${j.title}\nDept: ${j.dept}\nLocation: ${j.location}\n\nRequirements:\n${j.reqs}\n\nApply securely here: ${applyLink}`; 
             const el = document.createElement('textarea'); el.value = text; document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el); showToast("Job Campaign Link Copied!"); 
         };
-        
-        window.viewJobLeads = (jobId) => {
+        const viewJobLeads = (jobId) => {
             switchTab('candidates');
             const searchInput = document.getElementById('searchInput');
-            if(searchInput) {
-                searchInput.value = 'JOB-' + jobId;
-                renderTable();
-                showToast("Showing Leads for Campaign", "success");
-            }
+            if(searchInput) { searchInput.value = 'JOB-' + jobId; renderTable(); showToast("Showing Leads for Campaign", "success"); }
         };
-
+        
         const renderJobs = () => { 
             const container = document.getElementById('jobsContainer'); if(!container) return; 
             if(jobsList.length === 0) { container.innerHTML = '<div class="col-span-full text-center py-16 opacity-50"><i class="fas fa-briefcase text-4xl mb-3 text-slate-400"></i><p class="text-sm font-bold text-slate-500">No active job postings</p></div>'; return; } 
             container.innerHTML = [...jobsList].sort((a,b)=>b.id-a.id).map(j => {
                 let imagesHtml = '';
                 if(j.images && j.images.length > 0) {
-                    imagesHtml = `<div class="flex gap-3 overflow-x-auto custom-scroll mb-4 pb-2 snap-x">
-                        ${j.images.map(img => `<img src="${img}" class="h-28 w-auto object-cover rounded-xl border border-[var(--border-color)] snap-center cursor-pointer shadow-sm hover:opacity-80 transition-opacity" onclick="viewAdImage('${img}')">`).join('')}
-                    </div>`;
+                    imagesHtml = `<div class="flex gap-3 overflow-x-auto custom-scroll mb-4 pb-2 snap-x">${j.images.map(img => `<img src="${img}" class="h-28 w-auto object-cover rounded-xl border border-[var(--border-color)] snap-center cursor-pointer shadow-sm hover:opacity-80 transition-opacity" onclick="viewAdImage('${img}')">`).join('')}</div>`;
                 }
-
                 const isExpired = j.status === 'ACTIVE' && j.expiryDate && new Date(j.expiryDate) <= new Date();
-                const expiryBadge = isExpired 
-                    ? `<span class="text-[10px] font-bold text-red-500 bg-red-50 dark:bg-red-900/20 px-2 py-1 rounded-md"><i class="fas fa-exclamation-triangle"></i> Ad Expired</span>` 
-                    : (j.expiryDate ? `<span class="text-[10px] font-bold text-slate-500"><i class="fas fa-clock"></i> Exp: ${formatDateString(j.expiryDate)}</span>` : '');
-
-                return `
-                <div class="modern-card p-6 flex flex-col border-t-4 ${j.status === 'ACTIVE' ? 'border-sky-500' : 'border-slate-300 dark:border-slate-600'}">
+                const expiryBadge = isExpired ? `<span class="text-[10px] font-bold text-red-500 bg-red-50 dark:bg-red-900/20 px-2 py-1 rounded-md"><i class="fas fa-exclamation-triangle"></i> Ad Expired</span>` : (j.expiryDate ? `<span class="text-[10px] font-bold text-slate-500"><i class="fas fa-clock"></i> Exp: ${formatDateString(j.expiryDate)}</span>` : '');
+                return `<div class="modern-card p-6 flex flex-col border-t-4 ${j.status === 'ACTIVE' ? 'border-sky-500' : 'border-slate-300 dark:border-slate-600'}">
                     <div class="flex justify-between items-start mb-4">
                         <div class="pr-2">
                             <h3 class="font-black text-base uppercase leading-tight text-[var(--text-primary)]">${j.title}</h3>
@@ -1603,14 +1524,13 @@
             }).join(''); 
         };
 
-        // Training Logic
         const openTrainingModal = () => { document.getElementById('trainingForm').reset(); document.getElementById('trainEmpId').innerHTML = '<option value="" disabled selected>Select employee</option>' + joinees.filter(x => x.status === 'JOINED').map(e => `<option value="${e.empId}">${e.name}</option>`).join(''); document.getElementById('trainingModal').classList.remove('hidden'); };
         const closeTrainingModal = () => document.getElementById('trainingModal').classList.add('hidden');
         document.getElementById('trainingForm')?.addEventListener('submit', async (e) => { 
             e.preventDefault(); const empId = document.getElementById('trainEmpId').value; const emp = joinees.find(x => x.empId === empId); if(!emp) return; 
             const training = { id: Date.now(), empId: emp.empId, name: emp.name, course: document.getElementById('trainCourse').value, deadline: document.getElementById('trainDeadline').value, status: 'PENDING' };
             trainingList.push(training); 
-            localStorage.setItem(TRAINING_DB_VERSION, JSON.stringify(trainingList)); // FIX for disappearing data
+            localStorage.setItem(TRAINING_DB_VERSION, JSON.stringify(trainingList));
             await writeToCloud('training', training.id, training);
             closeTrainingModal(); renderTraining(); showToast("Training Assigned!"); 
         });
@@ -1618,7 +1538,7 @@
             const idx = trainingList.findIndex(t => String(t.id) === String(id)); 
             if(idx > -1) { 
                 trainingList[idx].status = 'COMPLETED'; 
-                localStorage.setItem(TRAINING_DB_VERSION, JSON.stringify(trainingList)); // FIX for disappearing data
+                localStorage.setItem(TRAINING_DB_VERSION, JSON.stringify(trainingList));
                 await writeToCloud('training', trainingList[idx].id, trainingList[idx]);
                 renderTraining(); showToast("Completed!"); confetti(); 
             } 
@@ -1628,7 +1548,7 @@
             if(yes) { 
                 await removeFromCloud('training', id);
                 trainingList = trainingList.filter(t => String(t.id) !== String(id)); 
-                localStorage.setItem(TRAINING_DB_VERSION, JSON.stringify(trainingList)); // FIX for disappearing data
+                localStorage.setItem(TRAINING_DB_VERSION, JSON.stringify(trainingList));
                 renderTraining(); showToast("Training Revoked", "error"); 
             } 
         };
@@ -1656,14 +1576,13 @@
                 </tr>`).join(''); 
         };
 
-        // OKR Logic
         const openOkrModal = () => { document.getElementById('okrForm').reset(); document.getElementById('okrEmpId').innerHTML = '<option value="" disabled selected>Select employee</option>' + joinees.filter(x => x.status === 'JOINED').map(e => `<option value="${e.empId}">${e.name}</option>`).join(''); document.getElementById('okrModal').classList.remove('hidden'); };
         const closeOkrModal = () => document.getElementById('okrModal').classList.add('hidden');
         document.getElementById('okrForm')?.addEventListener('submit', async (e) => { 
             e.preventDefault(); const empId = document.getElementById('okrEmpId').value; const emp = joinees.find(x => x.empId === empId); if(!emp) return; 
             const okr = { id: Date.now(), empId: emp.empId, name: emp.name, obj: document.getElementById('okrObj').value, progress: 0 };
             okrList.push(okr); 
-            localStorage.setItem(OKR_DB_VERSION, JSON.stringify(okrList)); // FIX for disappearing data
+            localStorage.setItem(OKR_DB_VERSION, JSON.stringify(okrList));
             await writeToCloud('okrs', okr.id, okr);
             closeOkrModal(); renderOKRs(); showToast("OKR Created!"); 
         });
@@ -1672,7 +1591,7 @@
             if(idx > -1) { 
                 okrList[idx].progress = parseInt(val); 
                 document.getElementById(`okrVal-${id}`).innerText = val + '%'; 
-                localStorage.setItem(OKR_DB_VERSION, JSON.stringify(okrList)); // FIX for disappearing data
+                localStorage.setItem(OKR_DB_VERSION, JSON.stringify(okrList));
                 await writeToCloud('okrs', okrList[idx].id, okrList[idx]);
             } 
         };
@@ -1681,7 +1600,7 @@
             if(yes) { 
                 await removeFromCloud('okrs', id);
                 okrList = okrList.filter(o => String(o.id) !== String(id)); 
-                localStorage.setItem(OKR_DB_VERSION, JSON.stringify(okrList)); // FIX for disappearing data
+                localStorage.setItem(OKR_DB_VERSION, JSON.stringify(okrList));
                 renderOKRs(); showToast("Goal removed"); 
             } 
         };
@@ -1711,7 +1630,6 @@
                 </div>`).join(''); 
         };
 
-        // Drag and Drop
         const dragStart = (ev, id) => { draggedCandidateId = id; ev.target.classList.add('dragging'); };
         const allowBoardDrop = (ev) => { ev.preventDefault(); ev.currentTarget.classList.add('drag-over'); };
         const dropToBoard = async (ev, newStatus) => {
@@ -1724,7 +1642,7 @@
                     joinees[idx].status = newStatus;
                     if(newStatus === 'JOINED' && !joinees[idx].joinDate) joinees[idx].joinDate = new Date().toISOString().slice(0, 10);
                     if(newStatus !== 'REJECTED') joinees[idx].rejectionReason = '';
-                    
+                    localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees));
                     await writeToCloud('candidates', joinees[idx].id, joinees[idx]);
                     refreshAllViews(); showToast(`Moved to ${newStatus}`);
                     if(newStatus === 'SELECTED' || newStatus === 'JOINED') confetti();
@@ -1748,14 +1666,26 @@
         };
         const setView = (v) => { 
             currentView = v; 
-            document.getElementById('btnViewList').classList.toggle('bg-white', v==='list');
-            document.getElementById('btnViewList').classList.toggle('dark:bg-slate-700', v==='list');
-            document.getElementById('btnViewList').classList.toggle('shadow-sm', v==='list');
-            document.getElementById('btnViewList').classList.toggle('text-sarathy-blue', v==='list');
-            document.getElementById('btnViewBoard').classList.toggle('bg-white', v==='board');
-            document.getElementById('btnViewBoard').classList.toggle('dark:bg-slate-700', v==='board');
-            document.getElementById('btnViewBoard').classList.toggle('shadow-sm', v==='board');
-            document.getElementById('btnViewBoard').classList.toggle('text-sarathy-blue', v==='board');
+            const listBtn = document.getElementById('btnViewList'); const boardBtn = document.getElementById('btnViewBoard');
+            const listView = document.getElementById('listView'); const boardView = document.getElementById('boardView');
+            
+            if(v === 'list') {
+                listBtn.classList.add('bg-white', 'dark:bg-slate-700', 'shadow-sm', 'text-sarathy-blue', 'dark:text-white');
+                listBtn.classList.remove('text-slate-400');
+                boardBtn.classList.remove('bg-white', 'dark:bg-slate-700', 'shadow-sm', 'text-sarathy-blue');
+                boardBtn.classList.add('text-slate-400', 'hover:text-slate-600');
+                listView.classList.remove('hidden');
+                boardView.classList.add('hidden');
+                boardView.classList.remove('grid');
+            } else {
+                boardBtn.classList.add('bg-white', 'dark:bg-slate-700', 'shadow-sm', 'text-sarathy-blue');
+                boardBtn.classList.remove('text-slate-400');
+                listBtn.classList.remove('bg-white', 'dark:bg-slate-700', 'shadow-sm', 'text-sarathy-blue');
+                listBtn.classList.add('text-slate-400');
+                listView.classList.add('hidden');
+                boardView.classList.remove('hidden');
+                boardView.classList.add('grid');
+            }
             renderTable(); 
         };
 
@@ -1763,7 +1693,6 @@
             const locSelect = document.getElementById('filterLocation'); if(!locSelect) return;
             const standardLocs = ['ALL', 'KOLLAM', 'KOTTIYAM', 'CHATHANNOOR', 'PARIPPALLY', 'KALLAMBALAM', 'ATTINGAL', 'KAZHAKOOTAM', 'TRIVANDRUM'];
             const uniqueLocs = [...new Set(joinees.map(j => (j.location || '').toUpperCase()).filter(l => l && !standardLocs.includes(l)))];
-            
             let html = '<option value="ALL">All Locations</option>';
             standardLocs.slice(1).forEach(l => html += `<option value="${l}">${l.charAt(0) + l.slice(1).toLowerCase()}</option>`);
             if(uniqueLocs.length > 0) {
@@ -1779,7 +1708,7 @@
             const term = document.getElementById('searchInput')?.value.toUpperCase() || '';
             const deptFilter = document.getElementById('filterDept')?.value.toUpperCase() || 'ALL';
             const companyFilter = document.getElementById('filterCompany')?.value.toUpperCase() || 'ALL';
-            const locationFilter = document.getElementById('filterLocation')?.value?.toUpperCase() || 'ALL'; // Handle if not present
+            const locationFilter = document.getElementById('filterLocation')?.value?.toUpperCase() || 'ALL';
             const monthFilter = document.getElementById('filterMonth')?.value;
             
             let filtered = joinees.filter(x => { 
@@ -1795,17 +1724,17 @@
                 let mMatch = !monthFilter || (x.interviewDate && x.interviewDate.startsWith(monthFilter)) || (x.joinDate && x.joinDate.startsWith(monthFilter));
                 return searchMatch && qMatch && dMatch && cMatch && lMatch && mMatch; 
             });
-            
             filtered.sort((a,b) => b.id - a.id);
             const listView = document.getElementById('listView'); const boardView = document.getElementById('boardView');
             
             if(currentView === 'list') {
-                if(listView) listView.classList.remove('hidden'); if(boardView) boardView.classList.add('hidden');
                 const tableBody = document.getElementById('candidatesTableBody');
                 if(tableBody) {
-                    if(filtered.length === 0) tableBody.innerHTML = '<tr><td colspan="6" class="text-center py-16 text-slate-500 font-medium">No candidates found matching criteria</td></tr>';
+                    if(filtered.length === 0) tableBody.innerHTML = '<tr><td colspan="7" class="text-center py-16 text-slate-500 font-medium">No candidates found matching criteria</td></tr>';
                     else tableBody.innerHTML = filtered.map(x => {
                         let stClass = x.status === 'SELECTED' ? 'badge-selected' : x.status === 'JOINED' ? 'badge-joined' : x.status === 'PENDING' ? 'badge-pending' : 'badge-rejected';
+                        let matchScore = calculateMatchScore(x);
+                        let scoreColor = matchScore > 80 ? 'text-emerald-500' : matchScore > 50 ? 'text-amber-500' : 'text-slate-400';
                         return `
                         <tr class="hover:bg-[var(--bg-primary)] transition-colors cursor-pointer group">
                             <td onclick="viewCandidate(${x.id})">
@@ -1826,6 +1755,14 @@
                                 <p class="text-xs text-slate-500 uppercase">${x.location || '-'}</p>
                             </td>
                             <td onclick="viewCandidate(${x.id})">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-base font-black ${scoreColor}">${matchScore}%</span>
+                                    <div class="w-12 h-1.5 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                                        <div class="h-full ${matchScore > 80 ? 'bg-emerald-500' : matchScore > 50 ? 'bg-amber-500' : 'bg-slate-400'}" style="width: ${matchScore}%"></div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td onclick="viewCandidate(${x.id})">
                                 <span class="status-badge ${stClass}">${x.status}</span>
                             </td>
                             <td onclick="viewCandidate(${x.id})">
@@ -1839,7 +1776,6 @@
                     }).join('');
                 }
             } else {
-                if(listView) listView.classList.add('hidden'); if(boardView) boardView.classList.remove('hidden');
                 ['PENDING','SELECTED','JOINED','REJECTED'].forEach(s => { 
                     const arr = filtered.filter(x=>x.status===s); 
                     const el = document.getElementById(`board${s.charAt(0)+s.slice(1).toLowerCase()}`); 
@@ -1861,8 +1797,6 @@
                         }
                     } 
                 });
-                
-                document.querySelectorAll('.kanban-col').forEach(col => { col.addEventListener('dragleave', (e) => e.currentTarget.classList.remove('drag-over')); });
             }
         };
 
@@ -1914,60 +1848,55 @@
                 showToast("Record Saved!"); 
                 if(data.status==='SELECTED' || data.status==='JOINED') confetti(); 
             }
+            localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees)); 
             await writeToCloud('candidates', data.id, data);
-            localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees)); closeModal(); refreshAllViews();
+            closeModal(); refreshAllViews();
         });
 
-        // PUBLIC APPLICATION FORM SUBMISSION LOGIC (Google Form Alternative)
         document.getElementById('publicApplyForm')?.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const tempEmpId = 'APP-' + Math.floor(Math.random() * 10000).toString(); // Temporary ID generated
+            const tempEmpId = 'APP-' + Math.floor(Math.random() * 10000).toString();
             const candidateId = Date.now();
-            
-            // Link Lead to Specific Job if JobID exists
             const appliedJobId = document.getElementById('publicApplyForm').dataset.jobId;
             const applicationSource = appliedJobId ? `Online Portal (JOB-${appliedJobId})` : 'Online Portal';
 
             const newCandidate = {
-                id: candidateId, 
-                empId: tempEmpId, 
-                name: document.getElementById('pubName').value.trim().toUpperCase(), 
-                age: document.getElementById('pubAge').value, 
-                phone: document.getElementById('pubPhone').value, 
-                email: document.getElementById('pubEmail').value.trim(), 
-                qualification: document.getElementById('pubQual').value.trim().toUpperCase(), 
-                experience: parseFloat(document.getElementById('pubExp').value) || 0, 
-                dept: document.getElementById('pubDept').value, 
-                location: document.getElementById('pubLocation').value, 
-                source: applicationSource, 
-                company: 'ALL', 
-                status: 'PENDING', 
-                interviewDate: '', 
-                joinDate: '', 
-                designation: '', 
-                remarks: 'Applied Online via Public Form', 
-                rejectionReason: '', 
-                rating: 0, 
+                id: candidateId,
+                empId: tempEmpId,
+                name: document.getElementById('pubName').value.trim().toUpperCase(),
+                age: document.getElementById('pubAge').value,
+                phone: document.getElementById('pubPhone').value,
+                email: document.getElementById('pubEmail').value.trim(),
+                qualification: document.getElementById('pubQual').value.trim().toUpperCase(),
+                experience: parseFloat(document.getElementById('pubExp').value) || 0,
+                dept: document.getElementById('pubDept').value,
+                location: document.getElementById('pubLocation').value,
+                source: applicationSource,
+                company: 'ALL',
+                status: 'PENDING',
+                interviewDate: '',
+                joinDate: '',
+                designation: '',
+                remarks: 'Applied Online via Public Form',
+                rejectionReason: '',
+                rating: 0,
                 onboarding: { idCard: false, bank: false, pf: false, training: false }
             };
 
             if (db && auth && auth.currentUser) {
-                // Direct feed to Cloud Database (Doesn't download the whole database)
                 try {
                     await writeToCloud('candidates', newCandidate.id, newCandidate);
                 } catch(err) {
-                    console.error("Submission failed", err);
                     await showDialogModal('alert', 'Error', 'Failed to submit application. Please try again.');
                     return;
                 }
             } else {
-                // Fallback to local storage
-                joinees.push(newCandidate); 
+                joinees.push(newCandidate);
                 localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees));
             }
-            
+
             confetti({particleCount: 150, spread: 80, origin: { y: 0.6 }});
-            await showDialogModal('alert', 'Success!', `Thank you ${newCandidate.name}. Your application has been submitted successfully to HR Database.`);
+            await showDialogModal('alert', 'Success!', `Thank you ${newCandidate.name}. Your application has been submitted successfully.`);
             document.getElementById('publicApplyForm').reset();
         });
 
@@ -1977,11 +1906,10 @@
             showToast("Form Link Copied!");
         };
 
-        // Added functionality for generating PDF Offer Letter
         const generateOfferLetter = (id) => {
             const r = joinees.find(x => String(x.id) === String(id));
             if(!r) return;
-            
+
             document.getElementById('olCompany').innerText = r.company || 'SARATHY GROUP';
             document.getElementById('olDate').innerText = new Date().toISOString().slice(0, 10);
             document.getElementById('olRef').innerText = 'OL/' + new Date().getFullYear() + '/' + r.empId;
@@ -2002,12 +1930,12 @@
                 html2canvas: { scale: 2 },
                 jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
             };
-            
+
             document.getElementById('offerLetterTemplateContainer').classList.remove('hidden');
             document.getElementById('offerLetterTemplateContainer').style.top = '0';
             document.getElementById('offerLetterTemplateContainer').style.left = '0';
             document.getElementById('offerLetterTemplateContainer').style.zIndex = '-1';
-            
+
             html2pdf().set(opt).from(element).save().then(() => {
                 document.getElementById('offerLetterTemplateContainer').classList.add('hidden');
                 document.getElementById('offerLetterTemplateContainer').style.top = '-9999px';
@@ -2027,7 +1955,7 @@
                         <div class="flex-1 border-l-2 sm:border-l-0 sm:border-t-2 sm:pt-4 pl-4 sm:pl-0 border-blue-500 relative">
                             <div class="hidden sm:block absolute -top-1.5 -translate-y-1/2 left-0 w-3 h-3 rounded-full bg-blue-500"></div>
                             <div class="sm:hidden absolute top-0 -left-[5px] w-3 h-3 rounded-full bg-[var(--bg-secondary)] border-2 border-blue-500"></div>
-                            <p class="text-[10px] text-slate-500 font-bold uppercase mb-1">Applied / Int.</p>
+                            <p class="text-[10px] text-slate-500 font-bold uppercase mb-1">Interview</p>
                             <p class="text-sm font-black text-[var(--text-primary)]">${r.interviewDate ? formatDateString(r.interviewDate) : 'N/A'}</p>
                         </div>
                         <div class="flex-1 border-l-2 sm:border-l-0 sm:border-t-2 sm:pt-4 pl-4 sm:pl-0 relative ${(r.status==='SELECTED'||r.status==='JOINED') ? 'border-emerald-500' : 'border-slate-200 dark:border-slate-700'}">
@@ -2046,6 +1974,33 @@
                 </div>
             `;
 
+            const score = calculateMatchScore(r);
+            const scoreColor = score > 80 ? 'text-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 border-emerald-200' : score > 50 ? 'text-amber-500 bg-amber-50 dark:bg-amber-900/20 border-amber-200' : 'text-slate-500 bg-slate-50 dark:bg-slate-800 border-slate-200';
+            
+            const commButtons = `
+                <div class="mt-6 p-5 bg-indigo-50/50 dark:bg-slate-800/50 rounded-2xl border border-indigo-100 dark:border-slate-700 no-print">
+                    <h4 class="text-xs font-bold uppercase text-indigo-600 dark:text-indigo-400 mb-3 tracking-widest flex items-center gap-2"><i class="fas fa-paper-plane"></i> Communication Hub</h4>
+                    <div class="flex flex-wrap gap-2">
+                        <button onclick="generateCommMessage(${r.id}, 'interview')" class="flex-1 py-2 bg-white dark:bg-slate-700 border border-indigo-200 dark:border-slate-600 text-indigo-600 dark:text-indigo-300 rounded-lg text-xs font-bold flex items-center justify-center gap-2 hover:bg-indigo-50"><i class="fab fa-whatsapp text-emerald-500 text-lg"></i> Invite to Interview</button>
+                        <button onclick="generateCommMessage(${r.id}, 'welcome')" class="flex-1 py-2 bg-white dark:bg-slate-700 border border-indigo-200 dark:border-slate-600 text-indigo-600 dark:text-indigo-300 rounded-lg text-xs font-bold flex items-center justify-center gap-2 hover:bg-indigo-50"><i class="fas fa-party-horn text-pink-500"></i> Welcome Message</button>
+                    </div>
+                </div>
+            `;
+
+            const docVault = `
+                <div class="mt-4 p-5 bg-amber-50/50 dark:bg-slate-800/50 rounded-2xl border border-amber-100 dark:border-slate-700 no-print">
+                    <h4 class="text-xs font-bold uppercase text-amber-600 dark:text-amber-400 mb-3 tracking-widest flex items-center gap-2"><i class="fas fa-folder-open"></i> Document Vault</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        ${['Aadhaar Card', 'PAN Card', 'Degree Certificate', 'Experience Letter'].map(doc => `
+                            <div class="flex items-center justify-between p-2.5 bg-white dark:bg-slate-700 rounded-xl border border-amber-200/50 dark:border-slate-600 shadow-sm">
+                                <span class="text-xs font-bold text-slate-600 dark:text-slate-300 uppercase">${doc}</span>
+                                <button onclick="this.classList.toggle('bg-emerald-500'); this.classList.toggle('text-white')" class="text-[10px] px-2 py-1 bg-slate-200 dark:bg-slate-600 rounded-md text-slate-500 dark:text-slate-300 font-black uppercase transition-colors">Verify</button>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+
             const content = `
                 <div class="flex flex-col md:flex-row items-center md:items-start gap-6 mb-8 text-center md:text-left">
                     <div class="w-24 h-24 rounded-full flex items-center justify-center font-black text-4xl shadow-inner border border-white/50 ${avatarClass}">${r.name[0]}</div>
@@ -2055,27 +2010,28 @@
                                 <h3 class="font-black text-2xl uppercase text-[var(--text-primary)] leading-tight">${r.name}</h3>
                                 <p class="text-sm font-bold text-slate-500 uppercase mt-1 tracking-wider">${r.empId} • ${r.company}</p>
                             </div>
-                            <span class="status-badge text-sm px-4 py-1.5 ${statusClass}">${r.status}</span>
+                            <div class="flex flex-col items-end gap-2">
+                                <span class="status-badge text-sm px-4 py-1.5 ${statusClass}">${r.status}</span>
+                                <span class="px-3 py-1 rounded-md text-[10px] font-black uppercase border ${scoreColor}">AI Match: ${score}%</span>
+                            </div>
                         </div>
                     </div>
                 </div>
                 
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 bg-[var(--bg-primary)] p-6 rounded-2xl border border-[var(--border-color)] mb-8">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 bg-[var(--bg-primary)] p-6 rounded-2xl border border-[var(--border-color)] mb-4">
                     <div><span class="block text-xs font-bold uppercase mb-1 text-slate-500">Phone</span><span class="font-bold text-sm text-[var(--text-primary)]">${r.phone || 'N/A'}</span></div>
                     <div><span class="block text-xs font-bold uppercase mb-1 text-slate-500">Dept</span><span class="font-bold text-sm uppercase text-[var(--text-primary)]">${r.dept}</span></div>
                     <div><span class="block text-xs font-bold uppercase mb-1 text-slate-500">Age</span><span class="font-bold text-sm text-[var(--text-primary)]">${r.age || 'N/A'}</span></div>
                     <div><span class="block text-xs font-bold uppercase mb-1 text-slate-500">Location</span><span class="font-bold text-sm uppercase text-[var(--text-primary)]">${r.location || 'N/A'}</span></div>
-                    
                     <div class="sm:col-span-2 lg:col-span-4 h-px bg-[var(--border-color)] my-2"></div>
-                    
                     <div><span class="block text-xs font-bold uppercase mb-1 text-slate-500">Interview</span><span class="font-bold text-sm text-[var(--text-primary)]">${formatDateString(r.interviewDate)}</span></div>
                     <div><span class="block text-xs font-bold uppercase mb-1 text-slate-500">Join Date</span><span class="font-bold text-sm text-[var(--text-primary)]">${r.joinDate ? formatDateString(r.joinDate) : 'N/A'}</span></div>
                     <div class="sm:col-span-2"><span class="block text-xs font-bold uppercase mb-1 text-slate-500">Designation</span><span class="font-bold text-sm uppercase text-[var(--text-primary)]">${r.designation || 'TBD'}</span></div>
-                    
-                    ${r.remarks ? `<div class="sm:col-span-2 lg:col-span-4 mt-2"><span class="block text-xs font-bold uppercase mb-1 text-slate-500">Remarks</span><span class="font-medium text-sm text-[var(--text-secondary)] bg-[var(--bg-secondary)] p-3 rounded-xl block border border-[var(--border-color)]">${r.remarks}</span></div>` : ''}
                 </div> 
                 
                 ${timelineHtml} 
+                ${commButtons}
+                ${docVault}
                 
                 <div class="mt-8 flex flex-wrap gap-3 no-print">
                     <button onclick="editRecord(${r.id})" class="flex-1 py-3 bg-white dark:bg-slate-700 text-slate-700 dark:text-white border border-[var(--border-color)] rounded-xl font-bold text-sm transition-colors hover:bg-slate-50"><i class="fas fa-edit mr-2"></i> Edit</button>
@@ -2090,6 +2046,7 @@
             if(idx > -1) { 
                 joinees[idx].status = 'JOINED'; 
                 if(!joinees[idx].joinDate) joinees[idx].joinDate = new Date().toISOString().slice(0, 10); 
+                localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees));
                 await writeToCloud('candidates', joinees[idx].id, joinees[idx]);
                 refreshAllViews(); showToast("Marked as Joined!", "success"); confetti({particleCount: 150, spread: 80, origin: { y: 0.6 }}); 
             } 
@@ -2143,7 +2100,6 @@
         const addReqRow = () => { reqList.push({ dept: 'SALES', company: 'ALL', location: 'ALL', target: 5 }); renderReqEntries(); };
         const removeReqRow = (idx) => { reqList.splice(idx, 1); renderReqEntries(); };
         const saveRequirements = async () => { 
-            // Re-sync all targets to Cloud Firestore
             if (db && auth && auth.currentUser) {
                 try {
                     const qSnap = await getDocs(collection(db, 'artifacts', appId, 'public', 'data', 'targets'));
@@ -2210,8 +2166,9 @@
             if(idx > -1) { 
                 if(!joinees[idx].onboarding) joinees[idx].onboarding = {}; 
                 joinees[idx].onboarding[taskKey] = isChecked; 
+                localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees)); 
                 await writeToCloud('candidates', joinees[idx].id, joinees[idx]);
-                localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees)); renderOnboarding(); if(isChecked) showToast("Task Completed"); 
+                renderOnboarding(); if(isChecked) showToast("Task Completed"); 
             } 
         };
 
@@ -2246,21 +2203,18 @@
                 if(chartStatus) chartStatus.destroy(); 
                 chartStatus = new Chart(ctx1, { type: 'doughnut', data: { labels: ['Selected', 'Pending', 'Rejected', 'Joined'], datasets: [{ data: [statusCounts.SELECTED, statusCounts.PENDING, statusCounts.REJECTED, statusCounts.JOINED], backgroundColor: ['#10b981', '#f59e0b', '#ef4444', '#0054A6'], borderWidth: 0, hoverOffset: 4 }] }, options: { responsive: true, maintainAspectRatio: false, cutout: '75%', plugins: { legend: { position: 'bottom', labels: { color: textColor, font: {family: 'Outfit', size: 12} } } } } }); 
             }
-
             const ctx2 = document.getElementById('sourceChart')?.getContext('2d');
             if(ctx2) {
                 let deptCounts = {}; dataToChart.forEach(t => { const d = t.dept || 'OTHER'; deptCounts[d] = (deptCounts[d] || 0) + 1; });
                 if(chartSource) chartSource.destroy();
                 chartSource = new Chart(ctx2, { type: 'bar', data: { labels: Object.keys(deptCounts), datasets: [{ label: 'Candidates', data: Object.values(deptCounts), backgroundColor: '#3b82f6', borderRadius: 6 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, grid:{color: gridColor}, ticks: { stepSize: 1, color: textColor, font:{family:'Outfit'} } }, x: { grid:{display:false}, ticks: { color: textColor, font:{family:'Outfit'} } } } } });
             }
-
             const ctx3 = document.getElementById('sourceAnalyticsChart')?.getContext('2d');
             if(ctx3) {
                 let srcCounts = {}; dataToChart.forEach(t => { const s = t.source || 'Other'; srcCounts[s] = (srcCounts[s] || 0) + 1; });
                 if(chartSourcePie) chartSourcePie.destroy();
                 chartSourcePie = new Chart(ctx3, { type: 'pie', data: { labels: Object.keys(srcCounts), datasets: [{ data: Object.values(srcCounts), backgroundColor: ['#8b5cf6', '#ec4899', '#f59e0b', '#14b8a6', '#64748b'], borderWidth: 0 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { color: textColor, font:{family:'Outfit'} } } } } });
             }
-
             const ctx4 = document.getElementById('rejectionChart')?.getContext('2d');
             if(ctx4) {
                 let rejCounts = {}; dataToChart.filter(x => x.status === 'REJECTED').forEach(t => { const r = t.rejectionReason || 'Unspecified'; rejCounts[r] = (rejCounts[r] || 0) + 1; });
@@ -2273,80 +2227,47 @@
         const checkNotifications = () => { 
             const today = new Date().toISOString().slice(0,10); 
             const todayTxns = joinees.filter(x => x.interviewDate === today || x.joinDate === today); 
-            
-            // Check for Expired Ad Campaigns
             const expiredJobs = jobsList.filter(j => j.status === 'ACTIVE' && j.expiryDate && j.expiryDate <= today);
-
             let notifsHTML = '';
-            
             if(expiredJobs.length > 0) {
                 notifsHTML += expiredJobs.map(j => `<div class="p-4 mb-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-900/30 rounded-xl cursor-pointer hover:border-red-400 transition-colors" onclick="switchTab('jobs')"><span class="font-bold text-sm uppercase text-red-600 dark:text-red-400">${j.title}</span><p class="text-xs font-medium text-red-500 mt-1"><i class="fas fa-exclamation-triangle mr-1"></i> Ad Campaign Completed (${j.durationWeeks} Weeks)</p></div>`).join('');
             }
-
             if(todayTxns.length > 0) {
                 notifsHTML += todayTxns.map(a => `<div class="p-4 mb-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl cursor-pointer hover:border-sarathy-blue transition-colors" onclick="viewCandidate(${a.id})"><span class="font-bold text-sm uppercase text-[var(--text-primary)]">${a.name}</span><p class="text-xs font-medium text-slate-500 mt-1">${a.joinDate === today ? '<i class="fas fa-check-circle text-blue-500 mr-1"></i> Joining' : '<i class="fas fa-calendar-check text-amber-500 mr-1"></i> Interview'} Today</p></div>`).join('');
             }
-
             document.getElementById('notificationBadge').style.display = (todayTxns.length > 0 || expiredJobs.length > 0) ? 'block' : 'none'; 
             document.getElementById('dynamicNotifications').innerHTML = notifsHTML !== '' ? notifsHTML : '<p class="text-center text-slate-400 font-medium py-10">No upcoming activities today</p>'; 
         };
 
-        const exportToExcel = () => { 
-            try { 
-                const exportData = joinees.map((j, index) => ({ "S.No": index + 1, "Emp ID": j.empId, "Full Name": j.name, "Age": j.age || '-', "Qualification": j.qualification || '-', "Phone": j.phone, "Email": j.email || '-', "Source": j.source || '-', "Department": j.dept, "Entity": j.company, "Location": j.location || '-', "Designation": j.designation || '-', "Experience (Yrs)": j.experience || 0, "Current Status": j.status, "Interview Date": j.interviewDate ? formatDateString(j.interviewDate) : '-', "Joining Date": j.joinDate ? formatDateString(j.joinDate) : '-', "Rating": j.rating || 0, "Rejection Reason": j.rejectionReason || '-', "Remarks": j.remarks || '-' })); 
-                const worksheet = XLSX.utils.json_to_sheet(exportData); const workbook = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(workbook, worksheet, "Candidates"); XLSX.writeFile(workbook, `HR_Report_${new Date().toISOString().slice(0, 10)}.xlsx`); showToast("Excel Downloaded!"); 
-            } catch (error) { showToast("Failed to export Excel", "error"); } 
-        };
         const exportJSONBackup = () => { const blob = new Blob([JSON.stringify({ candidates: joinees, targets: reqList, jobs: jobsList, training: trainingList, okrs: okrList })], {type: 'application/json'}); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `HR_Backup.json`; a.click(); showToast("Backup Downloaded!"); };
-        
-        const importBackup = async (event) => {
+        const importBackup = (event) => {
             const file = event.target.files[0]; if (!file) return; const reader = new FileReader();
             reader.onload = async (e) => {
                 try {
                     const data = JSON.parse(e.target.result);
-                    if (data.candidates) { 
-                        joinees = data.candidates; localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees)); 
-                        await Promise.all(joinees.map(j => writeToCloud('candidates', j.id, j)));
-                    }
-                    if (data.targets) { 
-                        reqList = data.targets; localStorage.setItem(CURRENT_BUDGET_VERSION, JSON.stringify(reqList)); 
-                        await Promise.all(reqList.map((req, idx) => writeToCloud('targets', `target-${idx}`, req)));
-                    }
-                    if (data.jobs) { 
-                        jobsList = data.jobs; localStorage.setItem(JOBS_DB_VERSION, JSON.stringify(jobsList)); 
-                        await Promise.all(jobsList.map(j => writeToCloud('jobs', j.id, j)));
-                    }
-                    if (data.training) { 
-                        trainingList = data.training; localStorage.setItem(TRAINING_DB_VERSION, JSON.stringify(trainingList)); 
-                        await Promise.all(trainingList.map(t => writeToCloud('training', t.id, t)));
-                    }
-                    if (data.okrs) { 
-                        okrList = data.okrs; localStorage.setItem(OKR_DB_VERSION, JSON.stringify(okrList)); 
-                        await Promise.all(okrList.map(o => writeToCloud('okrs', o.id, o)));
-                    }
+                    if (data.candidates) { joinees = data.candidates; localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees)); await Promise.all(joinees.map(j => writeToCloud('candidates', j.id, j))); }
+                    if (data.targets) { reqList = data.targets; localStorage.setItem(CURRENT_BUDGET_VERSION, JSON.stringify(reqList)); await Promise.all(reqList.map((r, i) => writeToCloud('targets', `target-${i}`, r))); }
+                    if (data.jobs) { jobsList = data.jobs; localStorage.setItem(JOBS_DB_VERSION, JSON.stringify(jobsList)); await Promise.all(jobsList.map(j => writeToCloud('jobs', j.id, j))); }
+                    if (data.training) { trainingList = data.training; localStorage.setItem(TRAINING_DB_VERSION, JSON.stringify(trainingList)); await Promise.all(trainingList.map(t => writeToCloud('training', t.id, t))); }
+                    if (data.okrs) { okrList = data.okrs; localStorage.setItem(OKR_DB_VERSION, JSON.stringify(okrList)); await Promise.all(okrList.map(o => writeToCloud('okrs', o.id, o))); }
                     refreshAllViews(); showToast("Database Restored!");
                 } catch (err) { showToast("Invalid backup file", "error"); }
             };
             reader.readAsText(file);
         };
-
         const clearAllData = async () => { 
-            const verify = await showDialogModal('prompt', 'System Format', 'This action will wipe out all local and cloud data. Type "CONFIRM" below to agree:', 'Type CONFIRM');
+            const verify = await showDialogModal('prompt', 'System Format', 'This action will wipe out all local data. Type "CONFIRM" below to agree:', 'Type CONFIRM');
             if(verify === "CONFIRM") { 
                 if (db && auth && auth.currentUser) {
                     const collectionsToClear = ['candidates', 'targets', 'notices', 'jobs', 'training', 'okrs'];
                     for (const colName of collectionsToClear) {
                         try {
                             const qSnap = await getDocs(collection(db, 'artifacts', appId, 'public', 'data', colName));
-                            const deletes = [];
-                            qSnap.forEach(d => deletes.push(deleteDoc(d.ref)));
+                            const deletes = []; qSnap.forEach(d => deletes.push(deleteDoc(d.ref)));
                             await Promise.all(deletes);
-                        } catch (err) {
-                            console.error(`Error deleting cloud collection ${colName}`, err);
-                        }
+                        } catch (err) { console.error(`Error deleting cloud collection ${colName}`, err); }
                     }
                 }
-                
                 joinees = []; reqList = []; jobsList = []; trainingList = []; okrList = []; 
                 localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees)); localStorage.setItem(CURRENT_BUDGET_VERSION, JSON.stringify(reqList)); localStorage.setItem(JOBS_DB_VERSION, JSON.stringify(jobsList)); localStorage.setItem(TRAINING_DB_VERSION, JSON.stringify(trainingList)); localStorage.setItem(OKR_DB_VERSION, JSON.stringify(okrList)); 
                 refreshAllViews(); showToast("All system records formatted", "error"); 
@@ -2355,12 +2276,11 @@
         
         document.getElementById('changePinForm')?.addEventListener('submit', (e) => { e.preventDefault(); let users = JSON.parse(localStorage.getItem('sarathy_users_v13')) || USERS; users[0].pass = document.getElementById('newAdminPin').value; localStorage.setItem('sarathy_users_v13', JSON.stringify(users)); USERS = users; showToast("PIN Updated"); document.getElementById('changePinForm').reset(); });
 
-        const handleBulkExcelUpload = async (event) => {
+        const handleBulkExcelUpload = (event) => {
             const file = event.target.files[0]; if (!file) return; const reader = new FileReader();
             reader.onload = async (e) => {
                 const workbook = XLSX.read(new Uint8Array(e.target.result), { type: 'array' }); const jsonData = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]]);
-                let added = 0;
-                const cloudWrites = [];
+                let added = 0; const cloudWrites = [];
                 jsonData.forEach((row, idx) => {
                     const phone = String(row['Phone'] || '').replace(/\D/g, '').substring(0, 10);
                     if (phone.length === 10 && !joinees.some(x => x.phone === phone)) {
@@ -2376,6 +2296,7 @@
             reader.readAsArrayBuffer(file);
         };
         
+        // --- Expose to global scope for HTML bindings ---
         window.toggleSidebar = toggleSidebar;
         window.switchTab = switchTab;
         window.goBack = goBack;
@@ -2401,7 +2322,7 @@
         window.deleteJob = deleteJob;
         window.copyJob = copyJob;
         window.viewJobLeads = viewJobLeads;
-        window.viewAdImage = window.viewAdImage;
+        window.viewAdImage = viewAdImage;
         window.openTrainingModal = openTrainingModal;
         window.closeTrainingModal = closeTrainingModal;
         window.updateTraining = updateTraining;
@@ -2428,6 +2349,8 @@
         window.renderTable = renderTable;
         window.renderDirectory = renderDirectory;
         window.renderOnboarding = renderOnboarding;
+        window.generateCommMessage = generateCommMessage;
+        window.toggleOnboardingTask = toggleOnboardingTask;
     </script>
 </body>
 </html>
