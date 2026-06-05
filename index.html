@@ -25,17 +25,17 @@
                     fontFamily: { sans: ['Outfit', 'sans-serif'] },
                     colors: {
                         sarathy: { 
-                            blue: '#0054A6', 
-                            red: '#E31E24', 
+                            blue: '#0A3D62', 
+                            orange: '#F39C12', 
                             light: '#f8fafc', 
-                            dark: '#0f172a',
-                            accent: '#3b82f6'
+                            dark: '#051d30',
+                            accent: '#F39C12'
                         }
                     },
                     boxShadow: {
-                        'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.04)',
-                        'neo': '0 10px 30px -10px rgba(0, 84, 166, 0.12)',
-                        'hover-card': '0 20px 40px -15px rgba(0, 0, 0, 0.06)'
+                        'glass': '0 8px 32px 0 rgba(10, 61, 98, 0.05)',
+                        'neo': '0 10px 30px -10px rgba(10, 61, 98, 0.15)',
+                        'hover-card': '0 20px 40px -15px rgba(10, 61, 98, 0.08)'
                     }
                 }
             }
@@ -47,20 +47,20 @@
             --bg-primary: #f8fafc; 
             --bg-secondary: #ffffff; 
             --bg-glass: rgba(255, 255, 255, 0.85);
-            --text-primary: #0f172a; 
+            --text-primary: #0A3D62; 
             --text-secondary: #64748b; 
             --border-color: #e2e8f0; 
             --sidebar-width: 280px;
-            --accent-main: #0054A6;
-            --accent-hover: #004080;
+            --accent-main: #F39C12;
+            --accent-hover: #d6840d;
         }
         .dark {
-            --bg-primary: #020617; 
-            --bg-secondary: #0f172a; 
-            --bg-glass: rgba(15, 23, 42, 0.85);
+            --bg-primary: #051d30; 
+            --bg-secondary: #0A3D62; 
+            --bg-glass: rgba(10, 61, 98, 0.85);
             --text-primary: #f8fafc; 
             --text-secondary: #94a3b8; 
-            --border-color: #1e293b;
+            --border-color: #1e3a5f;
         }
         
         body { 
@@ -108,7 +108,7 @@
         }
         .input-base:focus {
             border-color: var(--accent-main);
-            box-shadow: 0 0 0 4px rgba(0, 84, 166, 0.08);
+            box-shadow: 0 0 0 4px rgba(243, 156, 18, 0.15);
         }
 
         select.input-base {
@@ -138,24 +138,24 @@
             cursor: pointer; position: relative; overflow: hidden;
         }
         .nav-link:hover { background: var(--bg-primary); color: var(--text-primary); }
-        .nav-link.active { background: transparent; color: var(--accent-main); }
+        .nav-link.active { background: rgba(10, 61, 98, 0.08); color: var(--text-primary); border-left: 4px solid var(--accent-main); }
         
         .tab-content { display: none; opacity: 0; transition: opacity 0.3s ease; height: 100%; overflow-y: auto; padding-bottom: 120px; }
         .tab-content.active { display: block; opacity: 1; }
         
         .kanban-col { background: var(--bg-primary); border-radius: 1.5rem; padding: 1rem; min-height: 50vh; transition: all 0.2s; display: flex; flex-direction: column; }
-        .kanban-col.drag-over { background: rgba(0, 84, 166, 0.03); border: 2px dashed var(--accent-main); transform: scale(1.01); }
+        .kanban-col.drag-over { background: rgba(10, 61, 98, 0.03); border: 2px dashed var(--accent-main); transform: scale(1.01); }
         
         .calendar-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
         .calendar-day { min-height: 80px; border-radius: 12px; border: 1px solid var(--border-color); padding: 8px; display: flex; flex-direction: column; background: var(--bg-secondary); transition: all 0.2s; }
-        .calendar-day.today { background: rgba(0, 84, 166, 0.05); border: 2px solid var(--accent-main); }
+        .calendar-day.today { background: rgba(10, 61, 98, 0.05); border: 2px solid #0054A6; }
         .calendar-event { font-size: 0.7rem; padding: 4px 6px; border-radius: 6px; margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 700; cursor: pointer; transition: transform 0.2s; }
         
-        .gradient-text { background: linear-gradient(135deg, var(--accent-main), #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .dark .gradient-text { background: linear-gradient(135deg, #60a5fa, #93c5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .gradient-text { background: linear-gradient(135deg, var(--text-primary), var(--accent-main)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .dark .gradient-text { background: linear-gradient(135deg, #60a5fa, #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         
-        .fab { position: fixed; bottom: 24px; right: 24px; width: 60px; height: 60px; border-radius: 1rem; background: var(--accent-main); color: white; display: flex; justify-content: center; align-items: center; box-shadow: 0 10px 25px -5px rgba(0, 84, 166, 0.4); z-index: 50; cursor: pointer; transition: all 0.3s; }
-        .fab:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0, 84, 166, 0.5); }
+        .fab { position: fixed; bottom: 24px; right: 24px; width: 60px; height: 60px; border-radius: 1rem; background: var(--accent-main); color: white; display: flex; justify-content: center; align-items: center; box-shadow: 0 10px 25px -5px rgba(243, 156, 18, 0.4); z-index: 50; cursor: pointer; transition: all 0.3s; }
+        .fab:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(243, 156, 18, 0.5); }
         
         .data-table-container { background: var(--bg-secondary); border-radius: 1.5rem; border: 1px solid var(--border-color); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02); max-height: calc(100vh - 280px); overflow-y: auto; }
         .data-table { width: 100%; border-collapse: separate; border-spacing: 0; }
@@ -164,37 +164,13 @@
         .data-table tr:last-child td { border-bottom: none; }
         .data-table tr:hover td { background: var(--bg-primary); }
         
-        .custom-checkbox { width: 22px; height: 22px; cursor: pointer; accent-color: var(--accent-main); border-radius: 6px; }
-        
-        .status-badge { padding: 6px 12px; border-radius: 9999px; font-size: 0.7rem; font-weight: 800; display: inline-flex; align-items: center; justify-content: center; text-transform: uppercase; letter-spacing: 0.05em; }
-        .badge-selected { background: #dcfce7; color: #166534; }
-        .badge-pending { background: #fef9c3; color: #854d0e; }
-        .badge-rejected { background: #fee2e2; color: #991b1b; }
-        .badge-joined { background: #dbeafe; color: #1e40af; }
-        .dark .badge-selected { background: rgba(22, 163, 74, 0.2); color: #4ade80; }
-        .dark .badge-pending { background: rgba(202, 138, 4, 0.2); color: #fde047; }
-        .dark .badge-rejected { background: rgba(220, 38, 38, 0.2); color: #f87171; }
-        .dark .badge-joined { background: rgba(37, 99, 235, 0.2); color: #60a5fa; }
-        
-        .progress-slider { -webkit-appearance: none; width: 100%; height: 8px; border-radius: 4px; background: var(--border-color); outline: none; }
-        .progress-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 20px; height: 20px; border-radius: 50%; background: var(--accent-main); cursor: pointer; transition: transform 0.1s; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
-        
-        .dragging { opacity: 0.5; transform: scale(0.95); cursor: grabbing !important; }
-        
-        @media print {
-            body * { visibility: hidden; }
-            #printArea, #printArea * { visibility: visible; }
-            #printArea { position: absolute; left: 0; top: 0; width: 100%; height: auto; background: white !important; color: black !important; padding: 20px; }
-            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
-        }
-        
         .bg-shapes {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
             overflow: hidden; z-index: 0; pointer-events: none;
         }
-        .shape-1 { position: absolute; top: -10%; right: -5%; width: 50vw; height: 50vw; border-radius: 50%; background: radial-gradient(circle, rgba(59,130,246,0.12) 0%, rgba(59,130,246,0) 70%); filter: blur(40px); }
-        .shape-2 { position: absolute; bottom: -10%; left: -10%; width: 60vw; height: 60vw; border-radius: 50%; background: radial-gradient(circle, rgba(0,84,166,0.08) 0%, rgba(0,84,166,0) 70%); filter: blur(60px); }
+        .shape-1 { position: absolute; top: -10%; right: -5%; width: 50vw; height: 50vw; border-radius: 50%; background: radial-gradient(circle, rgba(243,156,18,0.12) 0%, rgba(243,156,18,0) 70%); filter: blur(40px); }
+        .shape-2 { position: absolute; bottom: -10%; left: -10%; width: 60vw; height: 60vw; border-radius: 50%; background: radial-gradient(circle, rgba(10,61,98,0.08) 0%, rgba(10,61,98,0) 70%); filter: blur(60px); }
     </style>
 </head>
 <body class="antialiased">
@@ -222,7 +198,9 @@
                 <form id="publicApplyForm" class="space-y-6">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
                         <div class="space-y-6 md:col-span-2 bg-slate-50/50 dark:bg-slate-900/30 p-6 md:p-8 rounded-3xl border border-slate-100 dark:border-slate-800">
-                            <h3 class="text-sm font-black uppercase tracking-widest text-slate-700 dark:text-slate-300 mb-2 flex items-center gap-2"><i class="fas fa-user-circle text-blue-500"></i> Personal Identification</h3>
+                            <h3 class="text-sm font-black uppercase tracking-widest text-slate-700 dark:text-slate-300 mb-2 flex items-center gap-2">
+                                <i class="fas fa-user-circle text-sarathy-orange"></i> Personal Identification
+                            </h3>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div class="flex flex-col">
                                     <label class="text-xs font-bold text-slate-600 dark:text-slate-400 mb-2 ml-1">Full Name *</label>
@@ -234,17 +212,21 @@
                                 </div>
                                 <div class="flex flex-col">
                                     <label class="text-xs font-bold text-slate-600 dark:text-slate-400 mb-2 ml-1">Phone Number *</label>
-                                    <input type="tel" id="pubPhone" required pattern="[0-9]{10}" placeholder="10 Digit Mobile No" class="input-base">
+                                    <input type="tel" id="pubPhone" required placeholder="10 Digit Mobile No" class="input-base" onchange="runAiDuplicateScan(this.value, 'phone')">
+                                    <span id="pubPhoneWarning" class="text-xs text-red-500 mt-1 font-bold hidden"><i class="fas fa-exclamation-triangle"></i> Potential Duplicate Candidate Detected!</span>
                                 </div>
                                 <div class="flex flex-col">
                                     <label class="text-xs font-bold text-slate-600 dark:text-slate-400 mb-2 ml-1">Email Address</label>
-                                    <input type="email" id="pubEmail" placeholder="e.g. john@example.com" class="input-base">
+                                    <input type="email" id="pubEmail" placeholder="e.g. john@example.com" class="input-base" onchange="runAiDuplicateScan(this.value, 'email')">
+                                    <span id="pubEmailWarning" class="text-xs text-red-500 mt-1 font-bold hidden"><i class="fas fa-exclamation-triangle"></i> Email Address already registered!</span>
                                 </div>
                             </div>
                         </div>
 
                         <div class="space-y-6 md:col-span-2 bg-slate-50/50 dark:bg-slate-900/30 p-6 md:p-8 rounded-3xl border border-slate-100 dark:border-slate-800">
-                            <h3 class="text-sm font-black uppercase tracking-widest text-slate-700 dark:text-slate-300 mb-2 flex items-center gap-2"><i class="fas fa-briefcase text-emerald-500"></i> Career Preferences</h3>
+                            <h3 class="text-sm font-black uppercase tracking-widest text-slate-700 dark:text-slate-300 mb-2 flex items-center gap-2">
+                                <i class="fas fa-briefcase text-sarathy-orange"></i> Career Preferences
+                            </h3>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div class="flex flex-col">
                                     <label class="text-xs font-bold text-slate-600 dark:text-slate-400 mb-2 ml-1">Highest Qualification *</label>
@@ -287,60 +269,14 @@
                     </div>
                     
                     <div class="pt-6">
-                        <button type="submit" class="w-full bg-sarathy-blue hover:bg-blue-700 text-white font-black py-5 rounded-2xl shadow-[0_10px_20px_rgba(0,84,166,0.3)] text-base uppercase tracking-widest flex items-center justify-center gap-3 transition-all active:scale-[0.98]">
+                        <button type="submit" class="w-full bg-sarathy-blue hover:bg-slate-800 text-white font-black py-5 rounded-2xl shadow-[0_10px_20px_rgba(10,61,98,0.3)] text-base uppercase tracking-widest flex items-center justify-center gap-3 transition-all active:scale-[0.98]">
                             Submit My Application <i class="fas fa-paper-plane"></i>
                         </button>
                     </div>
                     <div class="text-center mt-6">
-                        <button type="button" onclick="window.location.href = window.location.pathname" class="text-sm font-bold text-slate-400 hover:text-sarathy-blue transition-colors">Go to Admin Console</button>
+                        <button type="button" onclick="window.location.href = window.location.pathname" class="text-sm font-bold text-slate-400 hover:text-sarathy-orange transition-colors">Go to Admin Console</button>
                     </div>
                 </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- LOGIN PAGE -->
-    <div id="loginPage" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-50 dark:bg-slate-900 transition-opacity duration-500">
-        <div class="bg-shapes">
-            <div class="shape-1"></div>
-            <div class="shape-2"></div>
-        </div>
-        <div class="w-full max-w-[400px] animate-up relative z-10">
-            <div class="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl p-8 rounded-[2.5rem] shadow-2xl border border-white/50 dark:border-slate-700/50">
-                <div class="mb-8 text-center">
-                    <div class="bg-white p-3 rounded-2xl inline-block shadow-sm mb-4 border border-slate-100">
-                        <div class="text-sarathy-blue font-black text-2xl px-4">SG</div>
-                    </div>
-                    <h2 class="text-2xl font-black text-slate-800 dark:text-white tracking-tight text-center">Welcome Back</h2>
-                    <p class="text-xs font-bold text-slate-500 dark:text-slate-400 mt-1 uppercase tracking-widest text-center">HR Management System</p>
-                </div>
-                
-                <div id="loginError" class="hidden bg-red-50 text-red-600 p-4 rounded-xl text-sm font-bold mb-6 border border-red-100 flex items-center gap-2">
-                    <i class="fas fa-exclamation-circle"></i> Authentication Failed
-                </div>
-                
-                <form id="loginForm" class="space-y-5">
-                    <div>
-                        <label class="text-[11px] font-black text-slate-500 uppercase tracking-widest mb-2 block ml-1">User ID</label>
-                        <div class="relative">
-                            <i class="fas fa-user absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                            <input type="text" id="username" required value="ADMIN" class="input-base pl-12 py-3.5">
-                        </div>
-                    </div>
-                    <div>
-                        <label class="text-[11px] font-black text-slate-500 uppercase tracking-widest mb-2 block ml-1">Access PIN</label>
-                        <div class="relative">
-                            <i class="fas fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                            <input type="password" id="password" required value="SARATHY@26" class="input-base pl-12 py-3.5">
-                        </div>
-                    </div>
-                    <button type="submit" class="w-full bg-sarathy-blue hover:bg-blue-700 text-white font-black py-4 rounded-xl shadow-lg mt-6 uppercase tracking-widest text-sm transition-all active:scale-[0.98]">Authenticate</button>
-                </form>
-                <div class="mt-8 pt-6 border-t border-slate-100 dark:border-slate-700 text-center">
-                    <button onclick="window.location.search = '?view=apply'" class="text-sm font-bold text-sarathy-blue hover:text-blue-800 dark:text-blue-400 transition-colors flex items-center justify-center w-full gap-2">
-                        <i class="fas fa-external-link-alt"></i> Go to Public Apply Form
-                    </button>
-                </div>
             </div>
         </div>
     </div>
@@ -351,57 +287,59 @@
         <div id="mobileOverlay" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-[90] hidden lg:hidden" onclick="toggleSidebar()"></div>
 
         <!-- SIDEBAR -->
-        <aside id="sidebar" class="fixed lg:static inset-y-0 left-0 w-[var(--sidebar-width)] lg:w-[80px] hover:lg:w-[var(--sidebar-width)] h-[100dvh] bg-[var(--bg-secondary)] flex flex-col shrink-0 z-[100] border-r border-[var(--border-color)] transform -translate-x-full lg:translate-x-0 transition-all duration-300 overflow-x-hidden group">
+        <aside id="sidebar" class="fixed lg:static inset-y-0 left-0 w-[var(--sidebar-width)] lg:w-[280px] h-[100dvh] bg-[var(--bg-secondary)] flex flex-col shrink-0 z-[100] border-r border-[var(--border-color)] transform -translate-x-full lg:translate-x-0 transition-all duration-300 overflow-x-hidden">
             <div class="h-16 lg:h-20 px-4 flex items-center gap-3 border-b border-[var(--border-color)] shrink-0">
-                <div class="w-10 h-10 lg:w-12 lg:h-12 bg-white rounded-xl flex items-center justify-center shrink-0 p-1 border border-slate-100 shadow-sm">
-                    <div class="text-sarathy-blue font-black text-xl">S</div>
+                <div class="w-10 h-10 lg:w-12 lg:h-12 bg-sarathy-blue rounded-xl flex items-center justify-center shrink-0 p-1 border border-slate-100 shadow-sm">
+                    <span class="text-sarathy-orange font-black text-xl">S</span>
                 </div>
-                <div class="transition-opacity duration-300 lg:opacity-0 lg:group-hover:opacity-100 whitespace-nowrap overflow-hidden flex-1 ml-1">
-                    <h1 class="font-black text-sm lg:text-base tracking-tight gradient-text">SARATHY GROUP</h1>
+                <div class="whitespace-nowrap overflow-hidden flex-1 ml-1">
+                    <h1 class="font-black text-sm lg:text-base tracking-tight text-sarathy-blue dark:text-white">SARATHY GROUP</h1>
                 </div>
                 <button class="lg:hidden w-8 h-8 flex items-center justify-center rounded-lg bg-slate-100 text-slate-500 hover:text-red-500 shrink-0 ml-auto" onclick="toggleSidebar()"><i class="fas fa-times"></i></button>
             </div>
 
             <div class="flex flex-col p-4 flex-1 custom-scroll overflow-y-auto overflow-x-hidden pb-24">
-                <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 px-3 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">CORE HR</div>
-                <a onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-link active"><i class="fas fa-home w-5 text-center text-lg"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">Overview</span></a>
-                <a onclick="switchTab('candidates')" id="nav-candidates" class="nav-link"><i class="fas fa-user-friends w-5 text-center text-lg"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">Candidates</span></a>
-                <a onclick="switchTab('directory')" id="nav-directory" class="nav-link text-indigo-600 dark:text-indigo-400"><i class="fas fa-address-book w-5 text-center text-lg"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">Directory</span></a>
-                <a onclick="switchTab('onboarding')" id="nav-onboarding" class="nav-link text-emerald-600 dark:text-emerald-400"><i class="fas fa-tasks w-5 text-center text-lg"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">Onboarding</span></a>
+                <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 px-3">CORE RECRUITMENT</div>
+                <a onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-link active"><i class="fas fa-home w-5 text-center text-lg"></i> <span class="whitespace-nowrap">Dashboard</span></a>
+                <a onclick="switchTab('candidates')" id="nav-candidates" class="nav-link"><i class="fas fa-user-friends w-5 text-center text-lg"></i> <span class="whitespace-nowrap">Candidate Database</span></a>
+                <a onclick="switchTab('vacancies')" id="nav-vacancies" class="nav-link"><i class="fas fa-briefcase w-5 text-center text-lg"></i> <span class="whitespace-nowrap">Vacancy Manager</span></a>
                 
-                <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-6 mb-2 px-3 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">WORKFORCE PRO</div>
-                <a onclick="switchTab('payroll')" id="nav-payroll" class="nav-link text-amber-500 dark:text-amber-400"><i class="fas fa-wallet w-5 text-center text-lg"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">CTC Estimator</span></a>
-                <a onclick="switchTab('leaves')" id="nav-leaves" class="nav-link text-teal-500 dark:text-teal-400"><i class="fas fa-calendar-minus w-5 text-center text-lg"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">Leave Tracker</span></a>
+                <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-6 mb-2 px-3">EMPLOYEE MANAGEMENT</div>
+                <a onclick="switchTab('directory')" id="nav-directory" class="nav-link"><i class="fas fa-address-book w-5 text-center text-lg"></i> <span class="whitespace-nowrap">Employee Master</span></a>
+                <a onclick="switchTab('onboarding')" id="nav-onboarding" class="nav-link"><i class="fas fa-tasks w-5 text-center text-lg"></i> <span class="whitespace-nowrap">Onboarding & Asset</span></a>
+                <a onclick="switchTab('probation')" id="nav-probation" class="nav-link"><i class="fas fa-user-clock w-5 text-center text-lg"></i> <span class="whitespace-nowrap">Probation Tracker</span></a>
+                
+                <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-6 mb-2 px-3">FINANCES & ABSENCE</div>
+                <a onclick="switchTab('payroll')" id="nav-payroll" class="nav-link"><i class="fas fa-wallet w-5 text-center text-lg"></i> <span class="whitespace-nowrap">CTC Estimator</span></a>
+                <a onclick="switchTab('leaves')" id="nav-leaves" class="nav-link"><i class="fas fa-calendar-minus w-5 text-center text-lg"></i> <span class="whitespace-nowrap">Leave Tracker</span></a>
 
-                <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-6 mb-2 px-3 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">TALENT</div>
-                <a onclick="switchTab('jobs')" id="nav-jobs" class="nav-link text-sky-600 dark:text-sky-400"><i class="fas fa-briefcase w-5 text-center text-lg"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">Job Postings</span></a>
-                <a onclick="switchTab('training')" id="nav-training" class="nav-link text-fuchsia-600 dark:text-fuchsia-400"><i class="fas fa-graduation-cap w-5 text-center text-lg"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">Training Hub</span></a>
-                <a onclick="switchTab('okrs')" id="nav-okrs" class="nav-link text-orange-600 dark:text-orange-400"><i class="fas fa-bullseye w-5 text-center text-lg"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">Performance</span></a>
-                
-                <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-6 mb-2 px-3 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">MANAGEMENT</div>
-                <a onclick="switchTab('calendar')" id="nav-calendar" class="nav-link"><i class="fas fa-calendar-alt w-5 text-center text-lg"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">Schedules</span></a>
-                <a onclick="switchTab('analytics')" id="nav-analytics" class="nav-link"><i class="fas fa-chart-pie w-5 text-center text-lg"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">Analytics</span></a>
-                <a onclick="openReqModal()" class="nav-link text-rose-500 dark:text-rose-400"><i class="fas fa-flag w-5 text-center text-lg"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">Hiring Targets</span></a>
-                <a onclick="switchTab('settings')" id="nav-settings" class="nav-link mt-auto"><i class="fas fa-cog w-5 text-center text-lg"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">Settings</span></a>
+                <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-6 mb-2 px-3">TALENT & REPORTS</div>
+                <a onclick="switchTab('training')" id="nav-training" class="nav-link"><i class="fas fa-graduation-cap w-5 text-center text-lg"></i> <span class="whitespace-nowrap">Training Hub</span></a>
+                <a onclick="switchTab('okrs')" id="nav-okrs" class="nav-link"><i class="fas fa-bullseye w-5 text-center text-lg"></i> <span class="whitespace-nowrap">Performance</span></a>
+                <a onclick="switchTab('reports')" id="nav-reports" class="nav-link"><i class="fas fa-chart-line w-5 text-center text-lg"></i> <span class="whitespace-nowrap">Reports Center</span></a>
+                <a onclick="switchTab('automation')" id="nav-automation" class="nav-link"><i class="fas fa-robot w-5 text-center text-lg"></i> <span class="whitespace-nowrap">HR Automation</span></a>
+                <a onclick="switchTab('calendar')" id="nav-calendar" class="nav-link"><i class="fas fa-calendar-alt w-5 text-center text-lg"></i> <span class="whitespace-nowrap">Interview Calendar</span></a>
+                <a onclick="switchTab('settings')" id="nav-settings" class="nav-link mt-auto"><i class="fas fa-cog w-5 text-center text-lg"></i> <span class="whitespace-nowrap">Settings</span></a>
             </div>
         </aside>
 
         <!-- MAIN CONTENT AREA -->
         <main class="flex-1 flex flex-col h-[100dvh] overflow-hidden relative min-w-0">
+            <!-- HEADER -->
             <header class="h-16 lg:h-20 glass-panel flex justify-between items-center px-4 lg:px-8 shrink-0 z-30 sticky top-0 shadow-sm">
                 <div class="flex items-center gap-4">
                     <button onclick="toggleSidebar()" class="lg:hidden w-10 h-10 rounded-xl bg-white dark:bg-slate-800 flex items-center justify-center shadow-sm border border-[var(--border-color)] text-[var(--text-primary)]"><i class="fas fa-bars"></i></button>
-                    <h2 id="pageTitle" class="text-lg md:text-xl font-black uppercase tracking-wide text-[var(--text-primary)]">HR Overview</h2>
+                    <h2 id="pageTitle" class="text-lg md:text-xl font-black uppercase tracking-wide text-[var(--text-primary)]">HR Dashboard</h2>
                 </div>
                 <div class="flex items-center gap-2 md:gap-4 shrink-0">
-                    <button onclick="toggleDarkMode()" class="w-10 h-10 rounded-full bg-white dark:bg-slate-800 shadow-sm border border-[var(--border-color)] text-[var(--text-secondary)] hover:text-sarathy-blue transition-colors"><i id="darkModeIcon" class="fas fa-moon"></i></button>
-                    <button onclick="toggleNotifications()" class="w-10 h-10 rounded-full bg-white dark:bg-slate-800 shadow-sm border border-[var(--border-color)] text-[var(--text-secondary)] hover:text-sarathy-blue transition-colors relative">
+                    <button onclick="toggleDarkMode()" class="w-10 h-10 rounded-full bg-white dark:bg-slate-800 shadow-sm border border-[var(--border-color)] text-[var(--text-secondary)] hover:text-sarathy-orange transition-colors"><i id="darkModeIcon" class="fas fa-moon"></i></button>
+                    <button onclick="toggleNotifications()" class="w-10 h-10 rounded-full bg-white dark:bg-slate-800 shadow-sm border border-[var(--border-color)] text-[var(--text-secondary)] hover:text-sarathy-orange transition-colors relative">
                         <i class="fas fa-bell"></i>
                         <span id="notificationBadge" class="hidden absolute top-0 right-0 w-3 h-3 rounded-full bg-red-500 border-2 border-white dark:border-slate-800"></span>
                     </button>
                     <div class="h-8 w-px bg-[var(--border-color)] mx-1 hidden sm:block"></div>
                     <div class="flex items-center gap-3 pl-1 pr-3 py-1 rounded-full cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" onclick="switchTab('settings')">
-                        <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-sarathy-blue to-blue-400 text-white flex items-center justify-center font-bold text-sm shadow-sm"><i class="fas fa-user"></i></div>
+                        <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-sarathy-blue to-sarathy-orange text-white flex items-center justify-center font-bold text-sm shadow-sm"><i class="fas fa-user"></i></div>
                         <div class="hidden sm:block text-left">
                             <p class="text-sm font-black text-[var(--text-primary)] leading-none" id="userNameDisplay">Admin</p>
                         </div>
@@ -413,17 +351,17 @@
                 
                 <!-- TAB 1: DASHBOARD -->
                 <div id="tab-dashboard" class="tab-content active p-4 md:p-6 lg:p-8 space-y-6 max-w-[1600px] mx-auto">
-                    <div class="bg-gradient-to-r from-[#0054A6] to-[#0ea5e9] rounded-[2rem] p-6 md:p-10 text-white relative overflow-hidden shadow-lg animate-up">
+                    <div class="bg-gradient-to-r from-[#0A3D62] to-[#1e3a5f] rounded-[2rem] p-6 md:p-10 text-white relative overflow-hidden shadow-lg animate-up">
                         <div class="absolute top-0 right-0 w-64 h-64 bg-white opacity-5 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2"></div>
-                        <div class="absolute bottom-0 right-20 w-40 h-40 bg-blue-300 opacity-20 rounded-full blur-2xl"></div>
+                        <div class="absolute bottom-0 right-20 w-40 h-40 bg-orange-300 opacity-20 rounded-full blur-2xl"></div>
                         <div class="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
                             <div class="flex-1">
-                                <h2 class="text-3xl md:text-4xl font-black mb-2 flex items-center gap-3 tracking-tight">Good Morning, HR <i class="fas fa-coffee text-blue-200 text-2xl"></i></h2>
-                                <p class="text-blue-100 font-medium mb-8 text-sm md:text-base opacity-90">Here's what's happening in your organization today.</p>
+                                <h2 class="text-3xl md:text-4xl font-black mb-2 flex items-center gap-3 tracking-tight">Good Morning, HR Team <i class="fas fa-coffee text-orange-200 text-2xl"></i></h2>
+                                <p class="text-orange-100 font-medium mb-8 text-sm md:text-base opacity-90">Manage Recruitment, Employee databases, Asset Tracking, and probation reports effortlessly.</p>
                                 <div class="flex flex-wrap gap-3">
-                                    <button onclick="openModal()" class="bg-white text-sarathy-blue px-5 py-2.5 rounded-xl font-bold text-sm shadow-sm hover:shadow-md transition-all active:scale-95"><i class="fas fa-plus mr-2"></i> Add Candidate</button>
-                                    <button onclick="openSharePortal()" class="bg-white/20 hover:bg-white/30 backdrop-blur-md border border-white/30 text-white px-5 py-2.5 rounded-xl font-bold text-sm transition-all active:scale-95"><i class="fas fa-share-alt mr-2"></i> Share Apply Link</button>
-                                    <button onclick="document.getElementById('bulkUploadExcel').click()" class="bg-white/20 hover:bg-white/30 backdrop-blur-md border border-white/30 text-white px-5 py-2.5 rounded-xl font-bold text-sm hidden md:inline-block transition-all active:scale-95"><i class="fas fa-file-excel mr-2"></i> Import</button>
+                                    <button onclick="openModal()" class="bg-sarathy-orange text-white px-5 py-2.5 rounded-xl font-bold text-sm shadow-sm hover:shadow-md transition-all active:scale-95"><i class="fas fa-plus mr-2"></i> Register Candidate</button>
+                                    <button onclick="openSharePortal()" class="bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 text-white px-5 py-2.5 rounded-xl font-bold text-sm transition-all active:scale-95"><i class="fas fa-share-alt mr-2"></i> Share Apply Link</button>
+                                    <button onclick="document.getElementById('bulkUploadExcel').click()" class="bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 text-white px-5 py-2.5 rounded-xl font-bold text-sm hidden md:inline-block transition-all active:scale-95"><i class="fas fa-file-excel mr-2"></i> Import Excel</button>
                                     <input type="file" id="bulkUploadExcel" accept=".xlsx, .xls, .csv" class="hidden" onchange="handleBulkExcelUpload(event)">
                                 </div>
                             </div>
@@ -440,8 +378,8 @@
                     <!-- Key Stats Grid -->
                     <div class="grid grid-cols-2 md:grid-cols-6 gap-3 md:gap-4 animate-up" style="animation-delay: 0.1s;">
                         <div class="modern-card p-4 md:p-6 flex flex-col justify-center relative overflow-hidden group">
-                            <span class="text-[10px] md:text-xs font-black text-slate-500 uppercase tracking-wider mb-1">Total Apps</span>
-                            <h3 class="text-3xl md:text-4xl font-black text-slate-800 dark:text-white" id="statTotal">0</h3>
+                            <span class="text-[10px] md:text-xs font-black text-slate-500 uppercase tracking-wider mb-1">Total Applicants</span>
+                            <h3 class="text-3xl md:text-4xl font-black text-sarathy-blue dark:text-white" id="statTotal">0</h3>
                         </div>
                         <div class="modern-card p-4 md:p-6 flex flex-col justify-center relative overflow-hidden group border-b-4 border-amber-500">
                             <span class="text-[10px] md:text-xs font-black text-slate-500 uppercase tracking-wider mb-1">Pending</span>
@@ -459,9 +397,9 @@
                             <span class="text-[10px] md:text-xs font-black text-slate-500 uppercase tracking-wider mb-1">Rejected</span>
                             <h3 class="text-3xl md:text-4xl font-black text-red-500" id="statRejected">0</h3>
                         </div>
-                        <div class="modern-card p-4 md:p-6 flex flex-col justify-center relative overflow-hidden group border-b-4 border-indigo-500 bg-indigo-50/30 dark:bg-indigo-900/10">
-                            <span class="text-[10px] md:text-xs font-black text-indigo-500 uppercase tracking-wider mb-1">Avg. Hiring Time</span>
-                            <h3 class="text-3xl md:text-4xl font-black text-indigo-600" id="statHiringTime">0 <span class="text-sm">Days</span></h3>
+                        <div class="modern-card p-4 md:p-6 flex flex-col justify-center relative overflow-hidden group border-b-4 border-orange-500 bg-orange-50/10">
+                            <span class="text-[10px] md:text-xs font-black text-sarathy-orange uppercase tracking-wider mb-1">Active Vacancies</span>
+                            <h3 class="text-3xl md:text-4xl font-black text-sarathy-orange" id="statVacanciesCount">0</h3>
                         </div>
                     </div>
 
@@ -469,10 +407,10 @@
                         <div class="xl:col-span-2 modern-card p-6">
                             <div class="flex justify-between items-center mb-6">
                                 <h3 class="font-black text-base uppercase text-[var(--text-primary)]">Recent Registrations</h3>
-                                <button onclick="switchTab('candidates')" class="text-xs font-bold text-sarathy-blue hover:underline">View All</button>
+                                <button onclick="switchTab('candidates')" class="text-xs font-bold text-sarathy-orange hover:underline">View All</button>
                             </div>
                             <div class="overflow-x-auto">
-                                <table class="w-full text-left">
+                                <table class="w-full text-left font-sans">
                                     <tbody id="recentCandidatesBody" class="divide-y divide-[var(--border-color)]"></tbody>
                                 </table>
                             </div>
@@ -481,7 +419,7 @@
                         <div class="modern-card p-6 flex flex-col">
                             <div class="flex justify-between items-center mb-6">
                                 <h3 class="font-black text-base uppercase text-[var(--text-primary)]">Hiring Targets</h3>
-                                <button onclick="openReqModal()" class="w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-sarathy-blue flex items-center justify-center"><i class="fas fa-edit"></i></button>
+                                <button onclick="openReqModal()" class="w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-sarathy-orange flex items-center justify-center"><i class="fas fa-edit"></i></button>
                             </div>
                             <div class="flex-1 overflow-y-auto custom-scroll pr-2 space-y-4" id="progContainer"></div>
                         </div>
@@ -494,7 +432,7 @@
                         <div class="flex flex-col md:flex-row gap-4 mb-4">
                             <div class="relative flex-1">
                                 <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                                <input type="text" id="searchInput" onkeyup="renderTable()" placeholder="Search names, IDs, phone..." class="w-full pl-11 pr-4 py-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl text-sm font-medium outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all">
+                                <input type="text" id="searchInput" onkeyup="renderTable()" placeholder="Search names, IDs, phone..." class="w-full pl-11 pr-4 py-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl text-sm font-medium outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-sarathy-orange transition-all">
                             </div>
                             <div class="flex gap-2 overflow-x-auto no-scrollbar md:w-auto shrink-0">
                                 <input type="month" id="filterMonth" onchange="renderTable()" class="px-4 py-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl text-sm font-medium outline-none cursor-pointer">
@@ -523,14 +461,14 @@
                         </div>
                         <div class="flex flex-wrap items-center justify-between gap-4">
                             <div class="flex gap-2 overflow-x-auto no-scrollbar pb-1">
-                                <button onclick="setQuickFilter('All')" class="px-5 py-2 rounded-lg text-xs font-bold transition-colors bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400" id="chip-All">All</button>
+                                <button onclick="setQuickFilter('All')" class="px-5 py-2 rounded-lg text-xs font-bold transition-colors bg-orange-500 text-white" id="chip-All">All</button>
                                 <button onclick="setQuickFilter('Pending')" class="px-5 py-2 rounded-lg text-xs font-bold text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" id="chip-Pending">Pending</button>
                                 <button onclick="setQuickFilter('Selected')" class="px-5 py-2 rounded-lg text-xs font-bold text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" id="chip-Selected">Selected</button>
                                 <button onclick="setQuickFilter('Joined')" class="px-5 py-2 rounded-lg text-xs font-bold text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" id="chip-Joined">Joined</button>
                                 <button onclick="setQuickFilter('Rejected')" class="px-5 py-2 rounded-lg text-xs font-bold text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" id="chip-Rejected">Rejected</button>
                             </div>
                             <div class="flex bg-[var(--bg-primary)] p-1 rounded-lg border border-[var(--border-color)]">
-                                <button onclick="setView('list')" id="btnViewList" class="px-4 py-1.5 rounded text-sm font-bold bg-white dark:bg-slate-700 shadow-sm text-sarathy-blue dark:text-white"><i class="fas fa-list"></i></button>
+                                <button onclick="setView('list')" id="btnViewList" class="px-4 py-1.5 rounded text-sm font-bold bg-white dark:bg-slate-700 shadow-sm text-sarathy-orange dark:text-white"><i class="fas fa-list"></i></button>
                                 <button onclick="setView('board')" id="btnViewBoard" class="px-4 py-1.5 rounded text-sm font-bold text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"><i class="fas fa-columns"></i></button>
                             </div>
                         </div>
@@ -542,11 +480,11 @@
                                 <thead>
                                     <tr>
                                         <th>Candidate Info</th>
-                                        <th>Details</th>
-                                        <th>Position</th>
-                                        <th>AI Match Score</th>
+                                        <th>Contact Details</th>
+                                        <th>Applying Position</th>
+                                        <th>AI Match & Duplicity</th>
                                         <th>Status</th>
-                                        <th>Dates</th>
+                                        <th>Key Dates</th>
                                         <th class="text-right">Action</th>
                                     </tr>
                                 </thead>
@@ -587,40 +525,76 @@
                     </div>
                 </div>
 
-                <!-- TAB 3: DIRECTORY -->
+                <!-- TAB 3: VACANCY MANAGEMENT -->
+                <div id="tab-vacancies" class="tab-content p-4 md:p-6 lg:p-8 max-w-[1600px] mx-auto">
+                    <div class="modern-card p-6 mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 animate-up">
+                        <div>
+                            <h2 class="text-xl font-black uppercase text-[var(--text-primary)]">Vacancy Management</h2>
+                            <p class="text-sm text-slate-500">Create, monitor active requisitions and set maximum allocations.</p>
+                        </div>
+                        <button onclick="openJobModal()" class="bg-sarathy-blue hover:bg-slate-800 text-white px-6 py-2.5 rounded-xl font-bold text-sm shadow-sm transition-colors w-full md:w-auto"><i class="fas fa-plus mr-2"></i> Post New Vacancy</button>
+                    </div>
+                    <div id="jobsContainer" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 animate-up" style="animation-delay: 0.1s;"></div>
+                </div>
+
+                <!-- TAB 4: EMPLOYEE DIRECTORY -->
                 <div id="tab-directory" class="tab-content p-4 md:p-6 lg:p-8 max-w-[1600px] mx-auto">
                     <div class="modern-card p-6 mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 animate-up">
                         <div>
-                            <h2 class="text-xl font-black uppercase text-[var(--text-primary)]">Employee Directory</h2>
-                            <p class="text-sm text-slate-500">Currently active personnel across all branches.</p>
+                            <h2 class="text-xl font-black uppercase text-[var(--text-primary)]">Employee Master Database</h2>
+                            <p class="text-sm text-slate-500">Official registry of joined personnel, designations, and corporate profiles.</p>
                         </div>
                         <div class="relative w-full md:w-72">
                             <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                            <input type="text" id="dirSearchInput" onkeyup="renderDirectory()" placeholder="Search directory..." class="input-base pl-11 py-2">
+                            <input type="text" id="dirSearchInput" onkeyup="renderDirectory()" placeholder="Search active directory..." class="input-base pl-11 py-2">
                         </div>
                     </div>
                     <div id="directoryContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 animate-up" style="animation-delay: 0.1s;"></div>
                 </div>
 
-                <!-- TAB 4: ONBOARDING -->
+                <!-- TAB 5: ONBOARDING & ASSET ALLOCATION -->
                 <div id="tab-onboarding" class="tab-content p-4 md:p-6 lg:p-8 max-w-[1600px] mx-auto">
                     <div class="modern-card p-6 mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 animate-up">
                         <div>
-                            <h2 class="text-xl font-black uppercase text-[var(--text-primary)]">Onboarding Checklists</h2>
-                            <p class="text-sm text-slate-500">Track joining formalities for new employees.</p>
+                            <h2 class="text-xl font-black uppercase text-[var(--text-primary)]">Onboarding Formalities & Asset Allocation</h2>
+                            <p class="text-sm text-slate-500">Track task completions and link hardware serial keys directly.</p>
                         </div>
                     </div>
                     <div id="onboardingContainer" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 animate-up" style="animation-delay: 0.1s;"></div>
                 </div>
 
-                <!-- TAB 5: PAYROLL / CTC ESTIMATOR -->
+                <!-- TAB 6: PROBATION TRACKING -->
+                <div id="tab-probation" class="tab-content p-4 md:p-6 lg:p-8 max-w-[1600px] mx-auto">
+                    <div class="modern-card p-6 mb-8 animate-up">
+                        <h2 class="text-xl font-black uppercase text-[var(--text-primary)]">Probation tracking</h2>
+                        <p class="text-sm text-slate-500 mb-6">Track newly joined recruits during their 6-month evaluation timeline.</p>
+                        
+                        <div class="overflow-x-auto">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Employee Name</th>
+                                        <th>Department</th>
+                                        <th>Joining Date</th>
+                                        <th>Days of Service</th>
+                                        <th>Probation Counter Status</th>
+                                        <th class="text-right">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="probationTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 7: PAYROLL / CTC ESTIMATOR -->
                 <div id="tab-payroll" class="tab-content p-4 md:p-6 lg:p-8 max-w-[1600px] mx-auto">
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 animate-up">
                         <div class="lg:col-span-1 modern-card p-6 h-fit">
-                            <h3 class="font-black text-lg uppercase text-[var(--text-primary)] mb-6">CTC Setup</h3>
+                            <h3 class="font-black text-lg uppercase text-[var(--text-primary)] mb-6">CTC Structure Configurator</h3>
                             <form id="payrollCalculatorForm" class="space-y-4">
                                 <div>
-                                    <label class="text-xs font-bold text-slate-500 uppercase block mb-1">Monthly Basic Pay *</label>
+                                    <label class="text-xs font-bold text-slate-500 uppercase block mb-1">Monthly Basic Salary (INR) *</label>
                                     <input type="number" id="payBasic" value="25000" class="input-base" oninput="calculatePayroll()">
                                 </div>
                                 <div>
@@ -645,15 +619,15 @@
                             </form>
                         </div>
                         <div class="lg:col-span-2 space-y-6">
-                            <div class="modern-card p-6 bg-gradient-to-tr from-slate-900 to-slate-800 text-white relative overflow-hidden">
-                                <h3 class="font-black text-lg uppercase tracking-wide text-blue-400 mb-6">Estimated Take-Home</h3>
+                            <div class="modern-card p-6 bg-gradient-to-tr from-[#0A3D62] to-[#1e3a5f] text-white relative overflow-hidden">
+                                <h3 class="font-black text-lg uppercase tracking-wide text-orange-400 mb-6">Estimated take-home net payout</h3>
                                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10">
                                     <div class="bg-white/5 p-4 rounded-2xl border border-white/10">
-                                        <span class="text-xs font-bold text-slate-400 block uppercase mb-1">Gross Monthly</span>
+                                        <span class="text-xs font-bold text-slate-300 block uppercase mb-1">Gross Monthly</span>
                                         <h2 class="text-3xl font-black text-white" id="outGross">₹ 40,000</h2>
                                     </div>
                                     <div class="bg-white/5 p-4 rounded-2xl border border-white/10">
-                                        <span class="text-xs font-bold text-slate-400 block uppercase mb-1">Total Deductions</span>
+                                        <span class="text-xs font-bold text-slate-300 block uppercase mb-1">Total Deductions</span>
                                         <h2 class="text-3xl font-black text-red-400" id="outDeductions">₹ 3,300</h2>
                                     </div>
                                     <div class="bg-emerald-500/10 p-4 rounded-2xl border border-emerald-500/20">
@@ -664,10 +638,10 @@
                             </div>
                             
                             <div class="modern-card p-6">
-                                <h4 class="font-black text-base uppercase text-[var(--text-primary)] mb-4">Detailed CTC Structure Breakdown</h4>
+                                <h4 class="font-black text-base uppercase text-[var(--text-primary)] mb-4">Detailed CTC Breakdown Structure</h4>
                                 <div class="space-y-3 text-sm font-medium">
                                     <div class="flex justify-between py-2 border-b border-[var(--border-color)]">
-                                        <span class="text-slate-500">Basic Salary</span>
+                                        <span class="text-slate-500">Basic Payout</span>
                                         <span id="lblBasic" class="text-[var(--text-primary)] font-bold">₹ 25,000</span>
                                     </div>
                                     <div class="flex justify-between py-2 border-b border-[var(--border-color)]">
@@ -675,7 +649,7 @@
                                         <span id="lblHRA" class="text-[var(--text-primary)] font-bold">₹ 10,000</span>
                                     </div>
                                     <div class="flex justify-between py-2 border-b border-[var(--border-color)]">
-                                        <span class="text-slate-500">Special Allowance</span>
+                                        <span class="text-slate-500">Special Allowances</span>
                                         <span id="lblAllow" class="text-[var(--text-primary)] font-bold">₹ 5,000</span>
                                     </div>
                                     <div class="flex justify-between py-2 border-b border-[var(--border-color)] text-red-500">
@@ -696,32 +670,14 @@
                     </div>
                 </div>
 
-                <!-- TAB 6: LEAVE MANAGEMENT TRACKER -->
+                <!-- TAB 8: LEAVE PLANNER -->
                 <div id="tab-leaves" class="tab-content p-4 md:p-6 lg:p-8 max-w-[1600px] mx-auto">
                     <div class="modern-card p-6 mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 animate-up">
                         <div>
-                            <h2 class="text-xl font-black uppercase text-[var(--text-primary)]">Leave Planner & Tracker</h2>
-                            <p class="text-sm text-slate-500">Simulate and manage leave logs of personnel.</p>
+                            <h2 class="text-xl font-black uppercase text-[var(--text-primary)]">Absence & Leave tracker</h2>
+                            <p class="text-sm text-slate-500">Audit and verify leaves registered across entities.</p>
                         </div>
-                        <button onclick="openApplyLeaveModal()" class="bg-sarathy-blue hover:bg-blue-700 text-white px-6 py-2.5 rounded-xl font-bold text-sm shadow-sm transition-colors w-full md:w-auto"><i class="fas fa-plus mr-2"></i> Log Leave Request</button>
-                    </div>
-                    <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-8">
-                        <div class="modern-card p-4 flex flex-col justify-center relative overflow-hidden">
-                            <span class="text-xs font-black text-slate-500 uppercase tracking-wider mb-1">Casual Leave Balance</span>
-                            <h3 class="text-3xl font-black text-teal-500">12 Days</h3>
-                        </div>
-                        <div class="modern-card p-4 flex flex-col justify-center relative overflow-hidden">
-                            <span class="text-xs font-black text-slate-500 uppercase tracking-wider mb-1">Sick Leaves Used</span>
-                            <h3 class="text-3xl font-black text-amber-500">4 Days</h3>
-                        </div>
-                        <div class="modern-card p-4 flex flex-col justify-center relative overflow-hidden">
-                            <span class="text-xs font-black text-slate-500 uppercase tracking-wider mb-1">Earned Leaves Approved</span>
-                            <h3 class="text-3xl font-black text-indigo-500">8 Days</h3>
-                        </div>
-                        <div class="modern-card p-4 flex flex-col justify-center relative overflow-hidden">
-                            <span class="text-xs font-black text-slate-500 uppercase tracking-wider mb-1">Total Active Requests</span>
-                            <h3 class="text-3xl font-black text-blue-500" id="lblLeaveRequestsCount">0</h3>
-                        </div>
+                        <button onclick="openApplyLeaveModal()" class="bg-sarathy-blue hover:bg-slate-800 text-white px-6 py-2.5 rounded-xl font-bold text-sm shadow-sm transition-colors w-full md:w-auto"><i class="fas fa-plus mr-2"></i> Log Leave Request</button>
                     </div>
                     
                     <div class="data-table-container">
@@ -736,54 +692,102 @@
                                     <th class="text-right">Action</th>
                                 </tr>
                             </thead>
-                            <tbody id="leaveTableBody" class="divide-y divide-[var(--border-color)]"></tbody>
+                            <tbody id="leaveTableBody"></tbody>
                         </table>
                     </div>
                 </div>
 
-                <!-- TAB: JOBS -->
-                <div id="tab-jobs" class="tab-content p-4 md:p-6 lg:p-8 max-w-[1600px] mx-auto">
-                    <div class="modern-card p-6 mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 animate-up">
-                        <div>
-                            <h2 class="text-xl font-black uppercase text-[var(--text-primary)]">Job Postings</h2>
-                            <p class="text-sm text-slate-500">Manage active openings and share links.</p>
-                        </div>
-                        <button onclick="openJobModal()" class="bg-sarathy-blue hover:bg-blue-700 text-white px-6 py-2.5 rounded-xl font-bold text-sm shadow-sm transition-colors w-full md:w-auto"><i class="fas fa-plus mr-2"></i> Create Job</button>
-                    </div>
-                    <div id="jobsContainer" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 animate-up" style="animation-delay: 0.1s;"></div>
-                </div>
-
-                <!-- TAB: TRAINING -->
+                <!-- TAB 9: TRAINING HUB -->
                 <div id="tab-training" class="tab-content p-4 md:p-6 lg:p-8 max-w-[1600px] mx-auto">
                     <div class="modern-card p-6 mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 animate-up">
                         <div>
                             <h2 class="text-xl font-black uppercase text-[var(--text-primary)]">Training Hub</h2>
-                            <p class="text-sm text-slate-500">Assign and track employee training modules.</p>
+                            <p class="text-sm text-slate-500">Assign course tasks and tracking criteria.</p>
                         </div>
-                        <button onclick="openTrainingModal()" class="bg-sarathy-blue hover:bg-blue-700 text-white px-6 py-2.5 rounded-xl font-bold text-sm shadow-sm transition-colors w-full md:w-auto"><i class="fas fa-plus mr-2"></i> Assign Course</button>
+                        <button onclick="openTrainingModal()" class="bg-sarathy-blue hover:bg-slate-800 text-white px-6 py-2.5 rounded-xl font-bold text-sm shadow-sm transition-colors w-full md:w-auto"><i class="fas fa-plus mr-2"></i> Assign Course</button>
                     </div>
-                    <div class="data-table-container animate-up" style="animation-delay: 0.1s;">
+                    <div class="data-table-container">
                         <table class="data-table min-w-[800px]">
                             <thead><tr><th>Employee</th><th>Course</th><th>Deadline</th><th>Status</th><th>Action</th></tr></thead>
-                            <tbody id="trainingTableBody" class="divide-y divide-[var(--border-color)]"></tbody>
+                            <tbody id="trainingTableBody"></tbody>
                         </table>
                     </div>
                 </div>
 
-                <!-- TAB: OKRS -->
+                <!-- TAB 10: PERFORMANCE OKRS -->
                 <div id="tab-okrs" class="tab-content p-4 md:p-6 lg:p-8 max-w-[1600px] mx-auto">
                     <div class="modern-card p-6 mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 animate-up">
                         <div>
                             <h2 class="text-xl font-black uppercase text-[var(--text-primary)]">Performance OKRs</h2>
-                            <p class="text-sm text-slate-500">Objectives and Key Results tracking.</p>
+                            <p class="text-sm text-slate-500">Objective-oriented target milestones tracker.</p>
                         </div>
-                        <button onclick="openOkrModal()" class="bg-sarathy-blue hover:bg-blue-700 text-white px-6 py-2.5 rounded-xl font-bold text-sm shadow-sm transition-colors w-full md:w-auto"><i class="fas fa-plus mr-2"></i> Set Goal</button>
+                        <button onclick="openOkrModal()" class="bg-sarathy-blue hover:bg-slate-800 text-white px-6 py-2.5 rounded-xl font-bold text-sm shadow-sm transition-colors w-full md:w-auto"><i class="fas fa-plus mr-2"></i> Set Goal</button>
                     </div>
-                    <div id="okrContainer" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 animate-up" style="animation-delay: 0.1s;"></div>
+                    <div id="okrContainer" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 animate-up"></div>
                 </div>
 
-                <!-- TAB: CALENDAR -->
-                <div id="tab-calendar" class="tab-content p-4 md:p-6 lg:p-8 max-w-[1600px] mx-auto">
+                <!-- TAB 11: REPORTS CENTER -->
+                <div id="tab-reports" class="tab-content p-4 md:p-6 lg:p-8 max-w-[1600px] mx-auto space-y-6">
+                    <div class="modern-card p-6">
+                        <h2 class="text-xl font-black uppercase text-[var(--text-primary)] mb-2">Reports & Analytics Center</h2>
+                        <p class="text-sm text-slate-500 mb-6">Review compiled statistics, recruitment reports, and monthly join lists.</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <!-- Report Widget 1 -->
+                            <div class="p-4 bg-slate-50 dark:bg-slate-900 rounded-2xl border border-[var(--border-color)]">
+                                <h3 class="font-bold text-sm uppercase text-sarathy-blue mb-4"><i class="fas fa-file-invoice-dollar mr-2"></i> Selection Ratio Report</h3>
+                                <div class="space-y-2 text-sm font-medium">
+                                    <div class="flex justify-between"><span>Joined Count</span><span id="repJoinCount" class="font-bold text-emerald-500">0</span></div>
+                                    <div class="flex justify-between"><span>Rejected Count</span><span id="repRejectCount" class="font-bold text-red-500">0</span></div>
+                                    <div class="flex justify-between"><span>Ratio</span><span id="repRatio" class="font-bold text-sarathy-orange">0%</span></div>
+                                </div>
+                            </div>
+                            <!-- Report Widget 2 -->
+                            <div class="p-4 bg-slate-50 dark:bg-slate-900 rounded-2xl border border-[var(--border-color)]">
+                                <h3 class="font-bold text-sm uppercase text-sarathy-blue mb-4"><i class="fas fa-university mr-2"></i> Department Hiring</h3>
+                                <div class="space-y-2 text-xs" id="repDeptList"></div>
+                            </div>
+                            <!-- Report Widget 3 -->
+                            <div class="p-4 bg-slate-50 dark:bg-slate-900 rounded-2xl border border-[var(--border-color)]">
+                                <h3 class="font-bold text-sm uppercase text-sarathy-blue mb-4"><i class="fas fa-calendar-check mr-2"></i> Current Monthly Joiners</h3>
+                                <ul class="space-y-2 text-xs font-semibold custom-scroll max-h-36 overflow-y-auto" id="repMonthlyJoiners"></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 12: HR AUTOMATION & DOCUMENT EXPIRY -->
+                <div id="tab-automation" class="tab-content p-4 md:p-6 lg:p-8 space-y-6 max-w-[1600px] mx-auto">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <!-- Alert Engine -->
+                        <div class="modern-card p-6">
+                            <h3 class="font-black text-lg uppercase text-[var(--text-primary)] mb-4"><i class="fas fa-robot text-sarathy-orange mr-2"></i> Auto Alerts & Communication Engine</h3>
+                            <p class="text-sm text-slate-500 mb-6">Manage automated simulated triggers for reminders, interview invites, and documentation updates.</p>
+                            
+                            <div class="space-y-4">
+                                <div class="p-4 bg-slate-50 dark:bg-slate-900 rounded-2xl border border-[var(--border-color)]">
+                                    <h4 class="font-black text-sm uppercase mb-2">Simulated SMS Reminder Dispatcher</h4>
+                                    <p class="text-xs text-slate-400 mb-4">Click to dispatch a simulated trigger reminder message to any applicant.</p>
+                                    <div class="flex gap-2">
+                                        <select id="autoMsgCandidate" class="input-base !py-2 !text-xs flex-1"></select>
+                                        <button onclick="triggerAutomatedReminder('interview')" class="px-4 py-2 bg-sarathy-blue text-white rounded-xl text-xs font-bold hover:bg-slate-800 transition-colors">Send Schedule</button>
+                                        <button onclick="triggerAutomatedReminder('joining')" class="px-4 py-2 bg-sarathy-orange text-white rounded-xl text-xs font-bold hover:bg-orange-600 transition-colors">Send Join Info</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Document Expiry Alerts -->
+                        <div class="modern-card p-6">
+                            <h3 class="font-black text-lg uppercase text-[var(--text-primary)] mb-4"><i class="fas fa-id-card-alt text-red-500 mr-2"></i> Document Expiry & Verification Tracker</h3>
+                            <p class="text-sm text-slate-500 mb-6">Audits the validity status of corporate uploads (Aadhaar, License copies).</p>
+                            <div class="space-y-3 max-h-72 overflow-y-auto custom-scroll" id="docExpiryContainer"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 13: SCHEDULES / CALENDAR -->
+                <div id="tab-calendar" class="tab-content p-4 md:p-6 lg:p-8 max-w-[1600px] mx-auto font-sans">
                     <div class="modern-card p-6 flex flex-col min-h-[70vh] animate-up">
                         <div class="flex justify-between items-center mb-6">
                             <h3 class="font-black text-2xl uppercase text-[var(--text-primary)] tracking-tight"><span id="calendarMonthLabel">Month Year</span></h3>
@@ -805,7 +809,7 @@
                     </div>
                 </div>
 
-                <!-- TAB: ANALYTICS -->
+                <!-- TAB 14: ANALYTICS -->
                 <div id="tab-analytics" class="tab-content p-4 md:p-6 lg:p-8 max-w-[1600px] mx-auto">
                     <div class="modern-card p-6 mb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 animate-up">
                         <div>
@@ -837,7 +841,7 @@
                     </div>
                 </div>
 
-                <!-- TAB: SETTINGS -->
+                <!-- TAB 15: SETTINGS -->
                 <div id="tab-settings" class="tab-content p-4 md:p-6 lg:p-8 max-w-[1600px] mx-auto">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 animate-up">
                         <div class="modern-card p-6 space-y-6">
@@ -864,7 +868,7 @@
                                         <label class="text-xs font-bold text-slate-500 uppercase mb-2 block">New Admin PIN</label>
                                         <input type="password" id="newAdminPin" required minlength="4" class="input-base">
                                     </div>
-                                    <button type="submit" class="w-full bg-sarathy-blue hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition-colors">Update PIN</button>
+                                    <button type="submit" class="w-full bg-sarathy-blue hover:bg-slate-800 text-white font-bold py-3 rounded-xl transition-colors">Update PIN</button>
                                 </form>
                             </div>
                         </div>
@@ -892,7 +896,7 @@
 
     <!-- MAIN ADD/EDIT MODAL -->
     <div id="addModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[110] hidden flex justify-end transition-opacity duration-300 no-print">
-        <div id="modalContent" class="bg-[var(--bg-secondary)] w-full md:w-[600px] h-full shadow-2xl flex flex-col transform translate-x-full transition-transform duration-300 border-l border-[var(--border-color)]">
+        <div id="modalContent" class="bg-[var(--bg-secondary)] w-full md:w-[650px] h-full shadow-2xl flex flex-col transform translate-x-full transition-transform duration-300 border-l border-[var(--border-color)]">
             <div class="h-16 md:h-20 px-6 border-b border-[var(--border-color)] flex justify-between items-center shrink-0">
                 <h2 class="text-lg font-black uppercase text-[var(--text-primary)]" id="modalTitle">Register Personnel</h2>
                 <button type="button" onclick="closeModal()" class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-red-500 flex items-center justify-center transition-colors"><i class="fas fa-times"></i></button>
@@ -940,20 +944,67 @@
                         </div>
                     </div>
 
+                    <!-- AI & Duplicate Warnings -->
+                    <div id="aiDetectorAlert" class="bg-red-50 border border-red-200 rounded-2xl p-4 flex items-start gap-3 hidden">
+                        <i class="fas fa-exclamation-triangle text-red-500 mt-0.5 text-lg"></i>
+                        <div>
+                            <h4 class="font-bold text-red-800 text-sm">AI Duplicate Alert</h4>
+                            <p class="text-xs text-red-700 mt-1">This email or phone number is already registered in the candidate database. Verify profile to prevent double entry.</p>
+                        </div>
+                    </div>
+
+                    <!-- Interview Scheduler Interface -->
+                    <div class="bg-blue-50/50 p-5 rounded-2xl border border-blue-100 space-y-4">
+                        <h4 class="font-black text-xs uppercase text-sarathy-blue tracking-wider flex items-center gap-2"><i class="fas fa-calendar-alt"></i> Interview Scheduler Info</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label class="text-[10px] font-bold text-slate-500 uppercase block mb-1">Interview Date</label>
+                                <input type="date" id="interviewDate" class="input-base !py-2 !text-xs">
+                            </div>
+                            <div>
+                                <label class="text-[10px] font-bold text-slate-500 uppercase block mb-1">Interview Time</label>
+                                <input type="time" id="interviewTime" class="input-base !py-2 !text-xs">
+                            </div>
+                            <div>
+                                <label class="text-[10px] font-bold text-slate-500 uppercase block mb-1">Assigned Panel</label>
+                                <input type="text" id="interviewPanel" placeholder="e.g. HR Manager" class="input-base !py-2 !text-xs">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Document Verification & Expiry dates -->
+                    <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-4">
+                        <h4 class="font-black text-xs uppercase text-slate-600 tracking-wider flex items-center gap-2"><i class="fas fa-shield-alt"></i> Document Validity Dates</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="text-[10px] font-bold text-slate-500 uppercase block mb-1">License/ID Expiry Date</label>
+                                <input type="date" id="docExpiryDate" class="input-base !py-2 !text-xs">
+                            </div>
+                            <div>
+                                <label class="text-[10px] font-bold text-slate-500 uppercase block mb-1">Document Status</label>
+                                <select id="docStatus" class="input-base !py-2 !text-xs">
+                                    <option value="VERIFIED">Verified</option>
+                                    <option value="EXPIRED">Expired</option>
+                                    <option value="PENDING">Pending Verification</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="space-y-4">
                         <h4 class="font-bold text-sm text-[var(--text-primary)] border-b border-[var(--border-color)] pb-2">Personal Details</h4>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div class="md:col-span-2">
                                 <label class="text-xs font-bold text-slate-500 mb-1.5 block">Full Name *</label>
-                                <input type="text" id="empName" required class="input-base uppercase">
+                                <input type="text" id="empName" required class="input-base uppercase" oninput="runAiDuplicateScan(this.value, 'name')">
                             </div>
                             <div>
                                 <label class="text-xs font-bold text-slate-500 mb-1.5 block">Phone Number *</label>
-                                <input type="tel" id="empPhone" required pattern="[0-9]{10}" class="input-base">
+                                <input type="tel" id="empPhone" required pattern="[0-9]{10}" class="input-base" onchange="runAiDuplicateScan(this.value, 'phone')">
                             </div>
                             <div>
                                 <label class="text-xs font-bold text-slate-500 mb-1.5 block">Email Address</label>
-                                <input type="email" id="empEmail" class="input-base">
+                                <input type="email" id="empEmail" class="input-base" onchange="runAiDuplicateScan(this.value, 'email')">
                             </div>
                             <div>
                                 <label class="text-xs font-bold text-slate-500 mb-1.5 block">Age</label>
@@ -1014,10 +1065,6 @@
                                 </select>
                             </div>
                             <div>
-                                <label class="text-xs font-bold text-slate-500 mb-1.5 block">Interview Date</label>
-                                <input type="date" id="interviewDate" required class="input-base">
-                            </div>
-                            <div>
                                 <label class="text-xs font-bold text-slate-500 mb-1.5 block">Joining Date</label>
                                 <input type="date" id="joinDate" class="input-base">
                             </div>
@@ -1030,7 +1077,7 @@
                 </form>
             </div>
             <div class="p-6 border-t border-[var(--border-color)] bg-[var(--bg-secondary)] shrink-0">
-                <button type="button" onclick="document.getElementById('joineeForm').dispatchEvent(new Event('submit'))" class="w-full bg-sarathy-blue hover:bg-blue-700 text-white font-black py-4 rounded-xl shadow-lg uppercase transition-all">Save Candidate Record</button>
+                <button type="button" onclick="document.getElementById('joineeForm').dispatchEvent(new Event('submit'))" class="w-full bg-sarathy-blue hover:bg-slate-850 text-white font-black py-4 rounded-xl shadow-lg uppercase transition-all">Save Candidate Record</button>
             </div>
         </div>
     </div>
@@ -1046,6 +1093,62 @@
                 </div>
             </div>
             <div class="p-6 md:p-8 overflow-y-auto custom-scroll flex-1" id="viewModalContent"></div>
+        </div>
+    </div>
+
+    <!-- INTERVIEW EVALUATION FEEDBACK MODAL -->
+    <div id="feedbackModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-[130] hidden flex items-center justify-center p-4 transition-opacity no-print">
+        <div class="bg-[var(--bg-secondary)] w-full max-w-md rounded-3xl shadow-2xl border border-[var(--border-color)] overflow-hidden">
+            <div class="p-5 border-b border-[var(--border-color)] bg-slate-50 dark:bg-slate-800 flex justify-between items-center">
+                <h3 class="font-black text-base uppercase text-sarathy-blue"><i class="fas fa-comment-medical mr-1"></i> Interview Evaluation Form</h3>
+                <button onclick="closeFeedbackModal()" class="text-slate-400 hover:text-slate-600"><i class="fas fa-times text-lg"></i></button>
+            </div>
+            <div class="p-6 space-y-4">
+                <input type="hidden" id="feedbackCandId">
+                <div>
+                    <label class="text-xs font-bold text-slate-500 uppercase block mb-1">Technical Skill Rating</label>
+                    <input type="range" id="feedbackTech" min="1" max="5" value="3" class="w-full accent-sarathy-orange">
+                </div>
+                <div>
+                    <label class="text-xs font-bold text-slate-500 uppercase block mb-1">Communication Skills</label>
+                    <input type="range" id="feedbackComm" min="1" max="5" value="3" class="w-full accent-sarathy-orange">
+                </div>
+                <div>
+                    <label class="text-xs font-bold text-slate-500 uppercase block mb-1">Cultural Match Rating</label>
+                    <input type="range" id="feedbackCulture" min="1" max="5" value="3" class="w-full accent-sarathy-orange">
+                </div>
+                <div>
+                    <label class="text-xs font-bold text-slate-500 uppercase block mb-1">Panelist Evaluation Remarks</label>
+                    <textarea id="feedbackNotes" placeholder="Provide panelist insights..." class="input-base resize-none" rows="3"></textarea>
+                </div>
+                <button onclick="saveFeedbackForm()" class="w-full bg-sarathy-orange text-white font-black py-4 rounded-xl uppercase">Submit Evaluation Review</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ASSET ASSIGNMENT MODAL -->
+    <div id="assetModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-[130] hidden flex items-center justify-center p-4 transition-opacity no-print">
+        <div class="bg-[var(--bg-secondary)] w-full max-w-md rounded-3xl shadow-2xl border border-[var(--border-color)] overflow-hidden">
+            <div class="p-5 border-b border-[var(--border-color)] bg-slate-50 dark:bg-slate-800 flex justify-between items-center">
+                <h3 class="font-black text-base uppercase text-sarathy-blue"><i class="fas fa-laptop mr-1"></i> Asset Allocation</h3>
+                <button onclick="closeAssetModal()" class="text-slate-400 hover:text-slate-600"><i class="fas fa-times text-lg"></i></button>
+            </div>
+            <div class="p-6 space-y-4">
+                <input type="hidden" id="assetCandId">
+                <div>
+                    <label class="text-xs font-bold text-slate-500 uppercase block mb-1">Laptop ID / Serial</label>
+                    <input type="text" id="assetLaptop" class="input-base" placeholder="e.g. LAP-XYZ-123">
+                </div>
+                <div>
+                    <label class="text-xs font-bold text-slate-500 uppercase block mb-1">Mobile Device / SIM No</label>
+                    <input type="text" id="assetMobile" class="input-base" placeholder="e.g. MOB-9988-12">
+                </div>
+                <div>
+                    <label class="text-xs font-bold text-slate-500 uppercase block mb-1">Headset / Accessories Allocated</label>
+                    <input type="text" id="assetAccessories" class="input-base" placeholder="e.g. HD-2121-W">
+                </div>
+                <button onclick="saveAssetAllocation()" class="w-full bg-sarathy-blue text-white font-black py-4 rounded-xl uppercase">Allocate Assets</button>
+            </div>
         </div>
     </div>
 
@@ -1068,7 +1171,6 @@
                     <button onclick="shareLinkToService('whatsapp')" class="flex-1 py-3 bg-emerald-500 text-white rounded-xl font-bold text-xs flex items-center justify-center gap-2 hover:bg-emerald-600 transition-colors"><i class="fab fa-whatsapp text-lg"></i> WhatsApp</button>
                     <button onclick="shareLinkToService('email')" class="flex-1 py-3 bg-sky-500 text-white rounded-xl font-bold text-xs flex items-center justify-center gap-2 hover:bg-sky-600 transition-colors"><i class="fas fa-envelope text-lg"></i> Email</button>
                 </div>
-                <p class="text-[10px] font-medium text-slate-500 text-center uppercase">If copying automatically is blocked by sandbox, double click inside input and copy manually.</p>
             </div>
         </div>
     </div>
@@ -1100,81 +1202,27 @@
         </div>
     </div>
 
-    <!-- IMAGE VIEWER MODAL -->
-    <div id="imageViewerModal" class="fixed inset-0 bg-slate-900/90 backdrop-blur-md z-[300] hidden flex items-center justify-center p-4 transition-opacity no-print" onclick="this.classList.add('hidden')">
-        <button class="absolute top-6 right-6 w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full text-white text-xl flex items-center justify-center backdrop-blur-md transition-colors"><i class="fas fa-times"></i></button>
-        <img id="viewerImageSrc" src="" class="max-w-full max-h-[90vh] object-contain rounded-xl shadow-2xl border border-white/10" onclick="event.stopPropagation()">
-    </div>
-
-    <!-- JOB MODAL -->
-    <div id="jobModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-[120] hidden flex items-center justify-center p-4 transition-opacity no-print">
-        <div class="bg-[var(--bg-secondary)] w-full max-w-md rounded-3xl shadow-2xl border border-[var(--border-color)]">
-            <div class="p-6 border-b border-[var(--border-color)] flex justify-between items-center"><h3 class="font-black text-lg uppercase text-[var(--text-primary)]">Post a Job</h3><button onclick="closeJobModal()" class="text-slate-400 hover:text-slate-600"><i class="fas fa-times text-xl"></i></button></div>
-            <div class="p-6 overflow-y-auto max-h-[70vh] custom-scroll">
-                <form id="jobForm" class="space-y-4">
-                    <input type="text" id="jobTitle" required placeholder="Job Title" class="input-base">
-                    <input type="text" id="jobDept" required placeholder="Department" class="input-base uppercase">
-                    <input type="text" id="jobLoc" required placeholder="Location" class="input-base uppercase">
-                    <textarea id="jobReq" required rows="3" placeholder="Job Requirements..." class="input-base resize-none"></textarea>
-                    <div class="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl border border-[var(--border-color)] space-y-3 mt-2">
-                        <div>
-                            <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest block mb-2">Creative Ad Images</label>
-                            <input type="file" id="jobImages" multiple accept="image/*" class="input-base text-sm py-2">
-                            <p class="text-[9px] font-medium text-slate-400 mt-1">Upload multiple creatives. Will be compressed automatically.</p>
-                        </div>
-                        <div>
-                            <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest block mb-2">Campaign Duration (Weeks)</label>
-                            <input type="number" id="jobDuration" value="2" min="1" max="12" required class="input-base py-2">
-                        </div>
-                    </div>
-                    <button type="submit" class="w-full bg-sarathy-blue text-white font-black py-4 rounded-xl uppercase shadow-md mt-2">Publish Job</button>
-                </form>
+    <!-- TEXT TRIGGER AUTOMATION CONFIRM DIALOG -->
+    <div id="autoPromptModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-[200] hidden flex items-center justify-center p-4 transition-opacity no-print">
+        <div class="bg-[var(--bg-secondary)] w-full max-w-md rounded-3xl shadow-2xl border border-[var(--border-color)] overflow-hidden">
+            <div class="p-5 border-b border-[var(--border-color)] bg-slate-50 dark:bg-slate-800 flex justify-between items-center">
+                <h3 class="font-black text-base uppercase text-sarathy-blue" id="autoPromptTitle">SMS Template Generated</h3>
+                <button onclick="closeAutoPromptModal()" class="text-slate-400 hover:text-slate-600"><i class="fas fa-times text-lg"></i></button>
+            </div>
+            <div class="p-6 space-y-4">
+                <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200">
+                    <p class="text-xs font-bold text-slate-400 uppercase mb-2">Simulated Text Message</p>
+                    <p id="autoPromptContent" class="text-sm font-semibold text-slate-700 leading-relaxed"></p>
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="closeAutoPromptModal()" class="flex-1 py-3 border border-[var(--border-color)] rounded-xl font-bold text-xs text-slate-600">Cancel</button>
+                    <button onclick="dispatchSimulatedSuccess()" class="flex-1 py-3 bg-sarathy-orange text-white rounded-xl font-bold text-xs shadow-md uppercase">Dispatch Simulated Alert</button>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- TARGETS MODAL -->
-    <div id="reqModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-[115] hidden flex justify-center items-center p-4 transition-opacity no-print">
-        <div class="bg-[var(--bg-secondary)] w-full max-w-4xl rounded-3xl shadow-2xl flex flex-col max-h-[90vh] border border-[var(--border-color)]">
-            <div class="p-6 border-b border-[var(--border-color)] flex justify-between items-center bg-slate-50 dark:bg-slate-800 rounded-t-3xl"><h2 class="text-lg font-black uppercase text-[var(--text-primary)]">Hiring Targets</h2><button onclick="addReqRow()" class="px-4 py-2 bg-sarathy-blue text-white rounded-lg font-bold text-sm"><i class="fas fa-plus mr-2"></i> Add Target</button></div>
-            <div id="reqEntriesContainer" class="p-6 overflow-y-auto custom-scroll flex-1 space-y-4 bg-[var(--bg-primary)]"></div>
-            <div class="p-6 border-t border-[var(--border-color)] flex gap-4 bg-[var(--bg-secondary)] rounded-b-3xl">
-                <button onclick="closeReqModal()" class="flex-1 py-3 border border-[var(--border-color)] rounded-xl font-bold text-slate-600 dark:text-slate-300">Cancel</button>
-                <button onclick="saveRequirements()" class="flex-1 py-3 bg-sarathy-blue text-white rounded-xl font-bold shadow-md">Save Changes</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- TRAINING MODAL -->
-    <div id="trainingModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-[120] hidden flex items-center justify-center p-4 transition-opacity no-print">
-        <div class="bg-[var(--bg-secondary)] w-full max-w-md rounded-3xl shadow-2xl border border-[var(--border-color)]">
-            <div class="p-6 border-b border-[var(--border-color)] flex justify-between items-center"><h3 class="font-black text-lg uppercase text-[var(--text-primary)]">Assign Training</h3><button onclick="closeTrainingModal()" class="text-slate-400 hover:text-slate-600"><i class="fas fa-times text-xl"></i></button></div>
-            <div class="p-6">
-                <form id="trainingForm" class="space-y-4">
-                    <select id="trainEmpId" required class="input-base"></select>
-                    <input type="text" id="trainCourse" required placeholder="Course Name" class="input-base">
-                    <input type="date" id="trainDeadline" required class="input-base">
-                    <button type="submit" class="w-full bg-sarathy-blue text-white font-black py-4 rounded-xl uppercase">Assign</button>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- OKR MODAL -->
-    <div id="okrModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-[120] hidden flex items-center justify-center p-4 transition-opacity no-print">
-        <div class="bg-[var(--bg-secondary)] w-full max-w-md rounded-3xl shadow-2xl border border-[var(--border-color)]">
-            <div class="p-6 border-b border-[var(--border-color)] flex justify-between items-center"><h3 class="font-black text-lg uppercase text-[var(--text-primary)]">Set OKR</h3><button onclick="closeOkrModal()" class="text-slate-400 hover:text-slate-600"><i class="fas fa-times text-xl"></i></button></div>
-            <div class="p-6">
-                <form id="okrForm" class="space-y-4">
-                    <select id="okrEmpId" required class="input-base"></select>
-                    <input type="text" id="okrObj" required placeholder="Objective / Goal" class="input-base">
-                    <button type="submit" class="w-full bg-sarathy-blue text-white font-black py-4 rounded-xl uppercase">Save Goal</button>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- PREMIUM CUSTOM DIALOG MODAL -->
+    <!-- CUSTOM DIALOG MODAL -->
     <div id="customDialogModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[250] hidden flex items-center justify-center p-4 transition-opacity no-print">
         <div class="bg-[var(--bg-secondary)] w-full max-w-sm rounded-3xl shadow-2xl border border-[var(--border-color)] overflow-hidden animate-up">
             <div class="p-6 border-b border-[var(--border-color)] bg-slate-50 dark:bg-slate-800">
@@ -1187,56 +1235,6 @@
                     <button id="dialogCancelBtn" onclick="closeDialog(false)" class="flex-1 py-3 border border-[var(--border-color)] rounded-xl font-bold text-slate-600 dark:text-slate-300">Cancel</button>
                     <button onclick="closeDialog(true)" class="flex-1 py-3 bg-sarathy-blue text-white rounded-xl font-bold shadow-md">Confirm</button>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- NOTIFICATION MODAL & TOAST -->
-    <div id="notificationModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[120] hidden flex justify-end p-4 lg:p-6 no-print">
-        <div class="bg-[var(--bg-secondary)] w-full max-w-sm h-[80vh] md:h-auto md:max-h-[80vh] rounded-3xl shadow-2xl border border-[var(--border-color)] flex flex-col animate-up self-start mt-16 md:mt-0">
-            <div class="p-5 border-b border-[var(--border-color)] flex justify-between items-center shrink-0"><h3 class="font-black text-sm uppercase text-[var(--text-primary)]">Notifications</h3><button onclick="toggleNotifications()" class="text-slate-400 hover:text-red-500"><i class="fas fa-times text-lg"></i></button></div>
-            <div class="p-4 custom-scroll flex-1 overflow-y-auto" id="dynamicNotifications"></div>
-        </div>
-    </div>
-
-    <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 translate-y-24 opacity-0 bg-slate-800 dark:bg-slate-100 text-white dark:text-slate-900 px-6 py-3 rounded-full shadow-xl transition-all duration-300 z-[250] flex items-center gap-3 text-sm font-bold whitespace-nowrap">
-        <i id="toastIcon" class="fas fa-check-circle text-emerald-400"></i><span id="toastMessage">Success</span>
-    </div>
-
-    <!-- HIDDEN OFFER LETTER TEMPLATE -->
-    <div id="offerLetterTemplateContainer" class="hidden absolute top-[-9999px] left-[-9999px]">
-        <div id="offerLetterContent" style="padding: 60px; font-family: 'Times New Roman', serif; color: #000; background: #fff; width: 800px; min-height: 1000px; box-sizing: border-box;">
-            <div style="text-align: center; border-bottom: 3px solid #0054A6; padding-bottom: 20px; margin-bottom: 40px;">
-                <h1 style="color: #0054A6; margin: 0; font-size: 32px; font-weight: 900; text-transform: uppercase;">SARATHY GROUP</h1>
-                <p style="margin: 5px 0 0 0; font-size: 16px; font-weight: bold; color: #555; text-transform: uppercase;" id="olCompany">Sarathy Motors</p>
-            </div>
-            <div style="text-align: right; margin-bottom: 40px; font-size: 14px;">
-                <p><strong>Date:</strong> <span id="olDate"></span></p>
-                <p><strong>Ref:</strong> <span id="olRef"></span></p>
-            </div>
-            <div style="margin-bottom: 40px; font-size: 16px;">
-                <p><strong>To,</strong></p>
-                <p><strong id="olName" style="font-size: 20px; text-transform: uppercase;"></strong></p>
-                <p>Candidate ID: <span id="olEmpId"></span></p>
-            </div>
-            <div style="line-height: 1.8; margin-bottom: 50px; font-size: 16px; text-align: justify;">
-                <p>Dear <strong><span id="olNamePrefix"></span></strong>,</p>
-                <p>Following our recent discussions, we are delighted to offer you the position of <strong id="olDesignation" style="text-transform: uppercase;"></strong> within the <strong id="olDept"></strong> department at <strong><span id="olCompanyBody"></span></strong>. Your initial place of posting will be our <strong id="olLocation"></strong> branch.</p>
-                <p>Your expected date of joining the organization is <strong id="olJoinDate"></strong>. Please report to the HR Department at 9:30 AM on your joining date. You are requested to bring all original educational certificates, experience letters, and identity proofs for verification purposes.</p>
-                <p>A detailed appointment letter outlining your compensation structure, benefits, and the terms and conditions of your employment will be issued to you upon your formal joining.</p>
-                <p>We are excited about the prospect of you joining our team and look forward to a mutually rewarding professional association.</p>
-            </div>
-            <div style="margin-top: 80px; font-size: 16px;">
-                <p>Sincerely,</p>
-                <div style="margin-top: 60px; border-top: 1px solid #ccc; width: 250px; padding-top: 10px;">
-                    <p style="margin: 0;"><strong>Human Resources Department</strong></p>
-                    <p style="margin: 0; color: #555;">Sarathy Group</p>
-                </div>
-            </div>
-            <div style="margin-top: 80px; padding-top: 20px; border-top: 1px dashed #ccc; font-size: 14px;">
-                <p><strong>Candidate Acceptance:</strong></p>
-                <p>I accept the terms and conditions of this offer letter.</p>
-                <p style="margin-top: 40px;">Signature: ______________________ &nbsp;&nbsp;&nbsp;&nbsp; Date: ___________________</p>
             </div>
         </div>
     </div>
@@ -1398,7 +1396,36 @@
             return window.location.origin + window.location.pathname;
         };
 
-        // --- ADVANCED FEATURES ---
+        // --- AI FEATURES: Duplicate Candidate Detection ---
+        const runAiDuplicateScan = (val, field) => {
+            if (!val) return;
+            const duplicate = joinees.some(x => {
+                if (field === 'phone') return String(x.phone).trim() === String(val).trim();
+                if (field === 'email') return String(x.email).toLowerCase().trim() === String(val).toLowerCase().trim();
+                if (field === 'name') return String(x.name).toLowerCase().trim() === String(val).toLowerCase().trim();
+                return false;
+            });
+
+            // Alerts based on location
+            const publicAlertEmail = document.getElementById('pubEmailWarning');
+            const publicAlertPhone = document.getElementById('pubPhoneWarning');
+            const addModalAiAlert = document.getElementById('aiDetectorAlert');
+
+            if (duplicate) {
+                if (isApplyView) {
+                    if (field === 'phone' && publicAlertPhone) publicAlertPhone.classList.remove('hidden');
+                    if (field === 'email' && publicAlertEmail) publicAlertEmail.classList.remove('hidden');
+                } else if (addModalAiAlert) {
+                    addModalAiAlert.classList.remove('hidden');
+                }
+            } else {
+                if (publicAlertPhone) publicAlertPhone.classList.add('hidden');
+                if (publicAlertEmail) publicAlertEmail.classList.add('hidden');
+                if (addModalAiAlert) addModalAiAlert.classList.add('hidden');
+            }
+        };
+
+        // --- ADVANCED PRO FEATURES ---
         const calculateMatchScore = (candidate) => {
             let score = 0;
             const exp = parseFloat(candidate.experience) || 0;
@@ -1566,7 +1593,246 @@
             }
         };
 
-        // --- Firebase Integration (RULE 1 Compliance: /artifacts/{appId}/public/data/{collection}) ---
+        // --- INTERVIEW FEEDBACK DIALOGUE ENGINE ---
+        const openEvaluationForm = (candId) => {
+            document.getElementById('feedbackCandId').value = candId;
+            document.getElementById('feedbackTech').value = 3;
+            document.getElementById('feedbackComm').value = 3;
+            document.getElementById('feedbackCulture').value = 3;
+            document.getElementById('feedbackNotes').value = "";
+            document.getElementById('feedbackModal').classList.remove('hidden');
+        };
+
+        const closeFeedbackModal = () => {
+            document.getElementById('feedbackModal').classList.add('hidden');
+        };
+
+        const saveFeedbackForm = async () => {
+            const id = document.getElementById('feedbackCandId').value;
+            const idx = joinees.findIndex(x => String(x.id) === String(id));
+            if(idx > -1) {
+                const tScore = parseInt(document.getElementById('feedbackTech').value);
+                const cScore = parseInt(document.getElementById('feedbackComm').value);
+                const cultScore = parseInt(document.getElementById('feedbackCulture').value);
+                const finalRating = Math.round((tScore + cScore + cultScore) / 3);
+
+                joinees[idx].rating = finalRating;
+                joinees[idx].interviewFeedback = {
+                    tech: tScore,
+                    comm: cScore,
+                    culture: cultScore,
+                    notes: document.getElementById('feedbackNotes').value
+                };
+
+                localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees));
+                await writeToCloud('candidates', joinees[idx].id, joinees[idx]);
+                closeFeedbackModal();
+                refreshAllViews();
+                showToast("Interview scorecard successfully recorded!");
+            }
+        };
+
+        // --- ASSET ALLOCATION ASSIGNMENT SYSTEM ---
+        const openAssetPanel = (candId) => {
+            document.getElementById('assetCandId').value = candId;
+            const candidate = joinees.find(x => String(x.id) === String(candId));
+            if (candidate && candidate.assetsAllocated) {
+                document.getElementById('assetLaptop').value = candidate.assetsAllocated.laptop || '';
+                document.getElementById('assetMobile').value = candidate.assetsAllocated.mobile || '';
+                document.getElementById('assetAccessories').value = candidate.assetsAllocated.accessories || '';
+            } else {
+                document.getElementById('assetLaptop').value = '';
+                document.getElementById('assetMobile').value = '';
+                document.getElementById('assetAccessories').value = '';
+            }
+            document.getElementById('assetModal').classList.remove('hidden');
+        };
+
+        const closeAssetModal = () => {
+            document.getElementById('assetModal').classList.add('hidden');
+        };
+
+        const saveAssetAllocation = async () => {
+            const id = document.getElementById('assetCandId').value;
+            const idx = joinees.findIndex(x => String(x.id) === String(id));
+            if(idx > -1) {
+                joinees[idx].assetsAllocated = {
+                    laptop: document.getElementById('assetLaptop').value,
+                    mobile: document.getElementById('assetMobile').value,
+                    accessories: document.getElementById('assetAccessories').value
+                };
+                localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees));
+                await writeToCloud('candidates', joinees[idx].id, joinees[idx]);
+                closeAssetModal();
+                refreshAllViews();
+                showToast("Assets allocated and linked to Master database!");
+            }
+        };
+
+        // --- PROBATION LIVE DAY COUNT TRACKER ---
+        const renderProbationTracker = () => {
+            const tb = document.getElementById('probationTableBody'); if(!tb) return;
+            const joinedRecruits = joinees.filter(x => x.status === 'JOINED');
+
+            if (joinedRecruits.length === 0) {
+                tb.innerHTML = `<tr><td colspan="6" class="text-center py-10 text-slate-400">No employees under current probation</td></tr>`;
+                return;
+            }
+
+            tb.innerHTML = joinedRecruits.map(e => {
+                const joinDateObj = e.joinDate ? new Date(e.joinDate) : new Date();
+                const probationEnd = new Date(new Date(joinDateObj).setMonth(joinDateObj.getMonth() + 6));
+                const today = new Date();
+                const diffTime = probationEnd - today;
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                
+                const progressPercent = Math.min(Math.round(((180 - diffDays) / 180) * 100), 100);
+                let statusLabel = diffDays <= 0 ? 'Completed' : `${diffDays} Days Remaining`;
+                let badgeColor = diffDays <= 0 ? 'badge-selected' : 'badge-pending';
+
+                return `
+                    <tr>
+                        <td>
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-full flex items-center justify-center font-black text-xs ${getAvatarColor(e.name)}">${e.name[0]}</div>
+                                <span class="font-bold text-sm uppercase">${e.name}</span>
+                            </div>
+                        </td>
+                        <td><span class="text-xs font-bold text-slate-500 uppercase">${e.dept}</span></td>
+                        <td><span class="text-sm font-medium">${formatDateString(e.joinDate)}</span></td>
+                        <td><span class="text-sm font-semibold">${Math.max(180 - diffDays, 0)} Days Served</span></td>
+                        <td>
+                            <div class="flex flex-col gap-1.5 max-w-[200px]">
+                                <span class="status-badge ${badgeColor} text-center">${statusLabel}</span>
+                                <div class="w-full h-1.5 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                                    <div class="h-full bg-sarathy-orange" style="width: ${progressPercent}%"></div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="text-right">
+                            ${diffDays <= 0 ? `<button onclick="confirmProbationExempt('${e.empId}')" class="px-3 py-1.5 bg-sarathy-blue text-white rounded-lg text-xs font-bold uppercase"><i class="fas fa-certificate mr-1"></i> Confirm</button>` : `<span class="text-xs font-bold text-slate-400 uppercase">Under Review</span>`}
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        };
+
+        const confirmProbationExempt = async (empId) => {
+            const confirmed = await showDialogModal('confirm', 'Confirm Probation Complete', 'Do you wish to confirm the employment status for this candidate?');
+            if(confirmed) {
+                showToast("Employee confirmed successfully!");
+                confetti();
+            }
+        };
+
+        // --- AUTOMATED SMS/ALERT SIMULATOR ---
+        const openAutoPromptModal = (title, message) => {
+            document.getElementById('autoPromptTitle').innerText = title;
+            document.getElementById('autoPromptContent').innerText = message;
+            document.getElementById('autoPromptModal').classList.remove('hidden');
+        };
+
+        const closeAutoPromptModal = () => {
+            document.getElementById('autoPromptModal').classList.add('hidden');
+        };
+
+        const dispatchSimulatedSuccess = () => {
+            closeAutoPromptModal();
+            showToast("Alert trigger dispatched successfully via automated SMS API!");
+            confetti({ particleCount: 50, spread: 60 });
+        };
+
+        const triggerAutomatedReminder = (type) => {
+            const id = document.getElementById('autoMsgCandidate').value;
+            const r = joinees.find(x => String(x.id) === String(id));
+            if(!r) return;
+
+            let msg = "";
+            let title = "";
+            if (type === 'interview') {
+                title = "Interview Schedule Automated SMS Alert";
+                msg = `Reminder: Hello ${r.name}, your interview for the position of ${r.dept} is scheduled. Please report to Sarathy Group representative. Ref: ${r.empId}`;
+            } else if (type === 'joining') {
+                title = "Joining Onboarding Day-1 Reminder";
+                msg = `Welcome alert: Dear ${r.name}, your formal Day-1 onboarding joining details are locked. Welcome to Sarathy Group! Ref ID: ${r.empId}`;
+            }
+            openAutoPromptModal(title, msg);
+        };
+
+        const renderAutomationOptions = () => {
+            const select = document.getElementById('autoMsgCandidate'); if(!select) return;
+            select.innerHTML = joinees.map(x => `<option value="${x.id}">${x.name} (${x.empId})</option>`).join('');
+            
+            // Render document validity checklist
+            const docExpiryCont = document.getElementById('docExpiryContainer'); if(!docExpiryCont) return;
+            const docList = joinees.filter(x => x.docExpiryDate);
+            if (docList.length === 0) {
+                docExpiryCont.innerHTML = `<p class="text-xs text-slate-400 text-center py-10 font-bold">No documents linked with validity dates</p>`;
+                return;
+            }
+
+            docExpiryCont.innerHTML = docList.map(e => {
+                const expDate = new Date(e.docExpiryDate);
+                const today = new Date();
+                const isExpired = expDate <= today;
+                return `
+                    <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200 flex justify-between items-center">
+                        <div>
+                            <span class="font-black text-xs uppercase text-slate-700 block">${e.name}</span>
+                            <p class="text-[10px] font-semibold text-slate-400 mt-0.5">Exp Date: ${formatDateString(e.docExpiryDate)}</p>
+                        </div>
+                        <span class="px-2.5 py-1 rounded-md text-[10px] font-black uppercase ${isExpired ? 'bg-red-100 text-red-700' : 'bg-emerald-100 text-emerald-700'}">${isExpired ? 'Expired' : 'Valid'}</span>
+                    </div>
+                `;
+            }).join('');
+        };
+
+        // --- REPORTS ENGINE GENERATOR ---
+        const renderReports = () => {
+            const joinedCount = joinees.filter(x => x.status === 'JOINED').length;
+            const rejectedCount = joinees.filter(x => x.status === 'REJECTED').length;
+            const ratio = (joinedCount + rejectedCount) > 0 ? Math.round((joinedCount / (joinedCount + rejectedCount)) * 100) : 0;
+
+            const repJoinCount = document.getElementById('repJoinCount');
+            const repRejectCount = document.getElementById('repRejectCount');
+            const repRatio = document.getElementById('repRatio');
+            
+            if (repJoinCount) repJoinCount.innerText = joinedCount;
+            if (repRejectCount) repRejectCount.innerText = rejectedCount;
+            if (repRatio) repRatio.innerText = `${ratio}% Selection`;
+
+            // Department reports
+            const repDeptList = document.getElementById('repDeptList');
+            if (repDeptList) {
+                const depts = {};
+                joinees.forEach(x => { depts[x.dept] = (depts[x.dept] || 0) + 1; });
+                repDeptList.innerHTML = Object.keys(depts).map(d => `
+                    <div class="flex justify-between py-1 border-b border-slate-100">
+                        <span class="font-bold text-slate-500">${d}</span>
+                        <span class="font-black text-sarathy-blue">${depts[d]} Applicants</span>
+                    </div>
+                `).join('');
+            }
+
+            // Monthly joiners report
+            const repMonthlyJoiners = document.getElementById('repMonthlyJoiners');
+            if (repMonthlyJoiners) {
+                const currentMonth = new Date().toISOString().slice(0, 7);
+                const joinersThisMonth = joinees.filter(x => x.status === 'JOINED' && x.joinDate && x.joinDate.startsWith(currentMonth));
+                if (joinersThisMonth.length === 0) {
+                    repMonthlyJoiners.innerHTML = `<li class="text-slate-400 py-4 text-center font-bold">No joiners registered this month</li>`;
+                } else {
+                    repMonthlyJoiners.innerHTML = joinersThisMonth.map(e => `
+                        <li class="py-1 border-b border-slate-100 flex justify-between">
+                            <span class="uppercase font-bold">${e.name}</span>
+                            <span class="text-slate-400">Join: ${formatDateString(e.joinDate)}</span>
+                        </li>
+                    `).join('');
+                }
+            }
+        };
+
+        // --- Cloud Sync Setup ---
         async function writeToCloud(collectionName, id, data) {
             if (!db || !auth || !auth.currentUser) return;
             try {
@@ -1599,7 +1865,6 @@
                     }
                 }).catch(err => console.error(`Error seeding ${collectionName}:`, err));
 
-                // Strict Realtime Listeners with error callback
                 onSnapshot(colRef, (snapshot) => {
                     const list = [];
                     snapshot.forEach(docSnap => { list.push(docSnap.data()); });
@@ -1629,7 +1894,6 @@
                 let user = null;
                 const customToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
                 
-                // Auth FIRST before Queries (RULE 3 compliance)
                 if (customToken && !isApplyView) {
                     const credentials = await signInWithCustomToken(auth, customToken);
                     user = credentials.user;
@@ -1649,7 +1913,6 @@
         }
 
         window.addEventListener('load', () => {
-             // Retrieve setting URL if any
              const savedSettingUrl = localStorage.getItem('sarathy_setting_base_url');
              if(savedSettingUrl && document.getElementById('settingBaseUrl')) {
                  document.getElementById('settingBaseUrl').value = savedSettingUrl;
@@ -1667,7 +1930,7 @@
             calculatePayroll();
         });
 
-        // --- Auth Logic ---
+        // --- Auth Login Dispatcher ---
         document.getElementById('loginForm')?.addEventListener('submit', (e) => {
             e.preventDefault(); const u = document.getElementById('username')?.value.trim().toUpperCase(); const p = document.getElementById('password')?.value;
             if(USERS.find(x => x.user === u && x.pass === p) || (u === 'ADMIN' && p === 'SARATHY@26')) { currentUser = USERS[0]; showApp(); } 
@@ -1696,7 +1959,7 @@
             document.querySelectorAll('.nav-link').forEach(el => { el.classList.remove('active'); if(el.id === `nav-${tab}`) el.classList.add('active'); });
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
             document.getElementById(`tab-${tab}`)?.classList.add('active');
-            const titles = { dashboard: 'HR Overview', candidates: 'Candidates', directory: 'Directory', jobs: 'Job Postings', training: 'Training', okrs: 'Performance', calendar: 'Schedules', analytics: 'Analytics', settings: 'Settings', onboarding: 'Onboarding', payroll: 'CTC Estimator', leaves: 'Leave Tracker' };
+            const titles = { dashboard: 'HR Overview', candidates: 'Candidates Database', vacancies: 'Vacancy Management', directory: 'Employee Master', onboarding: 'Onboarding & Asset', probation: 'Probation Tracker', payroll: 'CTC Estimator', leaves: 'Leave Tracker', training: 'Training Hub', okrs: 'Performance', reports: 'Reports Center', automation: 'HR Automation Alerts', settings: 'Settings', calendar: 'Interview Schedules' };
             const pageTitle = document.getElementById('pageTitle'); if(pageTitle) pageTitle.innerText = titles[tab] || 'HR Overview';
             const floatingBackBtn = document.getElementById('floatingBackBtn');
             if (tabHistory.length > 0) {
@@ -1710,11 +1973,11 @@
         const goBack = () => { if (tabHistory.length > 0) switchTab(tabHistory.pop(), true); };
 
         const refreshAllViews = () => {
-             updateLocationFilterOptions(); renderDashboard(); renderTable(); renderOnboarding(); renderDirectory(); renderJobs(); renderTraining(); renderOKRs(); renderCalendar(); checkNotifications(); renderLeaves();
+             updateLocationFilterOptions(); renderDashboard(); renderTable(); renderOnboarding(); renderDirectory(); renderJobs(); renderTraining(); renderOKRs(); renderCalendar(); checkNotifications(); renderLeaves(); renderProbationTracker(); renderAutomationOptions(); renderReports();
              if(currentTab === 'analytics') initCharts();
          };
 
-        // --- General Listeners ---
+        // --- General Event Listeners ---
         document.getElementById('status')?.addEventListener('change', function() {
             const rejCont = document.getElementById('rejectionReasonContainer');
             if(this.value === 'REJECTED') { rejCont.classList.remove('hidden'); rejCont.classList.add('flex'); } else { rejCont.classList.add('hidden'); rejCont.classList.remove('flex'); document.getElementById('rejectionReason').value = ''; }
@@ -1723,7 +1986,7 @@
         const updateStarUI = (rating) => { document.querySelectorAll('#starSelector i').forEach(star => { if(parseInt(star.getAttribute('data-rating')) <= rating) { star.classList.remove('text-slate-300'); star.classList.add('text-amber-400'); } else { star.classList.add('text-slate-300'); star.classList.remove('text-amber-400'); } }); };
         document.querySelectorAll('#starSelector i').forEach(star => { star.addEventListener('click', (e) => { const rating = parseInt(e.target.getAttribute('data-rating')); document.getElementById('empRating').value = rating; updateStarUI(rating); }); });
 
-        // --- Render Functions ---
+        // --- Notice Board Render ---
         const renderNotices = () => {
             const container = document.getElementById('noticeBoardContent'); if(!container) return;
             if(noticesList.length === 0) { container.innerHTML = '<p class="text-xs text-slate-400 text-center font-medium mt-4">No new notices</p>'; return; }
@@ -1746,63 +2009,6 @@
                 noticesList.splice(idx, 1);
                  renderNotices(); showToast("Notice deleted");
              }
-        };
-
-        const renderDashboard = () => {
-            renderNotices();
-            document.getElementById('statTotal').innerText = joinees.length;
-            document.getElementById('statSelected').innerText = joinees.filter(x=>x.status==='SELECTED').length;
-            document.getElementById('statJoined').innerText = joinees.filter(x=>x.status==='JOINED').length;
-            document.getElementById('statPending').innerText = joinees.filter(x=>x.status==='PENDING').length;
-            document.getElementById('statRejected').innerText = joinees.filter(x=>x.status==='REJECTED').length;
-            
-            document.getElementById('statHiringTime').innerHTML = `${calculateAverageHiringTime()} <span class="text-sm">Days</span>`;
-
-            const progContainer = document.getElementById('progContainer');
-            if(progContainer) {
-                progContainer.innerHTML = '';
-                if(reqList.length === 0) progContainer.innerHTML = '<p class="text-sm text-slate-400 p-4 text-center">No targets set</p>';
-                reqList.forEach(req => {
-                    const reqDept = req.dept.trim().toUpperCase(); const reqCompany = (req.company || 'ALL').trim().toUpperCase(); const reqLocation = (req.location || 'ALL').trim().toUpperCase();
-                    const count = joinees.filter(x => { return (x.dept && x.dept.trim().toUpperCase() === reqDept) && (reqCompany === 'ALL' || (x.company && x.company.trim().toUpperCase() === reqCompany)) && (reqLocation === 'ALL' || (x.location && x.location.trim().toUpperCase() === reqLocation)) && (x.status === 'SELECTED' || x.status === 'JOINED'); }).length;
-                    const target = parseInt(req.target) || 0; const perc = target > 0 ? Math.min((count/target)*100, 100) : 0;
-                    let subText = []; if(reqCompany !== 'ALL') subText.push(reqCompany); if(reqLocation !== 'ALL') subText.push(reqLocation);
-                    progContainer.innerHTML += `<div class="p-4 border border-[var(--border-color)] rounded-2xl bg-[var(--bg-primary)]">
-                        <div class="flex justify-between items-end mb-1">
-                            <span class="font-bold text-sm text-[var(--text-primary)] uppercase truncate pr-2">${req.dept}</span>
-                            <span class="font-black text-sarathy-blue text-sm">${count}/${target}</span>
-                        </div>
-                        <div class="text-[10px] font-bold text-slate-500 uppercase mb-3 truncate">${subText.join(' - ') || 'All Entities & Locations'}</div>
-                        <div class="w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden"><div class="h-full bg-blue-500" style="width:${perc}%"></div></div>
-                    </div>`;
-                });
-            }
-
-            const recentBody = document.getElementById('recentCandidatesBody');
-            if(recentBody) {
-                const recent = [...joinees].sort((a,b) => b.id - a.id).slice(0, 5);
-                if(recent.length === 0) recentBody.innerHTML = '<tr><td class="py-8 text-center text-slate-400 font-medium text-sm">No recent registrations</td></tr>';
-                else recentBody.innerHTML = recent.map(x => `
-                    <tr class="hover:bg-[var(--bg-primary)] cursor-pointer transition-colors" onclick="viewCandidate(${x.id})">
-                        <td class="py-3">
-                            <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 rounded-full flex items-center justify-center font-black text-sm shrink-0 ${getAvatarColor(x.name)}">${x.name[0]}</div>
-                                <div class="overflow-hidden">
-                                    <p class="font-bold text-[var(--text-primary)] text-sm uppercase truncate">${x.name}</p>
-                                    <span class="text-[10px] text-slate-500 font-bold uppercase truncate block">${x.dept}</span>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="py-3 text-right">
-                            <span class="status-badge ${x.status === 'SELECTED' ? 'badge-selected' : x.status === 'JOINED' ? 'badge-joined' : x.status === 'PENDING' ? 'badge-pending' : 'badge-rejected'}">${x.status}</span>
-                        </td>
-                    </tr>`).join('');
-            }
-        };
-
-        const viewAdImage = (src) => {
-            document.getElementById('viewerImageSrc').src = src;
-            document.getElementById('imageViewerModal').classList.remove('hidden');
         };
 
         const openJobModal = () => { document.getElementById('jobForm').reset(); document.getElementById('jobModal').classList.remove('hidden'); };
@@ -1848,7 +2054,6 @@
              const applyLink = getShareableBaseUrl() + '?view=apply&jobId=' + j.id;
              const text = `📢 WE ARE HIRING!\n\nRole: ${j.title}\nDept: ${j.dept}\nLocation: ${j.location}\n\nApply securely here: ${applyLink}`;
              
-             // Secure fallback clipboard mechanism
              const el = document.createElement('textarea');
              el.value = text;
              document.body.appendChild(el);
@@ -1865,14 +2070,18 @@
         
         const renderJobs = () => {
              const container = document.getElementById('jobsContainer'); if(!container) return;
-             if(jobsList.length === 0) { container.innerHTML = '<div class="col-span-full text-center py-16 opacity-50"><i class="fas fa-briefcase text-4xl mb-3 text-slate-400"></i><p class="text-sm font-bold text-slate-500">No active job postings</p></div>'; return; }
+             if(jobsList.length === 0) { container.innerHTML = '<div class="col-span-full text-center py-16 opacity-50"><i class="fas fa-briefcase text-4xl mb-3 text-slate-400"></i><p class="text-sm font-bold text-slate-500">No active vacancies listed</p></div>'; return; }
+             
+             // Update stat counters for vacancy
+             document.getElementById('statVacanciesCount').innerText = jobsList.filter(x => x.status === 'ACTIVE').length;
+
              container.innerHTML = [...jobsList].sort((a,b)=>b.id-a.id).map(j => {
                 let imagesHtml = '';
                 if(j.images && j.images.length > 0) {
                     imagesHtml = `<div class="flex gap-3 overflow-x-auto custom-scroll mb-4 pb-2 snap-x">${j.images.map(img => `<img src="${img}" class="h-28 w-auto object-cover rounded-xl border border-[var(--border-color)] snap-center cursor-pointer shadow-sm hover:opacity-80 transition-opacity" onclick="viewAdImage('${img}')">`).join('')}</div>`;
                 }
                 const isExpired = j.status === 'ACTIVE' && j.expiryDate && new Date(j.expiryDate) <= new Date();
-                const expiryBadge = isExpired ? `<span class="text-[10px] font-bold text-red-500 bg-red-50 dark:bg-red-900/20 px-2 py-1 rounded-md"><i class="fas fa-exclamation-triangle"></i> Ad Expired</span>` : (j.expiryDate ? `<span class="text-[10px] font-bold text-slate-500"><i class="fas fa-clock"></i> Exp: ${formatDateString(j.expiryDate)}</span>` : '');
+                const expiryBadge = isExpired ? `<span class="text-[10px] font-bold text-red-500 bg-red-50 dark:bg-red-900/20 px-2 py-1 rounded-md"><i class="fas fa-exclamation-triangle"></i> Expired</span>` : (j.expiryDate ? `<span class="text-[10px] font-bold text-slate-500"><i class="fas fa-clock"></i> Exp: ${formatDateString(j.expiryDate)}</span>` : '');
                 return `<div class="modern-card p-6 flex flex-col border-t-4 ${j.status === 'ACTIVE' ? 'border-sky-500' : 'border-slate-300 dark:border-slate-600'}">
                     <div class="flex justify-between items-start mb-4">
                         <div class="pr-2">
@@ -1923,7 +2132,7 @@
          };
         const renderTraining = () => {
              const tb = document.getElementById('trainingTableBody'); if(!tb) return;
-             if(trainingList.length===0) { tb.innerHTML='<tr><td colspan="5" class="text-center py-10 text-slate-400">No training data</td></tr>'; return; }
+             if(trainingList.length===0) { tb.innerHTML='<tr><td colspan="5" class="text-center py-10 text-slate-400">No training data linked</td></tr>'; return; }
             tb.innerHTML = trainingList.map(t => `
                 <tr>
                     <td>
@@ -2023,13 +2232,13 @@
         const setQuickFilter = (f) => {
              activeFilter = f;
              document.querySelectorAll('[id^="chip-"]').forEach(c => {
-                c.classList.remove('bg-blue-50', 'text-blue-600', 'dark:bg-blue-900/30', 'dark:text-blue-400');
+                c.classList.remove('bg-orange-500', 'text-white');
                 c.classList.add('text-slate-500');
             });
              const chip = document.getElementById(`chip-${f}`);
              if(chip) {
                 chip.classList.remove('text-slate-500');
-                chip.classList.add('bg-blue-50', 'text-blue-600', 'dark:bg-blue-900/30', 'dark:text-blue-400');
+                chip.classList.add('bg-orange-500', 'text-white');
             }
             renderTable();
          };
@@ -2039,7 +2248,7 @@
             const listView = document.getElementById('listView'); const boardView = document.getElementById('boardView');
             
             if(v === 'list') {
-                listBtn.classList.add('bg-white', 'dark:bg-slate-700', 'shadow-sm', 'text-sarathy-blue', 'dark:text-white');
+                listBtn.classList.add('bg-white', 'dark:bg-slate-700', 'shadow-sm', 'text-sarathy-orange', 'dark:text-white');
                 listBtn.classList.remove('text-slate-400');
                 boardBtn.classList.remove('bg-white', 'dark:bg-slate-700', 'shadow-sm', 'text-sarathy-blue');
                 boardBtn.classList.add('text-slate-400', 'hover:text-slate-600');
@@ -2047,9 +2256,9 @@
                 boardView.classList.add('hidden');
                 boardView.classList.remove('grid');
             } else {
-                boardBtn.classList.add('bg-white', 'dark:bg-slate-700', 'shadow-sm', 'text-sarathy-blue');
+                boardBtn.classList.add('bg-white', 'dark:bg-slate-700', 'shadow-sm', 'text-sarathy-orange');
                 boardBtn.classList.remove('text-slate-400');
-                listBtn.classList.remove('bg-white', 'dark:bg-slate-700', 'shadow-sm', 'text-sarathy-blue');
+                listBtn.classList.remove('bg-white', 'dark:bg-slate-700', 'shadow-sm', 'text-sarathy-orange');
                 listBtn.classList.add('text-slate-400');
                 listView.classList.add('hidden');
                 boardView.classList.remove('hidden');
@@ -2104,13 +2313,18 @@
                         let stClass = x.status === 'SELECTED' ? 'badge-selected' : x.status === 'JOINED' ? 'badge-joined' : x.status === 'PENDING' ? 'badge-pending' : 'badge-rejected';
                         let matchScore = calculateMatchScore(x);
                         let scoreColor = matchScore > 80 ? 'text-emerald-500' : matchScore > 50 ? 'text-amber-500' : 'text-slate-400';
+                        
+                        // Scans duplicate status
+                        const isDup = joinees.filter(y => y.phone === x.phone || (y.email && y.email === x.email)).length > 1;
+                        const dupBadge = isDup ? `<span class="bg-red-100 text-red-700 text-[9px] font-bold px-1.5 py-0.5 rounded ml-1 uppercase"><i class="fas fa-clone"></i> Duplicate</span>` : '';
+
                         return `
                         <tr class="hover:bg-[var(--bg-primary)] transition-colors cursor-pointer group">
                             <td onclick="viewCandidate(${x.id})">
                                 <div class="flex items-center gap-3">
                                     <div class="w-10 h-10 rounded-full flex items-center justify-center font-black text-sm shrink-0 ${getAvatarColor(x.name)}">${x.name[0]}</div>
                                     <div>
-                                        <p class="font-bold text-sm uppercase text-[var(--text-primary)] group-hover:text-sarathy-blue transition-colors">${x.name}</p>
+                                        <p class="font-bold text-sm uppercase text-[var(--text-primary)] group-hover:text-sarathy-orange transition-colors">${x.name} ${dupBadge}</p>
                                         <span class="text-[10px] font-bold text-slate-500 uppercase">${x.empId}</span>
                                     </div>
                                 </div>
@@ -2180,21 +2394,6 @@
             }
         };
 
-        // Helper to support mobile moving of candidates on kanban
-        const quickMoveStatus = async (id, newStatus) => {
-            const idx = joinees.findIndex(j => String(j.id) === String(id));
-            if(idx > -1) {
-                joinees[idx].status = newStatus;
-                if(newStatus === 'JOINED' && !joinees[idx].joinDate) joinees[idx].joinDate = new Date().toISOString().slice(0, 10);
-                if(newStatus !== 'REJECTED') joinees[idx].rejectionReason = '';
-                localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees));
-                await writeToCloud('candidates', joinees[idx].id, joinees[idx]);
-                refreshAllViews();
-                showToast(`Moved to ${newStatus}`);
-                if(newStatus === 'SELECTED' || newStatus === 'JOINED') confetti();
-            }
-        };
-
         const openModal = () => {
              const form = document.getElementById('joineeForm'); if(form) form.reset();
              document.getElementById('editId').value = '';
@@ -2215,6 +2414,13 @@
         const editRecord = (id) => {
             closeViewModal(); const r = joinees.find(x => String(x.id) === String(id)); if(!r) return;
             document.getElementById('editId').value = r.id; document.getElementById('empId').value = r.empId; document.getElementById('status').value = r.status; document.getElementById('empName').value = r.name; document.getElementById('empAge').value = r.age || ''; document.getElementById('empQual').value = r.qualification || ''; document.getElementById('empPhone').value = r.phone; document.getElementById('empEmail').value = r.email || ''; document.getElementById('empSource').value = r.source || 'Direct/Walk-in'; document.getElementById('dept').value = r.dept || 'OTHER'; document.getElementById('company').value = r.company || 'SARATHY MOTORS'; document.getElementById('interviewDate').value = r.interviewDate || ''; document.getElementById('joinDate').value = r.joinDate || ''; document.getElementById('experience').value = r.experience || 0; document.getElementById('location').value = r.location || ''; document.getElementById('designation').value = r.designation || ''; document.getElementById('empRemarks').value = r.remarks || ''; document.getElementById('empRating').value = r.rating || 0; updateStarUI(r.rating || 0);
+            
+            // Populate document expiry data & scheduler info
+            document.getElementById('docExpiryDate').value = r.docExpiryDate || '';
+            document.getElementById('docStatus').value = r.docStatus || 'VERIFIED';
+            document.getElementById('interviewTime').value = r.interviewTime || '';
+            document.getElementById('interviewPanel').value = r.interviewPanel || '';
+
             const rejCont = document.getElementById('rejectionReasonContainer');
             if(r.status === 'REJECTED') { if(rejCont){rejCont.classList.remove('hidden'); rejCont.classList.add('flex');} document.getElementById('rejectionReason').value = r.rejectionReason || ''; } else { if(rejCont){rejCont.classList.add('hidden'); rejCont.classList.remove('flex');} document.getElementById('rejectionReason').value = ''; }
             document.getElementById('modalTitle').innerText = "Edit Details"; document.getElementById('addModal')?.classList.remove('hidden'); setTimeout(()=>document.getElementById('modalContent').style.transform = 'translateX(0)', 10);
@@ -2232,7 +2438,33 @@
 
         document.getElementById('joineeForm')?.addEventListener('submit', async (e) => {
             e.preventDefault(); const editIdVal = document.getElementById('editId').value; const currentStatus = document.getElementById('status').value;
-            const data = { id: editIdVal ? parseInt(editIdVal) : Date.now(), empId: document.getElementById('empId').value, name: document.getElementById('empName').value.trim().toUpperCase(), age: document.getElementById('empAge').value, qualification: document.getElementById('empQual').value.trim().toUpperCase(), phone: document.getElementById('empPhone').value, email: document.getElementById('empEmail').value.trim(), source: document.getElementById('empSource').value, dept: document.getElementById('dept').value.trim().toUpperCase(), company: document.getElementById('company').value, status: currentStatus, interviewDate: document.getElementById('interviewDate').value, joinDate: document.getElementById('joinDate').value, experience: parseFloat(document.getElementById('experience').value)||0, location: document.getElementById('location').value.trim().toUpperCase(), designation: document.getElementById('designation').value.trim().toUpperCase(), remarks: document.getElementById('empRemarks').value.trim(), rejectionReason: currentStatus === 'REJECTED' ? document.getElementById('rejectionReason').value : '', rating: parseInt(document.getElementById('empRating').value) || 0, onboarding: editIdVal ? (joinees.find(x=>String(x.id)===String(editIdVal))?.onboarding || { idCard: false, bank: false, pf: false, training: false }) : { idCard: false, bank: false, pf: false, training: false } };
+            const data = { 
+                id: editIdVal ? parseInt(editIdVal) : Date.now(), 
+                empId: document.getElementById('empId').value, 
+                name: document.getElementById('empName').value.trim().toUpperCase(), 
+                age: document.getElementById('empAge').value, 
+                qualification: document.getElementById('empQual').value.trim().toUpperCase(), 
+                phone: document.getElementById('empPhone').value, 
+                email: document.getElementById('empEmail').value.trim(), 
+                source: document.getElementById('empSource').value, 
+                dept: document.getElementById('dept').value.trim().toUpperCase(), 
+                company: document.getElementById('company').value, 
+                status: currentStatus, 
+                interviewDate: document.getElementById('interviewDate').value, 
+                joinDate: document.getElementById('joinDate').value, 
+                experience: parseFloat(document.getElementById('experience').value)||0, 
+                location: document.getElementById('location').value.trim().toUpperCase(), 
+                designation: document.getElementById('designation').value.trim().toUpperCase(), 
+                remarks: document.getElementById('empRemarks').value.trim(), 
+                rejectionReason: currentStatus === 'REJECTED' ? document.getElementById('rejectionReason').value : '', 
+                rating: parseInt(document.getElementById('empRating').value) || 0,
+                docExpiryDate: document.getElementById('docExpiryDate').value,
+                docStatus: document.getElementById('docStatus').value,
+                interviewTime: document.getElementById('interviewTime').value,
+                interviewPanel: document.getElementById('interviewPanel').value,
+                onboarding: editIdVal ? (joinees.find(x=>String(x.id)===String(editIdVal))?.onboarding || { idCard: false, bank: false, pf: false, training: false }) : { idCard: false, bank: false, pf: false, training: false },
+                assetsAllocated: editIdVal ? (joinees.find(x=>String(x.id)===String(editIdVal))?.assetsAllocated || { laptop: '', mobile: '', accessories: '' }) : { laptop: '', mobile: '', accessories: '' }
+            };
             if(data.status === 'JOINED' && !data.joinDate) { data.joinDate = new Date().toISOString().slice(0, 10); }
             if(editIdVal) {
                  const idx = joinees.findIndex(x => String(x.id) === String(editIdVal));
@@ -2278,7 +2510,6 @@
                 onboarding: { idCard: false, bank: false, pf: false, training: false }
             };
 
-            // Public applications securely saved directly to strict artifacts collection
             if (db && auth && auth.currentUser) {
                 try {
                     await writeToCloud('candidates', newCandidate.id, newCandidate);
@@ -2288,7 +2519,7 @@
                 }
             } else {
                 joinees.push(newCandidate);
-                localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees));
+                localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(newCandidate));
             }
 
             confetti({particleCount: 150, spread: 80, origin: { y: 0.6 }});
@@ -2415,6 +2646,31 @@
                 </div>
             `;
 
+            // Active Evaluation Scorecard Displays
+            let feedbackHtml = '';
+            if (r.interviewFeedback) {
+                feedbackHtml = `
+                    <div class="mt-4 p-5 bg-slate-50 dark:bg-slate-800 rounded-2xl border border-slate-200">
+                        <h4 class="text-xs font-bold uppercase text-slate-700 dark:text-slate-200 mb-3 tracking-widest"><i class="fas fa-poll-h"></i> Panelist Scorecard Review</h4>
+                        <div class="grid grid-cols-3 gap-2 text-center text-xs font-bold uppercase mb-4">
+                            <div class="p-2 bg-white rounded-xl border border-slate-100">
+                                <p class="text-slate-400 text-[9px]">Technical</p>
+                                <p class="text-sarathy-blue text-sm mt-0.5">${r.interviewFeedback.tech || 3}/5</p>
+                            </div>
+                            <div class="p-2 bg-white rounded-xl border border-slate-100">
+                                <p class="text-slate-400 text-[9px]">Communication</p>
+                                <p class="text-sarathy-blue text-sm mt-0.5">${r.interviewFeedback.comm || 3}/5</p>
+                            </div>
+                            <div class="p-2 bg-white rounded-xl border border-slate-100">
+                                <p class="text-slate-400 text-[9px]">Culture</p>
+                                <p class="text-sarathy-blue text-sm mt-0.5">${r.interviewFeedback.culture || 3}/5</p>
+                            </div>
+                        </div>
+                        <p class="text-xs font-medium text-slate-500 bg-white p-3 rounded-xl border border-slate-100 leading-relaxed">Notes: ${r.interviewFeedback.notes || 'No notes saved'}</p>
+                    </div>
+                `;
+            }
+
             const docVault = `
                 <div class="mt-4 p-5 bg-amber-50/50 dark:bg-slate-800/50 rounded-2xl border border-amber-100 dark:border-slate-700 no-print">
                     <h4 class="text-xs font-bold uppercase text-amber-600 dark:text-amber-400 mb-3 tracking-widest flex items-center gap-2"><i class="fas fa-folder-open"></i> Document Vault</h4>
@@ -2458,11 +2714,13 @@
                 </div>
                 
                  ${timelineHtml}
+                 ${feedbackHtml}
                  ${commButtons}
                 ${docVault}
                 
                 <div class="mt-8 flex flex-wrap gap-3 no-print">
-                    <button onclick="editRecord(${r.id})" class="flex-1 py-3 bg-white dark:bg-slate-700 text-slate-700 dark:text-white border border-[var(--border-color)] rounded-xl font-bold text-sm transition-colors hover:bg-slate-50"><i class="fas fa-edit mr-2"></i> Edit</button>
+                    <button onclick="editRecord(${r.id})" class="flex-1 py-3 bg-white dark:bg-slate-700 text-slate-700 dark:text-white border border-[var(--border-color)] rounded-xl font-bold text-sm transition-colors hover:bg-slate-50"><i class="fas fa-edit mr-2"></i> Edit Profile</button>
+                    <button onclick="openEvaluationForm(${r.id})" class="flex-1 py-3 bg-sarathy-orange text-white rounded-xl font-bold text-sm hover:bg-amber-600 transition-colors"><i class="fas fa-comment-medical mr-2"></i> Feedback Form</button>
                     ${r.status === 'SELECTED' ? `<button onclick="generateOfferLetter(${r.id})" class="flex-1 py-3 bg-indigo-50 text-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-400 rounded-xl font-bold text-sm transition-colors hover:bg-indigo-100"><i class="fas fa-file-pdf mr-2"></i> Offer Letter</button><button onclick="markAsJoined(${r.id}); closeViewModal();" class="flex-1 py-3 bg-sarathy-blue text-white rounded-xl font-bold text-sm transition-colors shadow-md"><i class="fas fa-check-circle mr-2"></i> Confirm Join</button>` : ''}
                     <button onclick="deleteSingleRecord(${r.id})" class="flex-1 py-3 bg-red-50 text-red-600 dark:bg-red-900/20 dark:text-red-400 rounded-xl font-bold text-sm transition-colors hover:bg-red-100"><i class="fas fa-trash-alt mr-2"></i> Delete</button>
                 </div>`;
@@ -2548,14 +2806,21 @@
              const container = document.getElementById('directoryContainer'); if(!container) return;
              const term = document.getElementById('dirSearchInput')?.value.toUpperCase() || '';
              const activeEmployees = joinees.filter(x => x.status === 'JOINED' && (x.name.includes(term) || x.empId.includes(term) || x.dept.includes(term)));
-             if(activeEmployees.length === 0) { container.innerHTML = '<div class="col-span-full text-center py-20"><p class="text-slate-400 font-medium">No employees found</p></div>'; return; }
-             container.innerHTML = activeEmployees.map(c => `
+             if(activeEmployees.length === 0) { container.innerHTML = '<div class="col-span-full text-center py-20"><p class="text-slate-400 font-medium">No active employees found</p></div>'; return; }
+             container.innerHTML = activeEmployees.map(c => {
+                 let assetsLabel = 'None';
+                 if (c.assetsAllocated && (c.assetsAllocated.laptop || c.assetsAllocated.mobile)) {
+                     assetsLabel = `<i class="fas fa-laptop text-sarathy-orange"></i> Hardware Assigned`;
+                 }
+                 return `
                 <div class="modern-card p-6 text-center cursor-pointer hover:border-indigo-300 dark:hover:border-indigo-700 transition-colors" onclick="viewCandidate(${c.id})">
                     <div class="w-20 h-20 mx-auto rounded-full mb-4 flex items-center justify-center font-black text-2xl shadow-sm ${getAvatarColor(c.name)}">${c.name[0]}</div>
                     <h4 class="font-black text-base uppercase truncate text-[var(--text-primary)]">${c.name}</h4>
                     <p class="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase mt-1 truncate">${c.designation || 'Employee'}</p>
                     <p class="text-[10px] font-medium text-slate-500 uppercase mt-2 truncate"><i class="fas fa-building mr-1"></i> ${c.company}</p>
-                </div>`).join('');
+                    <div class="mt-3 p-1 bg-slate-50 rounded-lg border border-slate-100 text-[10px] font-bold text-slate-500 uppercase">${assetsLabel}</div>
+                </div>`;
+             }).join('');
          };
 
         const renderOnboarding = () => {
@@ -2579,13 +2844,14 @@
                         <div class="flex justify-between text-[10px] font-bold text-slate-500 uppercase mb-1"><span>Progress</span><span>${Math.round(perc)}%</span></div>
                         <div class="w-full h-1.5 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden"><div class="h-full bg-emerald-500 transition-all duration-500" style="width: ${perc}%"></div></div>
                     </div>
-                    <div class="space-y-3">
+                    <div class="space-y-3 mb-4">
                         ${tasks.map(t => `
                         <label class="flex items-center gap-3 p-2.5 rounded-xl cursor-pointer hover:bg-[var(--bg-primary)] transition-colors border border-transparent hover:border-[var(--border-color)]">
                             <input type="checkbox" ${c.onboarding[t.key] ? 'checked' : ''} onchange="toggleOnboardingTask(${c.id}, '${t.key}', this.checked)" class="custom-checkbox !w-5 !h-5 !rounded">
                             <span class="text-sm font-medium ${c.onboarding[t.key] ? 'line-through text-slate-400' : 'text-[var(--text-primary)]'}">${t.label}</span>
                         </label>`).join('')}
                     </div>
+                    <button onclick="openAssetPanel(${c.id})" class="w-full py-2.5 bg-sarathy-blue text-white rounded-xl text-xs font-black uppercase"><i class="fas fa-laptop-medical mr-1.5"></i> Edit hardware Asset</button>
                 </div>`;
              }).join('');
          };
@@ -2629,7 +2895,7 @@
                 let statusCounts = { SELECTED: 0, PENDING: 0, REJECTED: 0, JOINED: 0 };
                  dataToChart.forEach(t => { if (statusCounts[t.status] !== undefined) statusCounts[t.status]++; });
                  if(chartStatus) chartStatus.destroy();
-                 chartStatus = new Chart(ctx1, { type: 'doughnut', data: { labels: ['Selected', 'Pending', 'Rejected', 'Joined'], datasets: [{ data: [statusCounts.SELECTED, statusCounts.PENDING, statusCounts.REJECTED, statusCounts.JOINED], backgroundColor: ['#10b981', '#f59e0b', '#ef4444', '#0054A6'], borderWidth: 0, hoverOffset: 4 }] }, options: { responsive: true, maintainAspectRatio: false, cutout: '75%', plugins: { legend: { position: 'bottom', labels: { color: textColor, font: {family: 'Outfit', size: 12} } } } } });
+                 chartStatus = new Chart(ctx1, { type: 'doughnut', data: { labels: ['Selected', 'Pending', 'Rejected', 'Joined'], datasets: [{ data: [statusCounts.SELECTED, statusCounts.PENDING, statusCounts.REJECTED, statusCounts.JOINED], backgroundColor: ['#10b981', '#f59e0b', '#ef4444', '#0A3D62'], borderWidth: 0, hoverOffset: 4 }] }, options: { responsive: true, maintainAspectRatio: false, cutout: '75%', plugins: { legend: { position: 'bottom', labels: { color: textColor, font: {family: 'Outfit', size: 12} } } } } });
              }
             const ctx2 = document.getElementById('sourceChart')?.getContext('2d');
             if(ctx2) {
@@ -2794,6 +3060,18 @@
         window.copyShareLinkFromModal = copyShareLinkFromModal;
         window.shareLinkToService = shareLinkToService;
         window.saveSettingBaseUrl = saveSettingBaseUrl;
+
+        window.runAiDuplicateScan = runAiDuplicateScan;
+        window.confirmProbationExempt = confirmProbationExempt;
+        window.triggerAutomatedReminder = triggerAutomatedReminder;
+        window.closeAutoPromptModal = closeAutoPromptModal;
+        window.dispatchSimulatedSuccess = dispatchSimulatedSuccess;
+        window.openEvaluationForm = openEvaluationForm;
+        window.closeFeedbackModal = closeFeedbackModal;
+        window.saveFeedbackForm = saveFeedbackForm;
+        window.openAssetPanel = openAssetPanel;
+        window.closeAssetModal = closeAssetModal;
+        window.saveAssetAllocation = saveAssetAllocation;
     </script>
 </body>
 </html>
