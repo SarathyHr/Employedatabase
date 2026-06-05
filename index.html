@@ -33,9 +33,9 @@
                         }
                     },
                     boxShadow: {
-                        'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.07)',
-                        'neo': '0 10px 30px -10px rgba(0, 84, 166, 0.15)',
-                        'hover-card': '0 20px 40px -15px rgba(0, 0, 0, 0.08)'
+                        'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.04)',
+                        'neo': '0 10px 30px -10px rgba(0, 84, 166, 0.12)',
+                        'hover-card': '0 20px 40px -15px rgba(0, 0, 0, 0.06)'
                     }
                 }
             }
@@ -84,7 +84,7 @@
             background: var(--bg-secondary); 
             border-radius: 1.5rem; 
             border: 1px solid var(--border-color); 
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -2px rgba(0, 0, 0, 0.02); 
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.01), 0 2px 4px -2px rgba(0, 0, 0, 0.01); 
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
         }
         .modern-card:hover { 
@@ -516,6 +516,9 @@
                                     <option value="SARATHY AUTOCARS">Sarathy Autocars</option>
                                     <option value="SARATHY CARS PVT LTD">Sarathy Cars Pvt Ltd</option>
                                 </select>
+                                <select id="filterLocation" onchange="renderTable()" class="px-4 py-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl text-sm font-medium outline-none cursor-pointer">
+                                    <option value="ALL">All Locations</option>
+                                </select>
                             </div>
                         </div>
                         <div class="flex flex-wrap items-center justify-between gap-4">
@@ -837,23 +840,33 @@
                 <!-- TAB: SETTINGS -->
                 <div id="tab-settings" class="tab-content p-4 md:p-6 lg:p-8 max-w-[1600px] mx-auto">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 animate-up">
-                        <div class="modern-card p-6">
-                            <h3 class="font-black text-lg uppercase text-[var(--text-primary)] mb-6">Accent Color customization</h3>
-                            <div class="grid grid-cols-2 gap-3 mb-6">
-                                <button onclick="changeAccent('#0054A6')" class="p-3 rounded-xl border border-blue-500/30 bg-blue-50 dark:bg-blue-900/10 text-blue-600 font-bold text-xs flex items-center justify-center gap-2"><div class="w-3.5 h-3.5 rounded-full bg-[#0054A6]"></div> Ocean Blue</button>
-                                <button onclick="changeAccent('#8b5cf6')" class="p-3 rounded-xl border border-violet-500/30 bg-violet-50 dark:bg-violet-900/10 text-violet-600 font-bold text-xs flex items-center justify-center gap-2"><div class="w-3.5 h-3.5 rounded-full bg-[#8b5cf6]"></div> Royal Violet</button>
-                                <button onclick="changeAccent('#10b981')" class="p-3 rounded-xl border border-emerald-500/30 bg-emerald-50 dark:bg-emerald-900/10 text-emerald-600 font-bold text-xs flex items-center justify-center gap-2"><div class="w-3.5 h-3.5 rounded-full bg-[#10b981]"></div> Emerald Forest</button>
-                                <button onclick="changeAccent('#f43f5e')" class="p-3 rounded-xl border border-rose-500/30 bg-rose-50 dark:bg-rose-900/10 text-rose-600 font-bold text-xs flex items-center justify-center gap-2"><div class="w-3.5 h-3.5 rounded-full bg-[#f43f5e]"></div> Sunset Rose</button>
+                        <div class="modern-card p-6 space-y-6">
+                            <div>
+                                <h3 class="font-black text-lg uppercase text-[var(--text-primary)] mb-4">Custom Live Base URL (For Share Link)</h3>
+                                <input type="text" id="settingBaseUrl" placeholder="https://example.com/portal" class="input-base mb-2" onchange="saveSettingBaseUrl()">
+                                <p class="text-[10px] font-bold text-slate-500 uppercase">Specify the live deployment URL if you are framing this portal. Left blank, the system dynamically resolves current browser origin.</p>
                             </div>
                             
-                            <h3 class="font-black text-lg uppercase text-[var(--text-primary)] mb-6">Security Settings</h3>
-                            <form id="changePinForm" class="space-y-4">
-                                <div>
-                                    <label class="text-xs font-bold text-slate-500 uppercase mb-2 block">New Admin PIN</label>
-                                    <input type="password" id="newAdminPin" required minlength="4" class="input-base">
+                            <div>
+                                <h3 class="font-black text-lg uppercase text-[var(--text-primary)] mb-4">Accent Color Customization</h3>
+                                <div class="grid grid-cols-2 gap-3">
+                                    <button onclick="changeAccent('#0054A6')" class="p-3 rounded-xl border border-blue-500/30 bg-blue-50 dark:bg-blue-900/10 text-blue-600 font-bold text-xs flex items-center justify-center gap-2"><div class="w-3.5 h-3.5 rounded-full bg-[#0054A6]"></div> Ocean Blue</button>
+                                    <button onclick="changeAccent('#8b5cf6')" class="p-3 rounded-xl border border-violet-500/30 bg-violet-50 dark:bg-violet-900/10 text-violet-600 font-bold text-xs flex items-center justify-center gap-2"><div class="w-3.5 h-3.5 rounded-full bg-[#8b5cf6]"></div> Royal Violet</button>
+                                    <button onclick="changeAccent('#10b981')" class="p-3 rounded-xl border border-emerald-500/30 bg-emerald-50 dark:bg-emerald-900/10 text-emerald-600 font-bold text-xs flex items-center justify-center gap-2"><div class="w-3.5 h-3.5 rounded-full bg-[#10b981]"></div> Emerald Forest</button>
+                                    <button onclick="changeAccent('#f43f5e')" class="p-3 rounded-xl border border-rose-500/30 bg-rose-50 dark:bg-rose-900/10 text-rose-600 font-bold text-xs flex items-center justify-center gap-2"><div class="w-3.5 h-3.5 rounded-full bg-[#f43f5e]"></div> Sunset Rose</button>
                                 </div>
-                                <button type="submit" class="w-full bg-sarathy-blue hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition-colors">Update PIN</button>
-                            </form>
+                            </div>
+                            
+                            <div>
+                                <h3 class="font-black text-lg uppercase text-[var(--text-primary)] mb-4">Security Settings</h3>
+                                <form id="changePinForm" class="space-y-4">
+                                    <div>
+                                        <label class="text-xs font-bold text-slate-500 uppercase mb-2 block">New Admin PIN</label>
+                                        <input type="password" id="newAdminPin" required minlength="4" class="input-base">
+                                    </div>
+                                    <button type="submit" class="w-full bg-sarathy-blue hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition-colors">Update PIN</button>
+                                </form>
+                            </div>
                         </div>
                         <div class="modern-card p-6">
                             <h3 class="font-black text-lg uppercase text-[var(--text-primary)] mb-6">Data Management</h3>
@@ -1055,6 +1068,7 @@
                     <button onclick="shareLinkToService('whatsapp')" class="flex-1 py-3 bg-emerald-500 text-white rounded-xl font-bold text-xs flex items-center justify-center gap-2 hover:bg-emerald-600 transition-colors"><i class="fab fa-whatsapp text-lg"></i> WhatsApp</button>
                     <button onclick="shareLinkToService('email')" class="flex-1 py-3 bg-sky-500 text-white rounded-xl font-bold text-xs flex items-center justify-center gap-2 hover:bg-sky-600 transition-colors"><i class="fas fa-envelope text-lg"></i> Email</button>
                 </div>
+                <p class="text-[10px] font-medium text-slate-500 text-center uppercase">If copying automatically is blocked by sandbox, double click inside input and copy manually.</p>
             </div>
         </div>
     </div>
@@ -1369,6 +1383,21 @@
             showToast("Accent Theme Changed!");
         };
 
+        // --- Base URL Config logic to support sandboxed link generation ---
+        const saveSettingBaseUrl = () => {
+            const val = document.getElementById('settingBaseUrl').value.trim();
+            localStorage.setItem('sarathy_setting_base_url', val);
+            showToast("Base Portal URL saved!");
+        };
+
+        const getShareableBaseUrl = () => {
+            const savedUrl = localStorage.getItem('sarathy_setting_base_url');
+            if (savedUrl && savedUrl.trim() !== '') {
+                return savedUrl.trim();
+            }
+            return window.location.origin + window.location.pathname;
+        };
+
         // --- ADVANCED FEATURES ---
         const calculateMatchScore = (candidate) => {
             let score = 0;
@@ -1537,7 +1566,7 @@
             }
         };
 
-        // --- Firebase Integration ---
+        // --- Firebase Integration (RULE 1 Compliance: /artifacts/{appId}/public/data/{collection}) ---
         async function writeToCloud(collectionName, id, data) {
             if (!db || !auth || !auth.currentUser) return;
             try {
@@ -1570,6 +1599,7 @@
                     }
                 }).catch(err => console.error(`Error seeding ${collectionName}:`, err));
 
+                // Strict Realtime Listeners with error callback
                 onSnapshot(colRef, (snapshot) => {
                     const list = [];
                     snapshot.forEach(docSnap => { list.push(docSnap.data()); });
@@ -1598,6 +1628,8 @@
                 auth = getAuth(app);
                 let user = null;
                 const customToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+                
+                // Auth FIRST before Queries (RULE 3 compliance)
                 if (customToken && !isApplyView) {
                     const credentials = await signInWithCustomToken(auth, customToken);
                     user = credentials.user;
@@ -1605,6 +1637,7 @@
                     const credentials = await signInAnonymously(auth);
                     user = credentials.user;
                 }
+                
                 if (user) {
                     if(!isApplyView) setupRealtimeSync();
                 } else {
@@ -1616,6 +1649,11 @@
         }
 
         window.addEventListener('load', () => {
+             // Retrieve setting URL if any
+             const savedSettingUrl = localStorage.getItem('sarathy_setting_base_url');
+             if(savedSettingUrl && document.getElementById('settingBaseUrl')) {
+                 document.getElementById('settingBaseUrl').value = savedSettingUrl;
+             }
              if(localStorage.getItem('theme') === 'dark') toggleDarkMode();
              if (isApplyView) {
                 document.getElementById('loginPage').classList.add('hidden');
@@ -1807,10 +1845,10 @@
         };
         const copyJob = (id) => {
              const j = jobsList.find(x => String(x.id) === String(id)); if(!j) return;
-             const applyLink = window.location.origin + window.location.pathname + '?view=apply&jobId=' + j.id;
+             const applyLink = getShareableBaseUrl() + '?view=apply&jobId=' + j.id;
              const text = `📢 WE ARE HIRING!\n\nRole: ${j.title}\nDept: ${j.dept}\nLocation: ${j.location}\n\nApply securely here: ${applyLink}`;
              
-             // Dynamic safe clipboard execution
+             // Secure fallback clipboard mechanism
              const el = document.createElement('textarea');
              el.value = text;
              document.body.appendChild(el);
@@ -2240,6 +2278,7 @@
                 onboarding: { idCard: false, bank: false, pf: false, training: false }
             };
 
+            // Public applications securely saved directly to strict artifacts collection
             if (db && auth && auth.currentUser) {
                 try {
                     await writeToCloud('candidates', newCandidate.id, newCandidate);
@@ -2259,7 +2298,7 @@
 
         // --- LINK SHARING PORTAL ---
         const openSharePortal = () => {
-            const applyLink = window.location.origin + window.location.pathname + '?view=apply';
+            const applyLink = getShareableBaseUrl() + '?view=apply';
             document.getElementById('shareLinkInput').value = applyLink;
             document.getElementById('sharePortalModal').classList.remove('hidden');
         };
@@ -2290,7 +2329,7 @@
         };
 
         const copyApplicationLink = () => {
-            const applyLink = window.location.origin + window.location.pathname + '?view=apply';
+            const applyLink = getShareableBaseUrl() + '?view=apply';
             const el = document.createElement('textarea'); el.value = applyLink; document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el);
             showToast("Form Link Copied!");
         };
@@ -2754,6 +2793,7 @@
         window.closeSharePortal = closeSharePortal;
         window.copyShareLinkFromModal = copyShareLinkFromModal;
         window.shareLinkToService = shareLinkToService;
+        window.saveSettingBaseUrl = saveSettingBaseUrl;
     </script>
 </body>
 </html>
