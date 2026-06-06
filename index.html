@@ -1,6 +1,4 @@
-<!DOCTYPE html>
-<html lang="en" class="light">
-<head>
+<!DOCTYPE html><html lang="en" class="light"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>SARATHY GROUP - HR PORTAL PRO</title>
@@ -24,11 +22,11 @@
                 extend: {
                     fontFamily: { sans: ['Outfit', 'sans-serif'] },
                     colors: {
-                        sarathy: { 
-                            blue: '#0054A6', 
-                            red: '#E31E24', 
-                            light: '#f8fafc', 
-                            dark: '#0f172a',
+                        sarathy: {
+                             blue: '#0054A6',
+                             red: '#E31E24',
+                             light: '#f8fafc',
+                             dark: '#0f172a',
                             accent: '#3b82f6'
                         }
                     },
@@ -44,54 +42,54 @@
     
     <style>
         :root {
-            --bg-primary: #f8fafc; 
-            --bg-secondary: #ffffff; 
-            --bg-glass: rgba(255, 255, 255, 0.85);
-            --text-primary: #0f172a; 
-            --text-secondary: #64748b; 
-            --border-color: #e2e8f0; 
-            --sidebar-width: 280px;
+            --bg-primary: #f8fafc;
+             --bg-secondary: #ffffff;
+             --bg-glass: rgba(255, 255, 255, 0.85);
+            --text-primary: #0f172a;
+             --text-secondary: #64748b;
+             --border-color: #e2e8f0;
+             --sidebar-width: 280px;
             --accent-main: #0054A6;
             --accent-hover: #004080;
         }
         .dark {
-            --bg-primary: #020617; 
-            --bg-secondary: #0f172a; 
-            --bg-glass: rgba(15, 23, 42, 0.85);
-            --text-primary: #f8fafc; 
-            --text-secondary: #94a3b8; 
-            --border-color: #1e293b;
+            --bg-primary: #020617;
+             --bg-secondary: #0f172a;
+             --bg-glass: rgba(15, 23, 42, 0.85);
+            --text-primary: #f8fafc;
+             --text-secondary: #94a3b8;
+             --border-color: #1e293b;
         }
         
-        body { 
-            font-family: 'Outfit', sans-serif; 
-            background-color: var(--bg-primary); 
-            color: var(--text-primary); 
-            overflow: hidden; 
-            transition: background-color 0.3s, color 0.3s; 
-            -webkit-tap-highlight-color: transparent;
+        body {
+             font-family: 'Outfit', sans-serif;
+             background-color: var(--bg-primary);
+             color: var(--text-primary);
+             overflow: hidden;
+             transition: background-color 0.3s, color 0.3s;
+             -webkit-tap-highlight-color: transparent;
         }
         
-        .glass-panel { 
-            background: var(--bg-glass); 
-            backdrop-filter: blur(20px); 
-            -webkit-backdrop-filter: blur(20px); 
-            border: 1px solid rgba(255,255,255,0.1); 
-        }
+        .glass-panel {
+             background: var(--bg-glass);
+             backdrop-filter: blur(20px);
+             -webkit-backdrop-filter: blur(20px);
+             border: 1px solid rgba(255,255,255,0.1);
+         }
         .dark .glass-panel { border: 1px solid rgba(255,255,255,0.05); }
         
-        .modern-card { 
-            background: var(--bg-secondary); 
-            border-radius: 1.5rem; 
-            border: 1px solid var(--border-color); 
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.01), 0 2px 4px -2px rgba(0, 0, 0, 0.01); 
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
-        }
-        .modern-card:hover { 
-            transform: translateY(-4px); 
-            box-shadow: var(--shadow-hover-card); 
-            border-color: var(--accent-main); 
-        }
+        .modern-card {
+             background: var(--bg-secondary);
+             border-radius: 1.5rem;
+             border: 1px solid var(--border-color);
+             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.01), 0 2px 4px -2px rgba(0, 0, 0, 0.01);
+             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+         }
+        .modern-card:hover {
+             transform: translateY(-4px);
+             box-shadow: var(--shadow-hover-card);
+             border-color: var(--accent-main);
+         }
 
         .input-base {
             width: 100%;
@@ -101,8 +99,8 @@
             background-color: var(--bg-primary);
             color: var(--text-primary);
             font-weight: 500;
-            font-size: 15px; 
-            outline: none;
+            font-size: 15px;
+             outline: none;
             transition: all 0.2s;
             appearance: none;
         }
@@ -125,17 +123,17 @@
         .custom-scroll:hover::-webkit-scrollbar-thumb { background: #94a3b8; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         
-        @keyframes slideUpFade { 
-            from { opacity: 0; transform: translateY(20px) scale(0.98); } 
-            to { opacity: 1; transform: translateY(0) scale(1); } 
-        }
+        @keyframes slideUpFade {
+             from { opacity: 0; transform: translateY(20px) scale(0.98); }
+             to { opacity: 1; transform: translateY(0) scale(1); }
+         }
         .animate-up { animation: slideUpFade 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         
-        .nav-link { 
-            display: flex; align-items: center; gap: 14px; padding: 12px 16px; 
-            border-radius: 12px; color: var(--text-secondary); font-weight: 600; 
-            font-size: 0.95rem; transition: all 0.2s ease; margin-bottom: 4px; 
-            cursor: pointer; position: relative; overflow: hidden;
+        .nav-link {
+             display: flex; align-items: center; gap: 14px; padding: 12px 16px;
+             border-radius: 12px; color: var(--text-secondary); font-weight: 600;
+             font-size: 0.95rem; transition: all 0.2s ease; margin-bottom: 4px;
+             cursor: pointer; position: relative; overflow: hidden;
         }
         .nav-link:hover { background: var(--bg-primary); color: var(--text-primary); }
         .nav-link.active { background: transparent; color: var(--accent-main); }
@@ -882,7 +880,6 @@
                     </div>
                 </div>
             </div>
-
             <button id="floatingBackBtn" onclick="goBack()" class="hidden fixed bottom-6 left-4 md:left-8 bg-white/90 dark:bg-slate-800/90 backdrop-blur-md text-[var(--text-primary)] px-5 py-3 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.2)] border border-[var(--border-color)] rounded-full z-[90] items-center gap-3 font-black text-sm uppercase tracking-widest transition-transform active:scale-95">
                 <span class="w-7 h-7 rounded-full bg-blue-100 dark:bg-blue-900/40 text-sarathy-blue dark:text-blue-400 flex items-center justify-center text-xs"><i class="fas fa-arrow-left"></i></span> BACK
             </button>
@@ -1021,9 +1018,18 @@
                                 <label class="text-xs font-bold text-slate-500 mb-1.5 block">Joining Date</label>
                                 <input type="date" id="joinDate" class="input-base">
                             </div>
+                            
+                            <!-- LEAD REMARKS QUICK ACCESS IN EDIT MODE -->
                             <div class="md:col-span-2">
-                                <label class="text-xs font-bold text-slate-500 mb-1.5 block">HR Remarks</label>
-                                <input type="text" id="empRemarks" class="input-base">
+                                <label class="text-xs font-bold text-slate-500 mb-1.5 block">HR Remarks / Lead Status</label>
+                                <textarea id="empRemarks" rows="2" class="input-base resize-none"></textarea>
+                                <div class="flex flex-wrap gap-2 mt-2">
+                                    <button type="button" onclick="appendRemark('Ringing - No Answer')" class="px-2 py-1 text-[10px] font-bold bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded hover:bg-slate-300 transition-colors">No Answer</button>
+                                    <button type="button" onclick="appendRemark('Not Reachable')" class="px-2 py-1 text-[10px] font-bold bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded hover:bg-slate-300 transition-colors">Not Reachable</button>
+                                    <button type="button" onclick="appendRemark('Call Back Later')" class="px-2 py-1 text-[10px] font-bold bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-400 rounded hover:bg-blue-200 transition-colors">Call Back</button>
+                                    <button type="button" onclick="appendRemark('Not Interested')" class="px-2 py-1 text-[10px] font-bold bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-400 rounded hover:bg-red-200 transition-colors">Not Interested</button>
+                                    <button type="button" onclick="appendRemark('Interested & Shortlisted')" class="px-2 py-1 text-[10px] font-bold bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400 rounded hover:bg-emerald-200 transition-colors">Interested</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1247,18 +1253,18 @@
         import { getAuth, signInWithCustomToken, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, setDoc, getDocs, deleteDoc, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        const CURRENT_DB_VERSION = 'sarathy_db_v15'; 
-        const CURRENT_BUDGET_VERSION = 'sarathy_req_v15'; 
-        const NOTICES_DB_VERSION = 'sarathy_notices_v2';
-        const JOBS_DB_VERSION = 'sarathy_jobs_v2'; 
-        const TRAINING_DB_VERSION = 'sarathy_training_v2'; 
-        const OKR_DB_VERSION = 'sarathy_okr_v2';
+        const CURRENT_DB_VERSION = 'sarathy_db_v15';
+         const CURRENT_BUDGET_VERSION = 'sarathy_req_v15';
+         const NOTICES_DB_VERSION = 'sarathy_notices_v2';
+        const JOBS_DB_VERSION = 'sarathy_jobs_v2';
+         const TRAINING_DB_VERSION = 'sarathy_training_v2';
+         const OKR_DB_VERSION = 'sarathy_okr_v2';
         const LEAVES_DB_VERSION = 'sarathy_leaves_v1';
         
         let localUsers = JSON.parse(localStorage.getItem('sarathy_users_v13'));
         if (!localUsers) { localUsers = [{ user: 'ADMIN', pass: 'SARATHY@26', role: 'Administrator' }]; localStorage.setItem('sarathy_users_v13', JSON.stringify(localUsers)); }
-        let USERS = localUsers; 
-        let currentUser = null;
+        let USERS = localUsers;
+         let currentUser = null;
         
         let joinees = JSON.parse(localStorage.getItem(CURRENT_DB_VERSION)) || [];
         let reqList = JSON.parse(localStorage.getItem(CURRENT_BUDGET_VERSION)) || [{dept: 'SALES', company: 'SARATHY MOTORS', location: 'KOLLAM', target: 5}, {dept: 'SERVICE', company: 'SARATHY BIKES PVT LTD', location: 'TRIVANDRUM', target: 3}];
@@ -1268,12 +1274,12 @@
         let okrList = JSON.parse(localStorage.getItem(OKR_DB_VERSION)) || [];
         let leaveRequests = JSON.parse(localStorage.getItem(LEAVES_DB_VERSION)) || [];
         
-        let currentTab = 'dashboard'; 
-        let tabHistory = []; 
-        let currentView = 'list'; 
-        let activeFilter = 'All'; 
-        let chartStatus, chartSource, chartSourcePie, chartRejection; 
-        let calendarDate = new Date();
+        let currentTab = 'dashboard';
+         let tabHistory = [];
+         let currentView = 'list';
+         let activeFilter = 'All';
+         let chartStatus, chartSource, chartSourcePie, chartRejection;
+         let calendarDate = new Date();
         let draggedCandidateId = null;
 
         const urlParams = new URLSearchParams(window.location.search);
@@ -1356,8 +1362,8 @@
                     img.src = event.target.result;
                     img.onload = () => {
                         const canvas = document.createElement('canvas');
-                        const MAX_WIDTH = 600; 
-                        const scaleSize = MAX_WIDTH / img.width;
+                        const MAX_WIDTH = 600;
+                         const scaleSize = MAX_WIDTH / img.width;
                         canvas.width = MAX_WIDTH;
                         canvas.height = img.height * scaleSize;
                         const ctx = canvas.getContext('2d');
@@ -1408,8 +1414,8 @@
             if(candidate.qualification && (candidate.qualification.includes('MBA') || candidate.qualification.includes('B.TECH') || candidate.qualification.includes('DEGREE') || candidate.qualification.includes('BCA'))) {
                 score += 30;
             }
-            score += (candidate.rating * 6); 
-            return Math.min(score, 100);
+            score += (candidate.rating * 6);
+             return Math.min(score, 100);
         };
 
         const calculateAverageHiringTime = () => {
@@ -1670,17 +1676,17 @@
         // --- Auth Logic ---
         document.getElementById('loginForm')?.addEventListener('submit', (e) => {
             e.preventDefault(); const u = document.getElementById('username')?.value.trim().toUpperCase(); const p = document.getElementById('password')?.value;
-            if(USERS.find(x => x.user === u && x.pass === p) || (u === 'ADMIN' && p === 'SARATHY@26')) { currentUser = USERS[0]; showApp(); } 
-            else { document.getElementById('loginError')?.classList.remove('hidden'); }
+            if(USERS.find(x => x.user === u && x.pass === p) || (u === 'ADMIN' && p === 'SARATHY@26')) { currentUser = USERS[0]; showApp(); }
+             else { document.getElementById('loginError')?.classList.remove('hidden'); }
         });
 
         const showApp = () => {
-            document.getElementById('loginPage')?.classList.add('hidden'); 
-            document.getElementById('appLayout')?.classList.remove('hidden');
-            const userNameDisplay = document.getElementById('userNameDisplay'); 
-            if(userNameDisplay) userNameDisplay.innerText = currentUser?.user || 'ADMIN';
-            const chartMonthFilter = document.getElementById('chartMonthFilter'); 
-            if(chartMonthFilter) chartMonthFilter.value = new Date().toISOString().slice(0, 7);
+            document.getElementById('loginPage')?.classList.add('hidden');
+             document.getElementById('appLayout')?.classList.remove('hidden');
+            const userNameDisplay = document.getElementById('userNameDisplay');
+             if(userNameDisplay) userNameDisplay.innerText = currentUser?.user || 'ADMIN';
+            const chartMonthFilter = document.getElementById('chartMonthFilter');
+             if(chartMonthFilter) chartMonthFilter.value = new Date().toISOString().slice(0, 7);
             if(isAdmin()) { document.getElementById('addBtn')?.classList.remove('hidden'); }
             refreshAllViews();
         };
@@ -1722,6 +1728,28 @@
         
         const updateStarUI = (rating) => { document.querySelectorAll('#starSelector i').forEach(star => { if(parseInt(star.getAttribute('data-rating')) <= rating) { star.classList.remove('text-slate-300'); star.classList.add('text-amber-400'); } else { star.classList.add('text-slate-300'); star.classList.remove('text-amber-400'); } }); };
         document.querySelectorAll('#starSelector i').forEach(star => { star.addEventListener('click', (e) => { const rating = parseInt(e.target.getAttribute('data-rating')); document.getElementById('empRating').value = rating; updateStarUI(rating); }); });
+
+        // --- Quick Remarks Logic ---
+        window.appendRemark = (text) => {
+            const el = document.getElementById('empRemarks');
+            if(el) {
+                const dateStr = new Date().toLocaleDateString('en-GB', {day:'2-digit', month:'short'});
+                const prefix = el.value ? el.value + '\n' : '';
+                el.value = prefix + `[${dateStr}] ${text}`;
+            }
+        };
+
+        window.saveQuickRemark = async (id) => {
+            const idx = joinees.findIndex(x => String(x.id) === String(id));
+            if(idx > -1) {
+                const updatedRemark = document.getElementById(`quickRemarkText-${id}`).value;
+                joinees[idx].remarks = updatedRemark;
+                localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees));
+                await writeToCloud('candidates', joinees[idx].id, joinees[idx]);
+                showToast("Remarks saved successfully!");
+                // Re-render table if needed or just show the toast
+            }
+        };
 
         // --- Render Functions ---
         const renderNotices = () => {
@@ -1825,7 +1853,7 @@
             closeJobModal(); renderJobs(); showToast("Job Campaign Published!");
          });
          
-        const toggleJobStatus = async (id) => {
+         const toggleJobStatus = async (id) => {
              const idx = jobsList.findIndex(j => String(j.id) === String(id));
              if(idx > -1) {
                  jobsList[idx].status = jobsList[idx].status === 'ACTIVE' ? 'CLOSED' : 'ACTIVE';
@@ -2415,6 +2443,23 @@
                 </div>
             `;
 
+            const leadRemarksSection = `
+                <div class="mt-4 p-5 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-[var(--border-color)] no-print">
+                    <h4 class="text-xs font-bold uppercase text-[var(--text-primary)] mb-3 tracking-widest flex items-center gap-2"><i class="fas fa-headset text-blue-500"></i> Lead Follow-up & Remarks</h4>
+                    <textarea id="quickRemarkText-${r.id}" rows="3" class="input-base resize-none text-sm w-full p-3 mb-2">${r.remarks || ''}</textarea>
+                    
+                    <div class="flex flex-wrap gap-2 mb-3">
+                        <button type="button" onclick="document.getElementById('quickRemarkText-${r.id}').value += (document.getElementById('quickRemarkText-${r.id}').value ? '\\n' : '') + '[' + new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short'}) + '] Ringing - No Answer'" class="px-2 py-1 text-[10px] font-bold bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded hover:bg-slate-300 transition-colors">No Answer</button>
+                        <button type="button" onclick="document.getElementById('quickRemarkText-${r.id}').value += (document.getElementById('quickRemarkText-${r.id}').value ? '\\n' : '') + '[' + new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short'}) + '] Not Reachable'" class="px-2 py-1 text-[10px] font-bold bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded hover:bg-slate-300 transition-colors">Not Reachable</button>
+                        <button type="button" onclick="document.getElementById('quickRemarkText-${r.id}').value += (document.getElementById('quickRemarkText-${r.id}').value ? '\\n' : '') + '[' + new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short'}) + '] Call Back Later'" class="px-2 py-1 text-[10px] font-bold bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-400 rounded hover:bg-blue-200 transition-colors">Call Back</button>
+                        <button type="button" onclick="document.getElementById('quickRemarkText-${r.id}').value += (document.getElementById('quickRemarkText-${r.id}').value ? '\\n' : '') + '[' + new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short'}) + '] Not Interested'" class="px-2 py-1 text-[10px] font-bold bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-400 rounded hover:bg-red-200 transition-colors">Not Interested</button>
+                        <button type="button" onclick="document.getElementById('quickRemarkText-${r.id}').value += (document.getElementById('quickRemarkText-${r.id}').value ? '\\n' : '') + '[' + new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short'}) + '] Interested & Shortlisted'" class="px-2 py-1 text-[10px] font-bold bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400 rounded hover:bg-emerald-200 transition-colors">Interested</button>
+                    </div>
+                    
+                    <button onclick="saveQuickRemark(${r.id})" class="w-full py-2.5 bg-[var(--bg-primary)] hover:bg-blue-50 dark:hover:bg-blue-900/20 text-[var(--text-primary)] rounded-lg font-bold text-xs uppercase border border-[var(--border-color)] transition-colors text-sarathy-blue"><i class="fas fa-save mr-1"></i> Save Updated Remarks</button>
+                </div>
+            `;
+
             const docVault = `
                 <div class="mt-4 p-5 bg-amber-50/50 dark:bg-slate-800/50 rounded-2xl border border-amber-100 dark:border-slate-700 no-print">
                     <h4 class="text-xs font-bold uppercase text-amber-600 dark:text-amber-400 mb-3 tracking-widest flex items-center gap-2"><i class="fas fa-folder-open"></i> Document Vault</h4>
@@ -2458,6 +2503,7 @@
                 </div>
                 
                  ${timelineHtml}
+                 ${leadRemarksSection}
                  ${commButtons}
                 ${docVault}
                 
@@ -2712,15 +2758,27 @@
                 let added = 0; const cloudWrites = [];
                 jsonData.forEach((row, idx) => {
                     const phone = String(row['Phone'] || '').replace(/\D/g, '').substring(0, 10);
+                    const remarksData = row['Remarks'] || row['Lead Status'] || 'Imported via Ad Campaign';
                     if (phone.length === 10 && !joinees.some(x => x.phone === phone)) {
-                        const newJoinee = { id: Date.now() + idx, empId: 'SG-' + (joinees.length + 1).toString().padStart(3, '0'), name: (row['Name'] || '').toUpperCase(), phone: phone, dept: (row['Department'] || 'GENERAL').toUpperCase(), company: (row['Company'] || 'SARATHY MOTORS').toUpperCase(), location: (row['Location'] || '').toUpperCase(), status: 'PENDING', onboarding: { idCard: false, bank: false, pf: false, training: false } };
+                        const newJoinee = { 
+                            id: Date.now() + idx, 
+                            empId: 'SG-' + (joinees.length + 1).toString().padStart(3, '0'), 
+                            name: (row['Name'] || '').toUpperCase(), 
+                            phone: phone, 
+                            dept: (row['Department'] || 'GENERAL').toUpperCase(), 
+                            company: (row['Company'] || 'SARATHY MOTORS').toUpperCase(), 
+                            location: (row['Location'] || '').toUpperCase(), 
+                            status: 'PENDING', 
+                            remarks: String(remarksData),
+                            onboarding: { idCard: false, bank: false, pf: false, training: false } 
+                        };
                         joinees.push(newJoinee);
                         cloudWrites.push(writeToCloud('candidates', newJoinee.id, newJoinee));
                         added++;
                     }
                 });
                 await Promise.all(cloudWrites);
-                localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees)); refreshAllViews(); event.target.value = ''; showToast(`Imported ${added} records!`);
+                localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees)); refreshAllViews(); event.target.value = ''; showToast(`Imported ${added} leads!`);
             };
             reader.readAsArrayBuffer(file);
         };
