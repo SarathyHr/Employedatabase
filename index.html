@@ -161,6 +161,15 @@
         .data-table td { padding: 16px 24px; font-size: 0.95rem; border-bottom: 1px solid var(--border-color); vertical-align: middle; color: var(--text-primary); font-weight: 500; }
         .data-table tr:last-child td { border-bottom: none; }
         .data-table tr:hover td { background: var(--bg-primary); }
+
+        /* Excel style table edits */
+        .excel-table-container { background: var(--bg-secondary); border-radius: 1rem; border: 1px solid var(--border-color); overflow-x: auto; max-height: calc(100vh - 240px); }
+        .excel-table { width: 100%; border-collapse: collapse; }
+        .excel-table th { background: var(--bg-primary); color: #64748b; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; text-align: left; padding: 12px 16px; position: sticky; top: 0; z-index: 10; border: 1px solid var(--border-color); }
+        .excel-table td { border: 1px solid var(--border-color); padding: 0; position: relative; }
+        .excel-table input, .excel-table select { width: 100%; height: 100%; padding: 12px 16px; border: none; background: transparent; outline: none; font-size: 0.9rem; font-weight: 500; color: var(--text-primary); }
+        .excel-table input:focus, .excel-table select:focus { background: rgba(59, 130, 246, 0.05); box-shadow: inset 0 0 0 2px #3b82f6; }
+        .dark .excel-table th { color: #94a3b8; border-color: var(--border-color); }
         
         .custom-checkbox { width: 22px; height: 22px; cursor: pointer; accent-color: #0054A6; border-radius: 6px; }
         
@@ -352,14 +361,12 @@
 
     <!-- MAIN APP LAYOUT -->
     <div id="appLayout" class="hidden h-[100dvh] w-full flex bg-[var(--bg-primary)] relative">
-        <!-- Background decorative shapes for colorful feel -->
         <div class="bg-shapes opacity-40">
             <div class="shape-1"></div>
             <div class="shape-2"></div>
             <div class="shape-3"></div>
         </div>
 
-        <!-- Mobile Sidebar Overlay -->
         <div id="mobileOverlay" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-[90] hidden lg:hidden" onclick="toggleSidebar()"></div>
 
         <!-- SIDEBAR -->
@@ -380,7 +387,8 @@
                 <a onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-link active"><i class="fas fa-home w-5 text-center text-lg"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">Overview</span></a>
                 <a onclick="switchTab('candidates')" id="nav-candidates" class="nav-link text-indigo-600 dark:text-indigo-400"><i class="fas fa-user-friends w-5 text-center text-lg"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">Candidates</span></a>
                 <a onclick="switchTab('directory')" id="nav-directory" class="nav-link text-emerald-600 dark:text-emerald-400"><i class="fas fa-address-book w-5 text-center text-lg"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">Directory</span></a>
-                <a onclick="switchTab('onboarding')" id="nav-onboarding" class="nav-link text-teal-600 dark:text-teal-400"><i class="fas fa-tasks w-5 text-center text-lg"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">Onboarding</span></a>
+                <!-- Resume Tracker Added -->
+                <a onclick="switchTab('resumes')" id="nav-resumes" class="nav-link text-teal-600 dark:text-teal-400"><i class="fas fa-file-alt w-5 text-center text-lg"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">Resume Tracker</span></a>
                 
                 <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-6 mb-2 px-3 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">TALENT</div>
                 <a onclick="switchTab('jobs')" id="nav-jobs" class="nav-link text-sky-600 dark:text-sky-400"><i class="fas fa-briefcase w-5 text-center text-lg"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">Job Postings</span></a>
@@ -392,10 +400,8 @@
                 <a onclick="switchTab('analytics')" id="nav-analytics" class="nav-link text-violet-600 dark:text-violet-400"><i class="fas fa-chart-pie w-5 text-center text-lg"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">Analytics</span></a>
                 <a onclick="openReqModal()" class="nav-link text-amber-500 dark:text-amber-400"><i class="fas fa-flag w-5 text-center text-lg"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">Hiring Targets</span></a>
                 
-                <!-- Spacer for bottom items -->
                 <div class="mt-auto flex flex-col gap-1 pt-6 border-t border-[var(--border-color)]">
                     <a onclick="switchTab('settings')" id="nav-settings" class="nav-link text-slate-500"><i class="fas fa-cog w-5 text-center text-lg"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">Settings</span></a>
-                    <!-- NEW: LOGOUT BUTTON IN SIDEBAR -->
                     <a onclick="window.logout()" class="nav-link text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20"><i class="fas fa-sign-out-alt w-5 text-center text-lg"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">Logout</span></a>
                 </div>
             </div>
@@ -421,7 +427,6 @@
                             <p class="text-sm font-black text-[var(--text-primary)] leading-none" id="userNameDisplay">Admin</p>
                         </div>
                     </div>
-                    <!-- NEW: LOGOUT BUTTON IN HEADER -->
                     <button onclick="window.logout()" class="w-10 h-10 rounded-full bg-red-50 dark:bg-red-900/20 text-red-500 hover:bg-red-100 dark:hover:bg-red-900/40 hover:text-red-600 transition-colors border border-red-100 dark:border-red-800 hidden sm:flex items-center justify-center shadow-sm" title="Logout">
                         <i class="fas fa-power-off"></i>
                     </button>
@@ -456,7 +461,6 @@
                         </div>
                     </div>
 
-                    <!-- Key Stats Grid -->
                     <div class="grid grid-cols-2 md:grid-cols-6 gap-3 md:gap-4 animate-up" style="animation-delay: 0.1s;">
                         <div class="modern-card p-4 md:p-6 flex flex-col justify-center relative overflow-hidden group bg-gradient-to-br from-indigo-50 to-blue-100 dark:from-indigo-900/30 dark:to-blue-900/30 border-indigo-200 dark:border-indigo-800">
                             <span class="text-[10px] md:text-xs font-black text-indigo-500 dark:text-indigo-400 uppercase tracking-wider mb-1">Total Apps</span>
@@ -618,27 +622,75 @@
                     <div id="directoryContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 animate-up" style="animation-delay: 0.1s;"></div>
                 </div>
 
-                <!-- TAB 4: ONBOARDING -->
-                <div id="tab-onboarding" class="tab-content p-4 md:p-6 lg:p-8 max-w-[1600px] mx-auto">
+                <!-- TAB: RESUME TRACKER (NEW) -->
+                <div id="tab-resumes" class="tab-content p-4 md:p-6 lg:p-8 max-w-[1600px] mx-auto">
                     <div class="modern-card p-6 mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 animate-up border-t-4 border-t-teal-500">
                         <div>
-                            <h2 class="text-xl font-black uppercase text-[var(--text-primary)]">Onboarding Checklists</h2>
-                            <p class="text-sm text-slate-500">Track joining formalities for new employees.</p>
+                            <h2 class="text-xl font-black uppercase text-[var(--text-primary)]">Resume Tracker</h2>
+                            <p class="text-sm text-slate-500">Manage and view candidate resumes by company.</p>
+                        </div>
+                        <div class="flex flex-col md:flex-row gap-3 w-full md:w-auto">
+                            <select id="resumeFilterCompany" onchange="renderResumes()" class="input-base !py-2 !text-sm">
+                                <option value="ALL">All Companies</option>
+                                <option value="SARATHY MOTORS">Sarathy Motors</option>
+                                <option value="SARATHY BIKES PVT LTD">Sarathy Bikes Pvt Ltd</option>
+                                <option value="SARATHY ELECTRIC BIKES PVT LTD">Sarathy Electric Bikes Pvt Ltd</option>
+                                <option value="SARATHY AUTOCARS">Sarathy Autocars</option>
+                                <option value="SARATHY CARS PVT LTD">Sarathy Cars Pvt Ltd</option>
+                            </select>
+                            <button onclick="openResumeModal()" class="bg-gradient-to-r from-teal-500 to-emerald-600 hover:from-teal-600 hover:to-emerald-700 text-white px-6 py-2 rounded-xl font-bold text-sm shadow-[0_4px_15px_rgba(20,184,166,0.4)] transition-all active:scale-95 whitespace-nowrap"><i class="fas fa-plus mr-2"></i> Add Resume</button>
                         </div>
                     </div>
-                    <div id="onboardingContainer" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 animate-up" style="animation-delay: 0.1s;"></div>
+                    
+                    <div class="data-table-container animate-up" style="animation-delay: 0.1s;">
+                        <table class="data-table min-w-[800px]">
+                            <thead class="bg-teal-50/50 dark:bg-teal-900/20">
+                                <tr>
+                                    <th>Candidate Name</th>
+                                    <th>Gender</th>
+                                    <th>Department</th>
+                                    <th>Company</th>
+                                    <th>Date Added</th>
+                                    <th class="text-right">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="resumeTableBody" class="divide-y divide-[var(--border-color)]">
+                                <!-- Rendered dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
-                <!-- TAB: JOBS -->
+                <!-- TAB: JOBS (EXCEL STYLE EDITABLE) -->
                 <div id="tab-jobs" class="tab-content p-4 md:p-6 lg:p-8 max-w-[1600px] mx-auto">
                     <div class="modern-card p-6 mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 animate-up border-t-4 border-t-sky-500">
                         <div>
-                            <h2 class="text-xl font-black uppercase text-[var(--text-primary)]">Job Postings</h2>
-                            <p class="text-sm text-slate-500">Manage active openings and share links.</p>
+                            <h2 class="text-xl font-black uppercase text-[var(--text-primary)]">Job Postings Manager</h2>
+                            <p class="text-sm text-slate-500">Manage active openings (Excel style preview).</p>
                         </div>
-                        <button onclick="openJobModal()" class="bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-600 hover:to-blue-700 text-white px-6 py-2.5 rounded-xl font-bold text-sm shadow-[0_4px_15px_rgba(56,189,248,0.4)] transition-all active:scale-95 w-full md:w-auto"><i class="fas fa-plus mr-2"></i> Create Job</button>
+                        <div class="flex gap-3 w-full md:w-auto">
+                            <button onclick="openJobModal()" class="bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-white px-6 py-2.5 rounded-xl font-bold text-sm transition-all active:scale-95 border border-[var(--border-color)] flex-1 md:flex-none"><i class="fas fa-plus mr-2"></i> Create Job</button>
+                            <button onclick="saveAllJobsToCloud()" class="bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-600 hover:to-blue-700 text-white px-6 py-2.5 rounded-xl font-bold text-sm shadow-[0_4px_15px_rgba(56,189,248,0.4)] transition-all active:scale-95 flex-1 md:flex-none"><i class="fas fa-save mr-2"></i> Save Changes</button>
+                        </div>
                     </div>
-                    <div id="jobsContainer" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 animate-up" style="animation-delay: 0.1s;"></div>
+                    
+                    <div class="excel-table-container animate-up" style="animation-delay: 0.1s;">
+                        <table class="excel-table min-w-[1100px]">
+                            <thead>
+                                <tr>
+                                    <th style="width: 20%">Job Title</th>
+                                    <th style="width: 15%">Department</th>
+                                    <th style="width: 15%">Location</th>
+                                    <th style="width: 20%">Requirements</th>
+                                    <th style="width: 10%">Duration (Wks)</th>
+                                    <th style="width: 20%">Status & Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="jobsExcelBody">
+                                <!-- Rendered dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
                 <!-- TAB: TRAINING -->
@@ -919,10 +971,55 @@
         </div>
     </div>
 
+    <!-- ADD RESUME MODAL -->
+    <div id="resumeModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-[120] hidden flex items-center justify-center p-4 transition-opacity no-print">
+        <div class="bg-[var(--bg-secondary)] w-full max-w-md rounded-3xl shadow-2xl border border-[var(--border-color)]">
+            <div class="p-6 border-b border-[var(--border-color)] flex justify-between items-center bg-gradient-to-r from-teal-50 to-emerald-50 dark:from-slate-800 dark:to-slate-800/80 rounded-t-3xl">
+                <h3 class="font-black text-lg uppercase text-teal-600 dark:text-teal-400">Add Resume</h3>
+                <button onclick="closeResumeModal()" class="text-slate-400 hover:text-red-500 transition-colors"><i class="fas fa-times text-xl"></i></button>
+            </div>
+            <div class="p-6 overflow-y-auto max-h-[70vh] custom-scroll">
+                <form id="resumeForm" class="space-y-4">
+                    <input type="text" id="resName" required placeholder="Full Name" class="input-base focus:border-teal-500 uppercase">
+                    <select id="resGender" required class="input-base focus:border-teal-500">
+                        <option value="" disabled selected>Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                    <input type="text" id="resDept" required placeholder="Department" class="input-base focus:border-teal-500 uppercase">
+                    <select id="resCompany" required class="input-base focus:border-teal-500">
+                        <option value="" disabled selected>Select Company</option>
+                        <option value="SARATHY MOTORS">Sarathy Motors</option>
+                        <option value="SARATHY BIKES PVT LTD">Sarathy Bikes Pvt Ltd</option>
+                        <option value="SARATHY ELECTRIC BIKES PVT LTD">Sarathy Electric Bikes Pvt Ltd</option>
+                        <option value="SARATHY AUTOCARS">Sarathy Autocars</option>
+                        <option value="SARATHY CARS PVT LTD">Sarathy Cars Pvt Ltd</option>
+                    </select>
+                    <div class="bg-teal-50/50 dark:bg-slate-800/50 p-4 rounded-xl border border-teal-100 dark:border-slate-700 space-y-3 mt-2">
+                        <div>
+                            <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest block mb-2">Upload Resume / Biodata</label>
+                            <input type="file" id="resFile" accept=".pdf,image/*" required class="input-base text-sm py-2">
+                            <p class="text-[9px] font-medium text-slate-400 mt-1">Accepts PDF or Image (Max 800KB recommended)</p>
+                        </div>
+                    </div>
+                    <button type="submit" class="w-full bg-gradient-to-r from-teal-500 to-emerald-600 text-white font-black py-4 rounded-xl uppercase shadow-[0_5px_15px_rgba(20,184,166,0.4)] mt-2 active:scale-95 transition-transform">Save Resume</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <!-- IMAGE VIEWER MODAL -->
     <div id="imageViewerModal" class="fixed inset-0 bg-slate-900/90 backdrop-blur-md z-[300] hidden flex items-center justify-center p-4 transition-opacity no-print" onclick="this.classList.add('hidden')">
         <button class="absolute top-6 right-6 w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full text-white text-xl flex items-center justify-center backdrop-blur-md transition-colors"><i class="fas fa-times"></i></button>
         <img id="viewerImageSrc" src="" class="max-w-full max-h-[90vh] object-contain rounded-xl shadow-2xl border border-white/10" onclick="event.stopPropagation()">
+    </div>
+    
+    <!-- IFRAME VIEWER MODAL (FOR PDF) -->
+    <div id="pdfViewerModal" class="fixed inset-0 bg-slate-900/90 backdrop-blur-md z-[300] hidden flex flex-col items-center justify-center p-4 transition-opacity no-print" onclick="this.classList.add('hidden')">
+        <div class="w-full max-w-4xl flex justify-end mb-2">
+             <button class="w-10 h-10 bg-white/10 hover:bg-white/20 rounded-full text-white text-lg flex items-center justify-center backdrop-blur-md transition-colors"><i class="fas fa-times"></i></button>
+        </div>
+        <iframe id="viewerPdfSrc" src="" class="w-full max-w-4xl h-[80vh] bg-white rounded-xl shadow-2xl border border-white/10" onclick="event.stopPropagation()"></iframe>
     </div>
 
     <!-- JOB MODAL -->
@@ -936,11 +1033,6 @@
                     <input type="text" id="jobLoc" required placeholder="Location" class="input-base uppercase focus:border-sky-500">
                     <textarea id="jobReq" required rows="3" placeholder="Job Requirements..." class="input-base resize-none focus:border-sky-500"></textarea>
                     <div class="bg-sky-50/50 dark:bg-slate-800/50 p-4 rounded-xl border border-sky-100 dark:border-slate-700 space-y-3 mt-2">
-                        <div>
-                            <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest block mb-2">Creative Ad Images</label>
-                            <input type="file" id="jobImages" multiple accept="image/*" class="input-base text-sm py-2">
-                            <p class="text-[9px] font-medium text-slate-400 mt-1">Upload multiple creatives. Will be compressed automatically.</p>
-                        </div>
                         <div>
                             <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest block mb-2">Campaign Duration (Weeks)</label>
                             <input type="number" id="jobDuration" value="2" min="1" max="12" required class="input-base py-2">
@@ -1066,12 +1158,13 @@
         import { getAuth, signInWithCustomToken, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, setDoc, getDocs, deleteDoc, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        const CURRENT_DB_VERSION = 'sarathy_db_v15'; 
-        const CURRENT_BUDGET_VERSION = 'sarathy_req_v15'; 
-        const NOTICES_DB_VERSION = 'sarathy_notices_v2';
-        const JOBS_DB_VERSION = 'sarathy_jobs_v2'; 
-        const TRAINING_DB_VERSION = 'sarathy_training_v2'; 
-        const OKR_DB_VERSION = 'sarathy_okr_v2';
+        const CURRENT_DB_VERSION = 'sarathy_db_v16'; 
+        const CURRENT_BUDGET_VERSION = 'sarathy_req_v16'; 
+        const NOTICES_DB_VERSION = 'sarathy_notices_v3';
+        const JOBS_DB_VERSION = 'sarathy_jobs_v3'; 
+        const TRAINING_DB_VERSION = 'sarathy_training_v3'; 
+        const OKR_DB_VERSION = 'sarathy_okr_v3';
+        const RESUMES_DB_VERSION = 'sarathy_resumes_v1';
         
         let localUsers = JSON.parse(localStorage.getItem('sarathy_users_v13'));
         if (!localUsers) { localUsers = [{ user: 'ADMIN', pass: 'SARATHY@26', role: 'Administrator' }]; localStorage.setItem('sarathy_users_v13', JSON.stringify(localUsers)); }
@@ -1084,6 +1177,7 @@
         let jobsList = JSON.parse(localStorage.getItem(JOBS_DB_VERSION)) || [];
         let trainingList = JSON.parse(localStorage.getItem(TRAINING_DB_VERSION)) || [];
         let okrList = JSON.parse(localStorage.getItem(OKR_DB_VERSION)) || [];
+        let resumesList = JSON.parse(localStorage.getItem(RESUMES_DB_VERSION)) || [];
         
         let currentTab = 'dashboard'; 
         let tabHistory = []; 
@@ -1098,7 +1192,7 @@
 
         let db = null;
         let auth = null;
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'sarathy-hr-portal-v15';
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'sarathy-hr-portal-v16';
 
         // --- Custom Dialog & UI Helpers ---
         let dialogResolve = null;
@@ -1164,24 +1258,13 @@
             setTimeout(() => window.print(), 100); 
         };
 
-        const compressImage = (file) => {
-            return new Promise((resolve) => {
+        // File to Base64 (Useful for images or PDFs for Resume Tracker)
+        const fileToBase64 = (file) => {
+            return new Promise((resolve, reject) => {
                 const reader = new FileReader();
                 reader.readAsDataURL(file);
-                reader.onload = (event) => {
-                    const img = new Image();
-                    img.src = event.target.result;
-                    img.onload = () => {
-                        const canvas = document.createElement('canvas');
-                        const MAX_WIDTH = 600; 
-                        const scaleSize = MAX_WIDTH / img.width;
-                        canvas.width = MAX_WIDTH;
-                        canvas.height = img.height * scaleSize;
-                        const ctx = canvas.getContext('2d');
-                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-                        resolve(canvas.toDataURL('image/jpeg', 0.6));
-                    }
-                };
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = error => reject(error);
             });
         };
 
@@ -1280,6 +1363,7 @@
             syncCollection('jobs', (list) => { jobsList = list; localStorage.setItem(JOBS_DB_VERSION, JSON.stringify(jobsList)); renderJobs(); }, jobsList);
             syncCollection('training', (list) => { trainingList = list; localStorage.setItem(TRAINING_DB_VERSION, JSON.stringify(trainingList)); renderTraining(); }, trainingList);
             syncCollection('okrs', (list) => { okrList = list; localStorage.setItem(OKR_DB_VERSION, JSON.stringify(okrList)); renderOKRs(); }, okrList);
+            syncCollection('resumes', (list) => { resumesList = list; localStorage.setItem(RESUMES_DB_VERSION, JSON.stringify(resumesList)); renderResumes(); }, resumesList);
         }
 
         async function startCloudSync() {
@@ -1353,7 +1437,7 @@
             document.querySelectorAll('.nav-link').forEach(el => { el.classList.remove('active'); if(el.id === `nav-${tab}`) el.classList.add('active'); });
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
             document.getElementById(`tab-${tab}`)?.classList.add('active');
-            const titles = { dashboard: 'HR Overview', candidates: 'Candidates', directory: 'Directory', jobs: 'Job Postings', training: 'Training', okrs: 'Performance', calendar: 'Schedules', analytics: 'Analytics', settings: 'Settings', onboarding: 'Onboarding' };
+            const titles = { dashboard: 'HR Overview', candidates: 'Candidates', directory: 'Directory', jobs: 'Job Postings', training: 'Training', okrs: 'Performance', calendar: 'Schedules', analytics: 'Analytics', settings: 'Settings', resumes: 'Resume Tracker' };
             const pageTitle = document.getElementById('pageTitle'); if(pageTitle) pageTitle.innerText = titles[tab] || 'HR Overview';
             const floatingBackBtn = document.getElementById('floatingBackBtn');
             if (tabHistory.length > 0) {
@@ -1367,7 +1451,7 @@
         const goBack = () => { if (tabHistory.length > 0) switchTab(tabHistory.pop(), true); };
 
         const refreshAllViews = () => {
-             updateLocationFilterOptions(); renderDashboard(); renderTable(); renderOnboarding(); renderDirectory(); renderJobs(); renderTraining(); renderOKRs(); renderCalendar(); checkNotifications();
+             updateLocationFilterOptions(); renderDashboard(); renderTable(); renderDirectory(); renderJobs(); renderTraining(); renderOKRs(); renderCalendar(); renderResumes(); checkNotifications();
             if(currentTab === 'analytics') initCharts();
          };
 
@@ -1466,32 +1550,36 @@
         const closeJobModal = () => document.getElementById('jobModal').classList.add('hidden');
         document.getElementById('jobForm')?.addEventListener('submit', async (e) => {
              e.preventDefault();
-             const files = document.getElementById('jobImages')?.files;
-            let base64Images = [];
-            if(files && files.length > 0) {
-                showToast("Compressing & Saving Ad Images...");
-                for(let i=0; i<files.length; i++) { base64Images.push(await compressImage(files[i])); }
-            }
             const weeks = parseInt(document.getElementById('jobDuration')?.value) || 2;
             const expiry = new Date();
             expiry.setDate(expiry.getDate() + (weeks * 7));
-            const job = { id: Date.now(), title: document.getElementById('jobTitle').value, dept: document.getElementById('jobDept').value, location: document.getElementById('jobLoc').value, reqs: document.getElementById('jobReq').value, images: base64Images, durationWeeks: weeks, expiryDate: expiry.toISOString().slice(0,10), status: 'ACTIVE', date: new Date().toISOString().slice(0,10) };
+            const job = { id: Date.now(), title: document.getElementById('jobTitle').value, dept: document.getElementById('jobDept').value, location: document.getElementById('jobLoc').value, reqs: document.getElementById('jobReq').value, durationWeeks: weeks, expiryDate: expiry.toISOString().slice(0,10), status: 'ACTIVE', date: new Date().toISOString().slice(0,10) };
             jobsList.push(job);
              localStorage.setItem(JOBS_DB_VERSION, JSON.stringify(jobsList));
             await writeToCloud('jobs', job.id, job);
-            closeJobModal(); renderJobs(); showToast("Job Campaign Published!");
+            closeJobModal(); renderJobs(); showToast("Job Published!");
          });
         
-        const toggleJobStatus = async (id) => {
-             const idx = jobsList.findIndex(j => String(j.id) === String(id));
-             if(idx > -1) {
-                 jobsList[idx].status = jobsList[idx].status === 'ACTIVE' ? 'CLOSED' : 'ACTIVE';
-                 localStorage.setItem(JOBS_DB_VERSION, JSON.stringify(jobsList));
-                await writeToCloud('jobs', jobsList[idx].id, jobsList[idx]);
-                renderJobs();
-             }
-         };
-        const deleteJob = async (id) => {
+        // --- Jobs EXCEL Style ---
+        window.updateJobLocal = (id, field, value) => {
+            const idx = jobsList.findIndex(j => String(j.id) === String(id));
+            if(idx > -1) {
+                jobsList[idx][field] = value;
+            }
+        };
+        
+        window.saveAllJobsToCloud = async () => {
+            showToast("Saving all job updates...");
+            localStorage.setItem(JOBS_DB_VERSION, JSON.stringify(jobsList));
+            if (db && auth && auth.currentUser) {
+                const writes = jobsList.map(j => writeToCloud('jobs', j.id, j));
+                await Promise.all(writes);
+            }
+            renderJobs();
+            showToast("Jobs Saved Successfully!", "success");
+        };
+
+        window.deleteJobFromGrid = async (id) => {
              const yes = await showDialogModal('confirm', 'Remove Job', 'Are you sure you want to delete this job posting?');
             if(yes) {
                  await removeFromCloud('jobs', id);
@@ -1500,46 +1588,44 @@
                 renderJobs(); showToast("Job Removed", "error");
              }
         };
+
         const copyJob = (id) => {
-             const j = jobsList.find(x => String(x.id) === String(id)); if(!j) return;
-             const applyLink = window.location.origin + window.location.pathname + '?view=apply&jobId=' + j.id;
+            const j = jobsList.find(x => String(x.id) === String(id)); if(!j) return;
+            const applyLink = window.location.origin + window.location.pathname + '?view=apply&jobId=' + j.id;
             const text = `📢 WE ARE HIRING!\n\nRole: ${j.title}\nDept: ${j.dept}\nLocation: ${j.location}\n\nRequirements:\n${j.reqs}\n\nApply securely here: ${applyLink}`;
-             const el = document.createElement('textarea'); el.value = text; document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el); showToast("Job Campaign Link Copied!");
-         };
+            const el = document.createElement('textarea'); el.value = text; document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el); showToast("Job Campaign Link Copied!");
+        };
+
         const viewJobLeads = (jobId) => {
             switchTab('candidates');
             const searchInput = document.getElementById('searchInput');
             if(searchInput) { searchInput.value = 'JOB-' + jobId; renderTable(); showToast("Showing Leads for Campaign", "success"); }
         };
-        
+
         const renderJobs = () => {
-             const container = document.getElementById('jobsContainer'); if(!container) return;
-             if(jobsList.length === 0) { container.innerHTML = '<div class="col-span-full text-center py-16 opacity-50"><i class="fas fa-briefcase text-4xl mb-3 text-slate-400"></i><p class="text-sm font-bold text-slate-500">No active job postings</p></div>'; return; }
-             container.innerHTML = [...jobsList].sort((a,b)=>b.id-a.id).map(j => {
-                let imagesHtml = '';
-                if(j.images && j.images.length > 0) {
-                    imagesHtml = `<div class="flex gap-3 overflow-x-auto custom-scroll mb-4 pb-2 snap-x">${j.images.map(img => `<img src="${img}" class="h-28 w-auto object-cover rounded-xl border border-[var(--border-color)] snap-center cursor-pointer shadow-sm hover:opacity-80 transition-opacity" onclick="viewAdImage('${img}')">`).join('')}</div>`;
-                }
-                const isExpired = j.status === 'ACTIVE' && j.expiryDate && new Date(j.expiryDate) <= new Date();
-                const expiryBadge = isExpired ? `<span class="text-[10px] font-bold text-red-500 bg-red-50 dark:bg-red-900/20 px-2 py-1 rounded-md"><i class="fas fa-exclamation-triangle"></i> Ad Expired</span>` : (j.expiryDate ? `<span class="text-[10px] font-bold text-slate-500"><i class="fas fa-clock"></i> Exp: ${formatDateString(j.expiryDate)}</span>` : '');
-                return `<div class="modern-card p-6 flex flex-col border-t-4 ${j.status === 'ACTIVE' ? 'border-sky-500' : 'border-slate-300 dark:border-slate-600'}">
-                    <div class="flex justify-between items-start mb-4">
-                        <div class="pr-2">
-                            <h3 class="font-black text-base uppercase leading-tight text-[var(--text-primary)]">${j.title}</h3>
-                            <p class="text-[11px] font-bold text-slate-500 uppercase mt-1">${j.dept} • ${j.location}</p>
-                            <div class="mt-2">${expiryBadge}</div>
+             const tb = document.getElementById('jobsExcelBody'); if(!tb) return;
+             if(jobsList.length === 0) { tb.innerHTML = '<tr><td colspan="6" class="text-center py-10 font-bold text-slate-400">No Job Postings Found. Create one!</td></tr>'; return; }
+             
+             tb.innerHTML = [...jobsList].sort((a,b)=>b.id-a.id).map(j => `
+                <tr>
+                    <td><input type="text" value="${j.title}" onchange="updateJobLocal(${j.id}, 'title', this.value)" placeholder="Title"></td>
+                    <td><input type="text" value="${j.dept}" onchange="updateJobLocal(${j.id}, 'dept', this.value)" class="uppercase" placeholder="Dept"></td>
+                    <td><input type="text" value="${j.location}" onchange="updateJobLocal(${j.id}, 'location', this.value)" class="uppercase" placeholder="Location"></td>
+                    <td><input type="text" value="${j.reqs}" onchange="updateJobLocal(${j.id}, 'reqs', this.value)" placeholder="Requirements"></td>
+                    <td><input type="number" value="${j.durationWeeks}" onchange="updateJobLocal(${j.id}, 'durationWeeks', this.value)" min="1" placeholder="Weeks"></td>
+                    <td>
+                        <div class="flex items-center h-full">
+                            <select onchange="updateJobLocal(${j.id}, 'status', this.value)" class="flex-1 !px-2 !py-3">
+                                <option value="ACTIVE" ${j.status === 'ACTIVE' ? 'selected' : ''}>ACTIVE</option>
+                                <option value="CLOSED" ${j.status === 'CLOSED' ? 'selected' : ''}>CLOSED</option>
+                            </select>
+                            <button onclick="copyJob(${j.id})" class="text-sky-500 hover:text-sky-700 px-3 h-full border-l border-[var(--border-color)] transition-colors" title="Copy Link"><i class="fas fa-link"></i></button>
+                            <button onclick="viewJobLeads(${j.id})" class="text-emerald-500 hover:text-emerald-700 px-3 h-full border-l border-[var(--border-color)] transition-colors" title="View Leads"><i class="fas fa-users"></i></button>
+                            <button onclick="deleteJobFromGrid(${j.id})" class="text-red-400 hover:text-red-600 px-3 h-full border-l border-[var(--border-color)] transition-colors" title="Delete Job"><i class="fas fa-trash-alt"></i></button>
                         </div>
-                        <span class="px-2 py-1 rounded-md text-[10px] font-black uppercase ${j.status === 'ACTIVE' ? 'bg-sky-100 text-sky-700 dark:bg-sky-900/30 dark:text-sky-400' : 'bg-slate-100 text-slate-500 dark:bg-slate-800'} cursor-pointer shrink-0" onclick="toggleJobStatus(${j.id})">${j.status}</span>
-                    </div>
-                    ${imagesHtml}
-                    <p class="text-sm font-medium mb-6 line-clamp-3 text-[var(--text-secondary)] flex-1">${j.reqs}</p>
-                    <div class="flex flex-wrap gap-2 mt-auto">
-                        <button onclick="copyJob(${j.id})" class="flex-1 py-2.5 bg-[var(--bg-primary)] hover:bg-sky-50 dark:hover:bg-sky-900/20 text-[var(--text-primary)] rounded-lg font-bold text-xs uppercase border border-[var(--border-color)] transition-colors"><i class="fas fa-link text-sky-500"></i> Link</button>
-                        <button onclick="viewJobLeads(${j.id})" class="flex-1 py-2.5 bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 rounded-lg font-bold text-xs uppercase border border-emerald-100 dark:border-emerald-900/30 transition-colors"><i class="fas fa-users"></i> Leads</button>
-                        <button onclick="deleteJob(${j.id})" class="w-10 h-10 shrink-0 bg-red-50 dark:bg-red-900/20 text-red-500 rounded-lg flex items-center justify-center hover:bg-red-100 dark:hover:bg-red-900/40 transition-colors"><i class="fas fa-trash-alt"></i></button>
-                    </div>
-                </div>`;
-            }).join('');
+                    </td>
+                </tr>
+             `).join('');
          };
 
         const openTrainingModal = () => { document.getElementById('trainingForm').reset(); document.getElementById('trainEmpId').innerHTML = '<option value="" disabled selected>Select employee</option>' + joinees.filter(x => x.status === 'JOINED').map(e => `<option value="${e.empId}">${e.name}</option>`).join(''); document.getElementById('trainingModal').classList.remove('hidden'); };
@@ -1647,6 +1733,102 @@
                     </div>
                 </div>`).join('');
          };
+
+        // --- RESUME TRACKER ---
+        const openResumeModal = () => { document.getElementById('resumeForm').reset(); document.getElementById('resumeModal').classList.remove('hidden'); };
+        const closeResumeModal = () => document.getElementById('resumeModal').classList.add('hidden');
+        
+        document.getElementById('resumeForm')?.addEventListener('submit', async (e) => {
+             e.preventDefault();
+             const fileInput = document.getElementById('resFile');
+             let fileBase64 = null;
+             
+             if(fileInput.files.length > 0) {
+                 const file = fileInput.files[0];
+                 if(file.size > 1024 * 1024) { // 1MB Check
+                     showToast("File is too large! Max size 1MB.", "error");
+                     return;
+                 }
+                 showToast("Uploading resume...");
+                 fileBase64 = await fileToBase64(file);
+             }
+             
+             const resume = { 
+                 id: Date.now(), 
+                 name: document.getElementById('resName').value.trim().toUpperCase(), 
+                 gender: document.getElementById('resGender').value,
+                 dept: document.getElementById('resDept').value.trim().toUpperCase(),
+                 company: document.getElementById('resCompany').value,
+                 resumeData: fileBase64,
+                 dateAdded: new Date().toISOString()
+             };
+             
+            resumesList.push(resume);
+            localStorage.setItem(RESUMES_DB_VERSION, JSON.stringify(resumesList));
+            await writeToCloud('resumes', resume.id, resume);
+            closeResumeModal(); renderResumes(); showToast("Resume Saved Successfully!");
+        });
+
+        window.viewResumeFile = (id) => {
+            const r = resumesList.find(x => String(x.id) === String(id));
+            if(!r || !r.resumeData) { showToast("No file attached", "error"); return; }
+            
+            if(r.resumeData.startsWith('data:application/pdf')) {
+                document.getElementById('viewerPdfSrc').src = r.resumeData;
+                document.getElementById('pdfViewerModal').classList.remove('hidden');
+            } else if (r.resumeData.startsWith('data:image')) {
+                document.getElementById('viewerImageSrc').src = r.resumeData;
+                document.getElementById('imageViewerModal').classList.remove('hidden');
+            } else {
+                showToast("Unsupported file format.", "error");
+            }
+        };
+
+        window.deleteResume = async (id) => {
+             const yes = await showDialogModal('confirm', 'Delete Resume', 'Are you sure you want to remove this candidate resume?');
+             if(yes) {
+                 await removeFromCloud('resumes', id);
+                resumesList = resumesList.filter(r => String(r.id) !== String(id));
+                 localStorage.setItem(RESUMES_DB_VERSION, JSON.stringify(resumesList));
+                renderResumes(); showToast("Resume deleted", "error");
+             }
+        };
+
+        const renderResumes = () => {
+             const tb = document.getElementById('resumeTableBody'); if(!tb) return;
+             const filterCompany = document.getElementById('resumeFilterCompany')?.value || 'ALL';
+             
+             let filtered = resumesList;
+             if(filterCompany !== 'ALL') {
+                 filtered = resumesList.filter(r => r.company === filterCompany);
+             }
+             
+             if(filtered.length === 0) { 
+                 tb.innerHTML = '<tr><td colspan="6" class="text-center py-10 font-bold text-slate-400">No resumes found for selected company</td></tr>'; 
+                 return; 
+             }
+             
+             tb.innerHTML = [...filtered].sort((a,b)=>b.id-a.id).map(r => `
+                <tr class="hover:bg-[var(--bg-primary)] transition-colors">
+                    <td class="py-3">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full flex items-center justify-center font-black text-sm shrink-0 ${getAvatarColor(r.name)}">${r.name[0]}</div>
+                            <div>
+                                <p class="font-bold text-sm uppercase text-[var(--text-primary)]">${r.name}</p>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="py-3"><span class="text-sm font-medium text-[var(--text-secondary)]">${r.gender}</span></td>
+                    <td class="py-3"><span class="text-sm font-bold uppercase text-[var(--text-primary)]">${r.dept}</span></td>
+                    <td class="py-3"><span class="text-[10px] bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 px-2 py-1 rounded font-bold uppercase tracking-widest">${r.company}</span></td>
+                    <td class="py-3"><span class="text-sm font-medium text-[var(--text-secondary)]">${formatDateString(r.dateAdded.slice(0,10))}</span></td>
+                    <td class="py-3 text-right">
+                        ${r.resumeData ? `<button onclick="viewResumeFile(${r.id})" class="w-8 h-8 rounded-lg bg-teal-50 dark:bg-teal-900/20 text-teal-600 hover:bg-teal-100 dark:hover:bg-teal-900/40 transition-colors mr-2" title="View File"><i class="fas fa-file-pdf"></i></button>` : ''}
+                        <button onclick="deleteResume(${r.id})" class="w-8 h-8 rounded-lg bg-red-50 dark:bg-red-900/20 text-red-500 hover:bg-red-100 dark:hover:bg-red-900/40 transition-colors" title="Delete"><i class="fas fa-trash-alt"></i></button>
+                    </td>
+                </tr>`).join('');
+         };
+
 
         const dragStart = (ev, id) => { draggedCandidateId = id; ev.target.classList.add('dragging'); };
         const allowBoardDrop = (ev) => { ev.preventDefault(); ev.currentTarget.classList.add('drag-over'); };
@@ -1855,7 +2037,7 @@
 
         document.getElementById('joineeForm')?.addEventListener('submit', async (e) => {
             e.preventDefault(); const editIdVal = document.getElementById('editId').value; const currentStatus = document.getElementById('status').value;
-            const data = { id: editIdVal ? parseInt(editIdVal) : Date.now(), empId: document.getElementById('empId').value, name: document.getElementById('empName').value.trim().toUpperCase(), age: document.getElementById('empAge').value, qualification: document.getElementById('empQual').value.trim().toUpperCase(), phone: document.getElementById('empPhone').value, email: document.getElementById('empEmail').value.trim(), source: document.getElementById('empSource').value, dept: document.getElementById('dept').value.trim().toUpperCase(), company: document.getElementById('company').value, status: currentStatus, interviewDate: document.getElementById('interviewDate').value, joinDate: document.getElementById('joinDate').value, experience: parseFloat(document.getElementById('experience').value)||0, location: document.getElementById('location').value.trim().toUpperCase(), designation: document.getElementById('designation').value.trim().toUpperCase(), remarks: document.getElementById('empRemarks').value.trim(), rejectionReason: currentStatus === 'REJECTED' ? document.getElementById('rejectionReason').value : '', rating: parseInt(document.getElementById('empRating').value) || 0, onboarding: editIdVal ? (joinees.find(x=>String(x.id)===String(editIdVal))?.onboarding || { idCard: false, bank: false, pf: false, training: false }) : { idCard: false, bank: false, pf: false, training: false } };
+            const data = { id: editIdVal ? parseInt(editIdVal) : Date.now(), empId: document.getElementById('empId').value, name: document.getElementById('empName').value.trim().toUpperCase(), age: document.getElementById('empAge').value, qualification: document.getElementById('empQual').value.trim().toUpperCase(), phone: document.getElementById('empPhone').value, email: document.getElementById('empEmail').value.trim(), source: document.getElementById('empSource').value, dept: document.getElementById('dept').value.trim().toUpperCase(), company: document.getElementById('company').value, status: currentStatus, interviewDate: document.getElementById('interviewDate').value, joinDate: document.getElementById('joinDate').value, experience: parseFloat(document.getElementById('experience').value)||0, location: document.getElementById('location').value.trim().toUpperCase(), designation: document.getElementById('designation').value.trim().toUpperCase(), remarks: document.getElementById('empRemarks').value.trim(), rejectionReason: currentStatus === 'REJECTED' ? document.getElementById('rejectionReason').value : '', rating: parseInt(document.getElementById('empRating').value) || 0 };
             if(data.status === 'JOINED' && !data.joinDate) { data.joinDate = new Date().toISOString().slice(0, 10); }
             if(editIdVal) {
                  const idx = joinees.findIndex(x => String(x.id) === String(editIdVal));
@@ -1897,8 +2079,7 @@
                 designation: '',
                 remarks: 'Applied Online via Public Form',
                 rejectionReason: '',
-                rating: 0,
-                onboarding: { idCard: false, bank: false, pf: false, training: false }
+                rating: 0
             };
 
             if (db && auth && auth.currentUser) {
@@ -2096,7 +2277,9 @@
                                 <option value="ALL" ${req.company === 'ALL' ? 'selected' : ''}>ALL ENTITIES</option>
                                 <option value="SARATHY MOTORS" ${req.company === 'SARATHY MOTORS' ? 'selected' : ''}>Motors</option>
                                 <option value="SARATHY BIKES PVT LTD" ${req.company === 'SARATHY BIKES PVT LTD' ? 'selected' : ''}>Bikes</option>
+                                <option value="SARATHY ELECTRIC BIKES PVT LTD" ${req.company === 'SARATHY ELECTRIC BIKES PVT LTD' ? 'selected' : ''}>Electric Bikes</option>
                                 <option value="SARATHY AUTOCARS" ${req.company === 'SARATHY AUTOCARS' ? 'selected' : ''}>Autocars</option>
+                                <option value="SARATHY CARS PVT LTD" ${req.company === 'SARATHY CARS PVT LTD' ? 'selected' : ''}>Nexa Cars</option>
                             </select>
                         </div>
                         <div>
@@ -2146,48 +2329,6 @@
                     <p class="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase mt-1 truncate">${c.designation || 'Employee'}</p>
                     <p class="text-[10px] font-medium text-slate-500 uppercase mt-2 truncate"><i class="fas fa-building mr-1"></i> ${c.company}</p>
                 </div>`).join('');
-         };
-
-        const renderOnboarding = () => {
-             const container = document.getElementById('onboardingContainer'); if(!container) return;
-             const joinedCandidates = joinees.filter(x => x.status === 'JOINED');
-             if(joinedCandidates.length === 0) { container.innerHTML = '<div class="col-span-full text-center py-20 text-slate-400">No joined candidates to onboard</div>'; return; }
-             container.innerHTML = joinedCandidates.map(c => {
-                 if(!c.onboarding) c.onboarding = { idCard: false, bank: false, pf: false, training: false };
-                 const tasks = [{ key: 'idCard', label: 'ID Card & Assets' }, { key: 'bank', label: 'Bank Details' }, { key: 'pf', label: 'PF & ESI Reg' }, { key: 'training', label: 'Orientation' }];
-                 const completedCount = tasks.filter(t => c.onboarding[t.key]).length; const perc = (completedCount / tasks.length) * 100;
-                 return `
-                <div class="modern-card p-6">
-                    <div class="flex items-center gap-3 mb-6">
-                        <div class="w-12 h-12 rounded-full flex items-center justify-center font-black text-xl ${getAvatarColor(c.name)}">${c.name[0]}</div>
-                        <div class="flex-1 overflow-hidden cursor-pointer" onclick="viewCandidate(${c.id})">
-                            <h4 class="font-black text-sm uppercase truncate text-[var(--text-primary)] hover:text-sarathy-blue">${c.name}</h4>
-                            <p class="text-[10px] text-slate-500 uppercase truncate">${c.empId} • ${c.dept}</p>
-                        </div>
-                    </div>
-                    <div class="mb-6">
-                        <div class="flex justify-between text-[10px] font-bold text-slate-500 uppercase mb-1"><span>Progress</span><span>${Math.round(perc)}%</span></div>
-                        <div class="w-full h-1.5 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden"><div class="h-full bg-emerald-500 transition-all duration-500" style="width: ${perc}%"></div></div>
-                    </div>
-                    <div class="space-y-3">
-                        ${tasks.map(t => `
-                        <label class="flex items-center gap-3 p-2.5 rounded-xl cursor-pointer hover:bg-[var(--bg-primary)] transition-colors border border-transparent hover:border-[var(--border-color)]">
-                            <input type="checkbox" ${c.onboarding[t.key] ? 'checked' : ''} onchange="toggleOnboardingTask(${c.id}, '${t.key}', this.checked)" class="custom-checkbox !w-5 !h-5 !rounded">
-                            <span class="text-sm font-medium ${c.onboarding[t.key] ? 'line-through text-slate-400' : 'text-[var(--text-primary)]'}">${t.label}</span>
-                        </label>`).join('')}
-                    </div>
-                </div>`;
-             }).join('');
-         };
-        const toggleOnboardingTask = async (id, taskKey, isChecked) => {
-             const idx = joinees.findIndex(x => String(x.id) === String(id));
-             if(idx > -1) {
-                 if(!joinees[idx].onboarding) joinees[idx].onboarding = {};
-                 joinees[idx].onboarding[taskKey] = isChecked;
-                 localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees));
-                 await writeToCloud('candidates', joinees[idx].id, joinees[idx]);
-                renderOnboarding(); if(isChecked) showToast("Task Completed");
-             }
          };
 
         const renderCalendar = () => {
@@ -2257,7 +2398,7 @@
              document.getElementById('dynamicNotifications').innerHTML = notifsHTML !== '' ? notifsHTML : '<p class="text-center text-slate-400 font-medium py-10">No upcoming activities today</p>';
          };
 
-        const exportJSONBackup = () => { const blob = new Blob([JSON.stringify({ candidates: joinees, targets: reqList, jobs: jobsList, training: trainingList, okrs: okrList })], {type: 'application/json'}); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `HR_Backup.json`; a.click(); showToast("Backup Downloaded!"); };
+        const exportJSONBackup = () => { const blob = new Blob([JSON.stringify({ candidates: joinees, targets: reqList, jobs: jobsList, training: trainingList, okrs: okrList, resumes: resumesList })], {type: 'application/json'}); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `HR_Backup.json`; a.click(); showToast("Backup Downloaded!"); };
         const importBackup = (event) => {
             const file = event.target.files[0]; if (!file) return; const reader = new FileReader();
             reader.onload = async (e) => {
@@ -2268,6 +2409,7 @@
                     if (data.jobs) { jobsList = data.jobs; localStorage.setItem(JOBS_DB_VERSION, JSON.stringify(jobsList)); await Promise.all(jobsList.map(j => writeToCloud('jobs', j.id, j))); }
                     if (data.training) { trainingList = data.training; localStorage.setItem(TRAINING_DB_VERSION, JSON.stringify(trainingList)); await Promise.all(trainingList.map(t => writeToCloud('training', t.id, t))); }
                     if (data.okrs) { okrList = data.okrs; localStorage.setItem(OKR_DB_VERSION, JSON.stringify(okrList)); await Promise.all(okrList.map(o => writeToCloud('okrs', o.id, o))); }
+                    if (data.resumes) { resumesList = data.resumes; localStorage.setItem(RESUMES_DB_VERSION, JSON.stringify(resumesList)); await Promise.all(resumesList.map(r => writeToCloud('resumes', r.id, r))); }
                     refreshAllViews(); showToast("Database Restored!");
                 } catch (err) { showToast("Invalid backup file", "error"); }
             };
@@ -2277,7 +2419,7 @@
              const verify = await showDialogModal('prompt', 'System Format', 'This action will wipe out all local data. Type "CONFIRM" below to agree:', 'Type CONFIRM');
             if(verify === "CONFIRM") {
                  if (db && auth && auth.currentUser) {
-                    const collectionsToClear = ['candidates', 'targets', 'notices', 'jobs', 'training', 'okrs'];
+                    const collectionsToClear = ['candidates', 'targets', 'notices', 'jobs', 'training', 'okrs', 'resumes'];
                     for (const colName of collectionsToClear) {
                         try {
                             const qSnap = await getDocs(collection(db, 'artifacts', appId, 'public', 'data', colName));
@@ -2286,8 +2428,8 @@
                         } catch (err) { console.error(`Error deleting cloud collection ${colName}`, err); }
                     }
                 }
-                joinees = []; reqList = []; jobsList = []; trainingList = []; okrList = [];
-                 localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees)); localStorage.setItem(CURRENT_BUDGET_VERSION, JSON.stringify(reqList)); localStorage.setItem(JOBS_DB_VERSION, JSON.stringify(jobsList)); localStorage.setItem(TRAINING_DB_VERSION, JSON.stringify(trainingList)); localStorage.setItem(OKR_DB_VERSION, JSON.stringify(okrList));
+                joinees = []; reqList = []; jobsList = []; trainingList = []; okrList = []; resumesList = [];
+                 localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees)); localStorage.setItem(CURRENT_BUDGET_VERSION, JSON.stringify(reqList)); localStorage.setItem(JOBS_DB_VERSION, JSON.stringify(jobsList)); localStorage.setItem(TRAINING_DB_VERSION, JSON.stringify(trainingList)); localStorage.setItem(OKR_DB_VERSION, JSON.stringify(okrList)); localStorage.setItem(RESUMES_DB_VERSION, JSON.stringify(resumesList));
                  refreshAllViews(); showToast("All system records formatted", "error");
              } else if (verify !== null) { showToast("Verification failed. Data safe.", "error"); }
         };
@@ -2336,8 +2478,6 @@
         window.saveRequirements = saveRequirements;
         window.openJobModal = openJobModal;
         window.closeJobModal = closeJobModal;
-        window.toggleJobStatus = toggleJobStatus;
-        window.deleteJob = deleteJob;
         window.copyJob = copyJob;
         window.viewJobLeads = viewJobLeads;
         window.viewAdImage = viewAdImage;
@@ -2366,9 +2506,11 @@
         window.initCharts = initCharts;
         window.renderTable = renderTable;
         window.renderDirectory = renderDirectory;
-        window.renderOnboarding = renderOnboarding;
         window.generateCommMessage = generateCommMessage;
-        window.toggleOnboardingTask = toggleOnboardingTask;
+        
+        window.openResumeModal = openResumeModal;
+        window.closeResumeModal = closeResumeModal;
+        window.renderResumes = renderResumes;
     </script>
 </body>
 </html>
