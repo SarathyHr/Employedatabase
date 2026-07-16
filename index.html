@@ -6,6 +6,8 @@
     <!-- Scripts & Fonts -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -33,6 +35,7 @@
                     boxShadow: {
                         'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.07)',
                         'color': '0 10px 25px -5px rgba(59, 130, 246, 0.3)',
+                        'premium': '0 4px 20px -2px rgba(0, 0, 0, 0.05), 0 0 3px rgba(0,0,0,0.02)',
                     }
                 }
             }
@@ -84,7 +87,8 @@
          }
         .modern-card:hover {
              transform: translateY(-2px);
-             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+             box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+             --tw-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
          }
 
         .input-base {
@@ -162,15 +166,7 @@
         .data-table tr:last-child td { border-bottom: none; }
         .data-table tr:hover td { background: var(--bg-primary); }
 
-        .excel-table-container { background: var(--bg-secondary); border-radius: 1rem; border: 1px solid var(--border-color); overflow-x: auto; max-height: calc(100vh - 240px); }
-        .excel-table { width: 100%; border-collapse: collapse; min-width: 1200px; }
-        .excel-table th { background: var(--bg-primary); color: #64748b; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; text-align: left; padding: 12px 16px; position: sticky; top: 0; z-index: 10; border: 1px solid var(--border-color); white-space: nowrap; }
-        .excel-table td { border: 1px solid var(--border-color); padding: 0; position: relative; vertical-align: middle; }
-        .excel-table input, .excel-table select { width: 100%; height: 100%; padding: 12px 12px; border: none; background: transparent; outline: none; font-size: 0.85rem; font-weight: 600; color: var(--text-primary); transition: background 0.2s; }
-        .excel-table input:focus, .excel-table select:focus { background: rgba(59, 130, 246, 0.05); }
-        .dark .excel-table th { color: #94a3b8; border-color: var(--border-color); }
-        
-        .custom-checkbox { width: 22px; height: 22px; cursor: pointer; accent-color: #0054A6; border-radius: 6px; }
+        .custom-checkbox { width: 20px; height: 20px; cursor: pointer; accent-color: #0054A6; border-radius: 4px; }
         
         .status-badge { padding: 6px 12px; border-radius: 9999px; font-size: 0.7rem; font-weight: 800; display: inline-flex; align-items: center; justify-content: center; text-transform: uppercase; letter-spacing: 0.05em; }
         .badge-selected { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
@@ -193,6 +189,7 @@
             #printArea, #printArea * { visibility: visible; }
             #printArea { position: absolute; left: 0; top: 0; width: 100%; height: auto; background: white !important; color: black !important; padding: 20px; }
             * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+            .no-print { display: none !important; }
         }
         
         .bg-shapes {
@@ -207,6 +204,15 @@
         .dark .shape-1 { background: radial-gradient(circle, rgba(236,72,153,0.15) 0%, rgba(236,72,153,0) 70%); }
         .dark .shape-2 { background: radial-gradient(circle, rgba(59,130,246,0.15) 0%, rgba(59,130,246,0) 70%); }
         .dark .shape-3 { background: radial-gradient(circle, rgba(168,85,247,0.1) 0%, rgba(168,85,247,0) 70%); }
+
+        /* Leads View Table Overrides */
+        .leads-table th { white-space: nowrap; padding: 12px 16px; font-size: 0.75rem; cursor: pointer; }
+        .leads-table td { padding: 12px 16px; font-size: 0.85rem; }
+        .leads-table th:hover { background: rgba(0,0,0,0.05); }
+        .dark .leads-table th:hover { background: rgba(255,255,255,0.05); }
+        
+        /* Column Visibility Classes */
+        .col-hide { display: none !important; }
     </style></head><body class="antialiased">
     <!-- PRINT AREA -->
     <div id="printArea" class="hidden print:block z-[9999] bg-white text-black"></div>
@@ -383,25 +389,24 @@
 
             <div class="flex flex-col p-4 flex-1 custom-scroll overflow-y-auto overflow-x-hidden pb-24">
                 <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 px-3 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">CORE HR</div>
-                <a onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-link active"><i class="fas fa-home w-5 text-center text-lg"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">Overview</span></a>
-                <a onclick="switchTab('candidates')" id="nav-candidates" class="nav-link text-indigo-600 dark:text-indigo-400"><i class="fas fa-user-friends w-5 text-center text-lg"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">Candidates</span></a>
-                <a onclick="switchTab('directory')" id="nav-directory" class="nav-link text-emerald-600 dark:text-emerald-400"><i class="fas fa-address-book w-5 text-center text-lg"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">Directory</span></a>
-                <!-- Resume Tracker Added -->
-                <a onclick="switchTab('resumes')" id="nav-resumes" class="nav-link text-teal-600 dark:text-teal-400"><i class="fas fa-file-alt w-5 text-center text-lg"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">Resume Tracker</span></a>
+                <a onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-link active"><i data-lucide="layout-dashboard" class="w-5 text-center"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">Overview</span></a>
+                <a onclick="switchTab('candidates')" id="nav-candidates" class="nav-link text-indigo-600 dark:text-indigo-400"><i data-lucide="users" class="w-5 text-center"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">Candidates</span></a>
+                <a onclick="switchTab('directory')" id="nav-directory" class="nav-link text-emerald-600 dark:text-emerald-400"><i data-lucide="book-user" class="w-5 text-center"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">Directory</span></a>
+                <a onclick="switchTab('resumes')" id="nav-resumes" class="nav-link text-teal-600 dark:text-teal-400"><i data-lucide="file-text" class="w-5 text-center"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">Resume Tracker</span></a>
                 
                 <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-6 mb-2 px-3 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">TALENT</div>
-                <a onclick="switchTab('jobs')" id="nav-jobs" class="nav-link text-sky-600 dark:text-sky-400"><i class="fas fa-briefcase w-5 text-center text-lg"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">Job Postings</span></a>
-                <a onclick="switchTab('training')" id="nav-training" class="nav-link text-fuchsia-600 dark:text-fuchsia-400"><i class="fas fa-graduation-cap w-5 text-center text-lg"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">Training Hub</span></a>
-                <a onclick="switchTab('okrs')" id="nav-okrs" class="nav-link text-orange-600 dark:text-orange-400"><i class="fas fa-bullseye w-5 text-center text-lg"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">Performance</span></a>
+                <a onclick="switchTab('jobs')" id="nav-jobs" class="nav-link text-sky-600 dark:text-sky-400"><i data-lucide="megaphone" class="w-5 text-center"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">Leads & Campaigns</span></a>
+                <a onclick="switchTab('training')" id="nav-training" class="nav-link text-fuchsia-600 dark:text-fuchsia-400"><i data-lucide="graduation-cap" class="w-5 text-center"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">Training Hub</span></a>
+                <a onclick="switchTab('okrs')" id="nav-okrs" class="nav-link text-orange-600 dark:text-orange-400"><i data-lucide="target" class="w-5 text-center"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">Performance</span></a>
                 
                 <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-6 mb-2 px-3 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">MANAGEMENT</div>
-                <a onclick="switchTab('calendar')" id="nav-calendar" class="nav-link text-rose-500 dark:text-rose-400"><i class="fas fa-calendar-alt w-5 text-center text-lg"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">Schedules</span></a>
-                <a onclick="switchTab('analytics')" id="nav-analytics" class="nav-link text-violet-600 dark:text-violet-400"><i class="fas fa-chart-pie w-5 text-center text-lg"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">Analytics</span></a>
-                <a onclick="openReqModal()" class="nav-link text-amber-500 dark:text-amber-400"><i class="fas fa-flag w-5 text-center text-lg"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">Hiring Targets</span></a>
+                <a onclick="switchTab('calendar')" id="nav-calendar" class="nav-link text-rose-500 dark:text-rose-400"><i data-lucide="calendar-days" class="w-5 text-center"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">Schedules</span></a>
+                <a onclick="switchTab('analytics')" id="nav-analytics" class="nav-link text-violet-600 dark:text-violet-400"><i data-lucide="pie-chart" class="w-5 text-center"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">Analytics</span></a>
+                <a onclick="openReqModal()" class="nav-link text-amber-500 dark:text-amber-400"><i data-lucide="flag" class="w-5 text-center"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">Hiring Targets</span></a>
                 
                 <div class="mt-auto flex flex-col gap-1 pt-6 border-t border-[var(--border-color)]">
-                    <a onclick="switchTab('settings')" id="nav-settings" class="nav-link text-slate-500"><i class="fas fa-cog w-5 text-center text-lg"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">Settings</span></a>
-                    <a onclick="window.logout()" class="nav-link text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20"><i class="fas fa-sign-out-alt w-5 text-center text-lg"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">Logout</span></a>
+                    <a onclick="switchTab('settings')" id="nav-settings" class="nav-link text-slate-500"><i data-lucide="settings" class="w-5 text-center"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">Settings</span></a>
+                    <a onclick="window.logout()" class="nav-link text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20"><i data-lucide="power" class="w-5 text-center"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">Logout</span></a>
                 </div>
             </div>
         </aside>
@@ -410,24 +415,24 @@
         <main class="flex-1 flex flex-col h-[100dvh] overflow-hidden relative min-w-0 z-10">
             <header class="h-16 lg:h-20 glass-panel flex justify-between items-center px-4 lg:px-8 shrink-0 z-30 sticky top-0 shadow-sm">
                 <div class="flex items-center gap-4">
-                    <button onclick="toggleSidebar()" class="lg:hidden w-10 h-10 rounded-xl bg-white dark:bg-slate-800 flex items-center justify-center shadow-sm border border-[var(--border-color)] text-[var(--text-primary)]"><i class="fas fa-bars"></i></button>
+                    <button onclick="toggleSidebar()" class="lg:hidden w-10 h-10 rounded-xl bg-white dark:bg-slate-800 flex items-center justify-center shadow-sm border border-[var(--border-color)] text-[var(--text-primary)]"><i data-lucide="menu" class="w-5 h-5"></i></button>
                     <h2 id="pageTitle" class="text-lg md:text-xl font-black uppercase tracking-wide text-[var(--text-primary)]">HR Overview</h2>
                 </div>
                 <div class="flex items-center gap-2 md:gap-4 shrink-0">
-                    <button onclick="toggleDarkMode()" class="w-10 h-10 rounded-full bg-white dark:bg-slate-800 shadow-sm border border-[var(--border-color)] text-[var(--text-secondary)] hover:text-sarathy-blue transition-colors"><i id="darkModeIcon" class="fas fa-moon"></i></button>
-                    <button onclick="toggleNotifications()" class="w-10 h-10 rounded-full bg-white dark:bg-slate-800 shadow-sm border border-[var(--border-color)] text-[var(--text-secondary)] hover:text-sarathy-blue transition-colors relative">
-                        <i class="fas fa-bell"></i>
+                    <button onclick="toggleDarkMode()" class="w-10 h-10 rounded-full bg-white dark:bg-slate-800 shadow-sm border border-[var(--border-color)] text-[var(--text-secondary)] hover:text-sarathy-blue transition-colors flex items-center justify-center"><i id="darkModeIcon" data-lucide="moon" class="w-5 h-5"></i></button>
+                    <button onclick="toggleNotifications()" class="w-10 h-10 rounded-full bg-white dark:bg-slate-800 shadow-sm border border-[var(--border-color)] text-[var(--text-secondary)] hover:text-sarathy-blue transition-colors relative flex items-center justify-center">
+                        <i data-lucide="bell" class="w-5 h-5"></i>
                         <span id="notificationBadge" class="hidden absolute top-0 right-0 w-3 h-3 rounded-full bg-red-500 border-2 border-white dark:border-slate-800"></span>
                     </button>
                     <div class="h-8 w-px bg-[var(--border-color)] mx-1 hidden sm:block"></div>
                     <div class="flex items-center gap-3 pl-1 pr-3 py-1 rounded-full cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" onclick="switchTab('settings')">
-                        <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-violet-500 to-fuchsia-500 text-white flex items-center justify-center font-bold text-sm shadow-sm"><i class="fas fa-user"></i></div>
+                        <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-violet-500 to-fuchsia-500 text-white flex items-center justify-center font-bold text-sm shadow-sm"><i data-lucide="user" class="w-4 h-4"></i></div>
                         <div class="hidden sm:block text-left">
                             <p class="text-sm font-black text-[var(--text-primary)] leading-none" id="userNameDisplay">Admin</p>
                         </div>
                     </div>
                     <button onclick="window.logout()" class="w-10 h-10 rounded-full bg-red-50 dark:bg-red-900/20 text-red-500 hover:bg-red-100 dark:hover:bg-red-900/40 hover:text-red-600 transition-colors border border-red-100 dark:border-red-800 hidden sm:flex items-center justify-center shadow-sm" title="Logout">
-                        <i class="fas fa-power-off"></i>
+                        <i data-lucide="power" class="w-5 h-5"></i>
                     </button>
                 </div>
             </header>
@@ -621,7 +626,7 @@
                     <div id="directoryContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 animate-up" style="animation-delay: 0.1s;"></div>
                 </div>
 
-                <!-- TAB: RESUME TRACKER (NEW) -->
+                <!-- TAB: RESUME TRACKER -->
                 <div id="tab-resumes" class="tab-content p-4 md:p-6 lg:p-8 max-w-[1600px] mx-auto">
                     <div class="modern-card p-6 mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 animate-up border-t-4 border-t-teal-500">
                         <div>
@@ -637,7 +642,7 @@
                                 <option value="SARATHY AUTOCARS">Sarathy Autocars</option>
                                 <option value="SARATHY CARS PVT LTD">Sarathy Cars Pvt Ltd</option>
                             </select>
-                            <button onclick="openResumeModal()" class="bg-gradient-to-r from-teal-500 to-emerald-600 hover:from-teal-600 hover:to-emerald-700 text-white px-6 py-2 rounded-xl font-bold text-sm shadow-[0_4px_15px_rgba(20,184,166,0.4)] transition-all active:scale-95 whitespace-nowrap"><i class="fas fa-plus mr-2"></i> Add Resume</button>
+                            <button onclick="openResumeModal()" class="bg-gradient-to-r from-teal-500 to-emerald-600 hover:from-teal-600 hover:to-emerald-700 text-white px-6 py-2 rounded-xl font-bold text-sm shadow-[0_4px_15px_rgba(20,184,166,0.4)] transition-all active:scale-95 whitespace-nowrap flex items-center justify-center gap-2"><i data-lucide="plus-circle" class="w-4 h-4"></i> Add Resume</button>
                         </div>
                     </div>
                     
@@ -660,48 +665,178 @@
                     </div>
                 </div>
 
-                <!-- TAB: JOBS (EXCEL STYLE EDITABLE) -->
+                <!-- TAB: JOBS (LEADS & SOCIAL CAMPAIGNS - PREMIUM VIEW) -->
                 <div id="tab-jobs" class="tab-content p-4 md:p-6 lg:p-8 max-w-[1600px] mx-auto">
-                    <div class="modern-card p-6 mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 animate-up border-t-4 border-t-sky-500">
-                        <div>
-                            <h2 class="text-xl font-black uppercase text-[var(--text-primary)]">Leads & Social Campaigns</h2>
-                            <p class="text-sm text-slate-500">Publish campaign ads and view/manage candidate leads for each job post campaign.</p>
+                    <!-- MAIN CAMPAIGNS VIEW -->
+                    <div id="jobsMainView">
+                        <div class="modern-card p-6 md:p-8 mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 animate-up border-t-4 border-t-sky-500 shadow-premium">
+                            <div>
+                                <h2 class="text-2xl font-black uppercase text-[var(--text-primary)] flex items-center gap-3">
+                                    <i data-lucide="megaphone" class="text-sky-500 w-8 h-8"></i> Leads & Social Campaigns
+                                </h2>
+                                <p class="text-sm font-medium text-slate-500 mt-1">Publish campaign ads and view/manage candidate leads for each job post campaign.</p>
+                            </div>
+                            <button onclick="openJobModal()" class="bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-600 hover:to-blue-700 text-white px-8 py-3 rounded-xl font-black text-sm shadow-[0_4px_15px_rgba(56,189,248,0.4)] transition-all active:scale-95 flex items-center justify-center gap-2 w-full md:w-auto uppercase tracking-wide">
+                                <i data-lucide="plus" class="w-5 h-5"></i> Create Ads
+                            </button>
                         </div>
-                        <div class="flex gap-3 w-full md:w-auto">
-                            <button onclick="openJobModal()" class="bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-600 hover:to-blue-700 text-white px-6 py-2.5 rounded-xl font-bold text-sm shadow-[0_4px_15px_rgba(56,189,248,0.4)] transition-all active:scale-95 flex-1 md:flex-none"><i class="fas fa-plus mr-2"></i> Create Ads</button>
-                            <button onclick="saveAllJobsToCloud()" class="bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-white px-6 py-2.5 rounded-xl font-bold text-sm transition-all active:scale-95 border border-[var(--border-color)] flex-1 md:flex-none"><i class="fas fa-save mr-2"></i> Save Changes</button>
+
+                        <div class="flex flex-col md:flex-row justify-between items-center gap-4 mb-6 animate-up" style="animation-delay: 0.1s;">
+                            <div class="flex items-center gap-3">
+                                <h3 class="font-black text-base uppercase text-[var(--text-primary)] flex items-center gap-2">
+                                    <i data-lucide="layers" class="w-5 h-5 text-indigo-500"></i> Published Ads
+                                </h3>
+                                <span id="jobCountBadge" class="bg-indigo-100 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-300 font-black text-sm px-3 py-0.5 rounded-full">0</span>
+                            </div>
+                            <div class="flex items-center gap-3 w-full md:w-auto bg-[var(--bg-secondary)] border border-[var(--border-color)] px-4 py-2 rounded-xl shadow-sm">
+                                <i data-lucide="calendar" class="w-4 h-4 text-slate-400"></i>
+                                <label class="text-xs font-bold text-slate-500 uppercase shrink-0 tracking-widest">Filter Month:</label>
+                                <input type="month" id="jobMonthFilter" onchange="renderJobs()" class="bg-transparent border-none outline-none text-sm font-bold text-[var(--text-primary)] w-full md:w-auto cursor-pointer">
+                                <button onclick="document.getElementById('jobMonthFilter').value=''; renderJobs();" class="text-slate-400 hover:text-red-500 shrink-0 text-xs font-bold transition-colors ml-2" title="Clear Filter">
+                                    <i data-lucide="x-circle" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div id="jobsCardsContainer" class="space-y-6 animate-up" style="animation-delay: 0.2s;">
+                            <!-- Premium Cards Rendered Here -->
                         </div>
                     </div>
 
-                    <div class="flex flex-col md:flex-row justify-between items-center gap-4 mb-4 animate-up" style="animation-delay: 0.1s;">
-                        <div class="flex items-center gap-2">
-                             <h3 class="font-black text-sm uppercase text-slate-500"><i class="fas fa-image mr-1"></i> Published Ads</h3>
-                             <span id="jobCountBadge" class="bg-sky-100 text-sky-600 dark:bg-sky-900/30 dark:text-sky-400 font-black text-xs px-2 py-0.5 rounded-full">0</span>
+                    <!-- DEDICATED LEADS VIEW -->
+                    <div id="campaignLeadsView" class="hidden animate-up">
+                        <div class="mb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                            <div>
+                                <button onclick="backToCampaigns()" class="text-sm font-bold text-slate-500 hover:text-sky-600 transition-colors flex items-center gap-2 mb-2">
+                                    <i data-lucide="arrow-left" class="w-4 h-4"></i> Back to Campaigns
+                                </button>
+                                <h2 class="text-2xl font-black uppercase text-[var(--text-primary)] flex items-center gap-3">
+                                    <i data-lucide="users" class="text-sky-500 w-8 h-8"></i> Campaign Leads
+                                </h2>
+                                <p class="text-sm font-medium text-slate-500 mt-1" id="activeCampaignTitle">Showing leads for Job Campaign</p>
+                            </div>
                         </div>
-                        <div class="flex items-center gap-3 w-full md:w-auto">
-                            <label class="text-xs font-bold text-slate-500 uppercase shrink-0">Filter Month:</label>
-                            <input type="month" id="jobMonthFilter" onchange="renderJobs()" class="input-base !py-1.5 !px-3 !text-sm w-full md:w-auto">
-                            <button onclick="document.getElementById('jobMonthFilter').value=''; renderJobs();" class="text-slate-400 hover:text-red-500 shrink-0 text-xs font-bold transition-colors"><i class="fas fa-times-circle"></i> Clear</button>
+
+                        <div class="modern-card p-4 md:p-6 mb-6 shadow-premium border-t-4 border-t-indigo-500">
+                            <!-- Advanced Toolbar -->
+                            <div class="flex flex-col xl:flex-row justify-between gap-4 mb-6">
+                                <div class="flex-1 flex flex-col sm:flex-row gap-3">
+                                    <div class="relative flex-1">
+                                        <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4"></i>
+                                        <input type="text" id="leadSearch" onkeyup="renderCampaignLeads()" placeholder="Search candidates, phone, skills..." class="input-base !py-2.5 pl-11 text-sm">
+                                    </div>
+                                    <div class="flex gap-2 overflow-x-auto no-scrollbar pb-1 sm:pb-0">
+                                        <input type="month" id="leadMonthFilter" onchange="renderCampaignLeads()" class="input-base !py-2.5 !w-auto text-sm cursor-pointer" title="Filter by Date">
+                                        <select id="leadStatusFilter" onchange="renderCampaignLeads()" class="input-base !py-2.5 !w-auto text-sm cursor-pointer">
+                                            <option value="ALL">All Status</option>
+                                            <option value="PENDING">Pending</option>
+                                            <option value="SELECTED">Selected</option>
+                                            <option value="JOINED">Joined</option>
+                                            <option value="REJECTED">Rejected</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex flex-wrap items-center gap-2 shrink-0">
+                                    <!-- Import -->
+                                    <div class="flex gap-1 bg-indigo-50 dark:bg-indigo-900/20 p-1 rounded-xl border border-indigo-100 dark:border-indigo-900/30">
+                                        <button onclick="downloadLeadsTemplate()" class="px-3 py-2 rounded-lg text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:bg-white dark:hover:bg-slate-800 transition-colors flex items-center gap-2" title="Download Excel Template">
+                                            <i data-lucide="download-cloud" class="w-4 h-4"></i> <span class="hidden sm:inline">Template</span>
+                                        </button>
+                                        <button onclick="document.getElementById('importLeadsExcel').click()" class="px-3 py-2 rounded-lg text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:bg-white dark:hover:bg-slate-800 transition-colors flex items-center gap-2" title="Import from Excel">
+                                            <i data-lucide="upload-cloud" class="w-4 h-4"></i> <span class="hidden sm:inline">Import</span>
+                                        </button>
+                                        <input type="file" id="importLeadsExcel" accept=".xlsx, .xls, .csv" class="hidden" onchange="handleLeadsImport(event)">
+                                    </div>
+
+                                    <!-- Export & Tools -->
+                                    <div class="flex gap-1 bg-slate-50 dark:bg-slate-800 p-1 rounded-xl border border-[var(--border-color)]">
+                                        <button onclick="exportLeadsExcel()" class="px-3 py-2 rounded-lg text-xs font-bold text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-colors flex items-center gap-2" title="Export to Excel">
+                                            <i data-lucide="file-spreadsheet" class="w-4 h-4"></i>
+                                        </button>
+                                        <button onclick="exportLeadsPDF()" class="px-3 py-2 rounded-lg text-xs font-bold text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-900/20 transition-colors flex items-center gap-2" title="Export to PDF">
+                                            <i data-lucide="file-text" class="w-4 h-4"></i>
+                                        </button>
+                                        <button onclick="printNative('leadsTableContainer')" class="px-3 py-2 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors flex items-center gap-2" title="Print Leads">
+                                            <i data-lucide="printer" class="w-4 h-4"></i>
+                                        </button>
+                                        <button onclick="renderCampaignLeads()" class="px-3 py-2 rounded-lg text-xs font-bold text-sky-600 hover:bg-sky-50 dark:hover:bg-sky-900/20 transition-colors flex items-center gap-2" title="Refresh">
+                                            <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+                                        </button>
+                                    </div>
+                                    
+                                    <!-- Column Toggle -->
+                                    <div class="relative">
+                                        <button onclick="document.getElementById('colDropdown').classList.toggle('hidden')" class="px-4 py-2.5 rounded-xl text-xs font-bold bg-[var(--bg-primary)] border border-[var(--border-color)] hover:border-slate-400 transition-colors flex items-center gap-2 text-[var(--text-primary)]">
+                                            <i data-lucide="columns" class="w-4 h-4"></i> Columns
+                                        </button>
+                                        <div id="colDropdown" class="hidden absolute right-0 top-full mt-2 w-48 bg-white dark:bg-slate-800 rounded-xl shadow-xl border border-slate-200 dark:border-slate-700 z-50 p-3 space-y-2">
+                                            <!-- Toggles populated via JS -->
+                                            <div class="text-[10px] font-black uppercase text-slate-400 mb-2 border-b border-slate-100 dark:border-slate-700 pb-1">Toggle Columns</div>
+                                            <label class="flex items-center gap-2 text-xs font-bold text-slate-600 dark:text-slate-300 cursor-pointer"><input type="checkbox" checked onchange="toggleCol('col-age', this.checked)" class="custom-checkbox !w-4 !h-4"> Age</label>
+                                            <label class="flex items-center gap-2 text-xs font-bold text-slate-600 dark:text-slate-300 cursor-pointer"><input type="checkbox" checked onchange="toggleCol('col-qual', this.checked)" class="custom-checkbox !w-4 !h-4"> Qualification</label>
+                                            <label class="flex items-center gap-2 text-xs font-bold text-slate-600 dark:text-slate-300 cursor-pointer"><input type="checkbox" checked onchange="toggleCol('col-exp', this.checked)" class="custom-checkbox !w-4 !h-4"> Experience</label>
+                                            <label class="flex items-center gap-2 text-xs font-bold text-slate-600 dark:text-slate-300 cursor-pointer"><input type="checkbox" checked onchange="toggleCol('col-score', this.checked)" class="custom-checkbox !w-4 !h-4"> AI Score</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Bulk Actions Bar (Hidden by default) -->
+                            <div id="bulkActionBar" class="hidden bg-indigo-50 dark:bg-indigo-900/30 border border-indigo-200 dark:border-indigo-800 rounded-xl p-3 mb-4 flex items-center justify-between transition-all">
+                                <span class="text-sm font-black text-indigo-700 dark:text-indigo-400"><span id="selectedLeadsCount">0</span> Leads Selected</span>
+                                <div class="flex items-center gap-3">
+                                    <select id="bulkStatusSelect" class="input-base !py-1.5 !px-3 !w-auto text-xs font-bold text-indigo-600 dark:text-indigo-300 bg-white dark:bg-slate-800">
+                                        <option value="" disabled selected>Change Status...</option>
+                                        <option value="SELECTED">Mark Selected</option>
+                                        <option value="JOINED">Mark Joined</option>
+                                        <option value="REJECTED">Mark Rejected</option>
+                                    </select>
+                                    <button onclick="bulkUpdateLeadStatus()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-1.5 rounded-lg text-xs font-bold shadow-sm transition-colors">Apply</button>
+                                    <div class="w-px h-6 bg-indigo-200 dark:bg-indigo-800 mx-1"></div>
+                                    <button onclick="bulkDeleteLeads()" class="bg-white dark:bg-slate-800 hover:bg-red-50 text-red-500 px-4 py-1.5 rounded-lg text-xs font-bold border border-red-200 transition-colors flex items-center gap-2"><i data-lucide="trash-2" class="w-3 h-3"></i> Delete</button>
+                                </div>
+                            </div>
+
+                            <!-- Dedicated Leads Table -->
+                            <div id="leadsTableContainer" class="excel-table-container">
+                                <table class="excel-table leads-table" id="leadsTable">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 40px;" class="text-center no-print">
+                                                <input type="checkbox" id="selectAllLeads" onchange="toggleAllLeads(this)" class="custom-checkbox !w-4 !h-4 mx-auto">
+                                            </th>
+                                            <th style="width: 60px;">S.No</th>
+                                            <th onclick="sortLeads('date')" class="hover:text-indigo-500 cursor-pointer">Date <i class="fas fa-sort text-[10px] ml-1"></i></th>
+                                            <th onclick="sortLeads('name')" class="hover:text-indigo-500 cursor-pointer">Candidate Name <i class="fas fa-sort text-[10px] ml-1"></i></th>
+                                            <th class="col-age">Age</th>
+                                            <th class="col-qual">Qualification</th>
+                                            <th>Contact Number</th>
+                                            <th>Post Applied</th>
+                                            <th class="col-exp text-center">Exp. (Yrs)</th>
+                                            <th class="col-score text-center">AI Score</th>
+                                            <th>Remarks</th>
+                                            <th>Status</th>
+                                            <th class="text-center no-print">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="campaignLeadsBody" class="bg-[var(--bg-secondary)]">
+                                        <!-- Rendered dynamically -->
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <!-- Pagination -->
+                            <div class="flex justify-between items-center mt-4">
+                                <div class="text-xs font-bold text-slate-500">
+                                    Showing <span id="pageStartItem">0</span> to <span id="pageEndItem">0</span> of <span id="totalLeadsItem">0</span> entries
+                                </div>
+                                <div class="flex gap-1" id="leadsPagination">
+                                    <!-- Pagination buttons -->
+                                </div>
+                            </div>
+
                         </div>
-                    </div>
-                    
-                    <div class="excel-table-container animate-up" style="animation-delay: 0.2s;">
-                        <table class="excel-table min-w-[1200px]">
-                            <thead>
-                                <tr>
-                                    <th style="width: 80px; text-align: center;">Ad Preview</th>
-                                    <th style="width: 15%">Company</th>
-                                    <th style="width: 20%">Job Title</th>
-                                    <th style="width: 15%">Department & Location</th>
-                                    <th style="width: 10%">Posting Date</th>
-                                    <th style="width: 10%">Status</th>
-                                    <th style="width: 25%">Leads & Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="jobsExcelBody">
-                                <!-- Rendered dynamically -->
-                            </tbody>
-                        </table>
                     </div>
                 </div>
 
@@ -1034,38 +1169,113 @@
         <iframe id="viewerPdfSrc" src="" class="w-full max-w-4xl h-[80vh] bg-white rounded-xl shadow-2xl border border-white/10" onclick="event.stopPropagation()"></iframe>
     </div>
 
-    <!-- JOB MODAL (UPDATED FOR NEW EXCEL VIEW) -->
-    <div id="jobModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-[120] hidden flex items-center justify-center p-4 transition-opacity no-print">
-        <div class="bg-[var(--bg-secondary)] w-full max-w-md rounded-3xl shadow-2xl border border-[var(--border-color)]">
-            <div class="p-6 border-b border-[var(--border-color)] flex justify-between items-center bg-gradient-to-r from-sky-50 to-blue-50 dark:from-slate-800 dark:to-slate-800/80 rounded-t-3xl"><h3 class="font-black text-lg uppercase text-sky-600 dark:text-sky-400">Post a Job</h3><button onclick="closeJobModal()" class="text-slate-400 hover:text-red-500 transition-colors"><i class="fas fa-times text-xl"></i></button></div>
-            <div class="p-6 overflow-y-auto max-h-[70vh] custom-scroll">
-                <form id="jobForm" class="space-y-4">
-                    <select id="jobCompany" required class="input-base focus:border-sky-500 text-sm">
-                         <option value="" disabled selected>Select Company</option>
-                         <option value="SARATHY MOTORS">Sarathy Motors</option>
-                         <option value="SARATHY BIKES PVT LTD">Sarathy Bikes</option>
-                         <option value="SARATHY ELECTRIC BIKES PVT LTD">Electric Bikes</option>
-                         <option value="SARATHY AUTOCARS">Sarathy Autocars</option>
-                         <option value="SARATHY CARS PVT LTD">Sarathy Cars</option>
-                    </select>
-                    <input type="text" id="jobTitle" required placeholder="Job Title (e.g. Sales Executive)" class="input-base focus:border-sky-500 uppercase text-sm">
-                    <input type="text" id="jobDept" required placeholder="Department" class="input-base uppercase focus:border-sky-500 text-sm">
-                    <input type="text" id="jobLoc" required placeholder="Location" class="input-base uppercase focus:border-sky-500 text-sm">
-                    <textarea id="jobReq" required rows="2" placeholder="Keywords / Short Requirements..." class="input-base resize-none focus:border-sky-500 uppercase text-sm"></textarea>
+    <!-- JOB POSTING / CAMPAIGN MODAL (UPDATED WITH MORE FIELDS) -->
+    <div id="jobModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[220] hidden flex justify-end transition-opacity duration-300 no-print">
+        <div id="jobModalContent" class="bg-[var(--bg-secondary)] w-full md:w-[650px] h-full shadow-2xl flex flex-col transform translate-x-full transition-transform duration-300 border-l border-[var(--border-color)]">
+            <div class="h-16 md:h-20 px-6 border-b border-[var(--border-color)] flex justify-between items-center shrink-0 bg-gradient-to-r from-sky-50 to-indigo-50 dark:from-slate-800 dark:to-slate-900">
+                <h2 class="text-lg font-black uppercase text-indigo-700 dark:text-indigo-400 flex items-center gap-2"><i data-lucide="megaphone" class="w-5 h-5"></i> Campaign Setup</h2>
+                <button type="button" onclick="closeJobModal()" class="w-10 h-10 rounded-full bg-white dark:bg-slate-700 text-slate-500 hover:text-red-500 shadow-sm border border-[var(--border-color)] flex items-center justify-center transition-colors"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+            
+            <div class="flex-1 overflow-y-auto custom-scroll p-6">
+                <form id="jobForm" class="space-y-6">
+                    <input type="hidden" id="editJobId">
                     
-                    <div class="bg-sky-50/50 dark:bg-slate-800/50 p-4 rounded-xl border border-sky-100 dark:border-slate-700 space-y-3 mt-2">
-                        <div>
-                            <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest block mb-2">Creative Ad Image</label>
-                            <input type="file" id="jobImage" accept="image/*" class="input-base text-sm py-2">
-                            <p class="text-[9px] font-medium text-slate-400 mt-1">Upload the campaign creative (Poster).</p>
-                        </div>
-                        <div>
-                            <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest block mb-2">Campaign Duration (Weeks)</label>
-                            <input type="number" id="jobDuration" value="4" min="1" max="12" required class="input-base py-2 text-sm">
+                    <div class="bg-indigo-50/50 dark:bg-slate-800/50 p-5 rounded-2xl border border-indigo-100 dark:border-slate-700 space-y-4">
+                        <h4 class="font-black text-sm text-indigo-600 dark:text-indigo-400 uppercase tracking-widest border-b border-indigo-200/50 dark:border-slate-700 pb-2">Core Ad Details</h4>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest block mb-1">Company / Entity *</label>
+                                <select id="jobCompany" required class="input-base focus:border-indigo-500 text-sm">
+                                    <option value="" disabled selected>Select Company</option>
+                                    <option value="SARATHY MOTORS">Sarathy Motors</option>
+                                    <option value="SARATHY BIKES PVT LTD">Sarathy Bikes Pvt Ltd</option>
+                                    <option value="SARATHY ELECTRIC BIKES PVT LTD">Sarathy Electric Bikes Pvt Ltd</option>
+                                    <option value="SARATHY AUTOCARS">Sarathy Autocars</option>
+                                    <option value="SARATHY CARS PVT LTD">Sarathy Cars Pvt Ltd</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest block mb-1">Job Title *</label>
+                                <input type="text" id="jobTitle" required placeholder="e.g. Sales Executive" class="input-base focus:border-indigo-500 uppercase text-sm">
+                            </div>
+                            <div>
+                                <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest block mb-1">Department *</label>
+                                <input type="text" id="jobDept" required placeholder="Department" class="input-base uppercase focus:border-indigo-500 text-sm">
+                            </div>
+                            <div>
+                                <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest block mb-1">Location *</label>
+                                <input type="text" id="jobLoc" required placeholder="Location" class="input-base uppercase focus:border-indigo-500 text-sm">
+                            </div>
+                            <div class="md:col-span-2">
+                                <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest block mb-1">Requirements / Description *</label>
+                                <textarea id="jobReq" required rows="2" placeholder="Keywords / Short Requirements..." class="input-base resize-none focus:border-indigo-500 uppercase text-sm"></textarea>
+                            </div>
                         </div>
                     </div>
-                    <button type="submit" class="w-full bg-gradient-to-r from-sky-500 to-blue-600 text-white font-black py-4 rounded-xl uppercase shadow-[0_5px_15px_rgba(56,189,248,0.4)] mt-2 active:scale-95 transition-transform">Publish Campaign</button>
+
+                    <div class="space-y-4 border border-[var(--border-color)] p-5 rounded-2xl">
+                        <h4 class="font-black text-sm text-sky-600 dark:text-sky-400 uppercase tracking-widest border-b border-sky-100 dark:border-slate-700 pb-2">Extended Details</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest block mb-1">Qualification Expected</label>
+                                <input type="text" id="jobQual" placeholder="e.g. B.Tech / MBA" class="input-base uppercase text-sm">
+                            </div>
+                            <div>
+                                <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest block mb-1">Experience Required</label>
+                                <input type="text" id="jobExp" placeholder="e.g. 2-5 Years" class="input-base uppercase text-sm">
+                            </div>
+                            <div>
+                                <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest block mb-1">Salary Indication</label>
+                                <input type="text" id="jobSalary" placeholder="e.g. 25K - 30K + Incentives" class="input-base uppercase text-sm">
+                            </div>
+                            <div>
+                                <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest block mb-1">No. of Vacancies</label>
+                                <input type="number" id="jobVacancies" placeholder="e.g. 5" class="input-base text-sm">
+                            </div>
+                            <div class="md:col-span-2">
+                                <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest block mb-1">Employment Type</label>
+                                <div class="flex flex-wrap gap-3 mt-1">
+                                    <label class="flex items-center gap-2 cursor-pointer text-sm font-bold text-[var(--text-primary)]"><input type="radio" name="jobType" value="Full Time" checked class="accent-indigo-600"> Full Time</label>
+                                    <label class="flex items-center gap-2 cursor-pointer text-sm font-bold text-[var(--text-primary)]"><input type="radio" name="jobType" value="Part Time" class="accent-indigo-600"> Part Time</label>
+                                    <label class="flex items-center gap-2 cursor-pointer text-sm font-bold text-[var(--text-primary)]"><input type="radio" name="jobType" value="Contract" class="accent-indigo-600"> Contract</label>
+                                    <label class="flex items-center gap-2 cursor-pointer text-sm font-bold text-[var(--text-primary)]"><input type="radio" name="jobType" value="Freelance" class="accent-indigo-600"> Freelance</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-sky-50/50 dark:bg-slate-800/50 p-5 rounded-2xl border border-sky-100 dark:border-slate-700 space-y-4">
+                         <h4 class="font-black text-sm text-sky-600 dark:text-sky-400 uppercase tracking-widest border-b border-sky-200/50 dark:border-slate-700 pb-2">Campaign Settings</h4>
+                        <div>
+                            <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest block mb-2">Creative Ad Image (Upload Poster)</label>
+                            <input type="file" id="jobImage" accept="image/*" class="input-base text-sm py-2">
+                            <p class="text-[9px] font-medium text-slate-400 mt-1">Upload the campaign creative. It will be compressed to save space.</p>
+                            <div id="jobImagePreviewContainer" class="hidden mt-2">
+                                <img id="jobImagePreview" src="" class="h-24 w-auto rounded-lg border border-slate-200 shadow-sm object-cover">
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest block mb-2">Duration (Weeks) *</label>
+                                <input type="number" id="jobDuration" value="4" min="1" max="24" required class="input-base py-2 text-sm">
+                            </div>
+                            <div>
+                                <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest block mb-2">Status</label>
+                                <select id="jobStatus" required class="input-base py-2 text-sm">
+                                    <option value="ACTIVE" selected>ACTIVE</option>
+                                    <option value="CLOSED">CLOSED</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
                 </form>
+            </div>
+            <div class="p-6 border-t border-[var(--border-color)] bg-[var(--bg-secondary)] shrink-0">
+                <button type="button" onclick="document.getElementById('jobForm').dispatchEvent(new Event('submit'))" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-black py-4 rounded-xl shadow-[0_10px_20px_rgba(79,70,229,0.3)] uppercase tracking-wider transition-all active:scale-[0.98] flex items-center justify-center gap-2">
+                    <i data-lucide="check-circle" class="w-5 h-5"></i> Publish Campaign
+                </button>
             </div>
         </div>
     </div>
@@ -1184,13 +1394,13 @@
         import { getAuth, signInWithCustomToken, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, setDoc, getDocs, deleteDoc, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        const CURRENT_DB_VERSION = 'sarathy_db_v16'; 
-        const CURRENT_BUDGET_VERSION = 'sarathy_req_v16'; 
-        const NOTICES_DB_VERSION = 'sarathy_notices_v3';
-        const JOBS_DB_VERSION = 'sarathy_jobs_v4'; 
-        const TRAINING_DB_VERSION = 'sarathy_training_v3'; 
-        const OKR_DB_VERSION = 'sarathy_okr_v3';
-        const RESUMES_DB_VERSION = 'sarathy_resumes_v1';
+        const CURRENT_DB_VERSION = 'sarathy_db_v17'; 
+        const CURRENT_BUDGET_VERSION = 'sarathy_req_v17'; 
+        const NOTICES_DB_VERSION = 'sarathy_notices_v4';
+        const JOBS_DB_VERSION = 'sarathy_jobs_v5'; 
+        const TRAINING_DB_VERSION = 'sarathy_training_v4'; 
+        const OKR_DB_VERSION = 'sarathy_okr_v4';
+        const RESUMES_DB_VERSION = 'sarathy_resumes_v2';
         
         let localUsers = JSON.parse(localStorage.getItem('sarathy_users_v13'));
         if (!localUsers) { localUsers = [{ user: 'ADMIN', pass: 'SARATHY@26', role: 'Administrator' }]; localStorage.setItem('sarathy_users_v13', JSON.stringify(localUsers)); }
@@ -1213,12 +1423,22 @@
         let calendarDate = new Date();
         let draggedCandidateId = null;
 
+        // Leads View State
+        let activeCampaignId = null;
+        let leadsCurrentPage = 1;
+        let leadsPerPage = 15;
+        let leadsSortConfig = { key: 'id', direction: 'desc' };
+        let selectedLeads = [];
+
         const urlParams = new URLSearchParams(window.location.search);
         const isApplyView = urlParams.get('view') === 'apply';
 
         let db = null;
         let auth = null;
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'sarathy-hr-portal-v16';
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'sarathy-hr-portal-v17';
+
+        // Initialize Lucide Icons
+        const initIcons = () => { if(typeof lucide !== 'undefined') lucide.createIcons(); };
 
         // --- Custom Dialog & UI Helpers ---
         let dialogResolve = null;
@@ -1318,7 +1538,10 @@
             document.documentElement.classList.toggle('dark'); 
             const isDark = document.documentElement.classList.contains('dark'); 
             const icon = document.getElementById('darkModeIcon'); 
-            if(icon) icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon'; 
+            if(icon) {
+                icon.setAttribute('data-lucide', isDark ? 'sun' : 'moon');
+                initIcons();
+            }
             localStorage.setItem('theme', isDark ? 'dark' : 'light'); 
             if(chartStatus) { chartStatus.update(); chartSource.update(); if(chartSourcePie) chartSourcePie.update(); if(chartRejection) chartRejection.update(); } 
         };
@@ -1442,6 +1665,7 @@
         }
 
         window.addEventListener('load', () => {
+             initIcons();
              if(localStorage.getItem('theme') === 'dark') toggleDarkMode();
              if (isApplyView) {
                 document.getElementById('loginPage').classList.add('hidden');
@@ -1486,6 +1710,14 @@
             const titles = { dashboard: 'HR Overview', candidates: 'Candidates', directory: 'Directory', jobs: 'Leads & Campaigns', training: 'Training', okrs: 'Performance', calendar: 'Schedules', analytics: 'Analytics', settings: 'Settings', resumes: 'Resume Tracker' };
             const pageTitle = document.getElementById('pageTitle'); if(pageTitle) pageTitle.innerText = titles[tab] || 'HR Overview';
             const floatingBackBtn = document.getElementById('floatingBackBtn');
+            
+            // Reset Views inside Jobs tab
+            if(tab === 'jobs') {
+                document.getElementById('jobsMainView').classList.remove('hidden');
+                document.getElementById('campaignLeadsView').classList.add('hidden');
+                activeCampaignId = null;
+            }
+
             if (tabHistory.length > 0) {
                  if(floatingBackBtn) { floatingBackBtn.classList.remove('hidden'); floatingBackBtn.classList.add('flex'); }
              } else {
@@ -1493,12 +1725,15 @@
              }
             if (window.innerWidth < 1024) { document.getElementById('sidebar')?.classList.add('-translate-x-full'); document.getElementById('mobileOverlay')?.classList.add('hidden'); }
             if(tab === 'analytics') initCharts();
+            initIcons();
         };
         const goBack = () => { if (tabHistory.length > 0) switchTab(tabHistory.pop(), true); };
 
         const refreshAllViews = () => {
              updateLocationFilterOptions(); renderDashboard(); renderTable(); renderDirectory(); renderJobs(); renderTraining(); renderOKRs(); renderCalendar(); renderResumes(); checkNotifications();
+             if(activeCampaignId) renderCampaignLeads();
             if(currentTab === 'analytics') initCharts();
+            initIcons();
          };
 
         // --- General Listeners ---
@@ -1593,88 +1828,159 @@
             document.getElementById('imageViewerModal').classList.remove('hidden');
         };
 
-        const openJobModal = () => { document.getElementById('jobForm').reset(); document.getElementById('jobModal').classList.remove('hidden'); };
-        const closeJobModal = () => document.getElementById('jobModal').classList.add('hidden');
+        const openJobModal = (editId = null) => { 
+            const form = document.getElementById('jobForm');
+            form.reset(); 
+            document.getElementById('jobImagePreviewContainer').classList.add('hidden');
+            
+            if(editId) {
+                const j = jobsList.find(x => String(x.id) === String(editId));
+                if(j) {
+                    document.getElementById('editJobId').value = j.id;
+                    document.getElementById('jobCompany').value = j.company || '';
+                    document.getElementById('jobTitle').value = j.title || '';
+                    document.getElementById('jobDept').value = j.dept || '';
+                    document.getElementById('jobLoc').value = j.location || '';
+                    document.getElementById('jobReq').value = j.reqs || '';
+                    document.getElementById('jobQual').value = j.qualification || '';
+                    document.getElementById('jobExp').value = j.experience || '';
+                    document.getElementById('jobSalary').value = j.salary || '';
+                    document.getElementById('jobVacancies').value = j.vacancies || '';
+                    
+                    if(j.employmentType) {
+                        const rbs = document.getElementsByName('jobType');
+                        for(let rb of rbs) { if(rb.value === j.employmentType) rb.checked = true; }
+                    }
+                    
+                    document.getElementById('jobDuration').value = j.durationWeeks || 4;
+                    document.getElementById('jobStatus').value = j.status || 'ACTIVE';
+                    
+                    if(j.image) {
+                        document.getElementById('jobImagePreview').src = j.image;
+                        document.getElementById('jobImagePreviewContainer').classList.remove('hidden');
+                    }
+                }
+            } else {
+                document.getElementById('editJobId').value = '';
+            }
+            document.getElementById('jobModal').classList.remove('hidden'); 
+            setTimeout(()=>{ document.getElementById('jobModalContent').style.transform = 'translateX(0)'; }, 10);
+        };
+
+        const closeJobModal = () => { 
+            document.getElementById('jobModalContent').style.transform = 'translateX(100%)';
+            setTimeout(()=>document.getElementById('jobModal').classList.add('hidden'), 300);
+        };
         
         document.getElementById('jobForm')?.addEventListener('submit', async (e) => {
              e.preventDefault();
+             const editId = document.getElementById('editJobId').value;
              const fileInput = document.getElementById('jobImage');
              let adImageBase64 = null;
              
              if(fileInput && fileInput.files.length > 0) {
                  showToast("Compressing Image...");
                  adImageBase64 = await compressImage(fileInput.files[0]);
+             } else if(editId) {
+                 const existingJob = jobsList.find(x => String(x.id) === String(editId));
+                 if(existingJob) adImageBase64 = existingJob.image;
              }
 
             const weeks = parseInt(document.getElementById('jobDuration')?.value) || 4;
-            const expiry = new Date();
-            expiry.setDate(expiry.getDate() + (weeks * 7));
-            const jobDate = new Date().toISOString().slice(0,10);
+            const status = document.getElementById('jobStatus').value;
             
+            let empType = "Full Time";
+            const rbs = document.getElementsByName('jobType');
+            for(let rb of rbs) { if(rb.checked) empType = rb.value; }
+
             const job = { 
-                id: Date.now(), 
+                id: editId ? parseInt(editId) : Date.now(), 
                 company: document.getElementById('jobCompany').value,
                 title: document.getElementById('jobTitle').value.trim().toUpperCase(), 
                 dept: document.getElementById('jobDept').value.trim().toUpperCase(), 
                 location: document.getElementById('jobLoc').value.trim().toUpperCase(), 
                 reqs: document.getElementById('jobReq').value.trim().toUpperCase(), 
+                qualification: document.getElementById('jobQual').value.trim().toUpperCase(),
+                experience: document.getElementById('jobExp').value.trim().toUpperCase(),
+                salary: document.getElementById('jobSalary').value.trim().toUpperCase(),
+                vacancies: parseInt(document.getElementById('jobVacancies').value) || 0,
+                employmentType: empType,
                 image: adImageBase64, 
                 durationWeeks: weeks, 
-                expiryDate: expiry.toISOString().slice(0,10), 
-                status: 'ACTIVE', 
-                date: jobDate 
+                status: status
             };
             
-            jobsList.push(job);
-             localStorage.setItem(JOBS_DB_VERSION, JSON.stringify(jobsList));
+            if(!editId) {
+                job.date = new Date().toISOString().slice(0,10);
+                const expiry = new Date();
+                expiry.setDate(expiry.getDate() + (weeks * 7));
+                job.expiryDate = expiry.toISOString().slice(0,10);
+                jobsList.push(job);
+                showToast("Campaign Published!");
+            } else {
+                const idx = jobsList.findIndex(x => String(x.id) === String(editId));
+                if(idx > -1) {
+                    job.date = jobsList[idx].date;
+                    job.expiryDate = jobsList[idx].expiryDate;
+                    jobsList[idx] = job;
+                    showToast("Campaign Updated!");
+                }
+            }
+
+            localStorage.setItem(JOBS_DB_VERSION, JSON.stringify(jobsList));
             await writeToCloud('jobs', job.id, job);
-            closeJobModal(); renderJobs(); showToast("Campaign Published!");
+            closeJobModal(); renderJobs();
          });
         
-        // --- Jobs EXCEL Style Inline Editing ---
-        window.updateJobLocal = (id, field, value) => {
-            const idx = jobsList.findIndex(j => String(j.id) === String(id));
-            if(idx > -1) {
-                jobsList[idx][field] = value;
-            }
-        };
-        
-        window.saveAllJobsToCloud = async () => {
-            showToast("Saving all job updates...");
-            localStorage.setItem(JOBS_DB_VERSION, JSON.stringify(jobsList));
-            if (db && auth && auth.currentUser) {
-                const writes = jobsList.map(j => writeToCloud('jobs', j.id, j));
-                await Promise.all(writes);
-            }
-            renderJobs();
-            showToast("Changes Saved Successfully!", "success");
-        };
-
-        window.deleteJobFromGrid = async (id) => {
-             const yes = await showDialogModal('confirm', 'Remove Job', 'Are you sure you want to delete this job posting?');
+        window.deleteJobGrid = async (id) => {
+             const yes = await showDialogModal('confirm', 'Delete Campaign', 'Are you sure you want to delete this job campaign permanently?');
             if(yes) {
                  await removeFromCloud('jobs', id);
                 jobsList = jobsList.filter(j => String(j.id) !== String(id));
                  localStorage.setItem(JOBS_DB_VERSION, JSON.stringify(jobsList));
-                renderJobs(); showToast("Job Removed", "error");
+                renderJobs(); showToast("Campaign Removed", "error");
              }
         };
 
         const copyJob = (id) => {
             const j = jobsList.find(x => String(x.id) === String(id)); if(!j) return;
             const applyLink = window.location.origin + window.location.pathname + '?view=apply&jobId=' + j.id;
-            const text = `📢 WE ARE HIRING!\n\nCompany: ${j.company}\nRole: ${j.title}\nDept: ${j.dept}\nLocation: ${j.location}\n\nRequirements:\n${j.reqs}\n\nApply securely here: ${applyLink}`;
+            let text = `📢 WE ARE HIRING!\n\nCompany: ${j.company}\nRole: ${j.title}\nDept: ${j.dept}\nLocation: ${j.location}\n`;
+            if(j.experience) text += `Experience: ${j.experience}\n`;
+            if(j.qualification) text += `Qualification: ${j.qualification}\n`;
+            text += `\nRequirements:\n${j.reqs}\n\nApply securely here: ${applyLink}`;
             const el = document.createElement('textarea'); el.value = text; document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el); showToast("Job Campaign Link Copied!");
         };
 
-        const viewJobLeads = (jobId) => {
-            switchTab('candidates');
-            const searchInput = document.getElementById('searchInput');
-            if(searchInput) { searchInput.value = 'JOB-' + jobId; renderTable(); showToast("Showing Leads for Campaign", "success"); }
+        window.openCampaignLeads = (jobId) => {
+            activeCampaignId = jobId;
+            const j = jobsList.find(x => String(x.id) === String(jobId));
+            document.getElementById('activeCampaignTitle').innerText = j ? `${j.title} (${j.company})` : `Campaign ID: ${jobId}`;
+            
+            // Switch view
+            document.getElementById('jobsMainView').classList.add('hidden');
+            document.getElementById('campaignLeadsView').classList.remove('hidden');
+            
+            // Reset filters & pagination
+            document.getElementById('leadSearch').value = '';
+            document.getElementById('leadMonthFilter').value = '';
+            document.getElementById('leadStatusFilter').value = 'ALL';
+            leadsCurrentPage = 1;
+            selectedLeads = [];
+            
+            renderCampaignLeads();
+            initIcons();
+        };
+
+        window.backToCampaigns = () => {
+            activeCampaignId = null;
+            document.getElementById('campaignLeadsView').classList.add('hidden');
+            document.getElementById('jobsMainView').classList.remove('hidden');
+            renderJobs();
         };
 
         const renderJobs = () => {
-             const tb = document.getElementById('jobsExcelBody'); if(!tb) return;
+             const container = document.getElementById('jobsCardsContainer'); if(!container) return;
              
              const monthFilter = document.getElementById('jobMonthFilter')?.value;
              let filteredJobs = jobsList;
@@ -1685,52 +1991,385 @@
              const countBadge = document.getElementById('jobCountBadge');
              if(countBadge) countBadge.innerText = filteredJobs.length;
 
-             if(filteredJobs.length === 0) { tb.innerHTML = '<tr><td colspan="7" class="text-center py-10 font-bold text-slate-400">No Job Postings Found. Create one!</td></tr>'; return; }
+             if(filteredJobs.length === 0) { 
+                 container.innerHTML = '<div class="text-center py-16 bg-white dark:bg-slate-800 rounded-2xl border border-dashed border-slate-300 dark:border-slate-700"><i data-lucide="megaphone" class="w-12 h-12 mx-auto text-slate-300 mb-3"></i><p class="font-bold text-slate-500">No Job Postings Found. Create a new campaign!</p></div>'; 
+                 initIcons();
+                 return; 
+             }
              
-             tb.innerHTML = [...filteredJobs].sort((a,b)=>b.id-a.id).map(j => {
+             container.innerHTML = [...filteredJobs].sort((a,b)=>b.id-a.id).map(j => {
                  const leadsCount = joinees.filter(c => c.source && c.source.includes(`JOB-${j.id}`)).length;
-                 const imgSrc = j.image || (j.images && j.images[0]) || '';
-                 const imgHtml = imgSrc ? `<img src="${imgSrc}" class="w-10 h-10 rounded-md object-cover cursor-pointer hover:opacity-80 mx-auto shadow-sm" onclick="viewAdImage('${imgSrc}')" title="View Ad">` : `<div class="w-10 h-10 rounded-md bg-slate-100 dark:bg-slate-800 border border-dashed border-slate-300 dark:border-slate-600 flex items-center justify-center text-slate-400 mx-auto text-xs" title="No Image"><i class="fas fa-image"></i></div>`;
+                 const imgSrc = j.image || '';
+                 const placeholder = `<div class="w-full h-full bg-slate-100 dark:bg-slate-800 flex flex-col items-center justify-center text-slate-400"><i data-lucide="image" class="w-12 h-12 mb-2 opacity-50"></i><span class="text-xs font-bold uppercase tracking-widest">No Poster Uploaded</span></div>`;
+                 const imgHtml = imgSrc ? `<img src="${imgSrc}" class="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-500" onclick="viewAdImage('${imgSrc}')">` : placeholder;
                  
+                 const isExpired = j.status === 'ACTIVE' && j.expiryDate && new Date(j.expiryDate) <= new Date();
+                 const badgeHtml = isExpired ? `<span class="bg-red-500 text-white text-[10px] font-black uppercase px-3 py-1 rounded-full absolute top-4 left-4 shadow-sm flex items-center gap-1"><i data-lucide="alert-triangle" class="w-3 h-3"></i> Expired</span>` : `<span class="bg-white/90 dark:bg-slate-900/90 backdrop-blur-md text-${j.status === 'ACTIVE'?'emerald':'slate'}-600 dark:text-${j.status === 'ACTIVE'?'emerald':'slate'}-400 text-[10px] font-black uppercase px-3 py-1 rounded-full absolute top-4 left-4 shadow-sm flex items-center gap-1"><i data-lucide="${j.status === 'ACTIVE'?'check-circle':'power'}" class="w-3 h-3"></i> ${j.status}</span>`;
+
                  return `
-                <tr class="hover:bg-[var(--bg-primary)] transition-colors">
-                    <td class="text-center py-2 px-1">${imgHtml}</td>
-                    <td>
-                        <select onchange="updateJobLocal(${j.id}, 'company', this.value)" class="!px-2 !py-3 w-full text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">
-                            <option value="SARATHY MOTORS" ${j.company === 'SARATHY MOTORS' ? 'selected' : ''}>Sarathy Motors</option>
-                            <option value="SARATHY BIKES PVT LTD" ${j.company === 'SARATHY BIKES PVT LTD' ? 'selected' : ''}>Sarathy Bikes</option>
-                            <option value="SARATHY ELECTRIC BIKES PVT LTD" ${j.company === 'SARATHY ELECTRIC BIKES PVT LTD' ? 'selected' : ''}>Electric Bikes</option>
-                            <option value="SARATHY AUTOCARS" ${j.company === 'SARATHY AUTOCARS' ? 'selected' : ''}>Sarathy Autocars</option>
-                            <option value="SARATHY CARS PVT LTD" ${j.company === 'SARATHY CARS PVT LTD' ? 'selected' : ''}>Sarathy Cars</option>
-                        </select>
+                 <div class="bg-white dark:bg-slate-800 rounded-[2rem] shadow-sm hover:shadow-premium border border-[var(--border-color)] overflow-hidden flex flex-col xl:flex-row transition-all group">
+                     <!-- Left side: Ad Image Preview -->
+                     <div class="w-full xl:w-[320px] h-64 xl:h-auto bg-slate-50 dark:bg-slate-900 relative shrink-0 overflow-hidden cursor-pointer">
+                         ${badgeHtml}
+                         ${imgHtml}
+                     </div>
+                     
+                     <!-- Right side: Content -->
+                     <div class="p-6 md:p-8 flex-1 flex flex-col relative">
+                         <div class="flex flex-col md:flex-row justify-between items-start gap-4 mb-6">
+                             <div>
+                                 <span class="text-[10px] font-black uppercase tracking-widest text-indigo-500 bg-indigo-50 dark:bg-indigo-900/20 px-2.5 py-1 rounded-md mb-2 inline-block">${j.company || 'SARATHY GROUP'}</span>
+                                 <h3 class="text-2xl font-black text-slate-800 dark:text-white uppercase leading-tight group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">${j.title}</h3>
+                                 <p class="text-sm font-bold text-slate-500 uppercase mt-1 flex items-center gap-2"><i data-lucide="map-pin" class="w-4 h-4 text-slate-400"></i> ${j.location || 'VARIOUS'} • ${j.dept || 'GENERAL'}</p>
+                             </div>
+                             <div class="text-left md:text-right bg-slate-50 dark:bg-slate-900/50 p-3 rounded-xl border border-slate-100 dark:border-slate-700/50">
+                                 <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Campaign ID: <span class="text-slate-600 dark:text-slate-300">#${j.id}</span></p>
+                                 <p class="text-xs font-bold text-slate-500 flex items-center gap-1.5 md:justify-end"><i data-lucide="calendar" class="w-3.5 h-3.5"></i> Posted: ${formatDateString(j.date)}</p>
+                             </div>
+                         </div>
+
+                         <!-- Grid of Job Info -->
+                         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 py-5 border-y border-[var(--border-color)]">
+                             <div><span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1">Salary</span><span class="font-bold text-sm text-[var(--text-primary)]">${j.salary || 'Best in Industry'}</span></div>
+                             <div><span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1">Experience</span><span class="font-bold text-sm text-[var(--text-primary)]">${j.experience || 'Not Specified'}</span></div>
+                             <div><span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1">Qualification</span><span class="font-bold text-sm text-[var(--text-primary)]">${j.qualification || 'Any Degree'}</span></div>
+                             <div><span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1">Job Type</span><span class="font-bold text-sm text-[var(--text-primary)]">${j.employmentType || 'Full Time'}</span></div>
+                             <div><span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1">Vacancies</span><span class="font-bold text-sm text-[var(--text-primary)]">${j.vacancies ? j.vacancies + ' Nos' : 'Open'}</span></div>
+                             <div><span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1">Expires On</span><span class="font-bold text-sm text-[var(--text-primary)]">${j.expiryDate ? formatDateString(j.expiryDate) : '-'}</span></div>
+                             <div class="col-span-2"><span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1">Keywords</span><span class="font-bold text-sm text-[var(--text-primary)] truncate block" title="${j.reqs}">${j.reqs || 'None'}</span></div>
+                         </div>
+
+                         <!-- Action Buttons -->
+                         <div class="mt-6 flex flex-wrap items-center gap-3">
+                             <button onclick="openCampaignLeads(${j.id})" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2.5 rounded-xl font-bold text-sm shadow-md transition-all flex items-center justify-center gap-2 flex-1 sm:flex-none">
+                                 <i data-lucide="users" class="w-4 h-4"></i> View Leads <span class="bg-white/20 px-2 py-0.5 rounded-full text-xs">${leadsCount}</span>
+                             </button>
+                             <button onclick="copyJob(${j.id})" class="bg-[var(--bg-primary)] border border-[var(--border-color)] hover:bg-sky-50 dark:hover:bg-sky-900/20 text-sky-600 dark:text-sky-400 px-5 py-2.5 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 flex-1 sm:flex-none">
+                                 <i data-lucide="link" class="w-4 h-4"></i> Copy Link
+                             </button>
+                             <button onclick="openJobModal(${j.id})" class="bg-[var(--bg-primary)] border border-[var(--border-color)] hover:bg-amber-50 dark:hover:bg-amber-900/20 text-amber-600 dark:text-amber-400 px-5 py-2.5 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 flex-1 sm:flex-none">
+                                 <i data-lucide="edit" class="w-4 h-4"></i> Edit
+                             </button>
+                             <div class="flex-1 sm:hidden"></div>
+                             <button onclick="deleteJobGrid(${j.id})" class="bg-red-50 dark:bg-red-900/20 text-red-500 hover:bg-red-100 dark:hover:bg-red-900/40 w-11 h-11 rounded-xl font-bold transition-all flex items-center justify-center sm:ml-auto">
+                                 <i data-lucide="trash-2" class="w-4 h-4"></i>
+                             </button>
+                         </div>
+                     </div>
+                 </div>
+                 `;
+             }).join('');
+             
+             initIcons();
+         };
+
+        // --- CAMPAIGN LEADS LOGIC ---
+        window.toggleCol = (className, isVisible) => {
+            const elements = document.querySelectorAll(`.${className}`);
+            elements.forEach(el => {
+                if(isVisible) el.classList.remove('col-hide');
+                else el.classList.add('col-hide');
+            });
+        };
+
+        window.sortLeads = (key) => {
+            if(leadsSortConfig.key === key) {
+                leadsSortConfig.direction = leadsSortConfig.direction === 'asc' ? 'desc' : 'asc';
+            } else {
+                leadsSortConfig.key = key;
+                leadsSortConfig.direction = 'asc';
+            }
+            renderCampaignLeads();
+        };
+
+        window.toggleAllLeads = (checkbox) => {
+            const boxes = document.querySelectorAll('.lead-checkbox');
+            boxes.forEach(b => {
+                b.checked = checkbox.checked;
+                toggleLeadSelection(b.value, b.checked);
+            });
+        };
+
+        window.toggleLeadSelection = (id, isChecked) => {
+            if(isChecked) {
+                if(!selectedLeads.includes(id)) selectedLeads.push(id);
+            } else {
+                selectedLeads = selectedLeads.filter(x => x !== id);
+            }
+            updateBulkActionBar();
+        };
+
+        const updateBulkActionBar = () => {
+            const bar = document.getElementById('bulkActionBar');
+            document.getElementById('selectedLeadsCount').innerText = selectedLeads.length;
+            if(selectedLeads.length > 0) {
+                bar.classList.remove('hidden');
+            } else {
+                bar.classList.add('hidden');
+            }
+        };
+
+        window.bulkDeleteLeads = async () => {
+            if(selectedLeads.length === 0) return;
+            const yes = await showDialogModal('confirm', 'Bulk Delete', `Are you sure you want to permanently delete ${selectedLeads.length} leads?`);
+            if(yes) {
+                showToast("Deleting leads...");
+                for(let id of selectedLeads) {
+                    await removeFromCloud('candidates', id);
+                    joinees = joinees.filter(x => String(x.id) !== String(id));
+                }
+                localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees));
+                selectedLeads = [];
+                renderCampaignLeads();
+                showToast("Bulk Delete Successful!");
+            }
+        };
+
+        window.bulkUpdateLeadStatus = async () => {
+            if(selectedLeads.length === 0) return;
+            const status = document.getElementById('bulkStatusSelect').value;
+            if(!status) { showToast("Please select a status to apply", "error"); return; }
+            
+            showToast("Updating status...");
+            for(let id of selectedLeads) {
+                const idx = joinees.findIndex(x => String(x.id) === String(id));
+                if(idx > -1) {
+                    joinees[idx].status = status;
+                    if(status === 'JOINED' && !joinees[idx].joinDate) joinees[idx].joinDate = new Date().toISOString().slice(0, 10);
+                    if(status !== 'REJECTED') joinees[idx].rejectionReason = '';
+                    await writeToCloud('candidates', joinees[idx].id, joinees[idx]);
+                }
+            }
+            localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees));
+            document.getElementById('bulkStatusSelect').value = '';
+            selectedLeads = [];
+            renderCampaignLeads();
+            showToast(`Status updated to ${status} for selected leads!`);
+            if(status === 'SELECTED' || status === 'JOINED') confetti();
+        };
+
+        window.downloadLeadsTemplate = () => {
+            const wb = XLSX.utils.book_new();
+            const ws = XLSX.utils.json_to_sheet([
+                { "Name": "John Doe", "Age": "28", "Phone": "9876543210", "Email": "john@example.com", "Qualification": "MBA", "Experience": "3", "Remarks": "Good communication" }
+            ]);
+            XLSX.utils.book_append_sheet(wb, ws, "LeadsTemplate");
+            XLSX.writeFile(wb, "Campaign_Leads_Template.xlsx");
+        };
+
+        window.exportLeadsExcel = () => {
+            // Need to get currently filtered leads
+            const leads = getFilteredLeads();
+            if(leads.length === 0) { showToast("No leads to export", "error"); return; }
+            
+            const exportData = leads.map(l => ({
+                "Date": formatDateString(l.interviewDate || l.dateAdded || l.joinDate || ''),
+                "Name": l.name,
+                "Phone": l.phone,
+                "Email": l.email || '',
+                "Age": l.age || '',
+                "Qualification": l.qualification || '',
+                "Experience (Yrs)": l.experience || 0,
+                "Post Applied": l.designation || l.dept || '',
+                "Remarks": l.remarks || '',
+                "Status": l.status,
+                "AI Score": calculateMatchScore(l)
+            }));
+            
+            const wb = XLSX.utils.book_new();
+            const ws = XLSX.utils.json_to_sheet(exportData);
+            XLSX.utils.book_append_sheet(wb, ws, "Campaign Leads");
+            XLSX.writeFile(wb, `Campaign_Leads_${activeCampaignId}.xlsx`);
+        };
+
+        window.exportLeadsPDF = () => {
+            const element = document.getElementById('leadsTableContainer');
+            const opt = {
+                margin: 0.5,
+                filename: `Campaign_Leads_${activeCampaignId}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'in', format: 'a3', orientation: 'landscape' }
+            };
+            showToast("Generating PDF...");
+            html2pdf().set(opt).from(element).save();
+        };
+
+        window.handleLeadsImport = (event) => {
+            const file = event.target.files[0]; if (!file) return; 
+            const reader = new FileReader();
+            reader.onload = async (e) => {
+                try {
+                    const workbook = XLSX.read(new Uint8Array(e.target.result), { type: 'array' }); 
+                    const jsonData = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]]);
+                    let added = 0; let dups = 0; const cloudWrites = [];
+                    
+                    const j = jobsList.find(x => String(x.id) === String(activeCampaignId));
+                    const sourceText = j ? `Online Portal (JOB-${j.id})` : `Imported Lead`;
+
+                    jsonData.forEach((row, idx) => {
+                        const phone = String(row['Phone'] || row['Contact Number'] || '').replace(/\D/g, '').substring(0, 10);
+                        if (phone.length === 10) {
+                            if(!joinees.some(x => x.phone === phone)) {
+                                const newLead = { 
+                                    id: Date.now() + idx, 
+                                    empId: 'APP-' + Math.floor(Math.random() * 10000).toString(), 
+                                    name: (row['Name'] || row['Candidate Name'] || '').toUpperCase(), 
+                                    phone: phone, 
+                                    email: row['Email'] || '',
+                                    age: row['Age'] || '',
+                                    qualification: (row['Qualification'] || '').toUpperCase(),
+                                    experience: parseFloat(row['Experience']) || 0,
+                                    dept: j ? j.dept : 'GENERAL', 
+                                    company: j ? j.company : 'ALL', 
+                                    location: j ? j.location : '', 
+                                    designation: j ? j.title : (row['Post Applied'] || '').toUpperCase(),
+                                    source: sourceText,
+                                    remarks: row['Remarks'] || 'Imported from Excel',
+                                    status: 'PENDING',
+                                    interviewDate: new Date().toISOString().slice(0,10),
+                                    rating: 0
+                                };
+                                joinees.push(newLead);
+                                cloudWrites.push(writeToCloud('candidates', newLead.id, newLead));
+                                added++;
+                            } else {
+                                dups++;
+                            }
+                        }
+                    });
+                    await Promise.all(cloudWrites);
+                    localStorage.setItem(CURRENT_DB_VERSION, JSON.stringify(joinees)); 
+                    renderCampaignLeads(); 
+                    event.target.value = ''; 
+                    showDialogModal('alert', 'Import Summary', `Total Processed: ${jsonData.length}\nSuccessfully Imported: ${added}\nDuplicates Skipped: ${dups}`);
+                } catch(error) {
+                    showToast("Error processing file", "error");
+                }
+            };
+            reader.readAsArrayBuffer(file);
+        };
+
+        const getFilteredLeads = () => {
+            const term = document.getElementById('leadSearch')?.value.toUpperCase() || '';
+            const monthFilter = document.getElementById('leadMonthFilter')?.value;
+            const statusFilter = document.getElementById('leadStatusFilter')?.value || 'ALL';
+            
+            let filtered = joinees.filter(x => {
+                // Must belong to active campaign OR if no campaign is active, maybe show all (but UI hides this view without active)
+                if(activeCampaignId && (!x.source || !x.source.includes(`JOB-${activeCampaignId}`))) return false;
+                
+                const searchMatch = x.name.includes(term) || x.phone?.includes(term) || (x.qualification && x.qualification.includes(term)) || (x.designation && x.designation.includes(term));
+                let sMatch = statusFilter === 'ALL' || x.status === statusFilter;
+                let mMatch = !monthFilter || (x.interviewDate && x.interviewDate.startsWith(monthFilter)) || (x.joinDate && x.joinDate.startsWith(monthFilter)) || (x.dateAdded && x.dateAdded.startsWith(monthFilter));
+                
+                return searchMatch && sMatch && mMatch;
+            });
+
+            // Apply Sorting
+            filtered.sort((a, b) => {
+                let valA = a[leadsSortConfig.key];
+                let valB = b[leadsSortConfig.key];
+                
+                // Fallbacks for sorting
+                if(leadsSortConfig.key === 'date') { valA = a.interviewDate || a.dateAdded || ''; valB = b.interviewDate || b.dateAdded || ''; }
+                
+                if (valA < valB) return leadsSortConfig.direction === 'asc' ? -1 : 1;
+                if (valA > valB) return leadsSortConfig.direction === 'asc' ? 1 : -1;
+                return 0;
+            });
+
+            return filtered;
+        };
+
+        window.renderCampaignLeads = () => {
+            const tb = document.getElementById('campaignLeadsBody'); if(!tb) return;
+            const selectAllBox = document.getElementById('selectAllLeads');
+            if(selectAllBox) selectAllBox.checked = false;
+            
+            const leads = getFilteredLeads();
+            
+            document.getElementById('totalLeadsItem').innerText = leads.length;
+            
+            // Pagination logic
+            const totalPages = Math.ceil(leads.length / leadsPerPage) || 1;
+            if(leadsCurrentPage > totalPages) leadsCurrentPage = totalPages;
+            
+            const startIdx = (leadsCurrentPage - 1) * leadsPerPage;
+            const endIdx = Math.min(startIdx + leadsPerPage, leads.length);
+            const paginatedLeads = leads.slice(startIdx, endIdx);
+            
+            document.getElementById('pageStartItem').innerText = leads.length > 0 ? startIdx + 1 : 0;
+            document.getElementById('pageEndItem').innerText = endIdx;
+
+            // Render Pagination Buttons
+            let pageHtml = '';
+            pageHtml += `<button onclick="changeLeadsPage(${leadsCurrentPage - 1})" class="px-2 py-1 rounded bg-[var(--bg-primary)] border border-[var(--border-color)] text-slate-500 hover:text-indigo-600 disabled:opacity-50" ${leadsCurrentPage === 1 ? 'disabled' : ''}><i data-lucide="chevron-left" class="w-4 h-4"></i></button>`;
+            for(let i=1; i<=totalPages; i++) {
+                if(totalPages > 5 && i !== 1 && i !== totalPages && Math.abs(i - leadsCurrentPage) > 1) {
+                    if(i === 2 || i === totalPages - 1) pageHtml += `<span class="px-2 py-1 text-slate-400">...</span>`;
+                    continue;
+                }
+                pageHtml += `<button onclick="changeLeadsPage(${i})" class="px-3 py-1 rounded text-xs font-bold border border-[var(--border-color)] transition-colors ${i === leadsCurrentPage ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-[var(--bg-primary)] text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800'}">${i}</button>`;
+            }
+            pageHtml += `<button onclick="changeLeadsPage(${leadsCurrentPage + 1})" class="px-2 py-1 rounded bg-[var(--bg-primary)] border border-[var(--border-color)] text-slate-500 hover:text-indigo-600 disabled:opacity-50" ${leadsCurrentPage === totalPages ? 'disabled' : ''}><i data-lucide="chevron-right" class="w-4 h-4"></i></button>`;
+            document.getElementById('leadsPagination').innerHTML = pageHtml;
+
+            updateBulkActionBar();
+
+            if(paginatedLeads.length === 0) { 
+                tb.innerHTML = '<tr><td colspan="13" class="text-center py-12 text-slate-400 font-bold"><i data-lucide="inbox" class="w-10 h-10 mx-auto mb-2 opacity-50"></i>No leads found for this campaign</td></tr>'; 
+                initIcons();
+                return; 
+            }
+
+            tb.innerHTML = paginatedLeads.map((l, index) => {
+                const sNo = startIdx + index + 1;
+                const dateStr = formatDateString(l.interviewDate || l.dateAdded || l.joinDate || '');
+                const score = calculateMatchScore(l);
+                const scoreColor = score > 80 ? 'text-emerald-500 bg-emerald-50 dark:bg-emerald-900/20' : score > 50 ? 'text-amber-500 bg-amber-50 dark:bg-amber-900/20' : 'text-slate-500 bg-slate-50 dark:bg-slate-800';
+                const stClass = l.status === 'SELECTED' ? 'badge-selected' : l.status === 'JOINED' ? 'badge-joined' : l.status === 'PENDING' ? 'badge-pending' : 'badge-rejected';
+                const isChecked = selectedLeads.includes(l.id) ? 'checked' : '';
+
+                return `
+                <tr class="hover:bg-[var(--bg-primary)] transition-colors group">
+                    <td class="text-center no-print">
+                        <input type="checkbox" value="${l.id}" ${isChecked} onchange="toggleLeadSelection(${l.id}, this.checked)" class="custom-checkbox !w-4 !h-4 mx-auto lead-checkbox">
                     </td>
-                    <td><input type="text" value="${j.title || ''}" onchange="updateJobLocal(${j.id}, 'title', this.value)" class="font-black uppercase !px-2" placeholder="Title"></td>
+                    <td class="text-center font-bold text-slate-400 text-xs">${sNo}</td>
+                    <td class="text-slate-500 font-medium text-xs whitespace-nowrap">${dateStr}</td>
                     <td>
-                        <div class="flex flex-col h-full gap-1">
-                            <input type="text" value="${j.dept || ''}" onchange="updateJobLocal(${j.id}, 'dept', this.value)" class="uppercase text-xs !py-1 !px-2" placeholder="Dept">
-                            <div class="h-px bg-[var(--border-color)]"></div>
-                            <input type="text" value="${j.location || ''}" onchange="updateJobLocal(${j.id}, 'location', this.value)" class="uppercase text-xs !py-1 !px-2" placeholder="Location">
+                        <div class="flex items-center gap-2 cursor-pointer" onclick="viewCandidate(${l.id})">
+                            <div class="w-8 h-8 rounded-full flex items-center justify-center font-black text-[10px] shrink-0 ${getAvatarColor(l.name)}">${l.name[0]}</div>
+                            <div class="overflow-hidden">
+                                <p class="font-bold text-xs uppercase text-[var(--text-primary)] group-hover:text-indigo-600 transition-colors truncate">${l.name}</p>
+                                <span class="text-[9px] text-slate-400 font-bold uppercase truncate block">${l.empId}</span>
+                            </div>
                         </div>
                     </td>
-                    <td><input type="date" value="${j.date || ''}" onchange="updateJobLocal(${j.id}, 'date', this.value)" class="text-xs font-bold !px-2 text-slate-500"></td>
-                    <td>
-                        <select onchange="updateJobLocal(${j.id}, 'status', this.value)" class="!px-2 !py-3 text-xs font-black ${j.status === 'ACTIVE' ? 'text-emerald-500' : 'text-slate-400'}">
-                            <option value="ACTIVE" ${j.status === 'ACTIVE' ? 'selected' : ''}>ACTIVE</option>
-                            <option value="CLOSED" ${j.status === 'CLOSED' ? 'selected' : ''}>CLOSED</option>
-                        </select>
-                    </td>
-                    <td>
-                        <div class="flex items-center justify-end h-full gap-2 px-2">
-                            <button onclick="viewJobLeads(${j.id})" class="flex-1 bg-indigo-50 hover:bg-indigo-100 dark:bg-indigo-900/20 dark:hover:bg-indigo-900/40 text-indigo-600 dark:text-indigo-400 rounded-lg py-2 text-xs font-black uppercase transition-colors whitespace-nowrap flex items-center justify-center gap-2">
-                                <i class="fas fa-list-ul"></i> Leads <span class="bg-indigo-600 text-white rounded-full px-1.5 py-0.5 text-[9px]">${leadsCount}</span>
-                            </button>
-                            <button onclick="copyJob(${j.id})" class="w-8 h-8 rounded-lg bg-[var(--bg-primary)] border border-[var(--border-color)] text-sky-500 hover:text-sky-700 hover:bg-sky-50 transition-colors flex items-center justify-center" title="Copy Apply Link"><i class="fas fa-link"></i></button>
-                            <button onclick="deleteJobFromGrid(${j.id})" class="w-8 h-8 rounded-lg bg-red-50 text-red-500 dark:bg-red-900/20 dark:text-red-400 hover:bg-red-100 transition-colors flex items-center justify-center" title="Delete Campaign"><i class="fas fa-trash-alt"></i></button>
-                        </div>
+                    <td class="col-age text-slate-600 dark:text-slate-300 font-medium">${l.age || '-'}</td>
+                    <td class="col-qual"><span class="bg-[var(--bg-primary)] px-2 py-1 rounded text-xs font-bold border border-[var(--border-color)]">${l.qualification || '-'}</span></td>
+                    <td class="font-bold text-slate-700 dark:text-slate-200 text-xs tracking-wider">${l.phone || '-'}</td>
+                    <td class="uppercase text-xs font-bold text-slate-600 dark:text-slate-300">${l.designation || l.dept || '-'}</td>
+                    <td class="col-exp text-center font-bold">${l.experience || '0'}</td>
+                    <td class="col-score text-center"><span class="px-2 py-1 rounded font-black text-xs ${scoreColor}">${score}%</span></td>
+                    <td class="text-xs text-slate-500 truncate max-w-[150px]" title="${l.remarks || ''}">${l.remarks || '-'}</td>
+                    <td><span class="status-badge ${stClass} !text-[9px] !px-2 !py-0.5">${l.status}</span></td>
+                    <td class="text-center whitespace-nowrap no-print">
+                        <button onclick="viewCandidate(${l.id})" class="w-7 h-7 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-indigo-600 hover:bg-indigo-50 transition-colors inline-flex items-center justify-center" title="View Profile"><i data-lucide="eye" class="w-3.5 h-3.5"></i></button>
+                        <button onclick="deleteSingleRecord(${l.id})" class="w-7 h-7 rounded bg-red-50 dark:bg-red-900/20 text-red-500 hover:bg-red-100 transition-colors inline-flex items-center justify-center ml-1" title="Delete"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
                     </td>
                 </tr>
-             `;}).join('');
-         };
+                `;
+            }).join('');
+            
+            initIcons();
+        };
+
+        window.changeLeadsPage = (page) => {
+            leadsCurrentPage = page;
+            renderCampaignLeads();
+        };
 
         const openTrainingModal = () => { document.getElementById('trainingForm').reset(); document.getElementById('trainEmpId').innerHTML = '<option value="" disabled selected>Select employee</option>' + joinees.filter(x => x.status === 'JOINED').map(e => `<option value="${e.empId}">${e.name}</option>`).join(''); document.getElementById('trainingModal').classList.remove('hidden'); };
         const closeTrainingModal = () => document.getElementById('trainingModal').classList.add('hidden');
@@ -1778,10 +2417,11 @@
                     <td><span class="text-sm font-medium text-[var(--text-secondary)]">${formatDateString(t.deadline)}</span></td>
                     <td><span class="status-badge ${t.status === 'COMPLETED' ? 'badge-selected' : 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400'}">${t.status}</span></td>
                     <td class="text-right whitespace-nowrap">
-                        ${t.status === 'PENDING' ? `<button onclick="updateTraining(${t.id})" class="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 mr-2 hover:bg-emerald-100 transition-colors"><i class="fas fa-check"></i></button>` : ''}
-                        <button onclick="deleteTraining(${t.id})" class="w-8 h-8 rounded-lg bg-red-50 dark:bg-red-900/20 text-red-500 hover:bg-red-100 transition-colors"><i class="fas fa-trash-alt"></i></button>
+                        ${t.status === 'PENDING' ? `<button onclick="updateTraining(${t.id})" class="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 mr-2 hover:bg-emerald-100 transition-colors inline-flex items-center justify-center"><i data-lucide="check" class="w-4 h-4"></i></button>` : ''}
+                        <button onclick="deleteTraining(${t.id})" class="w-8 h-8 rounded-lg bg-red-50 dark:bg-red-900/20 text-red-500 hover:bg-red-100 transition-colors inline-flex items-center justify-center"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
                     </td>
                 </tr>`).join('');
+            initIcons();
          };
 
         const openOkrModal = () => { document.getElementById('okrForm').reset(); document.getElementById('okrEmpId').innerHTML = '<option value="" disabled selected>Select employee</option>' + joinees.filter(x => x.status === 'JOINED').map(e => `<option value="${e.empId}">${e.name}</option>`).join(''); document.getElementById('okrModal').classList.remove('hidden'); };
@@ -1814,7 +2454,7 @@
          };
         const renderOKRs = () => {
              const container = document.getElementById('okrContainer'); if(!container) return;
-             if(okrList.length === 0) { container.innerHTML = '<div class="col-span-full text-center py-16 opacity-50"><i class="fas fa-bullseye text-4xl mb-3 text-slate-400"></i><p class="text-sm font-bold text-slate-500">No OKRs Set</p></div>'; return; }
+             if(okrList.length === 0) { container.innerHTML = '<div class="col-span-full text-center py-16 opacity-50"><i data-lucide="target" class="w-10 h-10 mx-auto text-slate-400 mb-3"></i><p class="text-sm font-bold text-slate-500">No OKRs Set</p></div>'; initIcons(); return; }
              container.innerHTML = [...okrList].sort((a,b)=>b.id-a.id).map(o => `
                 <div class="modern-card p-6 border-t-4 border-orange-500 flex flex-col">
                     <div class="flex justify-between items-start mb-4">
@@ -1825,7 +2465,7 @@
                                 <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">${o.empId}</span>
                             </div>
                         </div>
-                        <button onclick="deleteOkr(${o.id})" class="text-slate-400 hover:text-red-500 transition-colors"><i class="fas fa-trash-alt"></i></button>
+                        <button onclick="deleteOkr(${o.id})" class="text-slate-400 hover:text-red-500 transition-colors"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
                     </div>
                     <p class="text-sm font-medium mb-6 bg-[var(--bg-primary)] p-4 rounded-xl border border-[var(--border-color)] text-[var(--text-primary)]">🎯 ${o.obj}</p>
                     <div class="mt-auto">
@@ -1836,6 +2476,7 @@
                         <input type="range" min="0" max="100" value="${o.progress}" class="progress-slider" oninput="updateOkrProgress(${o.id}, this.value)" onchange="if(this.value == 100) { confetti(); showToast('Goal Achieved!', 'success'); }">
                     </div>
                 </div>`).join('');
+             initIcons();
          };
 
         // --- RESUME TRACKER ---
@@ -1927,10 +2568,11 @@
                     <td class="py-3"><span class="text-[10px] bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 px-2 py-1 rounded font-bold uppercase tracking-widest">${r.company}</span></td>
                     <td class="py-3"><span class="text-sm font-medium text-[var(--text-secondary)]">${formatDateString(r.dateAdded.slice(0,10))}</span></td>
                     <td class="py-3 text-right">
-                        ${r.resumeData ? `<button onclick="viewResumeFile(${r.id})" class="w-8 h-8 rounded-lg bg-teal-50 dark:bg-teal-900/20 text-teal-600 hover:bg-teal-100 dark:hover:bg-teal-900/40 transition-colors mr-2" title="View File"><i class="fas fa-file-pdf"></i></button>` : ''}
-                        <button onclick="deleteResume(${r.id})" class="w-8 h-8 rounded-lg bg-red-50 dark:bg-red-900/20 text-red-500 hover:bg-red-100 dark:hover:bg-red-900/40 transition-colors" title="Delete"><i class="fas fa-trash-alt"></i></button>
+                        ${r.resumeData ? `<button onclick="viewResumeFile(${r.id})" class="w-8 h-8 rounded-lg bg-teal-50 dark:bg-teal-900/20 text-teal-600 hover:bg-teal-100 dark:hover:bg-teal-900/40 transition-colors mr-2 inline-flex items-center justify-center" title="View File"><i data-lucide="file-text" class="w-4 h-4"></i></button>` : ''}
+                        <button onclick="deleteResume(${r.id})" class="w-8 h-8 rounded-lg bg-red-50 dark:bg-red-900/20 text-red-500 hover:bg-red-100 dark:hover:bg-red-900/40 transition-colors inline-flex items-center justify-center" title="Delete"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
                     </td>
                 </tr>`).join('');
+             initIcons();
          };
 
 
@@ -2108,12 +2750,13 @@
              const form = document.getElementById('joineeForm'); if(form) form.reset();
              document.getElementById('editId').value = '';
              document.getElementById('empId').value = 'SG-' + (joinees.length+1).toString().padStart(3,'0');
-             document.getElementById('modalTitle').innerText = "Register Personnel";
+             document.getElementById('modalTitle').innerHTML = '<i data-lucide="user-plus" class="w-5 h-5 mr-2 inline"></i> Register Personnel';
             const rejCont = document.getElementById('rejectionReasonContainer'); if(rejCont) { rejCont.classList.add('hidden'); rejCont.classList.remove('flex'); }
             const empRating = document.getElementById('empRating'); if(empRating) empRating.value = 0;
              updateStarUI(0);
              document.getElementById('addModal')?.classList.remove('hidden');
              setTimeout(()=>{ const mc = document.getElementById('modalContent'); if(mc) mc.style.transform = 'translateX(0)'; }, 10);
+             initIcons();
          };
         const closeModal = () => {
              const mc = document.getElementById('modalContent'); if(mc) mc.style.transform = 'translateX(100%)';
@@ -2126,7 +2769,8 @@
             document.getElementById('editId').value = r.id; document.getElementById('empId').value = r.empId; document.getElementById('status').value = r.status; document.getElementById('empName').value = r.name; document.getElementById('empAge').value = r.age || ''; document.getElementById('empQual').value = r.qualification || ''; document.getElementById('empPhone').value = r.phone; document.getElementById('empEmail').value = r.email || ''; document.getElementById('empSource').value = r.source || 'Direct/Walk-in'; document.getElementById('dept').value = r.dept || 'OTHER'; document.getElementById('company').value = r.company || 'SARATHY MOTORS'; document.getElementById('interviewDate').value = r.interviewDate || ''; document.getElementById('joinDate').value = r.joinDate || ''; document.getElementById('experience').value = r.experience || 0; document.getElementById('location').value = r.location || ''; document.getElementById('designation').value = r.designation || ''; document.getElementById('empRemarks').value = r.remarks || ''; document.getElementById('empRating').value = r.rating || 0; updateStarUI(r.rating || 0);
             const rejCont = document.getElementById('rejectionReasonContainer');
             if(r.status === 'REJECTED') { if(rejCont){rejCont.classList.remove('hidden'); rejCont.classList.add('flex');} document.getElementById('rejectionReason').value = r.rejectionReason || ''; } else { if(rejCont){rejCont.classList.add('hidden'); rejCont.classList.remove('flex');} document.getElementById('rejectionReason').value = ''; }
-            document.getElementById('modalTitle').innerText = "Edit Details"; document.getElementById('addModal')?.classList.remove('hidden'); setTimeout(()=>document.getElementById('modalContent').style.transform = 'translateX(0)', 10);
+            document.getElementById('modalTitle').innerHTML = '<i data-lucide="edit" class="w-5 h-5 mr-2 inline"></i> Edit Details'; document.getElementById('addModal')?.classList.remove('hidden'); setTimeout(()=>document.getElementById('modalContent').style.transform = 'translateX(0)', 10);
+            initIcons();
         };
 
         const deleteSingleRecord = async (id) => {
@@ -2282,17 +2926,17 @@
             
             const commButtons = `
                 <div class="mt-6 p-5 bg-indigo-50/50 dark:bg-slate-800/50 rounded-2xl border border-indigo-100 dark:border-slate-700 no-print">
-                    <h4 class="text-xs font-bold uppercase text-indigo-600 dark:text-indigo-400 mb-3 tracking-widest flex items-center gap-2"><i class="fas fa-paper-plane"></i> Communication Hub</h4>
+                    <h4 class="text-xs font-bold uppercase text-indigo-600 dark:text-indigo-400 mb-3 tracking-widest flex items-center gap-2"><i data-lucide="send" class="w-4 h-4"></i> Communication Hub</h4>
                     <div class="flex flex-wrap gap-2">
                         <button onclick="generateCommMessage(${r.id}, 'interview')" class="flex-1 py-2 bg-white dark:bg-slate-700 border border-indigo-200 dark:border-slate-600 text-indigo-600 dark:text-indigo-300 rounded-lg text-xs font-bold flex items-center justify-center gap-2 hover:bg-indigo-50"><i class="fab fa-whatsapp text-emerald-500 text-lg"></i> Invite to Interview</button>
-                        <button onclick="generateCommMessage(${r.id}, 'welcome')" class="flex-1 py-2 bg-white dark:bg-slate-700 border border-indigo-200 dark:border-slate-600 text-indigo-600 dark:text-indigo-300 rounded-lg text-xs font-bold flex items-center justify-center gap-2 hover:bg-indigo-50"><i class="fas fa-party-horn text-pink-500"></i> Welcome Message</button>
+                        <button onclick="generateCommMessage(${r.id}, 'welcome')" class="flex-1 py-2 bg-white dark:bg-slate-700 border border-indigo-200 dark:border-slate-600 text-indigo-600 dark:text-indigo-300 rounded-lg text-xs font-bold flex items-center justify-center gap-2 hover:bg-indigo-50"><i data-lucide="party-popper" class="text-pink-500 w-4 h-4"></i> Welcome Message</button>
                     </div>
                 </div>
             `;
 
             const docVault = `
                 <div class="mt-4 p-5 bg-amber-50/50 dark:bg-slate-800/50 rounded-2xl border border-amber-100 dark:border-slate-700 no-print">
-                    <h4 class="text-xs font-bold uppercase text-amber-600 dark:text-amber-400 mb-3 tracking-widest flex items-center gap-2"><i class="fas fa-folder-open"></i> Document Vault</h4>
+                    <h4 class="text-xs font-bold uppercase text-amber-600 dark:text-amber-400 mb-3 tracking-widest flex items-center gap-2"><i data-lucide="folder-open" class="w-4 h-4"></i> Document Vault</h4>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
                         ${['Aadhaar Card', 'PAN Card', 'Degree Certificate', 'Experience Letter'].map(doc => `
                             <div class="flex items-center justify-between p-2.5 bg-white dark:bg-slate-700 rounded-xl border border-amber-200/50 dark:border-slate-600 shadow-sm">
@@ -2337,11 +2981,12 @@
                 ${docVault}
                 
                 <div class="mt-8 flex flex-wrap gap-3 no-print">
-                    <button onclick="editRecord(${r.id})" class="flex-1 py-3 bg-white dark:bg-slate-700 text-slate-700 dark:text-white border border-[var(--border-color)] rounded-xl font-bold text-sm transition-colors hover:bg-slate-50"><i class="fas fa-edit mr-2"></i> Edit</button>
-                    ${r.status === 'SELECTED' ? `<button onclick="generateOfferLetter(${r.id})" class="flex-1 py-3 bg-indigo-50 text-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-400 rounded-xl font-bold text-sm transition-colors hover:bg-indigo-100"><i class="fas fa-file-pdf mr-2"></i> Offer Letter</button><button onclick="markAsJoined(${r.id}); closeViewModal();" class="flex-1 py-3 bg-sarathy-blue text-white rounded-xl font-bold text-sm transition-colors shadow-md"><i class="fas fa-check-circle mr-2"></i> Confirm Join</button>` : ''}
-                    <button onclick="deleteSingleRecord(${r.id})" class="flex-1 py-3 bg-red-50 text-red-600 dark:bg-red-900/20 dark:text-red-400 rounded-xl font-bold text-sm transition-colors hover:bg-red-100"><i class="fas fa-trash-alt mr-2"></i> Delete</button>
+                    <button onclick="editRecord(${r.id})" class="flex-1 py-3 bg-white dark:bg-slate-700 text-slate-700 dark:text-white border border-[var(--border-color)] rounded-xl font-bold text-sm transition-colors hover:bg-slate-50"><i data-lucide="edit" class="w-4 h-4 mr-2 inline"></i> Edit</button>
+                    ${r.status === 'SELECTED' ? `<button onclick="generateOfferLetter(${r.id})" class="flex-1 py-3 bg-indigo-50 text-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-400 rounded-xl font-bold text-sm transition-colors hover:bg-indigo-100"><i data-lucide="file-text" class="w-4 h-4 mr-2 inline"></i> Offer Letter</button><button onclick="markAsJoined(${r.id}); closeViewModal();" class="flex-1 py-3 bg-sarathy-blue text-white rounded-xl font-bold text-sm transition-colors shadow-md"><i data-lucide="check-circle" class="w-4 h-4 mr-2 inline"></i> Confirm Join</button>` : ''}
+                    <button onclick="deleteSingleRecord(${r.id})" class="flex-1 py-3 bg-red-50 text-red-600 dark:bg-red-900/20 dark:text-red-400 rounded-xl font-bold text-sm transition-colors hover:bg-red-100"><i data-lucide="trash-2" class="w-4 h-4 mr-2 inline"></i> Delete</button>
                 </div>`;
             const viewContent = document.getElementById('viewModalContent'); if(viewContent) viewContent.innerHTML = content; document.getElementById('viewModal')?.classList.remove('hidden');
+            initIcons();
         };
 
         const markAsJoined = async (id) => {
@@ -2361,7 +3006,7 @@
              const container = document.getElementById('reqEntriesContainer'); if(!container) return;
              container.innerHTML = reqList.map((req, idx) => `
                 <div class="p-4 bg-[var(--bg-secondary)] rounded-2xl border border-[var(--border-color)] relative group">
-                    <button onclick="removeReqRow(${idx})" class="absolute top-2 right-2 text-slate-400 hover:text-red-500 transition opacity-0 group-hover:opacity-100"><i class="fas fa-times-circle text-lg"></i></button>
+                    <button onclick="removeReqRow(${idx})" class="absolute top-2 right-2 text-slate-400 hover:text-red-500 transition opacity-0 group-hover:opacity-100"><i data-lucide="x-circle" class="w-5 h-5"></i></button>
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-3 mt-2">
                         <div>
                             <label class="text-[10px] font-bold text-slate-500 uppercase ml-1">Department</label>
@@ -2401,6 +3046,7 @@
                         </div>
                     </div>
                 </div>`).join('');
+            initIcons();
          };
         const addReqRow = () => { reqList.push({ dept: 'SALES', company: 'ALL', location: 'ALL', target: 5 }); renderReqEntries(); };
         const removeReqRow = (idx) => { reqList.splice(idx, 1); renderReqEntries(); };
@@ -2431,8 +3077,9 @@
                     <div class="w-20 h-20 mx-auto rounded-full mb-4 flex items-center justify-center font-black text-2xl shadow-sm ${getAvatarColor(c.name)}">${c.name[0]}</div>
                     <h4 class="font-black text-base uppercase truncate text-[var(--text-primary)]">${c.name}</h4>
                     <p class="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase mt-1 truncate">${c.designation || 'Employee'}</p>
-                    <p class="text-[10px] font-medium text-slate-500 uppercase mt-2 truncate"><i class="fas fa-building mr-1"></i> ${c.company}</p>
+                    <p class="text-[10px] font-medium text-slate-500 uppercase mt-2 truncate"><i data-lucide="building" class="w-3 h-3 mr-1 inline"></i> ${c.company}</p>
                 </div>`).join('');
+             initIcons();
          };
 
         const renderCalendar = () => {
@@ -2493,13 +3140,14 @@
              const expiredJobs = jobsList.filter(j => j.status === 'ACTIVE' && j.expiryDate && j.expiryDate <= today);
             let notifsHTML = '';
             if(expiredJobs.length > 0) {
-                notifsHTML += expiredJobs.map(j => `<div class="p-4 mb-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-900/30 rounded-xl cursor-pointer hover:border-red-400 transition-colors" onclick="switchTab('jobs')"><span class="font-bold text-sm uppercase text-red-600 dark:text-red-400">${j.title}</span><p class="text-xs font-medium text-red-500 mt-1"><i class="fas fa-exclamation-triangle mr-1"></i> Ad Campaign Completed (${j.durationWeeks} Weeks)</p></div>`).join('');
+                notifsHTML += expiredJobs.map(j => `<div class="p-4 mb-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-900/30 rounded-xl cursor-pointer hover:border-red-400 transition-colors" onclick="switchTab('jobs')"><span class="font-bold text-sm uppercase text-red-600 dark:text-red-400">${j.title}</span><p class="text-xs font-medium text-red-500 mt-1"><i data-lucide="alert-triangle" class="w-4 h-4 mr-1 inline"></i> Ad Campaign Completed (${j.durationWeeks} Weeks)</p></div>`).join('');
             }
             if(todayTxns.length > 0) {
-                notifsHTML += todayTxns.map(a => `<div class="p-4 mb-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl cursor-pointer hover:border-sarathy-blue transition-colors" onclick="viewCandidate(${a.id})"><span class="font-bold text-sm uppercase text-[var(--text-primary)]">${a.name}</span><p class="text-xs font-medium text-slate-500 mt-1">${a.joinDate === today ? '<i class="fas fa-check-circle text-blue-500 mr-1"></i> Joining' : '<i class="fas fa-calendar-check text-amber-500 mr-1"></i> Interview'} Today</p></div>`).join('');
+                notifsHTML += todayTxns.map(a => `<div class="p-4 mb-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl cursor-pointer hover:border-sarathy-blue transition-colors" onclick="viewCandidate(${a.id})"><span class="font-bold text-sm uppercase text-[var(--text-primary)]">${a.name}</span><p class="text-xs font-medium text-slate-500 mt-1">${a.joinDate === today ? '<i data-lucide="check-circle" class="w-4 h-4 text-blue-500 mr-1 inline"></i> Joining' : '<i data-lucide="calendar" class="w-4 h-4 text-amber-500 mr-1 inline"></i> Interview'} Today</p></div>`).join('');
             }
             document.getElementById('notificationBadge').style.display = (todayTxns.length > 0 || expiredJobs.length > 0) ? 'block' : 'none';
              document.getElementById('dynamicNotifications').innerHTML = notifsHTML !== '' ? notifsHTML : '<p class="text-center text-slate-400 font-medium py-10">No upcoming activities today</p>';
+             initIcons();
          };
 
         const exportJSONBackup = () => { const blob = new Blob([JSON.stringify({ candidates: joinees, targets: reqList, jobs: jobsList, training: trainingList, okrs: okrList, resumes: resumesList })], {type: 'application/json'}); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `HR_Backup.json`; a.click(); showToast("Backup Downloaded!"); };
@@ -2583,11 +3231,10 @@
         window.openJobModal = openJobModal;
         window.closeJobModal = closeJobModal;
         window.copyJob = copyJob;
-        window.viewJobLeads = viewJobLeads;
+        window.deleteJobGrid = deleteJobGrid;
+        window.openCampaignLeads = openCampaignLeads;
+        window.backToCampaigns = backToCampaigns;
         window.viewAdImage = viewAdImage;
-        window.updateJobLocal = updateJobLocal;
-        window.saveAllJobsToCloud = saveAllJobsToCloud;
-        window.deleteJobFromGrid = deleteJobFromGrid;
         window.openTrainingModal = openTrainingModal;
         window.closeTrainingModal = closeTrainingModal;
         window.updateTraining = updateTraining;
@@ -2612,15 +3259,24 @@
         window.changeCalendarMonth = changeCalendarMonth;
         window.initCharts = initCharts;
         window.renderTable = renderTable;
-        window.renderJobs = renderJobs;
         window.renderDirectory = renderDirectory;
         window.generateCommMessage = generateCommMessage;
+        window.renderCampaignLeads = renderCampaignLeads;
+        window.changeLeadsPage = changeLeadsPage;
+        window.toggleCol = toggleCol;
+        window.sortLeads = sortLeads;
+        window.toggleAllLeads = toggleAllLeads;
+        window.toggleLeadSelection = toggleLeadSelection;
+        window.bulkDeleteLeads = bulkDeleteLeads;
+        window.bulkUpdateLeadStatus = bulkUpdateLeadStatus;
+        window.downloadLeadsTemplate = downloadLeadsTemplate;
+        window.exportLeadsExcel = exportLeadsExcel;
+        window.exportLeadsPDF = exportLeadsPDF;
+        window.handleLeadsImport = handleLeadsImport;
         
         window.openResumeModal = openResumeModal;
         window.closeResumeModal = closeResumeModal;
         window.renderResumes = renderResumes;
-        window.viewResumeFile = viewResumeFile;
-        window.deleteResume = deleteResume;
     </script>
 </body>
 </html>
