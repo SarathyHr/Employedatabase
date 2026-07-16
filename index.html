@@ -162,13 +162,12 @@
         .data-table tr:last-child td { border-bottom: none; }
         .data-table tr:hover td { background: var(--bg-primary); }
 
-        /* Excel style table edits */
         .excel-table-container { background: var(--bg-secondary); border-radius: 1rem; border: 1px solid var(--border-color); overflow-x: auto; max-height: calc(100vh - 240px); }
-        .excel-table { width: 100%; border-collapse: collapse; }
-        .excel-table th { background: var(--bg-primary); color: #64748b; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; text-align: left; padding: 12px 16px; position: sticky; top: 0; z-index: 10; border: 1px solid var(--border-color); }
-        .excel-table td { border: 1px solid var(--border-color); padding: 0; position: relative; }
-        .excel-table input, .excel-table select { width: 100%; height: 100%; padding: 12px 16px; border: none; background: transparent; outline: none; font-size: 0.9rem; font-weight: 500; color: var(--text-primary); }
-        .excel-table input:focus, .excel-table select:focus { background: rgba(59, 130, 246, 0.05); box-shadow: inset 0 0 0 2px #3b82f6; }
+        .excel-table { width: 100%; border-collapse: collapse; min-width: 1200px; }
+        .excel-table th { background: var(--bg-primary); color: #64748b; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; text-align: left; padding: 12px 16px; position: sticky; top: 0; z-index: 10; border: 1px solid var(--border-color); white-space: nowrap; }
+        .excel-table td { border: 1px solid var(--border-color); padding: 0; position: relative; vertical-align: middle; }
+        .excel-table input, .excel-table select { width: 100%; height: 100%; padding: 12px 12px; border: none; background: transparent; outline: none; font-size: 0.85rem; font-weight: 600; color: var(--text-primary); transition: background 0.2s; }
+        .excel-table input:focus, .excel-table select:focus { background: rgba(59, 130, 246, 0.05); }
         .dark .excel-table th { color: #94a3b8; border-color: var(--border-color); }
         
         .custom-checkbox { width: 22px; height: 22px; cursor: pointer; accent-color: #0054A6; border-radius: 6px; }
@@ -665,25 +664,38 @@
                 <div id="tab-jobs" class="tab-content p-4 md:p-6 lg:p-8 max-w-[1600px] mx-auto">
                     <div class="modern-card p-6 mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 animate-up border-t-4 border-t-sky-500">
                         <div>
-                            <h2 class="text-xl font-black uppercase text-[var(--text-primary)]">Job Postings Manager</h2>
-                            <p class="text-sm text-slate-500">Manage active openings (Excel style preview).</p>
+                            <h2 class="text-xl font-black uppercase text-[var(--text-primary)]">Leads & Social Campaigns</h2>
+                            <p class="text-sm text-slate-500">Publish campaign ads and view/manage candidate leads for each job post campaign.</p>
                         </div>
                         <div class="flex gap-3 w-full md:w-auto">
-                            <button onclick="openJobModal()" class="bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-white px-6 py-2.5 rounded-xl font-bold text-sm transition-all active:scale-95 border border-[var(--border-color)] flex-1 md:flex-none"><i class="fas fa-plus mr-2"></i> Create Job</button>
-                            <button onclick="saveAllJobsToCloud()" class="bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-600 hover:to-blue-700 text-white px-6 py-2.5 rounded-xl font-bold text-sm shadow-[0_4px_15px_rgba(56,189,248,0.4)] transition-all active:scale-95 flex-1 md:flex-none"><i class="fas fa-save mr-2"></i> Save Changes</button>
+                            <button onclick="openJobModal()" class="bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-600 hover:to-blue-700 text-white px-6 py-2.5 rounded-xl font-bold text-sm shadow-[0_4px_15px_rgba(56,189,248,0.4)] transition-all active:scale-95 flex-1 md:flex-none"><i class="fas fa-plus mr-2"></i> Create Ads</button>
+                            <button onclick="saveAllJobsToCloud()" class="bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-white px-6 py-2.5 rounded-xl font-bold text-sm transition-all active:scale-95 border border-[var(--border-color)] flex-1 md:flex-none"><i class="fas fa-save mr-2"></i> Save Changes</button>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col md:flex-row justify-between items-center gap-4 mb-4 animate-up" style="animation-delay: 0.1s;">
+                        <div class="flex items-center gap-2">
+                             <h3 class="font-black text-sm uppercase text-slate-500"><i class="fas fa-image mr-1"></i> Published Ads</h3>
+                             <span id="jobCountBadge" class="bg-sky-100 text-sky-600 dark:bg-sky-900/30 dark:text-sky-400 font-black text-xs px-2 py-0.5 rounded-full">0</span>
+                        </div>
+                        <div class="flex items-center gap-3 w-full md:w-auto">
+                            <label class="text-xs font-bold text-slate-500 uppercase shrink-0">Filter Month:</label>
+                            <input type="month" id="jobMonthFilter" onchange="renderJobs()" class="input-base !py-1.5 !px-3 !text-sm w-full md:w-auto">
+                            <button onclick="document.getElementById('jobMonthFilter').value=''; renderJobs();" class="text-slate-400 hover:text-red-500 shrink-0 text-xs font-bold transition-colors"><i class="fas fa-times-circle"></i> Clear</button>
                         </div>
                     </div>
                     
-                    <div class="excel-table-container animate-up" style="animation-delay: 0.1s;">
-                        <table class="excel-table min-w-[1100px]">
+                    <div class="excel-table-container animate-up" style="animation-delay: 0.2s;">
+                        <table class="excel-table min-w-[1200px]">
                             <thead>
                                 <tr>
+                                    <th style="width: 80px; text-align: center;">Ad Preview</th>
+                                    <th style="width: 15%">Company</th>
                                     <th style="width: 20%">Job Title</th>
-                                    <th style="width: 15%">Department</th>
-                                    <th style="width: 15%">Location</th>
-                                    <th style="width: 20%">Requirements</th>
-                                    <th style="width: 10%">Duration (Wks)</th>
-                                    <th style="width: 20%">Status & Actions</th>
+                                    <th style="width: 15%">Department & Location</th>
+                                    <th style="width: 10%">Posting Date</th>
+                                    <th style="width: 10%">Status</th>
+                                    <th style="width: 25%">Leads & Actions</th>
                                 </tr>
                             </thead>
                             <tbody id="jobsExcelBody">
@@ -1022,23 +1034,37 @@
         <iframe id="viewerPdfSrc" src="" class="w-full max-w-4xl h-[80vh] bg-white rounded-xl shadow-2xl border border-white/10" onclick="event.stopPropagation()"></iframe>
     </div>
 
-    <!-- JOB MODAL -->
+    <!-- JOB MODAL (UPDATED FOR NEW EXCEL VIEW) -->
     <div id="jobModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-[120] hidden flex items-center justify-center p-4 transition-opacity no-print">
         <div class="bg-[var(--bg-secondary)] w-full max-w-md rounded-3xl shadow-2xl border border-[var(--border-color)]">
             <div class="p-6 border-b border-[var(--border-color)] flex justify-between items-center bg-gradient-to-r from-sky-50 to-blue-50 dark:from-slate-800 dark:to-slate-800/80 rounded-t-3xl"><h3 class="font-black text-lg uppercase text-sky-600 dark:text-sky-400">Post a Job</h3><button onclick="closeJobModal()" class="text-slate-400 hover:text-red-500 transition-colors"><i class="fas fa-times text-xl"></i></button></div>
             <div class="p-6 overflow-y-auto max-h-[70vh] custom-scroll">
                 <form id="jobForm" class="space-y-4">
-                    <input type="text" id="jobTitle" required placeholder="Job Title" class="input-base focus:border-sky-500">
-                    <input type="text" id="jobDept" required placeholder="Department" class="input-base uppercase focus:border-sky-500">
-                    <input type="text" id="jobLoc" required placeholder="Location" class="input-base uppercase focus:border-sky-500">
-                    <textarea id="jobReq" required rows="3" placeholder="Job Requirements..." class="input-base resize-none focus:border-sky-500"></textarea>
+                    <select id="jobCompany" required class="input-base focus:border-sky-500 text-sm">
+                         <option value="" disabled selected>Select Company</option>
+                         <option value="SARATHY MOTORS">Sarathy Motors</option>
+                         <option value="SARATHY BIKES PVT LTD">Sarathy Bikes</option>
+                         <option value="SARATHY ELECTRIC BIKES PVT LTD">Electric Bikes</option>
+                         <option value="SARATHY AUTOCARS">Sarathy Autocars</option>
+                         <option value="SARATHY CARS PVT LTD">Sarathy Cars</option>
+                    </select>
+                    <input type="text" id="jobTitle" required placeholder="Job Title (e.g. Sales Executive)" class="input-base focus:border-sky-500 uppercase text-sm">
+                    <input type="text" id="jobDept" required placeholder="Department" class="input-base uppercase focus:border-sky-500 text-sm">
+                    <input type="text" id="jobLoc" required placeholder="Location" class="input-base uppercase focus:border-sky-500 text-sm">
+                    <textarea id="jobReq" required rows="2" placeholder="Keywords / Short Requirements..." class="input-base resize-none focus:border-sky-500 uppercase text-sm"></textarea>
+                    
                     <div class="bg-sky-50/50 dark:bg-slate-800/50 p-4 rounded-xl border border-sky-100 dark:border-slate-700 space-y-3 mt-2">
                         <div>
+                            <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest block mb-2">Creative Ad Image</label>
+                            <input type="file" id="jobImage" accept="image/*" class="input-base text-sm py-2">
+                            <p class="text-[9px] font-medium text-slate-400 mt-1">Upload the campaign creative (Poster).</p>
+                        </div>
+                        <div>
                             <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest block mb-2">Campaign Duration (Weeks)</label>
-                            <input type="number" id="jobDuration" value="2" min="1" max="12" required class="input-base py-2">
+                            <input type="number" id="jobDuration" value="4" min="1" max="12" required class="input-base py-2 text-sm">
                         </div>
                     </div>
-                    <button type="submit" class="w-full bg-gradient-to-r from-sky-500 to-blue-600 text-white font-black py-4 rounded-xl uppercase shadow-[0_5px_15px_rgba(56,189,248,0.4)] mt-2 active:scale-95 transition-transform">Publish Job</button>
+                    <button type="submit" class="w-full bg-gradient-to-r from-sky-500 to-blue-600 text-white font-black py-4 rounded-xl uppercase shadow-[0_5px_15px_rgba(56,189,248,0.4)] mt-2 active:scale-95 transition-transform">Publish Campaign</button>
                 </form>
             </div>
         </div>
@@ -1161,7 +1187,7 @@
         const CURRENT_DB_VERSION = 'sarathy_db_v16'; 
         const CURRENT_BUDGET_VERSION = 'sarathy_req_v16'; 
         const NOTICES_DB_VERSION = 'sarathy_notices_v3';
-        const JOBS_DB_VERSION = 'sarathy_jobs_v3'; 
+        const JOBS_DB_VERSION = 'sarathy_jobs_v4'; 
         const TRAINING_DB_VERSION = 'sarathy_training_v3'; 
         const OKR_DB_VERSION = 'sarathy_okr_v3';
         const RESUMES_DB_VERSION = 'sarathy_resumes_v1';
@@ -1258,13 +1284,33 @@
             setTimeout(() => window.print(), 100); 
         };
 
-        // File to Base64 (Useful for images or PDFs for Resume Tracker)
         const fileToBase64 = (file) => {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
                 reader.readAsDataURL(file);
                 reader.onload = () => resolve(reader.result);
                 reader.onerror = error => reject(error);
+            });
+        };
+
+        const compressImage = (file) => {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = (event) => {
+                    const img = new Image();
+                    img.src = event.target.result;
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        const MAX_WIDTH = 600; 
+                        const scaleSize = MAX_WIDTH / img.width;
+                        canvas.width = MAX_WIDTH;
+                        canvas.height = img.height * scaleSize;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                        resolve(canvas.toDataURL('image/jpeg', 0.6));
+                    }
+                };
             });
         };
 
@@ -1437,7 +1483,7 @@
             document.querySelectorAll('.nav-link').forEach(el => { el.classList.remove('active'); if(el.id === `nav-${tab}`) el.classList.add('active'); });
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
             document.getElementById(`tab-${tab}`)?.classList.add('active');
-            const titles = { dashboard: 'HR Overview', candidates: 'Candidates', directory: 'Directory', jobs: 'Job Postings', training: 'Training', okrs: 'Performance', calendar: 'Schedules', analytics: 'Analytics', settings: 'Settings', resumes: 'Resume Tracker' };
+            const titles = { dashboard: 'HR Overview', candidates: 'Candidates', directory: 'Directory', jobs: 'Leads & Campaigns', training: 'Training', okrs: 'Performance', calendar: 'Schedules', analytics: 'Analytics', settings: 'Settings', resumes: 'Resume Tracker' };
             const pageTitle = document.getElementById('pageTitle'); if(pageTitle) pageTitle.innerText = titles[tab] || 'HR Overview';
             const floatingBackBtn = document.getElementById('floatingBackBtn');
             if (tabHistory.length > 0) {
@@ -1542,25 +1588,50 @@
         };
 
         const viewAdImage = (src) => {
+            if(!src) { showToast('No image uploaded', 'error'); return; }
             document.getElementById('viewerImageSrc').src = src;
             document.getElementById('imageViewerModal').classList.remove('hidden');
         };
 
         const openJobModal = () => { document.getElementById('jobForm').reset(); document.getElementById('jobModal').classList.remove('hidden'); };
         const closeJobModal = () => document.getElementById('jobModal').classList.add('hidden');
+        
         document.getElementById('jobForm')?.addEventListener('submit', async (e) => {
              e.preventDefault();
-            const weeks = parseInt(document.getElementById('jobDuration')?.value) || 2;
+             const fileInput = document.getElementById('jobImage');
+             let adImageBase64 = null;
+             
+             if(fileInput && fileInput.files.length > 0) {
+                 showToast("Compressing Image...");
+                 adImageBase64 = await compressImage(fileInput.files[0]);
+             }
+
+            const weeks = parseInt(document.getElementById('jobDuration')?.value) || 4;
             const expiry = new Date();
             expiry.setDate(expiry.getDate() + (weeks * 7));
-            const job = { id: Date.now(), title: document.getElementById('jobTitle').value, dept: document.getElementById('jobDept').value, location: document.getElementById('jobLoc').value, reqs: document.getElementById('jobReq').value, durationWeeks: weeks, expiryDate: expiry.toISOString().slice(0,10), status: 'ACTIVE', date: new Date().toISOString().slice(0,10) };
+            const jobDate = new Date().toISOString().slice(0,10);
+            
+            const job = { 
+                id: Date.now(), 
+                company: document.getElementById('jobCompany').value,
+                title: document.getElementById('jobTitle').value.trim().toUpperCase(), 
+                dept: document.getElementById('jobDept').value.trim().toUpperCase(), 
+                location: document.getElementById('jobLoc').value.trim().toUpperCase(), 
+                reqs: document.getElementById('jobReq').value.trim().toUpperCase(), 
+                image: adImageBase64, 
+                durationWeeks: weeks, 
+                expiryDate: expiry.toISOString().slice(0,10), 
+                status: 'ACTIVE', 
+                date: jobDate 
+            };
+            
             jobsList.push(job);
              localStorage.setItem(JOBS_DB_VERSION, JSON.stringify(jobsList));
             await writeToCloud('jobs', job.id, job);
-            closeJobModal(); renderJobs(); showToast("Job Published!");
+            closeJobModal(); renderJobs(); showToast("Campaign Published!");
          });
         
-        // --- Jobs EXCEL Style ---
+        // --- Jobs EXCEL Style Inline Editing ---
         window.updateJobLocal = (id, field, value) => {
             const idx = jobsList.findIndex(j => String(j.id) === String(id));
             if(idx > -1) {
@@ -1576,7 +1647,7 @@
                 await Promise.all(writes);
             }
             renderJobs();
-            showToast("Jobs Saved Successfully!", "success");
+            showToast("Changes Saved Successfully!", "success");
         };
 
         window.deleteJobFromGrid = async (id) => {
@@ -1592,7 +1663,7 @@
         const copyJob = (id) => {
             const j = jobsList.find(x => String(x.id) === String(id)); if(!j) return;
             const applyLink = window.location.origin + window.location.pathname + '?view=apply&jobId=' + j.id;
-            const text = `📢 WE ARE HIRING!\n\nRole: ${j.title}\nDept: ${j.dept}\nLocation: ${j.location}\n\nRequirements:\n${j.reqs}\n\nApply securely here: ${applyLink}`;
+            const text = `📢 WE ARE HIRING!\n\nCompany: ${j.company}\nRole: ${j.title}\nDept: ${j.dept}\nLocation: ${j.location}\n\nRequirements:\n${j.reqs}\n\nApply securely here: ${applyLink}`;
             const el = document.createElement('textarea'); el.value = text; document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el); showToast("Job Campaign Link Copied!");
         };
 
@@ -1604,28 +1675,61 @@
 
         const renderJobs = () => {
              const tb = document.getElementById('jobsExcelBody'); if(!tb) return;
-             if(jobsList.length === 0) { tb.innerHTML = '<tr><td colspan="6" class="text-center py-10 font-bold text-slate-400">No Job Postings Found. Create one!</td></tr>'; return; }
              
-             tb.innerHTML = [...jobsList].sort((a,b)=>b.id-a.id).map(j => `
-                <tr>
-                    <td><input type="text" value="${j.title}" onchange="updateJobLocal(${j.id}, 'title', this.value)" placeholder="Title"></td>
-                    <td><input type="text" value="${j.dept}" onchange="updateJobLocal(${j.id}, 'dept', this.value)" class="uppercase" placeholder="Dept"></td>
-                    <td><input type="text" value="${j.location}" onchange="updateJobLocal(${j.id}, 'location', this.value)" class="uppercase" placeholder="Location"></td>
-                    <td><input type="text" value="${j.reqs}" onchange="updateJobLocal(${j.id}, 'reqs', this.value)" placeholder="Requirements"></td>
-                    <td><input type="number" value="${j.durationWeeks}" onchange="updateJobLocal(${j.id}, 'durationWeeks', this.value)" min="1" placeholder="Weeks"></td>
+             const monthFilter = document.getElementById('jobMonthFilter')?.value;
+             let filteredJobs = jobsList;
+             if(monthFilter) {
+                 filteredJobs = jobsList.filter(j => j.date && j.date.startsWith(monthFilter));
+             }
+             
+             const countBadge = document.getElementById('jobCountBadge');
+             if(countBadge) countBadge.innerText = filteredJobs.length;
+
+             if(filteredJobs.length === 0) { tb.innerHTML = '<tr><td colspan="7" class="text-center py-10 font-bold text-slate-400">No Job Postings Found. Create one!</td></tr>'; return; }
+             
+             tb.innerHTML = [...filteredJobs].sort((a,b)=>b.id-a.id).map(j => {
+                 const leadsCount = joinees.filter(c => c.source && c.source.includes(`JOB-${j.id}`)).length;
+                 const imgSrc = j.image || (j.images && j.images[0]) || '';
+                 const imgHtml = imgSrc ? `<img src="${imgSrc}" class="w-10 h-10 rounded-md object-cover cursor-pointer hover:opacity-80 mx-auto shadow-sm" onclick="viewAdImage('${imgSrc}')" title="View Ad">` : `<div class="w-10 h-10 rounded-md bg-slate-100 dark:bg-slate-800 border border-dashed border-slate-300 dark:border-slate-600 flex items-center justify-center text-slate-400 mx-auto text-xs" title="No Image"><i class="fas fa-image"></i></div>`;
+                 
+                 return `
+                <tr class="hover:bg-[var(--bg-primary)] transition-colors">
+                    <td class="text-center py-2 px-1">${imgHtml}</td>
                     <td>
-                        <div class="flex items-center h-full">
-                            <select onchange="updateJobLocal(${j.id}, 'status', this.value)" class="flex-1 !px-2 !py-3">
-                                <option value="ACTIVE" ${j.status === 'ACTIVE' ? 'selected' : ''}>ACTIVE</option>
-                                <option value="CLOSED" ${j.status === 'CLOSED' ? 'selected' : ''}>CLOSED</option>
-                            </select>
-                            <button onclick="copyJob(${j.id})" class="text-sky-500 hover:text-sky-700 px-3 h-full border-l border-[var(--border-color)] transition-colors" title="Copy Link"><i class="fas fa-link"></i></button>
-                            <button onclick="viewJobLeads(${j.id})" class="text-emerald-500 hover:text-emerald-700 px-3 h-full border-l border-[var(--border-color)] transition-colors" title="View Leads"><i class="fas fa-users"></i></button>
-                            <button onclick="deleteJobFromGrid(${j.id})" class="text-red-400 hover:text-red-600 px-3 h-full border-l border-[var(--border-color)] transition-colors" title="Delete Job"><i class="fas fa-trash-alt"></i></button>
+                        <select onchange="updateJobLocal(${j.id}, 'company', this.value)" class="!px-2 !py-3 w-full text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">
+                            <option value="SARATHY MOTORS" ${j.company === 'SARATHY MOTORS' ? 'selected' : ''}>Sarathy Motors</option>
+                            <option value="SARATHY BIKES PVT LTD" ${j.company === 'SARATHY BIKES PVT LTD' ? 'selected' : ''}>Sarathy Bikes</option>
+                            <option value="SARATHY ELECTRIC BIKES PVT LTD" ${j.company === 'SARATHY ELECTRIC BIKES PVT LTD' ? 'selected' : ''}>Electric Bikes</option>
+                            <option value="SARATHY AUTOCARS" ${j.company === 'SARATHY AUTOCARS' ? 'selected' : ''}>Sarathy Autocars</option>
+                            <option value="SARATHY CARS PVT LTD" ${j.company === 'SARATHY CARS PVT LTD' ? 'selected' : ''}>Sarathy Cars</option>
+                        </select>
+                    </td>
+                    <td><input type="text" value="${j.title || ''}" onchange="updateJobLocal(${j.id}, 'title', this.value)" class="font-black uppercase !px-2" placeholder="Title"></td>
+                    <td>
+                        <div class="flex flex-col h-full gap-1">
+                            <input type="text" value="${j.dept || ''}" onchange="updateJobLocal(${j.id}, 'dept', this.value)" class="uppercase text-xs !py-1 !px-2" placeholder="Dept">
+                            <div class="h-px bg-[var(--border-color)]"></div>
+                            <input type="text" value="${j.location || ''}" onchange="updateJobLocal(${j.id}, 'location', this.value)" class="uppercase text-xs !py-1 !px-2" placeholder="Location">
+                        </div>
+                    </td>
+                    <td><input type="date" value="${j.date || ''}" onchange="updateJobLocal(${j.id}, 'date', this.value)" class="text-xs font-bold !px-2 text-slate-500"></td>
+                    <td>
+                        <select onchange="updateJobLocal(${j.id}, 'status', this.value)" class="!px-2 !py-3 text-xs font-black ${j.status === 'ACTIVE' ? 'text-emerald-500' : 'text-slate-400'}">
+                            <option value="ACTIVE" ${j.status === 'ACTIVE' ? 'selected' : ''}>ACTIVE</option>
+                            <option value="CLOSED" ${j.status === 'CLOSED' ? 'selected' : ''}>CLOSED</option>
+                        </select>
+                    </td>
+                    <td>
+                        <div class="flex items-center justify-end h-full gap-2 px-2">
+                            <button onclick="viewJobLeads(${j.id})" class="flex-1 bg-indigo-50 hover:bg-indigo-100 dark:bg-indigo-900/20 dark:hover:bg-indigo-900/40 text-indigo-600 dark:text-indigo-400 rounded-lg py-2 text-xs font-black uppercase transition-colors whitespace-nowrap flex items-center justify-center gap-2">
+                                <i class="fas fa-list-ul"></i> Leads <span class="bg-indigo-600 text-white rounded-full px-1.5 py-0.5 text-[9px]">${leadsCount}</span>
+                            </button>
+                            <button onclick="copyJob(${j.id})" class="w-8 h-8 rounded-lg bg-[var(--bg-primary)] border border-[var(--border-color)] text-sky-500 hover:text-sky-700 hover:bg-sky-50 transition-colors flex items-center justify-center" title="Copy Apply Link"><i class="fas fa-link"></i></button>
+                            <button onclick="deleteJobFromGrid(${j.id})" class="w-8 h-8 rounded-lg bg-red-50 text-red-500 dark:bg-red-900/20 dark:text-red-400 hover:bg-red-100 transition-colors flex items-center justify-center" title="Delete Campaign"><i class="fas fa-trash-alt"></i></button>
                         </div>
                     </td>
                 </tr>
-             `).join('');
+             `;}).join('');
          };
 
         const openTrainingModal = () => { document.getElementById('trainingForm').reset(); document.getElementById('trainEmpId').innerHTML = '<option value="" disabled selected>Select employee</option>' + joinees.filter(x => x.status === 'JOINED').map(e => `<option value="${e.empId}">${e.name}</option>`).join(''); document.getElementById('trainingModal').classList.remove('hidden'); };
@@ -2481,6 +2585,9 @@
         window.copyJob = copyJob;
         window.viewJobLeads = viewJobLeads;
         window.viewAdImage = viewAdImage;
+        window.updateJobLocal = updateJobLocal;
+        window.saveAllJobsToCloud = saveAllJobsToCloud;
+        window.deleteJobFromGrid = deleteJobFromGrid;
         window.openTrainingModal = openTrainingModal;
         window.closeTrainingModal = closeTrainingModal;
         window.updateTraining = updateTraining;
@@ -2505,12 +2612,15 @@
         window.changeCalendarMonth = changeCalendarMonth;
         window.initCharts = initCharts;
         window.renderTable = renderTable;
+        window.renderJobs = renderJobs;
         window.renderDirectory = renderDirectory;
         window.generateCommMessage = generateCommMessage;
         
         window.openResumeModal = openResumeModal;
         window.closeResumeModal = closeResumeModal;
         window.renderResumes = renderResumes;
+        window.viewResumeFile = viewResumeFile;
+        window.deleteResume = deleteResume;
     </script>
 </body>
 </html>
