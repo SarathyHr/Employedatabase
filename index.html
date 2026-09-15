@@ -555,11 +555,14 @@
                     <div class="modern-card p-6 mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 animate-up border-l-4 border-l-blue-500">
                         <div>
                             <h2 class="text-xl font-black uppercase text-[var(--text-primary)] flex items-center gap-2">
-                                <i class="fab fa-facebook text-blue-600"></i> Meta Leads CRM
+                                <i class="fas fa-bullseye text-blue-600"></i> Meta Leads CRM
                             </h2>
-                            <p class="text-sm text-slate-500">Import and manage leads from Facebook & Instagram Ad campaigns via Excel.</p>
+                            <p class="text-sm text-slate-500">Import and manage leads from ad campaigns via Excel.</p>
                         </div>
-                        <div class="flex gap-3">
+                        <div class="flex flex-wrap gap-3">
+                            <button onclick="window.downloadLeadsTemplate()" class="bg-emerald-50 text-emerald-600 border border-emerald-200 hover:bg-emerald-100 px-4 py-2.5 rounded-xl font-bold text-sm shadow-sm transition-colors flex items-center gap-2">
+                                <i class="fas fa-download"></i> Template
+                            </button>
                             <button onclick="document.getElementById('importMetaLeadsFile').click()" class="bg-[#1877F2] hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl font-bold text-sm shadow-sm transition-colors flex items-center gap-2">
                                 <i class="fas fa-file-excel"></i> Import Excel
                             </button>
@@ -1745,6 +1748,18 @@
                 window.renderLeads();
                 window.showToast('Lead Deleted', 'error');
             }
+        };
+
+        window.downloadLeadsTemplate = () => {
+            const ws_data = [
+                ['full_name', 'phone_number', 'email', 'campaign_name'],
+                ['John Doe', '9876543210', 'john@example.com', 'Facebook Ad Oct 2026']
+            ];
+            const ws = XLSX.utils.aoa_to_sheet(ws_data);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Leads_Template");
+            XLSX.writeFile(wb, "Meta_Leads_Import_Template.xlsx");
+            window.showToast("Template downloaded successfully!");
         };
 
         window.importMetaLeads = (event) => {
