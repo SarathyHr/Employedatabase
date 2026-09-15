@@ -250,8 +250,13 @@
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div class="flex flex-col"><label class="text-xs font-bold text-slate-600 dark:text-slate-400 mb-2 ml-1">Full Name *</label><input type="text" id="pubName" required placeholder="e.g. John Doe" class="input-base" /></div>
                                 <div class="flex flex-col"><label class="text-xs font-bold text-slate-600 dark:text-slate-400 mb-2 ml-1">Age *</label><input type="number" id="pubAge" required min="18" max="70" placeholder="e.g. 25" class="input-base" /></div>
+                                <div class="flex flex-col"><label class="text-xs font-bold text-slate-600 dark:text-slate-400 mb-2 ml-1">Gender *</label>
+                                    <select id="pubGender" required class="input-base">
+                                        <option value="" disabled selected>Select Gender</option><option value="MALE">Male</option><option value="FEMALE">Female</option><option value="OTHER">Other</option>
+                                    </select>
+                                </div>
                                 <div class="flex flex-col"><label class="text-xs font-bold text-slate-600 dark:text-slate-400 mb-2 ml-1">Phone Number *</label><input type="tel" id="pubPhone" required pattern="[0-9]{10}" placeholder="10 Digit Mobile No" class="input-base" /></div>
-                                <div class="flex flex-col"><label class="text-xs font-bold text-slate-600 dark:text-slate-400 mb-2 ml-1">Email Address</label><input type="email" id="pubEmail" placeholder="e.g. john@example.com" class="input-base" /></div>
+                                <div class="flex flex-col md:col-span-2"><label class="text-xs font-bold text-slate-600 dark:text-slate-400 mb-2 ml-1">Email Address</label><input type="email" id="pubEmail" placeholder="e.g. john@example.com" class="input-base" /></div>
                             </div>
                         </div>
                         <div class="space-y-6 md:col-span-2 bg-slate-50/50 dark:bg-slate-900/30 p-6 md:p-8 rounded-3xl border border-slate-100 dark:border-slate-800">
@@ -684,8 +689,8 @@
 
                         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 animate-up" style="animation-delay: 0.2s;">
                             <div class="modern-card p-6 print-break">
-                                <h3 class="text-sm font-black uppercase text-[var(--text-primary)] mb-4">Application Trend (Hourly)</h3>
-                                <div class="h-[250px] w-full"><canvas id="drHourlyChart"></canvas></div>
+                                <h3 class="text-sm font-black uppercase text-[var(--text-primary)] mb-4">Gender Distribution</h3>
+                                <div class="h-[250px] w-full"><canvas id="drGenderChart"></canvas></div>
                             </div>
                             <div class="modern-card p-6">
                                 <h3 class="text-sm font-black uppercase text-[var(--text-primary)] mb-4">Department Breakdown</h3>
@@ -933,7 +938,13 @@
                             <div><label class="text-xs font-bold text-slate-500 mb-1.5 block">Phone Number *</label><input type="tel" id="empPhone" required pattern="[0-9]{10}" class="input-base" /></div>
                             <div><label class="text-xs font-bold text-slate-500 mb-1.5 block">Email Address</label><input type="email" id="empEmail" class="input-base" /></div>
                             <div><label class="text-xs font-bold text-slate-500 mb-1.5 block">Age</label><input type="number" id="empAge" class="input-base" /></div>
-                            <div><label class="text-xs font-bold text-slate-500 mb-1.5 block">Qualification</label><input type="text" id="empQual" class="input-base uppercase" /></div>
+                            <div>
+                                <label class="text-xs font-bold text-slate-500 mb-1.5 block">Gender *</label>
+                                <select id="empGender" required class="input-base">
+                                    <option value="MALE">Male</option><option value="FEMALE">Female</option><option value="OTHER">Other</option>
+                                </select>
+                            </div>
+                            <div class="md:col-span-2"><label class="text-xs font-bold text-slate-500 mb-1.5 block">Qualification</label><input type="text" id="empQual" class="input-base uppercase" /></div>
                         </div>
                     </div>
                     <div class="space-y-4">
@@ -1313,6 +1324,7 @@
                 document.getElementById('empPhone').value = editData.phone || '';
                 document.getElementById('empEmail').value = editData.email || '';
                 document.getElementById('empAge').value = editData.age || '';
+                document.getElementById('empGender').value = editData.gender || 'MALE';
                 document.getElementById('empQual').value = editData.qualification || '';
                 document.getElementById('dept').value = editData.dept || 'SALES';
                 document.getElementById('company').value = editData.company || 'SARATHY MOTORS';
@@ -1386,6 +1398,7 @@
                 phone: document.getElementById('empPhone').value,
                 email: document.getElementById('empEmail').value,
                 age: document.getElementById('empAge').value,
+                gender: document.getElementById('empGender').value,
                 qualification: document.getElementById('empQual').value.toUpperCase(),
                 dept: document.getElementById('dept').value,
                 company: document.getElementById('company').value,
@@ -1431,6 +1444,7 @@
                 phone: phone,
                 email: document.getElementById('pubEmail').value,
                 age: document.getElementById('pubAge').value,
+                gender: document.getElementById('pubGender').value,
                 qualification: document.getElementById('pubQual').value.toUpperCase(),
                 dept: document.getElementById('pubDept').value,
                 company: 'SARATHY MOTORS',
@@ -1657,6 +1671,7 @@
                             <div class="flex justify-between"><span class="text-xs font-bold text-slate-500">Phone</span><span class="text-sm font-bold text-[var(--text-primary)]">${j.phone}</span></div>
                             <div class="flex justify-between"><span class="text-xs font-bold text-slate-500">Email</span><span class="text-sm font-medium text-[var(--text-primary)] truncate ml-4">${j.email||'N/A'}</span></div>
                             <div class="flex justify-between"><span class="text-xs font-bold text-slate-500">Age</span><span class="text-sm font-bold text-[var(--text-primary)]">${j.age||'N/A'}</span></div>
+                            <div class="flex justify-between"><span class="text-xs font-bold text-slate-500">Gender</span><span class="text-sm font-bold text-[var(--text-primary)] uppercase">${j.gender||'N/A'}</span></div>
                             <div class="flex justify-between"><span class="text-xs font-bold text-slate-500">Qualification</span><span class="text-sm font-bold text-[var(--text-primary)] uppercase">${j.qualification||'N/A'}</span></div>
                         </div>
                     </div>
@@ -1896,8 +1911,8 @@
         // --- Live Daily Report (Excel Import) ---
         window.downloadDailyReportTemplate = () => {
             const ws_data = [
-                ['DATE', 'FULL NAME', 'JOB POSITION', 'PHONE NUMBER', 'PLACE', 'HAVE ANY EXPERIENCE', 'AGE', 'QUALIFICATION', 'REMARKS'],
-                ['2026-09-15', 'Jane Smith', 'Sales Executive', '9876543210', 'Kollam', '2 Years', '25', 'MBA', 'Good Communication']
+                ['DATE', 'FULL NAME', 'GENDER', 'JOB POSITION', 'PHONE NUMBER', 'PLACE', 'HAVE ANY EXPERIENCE', 'AGE', 'QUALIFICATION', 'REMARKS'],
+                ['2026-09-15', 'Jane Smith', 'FEMALE', 'Sales Executive', '9876543210', 'Kollam', '2 Years', '25', 'MBA', 'Good Communication']
             ];
             const ws = XLSX.utils.aoa_to_sheet(ws_data);
             const wb = XLSX.utils.book_new();
@@ -1956,6 +1971,7 @@
                                     phone: phone,
                                     email: '',
                                     age: rowData['age'] || '',
+                                    gender: (rowData['gender'] || 'OTHER').toUpperCase(),
                                     qualification: (rowData['qualification'] || '').toUpperCase(),
                                     dept: (rowData['job position'] || rowData['department'] || 'OTHER').toUpperCase(),
                                     company: 'SARATHY MOTORS',
@@ -1998,6 +2014,7 @@
             
             let tTotal=dayData.length, tPending=0, tInt=0, tSel=0, tJoin=0, tRej=0;
             const deptCounts = {}; const statusCounts = {}; const recruiterMap = {};
+            const genderCounts = { 'MALE': 0, 'FEMALE': 0, 'OTHER': 0 };
             
             dayData.forEach(j => {
                 const st = j.status;
@@ -2009,6 +2026,11 @@
 
                 deptCounts[j.dept] = (deptCounts[j.dept] || 0) + 1;
                 statusCounts[st] = (statusCounts[st] || 0) + 1;
+
+                let g = (j.gender || '').toUpperCase();
+                if(g === 'MALE' || g === 'M') genderCounts['MALE']++;
+                else if(g === 'FEMALE' || g === 'F') genderCounts['FEMALE']++;
+                else genderCounts['OTHER']++;
 
                 const src = j.source || 'UNKNOWN';
                 if(!recruiterMap[src]) recruiterMap[src] = { total: 0, selected: 0, rejected: 0 };
@@ -2058,23 +2080,22 @@
                 if(Object.keys(recruiterMap).length === 0) recBody.innerHTML = `<tr><td colspan="5" class="text-center p-4 text-slate-400 font-bold text-xs">No sourcing data</td></tr>`;
             }
 
-            window.initReportCharts(deptCounts, statusCounts, dayData.length);
+            window.initReportCharts(deptCounts, statusCounts, genderCounts);
         };
 
-        window.initReportCharts = (deptCounts, statusCounts, total) => {
+        window.initReportCharts = (deptCounts, statusCounts, genderCounts) => {
             const chartOptions = { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { font: { family: 'Outfit', weight: 'bold' } } } } };
             
             if(window.drHourlyChartInstance) window.drHourlyChartInstance.destroy();
-            const hrCanvas = document.getElementById('drHourlyChart');
-            if (hrCanvas) {
-                let hourlyData = [0,0,0,0,0,0,0,0,0,0,0]; 
-                if (total > 0) { 
-                    for(let i=0; i<total; i++) { hourlyData[Math.floor(Math.random()*11)]++; }
-                }
-                window.drHourlyChartInstance = new Chart(hrCanvas, {
-                    type: 'bar',
-                    data: { labels: ['9AM','10AM','11AM','12PM','1PM','2PM','3PM','4PM','5PM','6PM','7PM'], datasets: [{ label: 'Applications', data: hourlyData, backgroundColor: '#3b82f6', borderRadius: 6 }] },
-                    options: chartOptions
+            const genderCanvas = document.getElementById('drGenderChart');
+            if (genderCanvas) {
+                window.drHourlyChartInstance = new Chart(genderCanvas, {
+                    type: 'doughnut',
+                    data: { 
+                        labels: ['Male', 'Female', 'Other'], 
+                        datasets: [{ data: [genderCounts['MALE'], genderCounts['FEMALE'], genderCounts['OTHER']], backgroundColor: ['#3b82f6', '#ec4899', '#94a3b8'] }] 
+                    },
+                    options: { ...chartOptions, cutout: '60%' }
                 });
             }
 
