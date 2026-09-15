@@ -570,6 +570,9 @@
                             <button onclick="window.openLeadModal()" class="bg-[var(--bg-secondary)] border border-[var(--border-color)] text-[var(--text-primary)] px-5 py-2.5 rounded-xl font-bold text-sm hover:bg-[var(--bg-primary)] transition-colors">
                                 <i class="fas fa-plus"></i> Add Lead
                             </button>
+                            <button onclick="window.clearAllLeads()" class="bg-red-50 text-red-600 border border-red-200 hover:bg-red-100 px-4 py-2.5 rounded-xl font-bold text-sm shadow-sm transition-colors flex items-center gap-2">
+                                <i class="fas fa-trash-alt"></i> Clear Data
+                            </button>
                         </div>
                     </div>
 
@@ -633,6 +636,9 @@
                                 <div class="flex flex-wrap items-center gap-2 mt-2">
                                     <button onclick="window.downloadDailyReportTemplate()" class="px-3 py-1.5 bg-emerald-50 text-emerald-600 hover:bg-emerald-100 dark:bg-emerald-900/30 dark:text-emerald-400 rounded-lg font-bold text-xs flex items-center gap-1.5 transition-colors border border-emerald-100 dark:border-emerald-800/50">
                                         <i class="fas fa-file-excel"></i> Download Excel Template
+                                    </button>
+                                    <button onclick="window.clearDailyReport()" class="px-3 py-1.5 bg-red-50 text-red-600 hover:bg-red-100 dark:bg-red-900/30 dark:text-red-400 rounded-lg font-bold text-xs flex items-center gap-1.5 transition-colors border border-red-100 dark:border-red-800/50">
+                                        <i class="fas fa-trash-alt"></i> Clear Today's Data
                                     </button>
                                 </div>
                             </div>
@@ -723,6 +729,7 @@
                                             <th class="!bg-transparent !py-3">Phone</th>
                                             <th class="!bg-transparent !py-3">Dept</th>
                                             <th class="!bg-transparent !py-3">Status</th>
+                                            <th class="!bg-transparent !py-3 text-right">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody id="drCandidatesBody"></tbody>
@@ -1744,6 +1751,34 @@
             }
         };
 
+        window.clearAllLeads = async () => {
+            const yes = await window.showDialogModal('confirm', 'Clear All Leads', 'Are you sure you want to delete ALL Meta Leads? This cannot be undone.');
+            if(yes) {
+                if(window.removeFromCloud) {
+                    for(let l of window.leadsList) await window.removeFromCloud('leads', l.id);
+                }
+                window.leadsList = [];
+                localStorage.setItem(window.LEADS_DB_VERSION, JSON.stringify([]));
+                window.renderLeads();
+                window.showToast("All leads cleared", "error");
+            }
+        };
+
+        window.clearDailyReport = async () => {
+            const dateFilter = document.getElementById('drDateFilter').value;
+            const yes = await window.showDialogModal('confirm', 'Clear Daily Report', `Are you sure you want to delete ALL candidate records for ${dateFilter}?`);
+            if(yes) {
+                const toDelete = window.joinees.filter(j => j.applyDate === dateFilter);
+                if(window.removeFromCloud) {
+                    for(let j of toDelete) await window.removeFromCloud('candidates', j.id);
+                }
+                window.joinees = window.joinees.filter(j => j.applyDate !== dateFilter);
+                localStorage.setItem(window.CURRENT_DB_VERSION, JSON.stringify(window.joinees));
+                window.refreshAllViews();
+                window.showToast(`Cleared all records for ${dateFilter}`, "error");
+            }
+        };
+
         window.downloadLeadsTemplate = () => {
             const ws_data = [
                 ['full_name', 'phone_number', 'email', 'campaign_name'],
@@ -1830,9 +1865,9 @@
                         <div class="bg-[var(--bg-secondary)] p-4 rounded-xl border border-[var(--border-color)] shadow-sm cursor-grab hover:shadow-md transition-shadow" draggable="true" ondragstart="window.dragStartLead(event, ${l.id})" ondragend="window.dragEnd(event)">
                             <div class="flex justify-between items-start mb-2">
                                 <p class="font-bold text-sm uppercase text-[var(--text-primary)] truncate pr-2">${l.name}</p>
-                                <div class="flex gap-1 shrink-0">
-                                    <button onclick="window.editLead(${l.id})" class="text-slate-400 hover:text-blue-500"><i class="fas fa-pen text-xs"></i></button>
-                                    <button onclick="window.deleteLead(${l.id})" class="text-slate-400 hover:text-red-500"><i class="fas fa-trash-alt text-xs"></i></button>
+                                <div class="flex gap-2 shrink-0">
+                                    <button onclick="window.editLead(${l.id})" class="w-7 h-7 rounded bg-slate-100 dark:bg-slate-700 text-slate-500 hover:text-blue-500 shadow-sm border border-[var(--border-color)] flex items-center justify-center transition-colors"><i class="fas fa-pen text-xs"></i></button>
+                                    <button onclick="window.deleteLead(${l.id})" class="w-7 h-7 rounded bg-slate-100 dark:bg-slate-700 text-slate-500 hover:text-red-500 shadow-sm border border-[var(--border-color)] flex items-center justify-center transition-colors"><i class="fas fa-trash-alt text-xs"></i></button>
                                 </div>
                             </div>
                             <p class="text-xs font-medium text-slate-500 mb-1"><i class="fas fa-phone fa-fw mr-1"></i>${l.phone}</p>
@@ -1991,13 +2026,17 @@
 
             const drBody = document.getElementById('drCandidatesBody');
             if (drBody) {
-                if (dayData.length === 0) drBody.innerHTML = `<tr><td colspan="4" class="text-center p-6 text-slate-400 font-bold">No candidates registered on this date.</td></tr>`;
+                if (dayData.length === 0) drBody.innerHTML = `<tr><td colspan="5" class="text-center p-6 text-slate-400 font-bold">No candidates registered on this date.</td></tr>`;
                 else drBody.innerHTML = dayData.map(j => `
                     <tr class="hover:bg-slate-50 dark:hover:bg-slate-800 border-b border-slate-100 dark:border-slate-700 last:border-0 cursor-pointer" onclick="window.viewCandidate(${j.id})">
                         <td class="py-3"><span class="font-bold text-sm text-[var(--text-primary)] uppercase">${j.name}</span><br><span class="text-[10px] text-slate-400">${j.empId}</span></td>
                         <td class="py-3 text-sm font-medium text-[var(--text-secondary)]">${j.phone}</td>
                         <td class="py-3 text-xs font-black text-indigo-500 uppercase">${j.dept}</td>
                         <td class="py-3"><span class="px-2 py-1 text-[10px] font-black uppercase rounded ${j.status==='SELECTED'?'bg-emerald-100 text-emerald-700':j.status==='REJECTED'?'bg-red-100 text-red-700':'bg-slate-100 text-slate-600'}">${j.status}</span></td>
+                        <td class="py-3 text-right" onclick="event.stopPropagation()">
+                            <button onclick="window.editRecord(${j.id})" class="w-8 h-8 rounded-lg bg-white dark:bg-slate-700 text-slate-500 hover:text-blue-500 shadow-sm border border-[var(--border-color)] mr-1 transition-colors"><i class="fas fa-pen text-xs"></i></button>
+                            <button onclick="window.deleteSingleRecord(${j.id})" class="w-8 h-8 rounded-lg bg-white dark:bg-slate-700 text-slate-500 hover:text-red-500 shadow-sm border border-[var(--border-color)] transition-colors"><i class="fas fa-trash-alt text-xs"></i></button>
+                        </td>
                     </tr>
                 `).join('');
             }
