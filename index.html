@@ -354,9 +354,8 @@
                 </div>
                 <div class="flex items-center gap-2 md:gap-4 shrink-0">
                     <button onclick="window.toggleDarkMode()" class="w-10 h-10 rounded-full bg-white dark:bg-slate-800 shadow-sm border border-[var(--border-color)] text-[var(--text-secondary)] hover:text-sarathy-blue transition-colors"><i id="darkModeIcon" class="fas fa-moon"></i></button>
-                    <button onclick="window.toggleNotifications()" class="w-10 h-10 rounded-full bg-white dark:bg-slate-800 shadow-sm border border-[var(--border-color)] text-[var(--text-secondary)] hover:text-sarathy-blue transition-colors relative">
+                    <button onclick="window.showToast('No new notifications', 'info')" class="w-10 h-10 rounded-full bg-white dark:bg-slate-800 shadow-sm border border-[var(--border-color)] text-[var(--text-secondary)] hover:text-sarathy-blue transition-colors relative">
                         <i class="fas fa-bell"></i>
-                        <span id="notificationBadge" class="hidden absolute top-0 right-0 w-3 h-3 rounded-full bg-red-500 border-2 border-white dark:border-slate-800"></span>
                     </button>
                     <div class="h-8 w-px bg-[var(--border-color)] mx-1 hidden sm:block"></div>
                     <div class="flex items-center gap-3 pl-1 pr-3 py-1 rounded-full cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" onclick="window.switchTab('settings')">
@@ -374,33 +373,20 @@
                 <div id="tab-dashboard" class="tab-content active p-4 md:p-6 lg:p-8 space-y-6 max-w-[1600px] mx-auto">
                     <div class="bg-gradient-to-br from-slate-900 via-[#0054A6] to-sky-600 rounded-[2.5rem] p-6 md:p-12 text-white relative overflow-hidden shadow-2xl animate-up border border-white/10">
                         <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-sky-400/20 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/3 mix-blend-screen pointer-events-none"></div>
-                        <div class="absolute bottom-0 left-0 w-[400px] h-[400px] bg-indigo-500/20 rounded-full blur-[60px] translate-y-1/3 -translate-x-1/4 mix-blend-screen pointer-events-none"></div>
                         <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNSkiLz48L3N2Zz4=')] [mask-image:linear-gradient(to_bottom,white,transparent)] pointer-events-none"></div>
                         <div class="relative z-10 flex flex-col xl:flex-row justify-between items-start xl:items-center gap-8">
                             <div class="flex-1">
-                                <h2 id="dynamicGreeting" class="text-4xl md:text-5xl font-black mb-3 flex items-center gap-4 tracking-tight drop-shadow-md">Good Morning, HR <i class="fas fa-coffee text-blue-200"></i></h2>
+                                <h2 class="text-4xl md:text-5xl font-black mb-3 flex items-center gap-4 tracking-tight drop-shadow-md">Good Morning, HR <i class="fas fa-coffee text-blue-200"></i></h2>
                                 <p class="text-blue-100 font-medium mb-6 text-base md:text-lg opacity-90 drop-shadow-sm">Here's what's happening in your organization today.</p>
-                                <div id="dynamicDateTime" class="text-white font-bold text-lg md:text-xl bg-black/20 inline-flex flex-wrap items-center px-6 py-3 md:px-8 md:py-4 rounded-2xl mb-8 backdrop-blur-md border border-white/20 shadow-inner tracking-wide"></div>
                                 <div class="flex flex-wrap gap-3">
                                     <button onclick="window.openModal()" class="bg-white text-sarathy-blue px-6 py-3.5 rounded-xl font-black text-sm md:text-base shadow-[0_0_20px_rgba(255,255,255,0.2)] hover:shadow-[0_0_30px_rgba(255,255,255,0.4)] transition-all active:scale-95"><i class="fas fa-plus mr-2"></i> Add Candidate</button>
-                                    <button onclick="window.copyApplicationLink()" class="bg-white/10 hover:bg-white/20 backdrop-blur-lg border border-white/20 text-white px-6 py-3.5 rounded-xl font-bold text-sm md:text-base shadow-sm transition-all active:scale-95"><i class="fas fa-link mr-2"></i> Share Form</button>
-                                    <button onclick="document.getElementById('bulkUploadExcel').click()" class="bg-white/10 hover:bg-white/20 backdrop-blur-lg border border-white/20 text-white px-6 py-3.5 rounded-xl font-bold text-sm md:text-base hidden sm:inline-block shadow-sm transition-all active:scale-95"><i class="fas fa-file-excel mr-2"></i> Import</button>
-                                    <input type="file" id="bulkUploadExcel" accept=".xlsx, .xls, .csv" class="hidden" onchange="window.handleBulkExcelUpload(event)" />
                                 </div>
-                            </div>
-                            <div class="w-full xl:w-[420px] bg-black/20 backdrop-blur-xl border border-white/10 p-6 md:p-8 rounded-[2rem] flex flex-col h-[280px] shadow-2xl shrink-0 relative overflow-hidden">
-                                <div class="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent pointer-events-none"></div>
-                                <div class="flex justify-between items-center mb-5 pb-4 border-b border-white/10 relative z-10">
-                                    <h3 class="font-black text-sm uppercase tracking-widest text-white flex items-center gap-3"><i class="fas fa-bolt text-amber-300 text-lg"></i> Notice Board</h3>
-                                    <button onclick="window.addNotice()" class="text-white hover:text-amber-300 transition-colors w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20"><i class="fas fa-plus"></i></button>
-                                </div>
-                                <div id="noticeBoardContent" class="space-y-3 overflow-y-auto custom-scroll flex-1 pr-2 text-sm relative z-10"></div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-2 md:grid-cols-6 gap-3 md:gap-4 animate-up" style="animation-delay: 0.1s;">
-                        <div class="modern-card p-4 md:p-6 flex flex-col justify-center relative overflow-hidden group">
+                    <div class="grid grid-cols-2 md:grid-cols-5 gap-3 md:gap-4 animate-up" style="animation-delay: 0.1s;">
+                        <div class="modern-card p-4 md:p-6 flex flex-col justify-center relative overflow-hidden group border-b-4 border-slate-500">
                             <span class="text-[10px] md:text-xs font-black text-slate-500 uppercase tracking-wider mb-1">Total Apps</span>
                             <h3 class="text-3xl md:text-4xl font-black text-slate-800 dark:text-white" id="statTotal">0</h3>
                         </div>
@@ -419,10 +405,6 @@
                         <div class="modern-card p-4 md:p-6 flex flex-col justify-center relative overflow-hidden group border-b-4 border-red-500">
                             <span class="text-[10px] md:text-xs font-black text-slate-500 uppercase tracking-wider mb-1">Rejected</span>
                             <h3 class="text-3xl md:text-4xl font-black text-red-500" id="statRejected">0</h3>
-                        </div>
-                        <div class="modern-card p-4 md:p-6 flex flex-col justify-center relative overflow-hidden group border-b-4 border-indigo-500 bg-indigo-50/30 dark:bg-indigo-900/10">
-                            <span class="text-[10px] md:text-xs font-black text-indigo-500 uppercase tracking-wider mb-1">Avg. Time to Hire</span>
-                            <h3 class="text-3xl md:text-4xl font-black text-indigo-600" id="statHiringTime">0 <span class="text-sm">Days</span></h3>
                         </div>
                     </div>
 
@@ -457,7 +439,6 @@
                                 <input type="text" id="searchInput" onkeyup="window.renderTable()" placeholder="Search names, IDs, phone..." class="w-full pl-11 pr-4 py-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl text-sm font-medium outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all" />
                             </div>
                             <div class="flex gap-2 overflow-x-auto no-scrollbar md:w-auto shrink-0 items-center">
-                                <input type="month" id="filterMonth" onchange="window.renderTable()" class="px-4 py-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl text-sm font-medium outline-none cursor-pointer" />
                                 <select id="filterDept" onchange="window.renderTable()" class="px-4 py-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl text-sm font-medium outline-none cursor-pointer">
                                     <option value="ALL">All Depts</option>
                                     <option value="SALES">Sales</option>
@@ -468,13 +449,6 @@
                                     <option value="FINANCE">Finance</option>
                                     <option value="OTHER">Other</option>
                                 </select>
-                                <select id="filterCompany" onchange="window.renderTable()" class="hidden lg:block px-4 py-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl text-sm font-medium outline-none cursor-pointer">
-                                    <option value="ALL">All Entities</option>
-                                    <option value="SARATHY MOTORS">Sarathy Motors</option>
-                                    <option value="SARATHY BIKES PVT LTD">Sarathy Bikes Pvt Ltd</option>
-                                    <option value="SARATHY ELECTRIC BIKES">Sarathy Electric Bikes</option>
-                                    <option value="SARATHY AUTOCARS">Sarathy Autocars</option>
-                                </select>
                             </div>
                         </div>
                         <div class="flex flex-wrap items-center justify-between gap-4">
@@ -484,10 +458,6 @@
                                 <button onclick="window.setQuickFilter('Selected')" class="px-5 py-2 rounded-lg text-xs font-bold text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" id="chip-Selected">Selected</button>
                                 <button onclick="window.setQuickFilter('Joined')" class="px-5 py-2 rounded-lg text-xs font-bold text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" id="chip-Joined">Joined</button>
                                 <button onclick="window.setQuickFilter('Rejected')" class="px-5 py-2 rounded-lg text-xs font-bold text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" id="chip-Rejected">Rejected</button>
-                            </div>
-                            <div class="flex bg-[var(--bg-primary)] p-1 rounded-lg border border-[var(--border-color)]">
-                                <button onclick="window.setView('list')" id="btnViewList" class="px-4 py-1.5 rounded text-sm font-bold bg-white dark:bg-slate-700 shadow-sm text-sarathy-blue dark:text-white"><i class="fas fa-list"></i></button>
-                                <button onclick="window.setView('board')" id="btnViewBoard" class="px-4 py-1.5 rounded text-sm font-bold text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"><i class="fas fa-columns"></i></button>
                             </div>
                         </div>
                     </div>
@@ -509,146 +479,12 @@
                             </table>
                         </div>
                     </div>
-
-                    <div id="boardView" class="hidden grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 animate-up pb-4 overflow-x-auto">
-                        <div class="kanban-col min-w-[300px]" ondrop="window.dropToBoard(event, 'PENDING')" ondragover="window.allowBoardDrop(event)">
-                            <div class="flex justify-between items-center mb-4 px-2">
-                                <h3 class="font-bold text-sm text-slate-600 dark:text-slate-300 uppercase tracking-wide">Pending</h3>
-                                <span id="countBoardPending" class="bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold px-2 py-1 rounded-md">0</span>
-                            </div>
-                            <div id="boardPending" class="flex-1 space-y-3 overflow-y-auto custom-scroll pr-1 pb-4"></div>
-                        </div>
-                        <div class="kanban-col min-w-[300px]" ondrop="window.dropToBoard(event, 'SELECTED')" ondragover="window.allowBoardDrop(event)">
-                            <div class="flex justify-between items-center mb-4 px-2">
-                                <h3 class="font-bold text-sm text-emerald-600 uppercase tracking-wide">Selected</h3>
-                                <span id="countBoardSelected" class="bg-emerald-100 text-emerald-700 text-xs font-bold px-2 py-1 rounded-md">0</span>
-                            </div>
-                            <div id="boardSelected" class="flex-1 space-y-3 overflow-y-auto custom-scroll pr-1 pb-4"></div>
-                        </div>
-                        <div class="kanban-col min-w-[300px]" ondrop="window.dropToBoard(event, 'JOINED')" ondragover="window.allowBoardDrop(event)">
-                            <div class="flex justify-between items-center mb-4 px-2">
-                                <h3 class="font-bold text-sm text-blue-600 uppercase tracking-wide">Joined</h3>
-                                <span id="countBoardJoined" class="bg-blue-100 text-blue-700 text-xs font-bold px-2 py-1 rounded-md">0</span>
-                            </div>
-                            <div id="boardJoined" class="flex-1 space-y-3 overflow-y-auto custom-scroll pr-1 pb-4"></div>
-                        </div>
-                        <div class="kanban-col min-w-[300px]" ondrop="window.dropToBoard(event, 'REJECTED')" ondragover="window.allowBoardDrop(event)">
-                            <div class="flex justify-between items-center mb-4 px-2">
-                                <h3 class="font-bold text-sm text-red-500 uppercase tracking-wide">Rejected</h3>
-                                <span id="countBoardRejected" class="bg-red-100 text-red-700 text-xs font-bold px-2 py-1 rounded-md">0</span>
-                            </div>
-                            <div id="boardRejected" class="flex-1 space-y-3 overflow-y-auto custom-scroll pr-1 pb-4"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- TAB: META LEADS -->
-                <div id="tab-leads" class="tab-content p-4 md:p-6 lg:p-8 max-w-[1600px] mx-auto">
-                    <div class="modern-card p-6 mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 animate-up border-l-4 border-l-blue-500">
-                        <div>
-                            <h2 class="text-xl font-black uppercase text-[var(--text-primary)] flex items-center gap-2">
-                                <i class="fab fa-facebook text-blue-600"></i> Meta Leads CRM
-                            </h2>
-                            <p class="text-sm text-slate-500">Import and manage leads from Facebook & Instagram Ad campaigns.</p>
-                        </div>
-                        <div class="flex gap-3">
-                            <button onclick="document.getElementById('importMetaLeadsFile').click()" class="bg-[#1877F2] hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl font-bold text-sm shadow-sm transition-colors flex items-center gap-2">
-                                <i class="fas fa-file-csv"></i> Import Meta CSV
-                            </button>
-                            <input type="file" id="importMetaLeadsFile" accept=".csv" class="hidden" onchange="window.importMetaLeads(event)" />
-                            <button onclick="window.openLeadModal()" class="bg-[var(--bg-secondary)] border border-[var(--border-color)] text-[var(--text-primary)] px-5 py-2.5 rounded-xl font-bold text-sm hover:bg-[var(--bg-primary)] transition-colors">
-                                <i class="fas fa-plus"></i> Add Lead
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 animate-up">
-                        <div class="modern-card p-4 border-t-2 border-slate-400">
-                            <span class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Total Leads</span>
-                            <h3 class="text-2xl font-black text-slate-700 dark:text-slate-200" id="statLeadsTotal">0</h3>
-                        </div>
-                        <div class="modern-card p-4 border-t-2 border-blue-400">
-                            <span class="text-[10px] font-black text-blue-500 uppercase tracking-widest">New</span>
-                            <h3 class="text-2xl font-black text-blue-500" id="statLeadsNew">0</h3>
-                        </div>
-                        <div class="modern-card p-4 border-t-2 border-amber-400">
-                            <span class="text-[10px] font-black text-amber-500 uppercase tracking-widest">Contacted</span>
-                            <h3 class="text-2xl font-black text-amber-500" id="statLeadsContacted">0</h3>
-                        </div>
-                        <div class="modern-card p-4 border-t-2 border-emerald-400">
-                            <span class="text-[10px] font-black text-emerald-500 uppercase tracking-widest">Converted</span>
-                            <h3 class="text-2xl font-black text-emerald-500" id="statLeadsConverted">0</h3>
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 animate-up overflow-x-auto pb-4">
-                        <div class="kanban-col min-w-[280px]" ondrop="window.dropLead(event, 'NEW')" ondragover="window.allowBoardDrop(event)">
-                            <div class="flex justify-between items-center mb-4 px-2">
-                                <h3 class="font-bold text-sm text-blue-600 uppercase tracking-wide">New Leads</h3>
-                            </div>
-                            <div id="leadsBoardNEW" class="flex-1 space-y-3 overflow-y-auto custom-scroll pr-1 pb-4"></div>
-                        </div>
-                        <div class="kanban-col min-w-[280px]" ondrop="window.dropLead(event, 'CONTACTED')" ondragover="window.allowBoardDrop(event)">
-                            <div class="flex justify-between items-center mb-4 px-2">
-                                <h3 class="font-bold text-sm text-amber-600 uppercase tracking-wide">Contacted</h3>
-                            </div>
-                            <div id="leadsBoardCONTACTED" class="flex-1 space-y-3 overflow-y-auto custom-scroll pr-1 pb-4"></div>
-                        </div>
-                        <div class="kanban-col min-w-[280px]" ondrop="window.dropLead(event, 'INTERESTED')" ondragover="window.allowBoardDrop(event)">
-                            <div class="flex justify-between items-center mb-4 px-2">
-                                <h3 class="font-bold text-sm text-purple-600 uppercase tracking-wide">Interested</h3>
-                            </div>
-                            <div id="leadsBoardINTERESTED" class="flex-1 space-y-3 overflow-y-auto custom-scroll pr-1 pb-4"></div>
-                        </div>
-                        <div class="kanban-col min-w-[280px]" ondrop="window.dropLead(event, 'CONVERTED')" ondragover="window.allowBoardDrop(event)">
-                            <div class="flex justify-between items-center mb-4 px-2">
-                                <h3 class="font-bold text-sm text-emerald-600 uppercase tracking-wide">Converted</h3>
-                            </div>
-                            <div id="leadsBoardCONVERTED" class="flex-1 space-y-3 overflow-y-auto custom-scroll pr-1 pb-4"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- TAB: LEAVES -->
-                <div id="tab-leaves" class="tab-content p-4 md:p-6 lg:p-8 max-w-[1600px] mx-auto">
-                    <div class="modern-card p-6 mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 animate-up border-l-4 border-l-emerald-500">
-                        <div>
-                            <h2 class="text-xl font-black uppercase text-[var(--text-primary)] flex items-center gap-2">
-                                <i class="fas fa-calendar-times text-emerald-600"></i> Leave Management
-                            </h2>
-                            <p class="text-sm text-slate-500">Track and approve employee leave requests.</p>
-                        </div>
-                        <button onclick="window.openLeaveModal()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2.5 rounded-xl font-bold text-sm shadow-sm transition-colors flex items-center gap-2">
-                            <i class="fas fa-plus"></i> Add Leave Request
-                        </button>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 animate-up overflow-x-auto pb-4">
-                        <div class="kanban-col min-w-[280px]" ondrop="window.dropLeave(event, 'PENDING')" ondragover="window.allowBoardDrop(event)">
-                            <div class="flex justify-between items-center mb-4 px-2">
-                                <h3 class="font-bold text-sm text-amber-600 uppercase tracking-wide"><i class="fas fa-clock"></i> Pending</h3>
-                            </div>
-                            <div id="leavesBoardPENDING" class="flex-1 space-y-3 overflow-y-auto custom-scroll pr-1 pb-4"></div>
-                        </div>
-                        <div class="kanban-col min-w-[280px]" ondrop="window.dropLeave(event, 'APPROVED')" ondragover="window.allowBoardDrop(event)">
-                            <div class="flex justify-between items-center mb-4 px-2">
-                                <h3 class="font-bold text-sm text-emerald-600 uppercase tracking-wide"><i class="fas fa-check-circle"></i> Approved</h3>
-                            </div>
-                            <div id="leavesBoardAPPROVED" class="flex-1 space-y-3 overflow-y-auto custom-scroll pr-1 pb-4"></div>
-                        </div>
-                        <div class="kanban-col min-w-[280px]" ondrop="window.dropLeave(event, 'REJECTED')" ondragover="window.allowBoardDrop(event)">
-                            <div class="flex justify-between items-center mb-4 px-2">
-                                <h3 class="font-bold text-sm text-red-500 uppercase tracking-wide"><i class="fas fa-times-circle"></i> Rejected</h3>
-                            </div>
-                            <div id="leavesBoardREJECTED" class="flex-1 space-y-3 overflow-y-auto custom-scroll pr-1 pb-4"></div>
-                        </div>
-                    </div>
                 </div>
 
                 <!-- TAB 3: DAILY REPORT -->
                 <div id="tab-directory" class="tab-content p-4 md:p-6 lg:p-8 max-w-[1600px] mx-auto h-full relative">
                     <div id="dailyReportContent" class="space-y-6">
-                        <div class="modern-card p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 animate-up border-l-4 border-l-indigo-500 shadow-md bg-gradient-to-r from-white to-slate-50 dark:from-slate-800 dark:to-slate-900/50 print:border-none print:shadow-none print:bg-white">
+                        <div class="modern-card p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 animate-up border-l-4 border-l-indigo-500 shadow-md">
                             <div>
                                 <h2 class="text-xl font-black uppercase text-[var(--text-primary)] flex items-center gap-3">
                                     <div class="w-10 h-10 rounded-xl bg-indigo-50 dark:bg-indigo-900/50 text-indigo-600 flex items-center justify-center shadow-sm border border-indigo-100 dark:border-indigo-800/50"><i class="fas fa-chart-line"></i></div>
@@ -693,36 +529,13 @@
                         </div>
 
                         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 animate-up" style="animation-delay: 0.2s;">
-                            <div class="modern-card p-6 print-break">
-                                <h3 class="text-sm font-black uppercase text-[var(--text-primary)] mb-4">Application Trend (Hourly)</h3>
-                                <div class="h-[250px] w-full"><canvas id="drHourlyChart"></canvas></div>
-                            </div>
                             <div class="modern-card p-6">
                                 <h3 class="text-sm font-black uppercase text-[var(--text-primary)] mb-4">Department Breakdown</h3>
                                 <div class="h-[250px] w-full"><canvas id="drDeptChart"></canvas></div>
                             </div>
-                        </div>
-
-                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 animate-up" style="animation-delay: 0.3s;">
-                            <div class="modern-card p-6 flex flex-col print-break">
+                            <div class="modern-card p-6">
                                 <h3 class="text-sm font-black uppercase text-[var(--text-primary)] mb-4">Status Distribution</h3>
-                                <div class="h-[200px] w-full relative flex-1"><canvas id="drStatusChart"></canvas></div>
-                            </div>
-                            <div class="lg:col-span-2 modern-card p-6 flex flex-col">
-                                <h3 class="text-sm font-black uppercase text-[var(--text-primary)] mb-4">Recruiter / Source Performance</h3>
-                                <div class="overflow-x-auto flex-1">
-                                    <table class="w-full text-left border-collapse">
-                                        <thead>
-                                            <tr class="border-b border-[var(--border-color)]">
-                                                <th class="py-3 px-2 text-xs font-bold text-slate-500 uppercase tracking-wider">Source/Recruiter</th>
-                                                <th class="py-3 px-2 text-xs font-bold text-slate-500 uppercase tracking-wider text-center">Total</th>
-                                                <th class="py-3 px-2 text-xs font-bold text-slate-500 uppercase tracking-wider text-center">Selected</th>
-                                                <th class="py-3 px-2 text-xs font-bold text-slate-500 uppercase tracking-wider text-center">Rejected</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="drRecruiterBody" class="divide-y divide-[var(--border-color)]"></tbody>
-                                    </table>
-                                </div>
+                                <div class="h-[250px] w-full relative flex-1"><canvas id="drStatusChart"></canvas></div>
                             </div>
                         </div>
 
@@ -756,22 +569,11 @@
                             <p class="text-xs text-slate-500 font-medium mt-1">Manage, upload, and track candidate biodatas and resumes across departments.</p>
                         </div>
                         <div class="flex flex-wrap items-center gap-3 w-full xl:w-auto">
-                            <div class="flex items-center gap-2 mr-2">
-                                <label class="text-[10px] font-bold text-slate-500 uppercase"><i class="fas fa-filter"></i> Month:</label>
-                                <select id="resumeMonthFilter" onchange="window.renderResumes()" class="px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs font-bold outline-none cursor-pointer shadow-sm min-w-[120px]">
-                                    <option value="ALL">ALL</option>
-                                    <option value="01">January</option><option value="02">February</option><option value="03">March</option>
-                                    <option value="04">April</option><option value="05">May</option><option value="06">June</option>
-                                    <option value="07">July</option><option value="08">August</option><option value="09">September</option>
-                                    <option value="10">October</option><option value="11">November</option><option value="12">December</option>
-                                </select>
-                            </div>
-                            <button onclick="window.openBulkUploadModal()" class="bg-[#5c4ae6] hover:bg-[#4b3cd9] text-white px-5 py-2.5 rounded-lg font-bold text-xs shadow-sm transition-colors flex items-center gap-2 tracking-wide"><i class="fas fa-upload"></i> Bulk Upload Biodata</button>
+                            <button onclick="window.openBulkUploadModal()" class="bg-[#5c4ae6] hover:bg-[#4b3cd9] text-white px-5 py-2.5 rounded-lg font-bold text-xs shadow-sm transition-colors flex items-center gap-2 tracking-wide"><i class="fas fa-upload"></i> Upload Biodata</button>
                             <div class="h-6 w-px bg-slate-200 hidden sm:block mx-1"></div>
                             <button onclick="window.clearAllResumes()" class="bg-[#f03e5c] hover:bg-[#d93551] text-white px-4 py-2.5 rounded-lg font-bold text-xs shadow-sm transition-colors flex items-center gap-2 tracking-wide"><i class="fas fa-trash-alt"></i> Clear All Resumes</button>
                         </div>
                     </div>
-                    <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8 animate-up" style="animation-delay: 0.1s;" id="resumeStatsContainer"></div>
                     <div class="space-y-4 animate-up" style="animation-delay: 0.2s;" id="resumeDeptsContainer"></div>
                 </div>
 
@@ -787,86 +589,13 @@
                     <div id="jobsContainer" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 animate-up" style="animation-delay: 0.1s;"></div>
                 </div>
 
-                <!-- TAB: SETTINGS -->
-                <div id="tab-settings" class="tab-content p-4 md:p-6 lg:p-8 max-w-[1600px] mx-auto">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 animate-up">
-                        <div class="modern-card p-6">
-                            <h3 class="font-black text-lg uppercase text-[var(--text-primary)] mb-6">Security Settings</h3>
-                            <form id="changePinForm" class="space-y-4">
-                                <div>
-                                    <label class="text-xs font-bold text-slate-500 uppercase mb-2 block">New Admin PIN</label>
-                                    <input type="password" id="newAdminPin" required minlength="4" class="input-base" />
-                                </div>
-                                <button type="submit" class="w-full bg-sarathy-blue hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition-colors">Update PIN</button>
-                            </form>
-                        </div>
-                        <div class="modern-card p-6 md:col-span-2">
-                            <h3 class="font-black text-lg uppercase text-[var(--text-primary)] mb-6">Data Management</h3>
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-                                <button onclick="window.clearAllData()" class="w-full bg-red-50 hover:bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400 font-bold py-3 rounded-xl transition-colors flex items-center justify-center gap-2"><i class="fas fa-exclamation-triangle"></i> Factory Reset Data</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Additional Tabs like Onboarding/Calendar/Analytics exist but omitted from body purely for brevity if unused, though user had them. Adding basic structures back to prevent breakage. -->
-                <!-- TAB: CALENDAR -->
-                <div id="tab-calendar" class="tab-content p-4 md:p-6 lg:p-8 max-w-[1600px] mx-auto">
-                    <div class="modern-card p-6 flex flex-col min-h-[70vh] animate-up">
-                        <div class="flex justify-between items-center mb-6">
-                            <h3 class="font-black text-2xl uppercase text-[var(--text-primary)] tracking-tight"><span id="calendarMonthLabel">Month Year</span></h3>
-                            <div class="flex gap-2">
-                                <button onclick="window.changeCalendarMonth(-1)" class="w-10 h-10 rounded-lg bg-[var(--bg-primary)] border border-[var(--border-color)] hover:bg-slate-100 transition-colors"><i class="fas fa-chevron-left"></i></button>
-                                <button onclick="window.changeCalendarMonth(1)" class="w-10 h-10 rounded-lg bg-[var(--bg-primary)] border border-[var(--border-color)] hover:bg-slate-100 transition-colors"><i class="fas fa-chevron-right"></i></button>
-                            </div>
-                        </div>
-                        <div class="calendar-grid mb-2">
-                            <div class="text-center text-xs font-bold text-red-500 uppercase pb-2">Sun</div>
-                            <div class="text-center text-xs font-bold text-slate-500 uppercase pb-2">Mon</div>
-                            <div class="text-center text-xs font-bold text-slate-500 uppercase pb-2">Tue</div>
-                            <div class="text-center text-xs font-bold text-slate-500 uppercase pb-2">Wed</div>
-                            <div class="text-center text-xs font-bold text-slate-500 uppercase pb-2">Thu</div>
-                            <div class="text-center text-xs font-bold text-slate-500 uppercase pb-2">Fri</div>
-                            <div class="text-center text-xs font-bold text-slate-500 uppercase pb-2">Sat</div>
-                        </div>
-                        <div id="calendarGrid" class="calendar-grid flex-1"></div>
-                    </div>
-                </div>
-
-                <!-- TAB: ANALYTICS -->
-                <div id="tab-analytics" class="tab-content p-4 md:p-6 lg:p-8 max-w-[1600px] mx-auto">
-                    <div class="modern-card p-6 mb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 animate-up">
-                        <div>
-                            <h2 class="text-xl font-black uppercase text-[var(--text-primary)]">Data Analytics</h2>
-                            <p class="text-sm text-slate-500">Visual insights into hiring metrics.</p>
-                        </div>
-                        <div class="flex items-center gap-3 bg-[var(--bg-primary)] p-2 rounded-xl border border-[var(--border-color)]">
-                            <label class="text-xs font-bold uppercase text-slate-500 pl-2">Period:</label>
-                            <input type="month" id="chartMonthFilter" onchange="window.initCharts()" class="p-1 bg-transparent font-bold text-sm outline-none cursor-pointer text-sarathy-blue border-none" />
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 animate-up" style="animation-delay: 0.1s;">
-                        <div class="modern-card p-6 flex flex-col items-center">
-                            <h3 class="font-bold text-sm uppercase text-slate-500 mb-6 w-full text-left">Hiring Status Breakdown</h3>
-                            <div class="w-full h-[300px] relative"><canvas id="statusChart"></canvas></div>
-                        </div>
-                        <div class="modern-card p-6 flex flex-col items-center">
-                            <h3 class="font-bold text-sm uppercase text-slate-500 mb-6 w-full text-left">Department Distribution</h3>
-                            <div class="w-full h-[300px] relative"><canvas id="sourceChart"></canvas></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- TAB: ONBOARDING -->
-                <div id="tab-onboarding" class="tab-content p-4 md:p-6 lg:p-8 max-w-[1600px] mx-auto">
-                    <div class="modern-card p-6 mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 animate-up">
-                        <div>
-                            <h2 class="text-xl font-black uppercase text-[var(--text-primary)]">Onboarding Checklists</h2>
-                            <p class="text-sm text-slate-500">Track joining formalities for new employees.</p>
-                        </div>
-                    </div>
-                    <div id="onboardingContainer" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 animate-up"></div>
-                </div>
+                <!-- Empty Tabs to avoid errors if clicked -->
+                <div id="tab-leads" class="tab-content p-4 md:p-6 lg:p-8 max-w-[1600px] mx-auto"><h2 class="text-xl font-black">Meta Leads (WIP)</h2></div>
+                <div id="tab-leaves" class="tab-content p-4 md:p-6 lg:p-8 max-w-[1600px] mx-auto"><h2 class="text-xl font-black">Leaves (WIP)</h2></div>
+                <div id="tab-onboarding" class="tab-content p-4 md:p-6 lg:p-8 max-w-[1600px] mx-auto"><h2 class="text-xl font-black">Onboarding (WIP)</h2></div>
+                <div id="tab-calendar" class="tab-content p-4 md:p-6 lg:p-8 max-w-[1600px] mx-auto"><h2 class="text-xl font-black">Schedules (WIP)</h2></div>
+                <div id="tab-analytics" class="tab-content p-4 md:p-6 lg:p-8 max-w-[1600px] mx-auto"><h2 class="text-xl font-black">Analytics (WIP)</h2></div>
+                <div id="tab-settings" class="tab-content p-4 md:p-6 lg:p-8 max-w-[1600px] mx-auto"><h2 class="text-xl font-black">Settings (WIP)</h2></div>
 
             </div>
             
@@ -899,19 +628,39 @@
                             </div>
                         </div>
                     </div>
+                    
                     <div class="space-y-4">
                         <h4 class="font-bold text-sm text-[var(--text-primary)] border-b border-[var(--border-color)] pb-2">Personal Details</h4>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div class="md:col-span-2"><label class="text-xs font-bold text-slate-500 mb-1.5 block">Full Name *</label><input type="text" id="empName" required class="input-base uppercase" /></div>
                             <div><label class="text-xs font-bold text-slate-500 mb-1.5 block">Phone Number *</label><input type="tel" id="empPhone" required pattern="[0-9]{10}" class="input-base" /></div>
                             <div><label class="text-xs font-bold text-slate-500 mb-1.5 block">Email Address</label><input type="email" id="empEmail" class="input-base" /></div>
+                            <div><label class="text-xs font-bold text-slate-500 mb-1.5 block">Age</label><input type="number" id="empAge" class="input-base" /></div>
+                            <div><label class="text-xs font-bold text-slate-500 mb-1.5 block">Highest Qualification</label><input type="text" id="empQual" class="input-base uppercase" /></div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <h4 class="font-bold text-sm text-[var(--text-primary)] border-b border-[var(--border-color)] pb-2">Professional Details</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div><label class="text-xs font-bold text-slate-500 mb-1.5 block">Department *</label>
                                 <select id="dept" required class="input-base">
                                     <option value="SALES">Sales</option><option value="SERVICE">Service</option><option value="SPARE">Spare</option>
                                     <option value="HR">HR</option><option value="ADMIN">Admin</option><option value="FINANCE">Finance</option><option value="OTHER">Other</option>
                                 </select>
                             </div>
-                            <div><label class="text-xs font-bold text-slate-500 mb-1.5 block">Application Date</label><input type="date" id="applyDate" required class="input-base" /></div>
+                            <div><label class="text-xs font-bold text-slate-500 mb-1.5 block">Entity / Company *</label>
+                                <select id="company" required class="input-base">
+                                    <option value="SARATHY MOTORS">Sarathy Motors</option><option value="SARATHY BIKES PVT LTD">Sarathy Bikes Pvt Ltd</option>
+                                    <option value="SARATHY ELECTRIC BIKES">Sarathy Electric Bikes</option><option value="SARATHY AUTOCARS">Sarathy Autocars</option>
+                                </select>
+                            </div>
+                            <div><label class="text-xs font-bold text-slate-500 mb-1.5 block">Job Location *</label><input type="text" id="location" required placeholder="e.g. Kollam" class="input-base uppercase" /></div>
+                            <div><label class="text-xs font-bold text-slate-500 mb-1.5 block">Designation</label><input type="text" id="designation" placeholder="e.g. Manager" class="input-base uppercase" /></div>
+                            <div><label class="text-xs font-bold text-slate-500 mb-1.5 block">Application Date *</label><input type="date" id="applyDate" required class="input-base" /></div>
+                            <div><label class="text-xs font-bold text-slate-500 mb-1.5 block">Interview Date</label><input type="date" id="interviewDate" class="input-base" /></div>
+                            <div><label class="text-xs font-bold text-slate-500 mb-1.5 block">Joining Date</label><input type="date" id="joinDate" class="input-base" /></div>
+                            <div class="md:col-span-2"><label class="text-xs font-bold text-slate-500 mb-1.5 block">Remarks by HR</label><input type="text" id="empRemarks" placeholder="Any specific notes..." class="input-base" /></div>
                         </div>
                     </div>
                 </form>
@@ -983,7 +732,7 @@
                         <input type="file" id="bulkFileInput" multiple accept=".pdf" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" />
                         <div class="w-12 h-12 bg-indigo-100 text-[#9b87f5] rounded-full flex items-center justify-center text-xl mb-3 shadow-sm"><i class="fas fa-cloud-upload-alt"></i></div>
                         <h4 class="text-sm font-black text-[var(--text-primary)] mb-1">Select files or drag & drop</h4>
-                        <p class="text-[10px] text-slate-500 font-bold uppercase">PDF (Max 15MB)</p>
+                        <p class="text-[10px] text-slate-500 font-bold uppercase">PDF files only</p>
                     </div>
                     <div class="flex gap-3 pt-2 mt-2">
                         <button type="button" onclick="window.closeBulkUploadModal()" class="flex-1 py-3 border border-slate-200 rounded-xl font-bold text-slate-600">Cancel</button>
@@ -1018,13 +767,10 @@
 
     <script>
         // GLOBALS
-        window.CURRENT_DB_VERSION = 'sarathy_db_v15';
+        window.CURRENT_DB_VERSION = 'sarathy_db_v16';
         window.CURRENT_BUDGET_VERSION = 'sarathy_req_v15';
-        window.NOTICES_DB_VERSION = 'sarathy_notices_v2';
         window.JOBS_DB_VERSION = 'sarathy_jobs_v2';
-        window.RESUMES_DB_VERSION = 'sarathy_resumes_v1';
-        window.LEADS_DB_VERSION = 'sarathy_leads_v1';
-        window.LEAVES_DB_VERSION = 'sarathy_leaves_v1';
+        window.RESUMES_DB_VERSION = 'sarathy_resumes_v2'; // Changed version to refresh schema
         window.USERS_DB_VERSION = 'sarathy_users_v13';
 
         let localUsers = JSON.parse(localStorage.getItem(window.USERS_DB_VERSION));
@@ -1037,20 +783,11 @@
 
         window.joinees = JSON.parse(localStorage.getItem(window.CURRENT_DB_VERSION)) || [];
         window.reqList = JSON.parse(localStorage.getItem(window.CURRENT_BUDGET_VERSION)) || [{ dept: 'SALES', target: 5 }];
-        window.noticesList = JSON.parse(localStorage.getItem(window.NOTICES_DB_VERSION)) || [];
         window.jobsList = JSON.parse(localStorage.getItem(window.JOBS_DB_VERSION)) || [];
         window.resumeTrackerList = JSON.parse(localStorage.getItem(window.RESUMES_DB_VERSION)) || [];
-        window.leadsList = JSON.parse(localStorage.getItem(window.LEADS_DB_VERSION)) || [];
-        window.leavesList = JSON.parse(localStorage.getItem(window.LEAVES_DB_VERSION)) || [];
 
-        window.currentView = 'list';
         window.activeFilter = 'All';
-        window.chartStatus = null; window.chartSource = null;
-        window.drHourlyChartInstance = null; window.drDeptChartInstance = null; window.drStatusChartInstance = null;
-        window.calendarDate = new Date();
-
-        const urlParams = new URLSearchParams(window.location.search);
-        window.isApplyView = urlParams.get('view') === 'apply';
+        window.drDeptChartInstance = null; window.drStatusChartInstance = null;
 
         // --- Basic Utils ---
         let dialogResolve = null;
@@ -1066,10 +803,6 @@
                     document.getElementById('dialogCancelBtn').classList.add('hidden');
                 } else if (type === 'confirm') {
                     msgEl.innerText = message; msgEl.classList.remove('hidden'); inputEl.classList.add('hidden');
-                    document.getElementById('dialogCancelBtn').classList.remove('hidden');
-                } else if (type === 'prompt') {
-                    msgEl.classList.add('hidden'); inputEl.classList.remove('hidden');
-                    inputEl.value = ''; inputEl.placeholder = placeholder;
                     document.getElementById('dialogCancelBtn').classList.remove('hidden');
                 }
                 modal.classList.remove('hidden');
@@ -1101,12 +834,9 @@
             return parts.length === 3 ? `${parts[2]}-${parts[1]}-${parts[0]}` : d; 
         };
 
-        window.isAdmin = () => window.currentUser?.user === 'ADMIN';
-
         window.tabHistory = [];
         window.currentTab = 'dashboard';
 
-        // --- Navigation ---
         window.toggleSidebar = function() {
             document.getElementById('sidebar')?.classList.toggle('-translate-x-full');
             document.getElementById('mobileOverlay')?.classList.toggle('hidden');
@@ -1138,8 +868,6 @@
             window.renderDailyReportAnalytics?.();
             window.renderJobs?.();
             window.renderResumes?.();
-            window.renderLeads?.();
-            if (window.currentTab === 'analytics') window.initCharts?.();
         };
 
         // --- Login Form ---
@@ -1154,13 +882,16 @@
                 document.getElementById('loginPage').classList.add('hidden');
                 document.getElementById('appLayout').classList.remove('hidden');
                 document.getElementById('userNameDisplay').innerText = window.currentUser.user;
+                
+                // Initialize today's date in report filter
+                document.getElementById('drDateFilter').value = new Date().toISOString().slice(0, 10);
+                
                 window.refreshAllViews();
             } else {
                 document.getElementById('loginError').classList.remove('hidden');
             }
         });
 
-        // --- DASHBOARD ---
         window.renderDashboard = () => {
             document.getElementById('statTotal').innerText = window.joinees.length;
             document.getElementById('statPending').innerText = window.joinees.filter(j => j.status === 'PENDING').length;
@@ -1188,20 +919,36 @@
             } else if (reqCont) {
                 reqCont.innerHTML = '<p class="text-sm text-slate-400">No hiring targets set.</p>';
             }
+
+            // Recent Candidate Feed
+            const tbody = document.getElementById('recentCandidatesBody');
+            if(tbody) {
+                const recent = [...window.joinees].reverse().slice(0, 5);
+                tbody.innerHTML = recent.map(j => `
+                    <tr>
+                        <td class="py-3 px-2 font-bold text-sm uppercase">${j.name}</td>
+                        <td class="py-3 px-2 text-xs font-bold text-slate-500 uppercase">${j.dept}</td>
+                        <td class="py-3 px-2 text-right"><span class="status-badge ${j.status==='JOINED'?'badge-joined': j.status==='SELECTED'?'badge-selected': j.status==='REJECTED'?'badge-rejected':'badge-pending'}">${j.status}</span></td>
+                    </tr>
+                `).join('');
+                if(recent.length === 0) tbody.innerHTML = `<tr><td colspan="3" class="text-center py-6 text-sm text-slate-500">No recent applications</td></tr>`;
+            }
         };
 
-        // --- CANDIDATES ---
         window.renderTable = () => { 
             const tbody = document.getElementById('candidatesTableBody');
             if(!tbody) return;
             const search = document.getElementById('searchInput')?.value.toLowerCase() || '';
+            const deptFilter = document.getElementById('filterDept')?.value || 'ALL';
+            
             let filtered = window.joinees.filter(j => 
                 (window.activeFilter === 'All' || j.status === window.activeFilter) &&
+                (deptFilter === 'ALL' || j.dept === deptFilter) &&
                 (j.name?.toLowerCase().includes(search) || j.empId?.toLowerCase().includes(search) || j.phone?.includes(search))
             ).sort((a,b) => b.id - a.id);
 
             tbody.innerHTML = filtered.map(j => `
-                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50">
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 cursor-pointer" onclick="window.openModal(${JSON.stringify(j).replace(/"/g, '&quot;')})">
                     <td>
                         <div class="flex items-center gap-3">
                             <div class="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-sm shrink-0">${j.name?j.name.substring(0,2):'UK'}</div>
@@ -1213,12 +960,19 @@
                     </td>
                     <td>
                         <p class="text-xs font-medium text-slate-600 dark:text-slate-400"><i class="fas fa-phone fa-fw mr-1"></i>${j.phone}</p>
+                        ${j.email ? `<p class="text-xs font-medium text-slate-600 dark:text-slate-400 mt-1"><i class="fas fa-envelope fa-fw mr-1"></i>${j.email}</p>` : ''}
                     </td>
-                    <td><p class="text-xs font-black uppercase text-[var(--text-primary)]">${j.dept}</p></td>
+                    <td>
+                        <p class="text-xs font-black uppercase text-[var(--text-primary)]">${j.dept}</p>
+                        <p class="text-[10px] font-bold text-slate-500 mt-1 uppercase">${j.company || 'SARATHY MOTORS'} • ${j.location || 'N/A'}</p>
+                    </td>
                     <td><span class="status-badge ${j.status==='JOINED'?'badge-joined': j.status==='SELECTED'?'badge-selected': j.status==='REJECTED'?'badge-rejected':'badge-pending'}">${j.status}</span></td>
-                    <td><p class="text-[10px] font-bold text-slate-500">Applied: ${window.formatDateString(j.applyDate)}</p></td>
+                    <td>
+                        <p class="text-[10px] font-bold text-slate-500">App: ${window.formatDateString(j.applyDate)}</p>
+                        ${j.interviewDate ? `<p class="text-[10px] font-bold text-blue-500">Int: ${window.formatDateString(j.interviewDate)}</p>` : ''}
+                    </td>
                     <td class="text-right">
-                        <button onclick="window.deleteCandidate(${j.id})" class="text-red-500 hover:bg-red-50 p-2 rounded"><i class="fas fa-trash"></i></button>
+                        <button onclick="event.stopPropagation(); window.deleteCandidate(${j.id})" class="text-red-500 hover:bg-red-50 p-2 rounded"><i class="fas fa-trash"></i></button>
                     </td>
                 </tr>
             `).join('');
@@ -1226,27 +980,66 @@
             if(filtered.length === 0) tbody.innerHTML = `<tr><td colspan="6" class="text-center py-10 text-slate-500 font-medium">No candidates found</td></tr>`;
         };
 
+        window.setQuickFilter = (status) => {
+            window.activeFilter = status;
+            document.querySelectorAll('[id^="chip-"]').forEach(el => {
+                el.className = "px-5 py-2 rounded-lg text-xs font-bold text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors";
+            });
+            const chip = document.getElementById(`chip-${status}`);
+            if(chip) chip.className = "px-5 py-2 rounded-lg text-xs font-bold transition-colors bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400";
+            window.renderTable();
+        };
+
         window.deleteCandidate = async (id) => {
             const confirmed = await window.showDialogModal('confirm', 'Delete Candidate', 'Are you sure you want to delete this candidate?');
             if (confirmed) {
                 window.joinees = window.joinees.filter(j => String(j.id) !== String(id));
                 localStorage.setItem(window.CURRENT_DB_VERSION, JSON.stringify(window.joinees));
-                window.renderTable();
-                window.renderDashboard();
+                window.refreshAllViews();
                 window.showToast('Candidate deleted', 'error');
             }
-        }
+        };
 
-        window.openModal = () => {
-            document.getElementById('joineeForm').reset();
-            document.getElementById('editId').value = '';
-            document.getElementById('empId').value = 'SG-' + String(window.joinees.length + 1).padStart(3, '0');
-            document.getElementById('applyDate').value = new Date().toISOString().slice(0, 10);
-            
+        window.openModal = (editData = null) => {
             const modal = document.getElementById('addModal');
+            const title = document.getElementById('modalTitle');
+            const idField = document.getElementById('editId');
+            const empIdField = document.getElementById('empId');
+            
+            if (editData && typeof editData === 'object') {
+                title.innerText = 'Edit Candidate';
+                idField.value = editData.id;
+                empIdField.value = editData.empId;
+                
+                // Populate Personal Details
+                document.getElementById('empName').value = editData.name || '';
+                document.getElementById('empPhone').value = editData.phone || '';
+                document.getElementById('empEmail').value = editData.email || '';
+                document.getElementById('empAge').value = editData.age || '';
+                document.getElementById('empQual').value = editData.qualification || '';
+                
+                // Populate Professional Details
+                document.getElementById('dept').value = editData.dept || 'SALES';
+                document.getElementById('company').value = editData.company || 'SARATHY MOTORS';
+                document.getElementById('location').value = editData.location || '';
+                document.getElementById('designation').value = editData.designation || '';
+                document.getElementById('applyDate').value = editData.applyDate || new Date().toISOString().slice(0, 10);
+                document.getElementById('interviewDate').value = editData.interviewDate || '';
+                document.getElementById('joinDate').value = editData.joinDate || '';
+                document.getElementById('empRemarks').value = editData.remarks || '';
+                document.getElementById('status').value = editData.status || 'PENDING';
+            } else {
+                title.innerText = 'Register Personnel';
+                document.getElementById('joineeForm').reset();
+                idField.value = '';
+                empIdField.value = 'SG-' + String(window.joinees.length + 1).padStart(3, '0');
+                document.getElementById('applyDate').value = new Date().toISOString().slice(0, 10);
+                document.getElementById('status').value = 'PENDING';
+            }
             modal.classList.remove('hidden');
             setTimeout(() => { modal.querySelector('#modalContent').classList.remove('translate-x-full'); }, 10);
         };
+
         window.closeModal = () => {
             const modal = document.getElementById('addModal');
             const content = modal.querySelector('#modalContent');
@@ -1257,29 +1050,40 @@
         document.getElementById('joineeForm')?.addEventListener('submit', (e) => {
             e.preventDefault();
             const id = document.getElementById('editId').value;
+            
+            // Gather payload including ALL new fields
             const payload = {
                 id: id ? parseInt(id) : Date.now(),
                 empId: document.getElementById('empId').value,
                 name: document.getElementById('empName').value.trim().toUpperCase(),
                 phone: document.getElementById('empPhone').value.trim(),
                 email: document.getElementById('empEmail').value.trim(),
+                age: document.getElementById('empAge').value,
+                qualification: document.getElementById('empQual').value.trim().toUpperCase(),
                 dept: document.getElementById('dept').value,
+                company: document.getElementById('company').value,
+                location: document.getElementById('location').value.trim().toUpperCase(),
+                designation: document.getElementById('designation').value.trim().toUpperCase(),
                 status: document.getElementById('status').value,
-                applyDate: document.getElementById('applyDate').value
+                applyDate: document.getElementById('applyDate').value,
+                interviewDate: document.getElementById('interviewDate').value,
+                joinDate: document.getElementById('joinDate').value,
+                remarks: document.getElementById('empRemarks').value.trim()
             };
+            
             if(id) {
                 const idx = window.joinees.findIndex(j => String(j.id) === String(id));
                 if(idx > -1) window.joinees[idx] = { ...window.joinees[idx], ...payload };
             } else {
                 window.joinees.push(payload);
             }
+            
             localStorage.setItem(window.CURRENT_DB_VERSION, JSON.stringify(window.joinees));
             window.closeModal();
             window.refreshAllViews();
-            window.showToast("Candidate Saved!");
+            window.showToast("Candidate Record Saved!");
         });
 
-        // --- HIRING TARGETS (Req Modal) ---
         window.openReqModal = () => {
             const container = document.getElementById('reqEntriesContainer');
             if(container) {
@@ -1325,7 +1129,6 @@
             window.showToast("Hiring Targets Updated!");
         };
 
-        // --- JOB POSTINGS ---
         window.openJobModal = () => {
             document.getElementById('jobForm').reset();
             document.getElementById('jobModal').classList.remove('hidden');
@@ -1379,14 +1182,13 @@
             `).join('');
         };
 
-        // --- LIVE DAILY REPORT ---
         window.renderDailyReportAnalytics = () => {
             const dateStr = document.getElementById('drDateFilter')?.value;
             if(!dateStr) return;
 
+            // Filter applications submitted on this exact date
             const dayData = window.joinees.filter(j => j.applyDate === dateStr);
 
-            // KPIs
             const safeSet = (id, val) => { const el = document.getElementById(id); if(el) el.innerText = val; };
             safeSet('drTotal', dayData.length);
             safeSet('drPending', dayData.filter(j => j.status === 'PENDING').length);
@@ -1406,7 +1208,7 @@
                         <td class="py-3 px-2"><span class="status-badge bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-300">${j.status}</span></td>
                     </tr>
                 `).join('');
-                if(dayData.length === 0) tbody.innerHTML = `<tr><td colspan="4" class="text-center py-4 text-sm text-slate-500">No applications on this date</td></tr>`;
+                if(dayData.length === 0) tbody.innerHTML = `<tr><td colspan="4" class="text-center py-4 text-sm text-slate-500">No applications recorded for this date</td></tr>`;
             }
 
             // Init Charts if available
@@ -1422,7 +1224,10 @@
                 dayData.forEach(j => { depts[j.dept] = (depts[j.dept] || 0) + 1; });
                 window.drDeptChartInstance = new Chart(deptCtx, {
                     type: 'doughnut',
-                    data: { labels: Object.keys(depts).length ? Object.keys(depts) : ['No Data'], datasets: [{ data: Object.values(depts).length ? Object.values(depts) : [1], backgroundColor: ['#0054A6', '#3b82f6', '#10b981', '#f59e0b', '#8b5cf6', '#ef4444', '#64748b'], borderWidth: 0 }] },
+                    data: { 
+                        labels: Object.keys(depts).length ? Object.keys(depts) : ['No Data'], 
+                        datasets: [{ data: Object.values(depts).length ? Object.values(depts) : [1], backgroundColor: ['#0054A6', '#3b82f6', '#10b981', '#f59e0b', '#8b5cf6', '#ef4444', '#64748b'], borderWidth: 0 }] 
+                    },
                     options: { responsive: true, maintainAspectRatio: false, cutout: '70%', plugins: { legend: { position: 'right', labels: { color: textColor } } } }
                 });
             }
@@ -1433,19 +1238,24 @@
                 if(window.drStatusChartInstance) window.drStatusChartInstance.destroy();
                 window.drStatusChartInstance = new Chart(statusCtx, {
                     type: 'pie',
-                    data: { labels: ['Pending', 'Interview', 'Selected', 'Joined', 'Rejected'], datasets: [{ data: dayData.length > 0 ? [
-                        dayData.filter(j => j.status === 'PENDING').length,
-                        dayData.filter(j => j.status === 'SHORTLISTED' || j.status === 'INTERVIEW_SCHEDULED').length,
-                        dayData.filter(j => j.status === 'SELECTED').length,
-                        dayData.filter(j => j.status === 'JOINED').length,
-                        dayData.filter(j => j.status === 'REJECTED').length
-                    ] : [1,0,0,0,0], backgroundColor: ['#f59e0b', '#8b5cf6', '#10b981', '#3b82f6', '#ef4444'], borderWidth: 0 }] },
+                    data: { 
+                        labels: ['Pending', 'Interview', 'Selected', 'Joined', 'Rejected'], 
+                        datasets: [{ 
+                            data: dayData.length > 0 ? [
+                                dayData.filter(j => j.status === 'PENDING').length,
+                                dayData.filter(j => j.status === 'SHORTLISTED' || j.status === 'INTERVIEW_SCHEDULED').length,
+                                dayData.filter(j => j.status === 'SELECTED').length,
+                                dayData.filter(j => j.status === 'JOINED').length,
+                                dayData.filter(j => j.status === 'REJECTED').length
+                            ] : [1,0,0,0,0], 
+                            backgroundColor: ['#f59e0b', '#8b5cf6', '#10b981', '#3b82f6', '#ef4444'], borderWidth: 0 
+                        }] 
+                    },
                     options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { color: textColor } } } }
                 });
             }
         };
 
-        // --- RESUME TRACKER ---
         window.openBulkUploadModal = () => document.getElementById('bulkUploadModal').classList.remove('hidden');
         window.closeBulkUploadModal = () => document.getElementById('bulkUploadModal').classList.add('hidden');
         
@@ -1492,12 +1302,12 @@
                 for(let i=0; i<filesInput.files.length; i++) {
                     const file = filesInput.files[i];
                     
-                    // Convert PDF file to Base64 string so it can be saved in LocalStorage
+                    // Convert PDF file to Base64 string for safe local storage
                     const base64Data = await new Promise((resolve, reject) => {
                         const reader = new FileReader();
                         reader.onload = e => resolve(e.target.result);
                         reader.onerror = e => reject(e);
-                        reader.readAsDataURL(file);
+                        reader.readAsDataURL(file); // Stores MIME + base64 encoding securely
                     });
 
                     const newResume = {
@@ -1524,37 +1334,33 @@
             }
         });
 
-        // Robost View Logic: Handle Base64 to Blob conversion to view PDFs correctly
+        // Safe PDF viewing logic avoiding popup blocking where possible
         window.viewResume = (id) => {
             const r = window.resumeTrackerList.find(x => String(x.id) === String(id));
-            if (r) {
-                if (r.fileData) {
-                    try {
-                        const arr = r.fileData.split(',');
-                        const mime = arr[0].match(/:(.*?);/)[1];
-                        const bstr = atob(arr[1]); 
-                        let n = bstr.length; 
-                        const u8arr = new Uint8Array(n);
-                        while(n--){
-                            u8arr[n] = bstr.charCodeAt(n);
-                        }
-                        const blob = new Blob([u8arr], {type: mime});
-                        const url = URL.createObjectURL(blob);
-                        window.open(url, '_blank');
-                    } catch(e) {
-                        console.error("Failed to parse Blob, falling back", e);
-                        const pdfWindow = window.open("");
-                        if(pdfWindow) {
-                            pdfWindow.document.write(`<iframe width='100%' height='100%' style='border:none;margin:0;padding:0;' src='${r.fileData}'></iframe>`);
-                            pdfWindow.document.title = r.fileName;
-                            pdfWindow.document.body.style.margin = "0";
-                        } else {
-                            window.showToast("Popup blocked! Please allow popups.", "error");
-                        }
+            if (r && r.fileData) {
+                try {
+                    let pdfWindow = window.open("");
+                    if (pdfWindow) {
+                        pdfWindow.document.write(`
+                            <html>
+                                <head>
+                                    <title>${r.fileName}</title>
+                                    <style>body{margin:0;overflow:hidden;background:#333;}</style>
+                                </head>
+                                <body>
+                                    <embed width="100%" height="100%" src="${r.fileData}" type="application/pdf">
+                                </body>
+                            </html>
+                        `);
+                    } else {
+                        window.showToast("Popup blocked! Please allow popups.", "error");
                     }
-                } else {
-                    window.showDialogModal('alert', 'Resume Viewer', `Viewing Content for:\n\n📄 ${r.fileName}\nSource: ${r.source}\nDept: ${r.dept}\n\n(Note: File content was not saved during upload for this older record. Please re-upload.)`);
+                } catch(e) {
+                    console.error("View Error", e);
+                    window.showToast("Error viewing file natively.", "error");
                 }
+            } else {
+                window.showDialogModal('alert', 'Error', 'CV file data is corrupt or missing.');
             }
         };
 
@@ -1562,12 +1368,7 @@
             const container = document.getElementById('resumeDeptsContainer');
             if(!container) return;
 
-            const monthFilter = document.getElementById('resumeMonthFilter')?.value || 'ALL';
             let filtered = window.resumeTrackerList;
-            
-            if(monthFilter !== 'ALL') {
-                filtered = filtered.filter(r => r.date && r.date.split('-')[1] === monthFilter);
-            }
 
             if(filtered.length === 0) {
                 container.innerHTML = '<div class="text-center py-12 text-slate-500 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700">No resumes found.</div>';
@@ -1595,38 +1396,18 @@
             `).join('');
         };
 
-        // Analytics (Fallback mock implementation to prevent errors)
-        window.initCharts = () => {
-            if(!window.Chart) return;
-            const ctx1 = document.getElementById('statusChart');
-            if(ctx1) {
-                if(window.chartStatus) window.chartStatus.destroy();
-                const total = window.joinees.length || 1;
-                window.chartStatus = new Chart(ctx1, { type: 'doughnut', data: { labels: ['Total'], datasets: [{ data: [total], backgroundColor: ['#0054A6'] }] }, options: { responsive: true, maintainAspectRatio: false }});
-            }
-            const ctx2 = document.getElementById('sourceChart');
-            if(ctx2) {
-                if(window.chartSource) window.chartSource.destroy();
-                window.chartSource = new Chart(ctx2, { type: 'bar', data: { labels: ['SALES', 'SERVICE', 'HR'], datasets: [{ label:'Depts', data: [1,1,1], backgroundColor: '#3b82f6' }] }, options: { responsive: true, maintainAspectRatio: false }});
-            }
-        };
-
-        // --- Document Ready ---
         document.addEventListener('DOMContentLoaded', () => {
-            if (document.getElementById('drDateFilter')) {
-                document.getElementById('drDateFilter').value = new Date().toISOString().slice(0, 10);
-            }
-            if (window.isApplyView) {
+            const urlParams = new URLSearchParams(window.location.search);
+            const viewParam = urlParams.get('view');
+            
+            if (viewParam === 'apply') {
                 document.getElementById('loginPage').classList.add('hidden');
                 document.getElementById('appLayout').classList.add('hidden');
                 document.getElementById('applicationPage').classList.remove('hidden');
                 document.getElementById('applicationPage').classList.add('flex');
             } else {
-                // Remove hidden block if bypassing login
-                // document.getElementById('loginPage').classList.add('hidden');
-                // document.getElementById('appLayout').classList.remove('hidden');
-                // window.currentUser = window.USERS[0];
-                // window.refreshAllViews();
+                // Ensure auth triggers on normal load via explicit classes
+                document.getElementById('loginPage').classList.remove('hidden');
             }
         });
     </script>
