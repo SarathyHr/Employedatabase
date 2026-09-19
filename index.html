@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>SARATHY GROUP - HR PORTAL PRO</title>
 
-    <!-- Scripts & Fonts -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -184,8 +183,6 @@
         .data-table tr:last-child td { border-bottom: none; }
         .data-table tr:hover td { background: var(--bg-primary); }
 
-        .custom-checkbox { width: 22px; height: 22px; cursor: pointer; accent-color: #0054A6; border-radius: 6px; }
-
         .status-badge {
             padding: 6px 12px; border-radius: 9999px; font-size: 0.7rem; font-weight: 800;
             display: inline-flex; align-items: center; justify-content: center; text-transform: uppercase; letter-spacing: 0.05em;
@@ -198,16 +195,6 @@
         .dark .badge-pending { background: rgba(202, 138, 4, 0.2); color: #fde047; }
         .dark .badge-rejected { background: rgba(220, 38, 38, 0.2); color: #f87171; }
         .dark .badge-joined { background: rgba(37, 99, 235, 0.2); color: #60a5fa; }
-
-        .progress-slider {
-            -webkit-appearance: none; width: 100%; height: 8px; border-radius: 4px; background: var(--border-color); outline: none;
-        }
-        .progress-slider::-webkit-slider-thumb {
-            -webkit-appearance: none; appearance: none; width: 20px; height: 20px;
-            border-radius: 50%; background: #0054A6; cursor: pointer; transition: transform 0.1s;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-        }
-        .progress-slider::-webkit-slider-thumb:hover { transform: scale(1.2); }
 
         .dragging { opacity: 0.5; transform: scale(0.95); cursor: grabbing !important; }
 
@@ -228,7 +215,6 @@
     </style>
 </head>
 <body class="antialiased">
-    <!-- PRINT AREA -->
     <div id="printArea" class="hidden print:block z-[9999] bg-white text-black"></div>
 
     <!-- PUBLIC APPLICATION PAGE -->
@@ -288,7 +274,6 @@
         </div>
     </div>
 
-    <!-- LOGIN PAGE -->
     <div id="loginPage" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-50 dark:bg-slate-900 transition-opacity duration-500">
         <div class="bg-shapes"><div class="shape-1"></div><div class="shape-2"></div></div>
         <div class="w-full max-w-[400px] animate-up relative z-10">
@@ -323,7 +308,6 @@
         </div>
     </div>
 
-    <!-- MAIN APP LAYOUT -->
     <div id="appLayout" class="hidden h-[100dvh] w-full flex bg-[var(--bg-primary)]">
         <!-- Mobile Sidebar Overlay -->
         <div id="mobileOverlay" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-[90] hidden lg:hidden" onclick="toggleSidebar()"></div>
@@ -637,19 +621,24 @@
                                     <div class="w-10 h-10 rounded-xl bg-indigo-50 dark:bg-indigo-900/50 text-indigo-600 flex items-center justify-center shadow-sm border border-indigo-100 dark:border-indigo-800/50"><i class="fas fa-chart-line"></i></div>
                                     Live Daily Report
                                 </h2>
-                                <p class="text-sm text-slate-500 font-medium mt-2">Real-time analytics generated from uploaded Excel data.</p>
+                                <p class="text-sm text-slate-500 font-medium mt-2">Real-time analytics generated from selected date range.</p>
                                 <div class="flex flex-wrap items-center gap-2 mt-2">
                                     <button onclick="window.downloadDailyReportTemplate()" class="px-3 py-1.5 bg-emerald-50 text-emerald-600 hover:bg-emerald-100 dark:bg-emerald-900/30 dark:text-emerald-400 rounded-lg font-bold text-xs flex items-center gap-1.5 transition-colors border border-emerald-100 dark:border-emerald-800/50">
                                         <i class="fas fa-file-excel"></i> Download Excel Template
                                     </button>
                                     <button onclick="window.clearDailyReport()" class="px-3 py-1.5 bg-red-50 text-red-600 hover:bg-red-100 dark:bg-red-900/30 dark:text-red-400 rounded-lg font-bold text-xs flex items-center gap-1.5 transition-colors border border-red-100 dark:border-red-800/50">
-                                        <i class="fas fa-trash-alt"></i> Clear Today's Data
+                                        <i class="fas fa-trash-alt"></i> Clear Data in Range
                                     </button>
                                 </div>
                             </div>
                             <div class="flex flex-wrap items-center gap-3 w-full md:w-auto no-print">
-                                <input type="date" id="drDateFilter" onchange="window.renderDailyReportAnalytics()" class="px-4 py-2.5 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl text-sm font-bold shadow-sm outline-none cursor-pointer text-[var(--text-primary)]" />
-                                <button onclick="document.getElementById('importDailyReportFile').click()" class="px-4 py-2.5 bg-indigo-50 text-indigo-600 hover:bg-indigo-100 dark:bg-indigo-900/30 dark:hover:bg-indigo-900/50 rounded-xl font-bold text-sm shadow-sm transition-all"><i class="fas fa-upload"></i> Import Excel</button>
+                                <!-- UPDATED: Date Range Picker -->
+                                <div class="flex items-center gap-2 bg-[var(--bg-primary)] p-1 rounded-xl border border-[var(--border-color)]">
+                                    <input type="date" id="drStartDate" onchange="window.renderDailyReportAnalytics()" class="px-3 py-2 bg-transparent text-sm font-bold outline-none cursor-pointer text-[var(--text-primary)]" />
+                                    <span class="text-slate-400 font-bold text-xs">TO</span>
+                                    <input type="date" id="drEndDate" onchange="window.renderDailyReportAnalytics()" class="px-3 py-2 bg-transparent text-sm font-bold outline-none cursor-pointer text-[var(--text-primary)]" />
+                                </div>
+                                <button onclick="document.getElementById('importDailyReportFile').click()" class="px-4 py-2.5 bg-[#5c4ae6] hover:bg-[#4b3cd9] text-white rounded-xl font-bold text-sm shadow-md transition-all"><i class="fas fa-upload"></i> Import Excel</button>
                                 <input type="file" id="importDailyReportFile" accept=".xlsx, .xls, .csv" class="hidden" onchange="window.importDailyReport(event)" />
                                 <div class="h-8 w-px bg-slate-200 dark:bg-slate-700 mx-1"></div>
                                 <div class="flex gap-2">
@@ -662,7 +651,7 @@
 
                         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 animate-up" style="animation-delay: 0.1s;">
                             <div class="modern-card p-5 border-t-4 border-t-indigo-500">
-                                <p class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Total Today</p>
+                                <p class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Total Found</p>
                                 <h3 class="text-3xl font-black text-indigo-600" id="drTotal">0</h3>
                             </div>
                             <div class="modern-card p-5 border-t-4 border-t-amber-500">
@@ -724,7 +713,7 @@
 
                         <div class="modern-card p-6 animate-up print-break" style="animation-delay: 0.4s;">
                             <div class="flex justify-between items-center mb-4">
-                                <h3 class="text-sm font-black uppercase text-[var(--text-primary)]">Candidates Registered on Selected Date</h3>
+                                <h3 class="text-sm font-black uppercase text-[var(--text-primary)]">Candidates Registered in Selected Date Range</h3>
                             </div>
                             <div class="overflow-x-auto">
                                 <table class="w-full text-left data-table">
@@ -789,7 +778,7 @@
                     <div class="modern-card p-6 mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 animate-up">
                         <div>
                             <h2 class="text-xl font-black uppercase text-[var(--text-primary)]">Job Postings</h2>
-                            <p class="text-sm text-slate-500">Manage active openings and share links.</p>
+                            <p class="text-sm text-slate-500">Manage active openings and share links. Includes support for creative posts/images.</p>
                         </div>
                         <button onclick="window.openJobModal()" class="bg-sarathy-blue hover:bg-blue-700 text-white px-6 py-2.5 rounded-xl font-bold text-sm shadow-sm transition-colors w-full md:w-auto"><i class="fas fa-plus mr-2"></i> Create Job</button>
                     </div>
@@ -1021,50 +1010,70 @@
         </div>
     </div>
 
-    <!-- Job Modal -->
+    <!-- Job Modal WITH IMAGE UPLOAD -->
     <div id="jobModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-[120] hidden flex items-center justify-center p-4 transition-opacity no-print">
         <div class="bg-[var(--bg-secondary)] w-full max-w-md rounded-3xl shadow-2xl border border-[var(--border-color)]">
-            <div class="p-6 border-b border-[var(--border-color)] flex justify-between items-center"><h3 class="font-black text-lg uppercase text-[var(--text-primary)]">Post a Job</h3><button onclick="window.closeJobModal()" class="text-slate-400 hover:text-slate-600"><i class="fas fa-times text-xl"></i></button></div>
+            <div class="p-6 border-b border-[var(--border-color)] flex justify-between items-center"><h3 class="font-black text-lg uppercase text-[var(--text-primary)]">Post a Job</h3><button type="button" onclick="window.closeJobModal()" class="text-slate-400 hover:text-slate-600"><i class="fas fa-times text-xl"></i></button></div>
             <div class="p-6 overflow-y-auto max-h-[70vh] custom-scroll">
                 <form id="jobForm" class="space-y-4">
-                    <input type="text" id="jobTitle" required placeholder="Job Title" class="input-base" />
-                    <input type="text" id="jobDept" required placeholder="Department" class="input-base uppercase" />
-                    <input type="text" id="jobLoc" required placeholder="Location" class="input-base uppercase" />
-                    <input type="url" id="jobSheetLink" placeholder="Google Sheet URL (Optional)" class="input-base" />
-                    <textarea id="jobReq" required rows="3" placeholder="Job Requirements..." class="input-base resize-none"></textarea>
+                    <div><label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest block mb-1">Job Title *</label><input type="text" id="jobTitle" required placeholder="e.g. Sales Executive" class="input-base py-3 text-sm" /></div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div><label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest block mb-1">Dept *</label><input type="text" id="jobDept" required placeholder="SALES" class="input-base uppercase py-3 text-sm" /></div>
+                        <div><label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest block mb-1">Location *</label><input type="text" id="jobLoc" required placeholder="KOLLAM" class="input-base uppercase py-3 text-sm" /></div>
+                    </div>
+                    <div><label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest block mb-1">Google Sheet Leads URL</label><input type="url" id="jobSheetLink" placeholder="https://docs.google.com/..." class="input-base py-3 text-sm" /></div>
+                    <div><label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest block mb-1">Requirements *</label><textarea id="jobReq" required rows="3" placeholder="Job Requirements..." class="input-base resize-none py-3 text-sm"></textarea></div>
+                    
                     <div class="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl border border-[var(--border-color)] space-y-3 mt-2">
                         <div>
                             <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest block mb-2">Campaign Duration (Weeks)</label>
-                            <input type="number" id="jobDuration" value="2" min="1" max="12" required class="input-base py-2" />
+                            <input type="number" id="jobDuration" value="2" min="1" max="12" required class="input-base py-2 text-sm" />
+                        </div>
+                        <div>
+                            <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest block mb-2">Creative Post Image (Optional)</label>
+                            <input type="file" id="jobImage" accept="image/*" class="input-base py-2 text-sm file:mr-4 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-sarathy-blue hover:file:bg-blue-100 dark:file:bg-slate-700 dark:file:text-white" />
                         </div>
                     </div>
-                    <button type="submit" class="w-full bg-sarathy-blue text-white font-black py-4 rounded-xl uppercase shadow-md mt-2">Publish Job</button>
+                    <button type="submit" class="w-full bg-sarathy-blue text-white font-black py-4 rounded-xl uppercase shadow-md mt-4 transition-transform active:scale-95">Publish Job</button>
                 </form>
             </div>
         </div>
     </div>
 
-    <!-- Req Modal -->
+    <!-- Hiring Targets Req Modal -->
     <div id="reqModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-[115] hidden flex justify-center items-center p-4 transition-opacity no-print">
         <div class="bg-[var(--bg-secondary)] w-full max-w-4xl rounded-3xl shadow-2xl flex flex-col max-h-[90vh] border border-[var(--border-color)]">
             <div class="p-6 border-b border-[var(--border-color)] flex justify-between items-center bg-slate-50 dark:bg-slate-800 rounded-t-3xl"><h2 class="text-lg font-black uppercase text-[var(--text-primary)]">Hiring Targets</h2><button onclick="window.addReqRow()" class="px-4 py-2 bg-sarathy-blue text-white rounded-lg font-bold text-sm"><i class="fas fa-plus mr-2"></i> Add Target</button></div>
             <div id="reqEntriesContainer" class="p-6 overflow-y-auto custom-scroll flex-1 space-y-4 bg-[var(--bg-primary)]"></div>
             <div class="p-6 border-t border-[var(--border-color)] flex gap-4 bg-[var(--bg-secondary)] rounded-b-3xl">
-                <button onclick="window.closeReqModal()" class="flex-1 py-3 border border-[var(--border-color)] rounded-xl font-bold text-slate-600 dark:text-slate-300">Cancel</button>
-                <button onclick="window.saveRequirements()" class="flex-1 py-3 bg-sarathy-blue text-white rounded-xl font-bold shadow-md">Save Changes</button>
+                <button onclick="window.closeReqModal()" class="flex-1 py-3 border border-[var(--border-color)] rounded-xl font-bold text-slate-600 dark:text-slate-300 transition-colors hover:bg-slate-50 dark:hover:bg-slate-800">Cancel</button>
+                <button onclick="window.saveRequirements()" class="flex-1 py-3 bg-sarathy-blue text-white rounded-xl font-bold shadow-md transition-transform active:scale-95">Save Changes</button>
             </div>
         </div>
     </div>
 
-    <!-- Resume View Modal -->
+    <!-- Resume View Modal (Updated to embed Base64 securely avoiding popups) -->
     <div id="resumeViewModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[130] hidden flex items-center justify-center p-4 transition-opacity no-print">
         <div class="bg-white dark:bg-slate-900 w-full max-w-3xl rounded-[2rem] shadow-2xl flex flex-col max-h-[85vh] animate-up overflow-hidden border border-slate-200 dark:border-slate-800">
             <div class="p-6 md:p-8 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-white dark:bg-slate-900 shrink-0">
                 <h3 class="font-black text-lg uppercase tracking-tight text-slate-900 dark:text-white" id="resumeViewTitle">RESUMES</h3>
                 <button onclick="window.closeResumeModal()" class="w-9 h-9 flex items-center justify-center rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-400 hover:text-slate-700 transition-colors shadow-sm"><i class="fas fa-times text-sm"></i></button>
             </div>
-            <div class="p-6 md:p-8 flex-1 overflow-y-auto custom-scroll bg-white dark:bg-slate-900">
+            <div class="p-6 md:p-8 flex-1 overflow-y-auto custom-scroll bg-slate-50 dark:bg-slate-900">
                 <div class="space-y-4" id="resumeListContainer"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PDF Data Viewer Modal -->
+    <div id="pdfViewerModal" class="fixed inset-0 bg-slate-900/90 backdrop-blur-lg z-[200] hidden flex flex-col transition-opacity no-print">
+        <div class="h-16 px-6 border-b border-slate-700 flex justify-between items-center bg-slate-800 shrink-0">
+            <h3 class="font-black text-sm uppercase tracking-widest text-white" id="pdfViewerTitle">Document Viewer</h3>
+            <button onclick="window.closePdfViewer()" class="w-10 h-10 flex items-center justify-center rounded-full bg-slate-700 text-slate-300 hover:text-red-500 transition-colors shadow-sm"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="flex-1 w-full h-full bg-slate-900 flex justify-center items-center p-2 md:p-8">
+            <div id="pdfContainer" class="w-full h-full max-w-5xl bg-white rounded-xl shadow-2xl overflow-hidden">
+                <!-- PDF embedded here -->
             </div>
         </div>
     </div>
@@ -1105,8 +1114,8 @@
                         <p class="text-[10px] text-slate-500 font-bold uppercase">PDF (Max 15MB)</p>
                     </div>
                     <div class="flex gap-3 pt-2 mt-2">
-                        <button type="button" onclick="window.closeBulkUploadModal()" class="flex-1 py-3 border border-slate-200 dark:border-slate-700 rounded-xl font-bold text-slate-600 dark:text-slate-300">Cancel</button>
-                        <button type="submit" id="bulkSubmitBtn" class="flex-1 py-3 bg-[#9b87f5] text-white rounded-xl font-black text-xs uppercase shadow-md transition-all active:scale-95"><i class="fas fa-check"></i> Upload</button>
+                        <button type="button" onclick="window.closeBulkUploadModal()" class="flex-1 py-3 border border-slate-200 dark:border-slate-700 rounded-xl font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">Cancel</button>
+                        <button type="submit" id="bulkSubmitBtn" class="flex-1 py-3 bg-[#9b87f5] hover:bg-[#8571eb] text-white rounded-xl font-black text-xs uppercase shadow-md transition-transform active:scale-95"><i class="fas fa-check"></i> Upload</button>
                     </div>
                 </form>
             </div>
@@ -1123,8 +1132,8 @@
                 <p id="dialogMessage" class="text-sm font-medium text-[var(--text-primary)] mb-6 leading-relaxed"></p>
                 <input type="text" id="dialogInput" class="input-base mb-6 hidden" />
                 <div class="flex gap-3">
-                    <button id="dialogCancelBtn" onclick="window.closeDialog(false)" class="flex-1 py-3 border border-[var(--border-color)] rounded-xl font-bold text-slate-600 dark:text-slate-300">Cancel</button>
-                    <button onclick="window.closeDialog(true)" class="flex-1 py-3 bg-sarathy-blue text-white rounded-xl font-bold shadow-md">Confirm</button>
+                    <button id="dialogCancelBtn" onclick="window.closeDialog(false)" class="flex-1 py-3 border border-[var(--border-color)] rounded-xl font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">Cancel</button>
+                    <button onclick="window.closeDialog(true)" class="flex-1 py-3 bg-sarathy-blue text-white rounded-xl font-bold shadow-md transition-transform active:scale-95">Confirm</button>
                 </div>
             </div>
         </div>
@@ -1134,25 +1143,26 @@
     <div id="notificationModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[120] hidden flex justify-end p-4 lg:p-6 no-print">
         <div class="bg-[var(--bg-secondary)] w-full max-w-sm h-[80vh] md:h-auto md:max-h-[80vh] rounded-3xl shadow-2xl border border-[var(--border-color)] flex flex-col animate-up self-start mt-16 md:mt-0">
             <div class="p-5 border-b border-[var(--border-color)] flex justify-between items-center shrink-0"><h3 class="font-black text-sm uppercase text-[var(--text-primary)]">Notifications</h3><button onclick="window.toggleNotifications()" class="text-slate-400 hover:text-red-500"><i class="fas fa-times text-lg"></i></button></div>
-            <div class="p-4 custom-scroll flex-1 overflow-y-auto" id="dynamicNotifications"></div>
+            <div class="p-4 custom-scroll flex-1 overflow-y-auto space-y-2" id="dynamicNotifications">
+                <div class="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-xl border border-blue-100 dark:border-blue-900"><p class="text-sm font-bold text-blue-800 dark:text-blue-300">Welcome to HR Portal Pro!</p><p class="text-[10px] text-blue-500 mt-1">System upgraded.</p></div>
+            </div>
         </div>
     </div>
 
     <!-- Toast Notification -->
-    <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 translate-y-24 opacity-0 bg-slate-800 dark:bg-slate-100 text-white dark:text-slate-900 px-6 py-3 rounded-full shadow-xl transition-all duration-300 z-[250] flex items-center gap-3 text-sm font-bold whitespace-nowrap">
+    <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 translate-y-24 opacity-0 bg-slate-800 dark:bg-slate-100 text-white dark:text-slate-900 px-6 py-3 rounded-full shadow-xl transition-all duration-300 z-[300] flex items-center gap-3 text-sm font-bold whitespace-nowrap">
         <i id="toastIcon" class="fas fa-check-circle text-emerald-400"></i><span id="toastMessage">Success</span>
     </div>
 
-    <!-- GLOBALLY SCOPED JAVASCRIPT (UI Logic) -->
     <script>
         // GLOBALS
-        window.CURRENT_DB_VERSION = 'sarathy_db_v17';
-        window.CURRENT_BUDGET_VERSION = 'sarathy_req_v17';
-        window.NOTICES_DB_VERSION = 'sarathy_notices_v3';
-        window.JOBS_DB_VERSION = 'sarathy_jobs_v3';
-        window.RESUMES_DB_VERSION = 'sarathy_resumes_v2';
-        window.LEADS_DB_VERSION = 'sarathy_leads_v2';
-        window.USERS_DB_VERSION = 'sarathy_users_v14';
+        window.CURRENT_DB_VERSION = 'sarathy_db_v18';
+        window.CURRENT_BUDGET_VERSION = 'sarathy_req_v18';
+        window.NOTICES_DB_VERSION = 'sarathy_notices_v4';
+        window.JOBS_DB_VERSION = 'sarathy_jobs_v4';
+        window.RESUMES_DB_VERSION = 'sarathy_resumes_v3';
+        window.LEADS_DB_VERSION = 'sarathy_leads_v3';
+        window.USERS_DB_VERSION = 'sarathy_users_v15';
 
         let localUsers = JSON.parse(localStorage.getItem(window.USERS_DB_VERSION));
         if (!localUsers) { 
@@ -1256,6 +1266,7 @@
             if (icon) icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
             localStorage.setItem('theme', isDark ? 'dark' : 'light');
             if (window.chartStatus) { window.chartStatus.update(); window.chartSource.update(); if (window.chartSourcePie) window.chartSourcePie.update(); if (window.chartRejection) window.chartRejection.update(); }
+            if (window.drDeptChartInstance) window.renderDailyReportAnalytics();
         };
 
         window.toggleNotifications = function() { document.getElementById('notificationModal')?.classList.toggle('hidden'); };
@@ -1294,19 +1305,22 @@
             const chartMonthFilter = document.getElementById('chartMonthFilter');
             if (chartMonthFilter) chartMonthFilter.value = new Date().toISOString().slice(0, 7);
             if (window.isAdmin()) { document.getElementById('addBtn')?.classList.remove('hidden'); }
+            
+            const todayStr = new Date().toISOString().slice(0, 10);
+            document.getElementById('drStartDate').value = todayStr;
+            document.getElementById('drEndDate').value = todayStr;
+
             window.refreshAllViews();
         };
 
         window.refreshAllViews = () => {
-            window.renderDashboard?.();
-            window.renderTable?.();
-            window.renderOnboarding?.();
-            window.renderDailyReportAnalytics?.();
-            window.renderJobs?.();
-            window.renderCalendar?.();
-            window.checkNotifications?.();
-            window.renderResumes?.();
-            window.renderLeads?.();
+            if (window.currentTab === 'dashboard') window.renderDashboard?.();
+            if (window.currentTab === 'candidates') window.renderTable?.();
+            if (window.currentTab === 'directory') window.renderDailyReportAnalytics?.();
+            if (window.currentTab === 'jobs') window.renderJobs?.();
+            if (window.currentTab === 'calendar') window.renderCalendar?.();
+            if (window.currentTab === 'resumes') window.renderResumes?.();
+            if (window.currentTab === 'leads') window.renderLeads?.();
             if (window.currentTab === 'analytics') window.initCharts?.();
         };
 
@@ -1372,7 +1386,6 @@
         window.deleteSingleRecord = async (id) => {
             const confirmed = await window.showDialogModal('confirm', 'Delete Candidate', 'Are you sure you want to delete this candidate?');
             if (confirmed) {
-                if(window.removeFromCloud) await window.removeFromCloud('candidates', id);
                 window.joinees = window.joinees.filter(j => String(j.id) !== String(id));
                 localStorage.setItem(window.CURRENT_DB_VERSION, JSON.stringify(window.joinees));
                 window.closeViewModal();
@@ -1423,7 +1436,6 @@
             }
 
             localStorage.setItem(window.CURRENT_DB_VERSION, JSON.stringify(window.joinees));
-            if(window.writeToCloud) await window.writeToCloud('candidates', newJoinee.id, newJoinee);
             
             window.closeModal();
             window.refreshAllViews();
@@ -1460,7 +1472,6 @@
             };
             window.joinees.push(newJoinee);
             localStorage.setItem(window.CURRENT_DB_VERSION, JSON.stringify(window.joinees));
-            if(window.writeToCloud) window.writeToCloud('candidates', newJoinee.id, newJoinee);
             alert("Application submitted successfully! Our HR team will contact you soon.");
             this.reset();
         });
@@ -1487,12 +1498,16 @@
             document.getElementById('boardView').style.display = v === 'board' ? 'grid' : 'none';
             
             document.getElementById('btnViewList').classList.toggle('bg-white', v === 'list');
+            document.getElementById('btnViewList').classList.toggle('dark:bg-slate-700', v === 'list');
             document.getElementById('btnViewList').classList.toggle('text-sarathy-blue', v === 'list');
+            document.getElementById('btnViewList').classList.toggle('dark:text-white', v === 'list');
             document.getElementById('btnViewList').classList.toggle('shadow-sm', v === 'list');
             document.getElementById('btnViewList').classList.toggle('text-slate-400', v !== 'list');
 
             document.getElementById('btnViewBoard').classList.toggle('bg-white', v === 'board');
+            document.getElementById('btnViewBoard').classList.toggle('dark:bg-slate-700', v === 'board');
             document.getElementById('btnViewBoard').classList.toggle('text-sarathy-blue', v === 'board');
+            document.getElementById('btnViewBoard').classList.toggle('dark:text-white', v === 'board');
             document.getElementById('btnViewBoard').classList.toggle('shadow-sm', v === 'board');
             document.getElementById('btnViewBoard').classList.toggle('text-slate-400', v !== 'board');
         };
@@ -1520,7 +1535,7 @@
             if (filterDept && filterDept !== 'ALL') { data = data.filter(j => j.dept === filterDept); }
             if (filterCompany && filterCompany !== 'ALL') { data = data.filter(j => j.company === filterCompany); }
             if (window.activeFilter !== 'All') {
-                if (window.activeFilter === 'Interview') data = data.filter(j => j.status === 'INTERVIEW_SCHEDULED' || j.status === 'SHORTLISTED');
+                if (window.activeFilter === 'Pending') data = data.filter(j => j.status === 'PENDING' || j.status === 'SHORTLISTED' || j.status === 'INTERVIEW_SCHEDULED');
                 else data = data.filter(j => j.status.toUpperCase() === window.activeFilter.toUpperCase());
             }
             return data;
@@ -1539,7 +1554,7 @@
                     if (j.status === 'JOINED') statusBadge = `<span class="status-badge badge-joined">Joined</span>`;
                     if (j.status === 'SHORTLISTED' || j.status === 'INTERVIEW_SCHEDULED') statusBadge = `<span class="status-badge bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400">Interview</span>`;
                     
-                    let aiScore = Math.floor(Math.random() * 40) + 60; // Mock score
+                    let aiScore = Math.floor(Math.random() * 40) + 60; 
                     if (j.status === 'REJECTED') aiScore = Math.floor(Math.random() * 30) + 20;
 
                     const avatarColor = window.getAvatarColor(j.name);
@@ -1635,7 +1650,6 @@
             
             window.joinees[idx].status = newStatus;
             localStorage.setItem(window.CURRENT_DB_VERSION, JSON.stringify(window.joinees));
-            if(window.writeToCloud) await window.writeToCloud('candidates', window.joinees[idx].id, window.joinees[idx]);
             
             window.renderTable();
             window.renderDashboard();
@@ -1735,7 +1749,6 @@
                 window.leadsList.push(payload);
             }
             localStorage.setItem(window.LEADS_DB_VERSION, JSON.stringify(window.leadsList));
-            if(window.writeToCloud) await window.writeToCloud('leads', payload.id, payload);
             window.closeLeadModal();
             window.renderLeads();
             window.showToast(id ? 'Lead Updated' : 'Lead Added');
@@ -1758,7 +1771,6 @@
         window.deleteLead = async (id) => {
             const yes = await window.showDialogModal('confirm', 'Delete Lead', 'Are you sure you want to delete this lead?');
             if (yes) {
-                if(window.removeFromCloud) await window.removeFromCloud('leads', id);
                 window.leadsList = window.leadsList.filter(x => String(x.id) !== String(id));
                 localStorage.setItem(window.LEADS_DB_VERSION, JSON.stringify(window.leadsList));
                 window.renderLeads();
@@ -1769,28 +1781,10 @@
         window.clearAllLeads = async () => {
             const yes = await window.showDialogModal('confirm', 'Clear All Leads', 'Are you sure you want to delete ALL Meta Leads? This cannot be undone.');
             if(yes) {
-                if(window.removeFromCloud) {
-                    for(let l of window.leadsList) await window.removeFromCloud('leads', l.id);
-                }
                 window.leadsList = [];
                 localStorage.setItem(window.LEADS_DB_VERSION, JSON.stringify([]));
                 window.renderLeads();
                 window.showToast("All leads cleared", "error");
-            }
-        };
-
-        window.clearDailyReport = async () => {
-            const dateFilter = document.getElementById('drDateFilter').value;
-            const yes = await window.showDialogModal('confirm', 'Clear Daily Report', `Are you sure you want to delete ALL candidate records for ${dateFilter}?`);
-            if(yes) {
-                const toDelete = window.joinees.filter(j => j.applyDate === dateFilter);
-                if(window.removeFromCloud) {
-                    for(let j of toDelete) await window.removeFromCloud('candidates', j.id);
-                }
-                window.joinees = window.joinees.filter(j => j.applyDate !== dateFilter);
-                localStorage.setItem(window.CURRENT_DB_VERSION, JSON.stringify(window.joinees));
-                window.refreshAllViews();
-                window.showToast(`Cleared all records for ${dateFilter}`, "error");
             }
         };
 
@@ -1843,7 +1837,6 @@
                                     date: new Date().toISOString()
                                 };
                                 window.leadsList.push(newLead);
-                                if(window.writeToCloud) await window.writeToCloud('leads', newLead.id, newLead);
                                 added++;
                             }
                         }
@@ -1894,21 +1887,7 @@
             });
         };
 
-        window.dragStartLead = (e, id) => { window.draggedLeadId = id; e.target.classList.add('dragging'); e.dataTransfer.effectAllowed = 'move'; e.dataTransfer.setData('lead', id); };
-        window.dropLead = async (e, newStatus) => {
-            e.preventDefault();
-            const id = e.dataTransfer.getData('lead');
-            if (!id) return;
-            const idx = window.leadsList.findIndex(x => String(x.id) === String(id));
-            if (idx === -1 || window.leadsList[idx].status === newStatus) return;
-            window.leadsList[idx].status = newStatus;
-            localStorage.setItem(window.LEADS_DB_VERSION, JSON.stringify(window.leadsList));
-            if(window.writeToCloud) await window.writeToCloud('leads', window.leadsList[idx].id, window.leadsList[idx]);
-            window.renderLeads();
-            window.showToast(`Lead moved to ${newStatus}`);
-        };
-
-        // --- Live Daily Report (Excel Import) ---
+        // --- Live Daily Report (Date Range & Excel Import) ---
         window.downloadDailyReportTemplate = () => {
             const ws_data = [
                 ['DATE', 'FULL NAME', 'GENDER', 'JOB POSITION', 'PHONE NUMBER', 'PLACE', 'HAVE ANY EXPERIENCE', 'AGE', 'QUALIFICATION', 'REMARKS'],
@@ -1919,6 +1898,18 @@
             XLSX.utils.book_append_sheet(wb, ws, "Daily_Report_Template");
             XLSX.writeFile(wb, "Daily_Report_Template.xlsx");
             window.showToast("Template downloaded successfully!");
+        };
+
+        window.clearDailyReport = async () => {
+            const startDate = document.getElementById('drStartDate').value;
+            const endDate = document.getElementById('drEndDate').value;
+            const yes = await window.showDialogModal('confirm', 'Clear Daily Report', `Are you sure you want to delete ALL candidate records between ${startDate} and ${endDate}?`);
+            if(yes) {
+                window.joinees = window.joinees.filter(j => !(j.applyDate >= startDate && j.applyDate <= endDate));
+                localStorage.setItem(window.CURRENT_DB_VERSION, JSON.stringify(window.joinees));
+                window.refreshAllViews();
+                window.showToast(`Cleared records from ${startDate} to ${endDate}`, "error");
+            }
         };
 
         window.importDailyReport = (event) => {
@@ -1988,7 +1979,6 @@
                                     rating: 0
                                 };
                                 window.joinees.push(newCandidate);
-                                if(window.writeToCloud) await window.writeToCloud('candidates', newCandidate.id, newCandidate);
                                 added++;
                             }
                         }
@@ -2009,8 +1999,11 @@
 
         window.renderDailyReportAnalytics = () => {
             if (window.currentTab !== 'directory') return;
-            const dateFilter = document.getElementById('drDateFilter').value;
-            const dayData = window.joinees.filter(j => j.applyDate === dateFilter);
+            const startDate = document.getElementById('drStartDate').value;
+            const endDate = document.getElementById('drEndDate').value;
+            
+            // Filter by date range
+            const dayData = window.joinees.filter(j => j.applyDate >= startDate && j.applyDate <= endDate);
             
             let tTotal=dayData.length, tPending=0, tInt=0, tSel=0, tJoin=0, tRej=0;
             const deptCounts = {}; const statusCounts = {}; const recruiterMap = {};
@@ -2048,7 +2041,7 @@
 
             const drBody = document.getElementById('drCandidatesBody');
             if (drBody) {
-                if (dayData.length === 0) drBody.innerHTML = `<tr><td colspan="5" class="text-center p-6 text-slate-400 font-bold">No candidates registered on this date.</td></tr>`;
+                if (dayData.length === 0) drBody.innerHTML = `<tr><td colspan="5" class="text-center p-6 text-slate-400 font-bold">No candidates registered in this date range.</td></tr>`;
                 else drBody.innerHTML = dayData.map(j => `
                     <tr class="hover:bg-slate-50 dark:hover:bg-slate-800 border-b border-slate-100 dark:border-slate-700 last:border-0 cursor-pointer" onclick="window.viewCandidate(${j.id})">
                         <td class="py-3"><span class="font-bold text-sm text-[var(--text-primary)] uppercase">${j.name}</span><br><span class="text-[10px] text-slate-400">${j.empId}</span></td>
@@ -2121,25 +2114,28 @@
         };
 
         window.exportReportToExcel = () => {
-            const date = document.getElementById('drDateFilter').value;
-            const data = window.joinees.filter(j => j.applyDate === date).map(j => ({
+            const startDate = document.getElementById('drStartDate').value;
+            const endDate = document.getElementById('drEndDate').value;
+            const data = window.joinees.filter(j => j.applyDate >= startDate && j.applyDate <= endDate).map(j => ({
                 ID: j.empId, Name: j.name, Phone: j.phone, Dept: j.dept, Location: j.location, Status: j.status, Source: j.source
             }));
             const ws = XLSX.utils.json_to_sheet(data);
             const wb = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(wb, ws, "Daily_Report");
-            XLSX.writeFile(wb, `HR_Daily_Report_${date}.xlsx`);
+            XLSX.writeFile(wb, `HR_Report_${startDate}_to_${endDate}.xlsx`);
         };
         
         window.exportReportToPDF = () => {
             const element = document.getElementById('dailyReportContent');
+            const startDate = document.getElementById('drStartDate').value;
+            const endDate = document.getElementById('drEndDate').value;
             html2pdf().from(element).set({
-                margin: [10, 10], filename: `HR_Daily_Report_${document.getElementById('drDateFilter').value}.pdf`,
+                margin: [10, 10], filename: `HR_Report_${startDate}_to_${endDate}.pdf`,
                 image: { type: 'jpeg', quality: 0.98 }, html2canvas: { scale: 2 }, jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
             }).save();
         };
 
-        // --- Resume Tracker ---
+        // --- Resume Tracker (Fixing PDF Viewer) ---
         window.openBulkUploadModal = () => document.getElementById('bulkUploadModal').classList.remove('hidden');
         window.closeBulkUploadModal = () => { document.getElementById('bulkUploadModal').classList.add('hidden'); document.getElementById('bulkUploadForm').reset(); };
 
@@ -2160,36 +2156,39 @@
             for (let i = 0; i < files.length; i++) {
                 const file = files[i];
                 if (file.type !== 'application/pdf') continue;
+                if (file.size > 15 * 1024 * 1024) { window.showToast(`${file.name} is too large (>15MB). Skipping.`, "error"); continue; }
 
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                
-                await new Promise((resolve) => {
-                    reader.onload = async () => {
-                        const base64Str = reader.result.split(',')[1];
-                        const newResume = {
-                            id: Date.now() + i,
-                            name: file.name.replace('.pdf', ''),
-                            source: source,
-                            dept: dept,
-                            gender: gender,
-                            date: new Date().toISOString().slice(0, 10),
-                            fileName: file.name,
-                            fileSize: (file.size / 1024).toFixed(1) + ' KB',
-                            fileData: base64Str 
-                        };
-                        window.resumeTrackerList.push(newResume);
-                        if(window.writeToCloud) await window.writeToCloud('resumes', newResume.id, newResume);
-                        addedCount++;
-                        resolve();
-                    };
+                const dataUrl = await new Promise((resolve) => {
+                    const reader = new FileReader();
+                    reader.onload = () => resolve(reader.result);
+                    reader.readAsDataURL(file);
                 });
+                
+                const newResume = {
+                    id: Date.now() + i,
+                    name: file.name.replace('.pdf', ''),
+                    source: source,
+                    dept: dept,
+                    gender: gender,
+                    date: new Date().toISOString().slice(0, 10),
+                    fileName: file.name,
+                    fileSize: (file.size / 1024).toFixed(1) + ' KB',
+                    fileData: dataUrl 
+                };
+                window.resumeTrackerList.push(newResume);
+                addedCount++;
             }
 
-            localStorage.setItem(window.RESUMES_DB_VERSION, JSON.stringify(window.resumeTrackerList));
+            try {
+                localStorage.setItem(window.RESUMES_DB_VERSION, JSON.stringify(window.resumeTrackerList));
+                window.showToast(`Successfully uploaded ${addedCount} resumes.`);
+            } catch(e) {
+                window.showToast("Storage quota exceeded! Cannot save PDFs locally.", "error");
+                window.resumeTrackerList = JSON.parse(localStorage.getItem(window.RESUMES_DB_VERSION)) || [];
+            }
+            
             window.closeBulkUploadModal();
             window.renderResumes();
-            window.showToast(`Successfully uploaded ${addedCount} resumes.`);
             btn.innerHTML = `<i class="fas fa-check"></i> Upload`;
             btn.disabled = false;
         });
@@ -2271,43 +2270,32 @@
 
         window.closeResumeModal = () => document.getElementById('resumeViewModal').classList.add('hidden');
 
+        // Fix PDF Viewing inside the app securely using embed/object to avoid blob constraints
         window.viewResume = (id) => {
             const resume = window.resumeTrackerList.find(r => String(r.id) === String(id));
             if (!resume || !resume.fileData) return window.showToast('Resume file data not found', 'error');
 
-            try {
-                const byteCharacters = atob(resume.fileData);
-                const byteNumbers = new Array(byteCharacters.length);
-                for (let i = 0; i < byteCharacters.length; i++) { byteNumbers[i] = byteCharacters.charCodeAt(i); }
-                const byteArray = new Uint8Array(byteNumbers);
-                
-                const blob = new Blob([byteArray], { type: 'application/pdf' });
-                const blobUrl = URL.createObjectURL(blob);
-                
-                // Embed directly in new tab to avoid popup blockers
-                const newWindow = window.open();
-                if(!newWindow) {
-                    window.showToast("Popup blocked! Click the direct link below.", "error");
-                    const a = document.createElement('a'); a.href = blobUrl; a.download = resume.fileName; a.click();
-                    return;
-                }
-                newWindow.document.write(`<iframe src="${blobUrl}" frameborder="0" style="border:0; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%;" allowfullscreen></iframe>`);
-                
-                setTimeout(() => URL.revokeObjectURL(blobUrl), 15000); 
-            } catch (err) {
-                console.error("PDF View Error: ", err);
-                window.showToast("Failed to render PDF.", "error");
-            }
+            document.getElementById('pdfViewerTitle').innerText = resume.fileName;
+            const container = document.getElementById('pdfContainer');
+            
+            // Using Data URL directly inside an iframe bypasses most blob restrictions and popups.
+            container.innerHTML = `<iframe src="${resume.fileData}" type="application/pdf" class="w-full h-full border-none rounded-xl" title="Resume Viewer"></iframe>`;
+            
+            document.getElementById('pdfViewerModal').classList.remove('hidden');
+        };
+
+        window.closePdfViewer = () => {
+            document.getElementById('pdfViewerModal').classList.add('hidden');
+            document.getElementById('pdfContainer').innerHTML = ''; // Clear memory
         };
 
         window.deleteResume = async (id, currentDept) => {
             const confirmed = await window.showDialogModal('confirm', 'Delete Resume', 'Are you sure you want to permanently delete this resume?');
             if(confirmed) {
-                if(window.removeFromCloud) await window.removeFromCloud('resumes', id);
                 window.resumeTrackerList = window.resumeTrackerList.filter(r => String(r.id) !== String(id));
                 localStorage.setItem(window.RESUMES_DB_VERSION, JSON.stringify(window.resumeTrackerList));
                 window.renderResumes();
-                window.openResumeModal(currentDept);
+                if(currentDept) window.openResumeModal(currentDept);
                 window.showToast("Resume deleted", "error");
             }
         };
@@ -2315,11 +2303,6 @@
         window.clearAllResumes = async () => {
             const yes = await window.showDialogModal('confirm', 'Clear All Resumes', 'Are you sure you want to delete ALL resumes? This cannot be undone.');
             if(yes) {
-                if(window.removeFromCloud) {
-                    for(let r of window.resumeTrackerList) {
-                        await window.removeFromCloud('resumes', r.id);
-                    }
-                }
                 window.resumeTrackerList = [];
                 localStorage.setItem(window.RESUMES_DB_VERSION, JSON.stringify([]));
                 window.renderResumes();
@@ -2327,29 +2310,48 @@
             }
         };
 
-        // --- Job Postings ---
+        // --- Job Postings & Hiring Targets ---
         window.openJobModal = () => { document.getElementById('jobForm').reset(); document.getElementById('jobModal').classList.remove('hidden'); };
         window.closeJobModal = () => document.getElementById('jobModal').classList.add('hidden');
 
         document.getElementById('jobForm')?.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const newJob = {
-                id: Date.now(),
-                title: document.getElementById('jobTitle').value.trim(),
-                dept: document.getElementById('jobDept').value.trim().toUpperCase(),
-                location: document.getElementById('jobLoc').value.trim().toUpperCase(),
-                requirements: document.getElementById('jobReq').value.trim(),
-                duration: document.getElementById('jobDuration').value,
-                sheetLink: document.getElementById('jobSheetLink').value.trim(),
-                date: new Date().toISOString().slice(0, 10),
-                status: 'ACTIVE'
+            const btn = e.target.querySelector('button[type="submit"]');
+            btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Posting...`;
+            btn.disabled = true;
+
+            const fileInput = document.getElementById('jobImage');
+            
+            const saveJobData = (imgDataUrl) => {
+                const newJob = {
+                    id: Date.now(),
+                    title: document.getElementById('jobTitle').value.trim(),
+                    dept: document.getElementById('jobDept').value.trim().toUpperCase(),
+                    location: document.getElementById('jobLoc').value.trim().toUpperCase(),
+                    requirements: document.getElementById('jobReq').value.trim(),
+                    duration: document.getElementById('jobDuration').value,
+                    sheetLink: document.getElementById('jobSheetLink').value.trim(),
+                    image: imgDataUrl,
+                    date: new Date().toISOString().slice(0, 10),
+                    status: 'ACTIVE'
+                };
+                window.jobsList.push(newJob);
+                localStorage.setItem(window.JOBS_DB_VERSION, JSON.stringify(window.jobsList));
+                window.closeJobModal();
+                window.renderJobs();
+                window.showToast('Job Posted successfully');
+                btn.innerHTML = `Publish Job`;
+                btn.disabled = false;
             };
-            window.jobsList.push(newJob);
-            localStorage.setItem(window.JOBS_DB_VERSION, JSON.stringify(window.jobsList));
-            if(window.writeToCloud) await window.writeToCloud('jobs', newJob.id, newJob);
-            window.closeJobModal();
-            window.renderJobs();
-            window.showToast('Job Posted successfully');
+
+            if (fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = (event) => { saveJobData(event.target.result); };
+                reader.onerror = () => { window.showToast('Image load failed', 'error'); saveJobData(null); };
+                reader.readAsDataURL(fileInput.files[0]);
+            } else {
+                saveJobData(null);
+            }
         });
 
         window.renderJobs = () => {
@@ -2363,19 +2365,22 @@
             }
 
             container.innerHTML = window.jobsList.sort((a,b) => b.id - a.id).map(j => `
-                <div class="modern-card p-6 flex flex-col relative overflow-hidden group">
+                <div class="modern-card flex flex-col relative overflow-hidden group border border-[var(--border-color)]">
                     <div class="absolute top-0 right-0 bg-emerald-500 text-white text-[9px] font-black px-3 py-1 rounded-bl-xl uppercase tracking-widest z-10">${j.status}</div>
-                    <div class="mb-4">
-                        <span class="text-[10px] font-black text-sarathy-blue uppercase tracking-widest bg-blue-50 px-2 py-1 rounded-md mb-2 inline-block">${j.dept}</span>
-                        <h3 class="font-black text-lg text-[var(--text-primary)] uppercase leading-tight">${j.title}</h3>
-                        <p class="text-xs font-bold text-slate-500 mt-1"><i class="fas fa-map-marker-alt mr-1"></i> ${j.location}</p>
-                    </div>
-                    <p class="text-sm font-medium text-slate-600 dark:text-slate-300 mb-6 line-clamp-3 flex-1">${j.requirements}</p>
-                    <div class="flex justify-between items-center pt-4 border-t border-[var(--border-color)]">
-                        <span class="text-[10px] font-bold text-slate-400">Posted: ${window.formatDateString(j.date)}</span>
-                        <div class="flex gap-2">
-                            ${j.sheetLink ? `<button onclick="window.open('${j.sheetLink}', '_blank')" class="text-emerald-500 hover:text-emerald-600" title="Open Leads Sheet"><i class="fas fa-file-excel"></i></button>` : ''}
-                            <button onclick="window.deleteJob(${j.id})" class="text-slate-400 hover:text-red-500"><i class="fas fa-trash-alt"></i></button>
+                    ${j.image ? `<div class="w-full h-48 bg-slate-100 dark:bg-slate-800 shrink-0"><img src="${j.image}" class="w-full h-full object-cover" onerror="this.style.display='none'" /></div>` : ''}
+                    <div class="p-6 flex flex-col flex-1">
+                        <div class="mb-4">
+                            <span class="text-[10px] font-black text-sarathy-blue uppercase tracking-widest bg-blue-50 px-2 py-1 rounded-md mb-2 inline-block">${j.dept}</span>
+                            <h3 class="font-black text-lg text-[var(--text-primary)] uppercase leading-tight">${j.title}</h3>
+                            <p class="text-xs font-bold text-slate-500 mt-1"><i class="fas fa-map-marker-alt mr-1"></i> ${j.location}</p>
+                        </div>
+                        <p class="text-sm font-medium text-slate-600 dark:text-slate-300 mb-6 line-clamp-3 flex-1">${j.requirements}</p>
+                        <div class="flex justify-between items-center pt-4 border-t border-[var(--border-color)]">
+                            <span class="text-[10px] font-bold text-slate-400">Posted: ${window.formatDateString(j.date)}</span>
+                            <div class="flex gap-2">
+                                ${j.sheetLink ? `<button onclick="window.open('${j.sheetLink}', '_blank')" class="text-emerald-500 hover:text-emerald-600" title="Open Leads Sheet"><i class="fas fa-file-excel"></i></button>` : ''}
+                                <button onclick="window.deleteJob(${j.id})" class="text-slate-400 hover:text-red-500"><i class="fas fa-trash-alt"></i></button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -2385,7 +2390,6 @@
         window.deleteJob = async (id) => {
             const yes = await window.showDialogModal('confirm', 'Delete Job', 'Remove this job posting?');
             if(yes) {
-                if(window.removeFromCloud) await window.removeFromCloud('jobs', id);
                 window.jobsList = window.jobsList.filter(j => String(j.id) !== String(id));
                 localStorage.setItem(window.JOBS_DB_VERSION, JSON.stringify(window.jobsList));
                 window.renderJobs();
@@ -2393,7 +2397,6 @@
             }
         };
 
-        // --- Hiring Targets & Dashboard ---
         window.openReqModal = () => { document.getElementById('reqModal').classList.remove('hidden'); window.renderReqModal(); };
         window.closeReqModal = () => document.getElementById('reqModal').classList.add('hidden');
         
@@ -2414,90 +2417,17 @@
                     </select>
                     <input type="text" class="input-base py-2 text-sm flex-1 uppercase" placeholder="Location (Optional)" value="${r.location==='ALL'?'':r.location}" onchange="window.reqList[${i}].location = this.value || 'ALL'" />
                     <input type="number" class="input-base py-2 text-sm w-24" placeholder="Target" value="${r.target}" onchange="window.reqList[${i}].target = parseInt(this.value)||0" />
-                    <button onclick="window.reqList.splice(${i}, 1); window.renderReqModal();" class="w-10 h-10 bg-red-50 text-red-500 rounded-lg"><i class="fas fa-trash-alt"></i></button>
+                    <button onclick="window.reqList.splice(${i}, 1); window.renderReqModal();" class="w-10 h-10 bg-red-50 hover:bg-red-100 text-red-500 rounded-lg transition-colors shrink-0"><i class="fas fa-trash-alt"></i></button>
                 </div>
             `).join('');
         };
 
         window.saveRequirements = async () => {
             localStorage.setItem(window.CURRENT_BUDGET_VERSION, JSON.stringify(window.reqList));
-            if(window.writeToCloud) await window.writeToCloud('targets', 'main', { list: window.reqList });
             window.closeReqModal();
             window.renderDashboard();
             window.showToast("Targets Updated");
         };
-
-        window.renderDashboard = () => {
-            if (window.currentTab !== 'dashboard') return;
-            document.getElementById('statTotal').innerText = window.joinees.length;
-            document.getElementById('statPending').innerText = window.joinees.filter(j => j.status === 'PENDING' || j.status === 'SHORTLISTED' || j.status === 'INTERVIEW_SCHEDULED').length;
-            document.getElementById('statSelected').innerText = window.joinees.filter(j => j.status === 'SELECTED').length;
-            const joinedList = window.joinees.filter(j => j.status === 'JOINED');
-            document.getElementById('statJoined').innerText = joinedList.length;
-            document.getElementById('statRejected').innerText = window.joinees.filter(j => j.status === 'REJECTED').length;
-
-            let totalDays = 0; let count = 0;
-            joinedList.forEach(j => {
-                if(j.applyDate && j.joinDate) {
-                    const d1 = new Date(j.applyDate); const d2 = new Date(j.joinDate);
-                    if(!isNaN(d1) && !isNaN(d2) && d2 >= d1) {
-                        totalDays += (d2 - d1) / (1000 * 3600 * 24);
-                        count++;
-                    }
-                }
-            });
-            document.getElementById('statHiringTime').innerHTML = `${count>0 ? Math.round(totalDays/count) : 0} <span class="text-sm">Days</span>`;
-
-            const rb = document.getElementById('recentCandidatesBody');
-            if (rb) {
-                rb.innerHTML = window.joinees.slice().reverse().slice(0, 5).map(j => `
-                    <tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors border-b border-[var(--border-color)] last:border-0 cursor-pointer" onclick="window.viewCandidate(${j.id})">
-                        <td class="py-3 px-2">
-                            <p class="text-xs font-black text-[var(--text-primary)] uppercase">${j.name}</p>
-                            <p class="text-[9px] text-[var(--text-secondary)] font-bold">${j.dept}</p>
-                        </td>
-                        <td class="py-3 px-2 text-right">
-                            <span class="text-[9px] font-black uppercase px-2 py-1 rounded bg-slate-100 dark:bg-slate-700 text-slate-500">${j.status}</span>
-                        </td>
-                    </tr>
-                `).join('');
-            }
-
-            const prog = document.getElementById('progContainer');
-            if (prog && window.reqList) {
-                prog.innerHTML = window.reqList.map(r => {
-                    let filtered = window.joinees.filter(j => j.dept === r.dept && (j.status === 'SELECTED' || j.status === 'JOINED'));
-                    if (r.company !== 'ALL') filtered = filtered.filter(j => j.company === r.company);
-                    if (r.location !== 'ALL') filtered = filtered.filter(j => j.location === r.location);
-                    
-                    const count = filtered.length;
-                    const pct = Math.min(100, (count / r.target) * 100);
-                    let color = 'bg-sarathy-blue';
-                    if (pct >= 100) color = 'bg-emerald-500';
-                    else if (pct > 50) color = 'bg-blue-400';
-
-                    return `
-                        <div class="mb-3">
-                            <div class="flex justify-between items-end mb-1">
-                                <div><p class="text-[10px] font-black uppercase text-slate-500 tracking-wider">${r.dept} ${r.company !== 'ALL' ? `• ${r.company}` : ''}</p></div>
-                                <span class="text-xs font-black ${pct>=100?'text-emerald-500':'text-sarathy-blue'}">${count} / ${r.target}</span>
-                            </div>
-                            <div class="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2 overflow-hidden shadow-inner"><div class="${color} h-2 rounded-full transition-all duration-1000" style="width: ${pct}%"></div></div>
-                        </div>
-                    `;
-                }).join('');
-            }
-        };
-
-        setInterval(() => {
-            const el = document.getElementById('dynamicDateTime');
-            if(el) {
-                const d = new Date();
-                const time = d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
-                const date = d.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
-                el.innerHTML = `<i class="far fa-clock mr-3 text-white/70"></i> <span>${time}</span><span class="mx-3 text-white/30">|</span><span class="text-white/90 font-medium">${date}</span>`;
-            }
-        }, 1000);
 
         // --- Calendar ---
         window.renderCalendar = () => {
@@ -2523,8 +2453,8 @@
                 });
 
                 let eventsHtml = combinedEvents.slice(0, 3).map(ev => {
-                    let colorClass = ev.eventType === 'INT' ? 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300' : 'bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300';
-                    return `<div onclick="window.viewCandidate(${ev.id})" class="calendar-event ${colorClass} shadow-sm">${ev.eventType}: ${ev.name.split(' ')[0]}</div>`;
+                    let colorClass = ev.eventType === 'INT' ? 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300 border border-amber-200 dark:border-amber-800' : 'bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300 border border-blue-200 dark:border-blue-800';
+                    return `<div onclick="window.viewCandidate(${ev.id})" class="calendar-event ${colorClass} shadow-sm hover:scale-[1.02]">${ev.eventType}: ${ev.name.split(' ')[0]}</div>`;
                 }).join('');
                 
                 if (combinedEvents.length > 3) eventsHtml += `<div class="text-[9px] text-center text-[var(--text-secondary)] font-bold mt-1">+${combinedEvents.length - 3} more</div>`;
@@ -2644,7 +2574,10 @@
         });
 
         document.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('drDateFilter').value = new Date().toISOString().slice(0, 10);
+            if(localStorage.getItem('theme') === 'dark') {
+                document.documentElement.classList.add('dark');
+                document.getElementById('darkModeIcon').className = 'fas fa-sun';
+            }
 
             if (window.isApplyView) {
                 document.getElementById('loginPage').classList.add('hidden');
@@ -2655,7 +2588,7 @@
                 document.getElementById('loginPage').classList.add('hidden');
                 document.getElementById('appLayout').classList.remove('hidden');
                 window.currentUser = window.USERS[0];
-                window.refreshAllViews();
+                window.showApp();
             }
         });
     </script>
