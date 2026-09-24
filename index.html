@@ -186,6 +186,7 @@
         .status-badge {
             padding: 6px 12px; border-radius: 9999px; font-size: 0.7rem; font-weight: 800;
             display: inline-flex; align-items: center; justify-content: center; text-transform: uppercase; letter-spacing: 0.05em;
+            white-space: nowrap;
         }
         .badge-selected { background: #dcfce7; color: #166534; }
         .badge-pending { background: #fef9c3; color: #854d0e; }
@@ -196,6 +197,7 @@
         .badge-interview { background: #fce7f3; color: #9d174d; }
         .badge-hold { background: #fef3c7; color: #92400e; }
         .badge-noresponse { background: #f1f5f9; color: #475569; }
+        .badge-notinterested { background: #fee2e2; color: #991b1b; }
         
         .dark .badge-selected { background: rgba(22, 163, 74, 0.2); color: #4ade80; }
         .dark .badge-pending { background: rgba(202, 138, 4, 0.2); color: #fde047; }
@@ -206,6 +208,7 @@
         .dark .badge-interview { background: rgba(236, 72, 153, 0.2); color: #f472b6; }
         .dark .badge-hold { background: rgba(245, 158, 11, 0.2); color: #fbbf24; }
         .dark .badge-noresponse { background: rgba(100, 116, 139, 0.2); color: #94a3b8; }
+        .dark .badge-notinterested { background: rgba(220, 38, 38, 0.2); color: #f87171; }
 
         .dragging { opacity: 0.5; transform: scale(0.95); cursor: grabbing !important; }
 
@@ -346,12 +349,12 @@
                 <a onclick="window.switchTab('resumes')" id="nav-resumes" class="nav-link text-indigo-600 dark:text-indigo-400"><i class="fas fa-file-pdf w-5 text-center text-lg"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">Resume Tracker</span></a>
                 <a onclick="window.switchTab('jobs')" id="nav-jobs" class="nav-link text-sky-600 dark:text-sky-400"><i class="fas fa-briefcase w-5 text-center text-lg"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">Job Postings</span></a>
                 
-                <!-- START: LOCATION HR MODULE -->
-                <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-6 mb-2 px-3 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">LOCATION HR</div>
-                <a onclick="window.switchTab('hr-manager')" id="nav-hr-manager" class="nav-link text-orange-600 dark:text-orange-400"><i class="fas fa-users-cog w-5 text-center text-lg"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">HR Master</span></a>
-                <a onclick="window.switchTab('hr-dashboard')" id="nav-hr-dashboard" class="nav-link text-purple-600 dark:text-purple-400"><i class="fas fa-user-tie w-5 text-center text-lg"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">HR Dashboard</span></a>
+                <!-- START: BIODATA FORWARDING MODULE -->
+                <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-6 mb-2 px-3 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">BIODATA & HR</div>
+                <a onclick="window.switchTab('hr-manager')" id="nav-hr-manager" class="nav-link text-orange-600 dark:text-orange-400"><i class="fas fa-users-cog w-5 text-center text-lg"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">HR Managers</span></a>
+                <a onclick="window.switchTab('biodata-tracking')" id="nav-biodata-tracking" class="nav-link text-purple-600 dark:text-purple-400"><i class="fas fa-paper-plane w-5 text-center text-lg"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">Biodata Tracking</span></a>
                 <a onclick="window.switchTab('hr-reports')" id="nav-hr-reports" class="nav-link text-pink-600 dark:text-pink-400"><i class="fas fa-chart-line w-5 text-center text-lg"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">HR Reports</span></a>
-                <!-- END: LOCATION HR MODULE -->
+                <!-- END: BIODATA FORWARDING MODULE -->
 
                 <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-6 mb-2 px-3 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">MANAGEMENT</div>
                 <a onclick="window.switchTab('calendar')" id="nav-calendar" class="nav-link"><i class="fas fa-calendar-alt w-5 text-center text-lg"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">Schedules</span></a>
@@ -391,7 +394,6 @@
                     <div class="bg-gradient-to-br from-slate-900 via-[#0054A6] to-sky-600 rounded-[2.5rem] p-6 md:p-12 text-white relative overflow-hidden shadow-2xl animate-up border border-white/10">
                         <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-sky-400/20 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/3 mix-blend-screen pointer-events-none"></div>
                         <div class="absolute bottom-0 left-0 w-[400px] h-[400px] bg-indigo-500/20 rounded-full blur-[60px] translate-y-1/3 -translate-x-1/4 mix-blend-screen pointer-events-none"></div>
-                        <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNSkiLz48L3N2Zz4=')] [mask-image:linear-gradient(to_bottom,white,transparent)] pointer-events-none"></div>
                         <div class="relative z-10 flex flex-col xl:flex-row justify-between items-start xl:items-center gap-8">
                             <div class="flex-1">
                                 <h2 id="dynamicGreeting" class="text-4xl md:text-5xl font-black mb-3 flex items-center gap-4 tracking-tight drop-shadow-md">Good Morning, HR <i class="fas fa-coffee text-blue-200"></i></h2>
@@ -802,13 +804,13 @@
                     <div id="jobsContainer" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 animate-up" style="animation-delay: 0.1s;"></div>
                 </div>
 
-                <!-- START: LOCATION HR MODULE TABS -->
-                <!-- TAB: HR MASTER -->
+                <!-- START: BIODATA FORWARDING MODULE TABS -->
+                <!-- TAB: HR MANAGERS MASTER -->
                 <div id="tab-hr-manager" class="tab-content p-4 md:p-6 lg:p-8 max-w-[1600px] mx-auto">
                     <div class="modern-card p-6 mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 animate-up border-l-4 border-l-orange-500">
                         <div>
                             <h2 class="text-xl font-black uppercase text-[var(--text-primary)] flex items-center gap-2">
-                                <i class="fas fa-users-cog text-orange-500"></i> HR Manager Master
+                                <i class="fas fa-users-cog text-orange-500"></i> HR Managers Master
                             </h2>
                             <p class="text-sm text-slate-500">Manage location-based HR managers, their assignments, and status.</p>
                         </div>
@@ -847,54 +849,68 @@
                     </div>
                 </div>
 
-                <!-- TAB: HR DASHBOARD -->
-                <div id="tab-hr-dashboard" class="tab-content p-4 md:p-6 lg:p-8 max-w-[1600px] mx-auto">
+                <!-- TAB: BIODATA TRACKING -->
+                <div id="tab-biodata-tracking" class="tab-content p-4 md:p-6 lg:p-8 max-w-[1600px] mx-auto">
                     <div class="modern-card p-6 mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 animate-up border-l-4 border-l-purple-500">
                         <div>
                             <h2 class="text-xl font-black uppercase text-[var(--text-primary)] flex items-center gap-2">
-                                <i class="fas fa-user-tie text-purple-500"></i> Location HR Dashboard
+                                <i class="fas fa-paper-plane text-purple-500"></i> Biodata Tracking & HR Updates
                             </h2>
-                            <p class="text-sm text-slate-500">Track and update candidate statuses forwarded to Location HR Managers.</p>
+                            <p class="text-sm text-slate-500">Track every biodata sent to HR Managers and their responses.</p>
                         </div>
                     </div>
 
                     <div class="modern-card p-4 mb-6 shadow-sm">
-                        <div class="flex flex-col md:flex-row gap-4">
-                            <div class="relative flex-1">
-                                <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                                <input type="text" id="hrDashSearch" onkeyup="window.renderHRDashboard()" placeholder="Search candidates..." class="w-full pl-11 pr-4 py-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl text-sm font-medium outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 transition-all" />
-                            </div>
-                            <select id="hrDashFilterManager" onchange="window.renderHRDashboard()" class="px-4 py-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl text-sm font-medium outline-none cursor-pointer">
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-3">
+                            <input type="date" id="bfFilterDate" onchange="window.renderBiodataTracking()" class="px-3 py-2 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl text-sm font-medium outline-none" />
+                            <select id="bfFilterHR" onchange="window.renderBiodataTracking()" class="px-3 py-2 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl text-sm font-medium outline-none">
                                 <option value="ALL">All HR Managers</option>
                             </select>
-                            <select id="hrDashFilterStatus" onchange="window.renderHRDashboard()" class="px-4 py-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl text-sm font-medium outline-none cursor-pointer">
+                            <select id="bfFilterLocation" onchange="window.renderBiodataTracking()" class="px-3 py-2 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl text-sm font-medium outline-none">
+                                <option value="ALL">All Locations</option>
+                                <option value="KOLLAM">Kollam</option><option value="KOTTIYAM">Kottiyam</option><option value="CHATHANNOOR">Chathannoor</option>
+                                <option value="PARIPPALLY">Parippally</option><option value="KALLAMBALAM">Kallambalam</option><option value="ATTINGAL">Attingal</option>
+                                <option value="KAZHAKOOTAM">Kazhakootam</option><option value="TRIVANDRUM">Trivandrum</option><option value="ANY">Any</option>
+                            </select>
+                            <select id="bfFilterDept" onchange="window.renderBiodataTracking()" class="px-3 py-2 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl text-sm font-medium outline-none">
+                                <option value="ALL">All Depts</option>
+                                <option value="SALES">Sales</option><option value="SERVICE">Service</option><option value="SPARE">Spare</option>
+                                <option value="HR">HR</option><option value="ADMIN">Admin</option><option value="FINANCE">Finance</option><option value="OTHER">Other</option>
+                            </select>
+                            <input type="text" id="bfFilterPosition" onkeyup="window.renderBiodataTracking()" placeholder="Position..." class="px-3 py-2 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl text-sm font-medium outline-none" />
+                            <select id="bfFilterStatus" onchange="window.renderBiodataTracking()" class="px-3 py-2 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl text-sm font-medium outline-none">
                                 <option value="ALL">All Status</option>
-                                <option value="Received">Received</option>
+                                <option value="Pending">Pending</option>
                                 <option value="Under Review">Under Review</option>
                                 <option value="Shortlisted">Shortlisted</option>
                                 <option value="Interview">Interview</option>
                                 <option value="Selected">Selected</option>
                                 <option value="Rejected">Rejected</option>
-                                <option value="Joined">Joined</option>
                                 <option value="Hold">Hold</option>
+                                <option value="Joined">Joined</option>
+                                <option value="Not Interested">Not Interested</option>
                                 <option value="No Response">No Response</option>
                             </select>
                         </div>
                     </div>
 
                     <div class="data-table-container">
-                        <table class="data-table min-w-[1000px]">
+                        <table class="data-table min-w-[1100px]">
                             <thead>
                                 <tr>
+                                    <th>Date</th>
                                     <th>Candidate</th>
-                                    <th>Assigned HR</th>
+                                    <th>Position</th>
+                                    <th>Location</th>
+                                    <th>HR Manager</th>
+                                    <th>Sent By</th>
                                     <th>Status</th>
-                                    <th>Last Update</th>
+                                    <th>HR Remarks</th>
                                     <th>Follow-up</th>
                                     <th class="text-right">Action</th>
                                 </tr>
                             </thead>
-                            <tbody id="hrDashboardTableBody" class="divide-y divide-[var(--border-color)]"></tbody>
+                            <tbody id="biodataTrackingBody" class="divide-y divide-[var(--border-color)]"></tbody>
                         </table>
                     </div>
                 </div>
@@ -920,40 +936,40 @@
 
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 animate-up">
                         <div class="modern-card p-4 border-t-2 border-indigo-400">
-                            <span class="text-[10px] font-black text-indigo-500 uppercase tracking-widest">Biodata Sent</span>
+                            <span class="text-[10px] font-black text-indigo-500 uppercase tracking-widest">Total Biodata Sent</span>
                             <h3 class="text-2xl font-black text-indigo-600" id="hrRepSent">0</h3>
                         </div>
-                        <div class="modern-card p-4 border-t-2 border-blue-400">
-                            <span class="text-[10px] font-black text-blue-500 uppercase tracking-widest">Received</span>
-                            <h3 class="text-2xl font-black text-blue-600" id="hrRepReceived">0</h3>
-                        </div>
                         <div class="modern-card p-4 border-t-2 border-amber-400">
-                            <span class="text-[10px] font-black text-amber-500 uppercase tracking-widest">Pending</span>
+                            <span class="text-[10px] font-black text-amber-500 uppercase tracking-widest">Pending Response</span>
                             <h3 class="text-2xl font-black text-amber-600" id="hrRepPending">0</h3>
                         </div>
                         <div class="modern-card p-4 border-t-2 border-purple-400">
-                            <span class="text-[10px] font-black text-purple-500 uppercase tracking-widest">Shortlisted</span>
-                            <h3 class="text-2xl font-black text-purple-600" id="hrRepShortlisted">0</h3>
+                            <span class="text-[10px] font-black text-purple-500 uppercase tracking-widest">Under Review</span>
+                            <h3 class="text-2xl font-black text-purple-600" id="hrRepReview">0</h3>
                         </div>
                         <div class="modern-card p-4 border-t-2 border-pink-400">
-                            <span class="text-[10px] font-black text-pink-500 uppercase tracking-widest">Interview</span>
-                            <h3 class="text-2xl font-black text-pink-600" id="hrRepInterview">0</h3>
+                            <span class="text-[10px] font-black text-pink-500 uppercase tracking-widest">Shortlisted</span>
+                            <h3 class="text-2xl font-black text-pink-600" id="hrRepShortlisted">0</h3>
+                        </div>
+                        <div class="modern-card p-4 border-t-2 border-rose-400">
+                            <span class="text-[10px] font-black text-rose-500 uppercase tracking-widest">Interview</span>
+                            <h3 class="text-2xl font-black text-rose-600" id="hrRepInterview">0</h3>
                         </div>
                         <div class="modern-card p-4 border-t-2 border-emerald-400">
                             <span class="text-[10px] font-black text-emerald-500 uppercase tracking-widest">Selected</span>
                             <h3 class="text-2xl font-black text-emerald-600" id="hrRepSelected">0</h3>
                         </div>
-                        <div class="modern-card p-4 border-t-2 border-blue-600">
-                            <span class="text-[10px] font-black text-blue-800 uppercase tracking-widest">Joined</span>
-                            <h3 class="text-2xl font-black text-blue-800" id="hrRepJoined">0</h3>
-                        </div>
                         <div class="modern-card p-4 border-t-2 border-red-400">
                             <span class="text-[10px] font-black text-red-500 uppercase tracking-widest">Rejected</span>
                             <h3 class="text-2xl font-black text-red-600" id="hrRepRejected">0</h3>
                         </div>
+                        <div class="modern-card p-4 border-t-2 border-blue-600">
+                            <span class="text-[10px] font-black text-blue-800 uppercase tracking-widest">Joined</span>
+                            <h3 class="text-2xl font-black text-blue-800" id="hrRepJoined">0</h3>
+                        </div>
                     </div>
 
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 animate-up" style="animation-delay: 0.1s;">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 animate-up mb-6" style="animation-delay: 0.1s;">
                         <div class="modern-card p-6 flex flex-col items-center">
                             <h3 class="font-bold text-sm uppercase text-slate-500 mb-6 w-full text-left">Status Distribution</h3>
                             <div class="w-full h-[300px] relative"><canvas id="hrStatusChart"></canvas></div>
@@ -964,27 +980,54 @@
                         </div>
                     </div>
 
-                    <div class="modern-card p-6 mt-6 animate-up" style="animation-delay: 0.2s;">
-                        <h3 class="text-sm font-black uppercase text-[var(--text-primary)] mb-4">HR Manager Performance</h3>
+                    <div class="modern-card p-6 mb-6 animate-up" style="animation-delay: 0.2s;">
+                        <h3 class="text-sm font-black uppercase text-[var(--text-primary)] mb-4">HR Manager-wise Report</h3>
                         <div class="overflow-x-auto">
                             <table class="w-full text-left data-table">
                                 <thead>
                                     <tr>
                                         <th>HR Manager</th>
-                                        <th>Location</th>
-                                        <th>Total Assigned</th>
-                                        <th>Received</th>
+                                        <th>Sent</th>
+                                        <th>Pending</th>
                                         <th>Shortlisted</th>
+                                        <th>Interview</th>
                                         <th>Selected</th>
                                         <th>Rejected</th>
+                                        <th>Joined</th>
                                     </tr>
                                 </thead>
                                 <tbody id="hrPerformanceBody"></tbody>
                             </table>
                         </div>
                     </div>
+
+                    <div class="modern-card p-6 animate-up border-l-4 border-l-amber-500" style="animation-delay: 0.3s;">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-10 h-10 rounded-xl bg-amber-100 dark:bg-amber-900/30 text-amber-600 flex items-center justify-center">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-black uppercase text-[var(--text-primary)]">⚠️ Pending HR Response</h3>
+                                <p class="text-xs text-slate-500">Biodata sent more than 2 days ago without response</p>
+                            </div>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Candidate</th>
+                                        <th>HR Manager</th>
+                                        <th>Sent Date</th>
+                                        <th>Days Pending</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="hrPendingBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
-                <!-- END: LOCATION HR MODULE TABS -->
+                <!-- END: BIODATA FORWARDING MODULE TABS -->
 
                 <!-- TAB: CALENDAR -->
                 <div id="tab-calendar" class="tab-content p-4 md:p-6 lg:p-8 max-w-[1600px] mx-auto">
@@ -1258,7 +1301,7 @@
         </div>
     </div>
 
-    <!-- Resume View Modal (Updated to embed Base64 securely avoiding popups) -->
+    <!-- Resume View Modal -->
     <div id="resumeViewModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[130] hidden flex items-center justify-center p-4 transition-opacity no-print">
         <div class="bg-white dark:bg-slate-900 w-full max-w-3xl rounded-[2rem] shadow-2xl flex flex-col max-h-[85vh] animate-up overflow-hidden border border-slate-200 dark:border-slate-800">
             <div class="p-6 md:p-8 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-white dark:bg-slate-900 shrink-0">
@@ -1328,7 +1371,7 @@
         </div>
     </div>
 
-    <!-- START: LOCATION HR MODALS -->
+    <!-- START: BIODATA FORWARDING MODALS -->
     <!-- HR Manager Add/Edit Modal -->
     <div id="hrManagerModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[110] hidden flex justify-center items-center transition-opacity duration-300 no-print">
         <div class="bg-[var(--bg-secondary)] w-full max-w-md rounded-3xl shadow-2xl flex flex-col border border-[var(--border-color)] animate-up">
@@ -1388,7 +1431,7 @@
     <div id="sendBiodataModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[110] hidden flex justify-center items-center transition-opacity duration-300 no-print">
         <div class="bg-[var(--bg-secondary)] w-full max-w-md rounded-3xl shadow-2xl flex flex-col border border-[var(--border-color)] animate-up">
             <div class="p-6 border-b border-[var(--border-color)] flex justify-between items-center bg-slate-50 dark:bg-slate-800 rounded-t-3xl">
-                <h2 class="text-lg font-black uppercase text-[var(--text-primary)]">Send Biodata to HR</h2>
+                <h2 class="text-lg font-black uppercase text-[var(--text-primary)]">📤 Send Biodata to HR</h2>
                 <button type="button" onclick="window.closeSendBiodataModal()" class="text-slate-500 hover:text-red-500"><i class="fas fa-times"></i></button>
             </div>
             <div class="p-6">
@@ -1397,6 +1440,16 @@
                     <div>
                         <label class="text-xs font-bold text-slate-500 uppercase mb-1.5 block">Candidate Name</label>
                         <input type="text" id="sendCandidateName" readonly class="input-base bg-slate-100 dark:bg-slate-700 text-slate-500 cursor-not-allowed" />
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="text-xs font-bold text-slate-500 uppercase mb-1.5 block">Position</label>
+                            <input type="text" id="sendPosition" readonly class="input-base bg-slate-100 dark:bg-slate-700 text-slate-500 cursor-not-allowed" />
+                        </div>
+                        <div>
+                            <label class="text-xs font-bold text-slate-500 uppercase mb-1.5 block">Department</label>
+                            <input type="text" id="sendDept" readonly class="input-base bg-slate-100 dark:bg-slate-700 text-slate-500 cursor-not-allowed" />
+                        </div>
                     </div>
                     <div>
                         <label class="text-xs font-bold text-slate-500 uppercase mb-1.5 block">Preferred Location</label>
@@ -1410,7 +1463,11 @@
                         <p class="text-[10px] text-slate-400 mt-1">Auto-matched based on location. You can override if needed.</p>
                     </div>
                     <div>
-                        <label class="text-xs font-bold text-slate-500 uppercase mb-1.5 block">Remarks / Message</label>
+                        <label class="text-xs font-bold text-slate-500 uppercase mb-1.5 block">Biodata/Resume Reference</label>
+                        <input type="text" id="sendResume" placeholder="e.g. Resume uploaded / File name" class="input-base" />
+                    </div>
+                    <div>
+                        <label class="text-xs font-bold text-slate-500 uppercase mb-1.5 block">Recruiter Remarks</label>
                         <textarea id="sendRemarks" rows="2" class="input-base py-3 text-sm resize-none" placeholder="Any specific instructions for the HR manager..."></textarea>
                     </div>
                     <button type="submit" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-black py-4 rounded-xl uppercase shadow-md mt-4">Send Biodata</button>
@@ -1431,25 +1488,37 @@
                     <input type="hidden" id="hrUpdateForwardingId" />
                     <div class="grid grid-cols-2 gap-4">
                         <div>
-                            <label class="text-xs font-bold text-slate-500 uppercase mb-1.5 block">Status *</label>
-                            <select id="hrUpdateStatus" required class="input-base">
+                            <label class="text-xs font-bold text-slate-500 uppercase mb-1.5 block">Received? *</label>
+                            <select id="hrUpdateReceived" required class="input-base">
                                 <option value="Received">Received</option>
+                                <option value="Not Received">Not Received</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="text-xs font-bold text-slate-500 uppercase mb-1.5 block">Candidate Status *</label>
+                            <select id="hrUpdateStatus" required class="input-base">
+                                <option value="Pending">Pending</option>
                                 <option value="Under Review">Under Review</option>
                                 <option value="Shortlisted">Shortlisted</option>
                                 <option value="Interview">Interview</option>
                                 <option value="Selected">Selected</option>
                                 <option value="Rejected">Rejected</option>
-                                <option value="Joined">Joined</option>
                                 <option value="Hold">Hold</option>
+                                <option value="Joined">Joined</option>
+                                <option value="Not Interested">Not Interested</option>
                                 <option value="No Response">No Response</option>
                             </select>
                         </div>
                         <div>
-                            <label class="text-xs font-bold text-slate-500 uppercase mb-1.5 block">Interview Date & Time</label>
+                            <label class="text-xs font-bold text-slate-500 uppercase mb-1.5 block">Interview Date</label>
                             <input type="datetime-local" id="hrUpdateInterviewDate" class="input-base" />
                         </div>
                         <div>
-                            <label class="text-xs font-bold text-slate-500 uppercase mb-1.5 block">Salary Offered</label>
+                            <label class="text-xs font-bold text-slate-500 uppercase mb-1.5 block">Follow-up Date</label>
+                            <input type="date" id="hrUpdateFollowUpDate" class="input-base" />
+                        </div>
+                        <div>
+                            <label class="text-xs font-bold text-slate-500 uppercase mb-1.5 block">Salary / Offer</label>
                             <input type="text" id="hrUpdateSalary" placeholder="e.g. 25000" class="input-base" />
                         </div>
                         <div>
@@ -1457,20 +1526,20 @@
                             <input type="date" id="hrUpdateJoiningDate" class="input-base" />
                         </div>
                         <div class="col-span-2">
-                            <label class="text-xs font-bold text-slate-500 uppercase mb-1.5 block">Follow-up Date</label>
-                            <input type="date" id="hrUpdateFollowUpDate" class="input-base" />
+                            <label class="text-xs font-bold text-slate-500 uppercase mb-1.5 block">HR Remarks</label>
+                            <textarea id="hrUpdateRemarks" rows="2" class="input-base py-3 text-sm resize-none" placeholder="HR feedback..."></textarea>
                         </div>
                         <div class="col-span-2">
-                            <label class="text-xs font-bold text-slate-500 uppercase mb-1.5 block">Remarks / Feedback *</label>
-                            <textarea id="hrUpdateRemarks" rows="3" required class="input-base py-3 text-sm resize-none" placeholder="Enter detailed feedback..."></textarea>
+                            <label class="text-xs font-bold text-slate-500 uppercase mb-1.5 block">Final Remarks *</label>
+                            <textarea id="hrUpdateFinalRemarks" rows="2" required class="input-base py-3 text-sm resize-none" placeholder="Final decision remarks..."></textarea>
                         </div>
                     </div>
-                    <button type="submit" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-black py-4 rounded-xl uppercase shadow-md mt-4">Save Update</button>
+                    <button type="submit" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-black py-4 rounded-xl uppercase shadow-md mt-4">Save HR Update</button>
                 </form>
             </div>
         </div>
     </div>
-    <!-- END: LOCATION HR MODALS -->
+    <!-- END: BIODATA FORWARDING MODALS -->
 
     <!-- Custom Dialog Modal -->
     <div id="customDialogModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[250] hidden flex items-center justify-center p-4 transition-opacity no-print">
@@ -1514,11 +1583,11 @@
         window.LEADS_DB_VERSION = 'sarathy_leads_v3';
         window.USERS_DB_VERSION = 'sarathy_users_v15';
 
-        // START: LOCATION HR MODULE DB VERSIONS
+        // START: BIODATA FORWARDING DB VERSIONS
         window.HR_MANAGERS_VERSION = 'sarathy_hr_managers_v1';
         window.BIODATA_FORWARDING_VERSION = 'sarathy_biodata_forwarding_v1';
         window.CANDIDATE_UPDATES_VERSION = 'sarathy_candidate_updates_v1';
-        // END: LOCATION HR MODULE DB VERSIONS
+        // END: BIODATA FORWARDING DB VERSIONS
 
         let localUsers = JSON.parse(localStorage.getItem(window.USERS_DB_VERSION));
         if (!localUsers) { 
@@ -1535,14 +1604,30 @@
         window.resumeTrackerList = JSON.parse(localStorage.getItem(window.RESUMES_DB_VERSION)) || [];
         window.leadsList = JSON.parse(localStorage.getItem(window.LEADS_DB_VERSION)) || [];
 
-        // START: LOCATION HR MODULE DATA INIT
+        // START: BIODATA FORWARDING DATA INIT
         window.hrManagers = JSON.parse(localStorage.getItem(window.HR_MANAGERS_VERSION)) || [
-            { id: 1, name: 'RAJESH KUMAR', phone: '9876543210', email: 'rajesh@example.com', location: 'KOLLAM', company: 'SARATHY MOTORS', dept: 'ALL', status: 'ACTIVE' },
-            { id: 2, name: 'ANITHA S', phone: '9876543211', email: 'anitha@example.com', location: 'TRIVANDRUM', company: 'ALL', dept: 'ALL', status: 'ACTIVE' }
+            { id: 1, name: 'SACHIN S', phone: '', email: '', location: 'KOLLAM', company: 'ALL', dept: 'ALL', status: 'ACTIVE' },
+            { id: 2, name: 'SMITHA RAJU', phone: '', email: '', location: 'KOLLAM', company: 'ALL', dept: 'ALL', status: 'ACTIVE' },
+            { id: 3, name: 'ANANDU MADHUSUDHANAN', phone: '', email: '', location: 'TRIVANDRUM', company: 'ALL', dept: 'ALL', status: 'ACTIVE' },
+            { id: 4, name: 'SREE SIDDHARTH M S', phone: '', email: '', location: 'TRIVANDRUM', company: 'ALL', dept: 'ALL', status: 'ACTIVE' },
+            { id: 5, name: 'ADARSH P S', phone: '', email: '', location: 'KOLLAM', company: 'ALL', dept: 'ALL', status: 'ACTIVE' },
+            { id: 6, name: 'HASEENA BEEVI M H', phone: '', email: '', location: 'KOLLAM', company: 'ALL', dept: 'ALL', status: 'ACTIVE' },
+            { id: 7, name: 'MAHI SURESH', phone: '', email: '', location: 'TRIVANDRUM', company: 'ALL', dept: 'ALL', status: 'ACTIVE' },
+            { id: 8, name: 'SREEHARI O M', phone: '', email: '', location: 'TRIVANDRUM', company: 'ALL', dept: 'ALL', status: 'ACTIVE' },
+            { id: 9, name: 'SUMESH S', phone: '', email: '', location: 'KOLLAM', company: 'ALL', dept: 'ALL', status: 'ACTIVE' },
+            { id: 10, name: 'SURYANARAYANAN H', phone: '', email: '', location: 'KOLLAM', company: 'ALL', dept: 'ALL', status: 'ACTIVE' },
+            { id: 11, name: 'PRANAV MOHAN B', phone: '', email: '', location: 'TRIVANDRUM', company: 'ALL', dept: 'ALL', status: 'ACTIVE' },
+            { id: 12, name: 'RAHUL C', phone: '', email: '', location: 'KOLLAM', company: 'ALL', dept: 'ALL', status: 'ACTIVE' },
+            { id: 13, name: 'REMYA P R', phone: '', email: '', location: 'TRIVANDRUM', company: 'ALL', dept: 'ALL', status: 'ACTIVE' },
+            { id: 14, name: 'ROHINI L J', phone: '', email: '', location: 'KOLLAM', company: 'ALL', dept: 'ALL', status: 'ACTIVE' },
+            { id: 15, name: 'VIVEK G', phone: '', email: '', location: 'TRIVANDRUM', company: 'ALL', dept: 'ALL', status: 'ACTIVE' },
+            { id: 16, name: 'ANIL THOMAS', phone: '', email: '', location: 'KOLLAM', company: 'ALL', dept: 'ALL', status: 'ACTIVE' },
+            { id: 17, name: 'JIJO S', phone: '', email: '', location: 'TRIVANDRUM', company: 'ALL', dept: 'ALL', status: 'ACTIVE' },
+            { id: 18, name: 'ABHILASH P', phone: '', email: '', location: 'KOLLAM', company: 'ALL', dept: 'ALL', status: 'ACTIVE' }
         ];
         window.biodataForwarding = JSON.parse(localStorage.getItem(window.BIODATA_FORWARDING_VERSION)) || [];
         window.candidateUpdates = JSON.parse(localStorage.getItem(window.CANDIDATE_UPDATES_VERSION)) || [];
-        // END: LOCATION HR MODULE DATA INIT
+        // END: BIODATA FORWARDING DATA INIT
 
         window.currentView = 'list';
         window.activeFilter = 'All';
@@ -1605,14 +1690,13 @@
             return parts.length === 3 ? `${parts[2]}-${parts[1]}-${parts[0]}` : d; 
         };
 
-        const getAvatarColor = (name) => {
+        window.getAvatarColor = function(name) {
             const colors = ['bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-400', 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-400', 'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-400', 'bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-400', 'bg-pink-100 text-pink-700 dark:bg-pink-900/40 dark:text-pink-400'];
             let hash = 0;
             if (!name) return colors[0];
             for (let i = 0; i < name.length; i++) hash = name.charCodeAt(i) + ((hash << 5) - hash);
             return colors[Math.abs(hash) % colors.length];
         };
-        window.getAvatarColor = getAvatarColor;
 
         window.isAdmin = () => window.currentUser?.user === 'ADMIN';
 
@@ -1650,7 +1734,7 @@
             const titles = { 
                 dashboard: 'HR Overview', candidates: 'Candidates', directory: 'Daily Report', jobs: 'Job Postings', leads: 'Meta Leads CRM', 
                 calendar: 'Schedules', analytics: 'Analytics', settings: 'Settings', onboarding: 'Onboarding', resumes: 'Resume Tracker',
-                'hr-manager': 'HR Manager Master', 'hr-dashboard': 'HR Dashboard', 'hr-reports': 'HR Reports'
+                'hr-manager': 'HR Managers Master', 'biodata-tracking': 'Biodata Tracking & HR Updates', 'hr-reports': 'HR Reports & Analytics'
             };
             const pageTitle = document.getElementById('pageTitle');
             if (pageTitle) pageTitle.innerText = titles[tab] || 'HR Overview';
@@ -1694,7 +1778,7 @@
             if (window.currentTab === 'leads') window.renderLeads?.();
             if (window.currentTab === 'analytics') window.initCharts?.();
             if (window.currentTab === 'hr-manager') window.renderHRManagers?.();
-            if (window.currentTab === 'hr-dashboard') window.renderHRDashboard?.();
+            if (window.currentTab === 'biodata-tracking') window.renderBiodataTracking?.();
             if (window.currentTab === 'hr-reports') window.renderHRReports?.();
         };
 
@@ -1926,7 +2010,7 @@
                     if (j.status === 'SELECTED') statusBadge = `<span class="status-badge badge-selected">Selected</span>`;
                     if (j.status === 'REJECTED') statusBadge = `<span class="status-badge badge-rejected" title="${j.rejectionReason||''}">Rejected</span>`;
                     if (j.status === 'JOINED') statusBadge = `<span class="status-badge badge-joined">Joined</span>`;
-                    if (j.status === 'SHORTLISTED' || j.status === 'INTERVIEW_SCHEDULED') statusBadge = `<span class="status-badge bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400">Interview</span>`;
+                    if (j.status === 'SHORTLISTED' || j.status === 'INTERVIEW_SCHEDULED') statusBadge = `<span class="status-badge badge-interview">Interview</span>`;
                     
                     let aiScore = Math.floor(Math.random() * 40) + 60; 
                     if (j.status === 'REJECTED') aiScore = Math.floor(Math.random() * 30) + 20;
@@ -1963,7 +2047,8 @@
                                 ${j.interviewDate ? `<p class="text-[10px] font-medium text-amber-600 dark:text-amber-400">Int: ${window.formatDateString(j.interviewDate)}</p>` : ''}
                             </td>
                             <td class="text-right" onclick="event.stopPropagation()">
-                                <div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <div class="flex justify-end gap-2">
+                                    <button onclick="window.openSendBiodataModal(${j.id})" class="w-8 h-8 rounded-lg bg-purple-50 dark:bg-purple-900/20 text-purple-600 hover:bg-purple-100 shadow-sm border border-purple-100 dark:border-purple-900/50" title="Send Biodata to HR"><i class="fas fa-paper-plane text-xs"></i></button>
                                     <button onclick="window.editRecord(${j.id})" class="w-8 h-8 rounded-lg bg-white dark:bg-slate-700 text-slate-500 hover:text-sarathy-blue shadow-sm border border-[var(--border-color)]"><i class="fas fa-pen text-xs"></i></button>
                                     <button onclick="window.deleteSingleRecord(${j.id})" class="w-8 h-8 rounded-lg bg-white dark:bg-slate-700 text-slate-500 hover:text-red-500 shadow-sm border border-[var(--border-color)]"><i class="fas fa-trash-alt text-xs"></i></button>
                                 </div>
@@ -2037,11 +2122,10 @@
             let ratingStars = '';
             for(let i=1; i<=5; i++) { ratingStars += `<i class="fas fa-star ${i <= (j.rating||0) ? 'text-amber-400' : 'text-slate-200 dark:text-slate-700'}"></i>`; }
 
-            // Check if candidate already sent to HR
             const forwarded = window.biodataForwarding.find(f => String(f.candidateId) === String(j.id));
             const hrButtonHtml = forwarded 
                 ? `<button onclick="window.viewHRHistory(${forwarded.id})" class="px-5 py-2.5 bg-emerald-600 text-white hover:bg-emerald-700 rounded-xl font-bold text-sm transition-colors flex items-center gap-2 shadow-md"><i class="fas fa-check-circle"></i> Sent to HR (${forwarded.status})</button>`
-                : `<button onclick="window.openSendBiodataModal(${j.id})" class="px-5 py-2.5 bg-purple-600 text-white hover:bg-purple-700 rounded-xl font-bold text-sm transition-colors flex items-center gap-2 shadow-md"><i class="fas fa-paper-plane"></i> Send to Location HR</button>`;
+                : `<button onclick="window.openSendBiodataModal(${j.id})" class="px-5 py-2.5 bg-purple-600 text-white hover:bg-purple-700 rounded-xl font-bold text-sm transition-colors flex items-center gap-2 shadow-md"><i class="fas fa-paper-plane"></i> 📤 Send Biodata to HR</button>`;
 
             const html = `
                 <div class="flex items-start gap-6 mb-8">
@@ -2268,7 +2352,7 @@
             });
         };
 
-        // --- Live Daily Report (Date Range & Excel Import) ---
+        // --- Live Daily Report ---
         window.downloadDailyReportTemplate = () => {
             const ws_data = [
                 ['DATE', 'FULL NAME', 'GENDER', 'JOB POSITION', 'PHONE NUMBER', 'PLACE', 'HAVE ANY EXPERIENCE', 'AGE', 'QUALIFICATION', 'REMARKS'],
@@ -2515,7 +2599,7 @@
             }).save();
         };
 
-        // --- Resume Tracker (Fixing PDF Viewer) ---
+        // --- Resume Tracker ---
         window.openBulkUploadModal = () => document.getElementById('bulkUploadModal').classList.remove('hidden');
         window.closeBulkUploadModal = () => { document.getElementById('bulkUploadModal').classList.add('hidden'); document.getElementById('bulkUploadForm').reset(); };
 
@@ -3036,7 +3120,7 @@
         });
 
         // ==========================================
-        // START: LOCATION HR MODULE LOGIC
+        // START: BIODATA FORWARDING MODULE LOGIC
         // ==========================================
 
         // --- HR Manager Master ---
@@ -3063,7 +3147,7 @@
                             <div class="w-10 h-10 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center font-black text-sm shadow-sm">${h.name.charAt(0)}</div>
                             <div>
                                 <p class="font-bold text-sm text-[var(--text-primary)] uppercase">${h.name}</p>
-                                <p class="text-[10px] text-[var(--text-secondary)] font-medium">${h.phone} ${h.email ? '• ' + h.email : ''}</p>
+                                <p class="text-[10px] text-[var(--text-secondary)] font-medium">${h.phone || 'No phone'} ${h.email ? '• ' + h.email : ''}</p>
                             </div>
                         </div>
                     </td>
@@ -3158,21 +3242,22 @@
 
             document.getElementById('sendCandidateId').value = j.id;
             document.getElementById('sendCandidateName').value = j.name;
+            document.getElementById('sendPosition').value = j.designation || 'N/A';
+            document.getElementById('sendDept').value = j.dept || 'N/A';
             document.getElementById('sendCandidateLocation').value = j.location || 'N/A';
+            document.getElementById('sendResume').value = '';
 
             const select = document.getElementById('sendHRManagerId');
             select.innerHTML = '<option value="" disabled selected>Select HR Manager</option>';
             
-            // Auto-match logic
             let autoMatchedId = '';
             window.hrManagers.filter(h => h.status === 'ACTIVE').forEach(h => {
                 const isMatch = (h.location === j.location || h.location === 'ANY');
                 if (isMatch && !autoMatchedId) autoMatchedId = h.id;
-                select.innerHTML += `<option value="${h.id}" ${isMatch ? 'data-matched="true"' : ''}>${h.name} (${h.location}) - ${h.company}</option>`;
+                select.innerHTML += `<option value="${h.id}" ${isMatch ? 'data-matched="true"' : ''}>${h.name} (${h.location})</option>`;
             });
 
             if (autoMatchedId) select.value = autoMatchedId;
-
             document.getElementById('sendBiodataModal').classList.remove('hidden');
         };
 
@@ -3182,6 +3267,7 @@
             e.preventDefault();
             const candidateId = document.getElementById('sendCandidateId').value;
             const hrManagerId = document.getElementById('sendHRManagerId').value;
+            const resume = document.getElementById('sendResume').value.trim();
             const remarks = document.getElementById('sendRemarks').value.trim();
 
             if (!candidateId || !hrManagerId) return window.showToast('Please select an HR Manager', 'error');
@@ -3192,73 +3278,82 @@
                 return;
             }
 
+            const candidate = window.joinees.find(x => String(x.id) === String(candidateId));
+            const hr = window.hrManagers.find(x => String(x.id) === String(hrManagerId));
+
             const newForwarding = {
                 id: Date.now(),
                 candidateId: parseInt(candidateId),
+                candidateName: candidate.name,
                 hrManagerId: parseInt(hrManagerId),
+                hrManagerName: hr.name,
+                position: candidate.designation || 'N/A',
+                department: candidate.dept || 'N/A',
+                location: candidate.location || 'N/A',
                 sentDate: new Date().toISOString().slice(0, 10),
-                status: 'Received',
-                remarks: remarks
+                sentDateTime: new Date().toISOString(),
+                sentBy: window.currentUser?.user || 'ADMIN',
+                resume: resume,
+                remarks: remarks,
+                status: 'Pending',
+                isReceived: 'Pending'
             };
 
             window.biodataForwarding.push(newForwarding);
             localStorage.setItem(window.BIODATA_FORWARDING_VERSION, JSON.stringify(window.biodataForwarding));
 
-            // Log initial history
             window.candidateUpdates.push({
                 id: Date.now() + 1,
                 candidateId: parseInt(candidateId),
                 hrManagerId: parseInt(hrManagerId),
-                status: 'Received',
+                status: 'Pending',
                 date: new Date().toISOString(),
                 remarks: 'Biodata forwarded to HR Manager. ' + remarks
             });
             localStorage.setItem(window.CANDIDATE_UPDATES_VERSION, JSON.stringify(window.candidateUpdates));
 
             window.closeSendBiodataModal();
-            window.viewCandidate(candidateId); // Refresh view modal
+            window.viewCandidate(candidateId);
             window.showToast('Biodata sent to HR Manager successfully!');
         });
 
-        // --- HR Dashboard ---
-        window.renderHRDashboard = () => {
-            if (window.currentTab !== 'hr-dashboard') return;
-            
-            const managerSelect = document.getElementById('hrDashFilterManager');
-            if (managerSelect.options.length <= 1) {
+        // --- Biodata Tracking Table ---
+        window.renderBiodataTracking = () => {
+            if (window.currentTab !== 'biodata-tracking') return;
+
+            const hrSelect = document.getElementById('bfFilterHR');
+            if (hrSelect.options.length <= 1) {
                 window.hrManagers.forEach(h => {
-                    managerSelect.innerHTML += `<option value="${h.id}">${h.name} (${h.location})</option>`;
+                    hrSelect.innerHTML += `<option value="${h.id}">${h.name}</option>`;
                 });
             }
 
-            const searchTerm = (document.getElementById('hrDashSearch')?.value || '').toLowerCase();
-            const filterManager = managerSelect.value;
-            const filterStatus = document.getElementById('hrDashFilterStatus').value;
+            const filterDate = document.getElementById('bfFilterDate').value;
+            const filterHR = document.getElementById('bfFilterHR').value;
+            const filterLocation = document.getElementById('bfFilterLocation').value;
+            const filterDept = document.getElementById('bfFilterDept').value;
+            const filterPosition = (document.getElementById('bfFilterPosition')?.value || '').toLowerCase();
+            const filterStatus = document.getElementById('bfFilterStatus').value;
 
-            let data = window.biodataForwarding;
-            if (filterManager !== 'ALL') data = data.filter(f => String(f.hrManagerId) === filterManager);
+            let data = [...window.biodataForwarding].sort((a, b) => b.id - a.id);
+            if (filterDate) data = data.filter(f => f.sentDate === filterDate);
+            if (filterHR !== 'ALL') data = data.filter(f => String(f.hrManagerId) === filterHR);
+            if (filterLocation !== 'ALL') data = data.filter(f => f.location === filterLocation);
+            if (filterDept !== 'ALL') data = data.filter(f => f.department === filterDept);
+            if (filterPosition) data = data.filter(f => (f.position || '').toLowerCase().includes(filterPosition));
             if (filterStatus !== 'ALL') data = data.filter(f => f.status === filterStatus);
 
-            const tbody = document.getElementById('hrDashboardTableBody');
+            const tbody = document.getElementById('biodataTrackingBody');
             if (!tbody) return;
 
             if (data.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" class="text-center p-8 text-slate-400 font-bold">No records found.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="10" class="text-center p-8 text-slate-400 font-bold">No records found.</td></tr>`;
                 return;
             }
 
-            const filteredData = data.map(f => {
-                const candidate = window.joinees.find(j => String(j.id) === String(f.candidateId));
-                const hr = window.hrManagers.find(h => String(h.id) === String(f.hrManagerId));
-                return { ...f, candidate, hr };
-            }).filter(f => f.candidate && f.hr).filter(f => {
-                if (!searchTerm) return true;
-                return f.candidate.name.toLowerCase().includes(searchTerm) || f.candidate.phone.includes(searchTerm);
-            });
-
-            tbody.innerHTML = filteredData.map(f => {
+            tbody.innerHTML = data.map(f => {
+                const lastUpdate = window.candidateUpdates.filter(u => String(u.candidateId) === String(f.candidateId)).sort((a,b) => b.id - a.id)[0];
                 let statusClass = 'badge-pending';
-                if (f.status === 'Received') statusClass = 'badge-received';
                 if (f.status === 'Under Review') statusClass = 'badge-review';
                 if (f.status === 'Shortlisted') statusClass = 'badge-selected';
                 if (f.status === 'Interview') statusClass = 'badge-interview';
@@ -3266,35 +3361,25 @@
                 if (f.status === 'Rejected') statusClass = 'badge-rejected';
                 if (f.status === 'Joined') statusClass = 'badge-joined';
                 if (f.status === 'Hold') statusClass = 'badge-hold';
+                if (f.status === 'Not Interested') statusClass = 'badge-notinterested';
                 if (f.status === 'No Response') statusClass = 'badge-noresponse';
-
-                const lastUpdate = window.candidateUpdates.filter(u => String(u.candidateId) === String(f.candidateId)).sort((a,b) => b.id - a.id)[0];
 
                 return `
                     <tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors cursor-pointer" onclick="window.openHRUpdateModal(${f.id})">
+                        <td><p class="text-xs font-bold text-[var(--text-primary)]">${window.formatDateString(f.sentDate)}</p></td>
                         <td>
-                            <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 rounded-xl ${window.getAvatarColor(f.candidate.name)} flex items-center justify-center font-black text-sm shadow-sm">${f.candidate.name.charAt(0)}</div>
-                                <div>
-                                    <p class="font-bold text-sm text-[var(--text-primary)] uppercase">${f.candidate.name}</p>
-                                    <p class="text-[10px] text-[var(--text-secondary)] font-medium">${f.candidate.phone} • ${f.candidate.location}</p>
-                                </div>
+                            <div class="flex items-center gap-2">
+                                <div class="w-8 h-8 rounded-lg ${window.getAvatarColor(f.candidateName)} flex items-center justify-center font-black text-xs">${f.candidateName.charAt(0)}</div>
+                                <p class="font-bold text-sm text-[var(--text-primary)] uppercase">${f.candidateName}</p>
                             </div>
                         </td>
-                        <td>
-                            <p class="text-xs font-bold text-[var(--text-primary)] uppercase">${f.hr.name}</p>
-                            <p class="text-[10px] text-[var(--text-secondary)] font-medium">${f.hr.location}</p>
-                        </td>
-                        <td>
-                            <span class="status-badge ${statusClass}">${f.status}</span>
-                        </td>
-                        <td>
-                            <p class="text-xs font-bold text-[var(--text-primary)]">${lastUpdate ? window.formatDateString(lastUpdate.date.slice(0,10)) : '-'}</p>
-                            <p class="text-[10px] text-[var(--text-secondary)] truncate max-w-[150px]">${lastUpdate ? lastUpdate.remarks : 'No updates yet'}</p>
-                        </td>
-                        <td>
-                            <p class="text-xs font-bold text-amber-600">${lastUpdate && lastUpdate.followUpDate ? window.formatDateString(lastUpdate.followUpDate) : 'N/A'}</p>
-                        </td>
+                        <td><p class="text-xs font-bold text-[var(--text-primary)] uppercase">${f.position}</p></td>
+                        <td><p class="text-xs font-bold text-[var(--text-primary)] uppercase">${f.location}</p></td>
+                        <td><p class="text-xs font-bold text-purple-600 uppercase">${f.hrManagerName}</p></td>
+                        <td><p class="text-xs font-medium text-slate-500">${f.sentBy}</p></td>
+                        <td><span class="status-badge ${statusClass}">${f.status}</span></td>
+                        <td><p class="text-xs text-[var(--text-secondary)] truncate max-w-[180px]">${f.remarks || lastUpdate?.remarks || '-'}</p></td>
+                        <td><p class="text-xs font-bold text-amber-600">${lastUpdate?.followUpDate ? window.formatDateString(lastUpdate.followUpDate) : 'N/A'}</p></td>
                         <td class="text-right" onclick="event.stopPropagation()">
                             <button onclick="window.openHRUpdateModal(${f.id})" class="px-3 py-1.5 bg-purple-50 text-purple-600 hover:bg-purple-100 rounded-lg text-xs font-bold transition-colors"><i class="fas fa-edit"></i> Update</button>
                         </td>
@@ -3303,22 +3388,22 @@
             }).join('');
         };
 
+        // --- HR Update Modal ---
         window.openHRUpdateModal = (forwardingId) => {
             const f = window.biodataForwarding.find(x => String(x.id) === String(forwardingId));
             if (!f) return;
-            const candidate = window.joinees.find(j => String(j.id) === String(f.candidateId));
-            if (!candidate) return;
 
             document.getElementById('hrUpdateForwardingId').value = f.id;
-            document.getElementById('hrUpdateCandidateName').innerText = candidate.name;
-            document.getElementById('hrUpdateStatus').value = f.status;
+            document.getElementById('hrUpdateCandidateName').innerText = f.candidateName;
+            document.getElementById('hrUpdateReceived').value = f.isReceived || 'Received';
+            document.getElementById('hrUpdateStatus').value = f.status || 'Pending';
             document.getElementById('hrUpdateRemarks').value = '';
             document.getElementById('hrUpdateInterviewDate').value = '';
             document.getElementById('hrUpdateSalary').value = '';
             document.getElementById('hrUpdateJoiningDate').value = '';
             document.getElementById('hrUpdateFollowUpDate').value = '';
+            document.getElementById('hrUpdateFinalRemarks').value = '';
 
-            // Pre-fill from latest update if exists
             const lastUpdate = window.candidateUpdates.filter(u => String(u.candidateId) === String(f.candidateId)).sort((a,b) => b.id - a.id)[0];
             if (lastUpdate) {
                 document.getElementById('hrUpdateInterviewDate').value = lastUpdate.interviewDate || '';
@@ -3338,77 +3423,41 @@
             const f = window.biodataForwarding.find(x => String(x.id) === String(forwardingId));
             if (!f) return;
 
+            const received = document.getElementById('hrUpdateReceived').value;
             const newStatus = document.getElementById('hrUpdateStatus').value;
             const remarks = document.getElementById('hrUpdateRemarks').value.trim();
             const interviewDate = document.getElementById('hrUpdateInterviewDate').value;
             const salary = document.getElementById('hrUpdateSalary').value.trim();
             const joiningDate = document.getElementById('hrUpdateJoiningDate').value;
             const followUpDate = document.getElementById('hrUpdateFollowUpDate').value;
+            const finalRemarks = document.getElementById('hrUpdateFinalRemarks').value.trim();
 
-            // Update forwarding status
             f.status = newStatus;
-            f.remarks = remarks;
+            f.isReceived = received;
+            f.remarks = remarks || f.remarks;
             localStorage.setItem(window.BIODATA_FORWARDING_VERSION, JSON.stringify(window.biodataForwarding));
 
-            // Log history
             const newUpdate = {
                 id: Date.now(),
                 candidateId: f.candidateId,
                 hrManagerId: f.hrManagerId,
                 status: newStatus,
+                received: received,
                 date: new Date().toISOString(),
                 remarks: remarks,
                 interviewDate: interviewDate,
                 salary: salary,
                 joiningDate: joiningDate,
-                followUpDate: followUpDate
+                followUpDate: followUpDate,
+                finalRemarks: finalRemarks
             };
             window.candidateUpdates.push(newUpdate);
             localStorage.setItem(window.CANDIDATE_UPDATES_VERSION, JSON.stringify(window.candidateUpdates));
 
             window.closeHRUpdateModal();
-            window.renderHRDashboard();
+            window.renderBiodataTracking();
+            window.renderHRReports();
             window.showToast('HR Update saved successfully!');
-        });
-
-        window.viewHRHistory = (forwardingId) => {
-            const f = window.biodataForwarding.find(x => String(x.id) === String(forwardingId));
-            if (!f) return;
-            const candidate = window.joinees.find(j => String(j.id) === String(f.candidateId));
-            const updates = window.candidateUpdates.filter(u => String(u.candidateId) === String(f.candidateId)).sort((a,b) => b.id - a.id);
-
-            let historyHtml = updates.map(u => `
-                <div class="flex gap-4 mb-4 relative">
-                    <div class="w-8 h-8 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center shrink-0 z-10"><i class="fas fa-history text-xs"></i></div>
-                    <div class="flex-1 bg-slate-50 dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700">
-                        <div class="flex justify-between items-center mb-2">
-                            <span class="status-badge ${u.status === 'Selected' || u.status === 'Joined' ? 'badge-selected' : u.status === 'Rejected' ? 'badge-rejected' : 'badge-pending'}">${u.status}</span>
-                            <span class="text-[10px] font-bold text-slate-400">${new Date(u.date).toLocaleString()}</span>
-                        </div>
-                        ${u.remarks ? `<p class="text-sm text-[var(--text-primary)] mb-2">${u.remarks}</p>` : ''}
-                        <div class="grid grid-cols-2 gap-2 text-[10px] text-slate-500 font-bold">
-                            ${u.interviewDate ? `<p><i class="fas fa-calendar mr-1"></i> Interview: ${u.interviewDate}</p>` : ''}
-                            ${u.salary ? `<p><i class="fas fa-money-bill mr-1"></i> Salary: ${u.salary}</p>` : ''}
-                            ${u.joiningDate ? `<p><i class="fas fa-sign-in-alt mr-1"></i> Joining: ${u.joiningDate}</p>` : ''}
-                            ${u.followUpDate ? `<p><i class="fas fa-bell mr-1"></i> Follow-up: ${u.followUpDate}</p>` : ''}
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-
-            if (updates.length === 0) historyHtml = '<p class="text-center text-slate-400 font-bold p-6">No history available.</p>';
-
-            const modalContent = `
-                <div class="flex justify-between items-center mb-6 border-b border-[var(--border-color)] pb-4">
-                    <h3 class="font-black text-lg uppercase text-[var(--text-primary)]">History: ${candidate ? candidate.name : 'Unknown'}</h3>
-                    <button onclick="document.getElementById('pdfViewerModal').classList.add('hidden')" class="text-slate-400 hover:text-red-500"><i class="fas fa-times"></i></button>
-                </div>
-                <div class="space-y-4">${historyHtml}</div>
-            `;
-            
-            document.getElementById('pdfViewerTitle').innerText = 'Candidate History';
-            document.getElementById('pdfContainer').innerHTML = `<div class="p-6 h-full overflow-y-auto">${modalContent}</div>`;
-            document.getElementById('pdfViewerModal').classList.remove('hidden');
         };
 
         // --- HR Reports ---
@@ -3417,37 +3466,37 @@
 
             const totalSent = window.biodataForwarding.length;
             const statusCounts = {
-                Received: 0, 'Under Review': 0, Shortlisted: 0, Interview: 0,
-                Selected: 0, Rejected: 0, Joined: 0, Hold: 0, 'No Response': 0
+                'Pending': 0, 'Under Review': 0, 'Shortlisted': 0, 'Interview': 0,
+                'Selected': 0, 'Rejected': 0, 'Joined': 0, 'Hold': 0, 'Not Interested': 0, 'No Response': 0
             };
             const locationCounts = {};
             const hrPerformance = {};
 
             window.biodataForwarding.forEach(f => {
                 statusCounts[f.status] = (statusCounts[f.status] || 0) + 1;
-                
-                const hr = window.hrManagers.find(h => String(h.id) === String(f.hrManagerId));
-                if (hr) {
-                    locationCounts[hr.location] = (locationCounts[hr.location] || 0) + 1;
-                    if (!hrPerformance[hr.name]) hrPerformance[hr.name] = { location: hr.location, total: 0, received: 0, shortlisted: 0, selected: 0, rejected: 0 };
-                    hrPerformance[hr.name].total++;
-                    if (f.status === 'Received' || f.status === 'Under Review') hrPerformance[hr.name].received++;
-                    if (f.status === 'Shortlisted' || f.status === 'Interview') hrPerformance[hr.name].shortlisted++;
-                    if (f.status === 'Selected' || f.status === 'Joined') hrPerformance[hr.name].selected++;
-                    if (f.status === 'Rejected') hrPerformance[hr.name].rejected++;
+                locationCounts[f.location] = (locationCounts[f.location] || 0) + 1;
+
+                if (!hrPerformance[f.hrManagerName]) {
+                    hrPerformance[f.hrManagerName] = { sent: 0, pending: 0, shortlisted: 0, interview: 0, selected: 0, rejected: 0, joined: 0 };
                 }
+                hrPerformance[f.hrManagerName].sent++;
+                if (f.status === 'Pending' || f.status === 'No Response' || f.status === 'Hold') hrPerformance[f.hrManagerName].pending++;
+                if (f.status === 'Shortlisted') hrPerformance[f.hrManagerName].shortlisted++;
+                if (f.status === 'Interview') hrPerformance[f.hrManagerName].interview++;
+                if (f.status === 'Selected' || f.status === 'Joined') hrPerformance[f.hrManagerName].selected++;
+                if (f.status === 'Rejected') hrPerformance[f.hrManagerName].rejected++;
+                if (f.status === 'Joined') hrPerformance[f.hrManagerName].joined++;
             });
 
             document.getElementById('hrRepSent').innerText = totalSent;
-            document.getElementById('hrRepReceived').innerText = statusCounts['Received'] + statusCounts['Under Review'];
-            document.getElementById('hrRepPending').innerText = statusCounts['Received']; // Example pending calculation
-            document.getElementById('hrRepShortlisted').innerText = statusCounts['Shortlisted'] + statusCounts['Interview'];
+            document.getElementById('hrRepPending').innerText = statusCounts['Pending'] + statusCounts['No Response'] + statusCounts['Hold'];
+            document.getElementById('hrRepReview').innerText = statusCounts['Under Review'];
+            document.getElementById('hrRepShortlisted').innerText = statusCounts['Shortlisted'];
             document.getElementById('hrRepInterview').innerText = statusCounts['Interview'];
             document.getElementById('hrRepSelected').innerText = statusCounts['Selected'];
-            document.getElementById('hrRepJoined').innerText = statusCounts['Joined'];
             document.getElementById('hrRepRejected').innerText = statusCounts['Rejected'];
+            document.getElementById('hrRepJoined').innerText = statusCounts['Joined'];
 
-            // HR Performance Table
             const perfBody = document.getElementById('hrPerformanceBody');
             if (perfBody) {
                 perfBody.innerHTML = Object.keys(hrPerformance).map(name => {
@@ -3455,16 +3504,44 @@
                     return `
                         <tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
                             <td class="font-bold text-sm text-[var(--text-primary)] uppercase">${name}</td>
-                            <td class="text-sm text-[var(--text-secondary)] uppercase">${p.location}</td>
-                            <td class="text-center font-bold text-indigo-600">${p.total}</td>
-                            <td class="text-center font-bold text-blue-600">${p.received}</td>
+                            <td class="text-center font-bold text-indigo-600">${p.sent}</td>
+                            <td class="text-center font-bold text-amber-600">${p.pending}</td>
                             <td class="text-center font-bold text-purple-600">${p.shortlisted}</td>
+                            <td class="text-center font-bold text-rose-600">${p.interview}</td>
                             <td class="text-center font-bold text-emerald-600">${p.selected}</td>
                             <td class="text-center font-bold text-red-600">${p.rejected}</td>
+                            <td class="text-center font-bold text-blue-600">${p.joined}</td>
                         </tr>
                     `;
                 }).join('');
-                if (Object.keys(hrPerformance).length === 0) perfBody.innerHTML = `<tr><td colspan="7" class="text-center p-4 text-slate-400 font-bold">No data available</td></tr>`;
+                if (Object.keys(hrPerformance).length === 0) perfBody.innerHTML = `<tr><td colspan="8" class="text-center p-4 text-slate-400 font-bold">No data available</td></tr>`;
+            }
+
+            // Pending HR Response
+            const pendingBody = document.getElementById('hrPendingBody');
+            if (pendingBody) {
+                const today = new Date();
+                const pendingItems = window.biodataForwarding.filter(f => f.status === 'Pending').map(f => {
+                    const sentDate = new Date(f.sentDateTime || f.sentDate);
+                    const diffDays = Math.floor((today - sentDate) / (1000 * 60 * 60 * 24));
+                    return { ...f, daysPending: diffDays };
+                }).filter(f => f.daysPending >= 2).sort((a, b) => b.daysPending - a.daysPending);
+
+                if (pendingItems.length === 0) {
+                    pendingBody.innerHTML = `<tr><td colspan="5" class="text-center p-4 text-slate-400 font-bold">No pending responses over 2 days 🎉</td></tr>`;
+                } else {
+                    pendingBody.innerHTML = pendingItems.map(f => `
+                        <tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                            <td class="font-bold text-sm text-[var(--text-primary)] uppercase">${f.candidateName}</td>
+                            <td class="text-sm font-bold text-purple-600 uppercase">${f.hrManagerName}</td>
+                            <td class="text-xs text-[var(--text-secondary)]">${window.formatDateString(f.sentDate)}</td>
+                            <td class="text-center"><span class="px-3 py-1 rounded-lg bg-red-100 text-red-700 text-xs font-black">${f.daysPending} Days</span></td>
+                            <td class="text-right">
+                                <button onclick="window.openHRUpdateModal(${f.id})" class="px-3 py-1.5 bg-purple-50 text-purple-600 hover:bg-purple-100 rounded-lg text-xs font-bold transition-colors"><i class="fas fa-edit"></i> Update</button>
+                            </td>
+                        </tr>
+                    `).join('');
+                }
             }
 
             // Charts
@@ -3477,8 +3554,11 @@
                 window.hrStatusChartInstance = new Chart(statusCanvas, {
                     type: 'doughnut',
                     data: { 
-                        labels: Object.keys(statusCounts), 
-                        datasets: [{ data: Object.values(statusCounts), backgroundColor: ['#60a5fa', '#f59e0b', '#10b981', '#ec4899', '#3b82f6', '#ef4444', '#8b5cf6', '#f97316', '#64748b'] }] 
+                        labels: Object.keys(statusCounts).filter(k => statusCounts[k] > 0), 
+                        datasets: [{ 
+                            data: Object.keys(statusCounts).filter(k => statusCounts[k] > 0).map(k => statusCounts[k]), 
+                            backgroundColor: ['#fcd34d', '#c084fc', '#4ade80', '#f472b6', '#3b82f6', '#ef4444', '#8b5cf6', '#f97316', '#94a3b8', '#64748b'] 
+                        }] 
                     },
                     options: { ...commonOpts, cutout: '60%' }
                 });
@@ -3491,7 +3571,7 @@
                     type: 'bar',
                     data: { 
                         labels: Object.keys(locationCounts), 
-                        datasets: [{ label: 'Candidates', data: Object.values(locationCounts), backgroundColor: '#8b5cf6', borderRadius: 8 }] 
+                        datasets: [{ label: 'Biodata Sent', data: Object.values(locationCounts), backgroundColor: '#8b5cf6', borderRadius: 8 }] 
                     },
                     options: { ...commonOpts, scales: { y: { ticks: { color: colors.text } }, x: { ticks: { color: colors.text } } } }
                 });
@@ -3508,17 +3588,23 @@
 
         window.exportHRReportsExcel = () => {
             const data = window.biodataForwarding.map(f => {
-                const candidate = window.joinees.find(j => String(j.id) === String(f.candidateId));
-                const hr = window.hrManagers.find(h => String(h.id) === String(f.hrManagerId));
+                const lastUpdate = window.candidateUpdates.filter(u => String(u.candidateId) === String(f.candidateId)).sort((a,b) => b.id - a.id)[0];
                 return {
-                    Candidate_Name: candidate ? candidate.name : 'Unknown',
-                    Candidate_Phone: candidate ? candidate.phone : '',
-                    Candidate_Location: candidate ? candidate.location : '',
-                    HR_Manager: hr ? hr.name : 'Unknown',
-                    HR_Location: hr ? hr.location : '',
+                    Date: f.sentDate,
+                    Candidate: f.candidateName,
+                    Position: f.position,
+                    Department: f.department,
+                    Location: f.location,
+                    HR_Manager: f.hrManagerName,
+                    Sent_By: f.sentBy,
                     Status: f.status,
-                    Sent_Date: f.sentDate,
-                    Remarks: f.remarks
+                    Received: f.isReceived,
+                    HR_Remarks: f.remarks,
+                    Follow_up: lastUpdate?.followUpDate || '',
+                    Interview_Date: lastUpdate?.interviewDate || '',
+                    Salary: lastUpdate?.salary || '',
+                    Joining_Date: lastUpdate?.joiningDate || '',
+                    Final_Remarks: lastUpdate?.finalRemarks || ''
                 };
             });
             const ws = XLSX.utils.json_to_sheet(data);
@@ -3528,7 +3614,7 @@
         };
 
         // ==========================================
-        // END: LOCATION HR MODULE LOGIC
+        // END: BIODATA FORWARDING MODULE LOGIC
         // ==========================================
 
         document.addEventListener('DOMContentLoaded', () => {
