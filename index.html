@@ -191,10 +191,21 @@
         .badge-pending { background: #fef9c3; color: #854d0e; }
         .badge-rejected { background: #fee2e2; color: #991b1b; }
         .badge-joined { background: #dbeafe; color: #1e40af; }
+        .badge-received { background: #e0e7ff; color: #3730a3; }
+        .badge-review { background: #f3e8ff; color: #6b21a8; }
+        .badge-interview { background: #fce7f3; color: #9d174d; }
+        .badge-hold { background: #fef3c7; color: #92400e; }
+        .badge-noresponse { background: #f1f5f9; color: #475569; }
+        
         .dark .badge-selected { background: rgba(22, 163, 74, 0.2); color: #4ade80; }
         .dark .badge-pending { background: rgba(202, 138, 4, 0.2); color: #fde047; }
         .dark .badge-rejected { background: rgba(220, 38, 38, 0.2); color: #f87171; }
         .dark .badge-joined { background: rgba(37, 99, 235, 0.2); color: #60a5fa; }
+        .dark .badge-received { background: rgba(99, 102, 241, 0.2); color: #818cf8; }
+        .dark .badge-review { background: rgba(168, 85, 247, 0.2); color: #c084fc; }
+        .dark .badge-interview { background: rgba(236, 72, 153, 0.2); color: #f472b6; }
+        .dark .badge-hold { background: rgba(245, 158, 11, 0.2); color: #fbbf24; }
+        .dark .badge-noresponse { background: rgba(100, 116, 139, 0.2); color: #94a3b8; }
 
         .dragging { opacity: 0.5; transform: scale(0.95); cursor: grabbing !important; }
 
@@ -335,6 +346,13 @@
                 <a onclick="window.switchTab('resumes')" id="nav-resumes" class="nav-link text-indigo-600 dark:text-indigo-400"><i class="fas fa-file-pdf w-5 text-center text-lg"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">Resume Tracker</span></a>
                 <a onclick="window.switchTab('jobs')" id="nav-jobs" class="nav-link text-sky-600 dark:text-sky-400"><i class="fas fa-briefcase w-5 text-center text-lg"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">Job Postings</span></a>
                 
+                <!-- START: LOCATION HR MODULE -->
+                <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-6 mb-2 px-3 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">LOCATION HR</div>
+                <a onclick="window.switchTab('hr-manager')" id="nav-hr-manager" class="nav-link text-orange-600 dark:text-orange-400"><i class="fas fa-users-cog w-5 text-center text-lg"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">HR Master</span></a>
+                <a onclick="window.switchTab('hr-dashboard')" id="nav-hr-dashboard" class="nav-link text-purple-600 dark:text-purple-400"><i class="fas fa-user-tie w-5 text-center text-lg"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">HR Dashboard</span></a>
+                <a onclick="window.switchTab('hr-reports')" id="nav-hr-reports" class="nav-link text-pink-600 dark:text-pink-400"><i class="fas fa-chart-line w-5 text-center text-lg"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">HR Reports</span></a>
+                <!-- END: LOCATION HR MODULE -->
+
                 <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-6 mb-2 px-3 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">MANAGEMENT</div>
                 <a onclick="window.switchTab('calendar')" id="nav-calendar" class="nav-link"><i class="fas fa-calendar-alt w-5 text-center text-lg"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">Schedules</span></a>
                 <a onclick="window.switchTab('analytics')" id="nav-analytics" class="nav-link"><i class="fas fa-chart-pie w-5 text-center text-lg"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">Analytics</span></a>
@@ -632,7 +650,6 @@
                                 </div>
                             </div>
                             <div class="flex flex-wrap items-center gap-3 w-full md:w-auto no-print">
-                                <!-- UPDATED: Date Range Picker -->
                                 <div class="flex items-center gap-2 bg-[var(--bg-primary)] p-1 rounded-xl border border-[var(--border-color)]">
                                     <input type="date" id="drStartDate" onchange="window.renderDailyReportAnalytics()" class="px-3 py-2 bg-transparent text-sm font-bold outline-none cursor-pointer text-[var(--text-primary)]" />
                                     <span class="text-slate-400 font-bold text-xs">TO</span>
@@ -784,6 +801,190 @@
                     </div>
                     <div id="jobsContainer" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 animate-up" style="animation-delay: 0.1s;"></div>
                 </div>
+
+                <!-- START: LOCATION HR MODULE TABS -->
+                <!-- TAB: HR MASTER -->
+                <div id="tab-hr-manager" class="tab-content p-4 md:p-6 lg:p-8 max-w-[1600px] mx-auto">
+                    <div class="modern-card p-6 mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 animate-up border-l-4 border-l-orange-500">
+                        <div>
+                            <h2 class="text-xl font-black uppercase text-[var(--text-primary)] flex items-center gap-2">
+                                <i class="fas fa-users-cog text-orange-500"></i> HR Manager Master
+                            </h2>
+                            <p class="text-sm text-slate-500">Manage location-based HR managers, their assignments, and status.</p>
+                        </div>
+                        <button onclick="window.openHRManagerModal()" class="bg-orange-500 hover:bg-orange-600 text-white px-5 py-2.5 rounded-xl font-bold text-sm shadow-sm transition-colors flex items-center gap-2">
+                            <i class="fas fa-plus"></i> Add HR Manager
+                        </button>
+                    </div>
+
+                    <div class="modern-card p-4 mb-6 shadow-sm">
+                        <div class="flex flex-col md:flex-row gap-4">
+                            <div class="relative flex-1">
+                                <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                                <input type="text" id="hrSearchInput" onkeyup="window.renderHRManagers()" placeholder="Search HR managers by name, location..." class="w-full pl-11 pr-4 py-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl text-sm font-medium outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all" />
+                            </div>
+                            <select id="hrFilterStatus" onchange="window.renderHRManagers()" class="px-4 py-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl text-sm font-medium outline-none cursor-pointer">
+                                <option value="ALL">All Status</option>
+                                <option value="ACTIVE">Active</option>
+                                <option value="INACTIVE">Inactive</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="data-table-container">
+                        <table class="data-table min-w-[800px]">
+                            <thead>
+                                <tr>
+                                    <th>Name & Contact</th>
+                                    <th>Assigned Location</th>
+                                    <th>Company & Dept</th>
+                                    <th>Status</th>
+                                    <th class="text-right">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="hrManagersTableBody" class="divide-y divide-[var(--border-color)]"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- TAB: HR DASHBOARD -->
+                <div id="tab-hr-dashboard" class="tab-content p-4 md:p-6 lg:p-8 max-w-[1600px] mx-auto">
+                    <div class="modern-card p-6 mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 animate-up border-l-4 border-l-purple-500">
+                        <div>
+                            <h2 class="text-xl font-black uppercase text-[var(--text-primary)] flex items-center gap-2">
+                                <i class="fas fa-user-tie text-purple-500"></i> Location HR Dashboard
+                            </h2>
+                            <p class="text-sm text-slate-500">Track and update candidate statuses forwarded to Location HR Managers.</p>
+                        </div>
+                    </div>
+
+                    <div class="modern-card p-4 mb-6 shadow-sm">
+                        <div class="flex flex-col md:flex-row gap-4">
+                            <div class="relative flex-1">
+                                <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                                <input type="text" id="hrDashSearch" onkeyup="window.renderHRDashboard()" placeholder="Search candidates..." class="w-full pl-11 pr-4 py-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl text-sm font-medium outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 transition-all" />
+                            </div>
+                            <select id="hrDashFilterManager" onchange="window.renderHRDashboard()" class="px-4 py-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl text-sm font-medium outline-none cursor-pointer">
+                                <option value="ALL">All HR Managers</option>
+                            </select>
+                            <select id="hrDashFilterStatus" onchange="window.renderHRDashboard()" class="px-4 py-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl text-sm font-medium outline-none cursor-pointer">
+                                <option value="ALL">All Status</option>
+                                <option value="Received">Received</option>
+                                <option value="Under Review">Under Review</option>
+                                <option value="Shortlisted">Shortlisted</option>
+                                <option value="Interview">Interview</option>
+                                <option value="Selected">Selected</option>
+                                <option value="Rejected">Rejected</option>
+                                <option value="Joined">Joined</option>
+                                <option value="Hold">Hold</option>
+                                <option value="No Response">No Response</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="data-table-container">
+                        <table class="data-table min-w-[1000px]">
+                            <thead>
+                                <tr>
+                                    <th>Candidate</th>
+                                    <th>Assigned HR</th>
+                                    <th>Status</th>
+                                    <th>Last Update</th>
+                                    <th>Follow-up</th>
+                                    <th class="text-right">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="hrDashboardTableBody" class="divide-y divide-[var(--border-color)]"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- TAB: HR REPORTS -->
+                <div id="tab-hr-reports" class="tab-content p-4 md:p-6 lg:p-8 max-w-[1600px] mx-auto">
+                    <div class="modern-card p-6 mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 animate-up border-l-4 border-l-pink-500">
+                        <div>
+                            <h2 class="text-xl font-black uppercase text-[var(--text-primary)] flex items-center gap-2">
+                                <i class="fas fa-chart-line text-pink-500"></i> HR Reports & Analytics
+                            </h2>
+                            <p class="text-sm text-slate-500">Generate location-wise, HR-wise, and status-wise reports.</p>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="window.exportHRReportsPDF()" class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 px-4 py-2.5 rounded-xl font-bold text-sm shadow-sm transition-colors flex items-center gap-2">
+                                <i class="fas fa-file-pdf"></i> Export PDF
+                            </button>
+                            <button onclick="window.exportHRReportsExcel()" class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 px-4 py-2.5 rounded-xl font-bold text-sm shadow-sm transition-colors flex items-center gap-2">
+                                <i class="fas fa-file-excel"></i> Export Excel
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 animate-up">
+                        <div class="modern-card p-4 border-t-2 border-indigo-400">
+                            <span class="text-[10px] font-black text-indigo-500 uppercase tracking-widest">Biodata Sent</span>
+                            <h3 class="text-2xl font-black text-indigo-600" id="hrRepSent">0</h3>
+                        </div>
+                        <div class="modern-card p-4 border-t-2 border-blue-400">
+                            <span class="text-[10px] font-black text-blue-500 uppercase tracking-widest">Received</span>
+                            <h3 class="text-2xl font-black text-blue-600" id="hrRepReceived">0</h3>
+                        </div>
+                        <div class="modern-card p-4 border-t-2 border-amber-400">
+                            <span class="text-[10px] font-black text-amber-500 uppercase tracking-widest">Pending</span>
+                            <h3 class="text-2xl font-black text-amber-600" id="hrRepPending">0</h3>
+                        </div>
+                        <div class="modern-card p-4 border-t-2 border-purple-400">
+                            <span class="text-[10px] font-black text-purple-500 uppercase tracking-widest">Shortlisted</span>
+                            <h3 class="text-2xl font-black text-purple-600" id="hrRepShortlisted">0</h3>
+                        </div>
+                        <div class="modern-card p-4 border-t-2 border-pink-400">
+                            <span class="text-[10px] font-black text-pink-500 uppercase tracking-widest">Interview</span>
+                            <h3 class="text-2xl font-black text-pink-600" id="hrRepInterview">0</h3>
+                        </div>
+                        <div class="modern-card p-4 border-t-2 border-emerald-400">
+                            <span class="text-[10px] font-black text-emerald-500 uppercase tracking-widest">Selected</span>
+                            <h3 class="text-2xl font-black text-emerald-600" id="hrRepSelected">0</h3>
+                        </div>
+                        <div class="modern-card p-4 border-t-2 border-blue-600">
+                            <span class="text-[10px] font-black text-blue-800 uppercase tracking-widest">Joined</span>
+                            <h3 class="text-2xl font-black text-blue-800" id="hrRepJoined">0</h3>
+                        </div>
+                        <div class="modern-card p-4 border-t-2 border-red-400">
+                            <span class="text-[10px] font-black text-red-500 uppercase tracking-widest">Rejected</span>
+                            <h3 class="text-2xl font-black text-red-600" id="hrRepRejected">0</h3>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 animate-up" style="animation-delay: 0.1s;">
+                        <div class="modern-card p-6 flex flex-col items-center">
+                            <h3 class="font-bold text-sm uppercase text-slate-500 mb-6 w-full text-left">Status Distribution</h3>
+                            <div class="w-full h-[300px] relative"><canvas id="hrStatusChart"></canvas></div>
+                        </div>
+                        <div class="modern-card p-6 flex flex-col items-center">
+                            <h3 class="font-bold text-sm uppercase text-slate-500 mb-6 w-full text-left">Location-wise Distribution</h3>
+                            <div class="w-full h-[300px] relative"><canvas id="hrLocationChart"></canvas></div>
+                        </div>
+                    </div>
+
+                    <div class="modern-card p-6 mt-6 animate-up" style="animation-delay: 0.2s;">
+                        <h3 class="text-sm font-black uppercase text-[var(--text-primary)] mb-4">HR Manager Performance</h3>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left data-table">
+                                <thead>
+                                    <tr>
+                                        <th>HR Manager</th>
+                                        <th>Location</th>
+                                        <th>Total Assigned</th>
+                                        <th>Received</th>
+                                        <th>Shortlisted</th>
+                                        <th>Selected</th>
+                                        <th>Rejected</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="hrPerformanceBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- END: LOCATION HR MODULE TABS -->
 
                 <!-- TAB: CALENDAR -->
                 <div id="tab-calendar" class="tab-content p-4 md:p-6 lg:p-8 max-w-[1600px] mx-auto">
@@ -1013,9 +1214,13 @@
     <!-- Job Modal WITH IMAGE UPLOAD -->
     <div id="jobModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-[120] hidden flex items-center justify-center p-4 transition-opacity no-print">
         <div class="bg-[var(--bg-secondary)] w-full max-w-md rounded-3xl shadow-2xl border border-[var(--border-color)]">
-            <div class="p-6 border-b border-[var(--border-color)] flex justify-between items-center"><h3 class="font-black text-lg uppercase text-[var(--text-primary)]">Post a Job</h3><button type="button" onclick="window.closeJobModal()" class="text-slate-400 hover:text-slate-600"><i class="fas fa-times text-xl"></i></button></div>
+            <div class="p-6 border-b border-[var(--border-color)] flex justify-between items-center">
+                <h3 id="jobModalTitle" class="font-black text-lg uppercase text-[var(--text-primary)]">Post a Job</h3>
+                <button type="button" onclick="window.closeJobModal()" class="text-slate-400 hover:text-slate-600"><i class="fas fa-times text-xl"></i></button>
+            </div>
             <div class="p-6 overflow-y-auto max-h-[70vh] custom-scroll">
                 <form id="jobForm" class="space-y-4">
+                    <input type="hidden" id="editJobId" />
                     <div><label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest block mb-1">Job Title *</label><input type="text" id="jobTitle" required placeholder="e.g. Sales Executive" class="input-base py-3 text-sm" /></div>
                     <div class="grid grid-cols-2 gap-4">
                         <div><label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest block mb-1">Dept *</label><input type="text" id="jobDept" required placeholder="SALES" class="input-base uppercase py-3 text-sm" /></div>
@@ -1031,10 +1236,11 @@
                         </div>
                         <div>
                             <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest block mb-2">Creative Post Image (Optional)</label>
+                            <div id="jobImagePreviewContainer" class="hidden mb-3"></div>
                             <input type="file" id="jobImage" accept="image/*" class="input-base py-2 text-sm file:mr-4 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-sarathy-blue hover:file:bg-blue-100 dark:file:bg-slate-700 dark:file:text-white" />
                         </div>
                     </div>
-                    <button type="submit" class="w-full bg-sarathy-blue text-white font-black py-4 rounded-xl uppercase shadow-md mt-4 transition-transform active:scale-95">Publish Job</button>
+                    <button type="submit" id="jobSubmitBtn" class="w-full bg-sarathy-blue text-white font-black py-4 rounded-xl uppercase shadow-md mt-4 transition-transform active:scale-95">Publish Job</button>
                 </form>
             </div>
         </div>
@@ -1122,6 +1328,150 @@
         </div>
     </div>
 
+    <!-- START: LOCATION HR MODALS -->
+    <!-- HR Manager Add/Edit Modal -->
+    <div id="hrManagerModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[110] hidden flex justify-center items-center transition-opacity duration-300 no-print">
+        <div class="bg-[var(--bg-secondary)] w-full max-w-md rounded-3xl shadow-2xl flex flex-col border border-[var(--border-color)] animate-up">
+            <div class="p-6 border-b border-[var(--border-color)] flex justify-between items-center bg-slate-50 dark:bg-slate-800 rounded-t-3xl">
+                <h2 class="text-lg font-black uppercase text-[var(--text-primary)]" id="hrManagerModalTitle">Add HR Manager</h2>
+                <button type="button" onclick="window.closeHRManagerModal()" class="text-slate-500 hover:text-red-500"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="p-6">
+                <form id="hrManagerForm" class="space-y-4">
+                    <input type="hidden" id="hrManagerId" />
+                    <div><label class="text-xs font-bold text-slate-500 uppercase mb-1.5 block">Full Name *</label><input type="text" id="hrName" required class="input-base uppercase" /></div>
+                    <div><label class="text-xs font-bold text-slate-500 uppercase mb-1.5 block">Phone Number *</label><input type="tel" id="hrPhone" required class="input-base" /></div>
+                    <div><label class="text-xs font-bold text-slate-500 uppercase mb-1.5 block">Email</label><input type="email" id="hrEmail" class="input-base" /></div>
+                    <div>
+                        <label class="text-xs font-bold text-slate-500 uppercase mb-1.5 block">Assigned Location *</label>
+                        <select id="hrLocation" required class="input-base">
+                            <option value="" disabled selected>Select Location</option>
+                            <option value="KOLLAM">Kollam</option><option value="KOTTIYAM">Kottiyam</option><option value="CHATHANNOOR">Chathannoor</option>
+                            <option value="PARIPPALLY">Parippally</option><option value="KALLAMBALAM">Kallambalam</option><option value="ATTINGAL">Attingal</option>
+                            <option value="KAZHAKOOTAM">Kazhakootam</option><option value="TRIVANDRUM">Trivandrum</option><option value="ANY">Any Location</option>
+                        </select>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="text-xs font-bold text-slate-500 uppercase mb-1.5 block">Company</label>
+                            <select id="hrCompany" class="input-base">
+                                <option value="ALL">All Entities</option>
+                                <option value="SARATHY MOTORS">Sarathy Motors</option>
+                                <option value="SARATHY BIKES PVT LTD">Sarathy Bikes Pvt Ltd</option>
+                                <option value="SARATHY ELECTRIC BIKES">Sarathy Electric Bikes</option>
+                                <option value="SARATHY AUTOCARS">Sarathy Autocars</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="text-xs font-bold text-slate-500 uppercase mb-1.5 block">Department</label>
+                            <select id="hrDept" class="input-base">
+                                <option value="ALL">All Depts</option>
+                                <option value="SALES">Sales</option><option value="SERVICE">Service</option><option value="SPARE">Spare</option>
+                                <option value="HR">HR</option><option value="ADMIN">Admin</option><option value="FINANCE">Finance</option><option value="OTHER">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="text-xs font-bold text-slate-500 uppercase mb-1.5 block">Status</label>
+                        <select id="hrStatus" class="input-base">
+                            <option value="ACTIVE">Active</option>
+                            <option value="INACTIVE">Inactive</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="w-full bg-orange-500 hover:bg-orange-600 text-white font-black py-4 rounded-xl uppercase shadow-md mt-4">Save HR Manager</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Send Biodata Modal -->
+    <div id="sendBiodataModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[110] hidden flex justify-center items-center transition-opacity duration-300 no-print">
+        <div class="bg-[var(--bg-secondary)] w-full max-w-md rounded-3xl shadow-2xl flex flex-col border border-[var(--border-color)] animate-up">
+            <div class="p-6 border-b border-[var(--border-color)] flex justify-between items-center bg-slate-50 dark:bg-slate-800 rounded-t-3xl">
+                <h2 class="text-lg font-black uppercase text-[var(--text-primary)]">Send Biodata to HR</h2>
+                <button type="button" onclick="window.closeSendBiodataModal()" class="text-slate-500 hover:text-red-500"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="p-6">
+                <form id="sendBiodataForm" class="space-y-4">
+                    <input type="hidden" id="sendCandidateId" />
+                    <div>
+                        <label class="text-xs font-bold text-slate-500 uppercase mb-1.5 block">Candidate Name</label>
+                        <input type="text" id="sendCandidateName" readonly class="input-base bg-slate-100 dark:bg-slate-700 text-slate-500 cursor-not-allowed" />
+                    </div>
+                    <div>
+                        <label class="text-xs font-bold text-slate-500 uppercase mb-1.5 block">Preferred Location</label>
+                        <input type="text" id="sendCandidateLocation" readonly class="input-base bg-slate-100 dark:bg-slate-700 text-slate-500 cursor-not-allowed" />
+                    </div>
+                    <div>
+                        <label class="text-xs font-bold text-slate-500 uppercase mb-1.5 block">Select HR Manager *</label>
+                        <select id="sendHRManagerId" required class="input-base">
+                            <option value="" disabled selected>Select HR Manager</option>
+                        </select>
+                        <p class="text-[10px] text-slate-400 mt-1">Auto-matched based on location. You can override if needed.</p>
+                    </div>
+                    <div>
+                        <label class="text-xs font-bold text-slate-500 uppercase mb-1.5 block">Remarks / Message</label>
+                        <textarea id="sendRemarks" rows="2" class="input-base py-3 text-sm resize-none" placeholder="Any specific instructions for the HR manager..."></textarea>
+                    </div>
+                    <button type="submit" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-black py-4 rounded-xl uppercase shadow-md mt-4">Send Biodata</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- HR Update Modal -->
+    <div id="hrUpdateModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[110] hidden flex justify-center items-center transition-opacity duration-300 no-print">
+        <div class="bg-[var(--bg-secondary)] w-full max-w-lg rounded-3xl shadow-2xl flex flex-col border border-[var(--border-color)] animate-up max-h-[90vh]">
+            <div class="p-6 border-b border-[var(--border-color)] flex justify-between items-center bg-slate-50 dark:bg-slate-800 rounded-t-3xl shrink-0">
+                <h2 class="text-lg font-black uppercase text-[var(--text-primary)]">HR Update - <span id="hrUpdateCandidateName"></span></h2>
+                <button type="button" onclick="window.closeHRUpdateModal()" class="text-slate-500 hover:text-red-500"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="p-6 overflow-y-auto custom-scroll flex-1">
+                <form id="hrUpdateForm" class="space-y-4">
+                    <input type="hidden" id="hrUpdateForwardingId" />
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="text-xs font-bold text-slate-500 uppercase mb-1.5 block">Status *</label>
+                            <select id="hrUpdateStatus" required class="input-base">
+                                <option value="Received">Received</option>
+                                <option value="Under Review">Under Review</option>
+                                <option value="Shortlisted">Shortlisted</option>
+                                <option value="Interview">Interview</option>
+                                <option value="Selected">Selected</option>
+                                <option value="Rejected">Rejected</option>
+                                <option value="Joined">Joined</option>
+                                <option value="Hold">Hold</option>
+                                <option value="No Response">No Response</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="text-xs font-bold text-slate-500 uppercase mb-1.5 block">Interview Date & Time</label>
+                            <input type="datetime-local" id="hrUpdateInterviewDate" class="input-base" />
+                        </div>
+                        <div>
+                            <label class="text-xs font-bold text-slate-500 uppercase mb-1.5 block">Salary Offered</label>
+                            <input type="text" id="hrUpdateSalary" placeholder="e.g. 25000" class="input-base" />
+                        </div>
+                        <div>
+                            <label class="text-xs font-bold text-slate-500 uppercase mb-1.5 block">Joining Date</label>
+                            <input type="date" id="hrUpdateJoiningDate" class="input-base" />
+                        </div>
+                        <div class="col-span-2">
+                            <label class="text-xs font-bold text-slate-500 uppercase mb-1.5 block">Follow-up Date</label>
+                            <input type="date" id="hrUpdateFollowUpDate" class="input-base" />
+                        </div>
+                        <div class="col-span-2">
+                            <label class="text-xs font-bold text-slate-500 uppercase mb-1.5 block">Remarks / Feedback *</label>
+                            <textarea id="hrUpdateRemarks" rows="3" required class="input-base py-3 text-sm resize-none" placeholder="Enter detailed feedback..."></textarea>
+                        </div>
+                    </div>
+                    <button type="submit" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-black py-4 rounded-xl uppercase shadow-md mt-4">Save Update</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- END: LOCATION HR MODALS -->
+
     <!-- Custom Dialog Modal -->
     <div id="customDialogModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[250] hidden flex items-center justify-center p-4 transition-opacity no-print">
         <div class="bg-[var(--bg-secondary)] w-full max-w-sm rounded-3xl shadow-2xl border border-[var(--border-color)] overflow-hidden animate-up">
@@ -1164,6 +1514,12 @@
         window.LEADS_DB_VERSION = 'sarathy_leads_v3';
         window.USERS_DB_VERSION = 'sarathy_users_v15';
 
+        // START: LOCATION HR MODULE DB VERSIONS
+        window.HR_MANAGERS_VERSION = 'sarathy_hr_managers_v1';
+        window.BIODATA_FORWARDING_VERSION = 'sarathy_biodata_forwarding_v1';
+        window.CANDIDATE_UPDATES_VERSION = 'sarathy_candidate_updates_v1';
+        // END: LOCATION HR MODULE DB VERSIONS
+
         let localUsers = JSON.parse(localStorage.getItem(window.USERS_DB_VERSION));
         if (!localUsers) { 
             localUsers = [{ user: 'ADMIN', pass: 'SARATHY@26', role: 'Administrator' }];
@@ -1179,10 +1535,20 @@
         window.resumeTrackerList = JSON.parse(localStorage.getItem(window.RESUMES_DB_VERSION)) || [];
         window.leadsList = JSON.parse(localStorage.getItem(window.LEADS_DB_VERSION)) || [];
 
+        // START: LOCATION HR MODULE DATA INIT
+        window.hrManagers = JSON.parse(localStorage.getItem(window.HR_MANAGERS_VERSION)) || [
+            { id: 1, name: 'RAJESH KUMAR', phone: '9876543210', email: 'rajesh@example.com', location: 'KOLLAM', company: 'SARATHY MOTORS', dept: 'ALL', status: 'ACTIVE' },
+            { id: 2, name: 'ANITHA S', phone: '9876543211', email: 'anitha@example.com', location: 'TRIVANDRUM', company: 'ALL', dept: 'ALL', status: 'ACTIVE' }
+        ];
+        window.biodataForwarding = JSON.parse(localStorage.getItem(window.BIODATA_FORWARDING_VERSION)) || [];
+        window.candidateUpdates = JSON.parse(localStorage.getItem(window.CANDIDATE_UPDATES_VERSION)) || [];
+        // END: LOCATION HR MODULE DATA INIT
+
         window.currentView = 'list';
         window.activeFilter = 'All';
         window.chartStatus = null; window.chartSource = null; window.chartSourcePie = null; window.chartRejection = null;
         window.drHourlyChartInstance = null; window.drDeptChartInstance = null; window.drStatusChartInstance = null;
+        window.hrStatusChartInstance = null; window.hrLocationChartInstance = null;
         window.calendarDate = new Date();
         window.draggedCandidateId = null;
         window.draggedLeadId = null;
@@ -1267,6 +1633,7 @@
             localStorage.setItem('theme', isDark ? 'dark' : 'light');
             if (window.chartStatus) { window.chartStatus.update(); window.chartSource.update(); if (window.chartSourcePie) window.chartSourcePie.update(); if (window.chartRejection) window.chartRejection.update(); }
             if (window.drDeptChartInstance) window.renderDailyReportAnalytics();
+            if (window.hrStatusChartInstance) window.renderHRReports();
         };
 
         window.toggleNotifications = function() { document.getElementById('notificationModal')?.classList.toggle('hidden'); };
@@ -1280,7 +1647,11 @@
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
             document.getElementById(`tab-${tab}`)?.classList.add('active');
 
-            const titles = { dashboard: 'HR Overview', candidates: 'Candidates', directory: 'Daily Report', jobs: 'Job Postings', leads: 'Meta Leads CRM', calendar: 'Schedules', analytics: 'Analytics', settings: 'Settings', onboarding: 'Onboarding', resumes: 'Resume Tracker' };
+            const titles = { 
+                dashboard: 'HR Overview', candidates: 'Candidates', directory: 'Daily Report', jobs: 'Job Postings', leads: 'Meta Leads CRM', 
+                calendar: 'Schedules', analytics: 'Analytics', settings: 'Settings', onboarding: 'Onboarding', resumes: 'Resume Tracker',
+                'hr-manager': 'HR Manager Master', 'hr-dashboard': 'HR Dashboard', 'hr-reports': 'HR Reports'
+            };
             const pageTitle = document.getElementById('pageTitle');
             if (pageTitle) pageTitle.innerText = titles[tab] || 'HR Overview';
 
@@ -1322,6 +1693,9 @@
             if (window.currentTab === 'resumes') window.renderResumes?.();
             if (window.currentTab === 'leads') window.renderLeads?.();
             if (window.currentTab === 'analytics') window.initCharts?.();
+            if (window.currentTab === 'hr-manager') window.renderHRManagers?.();
+            if (window.currentTab === 'hr-dashboard') window.renderHRDashboard?.();
+            if (window.currentTab === 'hr-reports') window.renderHRReports?.();
         };
 
         // --- Core Modals (Candidates) ---
@@ -1663,6 +2037,12 @@
             let ratingStars = '';
             for(let i=1; i<=5; i++) { ratingStars += `<i class="fas fa-star ${i <= (j.rating||0) ? 'text-amber-400' : 'text-slate-200 dark:text-slate-700'}"></i>`; }
 
+            // Check if candidate already sent to HR
+            const forwarded = window.biodataForwarding.find(f => String(f.candidateId) === String(j.id));
+            const hrButtonHtml = forwarded 
+                ? `<button onclick="window.viewHRHistory(${forwarded.id})" class="px-5 py-2.5 bg-emerald-600 text-white hover:bg-emerald-700 rounded-xl font-bold text-sm transition-colors flex items-center gap-2 shadow-md"><i class="fas fa-check-circle"></i> Sent to HR (${forwarded.status})</button>`
+                : `<button onclick="window.openSendBiodataModal(${j.id})" class="px-5 py-2.5 bg-purple-600 text-white hover:bg-purple-700 rounded-xl font-bold text-sm transition-colors flex items-center gap-2 shadow-md"><i class="fas fa-paper-plane"></i> Send to Location HR</button>`;
+
             const html = `
                 <div class="flex items-start gap-6 mb-8">
                     <div class="w-24 h-24 rounded-3xl ${avatarColor} flex items-center justify-center font-black text-4xl shadow-lg shrink-0 border-4 border-white dark:border-slate-800">${j.name.charAt(0)}</div>
@@ -1713,7 +2093,8 @@
                     ${j.status==='REJECTED' && j.rejectionReason ? `<div class="mt-4 pt-4 border-t border-[var(--border-color)]"><span class="block text-[10px] font-bold text-red-500 uppercase mb-1">Rejection Reason</span><p class="text-sm font-medium text-red-600 bg-red-50 dark:bg-red-900/20 p-3 rounded-xl border border-red-100 dark:border-red-900/50">${j.rejectionReason}</p></div>` : ''}
                 </div>
 
-                <div class="flex justify-end gap-3 pt-6 border-t border-[var(--border-color)] no-print">
+                <div class="flex flex-wrap justify-end gap-3 pt-6 border-t border-[var(--border-color)] no-print">
+                    ${hrButtonHtml}
                     <button onclick="window.editRecord(${j.id})" class="px-5 py-2.5 bg-sarathy-blue text-white hover:bg-blue-700 rounded-xl font-bold text-sm transition-colors flex items-center gap-2 shadow-md"><i class="fas fa-pen"></i> Edit Profile</button>
                 </div>
             `;
@@ -2002,7 +2383,6 @@
             const startDate = document.getElementById('drStartDate').value;
             const endDate = document.getElementById('drEndDate').value;
             
-            // Filter by date range
             const dayData = window.joinees.filter(j => j.applyDate >= startDate && j.applyDate <= endDate);
             
             let tTotal=dayData.length, tPending=0, tInt=0, tSel=0, tJoin=0, tRej=0;
@@ -2270,23 +2650,19 @@
 
         window.closeResumeModal = () => document.getElementById('resumeViewModal').classList.add('hidden');
 
-        // Fix PDF Viewing inside the app securely using embed/object to avoid blob constraints
         window.viewResume = (id) => {
             const resume = window.resumeTrackerList.find(r => String(r.id) === String(id));
             if (!resume || !resume.fileData) return window.showToast('Resume file data not found', 'error');
 
             document.getElementById('pdfViewerTitle').innerText = resume.fileName;
             const container = document.getElementById('pdfContainer');
-            
-            // Using Data URL directly inside an iframe bypasses most blob restrictions and popups.
             container.innerHTML = `<iframe src="${resume.fileData}" type="application/pdf" class="w-full h-full border-none rounded-xl" title="Resume Viewer"></iframe>`;
-            
             document.getElementById('pdfViewerModal').classList.remove('hidden');
         };
 
         window.closePdfViewer = () => {
             document.getElementById('pdfViewerModal').classList.add('hidden');
-            document.getElementById('pdfContainer').innerHTML = ''; // Clear memory
+            document.getElementById('pdfContainer').innerHTML = '';
         };
 
         window.deleteResume = async (id, currentDept) => {
@@ -2311,46 +2687,107 @@
         };
 
         // --- Job Postings & Hiring Targets ---
-        window.openJobModal = () => { document.getElementById('jobForm').reset(); document.getElementById('jobModal').classList.remove('hidden'); };
-        window.closeJobModal = () => document.getElementById('jobModal').classList.add('hidden');
+        window.openJobModal = (editData = null) => {
+            document.getElementById('jobForm').reset();
+            const modalTitle = document.getElementById('jobModalTitle');
+            const submitBtn = document.getElementById('jobSubmitBtn');
+            const editIdField = document.getElementById('editJobId');
+            const previewContainer = document.getElementById('jobImagePreviewContainer');
+
+            if (editData) {
+                modalTitle.innerText = 'Edit Job Posting';
+                submitBtn.innerText = 'Update Job';
+                editIdField.value = editData.id;
+                document.getElementById('jobTitle').value = editData.title || '';
+                document.getElementById('jobDept').value = editData.dept || '';
+                document.getElementById('jobLoc').value = editData.location || '';
+                document.getElementById('jobReq').value = editData.requirements || '';
+                document.getElementById('jobDuration').value = editData.duration || '2';
+                document.getElementById('jobSheetLink').value = editData.sheetLink || '';
+                
+                if (editData.image) {
+                    previewContainer.innerHTML = `<p class="text-[10px] font-bold text-slate-500 mb-1">Current Image (Leave blank below to keep)</p><img src="${editData.image}" class="h-20 w-auto rounded-lg border border-slate-200" />`;
+                    previewContainer.classList.remove('hidden');
+                } else {
+                    previewContainer.innerHTML = '';
+                    previewContainer.classList.add('hidden');
+                }
+            } else {
+                modalTitle.innerText = 'Post a Job';
+                submitBtn.innerText = 'Publish Job';
+                editIdField.value = '';
+                previewContainer.innerHTML = '';
+                previewContainer.classList.add('hidden');
+            }
+            document.getElementById('jobModal').classList.remove('hidden');
+        };
+
+        window.closeJobModal = () => {
+            document.getElementById('jobModal').classList.add('hidden');
+            document.getElementById('jobForm').reset();
+            document.getElementById('jobModalTitle').innerText = 'Post a Job';
+            document.getElementById('jobSubmitBtn').innerText = 'Publish Job';
+            document.getElementById('editJobId').value = '';
+            document.getElementById('jobImagePreviewContainer').classList.add('hidden');
+        };
 
         document.getElementById('jobForm')?.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const btn = e.target.querySelector('button[type="submit"]');
-            btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Posting...`;
+            const btn = document.getElementById('jobSubmitBtn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Processing...`;
             btn.disabled = true;
 
+            const editId = document.getElementById('editJobId').value;
             const fileInput = document.getElementById('jobImage');
-            
-            const saveJobData = (imgDataUrl) => {
-                const newJob = {
-                    id: Date.now(),
+
+            const saveJobData = (imgDataUrl, existingJob = null) => {
+                const jobData = {
                     title: document.getElementById('jobTitle').value.trim(),
                     dept: document.getElementById('jobDept').value.trim().toUpperCase(),
                     location: document.getElementById('jobLoc').value.trim().toUpperCase(),
                     requirements: document.getElementById('jobReq').value.trim(),
                     duration: document.getElementById('jobDuration').value,
                     sheetLink: document.getElementById('jobSheetLink').value.trim(),
-                    image: imgDataUrl,
-                    date: new Date().toISOString().slice(0, 10),
-                    status: 'ACTIVE'
+                    image: imgDataUrl !== null ? imgDataUrl : (existingJob ? existingJob.image : null),
+                    date: existingJob ? existingJob.date : new Date().toISOString().slice(0, 10),
+                    status: existingJob ? existingJob.status : 'ACTIVE'
                 };
-                window.jobsList.push(newJob);
+
+                if (existingJob) {
+                    const idx = window.jobsList.findIndex(j => String(j.id) === String(editId));
+                    if (idx > -1) {
+                        window.jobsList[idx] = { ...window.jobsList[idx], ...jobData };
+                        window.showToast('Job Posting Updated successfully');
+                    }
+                } else {
+                    jobData.id = Date.now();
+                    window.jobsList.push(jobData);
+                    window.showToast('Job Posted successfully');
+                }
+
                 localStorage.setItem(window.JOBS_DB_VERSION, JSON.stringify(window.jobsList));
                 window.closeJobModal();
                 window.renderJobs();
-                window.showToast('Job Posted successfully');
-                btn.innerHTML = `Publish Job`;
+                btn.innerHTML = originalText;
                 btn.disabled = false;
             };
 
             if (fileInput.files && fileInput.files[0]) {
                 const reader = new FileReader();
-                reader.onload = (event) => { saveJobData(event.target.result); };
-                reader.onerror = () => { window.showToast('Image load failed', 'error'); saveJobData(null); };
+                reader.onload = (event) => {
+                    const existingJob = editId ? window.jobsList.find(j => String(j.id) === String(editId)) : null;
+                    saveJobData(event.target.result, existingJob);
+                };
+                reader.onerror = () => {
+                    window.showToast('Image load failed', 'error');
+                    const existingJob = editId ? window.jobsList.find(j => String(j.id) === String(editId)) : null;
+                    saveJobData(null, existingJob);
+                };
                 reader.readAsDataURL(fileInput.files[0]);
             } else {
-                saveJobData(null);
+                const existingJob = editId ? window.jobsList.find(j => String(j.id) === String(editId)) : null;
+                saveJobData(null, existingJob);
             }
         });
 
@@ -2365,26 +2802,47 @@
             }
 
             container.innerHTML = window.jobsList.sort((a,b) => b.id - a.id).map(j => `
-                <div class="modern-card flex flex-col relative overflow-hidden group border border-[var(--border-color)]">
-                    <div class="absolute top-0 right-0 bg-emerald-500 text-white text-[9px] font-black px-3 py-1 rounded-bl-xl uppercase tracking-widest z-10">${j.status}</div>
-                    ${j.image ? `<div class="w-full h-48 bg-slate-100 dark:bg-slate-800 shrink-0"><img src="${j.image}" class="w-full h-full object-cover" onerror="this.style.display='none'" /></div>` : ''}
+                <div class="modern-card flex flex-col relative overflow-hidden group border border-[var(--border-color)] hover:shadow-xl transition-all duration-300">
+                    <div class="absolute top-0 right-0 bg-emerald-500 text-white text-[9px] font-black px-3 py-1 rounded-bl-xl uppercase tracking-widest z-10 shadow-sm">${j.status}</div>
+                    ${j.image ? `<div class="w-full h-48 bg-slate-100 dark:bg-slate-800 shrink-0 overflow-hidden cursor-pointer" onclick="window.viewJobImage('${j.image}')"><img src="${j.image}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'" /></div>` : ''}
                     <div class="p-6 flex flex-col flex-1">
                         <div class="mb-4">
-                            <span class="text-[10px] font-black text-sarathy-blue uppercase tracking-widest bg-blue-50 px-2 py-1 rounded-md mb-2 inline-block">${j.dept}</span>
-                            <h3 class="font-black text-lg text-[var(--text-primary)] uppercase leading-tight">${j.title}</h3>
-                            <p class="text-xs font-bold text-slate-500 mt-1"><i class="fas fa-map-marker-alt mr-1"></i> ${j.location}</p>
+                            <span class="text-[10px] font-black text-sarathy-blue uppercase tracking-widest bg-blue-50 dark:bg-blue-900/30 dark:text-blue-400 px-2 py-1 rounded-md mb-2 inline-block">${j.dept}</span>
+                            <h3 class="font-black text-lg text-[var(--text-primary)] uppercase leading-tight line-clamp-2">${j.title}</h3>
+                            <p class="text-xs font-bold text-slate-500 mt-1"><i class="fas fa-map-marker-alt mr-1 text-slate-400"></i> ${j.location}</p>
                         </div>
                         <p class="text-sm font-medium text-slate-600 dark:text-slate-300 mb-6 line-clamp-3 flex-1">${j.requirements}</p>
                         <div class="flex justify-between items-center pt-4 border-t border-[var(--border-color)]">
-                            <span class="text-[10px] font-bold text-slate-400">Posted: ${window.formatDateString(j.date)}</span>
+                            <span class="text-[10px] font-bold text-slate-400"><i class="far fa-calendar-alt mr-1"></i> ${window.formatDateString(j.date)}</span>
                             <div class="flex gap-2">
-                                ${j.sheetLink ? `<button onclick="window.open('${j.sheetLink}', '_blank')" class="text-emerald-500 hover:text-emerald-600" title="Open Leads Sheet"><i class="fas fa-file-excel"></i></button>` : ''}
-                                <button onclick="window.deleteJob(${j.id})" class="text-slate-400 hover:text-red-500"><i class="fas fa-trash-alt"></i></button>
+                                ${j.sheetLink ? `<button onclick="window.open('${j.sheetLink}', '_blank')" class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 hover:bg-emerald-100 flex items-center justify-center transition-colors" title="Open Leads Sheet"><i class="fas fa-file-excel text-xs"></i></button>` : ''}
+                                <button onclick="window.copyJobLink(${j.id})" class="w-8 h-8 rounded-lg bg-slate-50 dark:bg-slate-800 text-slate-500 hover:text-sarathy-blue flex items-center justify-center transition-colors" title="Copy Application Link"><i class="fas fa-link text-xs"></i></button>
+                                <button onclick="window.editJob(${j.id})" class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 flex items-center justify-center transition-colors" title="Edit Job"><i class="fas fa-pen text-xs"></i></button>
+                                <button onclick="window.deleteJob(${j.id})" class="w-8 h-8 rounded-lg bg-red-50 text-red-500 hover:bg-red-100 flex items-center justify-center transition-colors" title="Delete Job"><i class="fas fa-trash-alt text-xs"></i></button>
                             </div>
                         </div>
                     </div>
                 </div>
             `).join('');
+        };
+
+        window.editJob = (id) => {
+            const job = window.jobsList.find(j => String(j.id) === String(id));
+            if (job) {
+                window.openJobModal(job);
+            }
+        };
+
+        window.copyJobLink = (id) => {
+            const url = window.location.href.split('?')[0] + '?view=apply&job=' + id;
+            navigator.clipboard.writeText(url).then(() => window.showToast("Job application link copied!"));
+        };
+
+        window.viewJobImage = (imgSrc) => {
+            document.getElementById('pdfViewerTitle').innerText = 'Job Creative';
+            const container = document.getElementById('pdfContainer');
+            container.innerHTML = `<img src="${imgSrc}" class="w-full h-full object-contain p-4" />`;
+            document.getElementById('pdfViewerModal').classList.remove('hidden');
         };
 
         window.deleteJob = async (id) => {
@@ -2533,7 +2991,8 @@
         window.exportJSONBackup = () => {
             const backup = {
                 joinees: window.joinees, reqList: window.reqList, jobs: window.jobsList,
-                leads: window.leadsList, resumes: window.resumeTrackerList
+                leads: window.leadsList, resumes: window.resumeTrackerList,
+                hrManagers: window.hrManagers, biodataForwarding: window.biodataForwarding, candidateUpdates: window.candidateUpdates
             };
             const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backup));
             const downloadAnchorNode = document.createElement('a');
@@ -2556,6 +3015,9 @@
                     if(data.jobs) { window.jobsList = data.jobs; localStorage.setItem(window.JOBS_DB_VERSION, JSON.stringify(data.jobs)); }
                     if(data.leads) { window.leadsList = data.leads; localStorage.setItem(window.LEADS_DB_VERSION, JSON.stringify(data.leads)); }
                     if(data.resumes) { window.resumeTrackerList = data.resumes; localStorage.setItem(window.RESUMES_DB_VERSION, JSON.stringify(data.resumes)); }
+                    if(data.hrManagers) { window.hrManagers = data.hrManagers; localStorage.setItem(window.HR_MANAGERS_VERSION, JSON.stringify(data.hrManagers)); }
+                    if(data.biodataForwarding) { window.biodataForwarding = data.biodataForwarding; localStorage.setItem(window.BIODATA_FORWARDING_VERSION, JSON.stringify(data.biodataForwarding)); }
+                    if(data.candidateUpdates) { window.candidateUpdates = data.candidateUpdates; localStorage.setItem(window.CANDIDATE_UPDATES_VERSION, JSON.stringify(data.candidateUpdates)); }
                     window.refreshAllViews();
                     window.showToast("Backup Restored Successfully!");
                 } catch(err) { window.showToast("Invalid backup file", "error"); }
@@ -2572,6 +3034,502 @@
             if (user) { window.currentUser = user; window.showApp(); } 
             else { document.getElementById('loginError').classList.remove('hidden'); }
         });
+
+        // ==========================================
+        // START: LOCATION HR MODULE LOGIC
+        // ==========================================
+
+        // --- HR Manager Master ---
+        window.renderHRManagers = () => {
+            if (window.currentTab !== 'hr-manager') return;
+            const searchTerm = (document.getElementById('hrSearchInput')?.value || '').toLowerCase();
+            const statusFilter = document.getElementById('hrFilterStatus')?.value || 'ALL';
+            const tbody = document.getElementById('hrManagersTableBody');
+            if (!tbody) return;
+
+            let data = window.hrManagers;
+            if (searchTerm) data = data.filter(h => h.name.toLowerCase().includes(searchTerm) || h.location.toLowerCase().includes(searchTerm));
+            if (statusFilter !== 'ALL') data = data.filter(h => h.status === statusFilter);
+
+            if (data.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" class="text-center p-8 text-slate-400 font-bold">No HR Managers found.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = data.map(h => `
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                    <td>
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center font-black text-sm shadow-sm">${h.name.charAt(0)}</div>
+                            <div>
+                                <p class="font-bold text-sm text-[var(--text-primary)] uppercase">${h.name}</p>
+                                <p class="text-[10px] text-[var(--text-secondary)] font-medium">${h.phone} ${h.email ? '• ' + h.email : ''}</p>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="px-3 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-xs font-bold text-[var(--text-primary)] uppercase">${h.location}</span>
+                    </td>
+                    <td>
+                        <p class="text-xs font-bold text-[var(--text-primary)] uppercase">${h.company}</p>
+                        <p class="text-[10px] text-[var(--text-secondary)] font-medium uppercase">${h.dept}</p>
+                    </td>
+                    <td>
+                        <span class="status-badge ${h.status === 'ACTIVE' ? 'badge-selected' : 'badge-rejected'}">${h.status}</span>
+                    </td>
+                    <td class="text-right">
+                        <div class="flex justify-end gap-2">
+                            <button onclick="window.openHRManagerModal(${h.id})" class="w-8 h-8 rounded-lg bg-white dark:bg-slate-700 text-slate-500 hover:text-orange-500 shadow-sm border border-[var(--border-color)]"><i class="fas fa-pen text-xs"></i></button>
+                            <button onclick="window.deleteHRManager(${h.id})" class="w-8 h-8 rounded-lg bg-white dark:bg-slate-700 text-slate-500 hover:text-red-500 shadow-sm border border-[var(--border-color)]"><i class="fas fa-trash-alt text-xs"></i></button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        };
+
+        window.openHRManagerModal = (id = null) => {
+            const modal = document.getElementById('hrManagerModal');
+            const form = document.getElementById('hrManagerForm');
+            form.reset();
+            document.getElementById('hrManagerId').value = '';
+            
+            if (id) {
+                const h = window.hrManagers.find(x => String(x.id) === String(id));
+                if (h) {
+                    document.getElementById('hrManagerModalTitle').innerText = 'Edit HR Manager';
+                    document.getElementById('hrManagerId').value = h.id;
+                    document.getElementById('hrName').value = h.name;
+                    document.getElementById('hrPhone').value = h.phone;
+                    document.getElementById('hrEmail').value = h.email;
+                    document.getElementById('hrLocation').value = h.location;
+                    document.getElementById('hrCompany').value = h.company;
+                    document.getElementById('hrDept').value = h.dept;
+                    document.getElementById('hrStatus').value = h.status;
+                }
+            } else {
+                document.getElementById('hrManagerModalTitle').innerText = 'Add HR Manager';
+            }
+            modal.classList.remove('hidden');
+        };
+
+        window.closeHRManagerModal = () => document.getElementById('hrManagerModal').classList.add('hidden');
+
+        document.getElementById('hrManagerForm')?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const id = document.getElementById('hrManagerId').value;
+            const payload = {
+                id: id ? parseInt(id) : Date.now(),
+                name: document.getElementById('hrName').value.trim().toUpperCase(),
+                phone: document.getElementById('hrPhone').value.trim(),
+                email: document.getElementById('hrEmail').value.trim(),
+                location: document.getElementById('hrLocation').value,
+                company: document.getElementById('hrCompany').value,
+                dept: document.getElementById('hrDept').value,
+                status: document.getElementById('hrStatus').value
+            };
+
+            if (id) {
+                const idx = window.hrManagers.findIndex(x => String(x.id) === String(id));
+                if (idx > -1) window.hrManagers[idx] = payload;
+            } else {
+                window.hrManagers.push(payload);
+            }
+
+            localStorage.setItem(window.HR_MANAGERS_VERSION, JSON.stringify(window.hrManagers));
+            window.closeHRManagerModal();
+            window.renderHRManagers();
+            window.showToast(id ? 'HR Manager Updated' : 'HR Manager Added');
+        });
+
+        window.deleteHRManager = async (id) => {
+            const yes = await window.showDialogModal('confirm', 'Delete HR Manager', 'Are you sure you want to delete this HR Manager?');
+            if (yes) {
+                window.hrManagers = window.hrManagers.filter(x => String(x.id) !== String(id));
+                localStorage.setItem(window.HR_MANAGERS_VERSION, JSON.stringify(window.hrManagers));
+                window.renderHRManagers();
+                window.showToast('HR Manager Deleted', 'error');
+            }
+        };
+
+        // --- Send Biodata Workflow ---
+        window.openSendBiodataModal = (candidateId) => {
+            const j = window.joinees.find(x => String(x.id) === String(candidateId));
+            if (!j) return;
+
+            document.getElementById('sendCandidateId').value = j.id;
+            document.getElementById('sendCandidateName').value = j.name;
+            document.getElementById('sendCandidateLocation').value = j.location || 'N/A';
+
+            const select = document.getElementById('sendHRManagerId');
+            select.innerHTML = '<option value="" disabled selected>Select HR Manager</option>';
+            
+            // Auto-match logic
+            let autoMatchedId = '';
+            window.hrManagers.filter(h => h.status === 'ACTIVE').forEach(h => {
+                const isMatch = (h.location === j.location || h.location === 'ANY');
+                if (isMatch && !autoMatchedId) autoMatchedId = h.id;
+                select.innerHTML += `<option value="${h.id}" ${isMatch ? 'data-matched="true"' : ''}>${h.name} (${h.location}) - ${h.company}</option>`;
+            });
+
+            if (autoMatchedId) select.value = autoMatchedId;
+
+            document.getElementById('sendBiodataModal').classList.remove('hidden');
+        };
+
+        window.closeSendBiodataModal = () => document.getElementById('sendBiodataModal').classList.add('hidden');
+
+        document.getElementById('sendBiodataForm')?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const candidateId = document.getElementById('sendCandidateId').value;
+            const hrManagerId = document.getElementById('sendHRManagerId').value;
+            const remarks = document.getElementById('sendRemarks').value.trim();
+
+            if (!candidateId || !hrManagerId) return window.showToast('Please select an HR Manager', 'error');
+
+            const existing = window.biodataForwarding.find(f => String(f.candidateId) === String(candidateId));
+            if (existing) {
+                window.showToast('Biodata already sent for this candidate', 'error');
+                return;
+            }
+
+            const newForwarding = {
+                id: Date.now(),
+                candidateId: parseInt(candidateId),
+                hrManagerId: parseInt(hrManagerId),
+                sentDate: new Date().toISOString().slice(0, 10),
+                status: 'Received',
+                remarks: remarks
+            };
+
+            window.biodataForwarding.push(newForwarding);
+            localStorage.setItem(window.BIODATA_FORWARDING_VERSION, JSON.stringify(window.biodataForwarding));
+
+            // Log initial history
+            window.candidateUpdates.push({
+                id: Date.now() + 1,
+                candidateId: parseInt(candidateId),
+                hrManagerId: parseInt(hrManagerId),
+                status: 'Received',
+                date: new Date().toISOString(),
+                remarks: 'Biodata forwarded to HR Manager. ' + remarks
+            });
+            localStorage.setItem(window.CANDIDATE_UPDATES_VERSION, JSON.stringify(window.candidateUpdates));
+
+            window.closeSendBiodataModal();
+            window.viewCandidate(candidateId); // Refresh view modal
+            window.showToast('Biodata sent to HR Manager successfully!');
+        });
+
+        // --- HR Dashboard ---
+        window.renderHRDashboard = () => {
+            if (window.currentTab !== 'hr-dashboard') return;
+            
+            const managerSelect = document.getElementById('hrDashFilterManager');
+            if (managerSelect.options.length <= 1) {
+                window.hrManagers.forEach(h => {
+                    managerSelect.innerHTML += `<option value="${h.id}">${h.name} (${h.location})</option>`;
+                });
+            }
+
+            const searchTerm = (document.getElementById('hrDashSearch')?.value || '').toLowerCase();
+            const filterManager = managerSelect.value;
+            const filterStatus = document.getElementById('hrDashFilterStatus').value;
+
+            let data = window.biodataForwarding;
+            if (filterManager !== 'ALL') data = data.filter(f => String(f.hrManagerId) === filterManager);
+            if (filterStatus !== 'ALL') data = data.filter(f => f.status === filterStatus);
+
+            const tbody = document.getElementById('hrDashboardTableBody');
+            if (!tbody) return;
+
+            if (data.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="text-center p-8 text-slate-400 font-bold">No records found.</td></tr>`;
+                return;
+            }
+
+            const filteredData = data.map(f => {
+                const candidate = window.joinees.find(j => String(j.id) === String(f.candidateId));
+                const hr = window.hrManagers.find(h => String(h.id) === String(f.hrManagerId));
+                return { ...f, candidate, hr };
+            }).filter(f => f.candidate && f.hr).filter(f => {
+                if (!searchTerm) return true;
+                return f.candidate.name.toLowerCase().includes(searchTerm) || f.candidate.phone.includes(searchTerm);
+            });
+
+            tbody.innerHTML = filteredData.map(f => {
+                let statusClass = 'badge-pending';
+                if (f.status === 'Received') statusClass = 'badge-received';
+                if (f.status === 'Under Review') statusClass = 'badge-review';
+                if (f.status === 'Shortlisted') statusClass = 'badge-selected';
+                if (f.status === 'Interview') statusClass = 'badge-interview';
+                if (f.status === 'Selected') statusClass = 'badge-selected';
+                if (f.status === 'Rejected') statusClass = 'badge-rejected';
+                if (f.status === 'Joined') statusClass = 'badge-joined';
+                if (f.status === 'Hold') statusClass = 'badge-hold';
+                if (f.status === 'No Response') statusClass = 'badge-noresponse';
+
+                const lastUpdate = window.candidateUpdates.filter(u => String(u.candidateId) === String(f.candidateId)).sort((a,b) => b.id - a.id)[0];
+
+                return `
+                    <tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors cursor-pointer" onclick="window.openHRUpdateModal(${f.id})">
+                        <td>
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl ${window.getAvatarColor(f.candidate.name)} flex items-center justify-center font-black text-sm shadow-sm">${f.candidate.name.charAt(0)}</div>
+                                <div>
+                                    <p class="font-bold text-sm text-[var(--text-primary)] uppercase">${f.candidate.name}</p>
+                                    <p class="text-[10px] text-[var(--text-secondary)] font-medium">${f.candidate.phone} • ${f.candidate.location}</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <p class="text-xs font-bold text-[var(--text-primary)] uppercase">${f.hr.name}</p>
+                            <p class="text-[10px] text-[var(--text-secondary)] font-medium">${f.hr.location}</p>
+                        </td>
+                        <td>
+                            <span class="status-badge ${statusClass}">${f.status}</span>
+                        </td>
+                        <td>
+                            <p class="text-xs font-bold text-[var(--text-primary)]">${lastUpdate ? window.formatDateString(lastUpdate.date.slice(0,10)) : '-'}</p>
+                            <p class="text-[10px] text-[var(--text-secondary)] truncate max-w-[150px]">${lastUpdate ? lastUpdate.remarks : 'No updates yet'}</p>
+                        </td>
+                        <td>
+                            <p class="text-xs font-bold text-amber-600">${lastUpdate && lastUpdate.followUpDate ? window.formatDateString(lastUpdate.followUpDate) : 'N/A'}</p>
+                        </td>
+                        <td class="text-right" onclick="event.stopPropagation()">
+                            <button onclick="window.openHRUpdateModal(${f.id})" class="px-3 py-1.5 bg-purple-50 text-purple-600 hover:bg-purple-100 rounded-lg text-xs font-bold transition-colors"><i class="fas fa-edit"></i> Update</button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        };
+
+        window.openHRUpdateModal = (forwardingId) => {
+            const f = window.biodataForwarding.find(x => String(x.id) === String(forwardingId));
+            if (!f) return;
+            const candidate = window.joinees.find(j => String(j.id) === String(f.candidateId));
+            if (!candidate) return;
+
+            document.getElementById('hrUpdateForwardingId').value = f.id;
+            document.getElementById('hrUpdateCandidateName').innerText = candidate.name;
+            document.getElementById('hrUpdateStatus').value = f.status;
+            document.getElementById('hrUpdateRemarks').value = '';
+            document.getElementById('hrUpdateInterviewDate').value = '';
+            document.getElementById('hrUpdateSalary').value = '';
+            document.getElementById('hrUpdateJoiningDate').value = '';
+            document.getElementById('hrUpdateFollowUpDate').value = '';
+
+            // Pre-fill from latest update if exists
+            const lastUpdate = window.candidateUpdates.filter(u => String(u.candidateId) === String(f.candidateId)).sort((a,b) => b.id - a.id)[0];
+            if (lastUpdate) {
+                document.getElementById('hrUpdateInterviewDate').value = lastUpdate.interviewDate || '';
+                document.getElementById('hrUpdateSalary').value = lastUpdate.salary || '';
+                document.getElementById('hrUpdateJoiningDate').value = lastUpdate.joiningDate || '';
+                document.getElementById('hrUpdateFollowUpDate').value = lastUpdate.followUpDate || '';
+            }
+
+            document.getElementById('hrUpdateModal').classList.remove('hidden');
+        };
+
+        window.closeHRUpdateModal = () => document.getElementById('hrUpdateModal').classList.add('hidden');
+
+        document.getElementById('hrUpdateForm')?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const forwardingId = document.getElementById('hrUpdateForwardingId').value;
+            const f = window.biodataForwarding.find(x => String(x.id) === String(forwardingId));
+            if (!f) return;
+
+            const newStatus = document.getElementById('hrUpdateStatus').value;
+            const remarks = document.getElementById('hrUpdateRemarks').value.trim();
+            const interviewDate = document.getElementById('hrUpdateInterviewDate').value;
+            const salary = document.getElementById('hrUpdateSalary').value.trim();
+            const joiningDate = document.getElementById('hrUpdateJoiningDate').value;
+            const followUpDate = document.getElementById('hrUpdateFollowUpDate').value;
+
+            // Update forwarding status
+            f.status = newStatus;
+            f.remarks = remarks;
+            localStorage.setItem(window.BIODATA_FORWARDING_VERSION, JSON.stringify(window.biodataForwarding));
+
+            // Log history
+            const newUpdate = {
+                id: Date.now(),
+                candidateId: f.candidateId,
+                hrManagerId: f.hrManagerId,
+                status: newStatus,
+                date: new Date().toISOString(),
+                remarks: remarks,
+                interviewDate: interviewDate,
+                salary: salary,
+                joiningDate: joiningDate,
+                followUpDate: followUpDate
+            };
+            window.candidateUpdates.push(newUpdate);
+            localStorage.setItem(window.CANDIDATE_UPDATES_VERSION, JSON.stringify(window.candidateUpdates));
+
+            window.closeHRUpdateModal();
+            window.renderHRDashboard();
+            window.showToast('HR Update saved successfully!');
+        });
+
+        window.viewHRHistory = (forwardingId) => {
+            const f = window.biodataForwarding.find(x => String(x.id) === String(forwardingId));
+            if (!f) return;
+            const candidate = window.joinees.find(j => String(j.id) === String(f.candidateId));
+            const updates = window.candidateUpdates.filter(u => String(u.candidateId) === String(f.candidateId)).sort((a,b) => b.id - a.id);
+
+            let historyHtml = updates.map(u => `
+                <div class="flex gap-4 mb-4 relative">
+                    <div class="w-8 h-8 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center shrink-0 z-10"><i class="fas fa-history text-xs"></i></div>
+                    <div class="flex-1 bg-slate-50 dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="status-badge ${u.status === 'Selected' || u.status === 'Joined' ? 'badge-selected' : u.status === 'Rejected' ? 'badge-rejected' : 'badge-pending'}">${u.status}</span>
+                            <span class="text-[10px] font-bold text-slate-400">${new Date(u.date).toLocaleString()}</span>
+                        </div>
+                        ${u.remarks ? `<p class="text-sm text-[var(--text-primary)] mb-2">${u.remarks}</p>` : ''}
+                        <div class="grid grid-cols-2 gap-2 text-[10px] text-slate-500 font-bold">
+                            ${u.interviewDate ? `<p><i class="fas fa-calendar mr-1"></i> Interview: ${u.interviewDate}</p>` : ''}
+                            ${u.salary ? `<p><i class="fas fa-money-bill mr-1"></i> Salary: ${u.salary}</p>` : ''}
+                            ${u.joiningDate ? `<p><i class="fas fa-sign-in-alt mr-1"></i> Joining: ${u.joiningDate}</p>` : ''}
+                            ${u.followUpDate ? `<p><i class="fas fa-bell mr-1"></i> Follow-up: ${u.followUpDate}</p>` : ''}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            if (updates.length === 0) historyHtml = '<p class="text-center text-slate-400 font-bold p-6">No history available.</p>';
+
+            const modalContent = `
+                <div class="flex justify-between items-center mb-6 border-b border-[var(--border-color)] pb-4">
+                    <h3 class="font-black text-lg uppercase text-[var(--text-primary)]">History: ${candidate ? candidate.name : 'Unknown'}</h3>
+                    <button onclick="document.getElementById('pdfViewerModal').classList.add('hidden')" class="text-slate-400 hover:text-red-500"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="space-y-4">${historyHtml}</div>
+            `;
+            
+            document.getElementById('pdfViewerTitle').innerText = 'Candidate History';
+            document.getElementById('pdfContainer').innerHTML = `<div class="p-6 h-full overflow-y-auto">${modalContent}</div>`;
+            document.getElementById('pdfViewerModal').classList.remove('hidden');
+        };
+
+        // --- HR Reports ---
+        window.renderHRReports = () => {
+            if (window.currentTab !== 'hr-reports') return;
+
+            const totalSent = window.biodataForwarding.length;
+            const statusCounts = {
+                Received: 0, 'Under Review': 0, Shortlisted: 0, Interview: 0,
+                Selected: 0, Rejected: 0, Joined: 0, Hold: 0, 'No Response': 0
+            };
+            const locationCounts = {};
+            const hrPerformance = {};
+
+            window.biodataForwarding.forEach(f => {
+                statusCounts[f.status] = (statusCounts[f.status] || 0) + 1;
+                
+                const hr = window.hrManagers.find(h => String(h.id) === String(f.hrManagerId));
+                if (hr) {
+                    locationCounts[hr.location] = (locationCounts[hr.location] || 0) + 1;
+                    if (!hrPerformance[hr.name]) hrPerformance[hr.name] = { location: hr.location, total: 0, received: 0, shortlisted: 0, selected: 0, rejected: 0 };
+                    hrPerformance[hr.name].total++;
+                    if (f.status === 'Received' || f.status === 'Under Review') hrPerformance[hr.name].received++;
+                    if (f.status === 'Shortlisted' || f.status === 'Interview') hrPerformance[hr.name].shortlisted++;
+                    if (f.status === 'Selected' || f.status === 'Joined') hrPerformance[hr.name].selected++;
+                    if (f.status === 'Rejected') hrPerformance[hr.name].rejected++;
+                }
+            });
+
+            document.getElementById('hrRepSent').innerText = totalSent;
+            document.getElementById('hrRepReceived').innerText = statusCounts['Received'] + statusCounts['Under Review'];
+            document.getElementById('hrRepPending').innerText = statusCounts['Received']; // Example pending calculation
+            document.getElementById('hrRepShortlisted').innerText = statusCounts['Shortlisted'] + statusCounts['Interview'];
+            document.getElementById('hrRepInterview').innerText = statusCounts['Interview'];
+            document.getElementById('hrRepSelected').innerText = statusCounts['Selected'];
+            document.getElementById('hrRepJoined').innerText = statusCounts['Joined'];
+            document.getElementById('hrRepRejected').innerText = statusCounts['Rejected'];
+
+            // HR Performance Table
+            const perfBody = document.getElementById('hrPerformanceBody');
+            if (perfBody) {
+                perfBody.innerHTML = Object.keys(hrPerformance).map(name => {
+                    const p = hrPerformance[name];
+                    return `
+                        <tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                            <td class="font-bold text-sm text-[var(--text-primary)] uppercase">${name}</td>
+                            <td class="text-sm text-[var(--text-secondary)] uppercase">${p.location}</td>
+                            <td class="text-center font-bold text-indigo-600">${p.total}</td>
+                            <td class="text-center font-bold text-blue-600">${p.received}</td>
+                            <td class="text-center font-bold text-purple-600">${p.shortlisted}</td>
+                            <td class="text-center font-bold text-emerald-600">${p.selected}</td>
+                            <td class="text-center font-bold text-red-600">${p.rejected}</td>
+                        </tr>
+                    `;
+                }).join('');
+                if (Object.keys(hrPerformance).length === 0) perfBody.innerHTML = `<tr><td colspan="7" class="text-center p-4 text-slate-400 font-bold">No data available</td></tr>`;
+            }
+
+            // Charts
+            const colors = { text: document.documentElement.classList.contains('dark') ? '#94a3b8' : '#64748b' };
+            const commonOpts = { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: colors.text, font: { family: 'Outfit', weight: 'bold' } } } } };
+
+            if (window.hrStatusChartInstance) window.hrStatusChartInstance.destroy();
+            const statusCanvas = document.getElementById('hrStatusChart');
+            if (statusCanvas) {
+                window.hrStatusChartInstance = new Chart(statusCanvas, {
+                    type: 'doughnut',
+                    data: { 
+                        labels: Object.keys(statusCounts), 
+                        datasets: [{ data: Object.values(statusCounts), backgroundColor: ['#60a5fa', '#f59e0b', '#10b981', '#ec4899', '#3b82f6', '#ef4444', '#8b5cf6', '#f97316', '#64748b'] }] 
+                    },
+                    options: { ...commonOpts, cutout: '60%' }
+                });
+            }
+
+            if (window.hrLocationChartInstance) window.hrLocationChartInstance.destroy();
+            const locCanvas = document.getElementById('hrLocationChart');
+            if (locCanvas) {
+                window.hrLocationChartInstance = new Chart(locCanvas, {
+                    type: 'bar',
+                    data: { 
+                        labels: Object.keys(locationCounts), 
+                        datasets: [{ label: 'Candidates', data: Object.values(locationCounts), backgroundColor: '#8b5cf6', borderRadius: 8 }] 
+                    },
+                    options: { ...commonOpts, scales: { y: { ticks: { color: colors.text } }, x: { ticks: { color: colors.text } } } }
+                });
+            }
+        };
+
+        window.exportHRReportsPDF = () => {
+            const element = document.getElementById('tab-hr-reports');
+            html2pdf().from(element).set({
+                margin: [10, 10], filename: `HR_Reports_${new Date().toISOString().slice(0,10)}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 }, html2canvas: { scale: 2 }, jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
+            }).save();
+        };
+
+        window.exportHRReportsExcel = () => {
+            const data = window.biodataForwarding.map(f => {
+                const candidate = window.joinees.find(j => String(j.id) === String(f.candidateId));
+                const hr = window.hrManagers.find(h => String(h.id) === String(f.hrManagerId));
+                return {
+                    Candidate_Name: candidate ? candidate.name : 'Unknown',
+                    Candidate_Phone: candidate ? candidate.phone : '',
+                    Candidate_Location: candidate ? candidate.location : '',
+                    HR_Manager: hr ? hr.name : 'Unknown',
+                    HR_Location: hr ? hr.location : '',
+                    Status: f.status,
+                    Sent_Date: f.sentDate,
+                    Remarks: f.remarks
+                };
+            });
+            const ws = XLSX.utils.json_to_sheet(data);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "HR_Reports");
+            XLSX.writeFile(wb, `HR_Reports_${new Date().toISOString().slice(0,10)}.xlsx`);
+        };
+
+        // ==========================================
+        // END: LOCATION HR MODULE LOGIC
+        // ==========================================
 
         document.addEventListener('DOMContentLoaded', () => {
             if(localStorage.getItem('theme') === 'dark') {
