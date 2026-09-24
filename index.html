@@ -349,12 +349,10 @@
                 <a onclick="window.switchTab('resumes')" id="nav-resumes" class="nav-link text-indigo-600 dark:text-indigo-400"><i class="fas fa-file-pdf w-5 text-center text-lg"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">Resume Tracker</span></a>
                 <a onclick="window.switchTab('jobs')" id="nav-jobs" class="nav-link text-sky-600 dark:text-sky-400"><i class="fas fa-briefcase w-5 text-center text-lg"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">Job Postings</span></a>
                 
-                <!-- START: BIODATA FORWARDING MODULE -->
                 <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-6 mb-2 px-3 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">BIODATA & HR</div>
                 <a onclick="window.switchTab('hr-manager')" id="nav-hr-manager" class="nav-link text-orange-600 dark:text-orange-400"><i class="fas fa-users-cog w-5 text-center text-lg"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">HR Managers</span></a>
                 <a onclick="window.switchTab('biodata-tracking')" id="nav-biodata-tracking" class="nav-link text-purple-600 dark:text-purple-400"><i class="fas fa-paper-plane w-5 text-center text-lg"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">Biodata Tracking</span></a>
                 <a onclick="window.switchTab('hr-reports')" id="nav-hr-reports" class="nav-link text-pink-600 dark:text-pink-400"><i class="fas fa-chart-line w-5 text-center text-lg"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">HR Reports</span></a>
-                <!-- END: BIODATA FORWARDING MODULE -->
 
                 <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-6 mb-2 px-3 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">MANAGEMENT</div>
                 <a onclick="window.switchTab('calendar')" id="nav-calendar" class="nav-link"><i class="fas fa-calendar-alt w-5 text-center text-lg"></i> <span class="lg:hidden lg:group-hover:block whitespace-nowrap">Schedules</span></a>
@@ -804,7 +802,6 @@
                     <div id="jobsContainer" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 animate-up" style="animation-delay: 0.1s;"></div>
                 </div>
 
-                <!-- START: BIODATA FORWARDING MODULE TABS -->
                 <!-- TAB: HR MANAGERS MASTER -->
                 <div id="tab-hr-manager" class="tab-content p-4 md:p-6 lg:p-8 max-w-[1600px] mx-auto">
                     <div class="modern-card p-6 mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 animate-up border-l-4 border-l-orange-500">
@@ -1027,7 +1024,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- END: BIODATA FORWARDING MODULE TABS -->
 
                 <!-- TAB: CALENDAR -->
                 <div id="tab-calendar" class="tab-content p-4 md:p-6 lg:p-8 max-w-[1600px] mx-auto">
@@ -1371,7 +1367,6 @@
         </div>
     </div>
 
-    <!-- START: BIODATA FORWARDING MODALS -->
     <!-- HR Manager Add/Edit Modal -->
     <div id="hrManagerModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[110] hidden flex justify-center items-center transition-opacity duration-300 no-print">
         <div class="bg-[var(--bg-secondary)] w-full max-w-md rounded-3xl shadow-2xl flex flex-col border border-[var(--border-color)] animate-up">
@@ -1539,7 +1534,6 @@
             </div>
         </div>
     </div>
-    <!-- END: BIODATA FORWARDING MODALS -->
 
     <!-- Custom Dialog Modal -->
     <div id="customDialogModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[250] hidden flex items-center justify-center p-4 transition-opacity no-print">
@@ -1574,7 +1568,9 @@
     </div>
 
     <script>
-        // GLOBALS
+        // ============================================================
+        // GLOBALS & DB VERSIONS
+        // ============================================================
         window.CURRENT_DB_VERSION = 'sarathy_db_v18';
         window.CURRENT_BUDGET_VERSION = 'sarathy_req_v18';
         window.NOTICES_DB_VERSION = 'sarathy_notices_v4';
@@ -1582,17 +1578,14 @@
         window.RESUMES_DB_VERSION = 'sarathy_resumes_v3';
         window.LEADS_DB_VERSION = 'sarathy_leads_v3';
         window.USERS_DB_VERSION = 'sarathy_users_v15';
-
-        // START: BIODATA FORWARDING DB VERSIONS
         window.HR_MANAGERS_VERSION = 'sarathy_hr_managers_v1';
         window.BIODATA_FORWARDING_VERSION = 'sarathy_biodata_forwarding_v1';
         window.CANDIDATE_UPDATES_VERSION = 'sarathy_candidate_updates_v1';
-        // END: BIODATA FORWARDING DB VERSIONS
 
         let localUsers = JSON.parse(localStorage.getItem(window.USERS_DB_VERSION));
-        if (!localUsers) { 
+        if (!localUsers) {
             localUsers = [{ user: 'ADMIN', pass: 'SARATHY@26', role: 'Administrator' }];
-            localStorage.setItem(window.USERS_DB_VERSION, JSON.stringify(localUsers)); 
+            localStorage.setItem(window.USERS_DB_VERSION, JSON.stringify(localUsers));
         }
         window.USERS = localUsers;
         window.currentUser = null;
@@ -1604,7 +1597,6 @@
         window.resumeTrackerList = JSON.parse(localStorage.getItem(window.RESUMES_DB_VERSION)) || [];
         window.leadsList = JSON.parse(localStorage.getItem(window.LEADS_DB_VERSION)) || [];
 
-        // START: BIODATA FORWARDING DATA INIT
         window.hrManagers = JSON.parse(localStorage.getItem(window.HR_MANAGERS_VERSION)) || [
             { id: 1, name: 'SACHIN S', phone: '', email: '', location: 'KOLLAM', company: 'ALL', dept: 'ALL', status: 'ACTIVE' },
             { id: 2, name: 'SMITHA RAJU', phone: '', email: '', location: 'KOLLAM', company: 'ALL', dept: 'ALL', status: 'ACTIVE' },
@@ -1627,7 +1619,6 @@
         ];
         window.biodataForwarding = JSON.parse(localStorage.getItem(window.BIODATA_FORWARDING_VERSION)) || [];
         window.candidateUpdates = JSON.parse(localStorage.getItem(window.CANDIDATE_UPDATES_VERSION)) || [];
-        // END: BIODATA FORWARDING DATA INIT
 
         window.currentView = 'list';
         window.activeFilter = 'All';
@@ -1641,7 +1632,22 @@
         const urlParams = new URLSearchParams(window.location.search);
         window.isApplyView = urlParams.get('view') === 'apply';
 
-        // --- Basic Utils ---
+        // ============================================================
+        // UTILITY FUNCTIONS
+        // ============================================================
+        const getAvatarColor = function(name) {
+            const colors = ['bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-400', 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-400', 'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-400', 'bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-400', 'bg-pink-100 text-pink-700 dark:bg-pink-900/40 dark:text-pink-400'];
+            let hash = 0;
+            if (!name) return colors[0];
+            for (let i = 0; i < name.length; i++) hash = name.charCodeAt(i) + ((hash << 5) - hash);
+            return colors[Math.abs(hash) % colors.length];
+        };
+        window.getAvatarColor = getAvatarColor;
+
+        window.safeCall = (fn, label) => {
+            try { fn(); } catch (err) { console.error(`[SafeCall: ${label}]`, err); }
+        };
+
         let dialogResolve = null;
         window.showDialogModal = (type, title, message, placeholder = '') => {
             return new Promise((resolve) => {
@@ -1685,25 +1691,19 @@
             }
         };
 
-        window.formatDateString = function(d) { 
-            if (!d) return ''; const parts = d.split('-'); 
-            return parts.length === 3 ? `${parts[2]}-${parts[1]}-${parts[0]}` : d; 
-        };
-
-        window.getAvatarColor = function(name) {
-            const colors = ['bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-400', 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-400', 'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-400', 'bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-400', 'bg-pink-100 text-pink-700 dark:bg-pink-900/40 dark:text-pink-400'];
-            let hash = 0;
-            if (!name) return colors[0];
-            for (let i = 0; i < name.length; i++) hash = name.charCodeAt(i) + ((hash << 5) - hash);
-            return colors[Math.abs(hash) % colors.length];
+        window.formatDateString = function(d) {
+            if (!d) return '';
+            const parts = d.split('-');
+            return parts.length === 3 ? `${parts[2]}-${parts[1]}-${parts[0]}` : d;
         };
 
         window.isAdmin = () => window.currentUser?.user === 'ADMIN';
-
         window.tabHistory = [];
         window.currentTab = 'dashboard';
 
-        // --- Navigation ---
+        // ============================================================
+        // NAVIGATION
+        // ============================================================
         window.toggleSidebar = function() {
             document.getElementById('sidebar')?.classList.toggle('-translate-x-full');
             document.getElementById('mobileOverlay')?.classList.toggle('hidden');
@@ -1715,24 +1715,21 @@
             const icon = document.getElementById('darkModeIcon');
             if (icon) icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
             localStorage.setItem('theme', isDark ? 'dark' : 'light');
-            if (window.chartStatus) { window.chartStatus.update(); window.chartSource.update(); if (window.chartSourcePie) window.chartSourcePie.update(); if (window.chartRejection) window.chartRejection.update(); }
-            if (window.drDeptChartInstance) window.renderDailyReportAnalytics();
-            if (window.hrStatusChartInstance) window.renderHRReports();
         };
 
         window.toggleNotifications = function() { document.getElementById('notificationModal')?.classList.toggle('hidden'); };
 
         window.switchTab = function(tab, isBack = false) {
-            if (tab === 'dashboard') { window.tabHistory = []; } 
+            if (tab === 'dashboard') { window.tabHistory = []; }
             else if (!isBack && window.currentTab !== tab) { window.tabHistory.push(window.currentTab); }
             window.currentTab = tab;
-            
+
             document.querySelectorAll('.nav-link').forEach(el => { el.classList.remove('active'); if (el.id === `nav-${tab}`) el.classList.add('active'); });
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
             document.getElementById(`tab-${tab}`)?.classList.add('active');
 
-            const titles = { 
-                dashboard: 'HR Overview', candidates: 'Candidates', directory: 'Daily Report', jobs: 'Job Postings', leads: 'Meta Leads CRM', 
+            const titles = {
+                dashboard: 'HR Overview', candidates: 'Candidates', directory: 'Daily Report', jobs: 'Job Postings', leads: 'Meta Leads CRM',
                 calendar: 'Schedules', analytics: 'Analytics', settings: 'Settings', onboarding: 'Onboarding', resumes: 'Resume Tracker',
                 'hr-manager': 'HR Managers Master', 'biodata-tracking': 'Biodata Tracking & HR Updates', 'hr-reports': 'HR Reports & Analytics'
             };
@@ -1760,29 +1757,122 @@
             const chartMonthFilter = document.getElementById('chartMonthFilter');
             if (chartMonthFilter) chartMonthFilter.value = new Date().toISOString().slice(0, 7);
             if (window.isAdmin()) { document.getElementById('addBtn')?.classList.remove('hidden'); }
-            
-            const todayStr = new Date().toISOString().slice(0, 10);
-            document.getElementById('drStartDate').value = todayStr;
-            document.getElementById('drEndDate').value = todayStr;
 
-            window.refreshAllViews();
+            const todayStr = new Date().toISOString().slice(0, 10);
+            const drStart = document.getElementById('drStartDate');
+            const drEnd = document.getElementById('drEndDate');
+            if (drStart) drStart.value = todayStr;
+            if (drEnd) drEnd.value = todayStr;
+
+            window.safeCall(() => window.refreshAllViews(), 'refreshAllViews');
         };
 
         window.refreshAllViews = () => {
-            if (window.currentTab === 'dashboard') window.renderDashboard?.();
-            if (window.currentTab === 'candidates') window.renderTable?.();
-            if (window.currentTab === 'directory') window.renderDailyReportAnalytics?.();
-            if (window.currentTab === 'jobs') window.renderJobs?.();
-            if (window.currentTab === 'calendar') window.renderCalendar?.();
-            if (window.currentTab === 'resumes') window.renderResumes?.();
-            if (window.currentTab === 'leads') window.renderLeads?.();
-            if (window.currentTab === 'analytics') window.initCharts?.();
-            if (window.currentTab === 'hr-manager') window.renderHRManagers?.();
-            if (window.currentTab === 'biodata-tracking') window.renderBiodataTracking?.();
-            if (window.currentTab === 'hr-reports') window.renderHRReports?.();
+            window.safeCall(() => { if (window.currentTab === 'dashboard') window.renderDashboard?.(); }, 'renderDashboard');
+            window.safeCall(() => { if (window.currentTab === 'candidates') window.renderTable?.(); }, 'renderTable');
+            window.safeCall(() => { if (window.currentTab === 'directory') window.renderDailyReportAnalytics?.(); }, 'renderDailyReportAnalytics');
+            window.safeCall(() => { if (window.currentTab === 'jobs') window.renderJobs?.(); }, 'renderJobs');
+            window.safeCall(() => { if (window.currentTab === 'calendar') window.renderCalendar?.(); }, 'renderCalendar');
+            window.safeCall(() => { if (window.currentTab === 'resumes') window.renderResumes?.(); }, 'renderResumes');
+            window.safeCall(() => { if (window.currentTab === 'leads') window.renderLeads?.(); }, 'renderLeads');
+            window.safeCall(() => { if (window.currentTab === 'analytics') window.initCharts?.(); }, 'initCharts');
+            window.safeCall(() => { if (window.currentTab === 'hr-manager') window.renderHRManagers?.(); }, 'renderHRManagers');
+            window.safeCall(() => { if (window.currentTab === 'biodata-tracking') window.renderBiodataTracking?.(); }, 'renderBiodataTracking');
+            window.safeCall(() => { if (window.currentTab === 'hr-reports') window.renderHRReports?.(); }, 'renderHRReports');
         };
 
-        // --- Core Modals (Candidates) ---
+        // ============================================================
+        // DASHBOARD
+        // ============================================================
+        window.renderDashboard = () => {
+            const total = window.joinees.length;
+            const pending = window.joinees.filter(j => j.status === 'PENDING' || j.status === 'SHORTLISTED' || j.status === 'INTERVIEW_SCHEDULED').length;
+            const selected = window.joinees.filter(j => j.status === 'SELECTED').length;
+            const joined = window.joinees.filter(j => j.status === 'JOINED').length;
+            const rejected = window.joinees.filter(j => j.status === 'REJECTED').length;
+            const setText = (id, v) => { const el = document.getElementById(id); if (el) el.innerText = v; };
+            setText('statTotal', total);
+            setText('statPending', pending);
+            setText('statSelected', selected);
+            setText('statJoined', joined);
+            setText('statRejected', rejected);
+
+            const recent = document.getElementById('recentCandidatesBody');
+            if (recent) {
+                const list = [...window.joinees].sort((a,b) => b.id - a.id).slice(0,5);
+                recent.innerHTML = list.length === 0
+                    ? `<tr><td class="text-center p-4 text-slate-400 font-bold text-sm">No candidates yet</td></tr>`
+                    : list.map(j => `
+                        <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 cursor-pointer" onclick="window.viewCandidate(${j.id})">
+                            <td class="py-3 px-2">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-xl ${window.getAvatarColor(j.name)} flex items-center justify-center font-black text-sm">${j.name.charAt(0)}</div>
+                                    <div>
+                                        <p class="font-bold text-sm text-[var(--text-primary)] uppercase">${j.name}</p>
+                                        <p class="text-[10px] text-[var(--text-secondary)]">${j.empId}</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="py-3 px-2 text-right">
+                                <span class="status-badge ${j.status==='SELECTED'?'badge-selected':j.status==='REJECTED'?'badge-rejected':j.status==='JOINED'?'badge-joined':'badge-pending'}">${j.status}</span>
+                            </td>
+                        </tr>
+                    `).join('');
+            }
+
+            const prog = document.getElementById('progContainer');
+            if (prog) {
+                prog.innerHTML = window.reqList.map(r => {
+                    const count = window.joinees.filter(j => (r.dept === 'ALL' || j.dept === r.dept) && (r.company === 'ALL' || j.company === r.company)).length;
+                    const pct = r.target > 0 ? Math.min(100, Math.round((count / r.target) * 100)) : 0;
+                    return `
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-xs font-bold text-[var(--text-primary)] uppercase">${r.dept} - ${r.company}</span>
+                                <span class="text-xs font-black text-sarathy-blue">${count}/${r.target}</span>
+                            </div>
+                            <div class="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2">
+                                <div class="bg-sarathy-blue h-2 rounded-full transition-all" style="width:${pct}%"></div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            const noticeBox = document.getElementById('noticeBoardContent');
+            if (noticeBox) {
+                noticeBox.innerHTML = window.noticesList.length === 0
+                    ? `<p class="text-center text-blue-200 text-xs font-bold">No notices</p>`
+                    : window.noticesList.map(n => `
+                        <div class="p-2 bg-white/10 rounded-lg border border-white/10">
+                            <p class="text-xs font-bold text-white">${n.text}</p>
+                        </div>
+                    `).join('');
+            }
+
+            const greet = document.getElementById('dynamicGreeting');
+            if (greet) {
+                const h = new Date().getHours();
+                const g = h < 12 ? 'Good Morning' : h < 17 ? 'Good Afternoon' : 'Good Evening';
+                greet.innerHTML = `${g}, HR <i class="fas fa-coffee text-blue-200"></i>`;
+            }
+            const dt = document.getElementById('dynamicDateTime');
+            if (dt) dt.innerText = new Date().toLocaleString();
+        };
+
+        window.addNotice = async () => {
+            const text = await window.showDialogModal('prompt', 'Add Notice', 'Enter notice text:', 'Notice...');
+            if (text) {
+                window.noticesList.push({ id: Date.now(), text, type: 'info' });
+                localStorage.setItem(window.NOTICES_DB_VERSION, JSON.stringify(window.noticesList));
+                window.renderDashboard();
+                window.showToast('Notice added');
+            }
+        };
+
+        // ============================================================
+        // CANDIDATES
+        // ============================================================
         window.openModal = (editData = null) => {
             const modal = document.getElementById('addModal');
             const title = document.getElementById('modalTitle');
@@ -1854,12 +1944,11 @@
 
         document.getElementById('status')?.addEventListener('change', function() {
             const container = document.getElementById('rejectionReasonContainer');
-            if (this.value === 'REJECTED') { container.classList.remove('hidden'); container.classList.add('flex'); } 
+            if (this.value === 'REJECTED') { container.classList.remove('hidden'); container.classList.add('flex'); }
             else { container.classList.add('hidden'); container.classList.remove('flex'); }
         });
 
-        // Form Submit
-        document.getElementById('joineeForm')?.addEventListener('submit', async function(e) {
+        document.getElementById('joineeForm')?.addEventListener('submit', function(e) {
             e.preventDefault();
             const id = document.getElementById('editId').value;
             const newJoinee = {
@@ -1894,7 +1983,6 @@
             }
 
             localStorage.setItem(window.CURRENT_DB_VERSION, JSON.stringify(window.joinees));
-            
             window.closeModal();
             window.refreshAllViews();
             window.showToast(id ? 'Candidate details updated successfully' : 'Candidate registered successfully');
@@ -1944,17 +2032,16 @@
         window.updateStars = (rating) => {
             document.querySelectorAll('#starSelector i').forEach(star => {
                 const r = parseInt(star.getAttribute('data-rating'));
-                if (r <= rating) { star.classList.remove('text-slate-300'); star.classList.add('text-amber-400'); } 
+                if (r <= rating) { star.classList.remove('text-slate-300'); star.classList.add('text-amber-400'); }
                 else { star.classList.remove('text-amber-400'); star.classList.add('text-slate-300'); }
             });
         };
 
-        // --- Table & Board Views ---
         window.setView = function(v) {
             window.currentView = v;
             document.getElementById('listView').style.display = v === 'list' ? 'block' : 'none';
             document.getElementById('boardView').style.display = v === 'board' ? 'grid' : 'none';
-            
+
             document.getElementById('btnViewList').classList.toggle('bg-white', v === 'list');
             document.getElementById('btnViewList').classList.toggle('dark:bg-slate-700', v === 'list');
             document.getElementById('btnViewList').classList.toggle('text-sarathy-blue', v === 'list');
@@ -1975,7 +2062,7 @@
             ['All', 'Pending', 'Selected', 'Joined', 'Rejected'].forEach(s => {
                 const btn = document.getElementById(`chip-${s}`);
                 if (!btn) return;
-                if (s === status) { btn.className = 'px-5 py-2 rounded-lg text-xs font-bold transition-colors bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400'; } 
+                if (s === status) { btn.className = 'px-5 py-2 rounded-lg text-xs font-bold transition-colors bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400'; }
                 else { btn.className = 'px-5 py-2 rounded-lg text-xs font-bold text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors'; }
             });
             window.renderTable();
@@ -2003,7 +2090,7 @@
             if (window.currentTab !== 'candidates') return;
             const data = window.getFilteredJoinees();
             const tbody = document.getElementById('candidatesTableBody');
-            
+
             if (window.currentView === 'list') {
                 if(tbody) tbody.innerHTML = data.map(j => {
                     let statusBadge = `<span class="status-badge badge-pending">Pending</span>`;
@@ -2011,8 +2098,8 @@
                     if (j.status === 'REJECTED') statusBadge = `<span class="status-badge badge-rejected" title="${j.rejectionReason||''}">Rejected</span>`;
                     if (j.status === 'JOINED') statusBadge = `<span class="status-badge badge-joined">Joined</span>`;
                     if (j.status === 'SHORTLISTED' || j.status === 'INTERVIEW_SCHEDULED') statusBadge = `<span class="status-badge badge-interview">Interview</span>`;
-                    
-                    let aiScore = Math.floor(Math.random() * 40) + 60; 
+
+                    let aiScore = Math.floor(Math.random() * 40) + 60;
                     if (j.status === 'REJECTED') aiScore = Math.floor(Math.random() * 30) + 20;
 
                     const avatarColor = window.getAvatarColor(j.name);
@@ -2061,12 +2148,12 @@
                     const col = document.getElementById(`board${status.charAt(0).toUpperCase() + status.slice(1).toLowerCase()}`);
                     const countEl = document.getElementById(`countBoard${status.charAt(0).toUpperCase() + status.slice(1).toLowerCase()}`);
                     if (!col) return;
-                    
+
                     let items = data.filter(j => j.status === status);
                     if (status === 'PENDING') items = data.filter(j => j.status === 'PENDING' || j.status === 'SHORTLISTED' || j.status === 'INTERVIEW_SCHEDULED');
-                    
+
                     if (countEl) countEl.innerText = items.length;
-                    
+
                     if (items.length === 0) {
                         col.innerHTML = `<div class="text-center text-slate-400 text-xs font-medium py-8">No candidates</div>`;
                     } else {
@@ -2099,17 +2186,17 @@
         window.dragStartBoard = (e, id) => { window.draggedCandidateId = id; e.target.classList.add('dragging'); e.dataTransfer.effectAllowed = 'move'; e.dataTransfer.setData('candidate', id); };
         window.dragEnd = (e) => { e.target.classList.remove('dragging'); document.querySelectorAll('.kanban-col').forEach(c => c.classList.remove('drag-over')); };
         window.allowBoardDrop = (e) => { e.preventDefault(); e.currentTarget.classList.add('drag-over'); };
-        window.dropToBoard = async (e, newStatus) => {
+        window.dropToBoard = function(e, newStatus) {
             e.preventDefault();
             e.currentTarget.classList.remove('drag-over');
             const id = e.dataTransfer.getData('candidate');
             if (!id) return;
             const idx = window.joinees.findIndex(j => String(j.id) === String(id));
             if (idx === -1 || window.joinees[idx].status === newStatus) return;
-            
+
             window.joinees[idx].status = newStatus;
             localStorage.setItem(window.CURRENT_DB_VERSION, JSON.stringify(window.joinees));
-            
+
             window.renderTable();
             window.renderDashboard();
             window.showToast(`Candidate moved to ${newStatus}`);
@@ -2123,7 +2210,7 @@
             for(let i=1; i<=5; i++) { ratingStars += `<i class="fas fa-star ${i <= (j.rating||0) ? 'text-amber-400' : 'text-slate-200 dark:text-slate-700'}"></i>`; }
 
             const forwarded = window.biodataForwarding.find(f => String(f.candidateId) === String(j.id));
-            const hrButtonHtml = forwarded 
+            const hrButtonHtml = forwarded
                 ? `<button onclick="window.viewHRHistory(${forwarded.id})" class="px-5 py-2.5 bg-emerald-600 text-white hover:bg-emerald-700 rounded-xl font-bold text-sm transition-colors flex items-center gap-2 shadow-md"><i class="fas fa-check-circle"></i> Sent to HR (${forwarded.status})</button>`
                 : `<button onclick="window.openSendBiodataModal(${j.id})" class="px-5 py-2.5 bg-purple-600 text-white hover:bg-purple-700 rounded-xl font-bold text-sm transition-colors flex items-center gap-2 shadow-md"><i class="fas fa-paper-plane"></i> 📤 Send Biodata to HR</button>`;
 
@@ -2186,7 +2273,23 @@
             document.getElementById('viewModal').classList.remove('hidden');
         };
 
-        // --- Meta Leads ---
+        // ============================================================
+        // META LEADS
+        // ============================================================
+        window.dragStartLead = (e, id) => { window.draggedLeadId = id; e.target.classList.add('dragging'); e.dataTransfer.effectAllowed = 'move'; e.dataTransfer.setData('lead', id); };
+        window.dropLead = function(e, newStatus) {
+            e.preventDefault();
+            e.currentTarget.classList.remove('drag-over');
+            const id = e.dataTransfer.getData('lead');
+            if (!id) return;
+            const idx = window.leadsList.findIndex(l => String(l.id) === String(id));
+            if (idx === -1 || window.leadsList[idx].status === newStatus) return;
+            window.leadsList[idx].status = newStatus;
+            localStorage.setItem(window.LEADS_DB_VERSION, JSON.stringify(window.leadsList));
+            window.renderLeads();
+            window.showToast(`Lead moved to ${newStatus}`);
+        };
+
         window.openLeadModal = () => {
             document.getElementById('leadForm').reset();
             document.getElementById('leadId').value = '';
@@ -2195,7 +2298,7 @@
         };
         window.closeLeadModal = () => document.getElementById('leadModal').classList.add('hidden');
 
-        document.getElementById('leadForm')?.addEventListener('submit', async (e) => {
+        document.getElementById('leadForm')?.addEventListener('submit', function(e) {
             e.preventDefault();
             const id = document.getElementById('leadId').value;
             const payload = {
@@ -2254,10 +2357,7 @@
         };
 
         window.downloadLeadsTemplate = () => {
-            const ws_data = [
-                ['full_name', 'phone_number', 'email', 'campaign_name'],
-                ['John Doe', '9876543210', 'john@example.com', 'Instagram Ad 2026']
-            ];
+            const ws_data = [['full_name', 'phone_number', 'email', 'campaign_name'], ['John Doe', '9876543210', 'john@example.com', 'Instagram Ad 2026']];
             const ws = XLSX.utils.aoa_to_sheet(ws_data);
             const wb = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(wb, ws, "Meta_Leads_Template");
@@ -2269,13 +2369,13 @@
             const file = event.target.files[0];
             if (!file) return;
             const reader = new FileReader();
-            reader.onload = async (e) => {
+            reader.onload = function(e) {
                 try {
                     const data = new Uint8Array(e.target.result);
                     const workbook = XLSX.read(data, { type: 'array' });
                     const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
                     const rows = XLSX.utils.sheet_to_json(firstSheet, { header: 1 });
-                    
+
                     if (rows.length > 1) {
                         const headers = rows[0].map(h => String(h||'').trim().toLowerCase());
                         let added = 0;
@@ -2284,15 +2384,15 @@
                             if (!row || row.length < 2) continue;
                             const rowData = {};
                             headers.forEach((h, idx) => { rowData[h] = row[idx] ? String(row[idx]).trim() : ''; });
-                            
+
                             const name = rowData['full_name'] || rowData['name'] || 'UNKNOWN';
                             let phone = rowData['phone_number'] || rowData['phone'] || '';
                             phone = phone.replace(/[^0-9]/g, '');
                             if(phone.length > 10) phone = phone.slice(-10);
-                            
+
                             if (!phone) continue;
                             if (!window.leadsList.some(l => l.phone.includes(phone))) {
-                                const newLead = {
+                                window.leadsList.push({
                                     id: Date.now() + i,
                                     name: name.toUpperCase(),
                                     phone: phone,
@@ -2300,8 +2400,7 @@
                                     campaign: (rowData['campaign_name'] || rowData['campaign'] || 'EXCEL IMPORT').toUpperCase(),
                                     status: 'NEW',
                                     date: new Date().toISOString()
-                                };
-                                window.leadsList.push(newLead);
+                                });
                                 added++;
                             }
                         }
@@ -2352,7 +2451,9 @@
             });
         };
 
-        // --- Live Daily Report ---
+        // ============================================================
+        // DAILY REPORT
+        // ============================================================
         window.downloadDailyReportTemplate = () => {
             const ws_data = [
                 ['DATE', 'FULL NAME', 'GENDER', 'JOB POSITION', 'PHONE NUMBER', 'PLACE', 'HAVE ANY EXPERIENCE', 'AGE', 'QUALIFICATION', 'REMARKS'],
@@ -2381,13 +2482,13 @@
             const file = event.target.files[0];
             if (!file) return;
             const reader = new FileReader();
-            reader.onload = async (e) => {
+            reader.onload = function(e) {
                 try {
                     const data = new Uint8Array(e.target.result);
                     const workbook = XLSX.read(data, { type: 'array' });
                     const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
                     const rows = XLSX.utils.sheet_to_json(firstSheet, { header: 1 });
-                    
+
                     if (rows.length > 1) {
                         const headers = rows[0].map(h => String(h||'').trim().toLowerCase());
                         let added = 0;
@@ -2396,13 +2497,13 @@
                             if (!row || row.length < 2) continue;
                             const rowData = {};
                             headers.forEach((h, idx) => { rowData[h] = row[idx] ? String(row[idx]).trim() : ''; });
-                            
+
                             let phone = rowData['phone number'] || rowData['phone_number'] || rowData['phone'] || '';
                             phone = phone.replace(/[^0-9]/g, '');
                             if(phone.length > 10) phone = phone.slice(-10);
-                            
+
                             if (!phone) continue;
-                            
+
                             if (!window.joinees.some(j => j.phone.includes(phone))) {
                                 let rawDate = rowData['date'];
                                 let finalDate = new Date().toISOString().slice(0, 10);
@@ -2414,13 +2515,13 @@
                                     } else {
                                         const parts = String(rawDate).split(/[-/]/);
                                         if (parts.length === 3) {
-                                             if (parts[2].length === 4) { finalDate = `${parts[2]}-${parts[1].padStart(2,'0')}-${parts[0].padStart(2,'0')}`; } 
+                                             if (parts[2].length === 4) { finalDate = `${parts[2]}-${parts[1].padStart(2,'0')}-${parts[0].padStart(2,'0')}`; }
                                              else if (parts[0].length === 4) { finalDate = `${parts[0]}-${parts[1].padStart(2,'0')}-${parts[2].padStart(2,'0')}`; }
                                         }
                                     }
                                 }
-                                
-                                const newCandidate = {
+
+                                window.joinees.push({
                                     id: Date.now() + i,
                                     empId: 'SG-' + String(window.joinees.length + 1).padStart(3, '0'),
                                     name: (rowData['full name'] || rowData['name'] || 'UNKNOWN').toUpperCase(),
@@ -2442,8 +2543,7 @@
                                     status: 'PENDING',
                                     rejectionReason: '',
                                     rating: 0
-                                };
-                                window.joinees.push(newCandidate);
+                                });
                                 added++;
                             }
                         }
@@ -2466,13 +2566,13 @@
             if (window.currentTab !== 'directory') return;
             const startDate = document.getElementById('drStartDate').value;
             const endDate = document.getElementById('drEndDate').value;
-            
+
             const dayData = window.joinees.filter(j => j.applyDate >= startDate && j.applyDate <= endDate);
-            
+
             let tTotal=dayData.length, tPending=0, tInt=0, tSel=0, tJoin=0, tRej=0;
             const deptCounts = {}; const statusCounts = {}; const recruiterMap = {};
             const genderCounts = { 'MALE': 0, 'FEMALE': 0, 'OTHER': 0 };
-            
+
             dayData.forEach(j => {
                 const st = j.status;
                 if(st === 'PENDING') tPending++;
@@ -2496,12 +2596,13 @@
                 if(st === 'REJECTED') recruiterMap[src].rejected++;
             });
 
-            document.getElementById('drTotal').innerText = tTotal;
-            document.getElementById('drPending').innerText = tPending;
-            document.getElementById('drInterview').innerText = tInt;
-            document.getElementById('drSelected').innerText = tSel;
-            document.getElementById('drJoined').innerText = tJoin;
-            document.getElementById('drRejected').innerText = tRej;
+            const setText = (id, v) => { const el = document.getElementById(id); if (el) el.innerText = v; };
+            setText('drTotal', tTotal);
+            setText('drPending', tPending);
+            setText('drInterview', tInt);
+            setText('drSelected', tSel);
+            setText('drJoined', tJoin);
+            setText('drRejected', tRej);
 
             const drBody = document.getElementById('drCandidatesBody');
             if (drBody) {
@@ -2542,16 +2643,13 @@
 
         window.initReportCharts = (deptCounts, statusCounts, genderCounts) => {
             const chartOptions = { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { font: { family: 'Outfit', weight: 'bold' } } } } };
-            
+
             if(window.drHourlyChartInstance) window.drHourlyChartInstance.destroy();
             const genderCanvas = document.getElementById('drGenderChart');
             if (genderCanvas) {
                 window.drHourlyChartInstance = new Chart(genderCanvas, {
                     type: 'doughnut',
-                    data: { 
-                        labels: ['Male', 'Female', 'Other'], 
-                        datasets: [{ data: [genderCounts['MALE'], genderCounts['FEMALE'], genderCounts['OTHER']], backgroundColor: ['#3b82f6', '#ec4899', '#94a3b8'] }] 
-                    },
+                    data: { labels: ['Male', 'Female', 'Other'], datasets: [{ data: [genderCounts['MALE'], genderCounts['FEMALE'], genderCounts['OTHER']], backgroundColor: ['#3b82f6', '#ec4899', '#94a3b8'] }] },
                     options: { ...chartOptions, cutout: '60%' }
                 });
             }
@@ -2588,7 +2686,7 @@
             XLSX.utils.book_append_sheet(wb, ws, "Daily_Report");
             XLSX.writeFile(wb, `HR_Report_${startDate}_to_${endDate}.xlsx`);
         };
-        
+
         window.exportReportToPDF = () => {
             const element = document.getElementById('dailyReportContent');
             const startDate = document.getElementById('drStartDate').value;
@@ -2599,19 +2697,21 @@
             }).save();
         };
 
-        // --- Resume Tracker ---
+        // ============================================================
+        // RESUME TRACKER
+        // ============================================================
         window.openBulkUploadModal = () => document.getElementById('bulkUploadModal').classList.remove('hidden');
         window.closeBulkUploadModal = () => { document.getElementById('bulkUploadModal').classList.add('hidden'); document.getElementById('bulkUploadForm').reset(); };
 
-        document.getElementById('bulkUploadForm')?.addEventListener('submit', async (e) => {
+        document.getElementById('bulkUploadForm')?.addEventListener('submit', async function(e) {
             e.preventDefault();
             const source = document.getElementById('bulkSource').value;
             const dept = document.getElementById('bulkDept').value;
             const gender = document.getElementById('bulkGender').value;
             const files = document.getElementById('bulkFileInput').files;
-            
+
             if (files.length === 0) return window.showToast("Please select at least one PDF", "error");
-            
+
             let addedCount = 0;
             const btn = document.getElementById('bulkSubmitBtn');
             btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Uploading...`;
@@ -2627,8 +2727,8 @@
                     reader.onload = () => resolve(reader.result);
                     reader.readAsDataURL(file);
                 });
-                
-                const newResume = {
+
+                window.resumeTrackerList.push({
                     id: Date.now() + i,
                     name: file.name.replace('.pdf', ''),
                     source: source,
@@ -2637,9 +2737,8 @@
                     date: new Date().toISOString().slice(0, 10),
                     fileName: file.name,
                     fileSize: (file.size / 1024).toFixed(1) + ' KB',
-                    fileData: dataUrl 
-                };
-                window.resumeTrackerList.push(newResume);
+                    fileData: dataUrl
+                });
                 addedCount++;
             }
 
@@ -2650,7 +2749,7 @@
                 window.showToast("Storage quota exceeded! Cannot save PDFs locally.", "error");
                 window.resumeTrackerList = JSON.parse(localStorage.getItem(window.RESUMES_DB_VERSION)) || [];
             }
-            
+
             window.closeBulkUploadModal();
             window.renderResumes();
             btn.innerHTML = `<i class="fas fa-check"></i> Upload`;
@@ -2664,7 +2763,7 @@
             if (month !== 'ALL') list = list.filter(r => r.date.split('-')[1] === month);
 
             const depts = ['SALES', 'SERVICE', 'SPAREPARTS', 'ACCOUNTS', 'HR'];
-            
+
             const statsHtml = depts.map(d => {
                 const count = list.filter(r => r.dept === d).length;
                 return `<div class="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm text-center">
@@ -2770,7 +2869,9 @@
             }
         };
 
-        // --- Job Postings & Hiring Targets ---
+        // ============================================================
+        // JOBS
+        // ============================================================
         window.openJobModal = (editData = null) => {
             document.getElementById('jobForm').reset();
             const modalTitle = document.getElementById('jobModalTitle');
@@ -2788,7 +2889,7 @@
                 document.getElementById('jobReq').value = editData.requirements || '';
                 document.getElementById('jobDuration').value = editData.duration || '2';
                 document.getElementById('jobSheetLink').value = editData.sheetLink || '';
-                
+
                 if (editData.image) {
                     previewContainer.innerHTML = `<p class="text-[10px] font-bold text-slate-500 mb-1">Current Image (Leave blank below to keep)</p><img src="${editData.image}" class="h-20 w-auto rounded-lg border border-slate-200" />`;
                     previewContainer.classList.remove('hidden');
@@ -2815,7 +2916,7 @@
             document.getElementById('jobImagePreviewContainer').classList.add('hidden');
         };
 
-        document.getElementById('jobForm')?.addEventListener('submit', async (e) => {
+        document.getElementById('jobForm')?.addEventListener('submit', function(e) {
             e.preventDefault();
             const btn = document.getElementById('jobSubmitBtn');
             const originalText = btn.innerHTML;
@@ -2879,7 +2980,7 @@
             if (window.currentTab !== 'jobs') return;
             const container = document.getElementById('jobsContainer');
             if (!container) return;
-            
+
             if (window.jobsList.length === 0) {
                 container.innerHTML = `<div class="col-span-full text-center p-12 text-slate-400 font-bold">No active job postings.</div>`;
                 return;
@@ -2912,9 +3013,7 @@
 
         window.editJob = (id) => {
             const job = window.jobsList.find(j => String(j.id) === String(id));
-            if (job) {
-                window.openJobModal(job);
-            }
+            if (job) window.openJobModal(job);
         };
 
         window.copyJobLink = (id) => {
@@ -2941,7 +3040,7 @@
 
         window.openReqModal = () => { document.getElementById('reqModal').classList.remove('hidden'); window.renderReqModal(); };
         window.closeReqModal = () => document.getElementById('reqModal').classList.add('hidden');
-        
+
         window.addReqRow = () => {
             window.reqList.push({ dept: 'SALES', company: 'ALL', location: 'ALL', target: 1 });
             window.renderReqModal();
@@ -2964,14 +3063,16 @@
             `).join('');
         };
 
-        window.saveRequirements = async () => {
+        window.saveRequirements = () => {
             localStorage.setItem(window.CURRENT_BUDGET_VERSION, JSON.stringify(window.reqList));
             window.closeReqModal();
             window.renderDashboard();
             window.showToast("Targets Updated");
         };
 
-        // --- Calendar ---
+        // ============================================================
+        // CALENDAR
+        // ============================================================
         window.renderCalendar = () => {
             const grid = document.getElementById('calendarGrid');
             if (!grid) return;
@@ -2981,24 +3082,24 @@
             const firstDay = new Date(y, m, 1).getDay();
             const daysInMonth = new Date(y, m + 1, 0).getDate();
             const todayStr = new Date().toISOString().slice(0, 10);
-            
+
             for (let i = 0; i < firstDay; i++) grid.innerHTML += `<div class="calendar-day bg-transparent border-transparent"></div>`;
-            
+
             for (let i = 1; i <= daysInMonth; i++) {
                 const dStr = `${y}-${(m+1).toString().padStart(2,'0')}-${i.toString().padStart(2,'0')}`;
                 const isToday = dStr === todayStr;
                 let combinedEvents = [];
-                
-                window.joinees.forEach(x => { 
-                    if (x.interviewDate === dStr) combinedEvents.push({ ...x, eventType: 'INT' }); 
-                    if (x.joinDate === dStr && (x.status === 'JOINED' || x.status === 'SELECTED')) combinedEvents.push({ ...x, eventType: 'JOIN' }); 
+
+                window.joinees.forEach(x => {
+                    if (x.interviewDate === dStr) combinedEvents.push({ ...x, eventType: 'INT' });
+                    if (x.joinDate === dStr && (x.status === 'JOINED' || x.status === 'SELECTED')) combinedEvents.push({ ...x, eventType: 'JOIN' });
                 });
 
                 let eventsHtml = combinedEvents.slice(0, 3).map(ev => {
                     let colorClass = ev.eventType === 'INT' ? 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300 border border-amber-200 dark:border-amber-800' : 'bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300 border border-blue-200 dark:border-blue-800';
                     return `<div onclick="window.viewCandidate(${ev.id})" class="calendar-event ${colorClass} shadow-sm hover:scale-[1.02]">${ev.eventType}: ${ev.name.split(' ')[0]}</div>`;
                 }).join('');
-                
+
                 if (combinedEvents.length > 3) eventsHtml += `<div class="text-[9px] text-center text-[var(--text-secondary)] font-bold mt-1">+${combinedEvents.length - 3} more</div>`;
                 grid.innerHTML += `<div class="calendar-day ${isToday?'today':''}"><span class="text-xs font-bold text-slate-500">${i}</span><div class="flex-1 flex flex-col gap-1 overflow-hidden mt-1">${eventsHtml}</div></div>`;
             }
@@ -3016,10 +3117,12 @@
             document.body.innerHTML = printContent;
             window.print();
             document.body.innerHTML = originalContent;
-            location.reload(); 
+            location.reload();
         };
 
-        // --- Analytics Init ---
+        // ============================================================
+        // ANALYTICS
+        // ============================================================
         window.initCharts = () => {
             if (window.currentTab !== 'analytics') return;
             const monthFilter = document.getElementById('chartMonthFilter')?.value;
@@ -3037,32 +3140,46 @@
                 if(j.status === 'REJECTED' && j.rejectionReason) rejCount[j.rejectionReason] = (rejCount[j.rejectionReason] || 0) + 1;
             });
 
+            const statusCanvas = document.getElementById('statusChart');
             if(window.chartStatus) window.chartStatus.destroy();
-            window.chartStatus = new Chart(document.getElementById('statusChart'), {
-                type: 'bar', data: { labels: Object.keys(stCount), datasets: [{ label: 'Candidates', data: Object.values(stCount), backgroundColor: '#0054A6', borderRadius: 8 }] },
-                options: { ...commonOpts, scales: { y: { ticks: { color: colors.text } }, x: { ticks: { color: colors.text } } } }
-            });
+            if (statusCanvas) {
+                window.chartStatus = new Chart(statusCanvas, {
+                    type: 'bar', data: { labels: Object.keys(stCount), datasets: [{ label: 'Candidates', data: Object.values(stCount), backgroundColor: '#0054A6', borderRadius: 8 }] },
+                    options: { ...commonOpts, scales: { y: { ticks: { color: colors.text } }, x: { ticks: { color: colors.text } } } }
+                });
+            }
 
+            const sourceCanvas = document.getElementById('sourceChart');
             if(window.chartSource) window.chartSource.destroy();
-            window.chartSource = new Chart(document.getElementById('sourceChart'), {
-                type: 'doughnut', data: { labels: Object.keys(deptCount), datasets: [{ data: Object.values(deptCount), backgroundColor: ['#0054A6', '#E31E24', '#f59e0b', '#10b981', '#8b5cf6'] }] },
-                options: commonOpts
-            });
+            if (sourceCanvas) {
+                window.chartSource = new Chart(sourceCanvas, {
+                    type: 'doughnut', data: { labels: Object.keys(deptCount), datasets: [{ data: Object.values(deptCount), backgroundColor: ['#0054A6', '#E31E24', '#f59e0b', '#10b981', '#8b5cf6'] }] },
+                    options: commonOpts
+                });
+            }
 
+            const srcPieCanvas = document.getElementById('sourceAnalyticsChart');
             if(window.chartSourcePie) window.chartSourcePie.destroy();
-            window.chartSourcePie = new Chart(document.getElementById('sourceAnalyticsChart'), {
-                type: 'pie', data: { labels: Object.keys(srcCount), datasets: [{ data: Object.values(srcCount), backgroundColor: ['#3b82f6', '#ec4899', '#f59e0b', '#14b8a6'] }] },
-                options: commonOpts
-            });
+            if (srcPieCanvas) {
+                window.chartSourcePie = new Chart(srcPieCanvas, {
+                    type: 'pie', data: { labels: Object.keys(srcCount), datasets: [{ data: Object.values(srcCount), backgroundColor: ['#3b82f6', '#ec4899', '#f59e0b', '#14b8a6'] }] },
+                    options: commonOpts
+                });
+            }
 
+            const rejCanvas = document.getElementById('rejectionChart');
             if(window.chartRejection) window.chartRejection.destroy();
-            window.chartRejection = new Chart(document.getElementById('rejectionChart'), {
-                type: 'polarArea', data: { labels: Object.keys(rejCount), datasets: [{ data: Object.values(rejCount), backgroundColor: ['rgba(239, 68, 68, 0.7)', 'rgba(245, 158, 11, 0.7)', 'rgba(16, 185, 129, 0.7)', 'rgba(59, 130, 246, 0.7)'] }] },
-                options: commonOpts
-            });
+            if (rejCanvas) {
+                window.chartRejection = new Chart(rejCanvas, {
+                    type: 'polarArea', data: { labels: Object.keys(rejCount), datasets: [{ data: Object.values(rejCount), backgroundColor: ['rgba(239, 68, 68, 0.7)', 'rgba(245, 158, 11, 0.7)', 'rgba(16, 185, 129, 0.7)', 'rgba(59, 130, 246, 0.7)'] }] },
+                    options: commonOpts
+                });
+            }
         };
 
-        // --- Data Management ---
+        // ============================================================
+        // DATA MANAGEMENT
+        // ============================================================
         window.clearAllData = async () => {
             const yes = await window.showDialogModal('prompt', 'Factory Reset', 'Type "RESET" to confirm deletion of ALL application data.', 'RESET');
             if(yes === 'RESET') {
@@ -3110,20 +3227,9 @@
             e.target.value = '';
         };
 
-        document.getElementById('loginForm')?.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const u = document.getElementById('username').value;
-            const p = document.getElementById('password').value;
-            const user = window.USERS.find(x => x.user === u && x.pass === p);
-            if (user) { window.currentUser = user; window.showApp(); } 
-            else { document.getElementById('loginError').classList.remove('hidden'); }
-        });
-
-        // ==========================================
-        // START: BIODATA FORWARDING MODULE LOGIC
-        // ==========================================
-
-        // --- HR Manager Master ---
+        // ============================================================
+        // HR MANAGERS MODULE
+        // ============================================================
         window.renderHRManagers = () => {
             if (window.currentTab !== 'hr-manager') return;
             const searchTerm = (document.getElementById('hrSearchInput')?.value || '').toLowerCase();
@@ -3176,7 +3282,7 @@
             const form = document.getElementById('hrManagerForm');
             form.reset();
             document.getElementById('hrManagerId').value = '';
-            
+
             if (id) {
                 const h = window.hrManagers.find(x => String(x.id) === String(id));
                 if (h) {
@@ -3198,7 +3304,7 @@
 
         window.closeHRManagerModal = () => document.getElementById('hrManagerModal').classList.add('hidden');
 
-        document.getElementById('hrManagerForm')?.addEventListener('submit', (e) => {
+        document.getElementById('hrManagerForm')?.addEventListener('submit', function(e) {
             e.preventDefault();
             const id = document.getElementById('hrManagerId').value;
             const payload = {
@@ -3235,7 +3341,9 @@
             }
         };
 
-        // --- Send Biodata Workflow ---
+        // ============================================================
+        // SEND BIODATA WORKFLOW
+        // ============================================================
         window.openSendBiodataModal = (candidateId) => {
             const j = window.joinees.find(x => String(x.id) === String(candidateId));
             if (!j) return;
@@ -3246,10 +3354,11 @@
             document.getElementById('sendDept').value = j.dept || 'N/A';
             document.getElementById('sendCandidateLocation').value = j.location || 'N/A';
             document.getElementById('sendResume').value = '';
+            document.getElementById('sendRemarks').value = '';
 
             const select = document.getElementById('sendHRManagerId');
             select.innerHTML = '<option value="" disabled selected>Select HR Manager</option>';
-            
+
             let autoMatchedId = '';
             window.hrManagers.filter(h => h.status === 'ACTIVE').forEach(h => {
                 const isMatch = (h.location === j.location || h.location === 'ANY');
@@ -3263,7 +3372,7 @@
 
         window.closeSendBiodataModal = () => document.getElementById('sendBiodataModal').classList.add('hidden');
 
-        document.getElementById('sendBiodataForm')?.addEventListener('submit', (e) => {
+        document.getElementById('sendBiodataForm')?.addEventListener('submit', function(e) {
             e.preventDefault();
             const candidateId = document.getElementById('sendCandidateId').value;
             const hrManagerId = document.getElementById('sendHRManagerId').value;
@@ -3281,7 +3390,7 @@
             const candidate = window.joinees.find(x => String(x.id) === String(candidateId));
             const hr = window.hrManagers.find(x => String(x.id) === String(hrManagerId));
 
-            const newForwarding = {
+            window.biodataForwarding.push({
                 id: Date.now(),
                 candidateId: parseInt(candidateId),
                 candidateName: candidate.name,
@@ -3297,9 +3406,7 @@
                 remarks: remarks,
                 status: 'Pending',
                 isReceived: 'Pending'
-            };
-
-            window.biodataForwarding.push(newForwarding);
+            });
             localStorage.setItem(window.BIODATA_FORWARDING_VERSION, JSON.stringify(window.biodataForwarding));
 
             window.candidateUpdates.push({
@@ -3317,12 +3424,14 @@
             window.showToast('Biodata sent to HR Manager successfully!');
         });
 
-        // --- Biodata Tracking Table ---
+        // ============================================================
+        // BIODATA TRACKING
+        // ============================================================
         window.renderBiodataTracking = () => {
             if (window.currentTab !== 'biodata-tracking') return;
 
             const hrSelect = document.getElementById('bfFilterHR');
-            if (hrSelect.options.length <= 1) {
+            if (hrSelect && hrSelect.options.length <= 1) {
                 window.hrManagers.forEach(h => {
                     hrSelect.innerHTML += `<option value="${h.id}">${h.name}</option>`;
                 });
@@ -3388,7 +3497,9 @@
             }).join('');
         };
 
-        // --- HR Update Modal ---
+        // ============================================================
+        // HR UPDATE MODAL
+        // ============================================================
         window.openHRUpdateModal = (forwardingId) => {
             const f = window.biodataForwarding.find(x => String(x.id) === String(forwardingId));
             if (!f) return;
@@ -3417,7 +3528,7 @@
 
         window.closeHRUpdateModal = () => document.getElementById('hrUpdateModal').classList.add('hidden');
 
-        document.getElementById('hrUpdateForm')?.addEventListener('submit', (e) => {
+        document.getElementById('hrUpdateForm')?.addEventListener('submit', function(e) {
             e.preventDefault();
             const forwardingId = document.getElementById('hrUpdateForwardingId').value;
             const f = window.biodataForwarding.find(x => String(x.id) === String(forwardingId));
@@ -3437,7 +3548,7 @@
             f.remarks = remarks || f.remarks;
             localStorage.setItem(window.BIODATA_FORWARDING_VERSION, JSON.stringify(window.biodataForwarding));
 
-            const newUpdate = {
+            window.candidateUpdates.push({
                 id: Date.now(),
                 candidateId: f.candidateId,
                 hrManagerId: f.hrManagerId,
@@ -3450,17 +3561,51 @@
                 joiningDate: joiningDate,
                 followUpDate: followUpDate,
                 finalRemarks: finalRemarks
-            };
-            window.candidateUpdates.push(newUpdate);
+            });
             localStorage.setItem(window.CANDIDATE_UPDATES_VERSION, JSON.stringify(window.candidateUpdates));
 
             window.closeHRUpdateModal();
             window.renderBiodataTracking();
             window.renderHRReports();
             window.showToast('HR Update saved successfully!');
+        });
+
+        window.viewHRHistory = (forwardingId) => {
+            const f = window.biodataForwarding.find(x => String(x.id) === String(forwardingId));
+            if (!f) return;
+            const updates = window.candidateUpdates.filter(u => String(u.candidateId) === String(f.candidateId)).sort((a,b) => b.id - a.id);
+
+            let historyHtml = updates.map(u => `
+                <div class="flex gap-4 mb-4">
+                    <div class="w-8 h-8 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center shrink-0"><i class="fas fa-history text-xs"></i></div>
+                    <div class="flex-1 bg-slate-50 dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="status-badge badge-pending">${u.status}</span>
+                            <span class="text-[10px] font-bold text-slate-400">${new Date(u.date).toLocaleString()}</span>
+                        </div>
+                        ${u.remarks ? `<p class="text-sm text-[var(--text-primary)] mb-2">${u.remarks}</p>` : ''}
+                        <div class="grid grid-cols-2 gap-2 text-[10px] text-slate-500 font-bold">
+                            ${u.interviewDate ? `<p><i class="fas fa-calendar mr-1"></i> Interview: ${u.interviewDate}</p>` : ''}
+                            ${u.salary ? `<p><i class="fas fa-money-bill mr-1"></i> Salary: ${u.salary}</p>` : ''}
+                            ${u.joiningDate ? `<p><i class="fas fa-sign-in-alt mr-1"></i> Joining: ${u.joiningDate}</p>` : ''}
+                            ${u.followUpDate ? `<p><i class="fas fa-bell mr-1"></i> Follow-up: ${u.followUpDate}</p>` : ''}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            if (updates.length === 0) historyHtml = '<p class="text-center text-slate-400 font-bold p-6">No history available.</p>';
+
+            document.getElementById('pdfViewerTitle').innerText = 'Candidate History';
+            document.getElementById('pdfContainer').innerHTML = `<div class="p-6 h-full overflow-y-auto bg-white">
+                <h3 class="font-black text-lg uppercase mb-4">History: ${f.candidateName}</h3>
+                <div class="space-y-4">${historyHtml}</div>
+            </div>`;
+            document.getElementById('pdfViewerModal').classList.remove('hidden');
         };
 
-        // --- HR Reports ---
+        // ============================================================
+        // HR REPORTS
+        // ============================================================
         window.renderHRReports = () => {
             if (window.currentTab !== 'hr-reports') return;
 
@@ -3488,14 +3633,15 @@
                 if (f.status === 'Joined') hrPerformance[f.hrManagerName].joined++;
             });
 
-            document.getElementById('hrRepSent').innerText = totalSent;
-            document.getElementById('hrRepPending').innerText = statusCounts['Pending'] + statusCounts['No Response'] + statusCounts['Hold'];
-            document.getElementById('hrRepReview').innerText = statusCounts['Under Review'];
-            document.getElementById('hrRepShortlisted').innerText = statusCounts['Shortlisted'];
-            document.getElementById('hrRepInterview').innerText = statusCounts['Interview'];
-            document.getElementById('hrRepSelected').innerText = statusCounts['Selected'];
-            document.getElementById('hrRepRejected').innerText = statusCounts['Rejected'];
-            document.getElementById('hrRepJoined').innerText = statusCounts['Joined'];
+            const setText = (id, v) => { const el = document.getElementById(id); if (el) el.innerText = v; };
+            setText('hrRepSent', totalSent);
+            setText('hrRepPending', statusCounts['Pending'] + statusCounts['No Response'] + statusCounts['Hold']);
+            setText('hrRepReview', statusCounts['Under Review']);
+            setText('hrRepShortlisted', statusCounts['Shortlisted']);
+            setText('hrRepInterview', statusCounts['Interview']);
+            setText('hrRepSelected', statusCounts['Selected']);
+            setText('hrRepRejected', statusCounts['Rejected']);
+            setText('hrRepJoined', statusCounts['Joined']);
 
             const perfBody = document.getElementById('hrPerformanceBody');
             if (perfBody) {
@@ -3517,7 +3663,6 @@
                 if (Object.keys(hrPerformance).length === 0) perfBody.innerHTML = `<tr><td colspan="8" class="text-center p-4 text-slate-400 font-bold">No data available</td></tr>`;
             }
 
-            // Pending HR Response
             const pendingBody = document.getElementById('hrPendingBody');
             if (pendingBody) {
                 const today = new Date();
@@ -3544,7 +3689,6 @@
                 }
             }
 
-            // Charts
             const colors = { text: document.documentElement.classList.contains('dark') ? '#94a3b8' : '#64748b' };
             const commonOpts = { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: colors.text, font: { family: 'Outfit', weight: 'bold' } } } } };
 
@@ -3553,12 +3697,12 @@
             if (statusCanvas) {
                 window.hrStatusChartInstance = new Chart(statusCanvas, {
                     type: 'doughnut',
-                    data: { 
-                        labels: Object.keys(statusCounts).filter(k => statusCounts[k] > 0), 
-                        datasets: [{ 
-                            data: Object.keys(statusCounts).filter(k => statusCounts[k] > 0).map(k => statusCounts[k]), 
-                            backgroundColor: ['#fcd34d', '#c084fc', '#4ade80', '#f472b6', '#3b82f6', '#ef4444', '#8b5cf6', '#f97316', '#94a3b8', '#64748b'] 
-                        }] 
+                    data: {
+                        labels: Object.keys(statusCounts).filter(k => statusCounts[k] > 0),
+                        datasets: [{
+                            data: Object.keys(statusCounts).filter(k => statusCounts[k] > 0).map(k => statusCounts[k]),
+                            backgroundColor: ['#fcd34d', '#c084fc', '#4ade80', '#f472b6', '#3b82f6', '#ef4444', '#8b5cf6', '#f97316', '#94a3b8', '#64748b']
+                        }]
                     },
                     options: { ...commonOpts, cutout: '60%' }
                 });
@@ -3569,9 +3713,9 @@
             if (locCanvas) {
                 window.hrLocationChartInstance = new Chart(locCanvas, {
                     type: 'bar',
-                    data: { 
-                        labels: Object.keys(locationCounts), 
-                        datasets: [{ label: 'Biodata Sent', data: Object.values(locationCounts), backgroundColor: '#8b5cf6', borderRadius: 8 }] 
+                    data: {
+                        labels: Object.keys(locationCounts),
+                        datasets: [{ label: 'Biodata Sent', data: Object.values(locationCounts), backgroundColor: '#8b5cf6', borderRadius: 8 }]
                     },
                     options: { ...commonOpts, scales: { y: { ticks: { color: colors.text } }, x: { ticks: { color: colors.text } } } }
                 });
@@ -3613,14 +3757,16 @@
             XLSX.writeFile(wb, `HR_Reports_${new Date().toISOString().slice(0,10)}.xlsx`);
         };
 
-        // ==========================================
-        // END: BIODATA FORWARDING MODULE LOGIC
-        // ==========================================
-
+        // ============================================================
+        // INITIALIZATION
+        // ============================================================
         document.addEventListener('DOMContentLoaded', () => {
+            console.log('🚀 HR Portal booting...');
+
             if(localStorage.getItem('theme') === 'dark') {
                 document.documentElement.classList.add('dark');
-                document.getElementById('darkModeIcon').className = 'fas fa-sun';
+                const icon = document.getElementById('darkModeIcon');
+                if (icon) icon.className = 'fas fa-sun';
             }
 
             if (window.isApplyView) {
@@ -3628,12 +3774,32 @@
                 document.getElementById('appLayout').classList.add('hidden');
                 document.getElementById('applicationPage').classList.remove('hidden');
                 document.getElementById('applicationPage').classList.add('flex');
-            } else {
-                document.getElementById('loginPage').classList.add('hidden');
-                document.getElementById('appLayout').classList.remove('hidden');
-                window.currentUser = window.USERS[0];
-                window.showApp();
+                console.log('✅ Apply view loaded');
+                return;
             }
+
+            // Show login page initially — NO auto-login
+            document.getElementById('loginPage').classList.remove('hidden');
+            document.getElementById('appLayout').classList.add('hidden');
+
+            const loginForm = document.getElementById('loginForm');
+            if (loginForm) {
+                loginForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const u = document.getElementById('username').value.trim();
+                    const p = document.getElementById('password').value;
+                    const user = window.USERS.find(x => x.user === u && x.pass === p);
+                    if (user) {
+                        window.currentUser = user;
+                        window.showApp();
+                        window.showToast('Welcome, ' + user.user);
+                    } else {
+                        document.getElementById('loginError').classList.remove('hidden');
+                        setTimeout(() => document.getElementById('loginError').classList.add('hidden'), 3000);
+                    }
+                });
+            }
+            console.log('✅ HR Portal ready. Please log in.');
         });
     </script>
 </body>
