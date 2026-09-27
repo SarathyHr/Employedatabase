@@ -134,6 +134,7 @@
                     <div class="bg-white p-3 rounded-2xl inline-block shadow-sm mb-4 border border-slate-100"><div class="text-sarathy-blue font-black text-2xl px-4">SG</div></div>
                     <h2 class="text-2xl font-black text-slate-800 dark:text-white tracking-tight">Welcome Back</h2>
                     <p class="text-xs font-bold text-slate-500 mt-1 uppercase tracking-widest">HR Management System</p>
+                    <div id="cloudStatus" class="mt-3 text-[10px] font-black uppercase tracking-widest text-slate-400">☁ Connecting…</div>
                 </div>
                 <div id="loginError" class="hidden bg-red-50 text-red-600 p-4 rounded-xl text-sm font-bold mb-6 border border-red-100 flex items-center gap-2"><i class="fas fa-exclamation-circle"></i> <span id="loginErrorText">Authentication Failed</span></div>
                 <form id="loginForm" class="space-y-5" onsubmit="return false;">
@@ -1073,6 +1074,40 @@
     try { window.candidateUpdates = JSON.parse(localStorage.getItem(window.CANDIDATE_UPDATES_VERSION)) || []; } catch(e) { window.candidateUpdates = []; }
     try { window.followUps = JSON.parse(localStorage.getItem(window.FOLLOW_UPS_VERSION)) || []; } catch(e) { window.followUps = []; }
     try { window.auditLogs = JSON.parse(localStorage.getItem(window.AUDIT_LOGS_VERSION)) || []; } catch(e) { window.auditLogs = []; }
+
+    // ============================================================
+    // CLOUD RE-HYDRATION  (added for Firebase sync)
+    // Re-reads every global from localStorage (which is now backed by
+    // Firestore) without touching any of the app's existing logic.
+    // ============================================================
+    window.rehydrateFromStorage = function () {
+        const read = (key, fallback) => {
+            try {
+                const raw = localStorage.getItem(key);
+                if (raw === null || raw === undefined) return fallback;
+                const val = JSON.parse(raw);
+                return (val === null || val === undefined) ? fallback : val;
+            } catch (e) { return fallback; }
+        };
+        window.joinees              = read(window.CURRENT_DB_VERSION, window.joinees || []);
+        window.reqList              = read(window.CURRENT_BUDGET_VERSION, window.reqList || []);
+        window.noticesList          = read(window.NOTICES_DB_VERSION, window.noticesList || []);
+        window.jobsList             = read(window.JOBS_DB_VERSION, window.jobsList || []);
+        window.resumeTrackerList    = read(window.RESUMES_DB_VERSION, window.resumeTrackerList || []);
+        window.leadsList            = read(window.LEADS_DB_VERSION, window.leadsList || []);
+        window.hrManagers           = read(window.HR_MANAGERS_VERSION, window.hrManagers || []);
+        window.locationMapping      = read(window.LOCATION_MAPPING_VERSION, window.locationMapping || []);
+        window.biodataForwarding    = read(window.BIODATA_FORWARDING_VERSION, window.biodataForwarding || []);
+        window.candidateUpdates     = read(window.CANDIDATE_UPDATES_VERSION, window.candidateUpdates || []);
+        window.followUps            = read(window.FOLLOW_UPS_VERSION, window.followUps || []);
+        window.auditLogs            = read(window.AUDIT_LOGS_VERSION, window.auditLogs || []);
+        const users = read(window.USERS_DB_VERSION, null);
+        if (Array.isArray(users) && users.length > 0) window.USERS = users;
+
+        // Files live in Firebase Storage now — restore the URL the UI expects
+        (window.resumeTrackerList || []).forEach(r => { if (!r.fileData && r.fileUrl) r.fileData = r.fileUrl; });
+        (window.jobsList || []).forEach(j => { if (!j.image && j.imageUrl) j.image = j.imageUrl; });
+    };
 
     window.currentView = 'list';
     window.activeFilter = 'All';
@@ -2802,9 +2837,33 @@
     // ============================================================
     // BOOT
     // ============================================================
-    function bootApp() {
+    async function waitForFirebase(maxMs = 8000) {
+        const start = Date.now();
+        while (!window.__fbReady && Date.now() - start < maxMs) {
+            await new Promise(r => setTimeout(r, 50));
+        }
+        if (window.__fbReady) {
+            try { await Promise.race([window.__fbReady, new Promise(r => setTimeout(r, maxMs))]); }
+            catch (e) { console.warn('[Cloud] sync error', e); }
+        }
+    }
+
+    async function bootApp() {
         console.log('🚀 HR Portal booting...');
         try {
+            // ---- 1. Wait for Firebase to hydrate cloud data ----
+            const statusEl = document.getElementById('cloudStatus');
+            try {
+                await waitForFirebase(8000);
+                if (statusEl) statusEl.innerHTML = '☁ Cloud Sync Active';
+            } catch (e) {
+                console.warn('Cloud sync unavailable, using local data', e);
+                if (statusEl) statusEl.innerHTML = '⚠ Offline (local only)';
+            }
+
+            // ---- 2. Re-hydrate globals from the synced store ----
+            if (typeof window.rehydrateFromStorage === 'function') window.rehydrateFromStorage();
+
             if(localStorage.getItem('theme') === 'dark') {
                 document.documentElement.classList.add('dark');
                 const icon = document.getElementById('darkModeIcon');
@@ -2832,6 +2891,292 @@
     } else {
         bootApp();
     }
+    </script>
+
+    <!-- ==================================================================
+         FIREBASE CLOUD SYNC LAYER
+         ------------------------------------------------------------------
+         • Firestore  : stores every app "table" in collection `hrPortal`
+         • Storage    : stores resume PDFs + job images (too big for Firestore)
+         • Auth       : anonymous sign-in so security rules can require auth
+         • Storage API: transparently shims window.localStorage so the rest
+                        of the app needs ZERO changes.
+         ================================================================== -->
+    <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+    import { getFirestore, doc, getDoc, setDoc, onSnapshot, collection }
+      from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+    import { getStorage, ref as storageRef, uploadString, getDownloadURL }
+      from "https://www.gstatic.com/firebasejs/12.19.0/firebase-storage.js";
+    import { getAuth, signInAnonymously }
+      from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAisdsQ0OkgNUVtS4QnWojFpk8ifiLX-Yc",
+      authDomain: "hr-app-9125d.firebaseapp.com",
+      projectId: "hr-app-9125d",
+      storageBucket: "hr-app-9125d.firebasestorage.app",
+      messagingSenderId: "792446795151",
+      appId: "1:792446795151:web:09645e83bec8e3ed32dffa",
+      measurementId: "G-YS1XJ6VVWV"
+    };
+
+    window.__fbReady = (async () => {
+      const app     = initializeApp(firebaseConfig);
+      const db      = getFirestore(app);
+      const storage = getStorage(app);
+      const auth    = getAuth(app);
+
+      const CLIENT_ID  = 'c_' + Math.random().toString(36).slice(2) + '_' + Date.now();
+      const COLLECTION = 'hrPortal';
+
+      const RESUME_KEY = 'sarathy_resumes_v4';
+      const JOBS_KEY   = 'sarathy_jobs_v5';
+      const AUDIT_KEY  = 'sarathy_audit_logs_v1';
+      const MAX_AUDIT  = 500;   // keep Firestore documents small
+
+      const SYNC_KEYS = new Set([
+        'sarathy_db_v19', 'sarathy_req_v19', 'sarathy_notices_v5', 'sarathy_jobs_v5',
+        'sarathy_resumes_v4', 'sarathy_leads_v4', 'sarathy_users_v16',
+        'sarathy_hr_managers_v2', 'sarathy_location_mapping_v1',
+        'sarathy_biodata_forwarding_v2', 'sarathy_candidate_updates_v2',
+        'sarathy_follow_ups_v1', 'sarathy_audit_logs_v1'
+      ]);
+
+      // Fallbacks used when a key exists neither in the cloud nor locally
+      const SEED = {
+        'sarathy_db_v19':                () => window.joinees || [],
+        'sarathy_req_v19':               () => window.reqList || [],
+        'sarathy_notices_v5':            () => window.noticesList || [],
+        'sarathy_jobs_v5':               () => window.jobsList || [],
+        'sarathy_resumes_v4':            () => window.resumeTrackerList || [],
+        'sarathy_leads_v4':              () => window.leadsList || [],
+        'sarathy_users_v16':             () => window.USERS || [],
+        'sarathy_hr_managers_v2':        () => window.hrManagers || [],
+        'sarathy_location_mapping_v1':   () => window.locationMapping || [],
+        'sarathy_biodata_forwarding_v2': () => window.biodataForwarding || [],
+        'sarathy_candidate_updates_v2':  () => window.candidateUpdates || [],
+        'sarathy_follow_ups_v1':         () => window.followUps || [],
+        'sarathy_audit_logs_v1':         () => window.auditLogs || []
+      };
+
+      // ------------------------------------------------------------
+      // 1. Copy the REAL localStorage into an in-memory cache
+      // ------------------------------------------------------------
+      const realLS = window.localStorage;
+      const cache  = new Map();
+      try {
+        for (let i = 0; i < realLS.length; i++) {
+          const k = realLS.key(i);
+          cache.set(k, realLS.getItem(k));
+        }
+      } catch (e) { console.warn('[Cloud] localStorage read blocked', e); }
+
+      // ------------------------------------------------------------
+      // 2. Anonymous auth (so Firestore/Storage rules can require auth)
+      // ------------------------------------------------------------
+      try { await signInAnonymously(auth); }
+      catch (e) { console.warn('[Cloud] Anonymous auth failed — enable it in Firebase Console → Authentication:', e.message); }
+
+      // ------------------------------------------------------------
+      // 3. Pull every synced document from Firestore
+      // ------------------------------------------------------------
+      const missing = [];
+      await Promise.all([...SYNC_KEYS].map(async (key) => {
+        try {
+          const snap = await getDoc(doc(db, COLLECTION, key));
+          if (snap.exists()) {
+            cache.set(key, JSON.stringify(snap.data().items ?? []));
+          } else {
+            missing.push(key);
+          }
+        } catch (e) { console.warn('[Cloud] load failed:', key, e.message); }
+      }));
+
+      // ------------------------------------------------------------
+      // 4. First-run migration: push local/default data up to the cloud
+      // ------------------------------------------------------------
+      for (const key of missing) {
+        let val = null;
+        const raw = cache.get(key);
+        if (raw != null) { try { val = JSON.parse(raw); } catch (e) { /* ignore */ } }
+        if (val == null && SEED[key]) val = SEED[key]();
+        if (val == null) continue;
+        cache.set(key, JSON.stringify(val));
+        try { await writeDoc(key, val); }
+        catch (e) { console.warn('[Cloud] seed failed', key, e.message); }
+      }
+
+      // ------------------------------------------------------------
+      // 5. Install the localStorage shim
+      // ------------------------------------------------------------
+      const timers = new Map();
+
+      function scheduleWrite(key) {
+        if (!SYNC_KEYS.has(key)) return;              // 'theme' etc. stay device-local
+        clearTimeout(timers.get(key));
+        timers.set(key, setTimeout(() => {
+          flush(key).catch(e => console.warn('[Cloud] save failed', key, e.message));
+        }, 700));
+      }
+
+      async function flush(key) {
+        timers.delete(key);
+        const raw = cache.get(key);
+        let val = null;
+        try { val = (raw == null) ? null : JSON.parse(raw); }
+        catch (e) { return; }
+        if (key === RESUME_KEY) val = await offloadResumes(val);
+        if (key === JOBS_KEY)   val = await offloadJobs(val);
+        if (key === AUDIT_KEY && Array.isArray(val)) val = val.slice(-MAX_AUDIT);
+        await writeDoc(key, val);
+      }
+
+      async function writeDoc(key, items) {
+        await setDoc(doc(db, COLLECTION, key), {
+          items: items,
+          updatedAt: Date.now(),
+          clientId: CLIENT_ID
+        });
+      }
+
+      // ---------- Firebase Storage helpers ----------
+      async function uploadDataUrl(path, dataUrl) {
+        const r = storageRef(storage, path);
+        await uploadString(r, dataUrl, 'data_url');
+        return await getDownloadURL(r);
+      }
+
+      async function offloadResumes(list) {
+        if (!Array.isArray(list)) return list;
+        const out = [];
+        for (const r of list) {
+          const copy = { ...r };
+          if (typeof copy.fileData === 'string' && copy.fileData.startsWith('data:') && !copy.storagePath) {
+            try {
+              const path = `resumes/${copy.id}.pdf`;
+              copy.fileUrl = await uploadDataUrl(path, copy.fileData);
+              copy.storagePath = path;
+              r.fileUrl = copy.fileUrl; r.storagePath = path;   // keep in-memory copy in sync
+            } catch (e) { console.warn('[Cloud] resume upload failed', copy.id, e.message); }
+          }
+          delete copy.fileData;   // never put base64 blobs into Firestore
+          out.push(copy);
+        }
+        return out;
+      }
+
+      async function offloadJobs(list) {
+        if (!Array.isArray(list)) return list;
+        const out = [];
+        for (const j of list) {
+          const copy = { ...j };
+          if (typeof copy.image === 'string' && copy.image.startsWith('data:') && !copy.storagePath) {
+            try {
+              const path = `jobImages/${copy.id}.jpg`;
+              copy.imageUrl = await uploadDataUrl(path, copy.image);
+              copy.storagePath = path;
+              j.imageUrl = copy.imageUrl; j.storagePath = path;
+            } catch (e) { console.warn('[Cloud] job image upload failed', j.id, e.message); }
+          }
+          delete copy.image;
+          out.push(copy);
+        }
+        return out;
+      }
+
+      const shim = {
+        getItem(k) {
+          const v = cache.get(String(k));
+          return v === undefined ? null : v;
+        },
+        setItem(k, v) {
+          k = String(k);
+          const s = String(v);
+          if (cache.get(k) === s) return;
+          cache.set(k, s);
+          scheduleWrite(k);
+        },
+        removeItem(k) {
+          k = String(k);
+          cache.delete(k);
+          scheduleWrite(k);
+        },
+        clear() {
+          cache.clear();
+          [...SYNC_KEYS].forEach(scheduleWrite);
+        },
+        key(i) {
+          return Array.from(cache.keys())[i] ?? null;
+        }
+      };
+      Object.defineProperty(shim, 'length', { get() { return cache.size; } });
+
+      try {
+        Object.defineProperty(window, 'localStorage', { value: shim, configurable: true, writable: true });
+      } catch (e) {
+        try { window.localStorage = shim; }
+        catch (e2) { console.error('[Cloud] Could not install storage shim', e2); }
+      }
+
+      // ------------------------------------------------------------
+      // 6. Realtime cross-device sync
+      // ------------------------------------------------------------
+      try {
+        onSnapshot(collection(db, COLLECTION), (snap) => {
+          let changed = false;
+          snap.docChanges().forEach((ch) => {
+            if (ch.type === 'removed') return;
+            const key = ch.doc.id;
+            if (!SYNC_KEYS.has(key)) return;
+            const data = ch.doc.data() || {};
+            if (data.clientId === CLIENT_ID) return;          // our own write
+            const next = JSON.stringify(data.items ?? []);
+            if (cache.get(key) !== next) {
+              cache.set(key, next);
+              changed = true;
+            }
+          });
+          if (changed && window.currentUser) {
+            window.rehydrateFromStorage?.();
+            window.refreshAllViews?.();
+            console.log('[Cloud] remote update applied');
+          }
+        }, (err) => console.warn('[Cloud] snapshot error:', err.message));
+      } catch (e) { console.warn('[Cloud] realtime disabled', e); }
+
+      // ------------------------------------------------------------
+      // 7. Public API
+      // ------------------------------------------------------------
+      window.Cloud = {
+        clientId: CLIENT_ID,
+        db, storage, auth,
+        /** Force-flush every pending write immediately. */
+        async flushAll() {
+          for (const k of [...SYNC_KEYS]) {
+            clearTimeout(timers.get(k));
+            try { await flush(k); } catch (e) { console.warn('[Cloud] flush failed', k, e.message); }
+          }
+        },
+        /** Re-pull everything from Firestore. */
+        async pullAll() {
+          await Promise.all([...SYNC_KEYS].map(async (key) => {
+            const snap = await getDoc(doc(db, COLLECTION, key));
+            if (snap.exists()) cache.set(key, JSON.stringify(snap.data().items ?? []));
+          }));
+          window.rehydrateFromStorage?.();
+          window.refreshAllViews?.();
+        }
+      };
+
+      // Flush pending writes before the tab closes
+      window.addEventListener('beforeunload', () => {
+        [...SYNC_KEYS].forEach(k => { if (timers.get(k)) { clearTimeout(timers.get(k)); flush(k); } });
+      });
+
+      console.log('%c☁ Firebase Cloud Sync ready', 'color:#0054A6;font-weight:bold');
+      return true;
+    })();
     </script>
 </body>
 </html>
