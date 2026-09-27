@@ -121,6 +121,15 @@
                     </div>
                     <div class="pt-6"><button type="submit" class="w-full bg-sarathy-blue text-white font-black py-5 rounded-2xl shadow-lg text-base uppercase tracking-widest">Submit Application <i class="fas fa-arrow-right"></i></button></div>
                 </form>
+
+                <!-- SUCCESS PANEL -->
+                <div id="applySuccess" class="hidden text-center py-10 animate-up">
+                    <div class="w-24 h-24 mx-auto mb-6 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-5xl shadow-lg"><i class="fas fa-check"></i></div>
+                    <h2 class="text-3xl font-black text-slate-800 dark:text-white mb-3">Application Received!</h2>
+                    <p class="text-slate-500 font-medium max-w-md mx-auto">Thank you, <span id="applySuccessName" class="font-black text-sarathy-blue"></span>. Our HR team will review your profile and contact you shortly.</p>
+                    <p class="text-xs font-black uppercase tracking-widest text-slate-400 mt-6">Reference ID: <span id="applySuccessRef"></span></p>
+                    <button onclick="window.location.reload()" class="mt-8 px-6 py-3 bg-sarathy-blue text-white rounded-xl font-black text-sm uppercase shadow-lg"><i class="fas fa-plus mr-2"></i> Submit Another Application</button>
+                </div>
             </div>
         </div>
     </div>
@@ -1206,6 +1215,8 @@
                 const ds = document.getElementById('drStartDate'); const de = document.getElementById('drEndDate');
                 if (ds && !ds.value) ds.value = todayStr;
                 if (de && !de.value) de.value = todayStr;
+                // pull latest cloud data before painting the UI
+                window.safeCall(() => window.rehydrateFromStorage?.(), 'rehydrate');
                 window.safeCall(() => window.refreshAllViews(), 'refreshAllViews');
                 window.showToast('Welcome, ' + user.user);
             } else {
@@ -1227,6 +1238,7 @@
         document.getElementById('loginPage')?.classList.add('hidden');
         document.getElementById('appLayout')?.classList.remove('hidden');
         document.getElementById('userNameDisplay').innerText = window.currentUser?.user || 'ADMIN';
+        window.safeCall(() => window.rehydrateFromStorage?.(), 'rehydrate');
         window.safeCall(() => window.refreshAllViews(), 'refreshAllViews');
     };
 
@@ -2835,6 +2847,156 @@
     });
 
     // ============================================================
+    // PUBLIC APPLICATION FORM  (phone → cloud → every other phone)
+    // ============================================================
+    (function initPublicApplyForm() {
+        const form = document.getElementById('publicApplyForm');
+        if (!form) return;
+
+        const onlyDigits = (v) => String(v == null ? '' : v).replace(/\D/g, '');
+
+        form.addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const btn = form.querySelector('button[type="submit"]');
+            const originalBtn = btn ? btn.innerHTML : '';
+            const setBusy = (busy) => {
+                if (!btn) return;
+                btn.disabled = busy;
+                btn.innerHTML = busy ? '<i class="fas fa-spinner fa-spin mr-2"></i> SUBMITTING...' : originalBtn;
+            };
+
+            const name   = (document.getElementById('pubName').value || '').trim().toUpperCase();
+            const age    = (document.getElementById('pubAge').value || '').trim();
+            const gender = document.getElementById('pubGender').value;
+            const phone  = onlyDigits(document.getElementById('pubPhone').value).slice(-10);
+            const email  = (document.getElementById('pubEmail').value || '').trim();
+            const qual   = (document.getElementById('pubQual').value || '').trim().toUpperCase();
+            const expRaw = (document.getElementById('pubExp').value || '').trim();
+            const dept   = document.getElementById('pubDept').value;
+            const loc    = document.getElementById('pubLocation').value;
+
+            if (!name || !age || !gender || phone.length !== 10 || !qual || expRaw === '' || !dept || !loc) {
+                window.showToast('Please fill in all required fields correctly.', 'error');
+                return;
+            }
+
+            setBusy(true);
+
+            // 1. Always work on the LATEST cloud copy so we never overwrite
+            //    candidates added by other phones.
+            try {
+                if (window.Cloud && typeof window.Cloud.pullAll === 'function') {
+                    await Promise.race([ window.Cloud.pullAll(), new Promise(r => setTimeout(r, 6000)) ]);
+                }
+            } catch (err) { console.warn('[Apply] cloud pull skipped', err); }
+
+            window.joinees = Array.isArray(window.joinees) ? window.joinees : [];
+
+            // 2. Duplicate guard
+            const duplicate = window.joinees.find(j => onlyDigits(j.phone).slice(-10) === phone);
+            if (duplicate) {
+                setBusy(false);
+                await window.showDialogModal('alert', 'Already Applied',
+                    'An application with this mobile number already exists. Our HR team will contact you soon.');
+                return;
+            }
+
+            // 3. Optional job context (?view=apply&job=123)
+            let jobTitle = '';
+            try {
+                const jobId = new URLSearchParams(window.location.search).get('job');
+                if (jobId && Array.isArray(window.jobsList)) {
+                    const job = window.jobsList.find(j => String(j.id) === String(jobId));
+                    if (job) jobTitle = job.title || '';
+                }
+            } catch (err) {}
+
+            // 4. Build the candidate record (same shape the dashboard uses)
+            const now  = new Date();
+            const year = now.getFullYear();
+            const seq  = String(window.joinees.length + 1).padStart(4, '0');
+
+            const record = {
+                id: Date.now(),
+                empId: 'CAN-' + year + '-' + seq,
+                name: name,
+                phone: phone,
+                age: age,
+                gender: gender,
+                email: email,
+                qualification: qual,
+                experience: expRaw,
+                designation: jobTitle || 'APPLICANT',
+                dept: dept,
+                company: 'SARATHY MOTORS',
+                location: loc,
+                source: 'PUBLIC APPLICATION',
+                applyDate: now.toISOString().slice(0, 10),
+                interviewDate: '',
+                joinDate: '',
+                remarks: 'Applied through public application form' + (jobTitle ? (' for ' + jobTitle) : ''),
+                status: 'PENDING',
+                rejectionReason: '',
+                rating: 0
+            };
+
+            window.joinees.push(record);
+
+            // 5. Persist (localStorage is transparently backed by Firestore)
+            try {
+                localStorage.setItem(window.CURRENT_DB_VERSION, JSON.stringify(window.joinees));
+            } catch (err) {
+                console.warn('[Apply] save failed', err);
+            }
+
+            // 6. Push to Firebase immediately instead of waiting for the debounce
+            try {
+                if (window.Cloud && typeof window.Cloud.flushKey === 'function') {
+                    await window.Cloud.flushKey(window.CURRENT_DB_VERSION);
+                } else if (window.Cloud && typeof window.Cloud.flushAll === 'function') {
+                    await window.Cloud.flushAll();
+                }
+            } catch (err) { console.warn('[Apply] cloud flush failed', err); }
+
+            // 7. Success screen
+            setBusy(false);
+            form.classList.add('hidden');
+            const ok = document.getElementById('applySuccess');
+            if (ok) {
+                const nEl = document.getElementById('applySuccessName');
+                const rEl = document.getElementById('applySuccessRef');
+                if (nEl) nEl.innerText = name;
+                if (rEl) rEl.innerText = record.empId;
+                ok.classList.remove('hidden');
+                ok.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+            try { confetti({ particleCount: 140, spread: 90, origin: { y: 0.7 } }); } catch (err) {}
+            window.showToast('Application submitted successfully!');
+        });
+    })();
+
+    // ============================================================
+    // AUTO RE-SYNC when the phone/tab comes back to life
+    // ============================================================
+    (function initAutoResync() {
+        let last = 0;
+        const resync = async () => {
+            if (!window.currentUser) return;
+            if (Date.now() - last < 20000) return;
+            last = Date.now();
+            try {
+                if (window.Cloud && typeof window.Cloud.pullAll === 'function') {
+                    await window.Cloud.pullAll();
+                }
+            } catch (e) { console.warn('[Resync] failed', e); }
+        };
+        document.addEventListener('visibilitychange', () => { if (!document.hidden) resync(); });
+        window.addEventListener('focus', resync);
+        window.addEventListener('online', resync);
+    })();
+
+    // ============================================================
     // BOOT
     // ============================================================
     async function waitForFirebase(maxMs = 8000) {
@@ -3137,9 +3299,9 @@
               changed = true;
             }
           });
-          if (changed && window.currentUser) {
+          if (changed) {
             window.rehydrateFromStorage?.();
-            window.refreshAllViews?.();
+            if (window.currentUser) window.refreshAllViews?.();
             console.log('[Cloud] remote update applied');
           }
         }, (err) => console.warn('[Cloud] snapshot error:', err.message));
@@ -3151,6 +3313,12 @@
       window.Cloud = {
         clientId: CLIENT_ID,
         db, storage, auth,
+        /** Force-flush a single key immediately (used by the public form). */
+        async flushKey(key) {
+          if (!SYNC_KEYS.has(key)) return;
+          clearTimeout(timers.get(key));
+          await flush(key);
+        },
         /** Force-flush every pending write immediately. */
         async flushAll() {
           for (const k of [...SYNC_KEYS]) {
@@ -3158,8 +3326,12 @@
             try { await flush(k); } catch (e) { console.warn('[Cloud] flush failed', k, e.message); }
           }
         },
-        /** Re-pull everything from Firestore. */
+        /** Flush anything pending, then re-pull everything from Firestore. */
         async pullAll() {
+          for (const k of [...timers.keys()]) {
+            clearTimeout(timers.get(k));
+            try { await flush(k); } catch (e) { console.warn('[Cloud] pre-pull flush failed', k, e.message); }
+          }
           await Promise.all([...SYNC_KEYS].map(async (key) => {
             const snap = await getDoc(doc(db, COLLECTION, key));
             if (snap.exists()) cache.set(key, JSON.stringify(snap.data().items ?? []));
