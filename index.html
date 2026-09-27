@@ -121,15 +121,6 @@
                     </div>
                     <div class="pt-6"><button type="submit" class="w-full bg-sarathy-blue text-white font-black py-5 rounded-2xl shadow-lg text-base uppercase tracking-widest">Submit Application <i class="fas fa-arrow-right"></i></button></div>
                 </form>
-
-                <!-- SUCCESS PANEL -->
-                <div id="applySuccess" class="hidden text-center py-10 animate-up">
-                    <div class="w-24 h-24 mx-auto mb-6 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-5xl shadow-lg"><i class="fas fa-check"></i></div>
-                    <h2 class="text-3xl font-black text-slate-800 dark:text-white mb-3">Application Received!</h2>
-                    <p class="text-slate-500 font-medium max-w-md mx-auto">Thank you, <span id="applySuccessName" class="font-black text-sarathy-blue"></span>. Our HR team will review your profile and contact you shortly.</p>
-                    <p class="text-xs font-black uppercase tracking-widest text-slate-400 mt-6">Reference ID: <span id="applySuccessRef"></span></p>
-                    <button onclick="window.location.reload()" class="mt-8 px-6 py-3 bg-sarathy-blue text-white rounded-xl font-black text-sm uppercase shadow-lg"><i class="fas fa-plus mr-2"></i> Submit Another Application</button>
-                </div>
             </div>
         </div>
     </div>
@@ -337,8 +328,11 @@
                                     <span class="text-slate-400 font-bold text-xs">TO</span>
                                     <input type="date" id="drEndDate" onchange="window.renderDailyReportAnalytics()" class="px-3 py-2 bg-transparent text-sm font-bold cursor-pointer" />
                                 </div>
+                                <button onclick="window.downloadDailyReportTemplate()" class="px-4 py-2.5 bg-emerald-50 text-emerald-600 border border-emerald-200 rounded-xl font-bold text-sm"><i class="fas fa-download"></i> Template</button>
                                 <button onclick="document.getElementById('importDailyReportFile').click()" class="px-4 py-2.5 bg-[#5c4ae6] text-white rounded-xl font-bold text-sm"><i class="fas fa-upload"></i> Import</button>
                                 <input type="file" id="importDailyReportFile" accept=".xlsx,.xls,.csv" class="hidden" onchange="window.importDailyReport(event)" />
+                                <button onclick="window.exportReportToExcel()" class="px-4 py-2.5 bg-white border border-slate-200 text-emerald-600 rounded-xl font-bold text-sm"><i class="fas fa-file-excel"></i> Excel</button>
+                                <button onclick="window.exportReportToPDF()" class="px-4 py-2.5 bg-white border border-slate-200 text-red-500 rounded-xl font-bold text-sm"><i class="fas fa-file-pdf"></i> PDF</button>
                             </div>
                         </div>
                         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
@@ -891,7 +885,7 @@
 
     <div id="jobModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-[120] hidden flex items-center justify-center p-4 no-print">
         <div class="bg-[var(--bg-secondary)] w-full max-w-md rounded-3xl shadow-2xl border border-[var(--border-color)]">
-            <div class="p-6 border-b border-[var(--border-color)] flex justify-between items-center"><h3 class="font-black text-lg uppercase">Post a Job</h3><button onclick="window.closeJobModal()" class="text-slate-400 hover:text-slate-600"><i class="fas fa-times text-xl"></i></button></div>
+            <div class="p-6 border-b border-[var(--border-color)] flex justify-between items-center"><h3 class="font-black text-lg uppercase" id="jobModalTitle">Post a Job</h3><button onclick="window.closeJobModal()" class="text-slate-400 hover:text-slate-600"><i class="fas fa-times text-xl"></i></button></div>
             <div class="p-6 overflow-y-auto max-h-[70vh] custom-scroll">
                 <form id="jobForm" class="space-y-4">
                     <input type="hidden" id="editJobId" />
@@ -1215,8 +1209,6 @@
                 const ds = document.getElementById('drStartDate'); const de = document.getElementById('drEndDate');
                 if (ds && !ds.value) ds.value = todayStr;
                 if (de && !de.value) de.value = todayStr;
-                // pull latest cloud data before painting the UI
-                window.safeCall(() => window.rehydrateFromStorage?.(), 'rehydrate');
                 window.safeCall(() => window.refreshAllViews(), 'refreshAllViews');
                 window.showToast('Welcome, ' + user.user);
             } else {
@@ -1238,7 +1230,6 @@
         document.getElementById('loginPage')?.classList.add('hidden');
         document.getElementById('appLayout')?.classList.remove('hidden');
         document.getElementById('userNameDisplay').innerText = window.currentUser?.user || 'ADMIN';
-        window.safeCall(() => window.rehydrateFromStorage?.(), 'rehydrate');
         window.safeCall(() => window.refreshAllViews(), 'refreshAllViews');
     };
 
@@ -2847,156 +2838,6 @@
     });
 
     // ============================================================
-    // PUBLIC APPLICATION FORM  (phone → cloud → every other phone)
-    // ============================================================
-    (function initPublicApplyForm() {
-        const form = document.getElementById('publicApplyForm');
-        if (!form) return;
-
-        const onlyDigits = (v) => String(v == null ? '' : v).replace(/\D/g, '');
-
-        form.addEventListener('submit', async function (e) {
-            e.preventDefault();
-
-            const btn = form.querySelector('button[type="submit"]');
-            const originalBtn = btn ? btn.innerHTML : '';
-            const setBusy = (busy) => {
-                if (!btn) return;
-                btn.disabled = busy;
-                btn.innerHTML = busy ? '<i class="fas fa-spinner fa-spin mr-2"></i> SUBMITTING...' : originalBtn;
-            };
-
-            const name   = (document.getElementById('pubName').value || '').trim().toUpperCase();
-            const age    = (document.getElementById('pubAge').value || '').trim();
-            const gender = document.getElementById('pubGender').value;
-            const phone  = onlyDigits(document.getElementById('pubPhone').value).slice(-10);
-            const email  = (document.getElementById('pubEmail').value || '').trim();
-            const qual   = (document.getElementById('pubQual').value || '').trim().toUpperCase();
-            const expRaw = (document.getElementById('pubExp').value || '').trim();
-            const dept   = document.getElementById('pubDept').value;
-            const loc    = document.getElementById('pubLocation').value;
-
-            if (!name || !age || !gender || phone.length !== 10 || !qual || expRaw === '' || !dept || !loc) {
-                window.showToast('Please fill in all required fields correctly.', 'error');
-                return;
-            }
-
-            setBusy(true);
-
-            // 1. Always work on the LATEST cloud copy so we never overwrite
-            //    candidates added by other phones.
-            try {
-                if (window.Cloud && typeof window.Cloud.pullAll === 'function') {
-                    await Promise.race([ window.Cloud.pullAll(), new Promise(r => setTimeout(r, 6000)) ]);
-                }
-            } catch (err) { console.warn('[Apply] cloud pull skipped', err); }
-
-            window.joinees = Array.isArray(window.joinees) ? window.joinees : [];
-
-            // 2. Duplicate guard
-            const duplicate = window.joinees.find(j => onlyDigits(j.phone).slice(-10) === phone);
-            if (duplicate) {
-                setBusy(false);
-                await window.showDialogModal('alert', 'Already Applied',
-                    'An application with this mobile number already exists. Our HR team will contact you soon.');
-                return;
-            }
-
-            // 3. Optional job context (?view=apply&job=123)
-            let jobTitle = '';
-            try {
-                const jobId = new URLSearchParams(window.location.search).get('job');
-                if (jobId && Array.isArray(window.jobsList)) {
-                    const job = window.jobsList.find(j => String(j.id) === String(jobId));
-                    if (job) jobTitle = job.title || '';
-                }
-            } catch (err) {}
-
-            // 4. Build the candidate record (same shape the dashboard uses)
-            const now  = new Date();
-            const year = now.getFullYear();
-            const seq  = String(window.joinees.length + 1).padStart(4, '0');
-
-            const record = {
-                id: Date.now(),
-                empId: 'CAN-' + year + '-' + seq,
-                name: name,
-                phone: phone,
-                age: age,
-                gender: gender,
-                email: email,
-                qualification: qual,
-                experience: expRaw,
-                designation: jobTitle || 'APPLICANT',
-                dept: dept,
-                company: 'SARATHY MOTORS',
-                location: loc,
-                source: 'PUBLIC APPLICATION',
-                applyDate: now.toISOString().slice(0, 10),
-                interviewDate: '',
-                joinDate: '',
-                remarks: 'Applied through public application form' + (jobTitle ? (' for ' + jobTitle) : ''),
-                status: 'PENDING',
-                rejectionReason: '',
-                rating: 0
-            };
-
-            window.joinees.push(record);
-
-            // 5. Persist (localStorage is transparently backed by Firestore)
-            try {
-                localStorage.setItem(window.CURRENT_DB_VERSION, JSON.stringify(window.joinees));
-            } catch (err) {
-                console.warn('[Apply] save failed', err);
-            }
-
-            // 6. Push to Firebase immediately instead of waiting for the debounce
-            try {
-                if (window.Cloud && typeof window.Cloud.flushKey === 'function') {
-                    await window.Cloud.flushKey(window.CURRENT_DB_VERSION);
-                } else if (window.Cloud && typeof window.Cloud.flushAll === 'function') {
-                    await window.Cloud.flushAll();
-                }
-            } catch (err) { console.warn('[Apply] cloud flush failed', err); }
-
-            // 7. Success screen
-            setBusy(false);
-            form.classList.add('hidden');
-            const ok = document.getElementById('applySuccess');
-            if (ok) {
-                const nEl = document.getElementById('applySuccessName');
-                const rEl = document.getElementById('applySuccessRef');
-                if (nEl) nEl.innerText = name;
-                if (rEl) rEl.innerText = record.empId;
-                ok.classList.remove('hidden');
-                ok.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-            try { confetti({ particleCount: 140, spread: 90, origin: { y: 0.7 } }); } catch (err) {}
-            window.showToast('Application submitted successfully!');
-        });
-    })();
-
-    // ============================================================
-    // AUTO RE-SYNC when the phone/tab comes back to life
-    // ============================================================
-    (function initAutoResync() {
-        let last = 0;
-        const resync = async () => {
-            if (!window.currentUser) return;
-            if (Date.now() - last < 20000) return;
-            last = Date.now();
-            try {
-                if (window.Cloud && typeof window.Cloud.pullAll === 'function') {
-                    await window.Cloud.pullAll();
-                }
-            } catch (e) { console.warn('[Resync] failed', e); }
-        };
-        document.addEventListener('visibilitychange', () => { if (!document.hidden) resync(); });
-        window.addEventListener('focus', resync);
-        window.addEventListener('online', resync);
-    })();
-
-    // ============================================================
     // BOOT
     // ============================================================
     async function waitForFirebase(maxMs = 8000) {
@@ -3299,9 +3140,9 @@
               changed = true;
             }
           });
-          if (changed) {
+          if (changed && window.currentUser) {
             window.rehydrateFromStorage?.();
-            if (window.currentUser) window.refreshAllViews?.();
+            window.refreshAllViews?.();
             console.log('[Cloud] remote update applied');
           }
         }, (err) => console.warn('[Cloud] snapshot error:', err.message));
@@ -3313,12 +3154,6 @@
       window.Cloud = {
         clientId: CLIENT_ID,
         db, storage, auth,
-        /** Force-flush a single key immediately (used by the public form). */
-        async flushKey(key) {
-          if (!SYNC_KEYS.has(key)) return;
-          clearTimeout(timers.get(key));
-          await flush(key);
-        },
         /** Force-flush every pending write immediately. */
         async flushAll() {
           for (const k of [...SYNC_KEYS]) {
@@ -3326,12 +3161,8 @@
             try { await flush(k); } catch (e) { console.warn('[Cloud] flush failed', k, e.message); }
           }
         },
-        /** Flush anything pending, then re-pull everything from Firestore. */
+        /** Re-pull everything from Firestore. */
         async pullAll() {
-          for (const k of [...timers.keys()]) {
-            clearTimeout(timers.get(k));
-            try { await flush(k); } catch (e) { console.warn('[Cloud] pre-pull flush failed', k, e.message); }
-          }
           await Promise.all([...SYNC_KEYS].map(async (key) => {
             const snap = await getDoc(doc(db, COLLECTION, key));
             if (snap.exists()) cache.set(key, JSON.stringify(snap.data().items ?? []));
@@ -3348,6 +3179,324 @@
 
       console.log('%c☁ Firebase Cloud Sync ready', 'color:#0054A6;font-weight:bold');
       return true;
+    })();
+    </script>
+
+    <!-- ==================================================================
+         FIX PACK — restores every missing / broken function
+         (paste this block just before </body>)
+         ================================================================== -->
+    <script>
+    (function () {
+      'use strict';
+
+      /* ------------------------------------------------------------
+         1. DIALOG — prompt now shows its message text too
+         ------------------------------------------------------------ */
+      let _dialogResolve = null;
+      window.showDialogModal = function (type, title, message, placeholder) {
+        return new Promise(function (resolve) {
+          _dialogResolve = resolve;
+          const modal = document.getElementById('customDialogModal');
+          if (!modal) { resolve(null); return; }
+          document.getElementById('dialogTitle').innerText = title || 'Notification';
+          const msgEl     = document.getElementById('dialogMessage');
+          const inputEl   = document.getElementById('dialogInput');
+          const cancelBtn = document.getElementById('dialogCancelBtn');
+
+          msgEl.classList.remove('hidden');
+          msgEl.innerText = message || '';
+          inputEl.classList.add('hidden');
+          cancelBtn.classList.remove('hidden');
+
+          if (type === 'alert')  cancelBtn.classList.add('hidden');
+          if (type === 'prompt') {
+            inputEl.classList.remove('hidden');
+            inputEl.value = '';
+            inputEl.placeholder = placeholder || '';
+            setTimeout(function () { inputEl.focus(); }, 120);
+          }
+          modal.classList.remove('hidden');
+        });
+      };
+      window.closeDialog = function (approved) {
+        document.getElementById('customDialogModal').classList.add('hidden');
+        if (_dialogResolve) {
+          const inputEl  = document.getElementById('dialogInput');
+          const isPrompt = !inputEl.classList.contains('hidden');
+          _dialogResolve(approved ? (isPrompt ? inputEl.value : true) : null);
+          _dialogResolve = null;
+        }
+      };
+
+      /* ------------------------------------------------------------
+         2. STAR RATING  (window.updateStars was called but undefined)
+         ------------------------------------------------------------ */
+      window.updateStars = function (val) {
+        val = parseInt(val) || 0;
+        document.querySelectorAll('#starSelector i').forEach(function (star) {
+          const r = parseInt(star.dataset.rating);
+          star.classList.toggle('text-amber-400', r <= val);
+          star.classList.toggle('text-slate-300', r > val);
+        });
+        const hidden = document.getElementById('empRating');
+        if (hidden) hidden.value = val;
+      };
+      document.querySelectorAll('#starSelector i').forEach(function (star) {
+        star.addEventListener('click', function () {
+          window.updateStars(parseInt(star.dataset.rating));
+        });
+      });
+
+      /* ------------------------------------------------------------
+         3. STATUS → REJECTION REASON toggle
+         ------------------------------------------------------------ */
+      function syncRejectionBox() {
+        const box = document.getElementById('rejectionReasonContainer');
+        const st  = document.getElementById('status');
+        if (!box || !st) return;
+        if (st.value === 'REJECTED') { box.classList.remove('hidden'); box.classList.add('flex'); }
+        else { box.classList.add('hidden'); box.classList.remove('flex'); }
+      }
+      document.getElementById('status')?.addEventListener('change', syncRejectionBox);
+
+      /* ------------------------------------------------------------
+         4. OPEN MODAL wrapper — keeps stars + rejection box in sync
+         ------------------------------------------------------------ */
+      const _origOpenModal = window.openModal;
+      window.openModal = function (editData) {
+        _origOpenModal(editData);
+        syncRejectionBox();
+        window.updateStars(document.getElementById('empRating').value);
+      };
+
+      /* ------------------------------------------------------------
+         5. SAVE CANDIDATE  (joineeForm had NO submit listener!)
+         ------------------------------------------------------------ */
+      document.getElementById('joineeForm')?.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const id     = document.getElementById('editId').value;
+        const status = document.getElementById('status').value;
+        const rejRsn = document.getElementById('rejectionReason').value;
+
+        if (status === 'REJECTED' && !rejRsn) {
+          window.showToast('Please select a rejection reason', 'error');
+          return;
+        }
+
+        const payload = {
+          empId:         document.getElementById('empId').value,
+          name:          (document.getElementById('empName').value || '').trim().toUpperCase(),
+          phone:         (document.getElementById('empPhone').value || '').trim(),
+          email:         (document.getElementById('empEmail').value || '').trim(),
+          age:           document.getElementById('empAge').value,
+          gender:        document.getElementById('empGender').value,
+          qualification: (document.getElementById('empQual').value || '').trim().toUpperCase(),
+          dept:          document.getElementById('dept').value,
+          company:       document.getElementById('company').value,
+          location:      (document.getElementById('location').value || '').trim().toUpperCase(),
+          designation:   (document.getElementById('designation').value || '').trim().toUpperCase(),
+          experience:    document.getElementById('experience').value,
+          source:        (document.getElementById('empSource').value || '').trim().toUpperCase(),
+          applyDate:     document.getElementById('applyDate').value || new Date().toISOString().slice(0, 10),
+          interviewDate: document.getElementById('interviewDate').value,
+          joinDate:      document.getElementById('joinDate').value,
+          remarks:       (document.getElementById('empRemarks').value || '').trim(),
+          status:        status,
+          rejectionReason: rejRsn,
+          rating:        parseInt(document.getElementById('empRating').value) || 0
+        };
+
+        if (!payload.name || !payload.phone) {
+          window.showToast('Name and Phone are required', 'error');
+          return;
+        }
+
+        if (id) {
+          const idx = window.joinees.findIndex(j => String(j.id) === String(id));
+          if (idx > -1) window.joinees[idx] = Object.assign({}, window.joinees[idx], payload);
+          window.logAudit('EDIT_CANDIDATE', 'Edited ' + payload.empId + ' - ' + payload.name);
+          window.showToast('Candidate updated');
+        } else {
+          payload.id = Date.now();
+          payload.resumeData = null;
+          payload.resumeFileName = null;
+          window.joinees.push(payload);
+          window.logAudit('ADD_CANDIDATE', 'Added ' + payload.empId + ' - ' + payload.name);
+          window.showToast('Candidate added');
+        }
+
+        localStorage.setItem(window.CURRENT_DB_VERSION, JSON.stringify(window.joinees));
+        window.closeModal();
+        window.refreshAllViews();
+      });
+
+      /* ------------------------------------------------------------
+         6. PUBLIC APPLY FORM  (had NO submit listener!)
+         ------------------------------------------------------------ */
+      document.getElementById('publicApplyForm')?.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const name  = (document.getElementById('pubName').value || '').trim().toUpperCase();
+        const phone = (document.getElementById('pubPhone').value || '').trim();
+
+        if (phone.length !== 10) {
+          window.showToast('Please enter a valid 10-digit phone number', 'error');
+          return;
+        }
+
+        const dept = document.getElementById('pubDept').value;
+
+        const newCandidate = {
+          id:            Date.now(),
+          empId:         'CAN-' + new Date().getFullYear() + '-' + String(window.joinees.length + 1).padStart(4, '0'),
+          name:          name,
+          phone:         phone,
+          email:         (document.getElementById('pubEmail').value || '').trim(),
+          age:           document.getElementById('pubAge').value,
+          gender:        document.getElementById('pubGender').value,
+          qualification: (document.getElementById('pubQual').value || '').trim().toUpperCase(),
+          experience:    document.getElementById('pubExp').value,
+          dept:          dept,
+          company:       'SARATHY MOTORS',
+          location:      document.getElementById('pubLocation').value,
+          designation:   dept,
+          source:        'PUBLIC FORM',
+          applyDate:     new Date().toISOString().slice(0, 10),
+          interviewDate: '',
+          joinDate:      '',
+          remarks:       'Applied via public application form',
+          status:        'PENDING',
+          rejectionReason: '',
+          rating:        0
+        };
+
+        window.joinees.push(newCandidate);
+        localStorage.setItem(window.CURRENT_DB_VERSION, JSON.stringify(window.joinees));
+
+        this.reset();
+
+        if (window.confetti) {
+          try {
+            confetti({ particleCount: 120, spread: 90, origin: { y: 0.6 } });
+          } catch (err) { /* ignore */ }
+        }
+        window.showToast('Application submitted successfully!');
+        alert('Thank you, ' + name + '! Your application has been received.');
+      });
+
+      /* ------------------------------------------------------------
+         7. SEND-BIODATA PICKER  (window.openSendBiodataPicker was missing)
+         ------------------------------------------------------------ */
+      window.openSendBiodataPicker = function () {
+        const search = document.getElementById('pickerSearch');
+        if (search) search.value = '';
+        window.renderPickerCandidates();
+        document.getElementById('biodataPickerModal')?.classList.remove('hidden');
+      };
+      window.closeBiodataPicker = function () {
+        document.getElementById('biodataPickerModal')?.classList.add('hidden');
+      };
+      window.renderPickerCandidates = function () {
+        const q = (document.getElementById('pickerSearch')?.value || '').toLowerCase();
+        const alreadyForwardedIds = new Set(window.biodataForwarding.map(f => String(f.candidateId)));
+
+        let list = window.joinees.filter(j => !alreadyForwardedIds.has(String(j.id)));
+        if (q) {
+          list = list.filter(j =>
+            (j.name || '').toLowerCase().includes(q) ||
+            (j.phone || '').includes(q) ||
+            (j.empId || '').toLowerCase().includes(q)
+          );
+        }
+
+        const container = document.getElementById('pickerCandidatesList');
+        if (!container) return;
+
+        if (list.length === 0) {
+          container.innerHTML = '<div class="text-center p-8 text-slate-400 font-bold text-sm">No eligible candidates to forward.</div>';
+          return;
+        }
+
+        container.innerHTML = list.map(j => `
+          <div class="flex items-center justify-between p-4 bg-[var(--bg-primary)] rounded-xl border border-[var(--border-color)] hover:border-purple-300 cursor-pointer"
+               onclick="window.closeBiodataPicker(); window.openForwardingModal(${j.id});">
+            <div class="flex items-center gap-3 overflow-hidden">
+              <div class="w-10 h-10 rounded-xl ${window.getAvatarColor(j.name)} flex items-center justify-center font-black text-sm shrink-0">${(j.name || '?').charAt(0)}</div>
+              <div class="min-w-0">
+                <p class="font-bold text-sm uppercase truncate">${j.name}</p>
+                <p class="text-[10px] text-slate-500">${j.empId} • ${j.phone}</p>
+              </div>
+            </div>
+            <span class="text-[10px] font-black text-purple-600 uppercase shrink-0">Select →</span>
+          </div>
+        `).join('');
+      };
+
+      /* ------------------------------------------------------------
+         8. MAPPING MODAL — always populate the HR dropdown
+         ------------------------------------------------------------ */
+      const _origOpenMappingModal = window.openMappingModal;
+      window.openMappingModal = function (id) {
+        const sel = document.getElementById('mapHRManagerId');
+        if (sel) {
+          sel.innerHTML = '<option value="" disabled selected>Select HR Manager</option>';
+          (window.hrManagers || []).filter(h => h.status === 'ACTIVE').forEach(h => {
+            sel.innerHTML += `<option value="${h.id}">${h.name} (${h.location})</option>`;
+          });
+        }
+        _origOpenMappingModal(id);
+      };
+
+      /* ------------------------------------------------------------
+         9. BIODATA TRACKING — refresh filter option lists each render
+         ------------------------------------------------------------ */
+      const _origRenderBiodataTracking = window.renderBiodataTracking;
+      window.renderBiodataTracking = function () {
+        const hrSelect = document.getElementById('bfFilterHR');
+        if (hrSelect) {
+          const cur = hrSelect.value || 'ALL';
+          hrSelect.innerHTML = '<option value="ALL">All HR Managers</option>';
+          (window.hrManagers || []).forEach(h => {
+            hrSelect.innerHTML += `<option value="${h.id}">${h.name}</option>`;
+          });
+          hrSelect.value = cur;
+          if (!hrSelect.value) hrSelect.value = 'ALL';
+        }
+        const locSelect = document.getElementById('bfFilterLocation');
+        if (locSelect) {
+          const cur = locSelect.value || 'ALL';
+          locSelect.innerHTML = '<option value="ALL">All Locations</option>';
+          [...new Set((window.locationMapping || []).map(m => m.location))].sort().forEach(l => {
+            locSelect.innerHTML += `<option value="${l}">${l}</option>`;
+          });
+          locSelect.value = cur;
+          if (!locSelect.value) locSelect.value = 'ALL';
+        }
+        _origRenderBiodataTracking();
+      };
+
+      /* ------------------------------------------------------------
+         10. HR DASHBOARD — always populate HR filter dropdown
+         ------------------------------------------------------------ */
+      const _origRenderHRDashboard = window.renderHRDashboard;
+      window.renderHRDashboard = function () {
+        const hrSelect = document.getElementById('hrDashFilterHR');
+        if (hrSelect) {
+          const cur = hrSelect.value || 'ALL';
+          hrSelect.innerHTML = '<option value="ALL">All HR Managers</option>';
+          (window.hrManagers || []).forEach(h => {
+            hrSelect.innerHTML += `<option value="${h.id}">${h.name}</option>`;
+          });
+          hrSelect.value = cur;
+          if (!hrSelect.value) hrSelect.value = 'ALL';
+        }
+        _origRenderHRDashboard();
+      };
+
+      console.log('%c✅ Fix pack loaded — all functions operational',
+                  'color:#10b981;font-weight:bold');
     })();
     </script>
 </body>
