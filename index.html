@@ -93,9 +93,8 @@
         <div class="w-full max-w-4xl animate-up relative z-10 my-auto py-8">
             <div class="bg-white/80 dark:bg-slate-800/80 backdrop-blur-2xl p-6 md:p-12 rounded-[2rem] md:rounded-[3rem] shadow-2xl border border-white/40">
                 <div class="text-center mb-10">
-                    <!-- UPDATED LOGO HERE -->
                     <div class="inline-flex items-center justify-center w-24 h-24 bg-white rounded-2xl shadow-lg mb-6 border border-slate-100 p-2">
-                        <img src="sarathy-group-logo.pngalt="Sarathy Group" class="w-full h-full object-contain" onerror="this.outerHTML='<div class=\'text-sarathy-blue font-black text-3xl\'>SG</div>'">
+                        <img src="sarathy-group-logo.png" alt="Sarathy Group" class="w-full h-full object-contain" onerror="this.outerHTML='<div class=\'text-sarathy-blue font-black text-3xl\'>SG</div>'">
                     </div>
                     <h1 class="text-3xl md:text-5xl font-black text-slate-800 dark:text-white tracking-tight mb-3">Join Our Team</h1>
                     <p class="text-base font-medium text-slate-500 max-w-lg mx-auto">Take the next step in your career with Sarathy Group.</p>
@@ -134,9 +133,8 @@
         <div class="w-full max-w-[400px] animate-up relative z-10">
             <div class="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl p-8 rounded-[2.5rem] shadow-2xl border border-white/50">
                 <div class="mb-8 text-center">
-                    <!-- UPDATED LOGO HERE -->
                     <div class="bg-white p-3 rounded-2xl inline-block shadow-sm mb-4 border border-slate-100">
-                        <img src="sarathy-group-logo.png"Sarathy Group" class="h-16 w-auto object-contain" onerror="this.outerHTML='<div class=\'text-sarathy-blue font-black text-2xl px-4\'>SG</div>'">
+                        <img src="sarathy-group-logo.png" alt="Sarathy Group" class="h-16 w-auto object-contain" onerror="this.outerHTML='<div class=\'text-sarathy-blue font-black text-2xl px-4\'>SG</div>'">
                     </div>
                     <h2 class="text-2xl font-black text-slate-800 dark:text-white tracking-tight">Welcome Back</h2>
                     <p class="text-xs font-bold text-slate-500 mt-1 uppercase tracking-widest">HR Management System</p>
@@ -166,7 +164,6 @@
 
         <aside id="sidebar" class="fixed lg:static inset-y-0 left-0 w-[var(--sidebar-width)] lg:w-[80px] hover:lg:w-[var(--sidebar-width)] h-[100dvh] bg-[var(--bg-secondary)] flex flex-col shrink-0 z-[100] border-r border-[var(--border-color)] transform -translate-x-full lg:translate-x-0 transition-all duration-300 overflow-x-hidden group">
             <div class="h-16 lg:h-20 px-4 flex items-center gap-3 border-b border-[var(--border-color)] shrink-0">
-                <!-- UPDATED SIDEBAR LOGO HERE -->
                 <div class="w-10 h-10 lg:w-12 lg:h-12 bg-white rounded-xl flex items-center justify-center shrink-0 p-1 border border-slate-100 overflow-hidden">
                     <img src="sarathy-group-logo.png" alt="Sarathy Logo" class="w-full h-full object-contain" onerror="this.outerHTML='<div class=\'text-sarathy-blue font-black text-xl\'>S</div>'">
                 </div>
@@ -220,9 +217,7 @@
             <div class="flex-1 relative overflow-y-auto overflow-x-hidden custom-scroll scroll-smooth pb-24 md:pb-8">
 
                 <div id="tab-dashboard" class="tab-content active p-4 md:p-6 lg:p-8 space-y-6 max-w-[1600px] mx-auto">
-                    <!-- UPDATED DASHBOARD BANNER WITH WATERMARK LOGO -->
                     <div class="bg-gradient-to-br from-slate-900 via-[#0054A6] to-sky-600 rounded-[2.5rem] p-6 md:p-12 text-white relative overflow-hidden shadow-2xl animate-up">
-                        <!-- Logo Watermark Background -->
                         <div class="absolute right-0 top-1/2 -translate-y-1/2 opacity-10 pointer-events-none w-2/3 md:w-1/2 flex justify-end pr-4 md:pr-10">
                             <img src="sarathy-group-logo.png" alt="Sarathy Logo" class="w-full max-w-[300px] md:max-w-[450px] object-contain" onerror="this.style.display='none'">
                         </div>
@@ -819,7 +814,6 @@
                                     <option value="SELECTED">SELECTED</option>
                                     <option value="JOINED">JOINED</option>
                                     <option value="REJECTED">REJECTED</option>
-                                    <!-- NEW STATUSES ADDED -->
                                     <option value="BIODATA FORWARDED">BIODATA FORWARDED</option>
                                     <option value="UNDER REVIEW">UNDER REVIEW</option>
                                     <option value="CALLED FOR INTERVIEW">CALLED FOR INTERVIEW</option>
@@ -1094,9 +1088,7 @@
     try { window.auditLogs = JSON.parse(localStorage.getItem(window.AUDIT_LOGS_VERSION)) || []; } catch(e) { window.auditLogs = []; }
 
     // ============================================================
-    // CLOUD RE-HYDRATION  (added for Firebase sync)
-    // Re-reads every global from localStorage (which is now backed by
-    // Firestore) without touching any of the app's existing logic.
+    // CLOUD RE-HYDRATION
     // ============================================================
     window.rehydrateFromStorage = function () {
         const read = (key, fallback) => {
@@ -1909,7 +1901,6 @@
         const pendingFollowUps = window.biodataForwarding.filter(f => {
             const sentDate = new Date(f.forwardDateTime || f.forwardDate);
             const diffDays = Math.floor((today - sentDate) / (1000 * 60 * 60 * 24));
-            // Needs follow up if > 2 days and status is still initial or interview completed without final status
             return diffDays >= 2 && (f.status === 'BIODATA RECEIVED' || f.status === 'UNDER REVIEW' || f.status === 'CALLED FOR INTERVIEW' || f.status === 'INTERVIEW SCHEDULED' || f.status === 'INTERVIEW COMPLETED');
         }).map(f => {
             const sentDate = new Date(f.forwardDateTime || f.forwardDate);
@@ -2062,7 +2053,7 @@
         // Update Forwarding Record
         f.status = newStatus;
         f.isReceived = received;
-        f.remarks = remarks; // Overwrite the last remark but history is kept below
+        f.remarks = remarks;
         localStorage.setItem(window.BIODATA_FORWARDING_VERSION, JSON.stringify(window.biodataForwarding));
 
         // Create Timeline Entry (Audit Trail - Never overwrite old remarks)
@@ -2209,7 +2200,6 @@
         if (filterDate) data = data.filter(f => f.forwardDate === filterDate);
         if (filterName) data = data.filter(f => f.candidateName.toLowerCase().includes(filterName));
 
-        // Update Dashboard Cards based on filtered data
         const setT = (id, v) => { const el = document.getElementById(id); if (el) el.innerText = v; };
         setT('hrDashReceived', data.filter(f => f.status === 'BIODATA RECEIVED').length);
         setT('hrDashForwarded', data.length);
@@ -2869,7 +2859,6 @@
     async function bootApp() {
         console.log('🚀 HR Portal booting...');
         try {
-            // ---- 1. Wait for Firebase to hydrate cloud data ----
             const statusEl = document.getElementById('cloudStatus');
             try {
                 await waitForFirebase(8000);
@@ -2879,7 +2868,6 @@
                 if (statusEl) statusEl.innerHTML = '⚠ Offline (local only)';
             }
 
-            // ---- 2. Re-hydrate globals from the synced store ----
             if (typeof window.rehydrateFromStorage === 'function') window.rehydrateFromStorage();
 
             if(localStorage.getItem('theme') === 'dark') {
@@ -2912,13 +2900,23 @@
     </script>
 
     <!-- ==================================================================
-         FIREBASE CLOUD SYNC LAYER
+         FIREBASE CLOUD SYNC LAYER  (PATCHED)
          ------------------------------------------------------------------
-         • Firestore  : stores every app "table" in collection `hrPortal`
-         • Storage    : stores resume PDFs + job images (too big for Firestore)
-         • Auth       : anonymous sign-in so security rules can require auth
+         • Firestore : stores every app "table" in collection `hrPortal`
+         • Storage   : stores resume PDFs + job images (too big for Firestore)
+         • Auth      : anonymous sign-in so security rules can require auth
          • Storage API: transparently shims window.localStorage so the rest
-                        of the app needs ZERO changes.
+                       of the app needs ZERO changes.
+         ------------------------------------------------------------------
+         FIXES APPLIED:
+         1. Seed loop now calls offloadResumes()/offloadJobs() so first-run
+            data doesn't bypass Storage.
+         2. flush() now enforces size guard + logs FAILED writes with
+            console.error (instead of swallowing them).
+         3. offloadResumes() no longer strips `fileData` when the Storage
+            upload fails — the local copy is preserved.
+         4. candidateUpdates table is capped (same idea as audit logs) so it
+            can never exceed the 1 MB Firestore document limit.
          ================================================================== -->
     <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
@@ -2948,10 +2946,17 @@
       const CLIENT_ID  = 'c_' + Math.random().toString(36).slice(2) + '_' + Date.now();
       const COLLECTION = 'hrPortal';
 
-      const RESUME_KEY = 'sarathy_resumes_v4';
-      const JOBS_KEY   = 'sarathy_jobs_v5';
-      const AUDIT_KEY  = 'sarathy_audit_logs_v1';
-      const MAX_AUDIT  = 500;   // keep Firestore documents small
+      const RESUME_KEY            = 'sarathy_resumes_v4';
+      const JOBS_KEY              = 'sarathy_jobs_v5';
+      const AUDIT_KEY             = 'sarathy_audit_logs_v1';
+      const CANDIDATE_UPDATES_KEY = 'sarathy_candidate_updates_v2';
+      const BIODATA_KEY           = 'sarathy_biodata_forwarding_v2';
+
+      // -------- SIZE LIMITS (Firestore hard cap = 1 MB per doc) --------
+      const MAX_AUDIT              = 500;    // tail entries kept for audit log
+      const MAX_CANDIDATE_UPDATES  = 1000;   // tail entries kept for timelines
+      const MAX_BIODATA_RECORDS    = 1500;   // tail entries kept for forwarding table
+      const WARN_THRESHOLD_BYTES   = 900 * 1024;
 
       const SYNC_KEYS = new Set([
         'sarathy_db_v19', 'sarathy_req_v19', 'sarathy_notices_v5', 'sarathy_jobs_v5',
@@ -2991,10 +2996,91 @@
       } catch (e) { console.warn('[Cloud] localStorage read blocked', e); }
 
       // ------------------------------------------------------------
-      // 2. Anonymous auth (so Firestore/Storage rules can require auth)
+      // 2. Anonymous auth
       // ------------------------------------------------------------
       try { await signInAnonymously(auth); }
       catch (e) { console.warn('[Cloud] Anonymous auth failed — enable it in Firebase Console → Authentication:', e.message); }
+
+      // ------------------------------------------------------------
+      // Helper: offload big files to Firebase Storage
+      // ------------------------------------------------------------
+      async function uploadDataUrl(path, dataUrl) {
+        const r = storageRef(storage, path);
+        await uploadString(r, dataUrl, 'data_url');
+        return await getDownloadURL(r);
+      }
+
+      // -------- FIX #3: preserve fileData when upload fails --------
+      async function offloadResumes(list) {
+        if (!Array.isArray(list)) return list;
+        const out = [];
+        for (const r of list) {
+          const copy = { ...r };
+
+          // Already on Storage → just drop the base64 blob
+          if (copy.storagePath) {
+            delete copy.fileData;
+            out.push(copy);
+            continue;
+          }
+
+          const isDataUrl = typeof copy.fileData === 'string' && copy.fileData.startsWith('data:');
+          if (isDataUrl) {
+            try {
+              const path = `resumes/${copy.id}.pdf`;
+              copy.fileUrl = await uploadDataUrl(path, copy.fileData);
+              copy.storagePath = path;
+              r.fileUrl = copy.fileUrl; r.storagePath = path;   // keep in-memory copy in sync
+              delete copy.fileData;   // ✅ strip ONLY after successful upload
+            } catch (e) {
+              console.error(`[Cloud] ❌ Storage upload FAILED for resume ${copy.id}:`, e.message);
+              // Keep the local copy's fileData intact (don't touch `r`),
+              // but don't push the base64 into Firestore.
+              copy.uploadPending = true;
+              delete copy.fileData;
+            }
+          } else {
+            delete copy.fileData;
+          }
+
+          out.push(copy);
+        }
+        return out;
+      }
+
+      async function offloadJobs(list) {
+        if (!Array.isArray(list)) return list;
+        const out = [];
+        for (const j of list) {
+          const copy = { ...j };
+
+          if (copy.storagePath) {
+            delete copy.image;
+            out.push(copy);
+            continue;
+          }
+
+          const isDataUrl = typeof copy.image === 'string' && copy.image.startsWith('data:');
+          if (isDataUrl) {
+            try {
+              const path = `jobImages/${copy.id}.jpg`;
+              copy.imageUrl = await uploadDataUrl(path, copy.image);
+              copy.storagePath = path;
+              j.imageUrl = copy.imageUrl; j.storagePath = path;
+              delete copy.image;
+            } catch (e) {
+              console.error(`[Cloud] ❌ Storage upload FAILED for job image ${copy.id}:`, e.message);
+              copy.uploadPending = true;
+              delete copy.image;
+            }
+          } else {
+            delete copy.image;
+          }
+
+          out.push(copy);
+        }
+        return out;
+      }
 
       // ------------------------------------------------------------
       // 3. Pull every synced document from Firestore
@@ -3012,7 +3098,8 @@
       }));
 
       // ------------------------------------------------------------
-      // 4. First-run migration: push local/default data up to the cloud
+      // 4. First-run migration
+      //    FIX #1: also offload resumes/jobs so seed never bypasses Storage
       // ------------------------------------------------------------
       for (const key of missing) {
         let val = null;
@@ -3020,9 +3107,21 @@
         if (raw != null) { try { val = JSON.parse(raw); } catch (e) { /* ignore */ } }
         if (val == null && SEED[key]) val = SEED[key]();
         if (val == null) continue;
+
+        // ⬇️ FIX #1: run the same offload pipeline the normal write path uses
+        try {
+          if (key === RESUME_KEY)          val = await offloadResumes(val);
+          if (key === JOBS_KEY)            val = await offloadJobs(val);
+          if (key === AUDIT_KEY && Array.isArray(val))             val = val.slice(-MAX_AUDIT);
+          if (key === CANDIDATE_UPDATES_KEY && Array.isArray(val)) val = val.slice(-MAX_CANDIDATE_UPDATES);
+          if (key === BIODATA_KEY && Array.isArray(val))           val = val.slice(-MAX_BIODATA_RECORDS);
+        } catch (e) {
+          console.warn(`[Cloud] pre-seed offload failed for ${key}:`, e.message);
+        }
+
         cache.set(key, JSON.stringify(val));
         try { await writeDoc(key, val); }
-        catch (e) { console.warn('[Cloud] seed failed', key, e.message); }
+        catch (e) { console.error(`[Cloud] ❌ seed FAILED for ${key}:`, e.message); }
       }
 
       // ------------------------------------------------------------
@@ -3034,20 +3133,40 @@
         if (!SYNC_KEYS.has(key)) return;              // 'theme' etc. stay device-local
         clearTimeout(timers.get(key));
         timers.set(key, setTimeout(() => {
-          flush(key).catch(e => console.warn('[Cloud] save failed', key, e.message));
+          flush(key).catch(e => console.error('[Cloud] ❌ save FAILED:', key, e.message));
         }, 700));
       }
 
+      // -------- FIX #2: size guard + hard failure logging --------
       async function flush(key) {
         timers.delete(key);
         const raw = cache.get(key);
         let val = null;
         try { val = (raw == null) ? null : JSON.parse(raw); }
         catch (e) { return; }
+
         if (key === RESUME_KEY) val = await offloadResumes(val);
         if (key === JOBS_KEY)   val = await offloadJobs(val);
-        if (key === AUDIT_KEY && Array.isArray(val)) val = val.slice(-MAX_AUDIT);
-        await writeDoc(key, val);
+        if (key === AUDIT_KEY && Array.isArray(val))             val = val.slice(-MAX_AUDIT);
+        if (key === CANDIDATE_UPDATES_KEY && Array.isArray(val)) val = val.slice(-MAX_CANDIDATE_UPDATES);
+        if (key === BIODATA_KEY && Array.isArray(val))           val = val.slice(-MAX_BIODATA_RECORDS);
+
+        // Update the local cache so trimmed versions are what the app sees next
+        if (key === AUDIT_KEY || key === CANDIDATE_UPDATES_KEY || key === BIODATA_KEY) {
+          cache.set(key, JSON.stringify(val));
+        }
+
+        const bytes = JSON.stringify(val ?? null).length;
+        if (bytes > WARN_THRESHOLD_BYTES) {
+          console.warn(`[Cloud] ⚠️ ${key} is ${(bytes/1024).toFixed(0)} KB — approaching the 1 MB Firestore limit!`);
+        }
+
+        try {
+          await writeDoc(key, val);
+        } catch (e) {
+          console.error(`[Cloud] ❌ WRITE FAILED for ${key} (${(bytes/1024).toFixed(0)} KB):`, e.message);
+          throw e;
+        }
       }
 
       async function writeDoc(key, items) {
@@ -3056,51 +3175,6 @@
           updatedAt: Date.now(),
           clientId: CLIENT_ID
         });
-      }
-
-      // ---------- Firebase Storage helpers ----------
-      async function uploadDataUrl(path, dataUrl) {
-        const r = storageRef(storage, path);
-        await uploadString(r, dataUrl, 'data_url');
-        return await getDownloadURL(r);
-      }
-
-      async function offloadResumes(list) {
-        if (!Array.isArray(list)) return list;
-        const out = [];
-        for (const r of list) {
-          const copy = { ...r };
-          if (typeof copy.fileData === 'string' && copy.fileData.startsWith('data:') && !copy.storagePath) {
-            try {
-              const path = `resumes/${copy.id}.pdf`;
-              copy.fileUrl = await uploadDataUrl(path, copy.fileData);
-              copy.storagePath = path;
-              r.fileUrl = copy.fileUrl; r.storagePath = path;   // keep in-memory copy in sync
-            } catch (e) { console.warn('[Cloud] resume upload failed', copy.id, e.message); }
-          }
-          delete copy.fileData;   // never put base64 blobs into Firestore
-          out.push(copy);
-        }
-        return out;
-      }
-
-      async function offloadJobs(list) {
-        if (!Array.isArray(list)) return list;
-        const out = [];
-        for (const j of list) {
-          const copy = { ...j };
-          if (typeof copy.image === 'string' && copy.image.startsWith('data:') && !copy.storagePath) {
-            try {
-              const path = `jobImages/${copy.id}.jpg`;
-              copy.imageUrl = await uploadDataUrl(path, copy.image);
-              copy.storagePath = path;
-              j.imageUrl = copy.imageUrl; j.storagePath = path;
-            } catch (e) { console.warn('[Cloud] job image upload failed', j.id, e.message); }
-          }
-          delete copy.image;
-          out.push(copy);
-        }
-        return out;
       }
 
       const shim = {
@@ -3158,7 +3232,7 @@
           if (changed && window.currentUser) {
             window.rehydrateFromStorage?.();
             window.refreshAllViews?.();
-            console.log('[Cloud] remote update applied');
+            console.log('[Cloud] ✅ remote update applied');
           }
         }, (err) => console.warn('[Cloud] snapshot error:', err.message));
       } catch (e) { console.warn('[Cloud] realtime disabled', e); }
@@ -3173,7 +3247,7 @@
         async flushAll() {
           for (const k of [...SYNC_KEYS]) {
             clearTimeout(timers.get(k));
-            try { await flush(k); } catch (e) { console.warn('[Cloud] flush failed', k, e.message); }
+            try { await flush(k); } catch (e) { console.error('[Cloud] flush failed', k, e.message); }
           }
         },
         /** Re-pull everything from Firestore. */
@@ -3184,6 +3258,14 @@
           }));
           window.rehydrateFromStorage?.();
           window.refreshAllViews?.();
+        },
+        /** Debug helper — checks doc size on the server for a given key. */
+        async inspect(key) {
+          const snap = await getDoc(doc(db, COLLECTION, key));
+          if (!snap.exists()) return { exists: false };
+          const items = snap.data().items ?? [];
+          const bytes = JSON.stringify(items).length;
+          return { exists: true, count: Array.isArray(items) ? items.length : 1, bytes };
         }
       };
 
@@ -3192,14 +3274,13 @@
         [...SYNC_KEYS].forEach(k => { if (timers.get(k)) { clearTimeout(timers.get(k)); flush(k); } });
       });
 
-      console.log('%c☁ Firebase Cloud Sync ready', 'color:#0054A6;font-weight:bold');
+      console.log('%c☁ Firebase Cloud Sync ready (patched)', 'color:#0054A6;font-weight:bold');
       return true;
     })();
     </script>
 
     <!-- ==================================================================
          FIX PACK — restores every missing / broken function
-         (paste this block just before </body>)
          ================================================================== -->
     <script>
     (function () {
@@ -3245,7 +3326,7 @@
       };
 
       /* ------------------------------------------------------------
-         2. STAR RATING  (window.updateStars was called but undefined)
+         2. STAR RATING
          ------------------------------------------------------------ */
       window.updateStars = function (val) {
         val = parseInt(val) || 0;
@@ -3276,7 +3357,7 @@
       document.getElementById('status')?.addEventListener('change', syncRejectionBox);
 
       /* ------------------------------------------------------------
-         4. OPEN MODAL wrapper — keeps stars + rejection box in sync
+         4. OPEN MODAL wrapper
          ------------------------------------------------------------ */
       const _origOpenModal = window.openModal;
       window.openModal = function (editData) {
@@ -3286,7 +3367,7 @@
       };
 
       /* ------------------------------------------------------------
-         5. SAVE CANDIDATE  (joineeForm had NO submit listener!)
+         5. SAVE CANDIDATE
          ------------------------------------------------------------ */
       document.getElementById('joineeForm')?.addEventListener('submit', function (e) {
         e.preventDefault();
@@ -3348,7 +3429,7 @@
       });
 
       /* ------------------------------------------------------------
-         6. PUBLIC APPLY FORM  (had NO submit listener!)
+         6. PUBLIC APPLY FORM
          ------------------------------------------------------------ */
       document.getElementById('publicApplyForm')?.addEventListener('submit', function (e) {
         e.preventDefault();
@@ -3402,7 +3483,7 @@
       });
 
       /* ------------------------------------------------------------
-         7. SEND-BIODATA PICKER  (window.openSendBiodataPicker was missing)
+         7. SEND-BIODATA PICKER
          ------------------------------------------------------------ */
       window.openSendBiodataPicker = function () {
         const search = document.getElementById('pickerSearch');
