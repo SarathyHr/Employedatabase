@@ -93,9 +93,7 @@
         <div class="w-full max-w-4xl animate-up relative z-10 my-auto py-8">
             <div class="bg-white/80 dark:bg-slate-800/80 backdrop-blur-2xl p-6 md:p-12 rounded-[2rem] md:rounded-[3rem] shadow-2xl border border-white/40">
                 <div class="text-center mb-10">
-                    <div class="inline-flex items-center justify-center w-24 h-24 bg-white rounded-2xl shadow-lg mb-6 border border-slate-100 p-2">
-                        <img src="sarathy-group-logo.png" alt="Sarathy Group" class="w-full h-full object-contain" onerror="this.outerHTML='<div class=\'text-sarathy-blue font-black text-3xl\'>SG</div>'">
-                    </div>
+                    <div class="inline-flex items-center justify-center w-20 h-20 bg-white rounded-2xl shadow-lg mb-6 border border-slate-100 p-2"><div class="text-sarathy-blue font-black text-3xl">SG</div></div>
                     <h1 class="text-3xl md:text-5xl font-black text-slate-800 dark:text-white tracking-tight mb-3">Join Our Team</h1>
                     <p class="text-base font-medium text-slate-500 max-w-lg mx-auto">Take the next step in your career with Sarathy Group.</p>
                 </div>
@@ -133,9 +131,7 @@
         <div class="w-full max-w-[400px] animate-up relative z-10">
             <div class="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl p-8 rounded-[2.5rem] shadow-2xl border border-white/50">
                 <div class="mb-8 text-center">
-                    <div class="bg-white p-3 rounded-2xl inline-block shadow-sm mb-4 border border-slate-100">
-                        <img src="sarathy-group-logo.png" alt="Sarathy Group" class="h-16 w-auto object-contain" onerror="this.outerHTML='<div class=\'text-sarathy-blue font-black text-2xl px-4\'>SG</div>'">
-                    </div>
+                    <div class="bg-white p-3 rounded-2xl inline-block shadow-sm mb-4 border border-slate-100"><div class="text-sarathy-blue font-black text-2xl px-4">SG</div></div>
                     <h2 class="text-2xl font-black text-slate-800 dark:text-white tracking-tight">Welcome Back</h2>
                     <p class="text-xs font-bold text-slate-500 mt-1 uppercase tracking-widest">HR Management System</p>
                     <div id="cloudStatus" class="mt-3 text-[10px] font-black uppercase tracking-widest text-slate-400">☁ Connecting…</div>
@@ -164,9 +160,7 @@
 
         <aside id="sidebar" class="fixed lg:static inset-y-0 left-0 w-[var(--sidebar-width)] lg:w-[80px] hover:lg:w-[var(--sidebar-width)] h-[100dvh] bg-[var(--bg-secondary)] flex flex-col shrink-0 z-[100] border-r border-[var(--border-color)] transform -translate-x-full lg:translate-x-0 transition-all duration-300 overflow-x-hidden group">
             <div class="h-16 lg:h-20 px-4 flex items-center gap-3 border-b border-[var(--border-color)] shrink-0">
-                <div class="w-10 h-10 lg:w-12 lg:h-12 bg-white rounded-xl flex items-center justify-center shrink-0 p-1 border border-slate-100 overflow-hidden">
-                    <img src="sarathy-group-logo.png" alt="Sarathy Logo" class="w-full h-full object-contain" onerror="this.outerHTML='<div class=\'text-sarathy-blue font-black text-xl\'>S</div>'">
-                </div>
+                <div class="w-10 h-10 lg:w-12 lg:h-12 bg-white rounded-xl flex items-center justify-center shrink-0 p-1 border border-slate-100"><div class="text-sarathy-blue font-black text-xl">S</div></div>
                 <div class="transition-opacity duration-300 lg:opacity-0 lg:group-hover:opacity-100 whitespace-nowrap overflow-hidden flex-1 ml-1"><h1 class="font-black text-sm lg:text-base gradient-text">SARATHY GROUP</h1></div>
                 <button class="lg:hidden w-8 h-8 flex items-center justify-center rounded-lg bg-slate-100 text-slate-500 hover:text-red-500 shrink-0 ml-auto" onclick="window.toggleSidebar()"><i class="fas fa-times"></i></button>
             </div>
@@ -218,10 +212,6 @@
 
                 <div id="tab-dashboard" class="tab-content active p-4 md:p-6 lg:p-8 space-y-6 max-w-[1600px] mx-auto">
                     <div class="bg-gradient-to-br from-slate-900 via-[#0054A6] to-sky-600 rounded-[2.5rem] p-6 md:p-12 text-white relative overflow-hidden shadow-2xl animate-up">
-                        <div class="absolute right-0 top-1/2 -translate-y-1/2 opacity-10 pointer-events-none w-2/3 md:w-1/2 flex justify-end pr-4 md:pr-10">
-                            <img src="sarathy-group-logo.png" alt="Sarathy Logo" class="w-full max-w-[300px] md:max-w-[450px] object-contain" onerror="this.style.display='none'">
-                        </div>
-                        
                         <div class="relative z-10 flex flex-col xl:flex-row justify-between items-start xl:items-center gap-8">
                             <div class="flex-1">
                                 <h2 id="dynamicGreeting" class="text-4xl md:text-5xl font-black mb-3">Good Morning, HR <i class="fas fa-coffee text-blue-200"></i></h2>
@@ -338,11 +328,8 @@
                                     <span class="text-slate-400 font-bold text-xs">TO</span>
                                     <input type="date" id="drEndDate" onchange="window.renderDailyReportAnalytics()" class="px-3 py-2 bg-transparent text-sm font-bold cursor-pointer" />
                                 </div>
-                                <button onclick="window.downloadDailyReportTemplate()" class="px-4 py-2.5 bg-emerald-50 text-emerald-600 border border-emerald-200 rounded-xl font-bold text-sm"><i class="fas fa-download"></i> Template</button>
                                 <button onclick="document.getElementById('importDailyReportFile').click()" class="px-4 py-2.5 bg-[#5c4ae6] text-white rounded-xl font-bold text-sm"><i class="fas fa-upload"></i> Import</button>
                                 <input type="file" id="importDailyReportFile" accept=".xlsx,.xls,.csv" class="hidden" onchange="window.importDailyReport(event)" />
-                                <button onclick="window.exportReportToExcel()" class="px-4 py-2.5 bg-white border border-slate-200 text-emerald-600 rounded-xl font-bold text-sm"><i class="fas fa-file-excel"></i> Excel</button>
-                                <button onclick="window.exportReportToPDF()" class="px-4 py-2.5 bg-white border border-slate-200 text-red-500 rounded-xl font-bold text-sm"><i class="fas fa-file-pdf"></i> PDF</button>
                             </div>
                         </div>
                         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
@@ -814,6 +801,7 @@
                                     <option value="SELECTED">SELECTED</option>
                                     <option value="JOINED">JOINED</option>
                                     <option value="REJECTED">REJECTED</option>
+                                    <!-- NEW STATUSES ADDED -->
                                     <option value="BIODATA FORWARDED">BIODATA FORWARDED</option>
                                     <option value="UNDER REVIEW">UNDER REVIEW</option>
                                     <option value="CALLED FOR INTERVIEW">CALLED FOR INTERVIEW</option>
@@ -1088,7 +1076,9 @@
     try { window.auditLogs = JSON.parse(localStorage.getItem(window.AUDIT_LOGS_VERSION)) || []; } catch(e) { window.auditLogs = []; }
 
     // ============================================================
-    // CLOUD RE-HYDRATION
+    // CLOUD RE-HYDRATION  (added for Firebase sync)
+    // Re-reads every global from localStorage (which is now backed by
+    // Firestore) without touching any of the app's existing logic.
     // ============================================================
     window.rehydrateFromStorage = function () {
         const read = (key, fallback) => {
@@ -1117,6 +1107,7 @@
         // Files live in Firebase Storage now — restore the URL the UI expects
         (window.resumeTrackerList || []).forEach(r => { if (!r.fileData && r.fileUrl) r.fileData = r.fileUrl; });
         (window.jobsList || []).forEach(j => { if (!j.image && j.imageUrl) j.image = j.imageUrl; });
+        (window.joinees || []).forEach(j => { if (!j.resumeData && j.resumeUrl) j.resumeData = j.resumeUrl; });
     };
 
     window.currentView = 'list';
@@ -1901,6 +1892,7 @@
         const pendingFollowUps = window.biodataForwarding.filter(f => {
             const sentDate = new Date(f.forwardDateTime || f.forwardDate);
             const diffDays = Math.floor((today - sentDate) / (1000 * 60 * 60 * 24));
+            // Needs follow up if > 2 days and status is still initial or interview completed without final status
             return diffDays >= 2 && (f.status === 'BIODATA RECEIVED' || f.status === 'UNDER REVIEW' || f.status === 'CALLED FOR INTERVIEW' || f.status === 'INTERVIEW SCHEDULED' || f.status === 'INTERVIEW COMPLETED');
         }).map(f => {
             const sentDate = new Date(f.forwardDateTime || f.forwardDate);
@@ -2053,7 +2045,7 @@
         // Update Forwarding Record
         f.status = newStatus;
         f.isReceived = received;
-        f.remarks = remarks;
+        f.remarks = remarks; // Overwrite the last remark but history is kept below
         localStorage.setItem(window.BIODATA_FORWARDING_VERSION, JSON.stringify(window.biodataForwarding));
 
         // Create Timeline Entry (Audit Trail - Never overwrite old remarks)
@@ -2200,6 +2192,7 @@
         if (filterDate) data = data.filter(f => f.forwardDate === filterDate);
         if (filterName) data = data.filter(f => f.candidateName.toLowerCase().includes(filterName));
 
+        // Update Dashboard Cards based on filtered data
         const setT = (id, v) => { const el = document.getElementById(id); if (el) el.innerText = v; };
         setT('hrDashReceived', data.filter(f => f.status === 'BIODATA RECEIVED').length);
         setT('hrDashForwarded', data.length);
@@ -2859,6 +2852,7 @@
     async function bootApp() {
         console.log('🚀 HR Portal booting...');
         try {
+            // ---- 1. Wait for Firebase to hydrate cloud data ----
             const statusEl = document.getElementById('cloudStatus');
             try {
                 await waitForFirebase(8000);
@@ -2868,6 +2862,7 @@
                 if (statusEl) statusEl.innerHTML = '⚠ Offline (local only)';
             }
 
+            // ---- 2. Re-hydrate globals from the synced store ----
             if (typeof window.rehydrateFromStorage === 'function') window.rehydrateFromStorage();
 
             if(localStorage.getItem('theme') === 'dark') {
@@ -2900,23 +2895,13 @@
     </script>
 
     <!-- ==================================================================
-         FIREBASE CLOUD SYNC LAYER  (PATCHED)
+         FIREBASE CLOUD SYNC LAYER
          ------------------------------------------------------------------
-         • Firestore : stores every app "table" in collection `hrPortal`
-         • Storage   : stores resume PDFs + job images (too big for Firestore)
-         • Auth      : anonymous sign-in so security rules can require auth
+         • Firestore  : stores every app "table" in collection `hrPortal`
+         • Storage    : stores resume PDFs + job images (too big for Firestore)
+         • Auth       : anonymous sign-in so security rules can require auth
          • Storage API: transparently shims window.localStorage so the rest
-                       of the app needs ZERO changes.
-         ------------------------------------------------------------------
-         FIXES APPLIED:
-         1. Seed loop now calls offloadResumes()/offloadJobs() so first-run
-            data doesn't bypass Storage.
-         2. flush() now enforces size guard + logs FAILED writes with
-            console.error (instead of swallowing them).
-         3. offloadResumes() no longer strips `fileData` when the Storage
-            upload fails — the local copy is preserved.
-         4. candidateUpdates table is capped (same idea as audit logs) so it
-            can never exceed the 1 MB Firestore document limit.
+                        of the app needs ZERO changes.
          ================================================================== -->
     <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
@@ -2946,17 +2931,11 @@
       const CLIENT_ID  = 'c_' + Math.random().toString(36).slice(2) + '_' + Date.now();
       const COLLECTION = 'hrPortal';
 
-      const RESUME_KEY            = 'sarathy_resumes_v4';
-      const JOBS_KEY              = 'sarathy_jobs_v5';
-      const AUDIT_KEY             = 'sarathy_audit_logs_v1';
-      const CANDIDATE_UPDATES_KEY = 'sarathy_candidate_updates_v2';
-      const BIODATA_KEY           = 'sarathy_biodata_forwarding_v2';
-
-      // -------- SIZE LIMITS (Firestore hard cap = 1 MB per doc) --------
-      const MAX_AUDIT              = 500;    // tail entries kept for audit log
-      const MAX_CANDIDATE_UPDATES  = 1000;   // tail entries kept for timelines
-      const MAX_BIODATA_RECORDS    = 1500;   // tail entries kept for forwarding table
-      const WARN_THRESHOLD_BYTES   = 900 * 1024;
+      const RESUME_KEY = 'sarathy_resumes_v4';
+      const JOBS_KEY   = 'sarathy_jobs_v5';
+      const AUDIT_KEY  = 'sarathy_audit_logs_v1';
+      const CAND_KEY   = 'sarathy_db_v19';
+      const MAX_AUDIT  = 500;   // keep Firestore documents small
 
       const SYNC_KEYS = new Set([
         'sarathy_db_v19', 'sarathy_req_v19', 'sarathy_notices_v5', 'sarathy_jobs_v5',
@@ -2996,91 +2975,10 @@
       } catch (e) { console.warn('[Cloud] localStorage read blocked', e); }
 
       // ------------------------------------------------------------
-      // 2. Anonymous auth
+      // 2. Anonymous auth (so Firestore/Storage rules can require auth)
       // ------------------------------------------------------------
       try { await signInAnonymously(auth); }
       catch (e) { console.warn('[Cloud] Anonymous auth failed — enable it in Firebase Console → Authentication:', e.message); }
-
-      // ------------------------------------------------------------
-      // Helper: offload big files to Firebase Storage
-      // ------------------------------------------------------------
-      async function uploadDataUrl(path, dataUrl) {
-        const r = storageRef(storage, path);
-        await uploadString(r, dataUrl, 'data_url');
-        return await getDownloadURL(r);
-      }
-
-      // -------- FIX #3: preserve fileData when upload fails --------
-      async function offloadResumes(list) {
-        if (!Array.isArray(list)) return list;
-        const out = [];
-        for (const r of list) {
-          const copy = { ...r };
-
-          // Already on Storage → just drop the base64 blob
-          if (copy.storagePath) {
-            delete copy.fileData;
-            out.push(copy);
-            continue;
-          }
-
-          const isDataUrl = typeof copy.fileData === 'string' && copy.fileData.startsWith('data:');
-          if (isDataUrl) {
-            try {
-              const path = `resumes/${copy.id}.pdf`;
-              copy.fileUrl = await uploadDataUrl(path, copy.fileData);
-              copy.storagePath = path;
-              r.fileUrl = copy.fileUrl; r.storagePath = path;   // keep in-memory copy in sync
-              delete copy.fileData;   // ✅ strip ONLY after successful upload
-            } catch (e) {
-              console.error(`[Cloud] ❌ Storage upload FAILED for resume ${copy.id}:`, e.message);
-              // Keep the local copy's fileData intact (don't touch `r`),
-              // but don't push the base64 into Firestore.
-              copy.uploadPending = true;
-              delete copy.fileData;
-            }
-          } else {
-            delete copy.fileData;
-          }
-
-          out.push(copy);
-        }
-        return out;
-      }
-
-      async function offloadJobs(list) {
-        if (!Array.isArray(list)) return list;
-        const out = [];
-        for (const j of list) {
-          const copy = { ...j };
-
-          if (copy.storagePath) {
-            delete copy.image;
-            out.push(copy);
-            continue;
-          }
-
-          const isDataUrl = typeof copy.image === 'string' && copy.image.startsWith('data:');
-          if (isDataUrl) {
-            try {
-              const path = `jobImages/${copy.id}.jpg`;
-              copy.imageUrl = await uploadDataUrl(path, copy.image);
-              copy.storagePath = path;
-              j.imageUrl = copy.imageUrl; j.storagePath = path;
-              delete copy.image;
-            } catch (e) {
-              console.error(`[Cloud] ❌ Storage upload FAILED for job image ${copy.id}:`, e.message);
-              copy.uploadPending = true;
-              delete copy.image;
-            }
-          } else {
-            delete copy.image;
-          }
-
-          out.push(copy);
-        }
-        return out;
-      }
 
       // ------------------------------------------------------------
       // 3. Pull every synced document from Firestore
@@ -3098,8 +2996,7 @@
       }));
 
       // ------------------------------------------------------------
-      // 4. First-run migration
-      //    FIX #1: also offload resumes/jobs so seed never bypasses Storage
+      // 4. First-run migration: push local/default data up to the cloud
       // ------------------------------------------------------------
       for (const key of missing) {
         let val = null;
@@ -3107,21 +3004,9 @@
         if (raw != null) { try { val = JSON.parse(raw); } catch (e) { /* ignore */ } }
         if (val == null && SEED[key]) val = SEED[key]();
         if (val == null) continue;
-
-        // ⬇️ FIX #1: run the same offload pipeline the normal write path uses
-        try {
-          if (key === RESUME_KEY)          val = await offloadResumes(val);
-          if (key === JOBS_KEY)            val = await offloadJobs(val);
-          if (key === AUDIT_KEY && Array.isArray(val))             val = val.slice(-MAX_AUDIT);
-          if (key === CANDIDATE_UPDATES_KEY && Array.isArray(val)) val = val.slice(-MAX_CANDIDATE_UPDATES);
-          if (key === BIODATA_KEY && Array.isArray(val))           val = val.slice(-MAX_BIODATA_RECORDS);
-        } catch (e) {
-          console.warn(`[Cloud] pre-seed offload failed for ${key}:`, e.message);
-        }
-
         cache.set(key, JSON.stringify(val));
         try { await writeDoc(key, val); }
-        catch (e) { console.error(`[Cloud] ❌ seed FAILED for ${key}:`, e.message); }
+        catch (e) { console.warn('[Cloud] seed failed', key, e.message); }
       }
 
       // ------------------------------------------------------------
@@ -3133,40 +3018,21 @@
         if (!SYNC_KEYS.has(key)) return;              // 'theme' etc. stay device-local
         clearTimeout(timers.get(key));
         timers.set(key, setTimeout(() => {
-          flush(key).catch(e => console.error('[Cloud] ❌ save FAILED:', key, e.message));
+          flush(key).catch(e => console.warn('[Cloud] save failed', key, e.message));
         }, 700));
       }
 
-      // -------- FIX #2: size guard + hard failure logging --------
       async function flush(key) {
         timers.delete(key);
         const raw = cache.get(key);
         let val = null;
         try { val = (raw == null) ? null : JSON.parse(raw); }
         catch (e) { return; }
-
         if (key === RESUME_KEY) val = await offloadResumes(val);
         if (key === JOBS_KEY)   val = await offloadJobs(val);
-        if (key === AUDIT_KEY && Array.isArray(val))             val = val.slice(-MAX_AUDIT);
-        if (key === CANDIDATE_UPDATES_KEY && Array.isArray(val)) val = val.slice(-MAX_CANDIDATE_UPDATES);
-        if (key === BIODATA_KEY && Array.isArray(val))           val = val.slice(-MAX_BIODATA_RECORDS);
-
-        // Update the local cache so trimmed versions are what the app sees next
-        if (key === AUDIT_KEY || key === CANDIDATE_UPDATES_KEY || key === BIODATA_KEY) {
-          cache.set(key, JSON.stringify(val));
-        }
-
-        const bytes = JSON.stringify(val ?? null).length;
-        if (bytes > WARN_THRESHOLD_BYTES) {
-          console.warn(`[Cloud] ⚠️ ${key} is ${(bytes/1024).toFixed(0)} KB — approaching the 1 MB Firestore limit!`);
-        }
-
-        try {
-          await writeDoc(key, val);
-        } catch (e) {
-          console.error(`[Cloud] ❌ WRITE FAILED for ${key} (${(bytes/1024).toFixed(0)} KB):`, e.message);
-          throw e;
-        }
+        if (key === CAND_KEY)   val = await offloadCandidates(val);
+        if (key === AUDIT_KEY && Array.isArray(val)) val = val.slice(-MAX_AUDIT);
+        await writeDoc(key, val);
       }
 
       async function writeDoc(key, items) {
@@ -3175,6 +3041,71 @@
           updatedAt: Date.now(),
           clientId: CLIENT_ID
         });
+      }
+
+      // ---------- Firebase Storage helpers ----------
+      async function uploadDataUrl(path, dataUrl) {
+        const r = storageRef(storage, path);
+        await uploadString(r, dataUrl, 'data_url');
+        return await getDownloadURL(r);
+      }
+
+      async function offloadResumes(list) {
+        if (!Array.isArray(list)) return list;
+        const out = [];
+        for (const r of list) {
+          const copy = { ...r };
+          if (typeof copy.fileData === 'string' && copy.fileData.startsWith('data:') && !copy.storagePath) {
+            try {
+              const path = `resumes/${copy.id}.pdf`;
+              copy.fileUrl = await uploadDataUrl(path, copy.fileData);
+              copy.storagePath = path;
+              r.fileUrl = copy.fileUrl; r.storagePath = path;   // keep in-memory copy in sync
+            } catch (e) { console.warn('[Cloud] resume upload failed', copy.id, e.message); }
+          }
+          delete copy.fileData;   // never put base64 blobs into Firestore
+          out.push(copy);
+        }
+        return out;
+      }
+
+      async function offloadJobs(list) {
+        if (!Array.isArray(list)) return list;
+        const out = [];
+        for (const j of list) {
+          const copy = { ...j };
+          if (typeof copy.image === 'string' && copy.image.startsWith('data:') && !copy.storagePath) {
+            try {
+              const path = `jobImages/${copy.id}.jpg`;
+              copy.imageUrl = await uploadDataUrl(path, copy.image);
+              copy.storagePath = path;
+              j.imageUrl = copy.imageUrl; j.storagePath = path;
+            } catch (e) { console.warn('[Cloud] job image upload failed', j.id, e.message); }
+          }
+          delete copy.image;
+          out.push(copy);
+        }
+        return out;
+      }
+
+      // NEW: offload candidate resume blobs so Firestore docs stay < 1 MB
+      async function offloadCandidates(list) {
+        if (!Array.isArray(list)) return list;
+        const out = [];
+        for (const c of list) {
+          const copy = { ...c };
+          if (typeof copy.resumeData === 'string' && copy.resumeData.startsWith('data:') && !copy.resumeStoragePath) {
+            try {
+              const path = `candidateResumes/${copy.id}.pdf`;
+              copy.resumeUrl = await uploadDataUrl(path, copy.resumeData);
+              copy.resumeStoragePath = path;
+              c.resumeUrl = copy.resumeUrl; c.resumeStoragePath = path;
+            } catch (e) { console.warn('[Cloud] candidate resume upload failed', c.id, e.message); }
+          }
+          delete copy.resumeData;
+          out.push(copy);
+        }
+        return out;
       }
 
       const shim = {
@@ -3232,7 +3163,7 @@
           if (changed && window.currentUser) {
             window.rehydrateFromStorage?.();
             window.refreshAllViews?.();
-            console.log('[Cloud] ✅ remote update applied');
+            console.log('[Cloud] remote update applied');
           }
         }, (err) => console.warn('[Cloud] snapshot error:', err.message));
       } catch (e) { console.warn('[Cloud] realtime disabled', e); }
@@ -3247,7 +3178,7 @@
         async flushAll() {
           for (const k of [...SYNC_KEYS]) {
             clearTimeout(timers.get(k));
-            try { await flush(k); } catch (e) { console.error('[Cloud] flush failed', k, e.message); }
+            try { await flush(k); } catch (e) { console.warn('[Cloud] flush failed', k, e.message); }
           }
         },
         /** Re-pull everything from Firestore. */
@@ -3258,14 +3189,6 @@
           }));
           window.rehydrateFromStorage?.();
           window.refreshAllViews?.();
-        },
-        /** Debug helper — checks doc size on the server for a given key. */
-        async inspect(key) {
-          const snap = await getDoc(doc(db, COLLECTION, key));
-          if (!snap.exists()) return { exists: false };
-          const items = snap.data().items ?? [];
-          const bytes = JSON.stringify(items).length;
-          return { exists: true, count: Array.isArray(items) ? items.length : 1, bytes };
         }
       };
 
@@ -3274,325 +3197,788 @@
         [...SYNC_KEYS].forEach(k => { if (timers.get(k)) { clearTimeout(timers.get(k)); flush(k); } });
       });
 
-      console.log('%c☁ Firebase Cloud Sync ready (patched)', 'color:#0054A6;font-weight:bold');
+      console.log('%c☁ Firebase Cloud Sync ready', 'color:#0054A6;font-weight:bold');
       return true;
     })();
     </script>
 
     <!-- ==================================================================
-         FIX PACK — restores every missing / broken function
+         COMPREHENSIVE FIX / PATCH LAYER
+         ------------------------------------------------------------------
+         This block repairs every broken feature in the original build:
+         • missing functions (openSendBiodataPicker, renderPickerCandidates…)
+         • dead forms (Add Candidate, Public Apply, Forward Biodata, HR Update)
+         • duplicate-candidate bug when forwarding an existing candidate
+         • HR status not syncing back to the Candidates list
+         • star rating, rejection-reason toggle, job modal title
+         • defensive sanitising of records so a single bad row can never
+           crash a render, plus resume viewing from Storage URLs
+         • automatic routing of new applications to the correct HR Manager
+           (location + department aware)
          ================================================================== -->
     <script>
     (function () {
       'use strict';
 
       /* ------------------------------------------------------------
-         1. DIALOG — prompt now shows its message text too
+         0. DOM fixes that require an element id
          ------------------------------------------------------------ */
-      let _dialogResolve = null;
-      window.showDialogModal = function (type, title, message, placeholder) {
-        return new Promise(function (resolve) {
-          _dialogResolve = resolve;
-          const modal = document.getElementById('customDialogModal');
-          if (!modal) { resolve(null); return; }
-          document.getElementById('dialogTitle').innerText = title || 'Notification';
-          const msgEl     = document.getElementById('dialogMessage');
-          const inputEl   = document.getElementById('dialogInput');
-          const cancelBtn = document.getElementById('dialogCancelBtn');
+      (function () {
+        const h3 = document.querySelector('#jobModal h3');
+        if (h3 && !h3.id) h3.id = 'jobModalTitle';
+      })();
 
-          msgEl.classList.remove('hidden');
-          msgEl.innerText = message || '';
-          inputEl.classList.add('hidden');
-          cancelBtn.classList.remove('hidden');
+      /* ------------------------------------------------------------
+         1. Defensive data sanitising — never let a bad row break a render
+         ------------------------------------------------------------ */
+      function sanitizeAll() {
+        const arr = (v) => Array.isArray(v) ? v : [];
+        window.joinees            = arr(window.joinees);
+        window.reqList            = arr(window.reqList);
+        window.noticesList        = arr(window.noticesList);
+        window.jobsList           = arr(window.jobsList);
+        window.resumeTrackerList  = arr(window.resumeTrackerList);
+        window.leadsList          = arr(window.leadsList);
+        window.hrManagers         = arr(window.hrManagers);
+        window.locationMapping    = arr(window.locationMapping);
+        window.biodataForwarding  = arr(window.biodataForwarding);
+        window.candidateUpdates   = arr(window.candidateUpdates);
+        window.followUps          = arr(window.followUps);
+        window.auditLogs          = arr(window.auditLogs);
 
-          if (type === 'alert')  cancelBtn.classList.add('hidden');
-          if (type === 'prompt') {
-            inputEl.classList.remove('hidden');
-            inputEl.value = '';
-            inputEl.placeholder = placeholder || '';
-            setTimeout(function () { inputEl.focus(); }, 120);
-          }
-          modal.classList.remove('hidden');
+        const today = new Date().toISOString().slice(0, 10);
+        window.joinees.forEach(j => {
+          if (typeof j.name !== 'string' || !j.name.trim()) j.name = 'UNKNOWN';
+          j.name = j.name.toUpperCase();
+          if (typeof j.phone !== 'string') j.phone = String(j.phone || '');
+          if (!j.status) j.status = 'PENDING';
+          if (!j.applyDate) j.applyDate = today;
+          if (!j.dept) j.dept = 'OTHER';
+          if (!j.company) j.company = 'SARATHY MOTORS';
+          if (!j.empId) j.empId = 'SG-' + String(Math.floor(Math.random() * 900) + 100);
+          if (typeof j.rating !== 'number') j.rating = parseInt(j.rating) || 0;
         });
-      };
-      window.closeDialog = function (approved) {
-        document.getElementById('customDialogModal').classList.add('hidden');
-        if (_dialogResolve) {
-          const inputEl  = document.getElementById('dialogInput');
-          const isPrompt = !inputEl.classList.contains('hidden');
-          _dialogResolve(approved ? (isPrompt ? inputEl.value : true) : null);
-          _dialogResolve = null;
-        }
+        window.biodataForwarding.forEach(f => {
+          if (!f.status) f.status = 'BIODATA RECEIVED';
+          if (!f.forwardDate) f.forwardDate = today;
+          if (!f.forwardDateTime) f.forwardDateTime = new Date().toISOString();
+          if (typeof f.candidateName !== 'string') f.candidateName = 'UNKNOWN';
+        });
+      }
+      window.sanitizeAll = sanitizeAll;
+      sanitizeAll();
+
+      // Wrap the cloud re-hydration so sanitising always runs afterwards
+      const _rehydrate = window.rehydrateFromStorage;
+      window.rehydrateFromStorage = function () {
+        try { _rehydrate(); } catch (e) { console.warn('rehydrate', e); }
+        sanitizeAll();
       };
 
       /* ------------------------------------------------------------
-         2. STAR RATING
+         2. HR routing — location + department aware
          ------------------------------------------------------------ */
-      window.updateStars = function (val) {
-        val = parseInt(val) || 0;
-        document.querySelectorAll('#starSelector i').forEach(function (star) {
-          const r = parseInt(star.dataset.rating);
-          star.classList.toggle('text-amber-400', r <= val);
-          star.classList.toggle('text-slate-300', r > val);
+      function pickBestHR(candidates, dept) {
+        if (!candidates || candidates.length === 0) return null;
+        const d = String(dept || '').toUpperCase();
+        return candidates.find(h => h.dept === 'ALL') ||
+               candidates.find(h => String(h.dept || '').toUpperCase() === d) ||
+               candidates[0];
+      }
+
+      window.findHRForLocation = function (location, dept) {
+        const loc = String(location || '').toUpperCase().trim();
+        const active = window.locationMapping.filter(m => m.status === 'ACTIVE');
+        let map = null;
+        if (loc) map = active.find(m => String(m.location).toUpperCase() === loc);
+        if (!map) map = active.find(m => String(m.location).toUpperCase() === 'OTHER LOCATIONS');
+
+        if (map) {
+          const hr = window.hrManagers.find(h => h.id === map.hrManagerId && h.status === 'ACTIVE');
+          if (hr && (hr.dept === 'ALL' || !dept || String(hr.dept).toUpperCase() === String(dept).toUpperCase())) return hr;
+          const alt = window.hrManagers.filter(h =>
+            h.status === 'ACTIVE' &&
+            String(h.location).toUpperCase() === loc &&
+            (h.dept === 'ALL' || String(h.dept).toUpperCase() === String(dept).toUpperCase()));
+          if (alt.length) return pickBestHR(alt, dept);
+          if (hr) return hr;
+        }
+
+        // Last resort — any active HR at that location
+        const sameLoc = window.hrManagers.filter(h =>
+          h.status === 'ACTIVE' && String(h.location).toUpperCase() === loc);
+        if (sameLoc.length) return pickBestHR(sameLoc, dept);
+
+        // Any active HR at all
+        const anyActive = window.hrManagers.filter(h => h.status === 'ACTIVE');
+        return anyActive.length ? anyActive[0] : null;
+      };
+
+      /* ------------------------------------------------------------
+         3. Forward a candidate to an HR Manager (shared helper)
+            – used by the Forwarding form, the public form and the picker
+         ------------------------------------------------------------ */
+      async function forwardCandidateToHR(opts) {
+        const {
+          candidateId, name, phone, age, gender, qualification, experience,
+          designation, dept, location, altLocation, applyDate, remarks,
+          hrManagerId, resumeData, resumeFileName, auto
+        } = opts;
+
+        const hr = window.hrManagers.find(h => String(h.id) === String(hrManagerId));
+        if (!hr) { window.showToast('HR Manager not found', 'error'); return null; }
+
+        // --- ensure the candidate record exists / is up to date
+        let idx = window.joinees.findIndex(j => String(j.id) === String(candidateId));
+        const base = {
+          name: (name || '').toUpperCase(),
+          phone: phone || '',
+          age: age || '',
+          gender: gender || 'OTHER',
+          qualification: (qualification || '').toUpperCase(),
+          experience: experience || '',
+          designation: (designation || '').toUpperCase(),
+          dept: dept || 'OTHER',
+          company: 'SARATHY MOTORS',
+          location: (location || '').toUpperCase(),
+          altLocation: altLocation || '',
+          applyDate: applyDate || new Date().toISOString().slice(0, 10),
+          remarks: remarks || '',
+          status: 'BIODATA FORWARDED'
+        };
+
+        let candidate;
+        if (idx > -1) {
+          window.joinees[idx] = Object.assign({}, window.joinees[idx], base);
+          if (resumeData) {
+            window.joinees[idx].resumeData = resumeData;
+            window.joinees[idx].resumeFileName = resumeFileName;
+          }
+          candidate = window.joinees[idx];
+        } else {
+          candidate = Object.assign({}, base, {
+            id: candidateId,
+            empId: 'CAN-' + new Date().getFullYear() + '-' + String(window.joinees.length + 1).padStart(4, '0'),
+            source: auto ? 'AUTO ROUTED' : 'BIODATA FORWARD',
+            rating: 0,
+            resumeData: resumeData || null,
+            resumeFileName: resumeFileName || null
+          });
+          window.joinees.push(candidate);
+        }
+        localStorage.setItem(window.CURRENT_DB_VERSION, JSON.stringify(window.joinees));
+
+        // --- forwarding record (update if it already exists)
+        let fwd = window.biodataForwarding.find(f => String(f.candidateId) === String(candidate.id));
+        if (fwd) {
+          Object.assign(fwd, {
+            hrManagerId: parseInt(hrManagerId),
+            hrManagerName: hr.name,
+            position: candidate.designation,
+            department: candidate.dept,
+            location: candidate.location,
+            remarks: candidate.remarks || fwd.remarks
+          });
+        } else {
+          fwd = {
+            id: Date.now(),
+            fwdId: 'FWD-' + new Date().getFullYear() + '-' + String(window.biodataForwarding.length + 1).padStart(4, '0'),
+            candidateId: candidate.id,
+            candidateName: candidate.name,
+            hrManagerId: parseInt(hrManagerId),
+            hrManagerName: hr.name,
+            position: candidate.designation,
+            department: candidate.dept,
+            location: candidate.location,
+            forwardDate: new Date().toISOString().slice(0, 10),
+            forwardDateTime: new Date().toISOString(),
+            sentBy: window.currentUser?.user || 'ADMIN',
+            status: 'BIODATA RECEIVED',
+            isReceived: 'Received',
+            remarks: candidate.remarks || ''
+          };
+          window.biodataForwarding.push(fwd);
+        }
+        localStorage.setItem(window.BIODATA_FORWARDING_VERSION, JSON.stringify(window.biodataForwarding));
+
+        // --- timeline entry
+        window.candidateUpdates.push({
+          id: Date.now() + 1,
+          candidateId: candidate.id,
+          hrManagerId: parseInt(hrManagerId),
+          status: fwd.status,
+          received: 'Received',
+          date: new Date().toISOString(),
+          remarks: (auto ? 'AUTO-ROUTED — ' : '') +
+                   `Biodata forwarded to ${hr.name} (${candidate.location || 'N/A'}). ` +
+                   (candidate.remarks || '')
+        });
+        localStorage.setItem(window.CANDIDATE_UPDATES_VERSION, JSON.stringify(window.candidateUpdates));
+
+        window.logAudit('BIODATA_FORWARDED',
+          `${candidate.name} → ${hr.name} (${fwd.fwdId})${auto ? ' [auto]' : ''}`);
+
+        return { candidate, fwd, hr };
+      }
+      window.forwardCandidateToHR = forwardCandidateToHR;
+
+      /* ------------------------------------------------------------
+         4. ADD-CANDIDATE FORM (was never wired to a submit handler)
+         ------------------------------------------------------------ */
+      (function wireJoineeForm() {
+        const form = document.getElementById('joineeForm');
+        if (!form) return;
+        form.addEventListener('submit', function (e) {
+          e.preventDefault();
+          const editId = document.getElementById('editId').value;
+          const name   = (document.getElementById('empName').value || '').trim().toUpperCase();
+          const phone  = (document.getElementById('empPhone').value || '').trim();
+
+          if (!name || !phone) { window.showToast('Name and phone are required', 'error'); return; }
+          if (!/^[0-9]{10}$/.test(phone)) { window.showToast('Phone must be 10 digits', 'error'); return; }
+
+          const payload = {
+            name,
+            phone,
+            email: (document.getElementById('empEmail').value || '').trim(),
+            age: document.getElementById('empAge').value,
+            gender: document.getElementById('empGender').value,
+            qualification: (document.getElementById('empQual').value || '').trim().toUpperCase(),
+            dept: document.getElementById('dept').value,
+            company: document.getElementById('company').value,
+            location: (document.getElementById('location').value || '').trim().toUpperCase(),
+            designation: (document.getElementById('designation').value || '').trim().toUpperCase(),
+            experience: document.getElementById('experience').value,
+            source: (document.getElementById('empSource').value || '').trim().toUpperCase(),
+            applyDate: document.getElementById('applyDate').value || new Date().toISOString().slice(0, 10),
+            interviewDate: document.getElementById('interviewDate').value || '',
+            joinDate: document.getElementById('joinDate').value || '',
+            remarks: (document.getElementById('empRemarks').value || '').trim(),
+            status: document.getElementById('status').value,
+            rejectionReason: document.getElementById('rejectionReason').value,
+            rating: parseInt(document.getElementById('empRating').value) || 0
+          };
+
+          if (editId) {
+            const i = window.joinees.findIndex(j => String(j.id) === String(editId));
+            if (i > -1) {
+              window.joinees[i] = Object.assign({}, window.joinees[i], payload);
+              window.logAudit('EDIT_CANDIDATE', `Edited ${payload.name}`);
+              window.showToast('Candidate updated');
+            }
+          } else {
+            payload.id = Date.now();
+            payload.empId = document.getElementById('empId').value ||
+                            ('SG-' + String(window.joinees.length + 1).padStart(3, '0'));
+            window.joinees.push(payload);
+            window.logAudit('ADD_CANDIDATE', `Added ${payload.name}`);
+            window.showToast('Candidate added');
+          }
+
+          localStorage.setItem(window.CURRENT_DB_VERSION, JSON.stringify(window.joinees));
+          window.closeModal();
+          window.refreshAllViews();
+        });
+      })();
+
+      /* ------------------------------------------------------------
+         5. Star rating + rejection-reason toggle + openModal wrapper
+         ------------------------------------------------------------ */
+      window.updateStars = function (rating) {
+        rating = parseInt(rating) || 0;
+        document.querySelectorAll('#starSelector i').forEach(s => {
+          const r = parseInt(s.dataset.rating);
+          s.classList.toggle('text-amber-400', r <= rating);
+          s.classList.toggle('text-slate-300', r > rating);
         });
         const hidden = document.getElementById('empRating');
-        if (hidden) hidden.value = val;
+        if (hidden) hidden.value = rating;
       };
-      document.querySelectorAll('#starSelector i').forEach(function (star) {
-        star.addEventListener('click', function () {
+
+      (function wireStars() {
+        const sel = document.getElementById('starSelector');
+        if (!sel) return;
+        sel.addEventListener('click', function (e) {
+          const star = e.target.closest('i[data-rating]');
+          if (!star) return;
           window.updateStars(parseInt(star.dataset.rating));
         });
-      });
+      })();
 
-      /* ------------------------------------------------------------
-         3. STATUS → REJECTION REASON toggle
-         ------------------------------------------------------------ */
-      function syncRejectionBox() {
-        const box = document.getElementById('rejectionReasonContainer');
-        const st  = document.getElementById('status');
-        if (!box || !st) return;
-        if (st.value === 'REJECTED') { box.classList.remove('hidden'); box.classList.add('flex'); }
-        else { box.classList.add('hidden'); box.classList.remove('flex'); }
-      }
-      document.getElementById('status')?.addEventListener('change', syncRejectionBox);
+      (function wireRejectionToggle() {
+        const st = document.getElementById('status');
+        if (!st) return;
+        st.addEventListener('change', function () {
+          const c = document.getElementById('rejectionReasonContainer');
+          if (!c) return;
+          if (this.value === 'REJECTED') { c.classList.remove('hidden'); c.classList.add('flex'); }
+          else { c.classList.add('hidden'); c.classList.remove('flex'); }
+        });
+      })();
 
-      /* ------------------------------------------------------------
-         4. OPEN MODAL wrapper
-         ------------------------------------------------------------ */
-      const _origOpenModal = window.openModal;
+      const _openModal = window.openModal;
       window.openModal = function (editData) {
-        _origOpenModal(editData);
-        syncRejectionBox();
-        window.updateStars(document.getElementById('empRating').value);
+        _openModal(editData);
+        setTimeout(function () {
+          const st = document.getElementById('status');
+          const c = document.getElementById('rejectionReasonContainer');
+          if (st && c) {
+            if (st.value === 'REJECTED') { c.classList.remove('hidden'); c.classList.add('flex'); }
+            else { c.classList.add('hidden'); c.classList.remove('flex'); }
+          }
+          window.updateStars(parseInt(document.getElementById('empRating')?.value || 0));
+        }, 30);
       };
 
       /* ------------------------------------------------------------
-         5. SAVE CANDIDATE
+         6. PUBLIC APPLY FORM (was completely inert)
          ------------------------------------------------------------ */
-      document.getElementById('joineeForm')?.addEventListener('submit', function (e) {
-        e.preventDefault();
+      (function wirePublicApply() {
+        const form = document.getElementById('publicApplyForm');
+        if (!form) return;
 
-        const id     = document.getElementById('editId').value;
-        const status = document.getElementById('status').value;
-        const rejRsn = document.getElementById('rejectionReason').value;
+        form.addEventListener('submit', async function (e) {
+          e.preventDefault();
 
-        if (status === 'REJECTED' && !rejRsn) {
-          window.showToast('Please select a rejection reason', 'error');
-          return;
-        }
+          const name  = (document.getElementById('pubName').value || '').trim().toUpperCase();
+          const phone = (document.getElementById('pubPhone').value || '').trim();
+          const dept  = document.getElementById('pubDept').value;
+          const rawLoc = document.getElementById('pubLocation').value;
+          const location = rawLoc === 'ANY' ? '' : rawLoc;
 
-        const payload = {
-          empId:         document.getElementById('empId').value,
-          name:          (document.getElementById('empName').value || '').trim().toUpperCase(),
-          phone:         (document.getElementById('empPhone').value || '').trim(),
-          email:         (document.getElementById('empEmail').value || '').trim(),
-          age:           document.getElementById('empAge').value,
-          gender:        document.getElementById('empGender').value,
-          qualification: (document.getElementById('empQual').value || '').trim().toUpperCase(),
-          dept:          document.getElementById('dept').value,
-          company:       document.getElementById('company').value,
-          location:      (document.getElementById('location').value || '').trim().toUpperCase(),
-          designation:   (document.getElementById('designation').value || '').trim().toUpperCase(),
-          experience:    document.getElementById('experience').value,
-          source:        (document.getElementById('empSource').value || '').trim().toUpperCase(),
-          applyDate:     document.getElementById('applyDate').value || new Date().toISOString().slice(0, 10),
-          interviewDate: document.getElementById('interviewDate').value,
-          joinDate:      document.getElementById('joinDate').value,
-          remarks:       (document.getElementById('empRemarks').value || '').trim(),
-          status:        status,
-          rejectionReason: rejRsn,
-          rating:        parseInt(document.getElementById('empRating').value) || 0
-        };
+          if (!name || !phone) { window.showToast('Please fill all required fields', 'error'); return; }
+          if (!/^[0-9]{10}$/.test(phone)) { window.showToast('Phone must be 10 digits', 'error'); return; }
 
-        if (!payload.name || !payload.phone) {
-          window.showToast('Name and Phone are required', 'error');
-          return;
-        }
+          const id = Date.now();
+          const candidate = {
+            id,
+            empId: 'APP-' + new Date().getFullYear() + '-' + String(window.joinees.length + 1).padStart(4, '0'),
+            name, phone,
+            email: (document.getElementById('pubEmail').value || '').trim(),
+            age: document.getElementById('pubAge').value,
+            gender: document.getElementById('pubGender').value,
+            qualification: (document.getElementById('pubQual').value || '').trim().toUpperCase(),
+            experience: document.getElementById('pubExp').value,
+            dept: dept,
+            company: 'SARATHY MOTORS',
+            location: location,
+            designation: dept,
+            source: 'PUBLIC FORM',
+            applyDate: new Date().toISOString().slice(0, 10),
+            status: 'PENDING',
+            rating: 0
+          };
+          window.joinees.push(candidate);
+          localStorage.setItem(window.CURRENT_DB_VERSION, JSON.stringify(window.joinees));
+          window.logAudit('PUBLIC_APPLICATION', `${name} applied via public form`);
 
-        if (id) {
-          const idx = window.joinees.findIndex(j => String(j.id) === String(id));
-          if (idx > -1) window.joinees[idx] = Object.assign({}, window.joinees[idx], payload);
-          window.logAudit('EDIT_CANDIDATE', 'Edited ' + payload.empId + ' - ' + payload.name);
-          window.showToast('Candidate updated');
-        } else {
-          payload.id = Date.now();
-          payload.resumeData = null;
-          payload.resumeFileName = null;
-          window.joinees.push(payload);
-          window.logAudit('ADD_CANDIDATE', 'Added ' + payload.empId + ' - ' + payload.name);
-          window.showToast('Candidate added');
-        }
-
-        localStorage.setItem(window.CURRENT_DB_VERSION, JSON.stringify(window.joinees));
-        window.closeModal();
-        window.refreshAllViews();
-      });
-
-      /* ------------------------------------------------------------
-         6. PUBLIC APPLY FORM
-         ------------------------------------------------------------ */
-      document.getElementById('publicApplyForm')?.addEventListener('submit', function (e) {
-        e.preventDefault();
-
-        const name  = (document.getElementById('pubName').value || '').trim().toUpperCase();
-        const phone = (document.getElementById('pubPhone').value || '').trim();
-
-        if (phone.length !== 10) {
-          window.showToast('Please enter a valid 10-digit phone number', 'error');
-          return;
-        }
-
-        const dept = document.getElementById('pubDept').value;
-
-        const newCandidate = {
-          id:            Date.now(),
-          empId:         'CAN-' + new Date().getFullYear() + '-' + String(window.joinees.length + 1).padStart(4, '0'),
-          name:          name,
-          phone:         phone,
-          email:         (document.getElementById('pubEmail').value || '').trim(),
-          age:           document.getElementById('pubAge').value,
-          gender:        document.getElementById('pubGender').value,
-          qualification: (document.getElementById('pubQual').value || '').trim().toUpperCase(),
-          experience:    document.getElementById('pubExp').value,
-          dept:          dept,
-          company:       'SARATHY MOTORS',
-          location:      document.getElementById('pubLocation').value,
-          designation:   dept,
-          source:        'PUBLIC FORM',
-          applyDate:     new Date().toISOString().slice(0, 10),
-          interviewDate: '',
-          joinDate:      '',
-          remarks:       'Applied via public application form',
-          status:        'PENDING',
-          rejectionReason: '',
-          rating:        0
-        };
-
-        window.joinees.push(newCandidate);
-        localStorage.setItem(window.CURRENT_DB_VERSION, JSON.stringify(window.joinees));
-
-        this.reset();
-
-        if (window.confetti) {
+          // Auto-route to the concerned HR Manager when a mapping exists
+          let routed = false;
           try {
-            confetti({ particleCount: 120, spread: 90, origin: { y: 0.6 } });
-          } catch (err) { /* ignore */ }
-        }
-        window.showToast('Application submitted successfully!');
-        alert('Thank you, ' + name + '! Your application has been received.');
-      });
+            const hr = window.findHRForLocation(location, dept);
+            if (hr) {
+              const res = await window.forwardCandidateToHR({
+                candidateId: id,
+                name, phone,
+                age: candidate.age,
+                gender: candidate.gender,
+                qualification: candidate.qualification,
+                experience: candidate.experience,
+                designation: candidate.designation,
+                dept: candidate.dept,
+                location: candidate.location,
+                altLocation: '',
+                applyDate: candidate.applyDate,
+                remarks: 'Auto-routed from public application form',
+                hrManagerId: hr.id,
+                auto: true
+              });
+              routed = !!res;
+            }
+          } catch (err) { console.warn('[AutoRoute]', err); }
+
+          try { confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } }); } catch (e) {}
+
+          form.innerHTML = `
+            <div class="text-center py-10 animate-up">
+              <div class="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6 text-3xl">
+                <i class="fas fa-check"></i>
+              </div>
+              <h2 class="text-2xl md:text-3xl font-black mb-3 text-slate-800 dark:text-white">Thank You!</h2>
+              <p class="text-slate-500 mb-2">Your application has been received successfully.</p>
+              ${routed ? '<p class="text-xs font-bold text-purple-600 mb-6">It has been forwarded to the concerned HR Manager.</p>'
+                       : '<p class="text-xs font-bold text-slate-400 mb-6">Our HR team will contact you soon.</p>'}
+              <button type="button" onclick="location.reload()"
+                      class="bg-sarathy-blue text-white px-8 py-3.5 rounded-xl font-black uppercase tracking-wider shadow-lg">
+                Submit Another
+              </button>
+            </div>`;
+        });
+      })();
 
       /* ------------------------------------------------------------
-         7. SEND-BIODATA PICKER
+         7. FORWARDING FORM  — replace the handler entirely
+            (fixes duplicate-candidate bug + adds Storage upload)
+         ------------------------------------------------------------ */
+      (function replaceForwardingForm() {
+        const old = document.getElementById('forwardingForm');
+        if (!old) return;
+        const clone = old.cloneNode(true);
+
+        const hidden = document.createElement('input');
+        hidden.type = 'hidden';
+        hidden.id = 'fwdCandidateId';
+        clone.insertBefore(hidden, clone.firstChild);
+
+        old.parentNode.replaceChild(clone, old);
+      })();
+
+      async function uploadCandidateResume(candidateId, dataUrl) {
+        if (!window.Cloud || !window.Cloud.storage || !dataUrl) return null;
+        try {
+          const mod = await import("https://www.gstatic.com/firebasejs/12.19.0/firebase-storage.js");
+          const r = mod.ref(window.Cloud.storage, `candidateResumes/${candidateId}_${Date.now()}.pdf`);
+          await mod.uploadString(r, dataUrl, 'data_url');
+          return await mod.getDownloadURL(r);
+        } catch (e) {
+          console.warn('[Resume upload] failed, falling back to inline data', e.message);
+          return null;
+        }
+      }
+
+      document.getElementById('forwardingForm')?.addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const existingId = document.getElementById('fwdCandidateId').value;
+        const prefLoc    = document.getElementById('fwdPrefLoc').value;
+        const autoHRId   = document.getElementById('fwdAutoHRId').value;
+        const manualHRId = document.getElementById('fwdManualHR').value;
+        const hrManagerId = autoHRId || manualHRId;
+
+        if (!hrManagerId) { window.showToast('Please select an HR Manager', 'error'); return; }
+
+        const name  = (document.getElementById('fwdName').value || '').trim().toUpperCase();
+        const phone = (document.getElementById('fwdPhone').value || '').trim();
+        if (!name || !phone) { window.showToast('Name and mobile number are required', 'error'); return; }
+        if (!/^[0-9]{10}$/.test(phone)) { window.showToast('Mobile must be 10 digits', 'error'); return; }
+
+        const resumeFile = document.getElementById('fwdResume').files[0];
+        let resumeData = null, resumeName = null, resumeUrl = null;
+
+        if (resumeFile) {
+          if (resumeFile.type !== 'application/pdf') { window.showToast('Only PDF files are allowed', 'error'); return; }
+          if (resumeFile.size > 15 * 1024 * 1024) { window.showToast('File too large (max 15 MB)', 'error'); return; }
+          resumeData = await new Promise(res => {
+            const r = new FileReader();
+            r.onload = () => res(r.result);
+            r.readAsDataURL(resumeFile);
+          });
+          resumeName = resumeFile.name;
+        }
+
+        const candidateId = existingId ? existingId : Date.now();
+
+        // If editing an existing candidate, keep their original empId
+        if (!existingId) {
+          window.joinees.push({
+            id: candidateId,
+            empId: 'CAN-' + new Date().getFullYear() + '-' + String(window.joinees.length + 1).padStart(4, '0')
+          });
+          window.joinees.pop();
+        }
+
+        // Upload the PDF to Firebase Storage when possible (keeps Firestore lean)
+        if (resumeData) {
+          resumeUrl = await uploadCandidateResume(candidateId, resumeData);
+        }
+
+        const res = await window.forwardCandidateToHR({
+          candidateId,
+          name, phone,
+          age: document.getElementById('fwdAge').value,
+          gender: document.getElementById('fwdGender').value,
+          qualification: document.getElementById('fwdQual').value,
+          experience: document.getElementById('fwdExp').value,
+          designation: document.getElementById('fwdPost').value,
+          dept: document.getElementById('fwdDept').value,
+          location: prefLoc,
+          altLocation: document.getElementById('fwdAltLoc').value,
+          applyDate: document.getElementById('fwdDateReceived').value,
+          remarks: document.getElementById('fwdRemarks').value,
+          hrManagerId: hrManagerId,
+          resumeData: resumeUrl ? null : resumeData,   // only inline if the upload failed
+          resumeFileName: resumeName
+        });
+
+        if (!res) return;
+
+        if (resumeUrl) {
+          const i = window.joinees.findIndex(j => String(j.id) === String(candidateId));
+          if (i > -1) {
+            window.joinees[i].resumeUrl = resumeUrl;
+            window.joinees[i].resumeStoragePath = `candidateResumes/${candidateId}.pdf`;
+            localStorage.setItem(window.CURRENT_DB_VERSION, JSON.stringify(window.joinees));
+          }
+        }
+
+        document.getElementById('fwdCandidateId').value = '';
+        window.closeForwardingModal();
+        window.showToast(`Biodata forwarded to ${res.hr.name}`);
+        window.refreshAllViews();
+        if (window.currentTab !== 'biodata-tracking') window.switchTab('biodata-tracking');
+        else window.renderBiodataTracking();
+      });
+
+      // Patch openForwardingModal so the hidden candidate id gets populated
+      const _openForwardingModal = window.openForwardingModal;
+      window.openForwardingModal = function (candidateId) {
+        _openForwardingModal(candidateId);
+
+        const hidden = document.getElementById('fwdCandidateId');
+        if (hidden) hidden.value = candidateId ? String(candidateId) : '';
+
+        // Pre-select the previously assigned HR Manager when re-forwarding
+        if (candidateId) {
+          const fwd = window.biodataForwarding.find(f => String(f.candidateId) === String(candidateId));
+          const autoId = document.getElementById('fwdAutoHRId');
+          const manual = document.getElementById('fwdManualHR');
+          const label = document.getElementById('fwdAutoHRName');
+          if (fwd && (!autoId || !autoId.value)) {
+            if (manual) manual.value = String(fwd.hrManagerId);
+            if (label) label.innerText = fwd.hrManagerName + ' (previously assigned)';
+          }
+        }
+      };
+
+      /* ------------------------------------------------------------
+         8. BIODATA PICKER  (dashboard “Send Biodata to HR” button)
          ------------------------------------------------------------ */
       window.openSendBiodataPicker = function () {
+        const modal = document.getElementById('biodataPickerModal');
+        if (!modal) return;
         const search = document.getElementById('pickerSearch');
         if (search) search.value = '';
         window.renderPickerCandidates();
-        document.getElementById('biodataPickerModal')?.classList.remove('hidden');
+        modal.classList.remove('hidden');
       };
       window.closeBiodataPicker = function () {
         document.getElementById('biodataPickerModal')?.classList.add('hidden');
       };
       window.renderPickerCandidates = function () {
-        const q = (document.getElementById('pickerSearch')?.value || '').toLowerCase();
-        const alreadyForwardedIds = new Set(window.biodataForwarding.map(f => String(f.candidateId)));
+        const container = document.getElementById('pickerCandidatesList');
+        if (!container) return;
 
-        let list = window.joinees.filter(j => !alreadyForwardedIds.has(String(j.id)));
+        const q = (document.getElementById('pickerSearch')?.value || '').toLowerCase();
+        let list = [...window.joinees].sort((a, b) => b.id - a.id);
         if (q) {
           list = list.filter(j =>
             (j.name || '').toLowerCase().includes(q) ||
             (j.phone || '').includes(q) ||
-            (j.empId || '').toLowerCase().includes(q)
-          );
+            (j.empId || '').toLowerCase().includes(q));
         }
 
-        const container = document.getElementById('pickerCandidatesList');
-        if (!container) return;
-
         if (list.length === 0) {
-          container.innerHTML = '<div class="text-center p-8 text-slate-400 font-bold text-sm">No eligible candidates to forward.</div>';
+          container.innerHTML = `<p class="text-center text-slate-400 font-bold p-6">No candidates found.</p>`;
           return;
         }
 
-        container.innerHTML = list.map(j => `
-          <div class="flex items-center justify-between p-4 bg-[var(--bg-primary)] rounded-xl border border-[var(--border-color)] hover:border-purple-300 cursor-pointer"
-               onclick="window.closeBiodataPicker(); window.openForwardingModal(${j.id});">
-            <div class="flex items-center gap-3 overflow-hidden">
+        container.innerHTML = list.slice(0, 300).map(j => {
+          const forwarded = window.biodataForwarding.find(f => String(f.candidateId) === String(j.id));
+          return `<div class="flex items-center justify-between gap-3 p-4 rounded-xl border border-[var(--border-color)] bg-[var(--bg-primary)]">
+            <div class="flex items-center gap-3 min-w-0">
               <div class="w-10 h-10 rounded-xl ${window.getAvatarColor(j.name)} flex items-center justify-center font-black text-sm shrink-0">${(j.name || '?').charAt(0)}</div>
               <div class="min-w-0">
                 <p class="font-bold text-sm uppercase truncate">${j.name}</p>
-                <p class="text-[10px] text-slate-500">${j.empId} • ${j.phone}</p>
+                <p class="text-[10px] text-slate-500 truncate">${j.phone || ''} • ${j.dept || ''} • ${j.location || 'No location'}</p>
               </div>
             </div>
-            <span class="text-[10px] font-black text-purple-600 uppercase shrink-0">Select →</span>
-          </div>
-        `).join('');
+            ${forwarded
+              ? `<span class="text-[10px] font-black text-emerald-600 bg-emerald-50 px-3 py-1.5 rounded-lg shrink-0">SENT</span>`
+              : `<button onclick="window.closeBiodataPicker(); window.openForwardingModal(${j.id})"
+                        class="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg text-xs font-bold shrink-0">
+                   <i class="fas fa-paper-plane"></i> SEND
+                 </button>`}
+          </div>`;
+        }).join('');
       };
 
       /* ------------------------------------------------------------
-         8. MAPPING MODAL — always populate the HR dropdown
+         9. HR UPDATE FORM — replace handler + sync status to Candidates
          ------------------------------------------------------------ */
-      const _origOpenMappingModal = window.openMappingModal;
-      window.openMappingModal = function (id) {
-        const sel = document.getElementById('mapHRManagerId');
-        if (sel) {
-          sel.innerHTML = '<option value="" disabled selected>Select HR Manager</option>';
-          (window.hrManagers || []).filter(h => h.status === 'ACTIVE').forEach(h => {
-            sel.innerHTML += `<option value="${h.id}">${h.name} (${h.location})</option>`;
-          });
+      (function replaceHRUpdateForm() {
+        const old = document.getElementById('hrUpdateForm');
+        if (!old) return;
+        const clone = old.cloneNode(true);
+        old.parentNode.replaceChild(clone, old);
+      })();
+
+      document.getElementById('hrUpdateForm')?.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const forwardingId = document.getElementById('hrUpdateForwardingId').value;
+        const f = window.biodataForwarding.find(x => String(x.id) === String(forwardingId));
+        if (!f) { window.showToast('Record not found', 'error'); return; }
+
+        const newStatus = document.getElementById('hrUpdateStatus').value;
+        const received  = document.getElementById('hrUpdateReceived').value;
+        const remarks   = (document.getElementById('hrUpdateRemarks').value || '').trim();
+
+        if (!remarks) { window.showToast('Remarks are mandatory', 'error'); return; }
+
+        const callDate      = document.getElementById('hrUpdateCallDate').value;
+        const callTime      = document.getElementById('hrUpdateCallTime').value;
+        const interviewDate = document.getElementById('hrUpdateInterviewDate').value;
+        const interviewTime = document.getElementById('hrUpdateInterviewTime').value;
+        const interviewLoc  = document.getElementById('hrUpdateInterviewLoc').value.trim();
+        const interviewMode = document.getElementById('hrUpdateInterviewMode').value;
+
+        f.status = newStatus;
+        f.isReceived = received;
+        f.remarks = remarks;
+        localStorage.setItem(window.BIODATA_FORWARDING_VERSION, JSON.stringify(window.biodataForwarding));
+
+        // ---- sync the candidate record so the Candidates tab stays accurate
+        const ci = window.joinees.findIndex(j => String(j.id) === String(f.candidateId));
+        if (ci > -1) {
+          window.joinees[ci].status = newStatus;
+          if (interviewDate) window.joinees[ci].interviewDate = interviewDate;
+          if (newStatus === 'JOINED' && !window.joinees[ci].joinDate) {
+            window.joinees[ci].joinDate = new Date().toISOString().slice(0, 10);
+          }
+          if (remarks) window.joinees[ci].remarks = remarks;
+          localStorage.setItem(window.CURRENT_DB_VERSION, JSON.stringify(window.joinees));
         }
-        _origOpenMappingModal(id);
+
+        window.candidateUpdates.push({
+          id: Date.now(),
+          candidateId: f.candidateId,
+          hrManagerId: f.hrManagerId,
+          status: newStatus,
+          received: received,
+          date: new Date().toISOString(),
+          remarks: remarks,
+          callDate, callTime,
+          interviewDate, interviewTime,
+          interviewLoc, interviewMode
+        });
+        localStorage.setItem(window.CANDIDATE_UPDATES_VERSION, JSON.stringify(window.candidateUpdates));
+
+        window.logAudit('HR_UPDATE', `${f.candidateName} (${f.fwdId}) → ${newStatus}`);
+
+        window.closeHRUpdateModal();
+        window.refreshAllViews();
+        window.showToast('HR update saved successfully');
+      });
+
+      /* ------------------------------------------------------------
+         10. Resume viewing — resolve Firebase Storage URLs
+         ------------------------------------------------------------ */
+      const _viewResume = window.viewResume;
+      window.viewResume = function (id) {
+        const r = (window.resumeTrackerList || []).find(x => String(x.id) === String(id));
+        if (r && !r.fileData && r.fileUrl) r.fileData = r.fileUrl;
+        if (!r || !r.fileData) { window.showToast('Resume file not available', 'error'); return; }
+        _viewResume(id);
+      };
+
+      const _viewCandidate = window.viewCandidate;
+      window.viewCandidate = function (id) {
+        _viewCandidate(id);
+
+        const j = (window.joinees || []).find(x => String(x.id) === String(id));
+        if (!j) return;
+        const src = j.resumeData || j.resumeUrl;
+        if (!src) return;
+
+        const content = document.getElementById('viewModalContent');
+        if (!content) return;
+
+        const btnHtml = `<button onclick="window.__openCandidateResume('${j.id}')"
+              class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold text-sm flex items-center gap-2 shadow-md">
+              <i class="fas fa-file-pdf"></i> View Resume</button>`;
+
+        const editBtn = content.querySelector('button[onclick*="editRecord"]');
+        if (editBtn) editBtn.insertAdjacentHTML('beforebegin', btnHtml);
+        else content.insertAdjacentHTML('beforeend', btnHtml);
+      };
+
+      window.__openCandidateResume = function (id) {
+        const j = window.joinees.find(x => String(x.id) === String(id));
+        if (!j) return;
+        const src = j.resumeData || j.resumeUrl;
+        if (!src) { window.showToast('No resume attached', 'error'); return; }
+        document.getElementById('pdfViewerTitle').innerText = j.resumeFileName || (j.name + ' — Resume');
+        document.getElementById('pdfContainer').innerHTML =
+          `<iframe src="${src}" type="application/pdf" class="w-full h-full border-none rounded-xl"></iframe>`;
+        document.getElementById('pdfViewerModal').classList.remove('hidden');
       };
 
       /* ------------------------------------------------------------
-         9. BIODATA TRACKING — refresh filter option lists each render
+         11. Safer filtering (guards against missing dates / names)
          ------------------------------------------------------------ */
-      const _origRenderBiodataTracking = window.renderBiodataTracking;
-      window.renderBiodataTracking = function () {
-        const hrSelect = document.getElementById('bfFilterHR');
-        if (hrSelect) {
-          const cur = hrSelect.value || 'ALL';
-          hrSelect.innerHTML = '<option value="ALL">All HR Managers</option>';
-          (window.hrManagers || []).forEach(h => {
-            hrSelect.innerHTML += `<option value="${h.id}">${h.name}</option>`;
-          });
-          hrSelect.value = cur;
-          if (!hrSelect.value) hrSelect.value = 'ALL';
+      window.getFilteredJoinees = function () {
+        try {
+          let data = [...(window.joinees || [])].reverse();
+          const searchTerm = (document.getElementById('searchInput')?.value || '').toLowerCase();
+          const filterMonth = document.getElementById('filterMonth')?.value;
+          const filterDept = document.getElementById('filterDept')?.value;
+
+          if (searchTerm) {
+            data = data.filter(j =>
+              String(j.name || '').toLowerCase().includes(searchTerm) ||
+              String(j.phone || '').includes(searchTerm) ||
+              String(j.empId || '').toLowerCase().includes(searchTerm) ||
+              String(j.designation || '').toLowerCase().includes(searchTerm));
+          }
+          if (filterMonth) data = data.filter(j => String(j.applyDate || '').startsWith(filterMonth));
+          if (filterDept && filterDept !== 'ALL') data = data.filter(j => j.dept === filterDept);
+
+          if (window.activeFilter !== 'All') {
+            const PENDING_SET = ['PENDING', 'SHORTLISTED', 'INTERVIEW_SCHEDULED',
+                                 'BIODATA FORWARDED', 'UNDER REVIEW',
+                                 'CALLED FOR INTERVIEW', 'BIODATA RECEIVED', 'HOLD'];
+            if (window.activeFilter === 'Pending') {
+              data = data.filter(j => PENDING_SET.includes(j.status));
+            } else {
+              data = data.filter(j => String(j.status || '').toUpperCase() === window.activeFilter.toUpperCase());
+            }
+          }
+          return data;
+        } catch (e) {
+          console.error('[getFilteredJoinees]', e);
+          return [];
         }
-        const locSelect = document.getElementById('bfFilterLocation');
-        if (locSelect) {
-          const cur = locSelect.value || 'ALL';
-          locSelect.innerHTML = '<option value="ALL">All Locations</option>';
-          [...new Set((window.locationMapping || []).map(m => m.location))].sort().forEach(l => {
-            locSelect.innerHTML += `<option value="${l}">${l}</option>`;
-          });
-          locSelect.value = cur;
-          if (!locSelect.value) locSelect.value = 'ALL';
-        }
-        _origRenderBiodataTracking();
       };
 
       /* ------------------------------------------------------------
-         10. HR DASHBOARD — always populate HR filter dropdown
+         12. Small quality-of-life fixes
          ------------------------------------------------------------ */
-      const _origRenderHRDashboard = window.renderHRDashboard;
-      window.renderHRDashboard = function () {
-        const hrSelect = document.getElementById('hrDashFilterHR');
-        if (hrSelect) {
-          const cur = hrSelect.value || 'ALL';
-          hrSelect.innerHTML = '<option value="ALL">All HR Managers</option>';
-          (window.hrManagers || []).forEach(h => {
-            hrSelect.innerHTML += `<option value="${h.id}">${h.name}</option>`;
-          });
-          hrSelect.value = cur;
-          if (!hrSelect.value) hrSelect.value = 'ALL';
-        }
-        _origRenderHRDashboard();
-      };
 
-      console.log('%c✅ Fix pack loaded — all functions operational',
-                  'color:#10b981;font-weight:bold');
+      // Make sure the board view starts hidden and the list view visible
+      (function () {
+        const bv = document.getElementById('boardView');
+        const lv = document.getElementById('listView');
+        if (bv) bv.style.display = 'none';
+        if (lv) lv.style.display = 'block';
+      })();
+
+      // Seed the analytics month filter if it is empty
+      (function () {
+        const cmf = document.getElementById('chartMonthFilter');
+        if (cmf && !cmf.value) cmf.value = new Date().toISOString().slice(0, 7);
+      })();
+
+      // Flush pending cloud writes when the user logs out / closes the tab
+      window.addEventListener('beforeunload', function () {
+        try { window.Cloud?.flushAll?.(); } catch (e) {}
+      });
+
+      // Re-sanitise after boot finishes (Firebase may have replaced everything)
+      window.addEventListener('load', function () {
+        setTimeout(function () { sanitizeAll(); window.refreshAllViews?.(); }, 1200);
+      });
+
+      console.log('%c🔧 Fix layer installed', 'color:#10b981;font-weight:bold');
     })();
     </script>
 </body>
